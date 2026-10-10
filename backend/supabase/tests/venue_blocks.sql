@@ -552,6 +552,13 @@ select pg_temp.assert_true(
           where p.block_reason = 'Ceiling repair'),
   'AC-012.9.10: preview does not report removed blocks');
 select pg_temp.as_user('00000000-0000-0000-0000-000000000003');
+-- End the confirmed fixture administratively before testing release after removal.
+-- US10 now prevents coordinators from releasing an active confirmed booking.
+reset role;
+select set_config('request.jwt.claim.sub','',false);
+update public.venue_bookings set status='cancelled' where id='b12a0000-0000-0000-0000-0000000000b7';
+set role authenticated;
+select pg_temp.as_user('00000000-0000-0000-0000-000000000003');
 delete from public.venue_slot_claims where booking_id = 'b12a0000-0000-0000-0000-0000000000b7';
 update public.venue_bookings set status = 'cancelled'
  where id = 'b12a0000-0000-0000-0000-0000000000b7';

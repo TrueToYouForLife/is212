@@ -10,6 +10,7 @@ coverage
 .DS_Store
 *.log
 !docs/us10-slice2-evidence/*.log
+!docs/us10-slice3-evidence/*.log
 .vscode/*
 !.vscode/extensions.json
 

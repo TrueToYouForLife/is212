@@ -205,4 +205,15 @@ SQL
   cat "$repo_root/supabase/tests/venue_booking_review.sql"
   cat "$repo_root/supabase/tests/venue_booking_review_details.sql"
   cat "$repo_root/supabase/tests/venue_booking_conflicts.sql"
+  cat "$repo_root/supabase/tests/venue_booking_approval.sql"
+  cat "$repo_root/supabase/migrations/0045_venue_booking_approval.sql"
+  cat <<'SQL'
+select pg_temp.assert_true(
+ not exists((select * from public.venue_bookings except select * from approval_bookings_before_replay)
+ union all (select * from approval_bookings_before_replay except select * from public.venue_bookings))
+ and not exists((select * from public.venue_slot_claims except select * from approval_claims_before_replay)
+ union all (select * from approval_claims_before_replay except select * from public.venue_slot_claims)),
+ 'AC-010.5.19: replaying migration 0045 preserves existing bookings and claims');
+SQL
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
+bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"

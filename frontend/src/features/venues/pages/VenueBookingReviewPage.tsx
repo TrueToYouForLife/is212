@@ -9,6 +9,7 @@ import { BookingStatusBadge } from '../components/BookingStatusBadge'
 import { VenueBookingRejectionForm } from '../components/VenueBookingRejectionForm'
 import { VenueBookingRequestDetails } from '../components/VenueBookingRequestDetails'
 import { VenueBookingConflicts } from '../components/VenueBookingConflicts'
+import { VenueBookingApprovalAction } from '../components/VenueBookingApprovalAction'
 import { getVenueBookingReview } from '../venueBookingReviewService'
 import type { VenueBookingReview } from '../venueBookingReviewService'
 
@@ -20,7 +21,8 @@ export function VenueBookingReviewPage() {
   const [booking, setBooking] = useState<VenueBookingReview | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [saved, setSaved] = useState(false)
+  const [saved, setSaved] = useState<string | null>(null)
+  const [decisionBusy, setDecisionBusy] = useState(false)
   const sequence = useRef(0)
   const load = useCallback(async () => {
     const request = ++sequence.current
@@ -35,7 +37,8 @@ export function VenueBookingReviewPage() {
   }, [bookingId])
 
   useEffect(() => {
-    setSaved(false)
+    setSaved(null)
+    setDecisionBusy(false)
     if (!sessionLoading && canReview) void load()
     return () => { sequence.current += 1 }
   }, [sessionLoading, canReview, profile?.id, load])
@@ -46,7 +49,7 @@ export function VenueBookingReviewPage() {
   return <PageContainer>
     <Card title="Venue booking review">
       <div className="space-y-4">
-        {saved && <p role="status">Booking rejected.</p>}
+        {saved && <p role="status">{saved}</p>}
         {loading && <p>Loading booking…</p>}
         {error && <p role="alert" className="text-sm text-red-700">{error}</p>}
         {booking && <>
@@ -58,10 +61,14 @@ export function VenueBookingReviewPage() {
           {booking.reviewAlternative && <div><p className="text-sm text-slate-500">Suggested alternative</p><p>{booking.reviewAlternative}</p></div>}
           {booking.reviewedAt && <p className="text-sm text-slate-500">Reviewed at {formatDateTime(booking.reviewedAt)}</p>}
           {booking.reviewedBy && <p className="text-sm text-slate-500">Reviewer ID: {booking.reviewedBy}</p>}
-          <VenueBookingRejectionForm key={booking.id} bookingId={booking.id} status={booking.status}
-            onRejected={() => { setSaved(true); void load() }} />
+          <fieldset disabled={decisionBusy} className="space-y-4">
+            <VenueBookingApprovalAction key={`approve-${booking.id}`} booking={booking} onBusyChange={setDecisionBusy}
+              onApproved={() => { setSaved('Booking approved.'); void load() }} />
+            <VenueBookingRejectionForm key={booking.id} bookingId={booking.id} status={booking.status} onBusyChange={setDecisionBusy}
+              onRejected={() => { setSaved('Booking rejected.'); void load() }} />
+          </fieldset>
         </>}
-        <Button type="button" disabled={loading} onClick={() => { setSaved(false); void load() }}>Reload booking</Button>
+        <Button type="button" disabled={loading || decisionBusy} onClick={() => { setSaved(null); void load() }}>Reload booking</Button>
         <p className="text-xs text-slate-500">Reloading discards unsaved input.</p>
       </div>
     </Card>

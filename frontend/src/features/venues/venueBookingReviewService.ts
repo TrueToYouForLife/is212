@@ -5,6 +5,7 @@ import type { VenueBookingRequestDetails, VenueReviewConflict } from './venueBoo
 import type { ClaimCell } from './slots'
 
 export interface VenueBookingReview {
+  reviewVersion?: string
   id: string
   venueName: string
   status: VenueBookingStatus

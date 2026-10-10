@@ -10,9 +10,10 @@ export interface RejectionFormProps {
   bookingId: string
   status: VenueBookingStatus
   onRejected: () => void
+  onBusyChange?: (busy: boolean) => void
 }
 
-export function VenueBookingRejectionForm({ bookingId, status, onRejected }: RejectionFormProps) {
+export function VenueBookingRejectionForm({ bookingId, status, onRejected, onBusyChange }: RejectionFormProps) {
   const id = useId()
   const { profile, loading } = useCurrentUser()
   const submitting = useRef(false)
@@ -42,6 +43,7 @@ export function VenueBookingRejectionForm({ bookingId, status, onRejected }: Rej
       if (invalid) return
       submitting.current = true
       setBusy(true)
+      onBusyChange?.(true)
       const result = alternative.trim()
         ? await rejectVenueBooking(bookingId, reason, alternative)
         : await rejectVenueBooking(bookingId, reason)
@@ -49,6 +51,7 @@ export function VenueBookingRejectionForm({ bookingId, status, onRejected }: Rej
       if (!mounted.current) return
       submitting.current = false
       setBusy(false)
+      onBusyChange?.(false)
       if (!result.ok) { setError(result.reason); setFailed(true); return }
       setDone(true)
       onRejected()

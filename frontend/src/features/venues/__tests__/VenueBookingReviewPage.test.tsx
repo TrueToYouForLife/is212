@@ -4,7 +4,8 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { beforeEach, expect, test, vi } from 'vitest'
 import { VenueBookingReviewPage } from '../pages/VenueBookingReviewPage'
 
-const mocks = vi.hoisted(() => ({ get: vi.fn(), reject: vi.fn(), role: 'venue_staff' }))
+const mocks = vi.hoisted(() => ({ get: vi.fn(), reject: vi.fn(), approve: vi.fn(), role: 'venue_staff' }))
+vi.mock('../venueBookingApprovalService', () => ({ approveVenueBooking: mocks.approve }))
 vi.mock('../venueBookingReviewService', () => ({ getVenueBookingReview: mocks.get, rejectVenueBooking: mocks.reject }))
 vi.mock('../../auth/sessionContext', () => ({ useCurrentUser: () => ({
   loading: false, profile: { id: 'staff-1', role: mocks.role },
@@ -25,6 +26,19 @@ beforeEach(() => {
   mocks.role = 'venue_staff'
   mocks.get.mockResolvedValue({ ok: true, booking: BOOKING })
   mocks.reject.mockResolvedValue({ ok: true })
+  mocks.approve.mockResolvedValue({ ok: true })
+})
+
+test('AC-010.5.20: routed approval reloads the persisted decision and removes both decision actions', async () => {
+  mocks.get.mockResolvedValueOnce({ ok: true, booking: { ...PENDING, reviewVersion: 'v1', conflictCheckAvailable: true, conflicts: [] } })
+    .mockResolvedValue({ ok: true, booking: { ...BOOKING, status: 'confirmed', reviewNote: null } })
+  show()
+  await userEvent.click(await screen.findByRole('button', { name: 'Approve booking' }))
+  expect(await screen.findByText('Booking approved.')).toBeInTheDocument()
+  expect(mocks.approve).toHaveBeenCalledWith('booking-1', 'v1')
+  expect(mocks.get).toHaveBeenCalledTimes(2)
+  expect(screen.queryByRole('button', { name: 'Approve booking' })).not.toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'Reject booking' })).not.toBeInTheDocument()
 })
 
 test('AC-010.3.17: the routed review displays event details and conflict information together', async () => {
