@@ -189,7 +189,8 @@ export async function holdVenue(
 }
 
 /** AC: converts a live hold into a booking request for Venue Staff. The slots stay claimed,
- *  so nothing is freed here — only the booking's status moves. */
+ *  so nothing is freed here — only the booking's status moves. Database RLS checks
+ *  the current event assignment, including bookings created by a previous coordinator. */
 export async function submitVenueBooking(bookingId: string): Promise<VenueBookingActionResult> {
   const userId = await currentUserId()
   if (!userId) return { ok: false, reason: VENUE_BOOKING_MESSAGES.notSignedIn }
@@ -198,7 +199,6 @@ export async function submitVenueBooking(bookingId: string): Promise<VenueBookin
     .from('venue_bookings')
     .update({ status: 'pending_approval' })
     .eq('id', bookingId)
-    .eq('requested_by', userId)
     .eq('status', 'held')
     .gt('hold_expires_at', new Date().toISOString())
     .select('id')
@@ -209,7 +209,8 @@ export async function submitVenueBooking(bookingId: string): Promise<VenueBookin
   return { ok: true }
 }
 
-/** AC: the coordinator who placed a hold can release it, returning its slots immediately. */
+/** The current event coordinator can release an inherited hold. RLS enforces
+ *  assignment at write time; requested_by remains the historical creator. */
 export async function releaseHold(bookingId: string): Promise<VenueBookingActionResult> {
   const userId = await currentUserId()
   if (!userId) return { ok: false, reason: VENUE_BOOKING_MESSAGES.notSignedIn }
@@ -218,7 +219,6 @@ export async function releaseHold(bookingId: string): Promise<VenueBookingAction
     .from('venue_bookings')
     .update({ status: 'cancelled' })
     .eq('id', bookingId)
-    .eq('requested_by', userId)
     .in('status', ['held', 'pending_approval'])
     .select('id')
     .maybeSingle()
@@ -268,8 +268,9 @@ function toSummary(row: BookingListRow): VenueBookingSummary {
   }
 }
 
-/** AC: the coordinator can view their submitted requests and each one's current status.
- *  RLS lets any coordinator read every booking, so the filter has to be explicit. */
+/** List bookings for events currently assigned to the coordinator. Calendar RLS
+ *  permits broader reads, so an inner event join must filter the parent bookings,
+ *  not merely hide the nested event. This includes inherited bookings. */
 export async function listMyVenueBookings(): Promise<VenueBookingListResult> {
   const userId = await currentUserId()
   if (!userId) return { ok: false, reason: VENUE_BOOKING_MESSAGES.notSignedIn }
@@ -278,9 +279,9 @@ export async function listMyVenueBookings(): Promise<VenueBookingListResult> {
     .from('venue_bookings')
     .select(`
       id, venue_id, event_id, status, hold_expires_at, review_note, review_alternative, created_at,
-      venues(name), events(reference, name), venue_slot_claims(slot_date, slot, kind)
+      venues(name), events!inner(reference, name), venue_slot_claims(slot_date, slot, kind)
     `)
-    .eq('requested_by', userId)
+    .eq('events.coordinator_id', userId)
     .order('created_at', { ascending: false })
 
   if (error) {

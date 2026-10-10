@@ -1,5 +1,45 @@
 # US17 - Assign / Reassign an Event Coordinator
 
+## Coordinator request grouping — us17-assigned-requests-ui
+
+The coordinator Requests page separates **Assigned to me** from **Other event
+requests**, with personal assignments first and an **Assigned to you** label.
+Both groups preserve the service's ordering; refresh and normal polling update
+membership after reassignment. Empty sections show an explanatory message.
+Lead, organiser and Operations Manager views retain their existing presentation.
+This is a frontend presentation change, not a new access policy or migration.
+
+AC-017.4.6 is one grouped UI TDD case covering section order, stable request order,
+labels, links, reassignment after refresh and empty results. Jaydon confirmed the
+red CI stage; the green implementation keeps the test unchanged. Green validation
+is pending and must be recorded separately from the previous red evidence.
+
+## Equipment access follow-up — us17-equipment-access
+
+Scope: AC4 / SCRUM-160, transferring legacy equipment booking and line management
+to the current coordinator. Yuanlong owns the equipment feature and should review
+before merge. Migration 0048 is claimed; it is not deployed. The separate 0047 venue
+PR is not part of this branch.
+
+- AC-017.4.4 (TDD): red allowed the previous coordinator to cancel after reassignment.
+  The unchanged test now verifies old/unrelated coordinators cannot cancel, respond
+  to alternatives, create bookings or add lines, while the current coordinator can.
+  Original requester attribution remains intact.
+- Green implementation: 0048 replaces six legacy RLS policies, reusing the existing
+  assigned-coordinator helper. Two triggers protect non-status fields from direct
+  coordinator edits. Technical Support/manager reads remain available; reservation
+  functions and stock-allocation rules are unchanged.
+- AC-017.4.5 (additional regression, not TDD): direct decisions cannot overwrite
+  the original requester or staff-reserved quantities.
+- Validation: full disposable SQL suite passed on 9 October 2026. An initial guard
+  also blocked US13's internal quantity update (AC-013.6.10); making it invoker-based
+  and limiting it to direct authenticated coordinator updates fixed that interaction.
+  Both new cases and existing equipment regressions pass. CI is pending; frontend
+  files are unchanged and frontend checks were not rerun locally for this DB change.
+
+Record AC-017.4.4 under TDD and AC-017.4.5 in the automated test-case documentation.
+Earlier totals below describe their historical checkpoints.
+
 Owner: Jaydon. Jira: SCRUM-61. Slice 1 branch: `us17slice1`.
 
 ## Slice 1 scope
@@ -162,3 +202,196 @@ Use separate browser sessions for Lead/Coordinator accounts.
 
 These live checks are not yet reported complete. Dropdown errors/failed-save retries are
 covered by automated tests; do not disrupt shared Supabase to manufacture failures.
+
+## Slice 4 — assignment notifications (TDD)
+
+Branch: `us17slice4`. Jaydon claimed migration **0046** for this work.
+US17 continues with TDD by explicit agreement; the team's code-first approach does
+not replace the red/green process for this remaining slice.
+
+### AC-017.5.1 — notify the new coordinator and organiser on assignment
+
+- File: `backend/supabase/tests/coordinator_assignment_notifications.sql`.
+- Runs a real assignment as an authenticated Lead in disposable PostgreSQL.
+- Checks exactly one pending email with nonblank content for each recipient, and
+  an in-app notification record for each. This verifies queued notifications, not
+  live email delivery or inbox UI.
+- Red (9 October 2026): the existing full SQL suite passed before this test was
+  added. With this test appended last, the suite fails because assignment queues
+  no emails: `received <NULL>`. The runner exits with code 3 at AC-017.5.1.
+- Green (local): 0046 adds `coordinator_assignment_notifications` and its history
+  trigger, storing recipient notices and queuing email through the existing outbox.
+  The unchanged test and full SQL suite pass. No live email is sent by these tests.
+- At the red checkpoint, two frontend runs stalled at startup and were stopped.
+  Jaydon subsequently reported frontend CI green and database CI red. No frontend
+  files changed. The green checkpoint run with two workers completed five files, but
+  progressed very slowly and was stopped without a full result. Verify frontend CI
+  on the green commit; the earlier passing CI is not a result for this new commit.
+- Green CI evidence goes in the shared TDD record and PR once pushed and verified.
+
+This checkpoint adds one SQL test case (24 US17 cases in total: four frontend,
+20 SQL). The green checkpoint adds no tests and does not modify the red test.
+0046 remains undeployed. Shared delivery and inbox integration are still unverified.
+
+Implementation: notifications are keyed by history entry and recipient, with a linked
+email outbox ID. Both channels default on; administrator-only settings affect future
+entries. Browser reads require recipient identity and current event access; writes are
+revoked. Generic mail bodies avoid exposing event details after reassignment. No-email
+accounts retain the in-app record. Failed notification writes roll back assignment too.
+Reassignment/no-op behaviour and permission checks need explicit coverage in the next
+checkpoint; supporting code is not itself evidence that those cases were verified.
+
+Historical correction: Jaydon reported the slice 3 UI checks passed before its
+merge. The earlier pending-check wording above describes that slice's original
+checkpoint; repeat relevant live checks after slice 4 and record actual results.
+
+### Additional regression coverage — AC-017.5.2–3
+
+Jaydon reported green CI for AC-017.5.1 and recorded its TDD result. Two grouped
+cases were then added to the same SQL file to verify the existing implementation:
+
+- **AC-017.5.2:** a real reassignment records linked in-app/email notices for the
+  replacement coordinator and organiser. Re-selecting the current coordinator,
+  selecting an invalid organiser target, and a coordinator attempting self-assignment
+  produce no additional notices/history or unintended assignment changes.
+- **AC-017.5.3:** authenticated queries verify the owning organiser and current
+  coordinator can read their own notices; the previous coordinator, unrelated
+  organiser and Lead cannot read them. Browser inserts/updates/deletes, outbox reads
+  and channel-setting changes are denied. Anonymous reads are denied too.
+
+Both passed on their first run; the complete disposable SQL suite exited 0.
+No implementation changes were needed, and AC-017.5.1 remains unchanged. These
+are regression coverage, not manufactured red/green cycles. Record them in the
+automated test-case tracker and PR; a short cross-reference in the TDD record is
+optional. Frontend files are unchanged; run normal CI on this checkpoint.
+
+### Additional regression coverage — AC-017.5.4–5
+
+Jaydon confirmed CI passed for AC-017.5.2–3. Two further grouped cases verify:
+
+- **AC-017.5.4:** in-app-only, email-only and both-disabled settings control future
+  assignment notices and email queue entries. Email-only notices are hidden from
+  the coordinator's in-app reads, and earlier records remain unchanged. The
+  both-enabled path is already covered by AC-017.5.1.
+- **AC-017.5.5:** replaying 0046 preserves the complete settings, notifications,
+  assignment history and email outbox. A subsequent reassignment creates exactly
+  two notices and no emails, respecting the saved in-app-only setting.
+
+The channel case is in `coordinator_assignment_notifications.sql`; the replay
+case is in `coordinator_assignment_notifications_replay.sql`. The runner commits
+the notification fixtures within the disposable Docker database, reapplies 0046,
+then checks the snapshots and trigger. It never connects to shared Supabase.
+
+Validation on 9 October 2026: the initial run caught a syntax error in the new
+test's CASE expression. After correcting the test syntax, the full SQL suite
+passed (exit 0). No implementation or migration changes were needed. This is
+regression coverage, not a feature red–green cycle; record these cases in the
+automated test-case tracker and PR. CI for this new checkpoint is still pending.
+
+Current US17 total: 28 cases (four frontend, 24 SQL), including five notification
+cases in slice 4. Actual delivery remains unverified. Whole-story completion also
+requires the outstanding cross-feature assignment-access and withdrawn-status
+checks described above.
+
+## Follow-up — venue booking access after reassignment
+
+Slice 4 merged in PR #72; Jaydon confirmed its final CI passed and migration 0046
+was applied to shared Supabase. This supersedes the earlier deployment/CI-pending
+notes. Live notification delivery has not yet been reported verified.
+
+Jaydon authorised local work on the venue handover adjustment, with Nicole's
+agreement required before it reaches main. US17 AC4 / SCRUM-160 requires access
+to follow the current assignment; US11 AC8 currently names the person who placed
+the hold, so the two stories need consistent wording. Migration **0047** is claimed
+for the fix but has not been created or applied.
+
+### AC-017.4.2 — venue booking management follows reassignment
+
+- File: `backend/supabase/tests/coordinator_assignment_venue_access.sql`.
+- One grouped SQL case creates a hold as Coordinator A and reassigns the event
+  to B through the real Lead function. A and an unrelated coordinator must not
+  submit/cancel the booking or delete its slots. B must be able to submit and
+  release it, preserving the original requester, event and venue.
+- Red, local (9 October 2026): the full database runner reaches this test after
+  the earlier suites, then exits 3: the previous coordinator can still perform
+  `pending_approval` on the reassigned booking.
+- No production code or migration changes yet. This is one new TDD case; the
+  frontend list/action adjustment will need its own focused coverage.
+- Existing full frontend suite: 88 files passed, 864 tests passed and one TODO.
+  No frontend tests were added or changed at this checkpoint.
+
+The checkpoint runs last in the runner. Existing regression tests are unchanged.
+
+### AC-017.4.2 — green implementation
+
+Jaydon reported the red branch CI had verify green and database red. Migration
+`0047_venue_booking_assignment_access.sql` now changes booking UPDATE and slot
+INSERT/DELETE permissions to follow the event's current coordinator. A guard
+prevents coordinator edits from rewriting the original requester or moving the
+booking to a different event/venue. No stored booking or slot data is rewritten.
+
+The first full regression run exposed the existing US12 unassigned-event fixture.
+0036 explicitly supports that path, so 0047 preserves original-requester authority
+only while the event has no assigned coordinator. An assigned event always uses its
+current coordinator. Venue Staff policies, calendar reading and shared lapsed-hold
+cleanup remain unchanged.
+
+Local green (9 October 2026): the unchanged AC-017.4.2 and full SQL suite passed.
+The full frontend suite passed: 88 files, 864 tests, one TODO. No new tests were
+added in this green step and no earlier assertions were weakened. The identity
+guard and slot-insert rule do not yet have dedicated additional negative tests;
+do not treat the grouped test as coverage of every write path.
+
+0047 is not deployed, and the green CI result is pending. Frontend submit/release/list
+filters still use the original requester, so the follow-up is not complete. Add a
+focused frontend red checkpoint next. Nicole's approval remains required before
+merging the proposed US11/US17 integration change.
+
+### AC-017.4.3 — frontend handover, red checkpoint
+
+Jaydon confirmed green CI for the AC-017.4.2 database implementation. One grouped
+frontend test now checks that B can list, submit and release A's existing booking
+after reassignment, while A no longer lists or manages it. It also checks the
+original requester is preserved and slots are retained on submission and freed
+on release. File: `frontend/src/features/venues/__tests__/venueBookingAssignment.test.ts`.
+
+The service-boundary fake applies the query filters to a booking whose original
+requester differs from its current coordinator. It models the database's current
+assignee write rule; actual RLS is covered separately by AC-017.4.2 in PostgreSQL.
+It is not a browser end-to-end test.
+
+Local red (9 October 2026): expected booking `booking-17`, received an empty list
+for the new coordinator. Full frontend suite: one intended failure, 864 passed,
+one TODO. Full database suite passed. Production frontend code remains unchanged.
+Next: capture red CI before replacing the obsolete original-requester filters.
+Lint passed. Local typecheck stalled without diagnostics both in the sandbox and
+on retry outside it; both attempts were stopped. Typecheck is unverified locally:
+confirm GitHub reaches the intended test assertion rather than failing earlier.
+
+### AC-017.4.3 — frontend green implementation
+
+Jaydon confirmed verify failed at the red checkpoint while database passed.
+`venueBookingService.ts` now lists bookings using an inner event join filtered by
+the signed-in coordinator's current assignment. Submit/release no longer exclude
+bookings created by someone else: database policies from 0047 decide write access.
+Status/expiry checks and release-before-slot-cleanup ordering remain in place.
+The original requester is never overwritten.
+
+The list intentionally excludes unassigned or unreadable events. 0047 retains the
+legacy unassigned-event requester fallback at database level, but the coordinator's
+assigned-bookings screen is scoped to current assignments.
+
+The red test AC-017.4.3 remains unchanged. Four existing expectations in
+`venueBookingService.test.ts` were aligned with the proposed handover rule:
+
+- AC-009.4.1: submit no longer filters by original requester.
+- AC-010.8.5: release no longer filters by original requester.
+- AC-009.9.2: list filters through the current event assignment with an inner join.
+- AC-009.9.5: missing venue details still have a fallback, but the event must be
+  visible and assigned (an unreadable event no longer qualifies for this list).
+
+No additional tests were added during green. Local full-suite results on 9 October:
+865 frontend tests passed, one TODO; full database suite, typecheck, lint and build
+passed. The existing large-bundle build warning remains. No visual redesign,
+commit, push, merge or shared migration application was performed by the assistant.
+Nicole's agreement and live acceptance still remain before completing this follow-up.
