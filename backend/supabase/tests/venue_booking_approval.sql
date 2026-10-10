@@ -82,6 +82,40 @@ select pg_temp.expect_error($q$select public.approve_venue_booking('b10c0000-000
 select pg_temp.assert_true(public.approve_venue_booking('b10c0000-0000-0000-0000-000000000205',
  public.get_venue_booking_review('b10c0000-0000-0000-0000-000000000205')->>'reviewVersion')='b10c0000-0000-0000-0000-000000000205',
  'AC-010.11.8: reload supplies a usable version for the changed requirements');
+select pg_temp.expect_error($q$select public.approve_venue_booking('b10c0000-0000-0000-0000-000000000201',
+ public.get_venue_booking_review('b10c0000-0000-0000-0000-000000000201')->>'reviewVersion')$q$,'22023',
+ 'AC-010.12.25: even a fresh version cannot approve a final booking twice');
+reset role;
+select set_config('request.jwt.claim.sub','',false);
+insert into public.venue_slot_claims(venue_id,slot_date,slot,kind,booking_id)
+select 'b10c0000-0000-0000-0000-000000000001',slot_date,slot,kind,'b10c0000-0000-0000-0000-000000000206'
+from public.venue_review_cells('2042-10-22T13:00:00+08','2042-10-22T16:00:00+08');
+set role authenticated;
+select pg_temp.as_user('b10a0000-0000-0000-0000-000000000001');
+select public.approve_venue_booking('b10c0000-0000-0000-0000-000000000206',
+ public.get_venue_booking_review('b10c0000-0000-0000-0000-000000000206')->>'reviewVersion');
+select pg_temp.assert_true((select count(*)=3 from public.venue_slot_claims where booking_id='b10c0000-0000-0000-0000-000000000206'),
+ 'AC-010.7.5: existing pending claims are retained without duplicate inserts');
+reset role;
+select set_config('request.jwt.claim.sub','',false);
+insert into public.venue_slot_claims(venue_id,slot_date,slot,kind,booking_id)
+values('b10c0000-0000-0000-0000-000000000001','2042-10-25','AM','event','b10c0000-0000-0000-0000-000000000207');
+set role authenticated;
+select pg_temp.as_user('b10a0000-0000-0000-0000-000000000001');
+select pg_temp.expect_error($q$select public.approve_venue_booking('b10c0000-0000-0000-0000-000000000207',
+ public.get_venue_booking_review('b10c0000-0000-0000-0000-000000000207')->>'reviewVersion')$q$,'40001',
+ 'AC-010.11.9: mismatching claimed cells require resubmission instead of silent amendment');
+reset role;
+select set_config('request.jwt.claim.sub','',false);
+update public.venues set status='retired' where id='b10c0000-0000-0000-0000-000000000001';
+set role authenticated;
+select pg_temp.as_user('b10a0000-0000-0000-0000-000000000001');
+select pg_temp.expect_error($q$select public.approve_venue_booking('b10c0000-0000-0000-0000-000000000208',
+ public.get_venue_booking_review('b10c0000-0000-0000-0000-000000000208')->>'reviewVersion')$q$,'22023',
+ 'AC-010.6.18: a venue retired after review cannot be approved');
+reset role;
+select set_config('request.jwt.claim.sub','',false);
+update public.venues set status='active' where id='b10c0000-0000-0000-0000-000000000001';
 reset role;
 select set_config('request.jwt.claim.sub','',false);
 create temp table approval_bookings_before_replay as select * from public.venue_bookings;
