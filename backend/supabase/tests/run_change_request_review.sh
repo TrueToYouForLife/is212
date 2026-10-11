@@ -225,5 +225,13 @@ SQL
   cat "$repo_root/supabase/tests/coordinator_assignment_equipment_access.sql"
   # 0049: coordinators cannot hold venues for unassigned events (US17 AC1).
   cat "$repo_root/supabase/tests/venue_booking_assignment.sql"
+  cat "$repo_root/supabase/tests/venue_booking_decision_notifications.sql"
+  cat "$repo_root/supabase/migrations/0051_venue_booking_decision_notifications.sql"
+  cat <<'SQL'
+select pg_temp.assert_true(not exists(
+ (select * from public.venue_booking_decision_notifications except select * from decisions_before_replay)
+ union all (select * from decisions_before_replay except select * from public.venue_booking_decision_notifications)),
+ 'AC-010.14.19: migration replay preserves notices and does not backfill historical decisions');
+SQL
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"

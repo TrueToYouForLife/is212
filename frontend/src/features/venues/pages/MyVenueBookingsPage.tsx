@@ -6,6 +6,7 @@ import { PageContainer } from '../../../components/layout/PageContainer'
 import { useCurrentUser } from '../../auth/sessionContext'
 import { BookingStatusBadge } from '../components/BookingStatusBadge'
 import { SlotClaimPreview } from '../components/SlotClaimPreview'
+import { VenueDecisionNotifications } from '../components/VenueDecisionNotifications'
 import { daysUntilExpiry, isHoldLive } from '../holdRules'
 import { listMyVenueBookings, releaseHold, submitVenueBooking } from '../venueBookingService'
 import type { VenueBookingSummary } from '../bookingTypes'
@@ -155,6 +156,7 @@ export function MyVenueBookingsPage() {
           </ul>
         </div>
       )}
+      <VenueDecisionNotifications />
     </PageContainer>
   )
 }
