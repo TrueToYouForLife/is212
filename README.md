@@ -3,6 +3,38 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
+## US10 venue booking review (four slices implemented)
+
+Venue Staff can open **Booking requests** (`/venues/review`), inspect event timing,
+requirements and slot conflicts, then approve or reject a pending request.
+Rejection requires a reason and allows an alternative. Approval rechecks live
+conflicts and protects event/setup/turnaround cells. Decisions record the server
+reviewer/time and cannot be repeated; approval does not change the event's status.
+
+Coordinators receive an in-app **Booking decision notifications** panel on
+**Your venue bookings** (`/venues/bookings`). It shows the latest 50 accessible
+approval/rejection notices with reasons and alternatives. Open the page or use
+**Refresh notifications** for new decisions. This is not a push/email channel.
+The current assigned coordinator receives the notice; legacy unassigned bookings
+fall back to a requester who is still a coordinator. Recipients must retain current
+assignment/access to read a historical notice. No valid coordinator means no notice
+is generated. Existing Venue Staff submission notifications remain separate.
+
+Required review migrations are 0037, 0040, 0044, 0045 and **0051**, together with
+all their earlier schema dependencies. Apply migrations through the team's normal
+ordered deployment process; do not run older policy migrations over a newer schema.
+The frontend routes use `VITE_FEATURE_VENUE_BOOKING=true` in `frontend/.env`.
+0051 only delivers new Venue Staff decisions after deployment; it does not backfill
+old approvals/rejections or send email. A notification storage failure rolls back
+the decision, including claim changes, so decisions for eligible recipients cannot silently lose notices.
+
+Implementation/test evidence: [Slice 1](docs/us10-slice1.md),
+[Slice 2](docs/us10-slice2.md), [Slice 3](docs/us10-slice3.md),
+[Slice 4 and final acceptance guide](docs/us10-slice4.md).
+Slice 1 retains its TDD evidence. Later slices use code-first development with
+immediate tests and the saved Slice 2 forced-break record. Slice 4 is locally
+validated pending publication, CI, merge and shared-environment acceptance.
+
 ## US36 active-event overview (completed)
 
 The Coordinator Lead's Requests view now shows event status, Singapore dates,
