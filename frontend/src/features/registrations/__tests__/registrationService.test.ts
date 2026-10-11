@@ -5,6 +5,7 @@ import {
   loadOpenEvent,
   loadOpenEvents,
   registerForEvent,
+  withdrawRegistration,
 } from '../registrationService'
 
 const mocks = vi.hoisted(() => ({ rpc: vi.fn() }))
@@ -155,5 +156,28 @@ describe('AC-015.7: the Attendee sees their registrations', () => {
       ['Completed', 'Registered'],
       ['Cancelled', 'Withdrawn'],
     ])
+  })
+})
+
+describe('AC-023.1: the Attendee withdraws their own registration', () => {
+  test('AC-023.1.9: withdraws through the database function, sending only the registration id', async () => {
+    mocks.rpc.mockResolvedValue(ok(null))
+
+    await expect(withdrawRegistration('registration-1')).resolves.toEqual({ ok: true })
+
+    expect(mocks.rpc).toHaveBeenCalledWith('withdraw_registration', { p_registration_id: 'registration-1' })
+  })
+})
+
+describe("AC-023.5: nobody else's registration, nothing already withdrawn", () => {
+  test.each([
+    ['P0002', messages.withdrawNotFound, true],
+    ['55000', messages.alreadyWithdrawn, true],
+    ['22000', messages.cannotWithdraw, true],
+    ['42501', messages.notAttendee, false],
+    ['XX000', messages.withdrawFailed, false],
+  ])('AC-023.5.8: error %s is explained, and only a changed registration asks for a reload', async (code, reason, stale) => {
+    mocks.rpc.mockResolvedValue(fails(code))
+    await expect(withdrawRegistration('registration-1')).resolves.toEqual({ ok: false, reason, stale })
   })
 })

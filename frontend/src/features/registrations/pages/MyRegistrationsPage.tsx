@@ -1,17 +1,18 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import { PageContainer } from '../../../components/layout/PageContainer'
 import { Card } from '../../../components/ui/Card'
 import { ErrorAlert } from '../../../components/ui/ErrorAlert'
 import { useCurrentUser } from '../../auth/sessionContext'
 import { useRequestResource } from '../../events/status/useRequestResource'
-import { EventWhenWhere } from '../components/EventWhenWhere'
+import { RegistrationListItem } from '../components/RegistrationListItem'
 import { loadMyRegistrations } from '../registrationService'
-import type { MyRegistration } from '../types'
 
 /**
  * US15 AC-015.7: the signed-in Attendee's registrations. Refreshed periodically and on focus,
  * so an event that is cancelled or completed shows its new status without a manual reload.
+ * US23: a withdrawal reloads the list so the row shows Withdrawn, and the outcome is told here,
+ * because the row's own Withdraw button disappears with that reload.
  */
 export function MyRegistrationsPage() {
   const { session, loading } = useCurrentUser()
@@ -22,6 +23,17 @@ export function MyRegistrationsPage() {
     [signedInAs],
   )
   const { value: registrations, error, refresh } = useRequestResource(`my-registrations:${signedInAs}`, read)
+  const [notice, setNotice] = useState<{ tone: 'success' | 'error'; text: string } | null>(null)
+
+  const handleWithdrawn = (eventName: string) => {
+    setNotice({ tone: 'success', text: `Your registration for ${eventName} has been withdrawn.` })
+    refresh()
+  }
+  // Already withdrawn elsewhere, or the event started: say so, and show the real state.
+  const handleStale = (reason: string) => {
+    setNotice({ tone: 'error', text: reason })
+    refresh()
+  }
 
   if (loading) return <PageContainer><p className="text-sm text-slate-500">Loading…</p></PageContainer>
   if (!session) return <Navigate to="/signin" replace state={{ from: '/registrations' }} />
@@ -30,6 +42,12 @@ export function MyRegistrationsPage() {
     <PageContainer>
       <h1 className="text-3xl font-bold tracking-tight text-slate-900">My registrations</h1>
       <div className="mt-6">
+        {notice?.tone === 'success' && (
+          <p role="status" className="mb-4 rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-900">
+            {notice.text}
+          </p>
+        )}
+        {notice?.tone === 'error' && <div className="mb-4"><ErrorAlert>{notice.text}</ErrorAlert></div>}
         {error ? (
           <ErrorAlert onRetry={refresh}>{error}</ErrorAlert>
         ) : !registrations ? (
@@ -46,28 +64,16 @@ export function MyRegistrationsPage() {
         ) : (
           <ul className="space-y-3">
             {registrations.map((registration) => (
-              <RegistrationItem key={registration.registrationId} registration={registration} />
+              <RegistrationListItem
+                key={registration.registrationId}
+                registration={registration}
+                onWithdrawn={handleWithdrawn}
+                onStale={handleStale}
+              />
             ))}
           </ul>
         )}
       </div>
     </PageContainer>
-  )
-}
-
-function RegistrationItem({ registration }: { registration: MyRegistration }) {
-  return (
-    <li className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      <p className="font-semibold text-slate-900">{registration.eventName}</p>
-      <EventWhenWhere start={registration.start} venue={registration.venue} />
-      <div className="mt-3 flex flex-wrap gap-2 text-xs font-medium">
-        <span className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-700">
-          Event: {registration.eventStatusLabel}
-        </span>
-        <span className="rounded-full bg-indigo-50 px-2.5 py-1 text-indigo-700">
-          Registration: {registration.registrationStatusLabel}
-        </span>
-      </div>
-    </li>
   )
 }

@@ -11,6 +11,8 @@ coverage
 *.log
 !docs/us10-slice2-evidence/*.log
 !docs/us10-slice3-evidence/*.log
+# Deliberate test evidence is retained with the project documentation.
+!docs/test-evidence/**/*.log
 .vscode/*
 !.vscode/extensions.json
 

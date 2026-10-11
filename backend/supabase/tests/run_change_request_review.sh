@@ -192,6 +192,8 @@ SQL
   cat "$repo_root/supabase/tests/coordinator_assignment.sql"
   # US15 after US14: AC-015.5.4 reuses equipment_reservations.sql's pg_temp.us14_race.
   cat "$repo_root/supabase/tests/event_registrations.sql"
+  # US23 straight after US15: AC-023.5.7 reuses the same pg_temp.us14_race helper.
+  cat "$repo_root/supabase/tests/withdraw_registration.sql"
   # US29 near the end: it commits its accounts so that replaying 0042 can be compared with them.
   cat "$repo_root/supabase/tests/attendee_signup.sql"
   cat "$repo_root/supabase/migrations/0042_attendee_self_signup.sql"
