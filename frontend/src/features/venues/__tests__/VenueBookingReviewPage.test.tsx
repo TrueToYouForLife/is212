@@ -27,6 +27,20 @@ beforeEach(() => {
   mocks.reject.mockResolvedValue({ ok: true })
 })
 
+test('AC-010.3.17: the routed review displays event details and conflict information together', async () => {
+  mocks.get.mockResolvedValue({ ok: true, booking: { ...PENDING,
+    details: { eventName: 'Conference', reference: 'EVT-10', startsAt: null, endsAt: null,
+      attendance: 120, layoutPreference: null, accessibilityNotes: null, specialArrangements: null,
+      requirementsRecorded: false, layout: null, accessibility: [], facilities: [] },
+    conflictCheckAvailable: true, requestedCells: [{ date: '2032-10-12', slot: 'PM', kind: 'event' }],
+    conflicts: [{ date: '2032-10-12', slot: 'PM', kind: 'event', source: 'blocked_period', description: 'Maintenance' }],
+  } })
+  show()
+  expect(await screen.findByText('Conference')).toBeInTheDocument()
+  expect(screen.getByRole('region', { name: 'Venue conflicts' })).toHaveTextContent('Maintenance')
+  expect(screen.getByLabelText('Rejection reason')).toBeInTheDocument()
+})
+
 test('AC-010.4.17: other roles do not load a staff review page', () => {
   mocks.role = 'coordinator'
   show()

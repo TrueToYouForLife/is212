@@ -21,6 +21,7 @@ import { VenueDetailsPage } from './features/venues/pages/VenueDetailsPage'
 import { VenueTimetablePage } from './features/venues/pages/VenueTimetablePage'
 import { MyVenueBookingsPage } from './features/venues/pages/MyVenueBookingsPage'
 import { VenueBookingReviewPage } from './features/venues/pages/VenueBookingReviewPage'
+import { VenueBookingQueuePage } from './features/venues/pages/VenueBookingQueuePage'
 import { VenueBlocksPage } from './features/venues/pages/VenueBlocksPage'
 import { FlaggedBookingsPage } from './features/venues/pages/FlaggedBookingsPage'
 import { EventEquipmentPage } from './features/equipment/pages/EventEquipmentPage'
@@ -59,6 +60,7 @@ export default function App() {
             <Route path="/venues/search" element={<VenueSearchPage />} />
             {FEATURES.venueSuitability && <Route path="/venues/suitability" element={<VenueSuitabilityPage />} />}
             {FEATURES.venueBooking && <Route path="/venues/bookings" element={<MyVenueBookingsPage />} />}
+            {FEATURES.venueBooking && <Route path="/venues/review" element={<VenueBookingQueuePage />} />}
             {FEATURES.venueBooking && <Route path="/venues/bookings/:bookingId/review" element={<VenueBookingReviewPage />} />}
             {FEATURES.venueBooking && <Route path="/venues/:id" element={<VenueDetailsPage />} />}
             {FEATURES.venueBooking && <Route path="/venues/:id/timetable" element={<VenueTimetablePage />} />}

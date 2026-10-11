@@ -1,0 +1,13 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/venues/__tests__/VenueBookingConflicts.test.tsx
+
+
+ RUN  v2.1.9 C:/dev/spm/is212/frontend
+
+ ✓ src/features/venues/__tests__/VenueBookingConflicts.test.tsx (5 tests) 138ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  00:29:20
+   Duration  3.94s (transform 172ms, setup 326ms, collect 281ms, tests 138ms, environment 1.33s, prepare 225ms)

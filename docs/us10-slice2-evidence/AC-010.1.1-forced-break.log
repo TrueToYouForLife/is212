@@ -1,0 +1,48 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/venues/__tests__/venueBookingQueueService.test.ts
+
+
+ RUN  v2.1.9 C:/dev/spm/is212/frontend
+
+ ❯ src/features/venues/__tests__/venueBookingQueueService.test.ts (4 tests | 1 failed) 19ms
+   × AC-010.1.1: requests only pending bookings in stable oldest-first order 16ms
+     → expected [ [ 'status', 'confirmed' ] ] to deeply equal [ [ 'status', 'pending_approval' ] ]
+
+npm.cmd : ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+At line:2 char:749
++ ... n frontend; npm.cmd test -- src/features/venues/__tests__/venueBookin ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+
+ FAIL  src/features/venues/__tests__/venueBookingQueueService.test.ts > AC-010.1.1: requests only pending bookings in
+stable oldest-first order
+AssertionError: expected [ [ 'status', 'confirmed' ] ] to deeply equal [ [ 'status', 'pending_approval' ] ]
+
+- Expected
++ Received
+
+  Array [
+    Array [
+      "status",
+-     "pending_approval",
++     "confirmed",
+    ],
+  ]
+
+ ❯ src/features/venues/__tests__/venueBookingQueueService.test.ts:13:48
+     11|   fake.plan('venue_bookings', { data: [{ id: 'b1', created_at: '2030-0…
+     12|   expect(await listPendingVenueBookings()).toEqual({ ok: true, booking…
+     13|   expect(fake.callsTo('venue_bookings', 'eq')).toEqual([['status', 'pe…
+       |                                                ^
+     14|   expect(fake.callsTo('venue_bookings', 'order')).toEqual([['created_a…
+     15| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  00:00:51
+   Duration  2.74s (transform 118ms, setup 223ms, collect 79ms, tests 19ms, environment 949ms, prepare 131ms)

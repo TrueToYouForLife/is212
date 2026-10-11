@@ -1,0 +1,509 @@
+
+> connectsphere@0.1.0 coverage
+> vitest run --coverage
+
+
+ RUN  v2.1.9 C:/dev/spm/is212/frontend
+      Coverage enabled with v8
+
+ ✓ src/features/equipment/__tests__/validation.test.ts (28 tests) 26ms
+ ✓ src/features/events/__tests__/changeRequestReviewValidation.test.ts (27 tests) 42ms
+ ✓ src/features/venues/__tests__/slots.test.ts (28 tests) 50ms
+ ✓ src/features/events/__tests__/changeRequestReviewService.test.ts (23 tests) 46ms
+ ✓ src/features/events/__tests__/eventReviewService.test.ts (22 tests) 103ms
+ ✓ src/features/events/__tests__/eventDraftService.test.ts (16 tests) 51ms
+ ✓ src/features/equipment/__tests__/equipmentRequirementService.test.ts (13 tests) 73ms
+ ✓ src/features/events/__tests__/validation.test.ts (22 tests) 70ms
+ ✓ src/features/events/__tests__/eventDraftQueryService.test.ts (18 tests) 42ms
+ ✓ src/features/events/__tests__/eventService.test.ts (19 tests) 75ms
+ ✓ src/features/venues/__tests__/suitabilityService.test.ts (17 tests) 65ms
+ ✓ src/features/venues/__tests__/suitabilityValidation.test.ts (18 tests) 59ms
+ ✓ src/features/registrations/__tests__/registrationService.test.ts (10 tests) 36ms
+ ✓ src/features/venues/__tests__/venueBookingService.test.ts (60 tests | 1 skipped) 782ms
+ ✓ src/features/auth/__tests__/SignUpPage.test.tsx (8 tests) 1830ms
+   ✓ AC-029.1: sign up with a name, email and password > AC-029.1.15: submitting the form signs up with the cleaned values 617ms
+   ✓ AC-029.4: after signing up, the Attendee is signed in and sees open events > AC-029.4.3: with email confirmation on, explains that the link signs them in 349ms
+ ✓ src/features/events/__tests__/DraftPages.test.tsx (12 tests) 2247ms
+   ✓ AC-001.3 > AC-001.3.1: unnamed drafts have a usable fallback label (also AC-001.4) 427ms
+   ✓ AC-001.4 > AC-001.4.24: opens a listed draft, restores fields and saves edits to the same ID (also AC-001.3, AC-001.5) 455ms
+   ✓ AC-001.6 > AC-001.6.1: direct draft URL can submit the existing request explicitly (also AC-001.4) 348ms
+ ✓ src/features/events/__tests__/eventChangeRequestService.test.ts (10 tests) 29ms
+ ✓ src/features/events/__tests__/CoordinatorAssignmentQueue.test.tsx (3 tests) 2704ms
+   ✓ AC-017.1.10: Lead queue shows basic details of submitted unassigned requests only 468ms
+   ✓ AC-017.2.9: Lead selects a coordinator with workload shown and retries a failed assignment 1153ms
+   ✓ AC-017.3.2: Lead reassigns an active event with retry feedback and no controls for closed events 1080ms
+ ✓ src/features/equipment/__tests__/reservationService.test.ts (6 tests) 44ms
+ ✓ src/features/events/__tests__/changeRequestReviewQueryService.test.ts (9 tests) 64ms
+ ✓ src/features/venues/__tests__/VenueBookingPages.test.tsx (25 tests) 3457ms
+   ✓ VenueDetailsPage — AC-009.1 > AC-009.1.19: shows the venue’s characteristics, with facility counts spelled out 347ms
+   ✓ VenueTimetablePage — AC-009.2 / AC-011.1 > AC-009.2.24: choosing an event highlights the slots it would take, including setup and turnaround 361ms
+npm.cmd : stderr | src/features/events/__tests__/OpenEventsPage.test.tsx > AC-029.4: after signing up, the Attendee is
+signed in and sees open events > AC-029.4.8: while the session is loading, nothing redirects (boundary)
+At line:2 char:152
++ ... -anon-key'; npm.cmd run coverage *> '../docs/us10-slice2-evidence/AC- ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (stderr | src/fe...ects (boundary):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+
+Warning: An update to OpenEventsPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at
+https://reactjs.org/link/wrap-tests-with-act
+    at OpenEventsPage (C:\dev\spm\is212\frontend\src\features\events\pages\OpenEventsPage.tsx:22:54)
+    at RenderedRoute (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+stderr | src/features/venues/__tests__/VenueBlockForm.test.tsx > AC-012.7 — overlaps are previewed before saving >
+AC-012.7.12: Confirm block appears only after a preview, and confirms what was previewed
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at
+https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\dev\spm\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at
+https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\dev\spm\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at
+https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\dev\spm\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at
+https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\dev\spm\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at
+https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\dev\spm\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at
+https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\dev\spm\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at
+https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\dev\spm\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+
+ ✓ src/features/events/__tests__/OpenEventsPage.test.tsx (8 tests) 1043ms
+   ✓ AC-029.4: after signing up, the Attendee is signed in and sees open events > AC-029.4.6: a signed-in Attendee sees the events-open-for-registration page 562ms
+ ✓ src/features/venues/__tests__/venueTimetableService.test.ts (8 tests) 49ms
+ ✓ src/features/events/__tests__/statusRules.test.ts (26 tests) 31ms
+ ✓ src/features/equipment/__tests__/EquipmentRequirementsEditor.test.tsx (14 tests) 5568ms
+   ✓ AC-013.1: assigned-coordinator editing with the organiser request shown > AC-013.1.9: shows the organiser's original equipment request next to the requirements 422ms
+   ✓ AC-013.2: catalogue picker and quantity validation > AC-013.2.17: quantity 0 shows an error and is not saved 951ms
+   ✓ AC-013.3: each line shows its status > AC-013.3.11: the coordinator can mark a line non-essential 1115ms
+   ✓ AC-013.5: recording does not reserve > AC-013.5.2: a newly added line shows pending review, never reserved 859ms
+   ✓ AC-013.6: changing or removing a reserved line > AC-013.6.7: warns before a reserved line changes type or quantity 686ms
+   ✓ AC-013.6: changing or removing a reserved line > AC-013.6.8: removing a reserved line asks for confirmation that mentions the release 404ms
+   ✓ AC-013.6: changing or removing a reserved line > AC-013.6.9: after saving, the changed line shows pending review 503ms
+ ✓ src/features/events/__tests__/EventRequestForm.test.tsx (14 tests) 5303ms
+   ✓ AC-001.1 > AC-001.1.11: shows save errors and preserves entered values 800ms
+   ✓ AC-001.2 > AC-001.2.22: clears submission-required errors when saving an incomplete draft 349ms
+   ✓ AC-001.6 > AC-001.6.2: explicit submission uses the saved ID and resets it after success 343ms
+   ✓ AC-001.6 > AC-001.6.4: failed submission preserves the draft ID for further editing 1029ms
+   ✓ AC-002.1 > AC-002.1.6: offers an input for every piece of preliminary information 338ms
+   ✓ AC-002.2 > AC-002.2.19: does not submit when a required field is missing, and says which 345ms
+   ✓ AC-002.4 > AC-002.4.9: informs the organiser of a failed submission with the reason 386ms
+ ✓ src/features/venues/__tests__/VenueBlockForm.test.tsx (7 tests) 1734ms
+   ✓ AC-012.3 — a reason is required > AC-012.3.7: a blank reason shows its message beside the field, and nothing is previewed 688ms
+ ✓ src/features/events/status/__tests__/RequestStatusPanel.test.tsx (18 tests) 1476ms
+   ✓ coordinator lifecycle controls > AC-LIFECYCLE.3-approved: invokes the guarded service and refreshes after success 382ms
+ ✓ src/features/events/__tests__/ChangeRequestReviewPanel.test.tsx (12 tests) 1732ms
+   ✓ AC-007.9.16: successful finalisation reloads the outcome and refreshes the parent event 573ms
+ ✓ src/features/events/__tests__/ReviewActions.test.tsx (8 tests) 2298ms
+   ✓ AC-004.2 — accept or reject via a button > AC-004.2.22: a submitted request offers immediate decisions without Start review 306ms
+   ✓ AC-004.3 — reasons entered through an input box > AC-004.3.3: the reason typed in the box is sent with a rejection 831ms
+   ✓ AC-004.3 — reasons entered through an input box > AC-004.3.5: the reason box clears after a successful decision 626ms
+ ✓ src/features/registrations/__tests__/OpenEventDetailsPage.test.tsx (4 tests) 641ms
+   ✓ AC-015.1: the Attendee views details of a confirmed event > AC-015.1.8: shows the event, its prerequisites and the information needed to register 499ms
+ ✓ src/features/events/__tests__/ChangeRequestReplyForm.test.tsx (8 tests) 2703ms
+   ✓ AC-007.7.68: blank answers prevent saving and can be corrected 936ms
+   ✓ AC-007.7.69: every field question needs its own answer 513ms
+   ✓ AC-007.7.70: an older whole-request clarification accepts a single note 364ms
+ ✓ src/features/registrations/__tests__/MyRegistrationsPage.test.tsx (4 tests) 470ms
+ ✓ src/features/venues/__tests__/venueBlockService.create.test.ts (10 tests) 25ms
+ ✓ src/features/venues/__tests__/venueTimetable.test.ts (14 tests) 21ms
+ ✓ src/features/events/__tests__/ChangeRequestList.test.tsx (8 tests) 3337ms
+   ✓ AC-006.8.1: the existing owner withdrawal action still sends the selected request and reloads 735ms
+   ✓ AC-006.8.2: a refused withdrawal displays its reason instead of silently failing 321ms
+   ✓ AC-007.7.35: failed loading cannot hide questions behind an empty-list message and can be retried 390ms
+   ✓ AC-007.7.76: sending replies reloads status and removes the completed reply form 807ms
+   ✓ AC-007.7.77: focus preserves answers and manual reload replaces the displayed questions 942ms
+ ✓ src/features/venues/__tests__/holdRules.test.ts (27 tests) 21ms
+ ✓ src/features/events/__tests__/draftValidation.test.ts (20 tests) 44ms
+ ✓ src/features/registrations/__tests__/RegistrationForm.test.tsx (5 tests) 813ms
+   ✓ AC-015.2: the Attendee inputs the information required to register > AC-015.2.9: filling in and submitting the form registers with the cleaned answers 456ms
+ ✓ src/features/venues/__tests__/venueBookingReviewService.test.ts (8 tests) 24ms
+ ✓ src/features/auth/__tests__/signUpService.test.ts (7 tests) 19ms
+ ✓ src/features/venues/__tests__/VenueBookingComponents.test.tsx (14 tests) 532ms
+   ✓ VenueTimetableGrid — AC-011.5 > AC-011.5.14: draws one column per date and one row per slot 302ms
+ ✓ src/features/venues/__tests__/VenueSuitabilityPage.test.tsx (4 tests) 1160ms
+   ✓ AC-018.1 — coordinators can identify suitable venues > AC-018.1.29: choosing an event shows the organiser's own words and every venue assessed 659ms
+ ✓ src/features/events/__tests__/changeRequestReplyValidation.test.ts (11 tests) 27ms
+ ✓ src/features/venues/__tests__/VenueBlocksPage.test.tsx (4 tests) 1023ms
+   ✓ AC-012.9 — current blocks can be viewed and removed > AC-012.9.23: choosing a venue shows its current blocks 361ms
+   ✓ AC-012.9 — current blocks can be viewed and removed > AC-012.9.25: saving a new block on the chosen venue reloads the current blocks 315ms
+ ✓ src/features/equipment/__tests__/ReservationQueue.test.tsx (6 tests) 824ms
+   ✓ AC-014.8: full or partial reservation > AC-014.8.11: after reserving, the row leaves the queue with its outcome shown 588ms
+ ✓ src/features/venues/__tests__/SuitabilityResultList.test.tsx (4 tests) 339ms
+ ✓ src/features/venues/__tests__/VenueBookingRejectionForm.test.tsx (18 tests) 7839ms
+   ✓ AC-010.8.15: the form requires a nonblank reason before rejection 875ms
+   ✓ AC-010.8.16: a valid rejection reports success and closes the action 1305ms
+   ✓ AC-010.9.4: Venue Staff can suggest an alternative arrangement when rejecting 1859ms
+   ✓ AC-010.12.14: double-clicking while a decision is pending sends it once 1123ms
+   ✓ AC-010.12.15: an unsuccessful decision preserves the reason and locks retry until reload 1572ms
+   ✓ AC-010.12.17: a response after leaving the form cannot update a different booking page 974ms
+ ✓ src/features/events/__tests__/changeRequestReplyService.test.ts (9 tests) 28ms
+ ✓ src/features/events/__tests__/ChangeRequestReviewForm.test.tsx (11 tests) 13058ms
+   ✓ AC-007.3 — visible comparison > AC-007.3.4: groups current and proposed values beneath their field names 376ms
+   ✓ AC-007.5 — explicit finalisation > AC-007.5.28: all approvals save once with the version displayed to the reviewer 1338ms
+   ✓ AC-007.5 — explicit finalisation > AC-007.5.29: mixed final decisions send the rejected field reason and report partial approval 1336ms
+   ✓ AC-007.5 — explicit finalisation > AC-007.5.30: no field is pre-approved and incomplete decisions cannot be submitted 408ms
+   ✓ AC-007.5 — explicit finalisation > AC-007.5.31: a failed save preserves decisions and requires reload before retry 1279ms
+   ✓ AC-007.5 — explicit finalisation > AC-007.5.32: controls stay disabled during saving and double clicks send only once 700ms
+   ✓ AC-007.6 — rejection reasons > AC-007.6.6: rejecting a field without an explanation displays an error without saving 745ms
+   ✓ AC-007.7 — field questions > AC-007.7.31: every clarification field requires a question 800ms
+   ✓ AC-007.7 — field questions > AC-007.7.32: provisional approval and a separate question save together without claiming final approval 1997ms
+   ✓ AC-007.10.3: rejecting every field sends both reasons and reports a rejected outcome 3877ms
+ ✓ src/features/events/status/__tests__/useRequestResource.test.ts (5 tests) 418ms
+ ✓ src/features/venues/__tests__/venueBlockValidation.test.ts (11 tests) 18ms
+ ✓ src/features/events/__tests__/RequestDetails.test.tsx (3 tests) 319ms
+ ✓ src/features/events/__tests__/EventChangeRequestForm.test.tsx (6 tests) 3872ms
+   ✓ AC-006.3.1: submitting with no fields filled in and no reason is blocked 548ms
+   ✓ AC-006.3.2: a reason with no proposed field changes is refused before calling the service 545ms
+   ✓ AC-006.3.3: only the fields the organiser actually filled in are sent, alongside the reason 755ms
+   ✓ AC-006.3.4: a successful submission confirms and clears the form for another request 926ms
+   ✓ AC-006.3.5: a refused submission shows the service reason and keeps what was typed 778ms
+   ✓ AC-006.3.6: a proposed field with no reason is blocked by the reason requirement, not treated as valid 315ms
+ ✓ src/features/venues/__tests__/venueBlockService.preview.test.ts (3 tests) 17ms
+ ✓ src/components/layout/__tests__/TopNav.test.tsx (8 tests) 1012ms
+   ✓ AC-012.1 — only Venue Staff can block > AC-012.1.10: Venue Staff are offered the venue blocks page 316ms
+ ✓ src/features/auth/__tests__/roles.test.ts (8 tests) 17ms
+ ✓ src/features/auth/__tests__/SignInPage.test.tsx (3 tests) 976ms
+   ✓ SignInPage > goes where the user was headed once signed in 650ms
+ ✓ src/features/venues/__tests__/VenueBookingReviewPage.test.tsx (5 tests) 3399ms
+   ✓ AC-010.8.17: the routed page rejects a pending booking and reloads the saved record 1206ms
+   ✓ AC-010.12.16: reload after a refused decision reads the final status and removes the form 1756ms
+ ✓ src/features/equipment/__tests__/ReserveForm.test.tsx (6 tests) 5097ms
+   ✓ AC-014.4: the return date > AC-014.4.10: a return date before the last day shows an error and is not saved 1455ms
+   ✓ AC-014.8: full or partial reservation > AC-014.8.9: quantity must be a whole number from 0 to the requested quantity 1707ms
+   ✓ AC-014.9: shortfall and alternative > AC-014.9.9: alternative fields appear only when there is a shortfall 1304ms
+   ✓ AC-014.9: shortfall and alternative > AC-014.9.10: the alternative picker offers catalogue types except the requested one 446ms
+ ✓ src/features/equipment/__tests__/TechSupportEquipmentView.test.tsx (2 tests) 495ms
+ ✓ src/features/auth/__tests__/validation.test.ts (8 tests) 19ms
+ ✓ src/features/registrations/__tests__/validation.test.ts (6 tests) 29ms
+ ✓ src/features/venues/__tests__/venueBookingQueueService.test.ts (6 tests) 19ms
+ ✓ src/features/venues/__tests__/FlaggedBookingsPage.test.tsx (4 tests) 437ms
+ ✓ src/features/venues/__tests__/UnsuitableVenueAlert.test.tsx (4 tests) 472ms
+ ✓ src/features/venues/__tests__/VenueBookingQueuePage.test.tsx (6 tests) 1160ms
+   ✓ AC-010.1.5: pending requests link to their existing review page 410ms
+   ✓ AC-010.1.7: failed loads show an error and can be retried manually 485ms
+ ✓ src/features/venues/__tests__/venueBlockPreviewHelpers.test.ts (3 tests) 11ms
+ ✓ src/features/venues/__tests__/venueBlockService.currentBlocks.test.ts (5 tests) 21ms
+ ✓ src/features/venues/__tests__/VenueBlockList.remove.test.tsx (3 tests) 679ms
+   ✓ AC-012.9 — current blocks can be removed > AC-012.9.19: Remove asks for confirmation, and nothing is removed until it is given 482ms
+ ✓ src/features/venues/__tests__/VenueSearchPage.suitability.test.tsx (2 tests) 642ms
+   ✓ AC-018.1 — coordinators can identify suitable venues > AC-018.1.34: searching for one of your events shows each result's verdict for it 527ms
+ ✓ src/features/auth/__tests__/signUpValidation.test.ts (9 tests) 20ms
+ ✓ src/features/equipment/__tests__/EquipmentOutcomeNotices.test.tsx (2 tests) 141ms
+ ✓ src/features/venues/__tests__/VenueRequirementsForm.test.tsx (3 tests) 606ms
+   ✓ AC-018.1 — coordinators can identify suitable venues > AC-018.1.25: choosing a layout and features, then saving, sends structured requirements 434ms
+ ✓ src/features/events/__tests__/ChangeRequestReviewPage.test.tsx (2 tests) 322ms
+stderr | src/pages/__tests__/SignedInHome.test.tsx > AC-029.4: after signing up, the Attendee is signed in and sees
+open events > AC-029.4.11: a signed-in Attendee's Home points them to events, not to a coordinator
+Warning: An update to SignedInHome inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at
+https://reactjs.org/link/wrap-tests-with-act
+    at SignedInHome (C:\dev\spm\is212\frontend\src\pages\SignedInHome.tsx:18:25)
+    at Router (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+stderr | src/pages/__tests__/SignedInHome.test.tsx > AC-029.4: after signing up, the Attendee is signed in and sees
+open events > AC-029.4.12: other roles keep their Home (regression guard)
+Warning: An update to SignedInHome inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at
+https://reactjs.org/link/wrap-tests-with-act
+    at SignedInHome (C:\dev\spm\is212\frontend\src\pages\SignedInHome.tsx:18:25)
+    at Router (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+stderr | src/pages/__tests__/SignedInHome.test.tsx > AC-015.7: the Attendee sees their registrations > AC-015.7.11: an
+Attendee's Home also links to My registrations
+Warning: An update to SignedInHome inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at
+https://reactjs.org/link/wrap-tests-with-act
+    at SignedInHome (C:\dev\spm\is212\frontend\src\pages\SignedInHome.tsx:18:25)
+    at Router (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+ ✓ src/pages/__tests__/SignedInHome.test.tsx (3 tests) 450ms
+   ✓ AC-029.4: after signing up, the Attendee is signed in and sees open events > AC-029.4.11: a signed-in Attendee's Home points them to events, not to a coordinator 367ms
+ ✓ src/features/events/__tests__/changeRequestSignificance.test.ts (10 tests) 12ms
+ ✓ src/features/venues/__tests__/VenueResultCard.test.tsx (3 tests) 197ms
+ ✓ src/features/auth/__tests__/coordinatorLeadProfile.test.ts (1 test) 11ms
+ ✓ src/features/venues/__tests__/venueAlertService.test.ts (2 tests) 17ms
+ ✓ src/features/equipment/__tests__/reservationRules.test.ts (2 tests) 11ms
+ ✓ src/features/events/__tests__/draftFormValues.test.ts (3 tests) 11ms
+ ✓ src/features/venues/__tests__/VenueBlockList.test.tsx (3 tests) 127ms
+ ✓ src/features/events/__tests__/ChangeRequestReviewHistory.test.tsx (4 tests) 139ms
+ ✓ src/features/events/__tests__/directEventReview.test.ts (6 tests) 17ms
+ ✓ src/features/venues/__tests__/venueBlockService.venues.test.ts (2 tests) 15ms
+ ✓ src/features/events/__tests__/DecisionHistory.test.tsx (3 tests) 277ms
+ ✓ src/features/venues/__tests__/SlotPicker.test.tsx (2 tests) 148ms
+ ✓ src/features/events/__tests__/ChangeRequestSignificance.test.tsx (3 tests) 92ms
+ ✓ src/features/events/__tests__/ChangeRequestReplyHistory.test.tsx (2 tests) 192ms
+
+ Test Files  90 passed (90)
+      Tests  876 passed | 1 todo (877)
+   Start at  00:04:29
+   Duration  34.00s (transform 27.25s, setup 42.28s, collect 75.87s, tests 86.01s, environment 249.17s, prepare 50.81s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------|---------|----------|---------|---------|-------------------
+All files          |    87.9 |    86.99 |   93.11 |    87.9 |
+ auth              |   62.56 |    78.37 |      50 |   62.56 |
+  ...nProvider.tsx |       0 |        0 |       0 |       0 | 1-30
+  authService.ts   |   68.96 |    92.85 |   33.33 |   68.96 | 18-22,26-38,77-79
+  ...ionContext.ts |     100 |    66.66 |     100 |     100 | 17
+  types.ts         |     100 |      100 |     100 |     100 |
+  useProfile.ts    |       0 |        0 |       0 |       0 | 1-34
+  useSession.ts    |       0 |        0 |       0 |       0 | 1-36
+  validation.ts    |     100 |       80 |     100 |     100 | 102-104
+ auth/components   |   36.06 |       75 |   66.66 |   36.06 |
+  ...PageShell.tsx |     100 |      100 |     100 |     100 |
+  SessionBadge.tsx |       0 |        0 |       0 |       0 | 1-65
+ auth/pages        |   97.87 |    80.64 |     100 |   97.87 |
+  SignInPage.tsx   |   95.89 |    69.23 |     100 |   95.89 | 40-42
+  SignUpPage.tsx   |     100 |    88.88 |     100 |     100 | 30,82
+ equipment         |   92.89 |    80.88 |   97.14 |   92.89 |
+  ...entService.ts |   85.41 |    86.11 |      90 |   85.41 | ...01-102,120-130
+  equipmentRows.ts |     100 |    38.46 |     100 |     100 | 15,58,73,81-84,93
+  ...ationRules.ts |     100 |      100 |     100 |     100 |
+  ...ionService.ts |   90.19 |    57.69 |     100 |   90.19 | ...14-117,141-142
+  ...ationTypes.ts |       0 |        0 |       0 |       0 |
+  types.ts         |       0 |      100 |     100 |       0 | 6
+  validation.ts    |   97.01 |    94.44 |     100 |   97.01 | 46-47
+ ...ent/components |   98.46 |    79.16 |    87.5 |   98.46 |
+  ...meNotices.tsx |   96.77 |     92.3 |     100 |   96.77 | 13
+  ...ntsEditor.tsx |   98.48 |    72.97 |      80 |   98.48 | 30
+  ...ntRequest.tsx |     100 |      100 |     100 |     100 |
+  ...ementForm.tsx |     100 |      100 |    87.5 |     100 |
+  ...ementList.tsx |     100 |    76.92 |   83.33 |     100 | 13,35,39
+  ...atusBadge.tsx |     100 |      100 |     100 |     100 |
+  ...tionQueue.tsx |   98.27 |    74.19 |      80 |   98.27 | 28
+  ReserveForm.tsx  |   97.95 |    57.14 |     100 |   97.95 | 47
+  ...allFields.tsx |     100 |      100 |     100 |     100 |
+  ...pmentView.tsx |   96.36 |       65 |     100 |   96.36 | 21,26
+ equipment/pages   |       0 |        0 |       0 |       0 |
+  ...pmentPage.tsx |       0 |        0 |       0 |       0 | 1-29
+  ...pmentPage.tsx |       0 |        0 |       0 |       0 | 1-17
+  ...pmentPage.tsx |       0 |        0 |       0 |       0 | 1-16
+ events            |   95.49 |    90.85 |   94.33 |   95.49 |
+  ...estDisplay.ts |     100 |    83.33 |     100 |     100 | 18,22
+  ...plyService.ts |     100 |    94.11 |     100 |     100 | 31
+  ...ReplyTypes.ts |       0 |        0 |       0 |       0 |
+  ...Validation.ts |     100 |    93.33 |     100 |     100 | 30-32
+  ...eryService.ts |     100 |    57.14 |     100 |     100 | 35-45
+  ...iewService.ts |     100 |    92.85 |     100 |     100 | 24-25
+  ...Validation.ts |     100 |      100 |     100 |     100 |
+  ...gnificance.ts |     100 |      100 |     100 |     100 |
+  ...entService.ts |   84.21 |    53.84 |     100 |   84.21 | 34-35,42,44,49-50
+  ...FormValues.ts |     100 |    91.66 |     100 |     100 | 8
+  ...Validation.ts |     100 |    96.66 |     100 |     100 | 64
+  ...estService.ts |   68.57 |       96 |      50 |   68.57 | 48-60,181-221
+  ...eryService.ts |     100 |    97.61 |     100 |     100 | 84
+  ...aftService.ts |     100 |      100 |     100 |     100 |
+  ...iewService.ts |   94.07 |    89.58 |     100 |   94.07 | 192-199
+  eventService.ts  |     100 |    96.66 |     100 |     100 | 139
+  formatters.ts    |     100 |     62.5 |     100 |     100 | 10-12,19
+  statusRules.ts   |     100 |      100 |     100 |     100 |
+  types.ts         |     100 |      100 |     100 |     100 |
+  ...equestForm.ts |   98.82 |    88.23 |     100 |   98.82 | 96
+  ...equestForm.ts |     100 |    88.46 |     100 |     100 | 62,81,93
+  validation.ts    |     100 |     92.1 |     100 |     100 | 62,150-151
+ events/components |   90.98 |     92.4 |   96.07 |   90.98 |
+  ...questList.tsx |   98.46 |    88.88 |     100 |   98.46 | 43
+  ...ReplyForm.tsx |     100 |    96.96 |     100 |     100 | 51
+  ...lyHistory.tsx |     100 |    88.88 |     100 |     100 | 12
+  ...viewField.tsx |     100 |     90.9 |     100 |     100 | 17
+  ...eviewForm.tsx |   96.96 |    93.54 |     100 |   96.96 | 49-50
+  ...ewHistory.tsx |     100 |      100 |     100 |     100 |
+  ...viewPanel.tsx |   97.95 |     90.9 |     100 |   97.95 | 29
+  ...nificance.tsx |     100 |      100 |     100 |     100 |
+  ...atusBadge.tsx |     100 |      100 |     100 |     100 |
+  ...stSummary.tsx |   93.93 |    86.36 |     100 |   93.93 | 34-35
+  ...nmentCard.tsx |     100 |    83.33 |     100 |     100 | 27
+  ...nmentForm.tsx |     100 |    94.73 |     100 |     100 | 23
+  ...mentQueue.tsx |    90.9 |     90.9 |     100 |    90.9 | 33-35,37
+  ...onHistory.tsx |     100 |      100 |     100 |     100 |
+  DraftAccess.tsx  |     100 |      100 |     100 |     100 |
+  ...aveResult.tsx |     100 |      100 |     100 |     100 |
+  ...questForm.tsx |     100 |    69.23 |     100 |     100 | 60-85
+  ...questForm.tsx |     100 |      100 |     100 |     100 |
+  ...ntsFields.tsx |     100 |      100 |     100 |     100 |
+  ...stDetails.tsx |     100 |      100 |     100 |     100 |
+  ...tListItem.tsx |    6.06 |      100 |       0 |    6.06 | 7-41
+  ...ewActions.tsx |   98.76 |       95 |     100 |   98.76 | 34
+  StatusBadge.tsx  |     100 |      100 |     100 |     100 |
+  ...nGuidance.tsx |       0 |        0 |       0 |       0 | 1-56
+  ...ionResult.tsx |     100 |      100 |     100 |     100 |
+ events/pages      |    58.1 |    79.31 |   83.33 |    58.1 |
+  MyDraftsPage.tsx |   97.36 |    94.11 |     100 |   97.36 | 26
+  ...ventsPage.tsx |     100 |      100 |     100 |     100 |
+  ...DraftPage.tsx |   96.66 |      100 |     100 |   96.66 | 28
+  ...etailPage.tsx |   89.28 |    69.23 |     100 |   89.28 | ...,69-77,140,142
+  ...uestsPage.tsx |   64.28 |    41.66 |     100 |   64.28 | 41-42,51-56,59-72
+  ...angesPage.tsx |       0 |        0 |       0 |       0 | 1-121
+  ...questPage.tsx |       0 |        0 |       0 |       0 | 1-104
+ events/status     |     100 |    97.56 |     100 |     100 |
+  ...atusPanel.tsx |     100 |      100 |     100 |     100 |
+  ...tatusLabel.ts |     100 |      100 |     100 |     100 |
+  ...stResource.ts |     100 |    95.65 |     100 |     100 | 19
+ registrations     |    99.3 |       75 |     100 |    99.3 |
+  ...ionService.ts |   98.82 |    57.14 |     100 |   98.82 | 122
+  types.ts         |     100 |      100 |     100 |     100 |
+  validation.ts    |     100 |    94.73 |     100 |     100 | 73
+ ...ons/components |     100 |    93.33 |     100 |     100 |
+  ...WhenWhere.tsx |     100 |      100 |     100 |     100 |
+  ...ationForm.tsx |     100 |     92.3 |     100 |     100 | 38
+ ...trations/pages |     100 |    77.14 |     100 |     100 |
+  ...tionsPage.tsx |     100 |    71.42 |     100 |     100 | 19-27
+  ...tailsPage.tsx |     100 |    80.95 |     100 |     100 | 27,33-34,65
+ venues            |   87.39 |     88.8 |   98.79 |   87.39 |
+  bookingTypes.ts  |       0 |        0 |       0 |       0 |
+  holdRules.ts     |     100 |      100 |     100 |     100 |
+  slotFormat.ts    |     100 |    33.33 |     100 |     100 | 21-23
+  slots.ts         |     100 |      100 |     100 |     100 |
+  ...ityService.ts |   94.85 |    76.05 |     100 |   94.85 | ...46-148,224-226
+  ...ilityTypes.ts |       0 |        0 |       0 |       0 |
+  ...Validation.ts |     100 |      100 |     100 |     100 |
+  types.ts         |       0 |        0 |       0 |       0 |
+  ...ertService.ts |     100 |     37.5 |     100 |     100 | 35-43
+  ...ockService.ts |     100 |     82.6 |     100 |     100 | ...32,141,149,177
+  ...BlockTypes.ts |       0 |        0 |       0 |       0 |
+  ...Validation.ts |     100 |    94.59 |     100 |     100 | 43,61
+  ...eueService.ts |     100 |      100 |     100 |     100 |
+  ...iewService.ts |     100 |    78.57 |     100 |     100 | 22-33
+  ...Validation.ts |     100 |      100 |     100 |     100 |
+  ...ingService.ts |     100 |     93.4 |     100 |     100 | ...87,100,232,290
+  ...eCatalogue.ts |     100 |    66.66 |     100 |     100 | 27
+  ...rchService.ts |       0 |        0 |       0 |       0 | 1-202
+  ...eTimetable.ts |     100 |    95.23 |     100 |     100 | 37
+  ...bleService.ts |     100 |       95 |     100 |     100 | 104
+ venues/components |   79.19 |    89.61 |   97.67 |   79.19 |
+  ...atusBadge.tsx |     100 |      100 |     100 |     100 |
+  ...imPreview.tsx |     100 |      100 |     100 |     100 |
+  SlotPicker.tsx   |   90.62 |    72.72 |     100 |   90.62 | 48-50
+  ...lityBadge.tsx |     100 |      100 |     100 |     100 |
+  ...esultList.tsx |     100 |      100 |     100 |     100 |
+  ...enueAlert.tsx |     100 |      100 |     100 |     100 |
+  ...BlockForm.tsx |   97.45 |    88.88 |     100 |   97.45 | 78-80
+  ...BlockList.tsx |     100 |    92.59 |     100 |     100 | 37,48
+  ...ckPreview.tsx |     100 |       75 |     100 |     100 | 15,43-45
+  ...ctionForm.tsx |     100 |    96.55 |     100 |     100 | 39
+  VenueFilters.tsx |       0 |        0 |       0 |       0 | 1-200
+  ...mentsForm.tsx |     100 |    85.71 |     100 |     100 | 17,63
+  ...esultCard.tsx |   93.61 |    57.14 |     100 |   93.61 | 53-55
+  ...tableGrid.tsx |     100 |      100 |     100 |     100 |
+ venues/pages      |   96.06 |    83.58 |   94.44 |   96.06 |
+  ...kingsPage.tsx |     100 |    84.21 |     100 |     100 | 48,81-82
+  ...kingsPage.tsx |   96.69 |    84.21 |     100 |   96.69 | 67,69-71
+  ...locksPage.tsx |   91.66 |    73.68 |     100 |   91.66 | 30,40-42,81-83
+  ...QueuePage.tsx |     100 |      100 |     100 |     100 |
+  ...eviewPage.tsx |     100 |    90.47 |     100 |     100 | 29,41
+  ...tailsPage.tsx |   97.93 |    81.81 |     100 |   97.93 | 59,110
+  ...earchPage.tsx |   87.25 |    73.91 |      75 |   87.25 | ...97-101,116-118
+  ...ilityPage.tsx |   95.57 |    68.96 |     100 |   95.57 | 51-55
+  ...tablePage.tsx |   98.34 |    89.47 |    87.5 |   98.34 | 77,157,204
+-------------------|---------|----------|---------|---------|-------------------

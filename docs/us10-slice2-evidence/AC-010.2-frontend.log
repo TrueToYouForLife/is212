@@ -1,0 +1,14 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/venues/__tests__/VenueBookingRequestDetails.test.tsx src/features/venues/__tests__/venueBookingReviewService.test.ts
+
+
+ RUN  v2.1.9 C:/dev/spm/is212/frontend
+
+ ✓ src/features/venues/__tests__/venueBookingReviewService.test.ts (12 tests) 15ms
+ ✓ src/features/venues/__tests__/VenueBookingRequestDetails.test.tsx (3 tests) 72ms
+
+ Test Files  2 passed (2)
+      Tests  15 passed (15)
+   Start at  00:23:35
+   Duration  3.04s (transform 216ms, setup 389ms, collect 429ms, tests 87ms, environment 2.04s, prepare 297ms)

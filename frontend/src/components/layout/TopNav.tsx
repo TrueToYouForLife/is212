@@ -59,6 +59,7 @@ function navItemsFor(role: UserRole | null): NavItem[] {
     case 'venue_staff':
       return [
         home,
+        ...(FEATURES.venueBooking ? [{ label: 'Booking requests', to: '/venues/review' }] : []),
         ...(FEATURES.venueBlocks ? [{ label: 'Venue blocks', to: '/venues/blocks' }] : []),
       ]
     default:

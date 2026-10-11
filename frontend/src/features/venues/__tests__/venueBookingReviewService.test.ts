@@ -2,13 +2,33 @@ import { beforeEach, expect, test, vi } from 'vitest'
 import { getVenueBookingReview, rejectVenueBooking } from '../venueBookingReviewService'
 import { BOOKING_ID, createSupabaseFake } from './fixtures/venueBooking'
 
-const mocks = vi.hoisted(() => ({ from: vi.fn() }))
-vi.mock('../../../lib/supabase', () => ({ supabase: { from: mocks.from } }))
+const mocks = vi.hoisted(() => ({ from: vi.fn(), rpc: vi.fn() }))
+vi.mock('../../../lib/supabase', () => ({ supabase: { from: mocks.from, rpc: mocks.rpc } }))
 const fake = createSupabaseFake()
 beforeEach(() => {
   vi.clearAllMocks()
   fake.reset()
   mocks.from.mockImplementation(fake.route)
+})
+
+test('AC-010.2.15: successful RPC read preserves event requirements', async () => {
+  mocks.rpc.mockResolvedValue({ data: { id: BOOKING_ID, details: { attendance: 120, facilities: ['projector'] } }, error: null })
+  expect(await getVenueBookingReview(BOOKING_ID)).toMatchObject({ ok: true, booking: { details: { attendance: 120, facilities: ['projector'] } } })
+})
+test('AC-010.2.16: permission errors do not expose the server message or booking data', async () => {
+  mocks.rpc.mockResolvedValue({ data: null, error: { message: 'private server detail' } })
+  const result = await getVenueBookingReview(BOOKING_ID)
+  expect(result).toMatchObject({ ok: false })
+  expect(JSON.stringify(result)).not.toContain('private server detail')
+})
+test('AC-010.2.17: a missing RPC row is unavailable', async () => {
+  mocks.rpc.mockResolvedValue({ data: null, error: null })
+  expect(await getVenueBookingReview(BOOKING_ID)).toMatchObject({ ok: false })
+})
+test('AC-010.2.18: an interrupted read is unavailable without automatic retries', async () => {
+  mocks.rpc.mockRejectedValue(new Error('Offline'))
+  expect(await getVenueBookingReview(BOOKING_ID)).toMatchObject({ ok: false })
+  expect(mocks.rpc).toHaveBeenCalledOnce()
 })
 
 test('AC-010.8.13: blank rejection reason is refused before a database call', async () => {
@@ -57,15 +77,15 @@ test('AC-010.12.13: an interrupted request is not retried automatically', async 
 })
 
 test('AC-010.13.4: review readback uses the saved decision identity, time and alternative', async () => {
-  fake.plan('venue_bookings', { data: {
-    id: BOOKING_ID, status: 'rejected', venues: { name: 'Alpha Hall' },
-    review_note: 'Unavailable', review_alternative: 'Try Friday',
-    reviewed_by: 'staff-1', reviewed_at: '2030-10-10T02:00:00Z',
+  mocks.rpc.mockResolvedValue({ data: {
+    id: BOOKING_ID, status: 'rejected', venueName: 'Alpha Hall',
+    reviewNote: 'Unavailable', reviewAlternative: 'Try Friday',
+    reviewedBy: 'staff-1', reviewedAt: '2030-10-10T02:00:00Z',
   } })
   expect(await getVenueBookingReview(BOOKING_ID)).toEqual({ ok: true, booking: {
     id: BOOKING_ID, status: 'rejected', venueName: 'Alpha Hall',
     reviewNote: 'Unavailable', reviewAlternative: 'Try Friday',
     reviewedBy: 'staff-1', reviewedAt: '2030-10-10T02:00:00Z',
   } })
-  expect(fake.callsTo('venue_bookings', 'eq')).toEqual([['id', BOOKING_ID]])
+  expect(mocks.rpc).toHaveBeenCalledWith('get_venue_booking_review', { p_booking_id: BOOKING_ID })
 })

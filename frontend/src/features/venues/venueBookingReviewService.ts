@@ -1,6 +1,8 @@
 import type { VenueBookingActionResult, VenueBookingStatus } from './bookingTypes'
 import { supabase } from '../../lib/supabase'
 import { rejectionReasonError } from './venueBookingReviewValidation'
+import type { VenueBookingRequestDetails, VenueReviewConflict } from './venueBookingReviewTypes'
+import type { ClaimCell } from './slots'
 
 export interface VenueBookingReview {
   id: string
@@ -10,26 +12,19 @@ export interface VenueBookingReview {
   reviewAlternative: string | null
   reviewedBy: string | null
   reviewedAt: string | null
+  details?: VenueBookingRequestDetails
+  conflictCheckAvailable?: boolean
+  requestedCells?: ClaimCell[]
+  conflicts?: VenueReviewConflict[]
 }
 export type VenueBookingReviewResult = { ok: true; booking: VenueBookingReview } | { ok: false; reason: string }
 
 export async function getVenueBookingReview(bookingId: string): Promise<VenueBookingReviewResult> {
   const unavailable = { ok: false as const, reason: 'This booking could not be loaded. Check your access and reload.' }
   try {
-    const { data, error } = await supabase.from('venue_bookings')
-      .select('id, status, review_note, review_alternative, reviewed_by, reviewed_at, venues(name)')
-      .eq('id', bookingId).maybeSingle()
+    const { data, error } = await supabase.rpc('get_venue_booking_review', { p_booking_id: bookingId })
     if (error || !data) return unavailable
-    const row = data as unknown as {
-      id: string; status: VenueBookingStatus; review_note: string | null
-      review_alternative: string | null; reviewed_by: string | null; reviewed_at: string | null
-      venues: { name: string } | null
-    }
-    return { ok: true, booking: {
-      id: row.id, status: row.status, venueName: row.venues?.name ?? 'Venue booking',
-      reviewNote: row.review_note, reviewAlternative: row.review_alternative,
-      reviewedBy: row.reviewed_by, reviewedAt: row.reviewed_at,
-    } }
+    return { ok: true, booking: data as VenueBookingReview }
   } catch { return unavailable }
 }
 

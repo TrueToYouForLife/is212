@@ -12,7 +12,8 @@ export default defineConfig({
       // Business rules and persistence are what we are graded on; config and entrypoints
       // carry no logic worth covering and would only dilute the percentage.
       include: ['src/features/**/*.ts', 'src/features/**/*.tsx'],
-      reporter: ['text', 'lcov'],
+      reporter: ['text', 'lcov', 'html', 'json-summary'],
+      reportOnFailure: true,
     },
   },
 })

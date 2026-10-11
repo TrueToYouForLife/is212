@@ -31,12 +31,20 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Test
-        run: npm run test
+      - name: Test with coverage
+        run: npm run coverage
         env:
           TZ: 'Asia/Singapore'
           VITE_SUPABASE_URL: https://example.supabase.co
           VITE_SUPABASE_ANON_KEY: ci-placeholder-anon-key
+
+      - name: Save frontend coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-coverage
+          path: frontend/coverage/
+          if-no-files-found: error
 
       # The build needs the VITE_ variables to exist, not to be real: src/lib/supabase.ts
       # throws at import time when they are missing.
