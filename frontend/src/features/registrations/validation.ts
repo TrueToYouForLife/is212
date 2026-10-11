@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import type { RegistrationAnswers, WithdrawableRegistration } from './types'
+import type { MyRegistration, RegistrationAnswers, WithdrawableRegistration } from './types'
 
 /**
  * PURE MODULE — no React, no Supabase, no I/O.
@@ -96,4 +96,14 @@ export function canWithdraw(registration: WithdrawableRegistration, now: Date): 
     registration.eventStatus === 'confirmed' &&
     new Date(registration.start).getTime() > now.getTime()
   )
+}
+
+/**
+ * US15 AC-015.7: whether a registration's event name can link to its details page. That page
+ * (get_open_event) only answers for an event that is Confirmed and has not started, so linking
+ * any other event would lead to "This event is not open for registration". Registration being
+ * switched off later (US52) can still make a link a dead end; the page then says so.
+ */
+export function hasEventDetailsPage(registration: Pick<MyRegistration, 'eventStatus' | 'start'>, now: Date): boolean {
+  return registration.eventStatus === 'confirmed' && new Date(registration.start).getTime() > now.getTime()
 }
