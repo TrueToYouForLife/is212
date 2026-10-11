@@ -1,0 +1,16 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/venues/__tests__/venueBookingApprovalService.test.ts src/features/venues/__tests__/VenueBookingApprovalAction.test.tsx src/features/venues/__tests__/VenueBookingReviewPage.test.tsx
+
+
+ RUN  v2.1.9 C:/dev/spm/is212/frontend
+
+ ✓ src/features/venues/__tests__/venueBookingApprovalService.test.ts (5 tests) 6ms
+ ✓ src/features/venues/__tests__/VenueBookingApprovalAction.test.tsx (8 tests) 325ms
+ ✓ src/features/venues/__tests__/VenueBookingReviewPage.test.tsx (6 tests) 943ms
+   ✓ AC-010.12.16: reload after a refused decision reads the final status and removes the form 447ms
+
+ Test Files  3 passed (3)
+      Tests  19 passed (19)
+   Start at  02:36:13
+   Duration  3.91s (transform 326ms, setup 617ms, collect 1.17s, tests 1.27s, environment 2.79s, prepare 480ms)
