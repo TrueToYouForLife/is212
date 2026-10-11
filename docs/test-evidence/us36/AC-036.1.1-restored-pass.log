@@ -1,0 +1,22 @@
+US36 code-first test evidence
+Owner: Jaydon
+Captured: 2026-10-11T08:19:27.692855+08:00
+Original implementation restored; test unchanged. Expected outcome: pass.
+Command: npm run test -- src/features/events/__tests__/CoordinatorActiveEvents.test.tsx -t AC-036.1.1: --maxWorkers=1 --minWorkers=1 --reporter=verbose
+
+
+> connectsphere@0.1.0 test
+> vitest run src/features/events/__tests__/CoordinatorActiveEvents.test.tsx -t AC-036.1.1: --maxWorkers=1 --minWorkers=1 --reporter=verbose
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+ ✓ src/features/events/__tests__/CoordinatorActiveEvents.test.tsx > AC-036.1.1: overview shows all active events once with coordinator status and Singapore dates, excluding inactive events
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 3 skipped (4)
+   Start at  08:19:28
+   Duration  1.06s (transform 134ms, setup 75ms, collect 279ms, tests 140ms, environment 311ms, prepare 45ms)
+
+
+Process exit code: 0

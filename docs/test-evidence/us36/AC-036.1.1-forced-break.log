@@ -1,0 +1,447 @@
+US36 code-first test evidence
+Owner: Jaydon
+Captured: 2026-10-11T08:19:25.166091+08:00
+Temporary mutation: require a coordinatorId in the active-event list, hiding unassigned planning events. Test unchanged.
+Command: npm run test -- src/features/events/__tests__/CoordinatorActiveEvents.test.tsx -t AC-036.1.1: --maxWorkers=1 --minWorkers=1 --reporter=verbose
+
+
+> connectsphere@0.1.0 test
+> vitest run src/features/events/__tests__/CoordinatorActiveEvents.test.tsx -t AC-036.1.1: --maxWorkers=1 --minWorkers=1 --reporter=verbose
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+ × src/features/events/__tests__/CoordinatorActiveEvents.test.tsx > AC-036.1.1: overview shows all active events once with coordinator status and Singapore dates, excluding inactive events
+   → Unable to find an element with the text: Unassigned planning. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<section[39m
+  [33maria-labelledby[39m=[32m"active-events-heading"[39m
+[36m>[39m
+  [36m<h2[39m
+    [33mclass[39m=[32m"mb-4 text-lg font-semibold text-slate-900"[39m
+    [33mid[39m=[32m"active-events-heading"[39m
+  [36m>[39m
+    [0mActive events[0m
+  [36m</h2>[39m
+  [36m<p[39m
+    [33mclass[39m=[32m"mb-4 text-sm text-slate-600"[39m
+  [36m>[39m
+    [0mSubmitted requests awaiting assignment appear above. All other active events appear here.[0m
+  [36m</p>[39m
+  [36m<ul[39m
+    [33mclass[39m=[32m"space-y-4"[39m
+  [36m>[39m
+    [36m<li[39m
+      [33mclass[39m=[32m"rounded-xl border border-slate-200 bg-white p-5 shadow-sm"[39m
+    [36m>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"font-mono text-xs text-slate-500"[39m
+      [36m>[39m
+        [0mEVT-036[0m
+      [36m</p>[39m
+      [36m<h3[39m
+        [33mclass[39m=[32m"mt-1 font-semibold text-slate-900"[39m
+      [36m>[39m
+        [0mEvent submitted[0m
+      [36m</h3>[39m
+      [36m<span[39m
+        [33mclass[39m=[32m"inline-flex shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium bg-blue-50 text-blue-700"[39m
+      [36m>[39m
+        [0mSubmitted[0m
+      [36m</span>[39m
+      [36m<a[39m
+        [33maria-label[39m=[32m"Open event Event submitted"[39m
+        [33mclass[39m=[32m"ml-3 text-sm font-medium text-indigo-700 hover:underline"[39m
+        [33mdata-discover[39m=[32m"true"[39m
+        [33mhref[39m=[32m"/requests/submitted"[39m
+      [36m>[39m
+        [0mOpen event[0m
+      [36m</a>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-2 whitespace-pre-wrap text-sm text-slate-600"[39m
+      [36m>[39m
+        [0mFirst aid[0m
+      [36m</p>[39m
+      [36m<dl[39m
+        [33mclass[39m=[32m"mt-4 grid gap-4 text-sm sm:grid-cols-2 lg:grid-cols-4"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"text-slate-500"[39m
+          [36m>[39m
+            [0mEvent type[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0mWorkshop[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"text-slate-500"[39m
+          [36m>[39m
+            [0mStarts (Singapore time)[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0m3 Jan 2030, 09:00[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"text-slate-500"[39m
+          [36m>[39m
+            [0mEnds (Singapore time)[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0m3 Jan 2030, 11:00[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"text-slate-500"[39m
+          [36m>[39m
+            [0mExpected attendance[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0m40[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+      [36m</dl>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-4 text-sm font-medium text-slate-700"[39m
+      [36m>[39m
+        [0mCurrent coordinator: [0m
+        [0mAlice[0m
+      [36m</p>[39m
+      [36m<form[39m
+        [33mclass[39m=[32m"mt-5 border-t border-slate-100 pt-4"[39m
+      [36m>[39m
+        [36m<label[39m
+          [33mclass[39m=[32m"block text-sm font-medium text-slate-700"[39m
+          [33mfor[39m=[32m":r1:"[39m
+        [36m>[39m
+          [0mCoordinator for [0m
+          [0mEvent submitted[0m
+        [36m</label>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"mt-2 flex flex-wrap gap-3"[39m
+        [36m>[39m
+          [36m<select[39m
+            [33mclass[39m=[32m"min-w-0 rounded-md border border-slate-300 bg-white p-2 text-sm disabled:opacity-60"[39m
+            [33mid[39m=[32m":r1:"[39m
+          [36m>[39m
+            [36m<option[39m
+              [33mvalue[39m=[32m""[39m
+            [36m>[39m
+              [0mChoose a coordinator[0m
+            [36m</option>[39m
+            [36m<option[39m
+              [33mvalue[39m=[32m"alice"[39m
+            [36m>[39m
+              [0mAlice[0m
+              [0m — [0m
+              [0m1[0m
+              [0m active [0m
+              [0mevent[0m
+            [36m</option>[39m
+            [36m<option[39m
+              [33mvalue[39m=[32m"bob"[39m
+            [36m>[39m
+              [0mBob[0m
+              [0m — [0m
+              [0m0[0m
+              [0m active [0m
+              [0mevents[0m
+            [36m</option>[39m
+          [36m</select>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"[39m
+            [33mdisabled[39m=[32m""[39m
+            [33mtype[39m=[32m"submit"[39m
+          [36m>[39m
+            [0mReassign coordinator[0m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</form>[39m
+    [36m</li>[39m
+    [36m<li[39m
+      [33mclass[39m=[32m"rounded-xl border border-slate-200 bg-white p-5 shadow-sm"[39m
+    [36m>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"font-mono text-xs text-slate-500"[39m
+      [36m>[39m
+        [0mEVT-036[0m
+      [36m</p>[39m
+      [36m<h3[39m
+        [33mclass[39m=[32m"mt-1 font-semibold text-slate-900"[39m
+      [36m>[39m
+        [0mEvent under_review[0m
+      [36m</h3>[39m
+      [36m<span[39m
+        [33mclass[39m=[32m"inline-flex shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium bg-amber-50 text-amber-800"[39m
+      [36m>[39m
+        [0mUnder review[0m
+      [36m</span>[39m
+      [36m<a[39m
+        [33maria-label[39m=[32m"Open event Event under_review"[39m
+        [33mclass[39m=[32m"ml-3 text-sm font-medium text-indigo-700 hover:underline"[39m
+        [33mdata-discover[39m=[32m"true"[39m
+        [33mhref[39m=[32m"/requests/under_review"[39m
+      [36m>[39m
+        [0mOpen event[0m
+      [36m</a>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-2 whitespace-pre-wrap text-sm text-slate-600"[39m
+      [36m>[39m
+        [0mFirst aid[0m
+      [36m</p>[39m
+      [36m<dl[39m
+        [33mclass[39m=[32m"mt-4 grid gap-4 text-sm sm:grid-cols-2 lg:grid-cols-4"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"text-slate-500"[39m
+          [36m>[39m
+            [0mEvent type[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0mWorkshop[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"text-slate-500"[39m
+          [36m>[39m
+            [0mStarts (Singapore time)[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0m3 J...
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/events/__tests__/CoordinatorActiveEvents.test.tsx > AC-036.1.1: overview shows all active events once with coordinator status and Singapore dates, excluding inactive events
+TestingLibraryElementError: Unable to find an element with the text: Unassigned planning. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<section[39m
+  [33maria-labelledby[39m=[32m"active-events-heading"[39m
+[36m>[39m
+  [36m<h2[39m
+    [33mclass[39m=[32m"mb-4 text-lg font-semibold text-slate-900"[39m
+    [33mid[39m=[32m"active-events-heading"[39m
+  [36m>[39m
+    [0mActive events[0m
+  [36m</h2>[39m
+  [36m<p[39m
+    [33mclass[39m=[32m"mb-4 text-sm text-slate-600"[39m
+  [36m>[39m
+    [0mSubmitted requests awaiting assignment appear above. All other active events appear here.[0m
+  [36m</p>[39m
+  [36m<ul[39m
+    [33mclass[39m=[32m"space-y-4"[39m
+  [36m>[39m
+    [36m<li[39m
+      [33mclass[39m=[32m"rounded-xl border border-slate-200 bg-white p-5 shadow-sm"[39m
+    [36m>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"font-mono text-xs text-slate-500"[39m
+      [36m>[39m
+        [0mEVT-036[0m
+      [36m</p>[39m
+      [36m<h3[39m
+        [33mclass[39m=[32m"mt-1 font-semibold text-slate-900"[39m
+      [36m>[39m
+        [0mEvent submitted[0m
+      [36m</h3>[39m
+      [36m<span[39m
+        [33mclass[39m=[32m"inline-flex shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium bg-blue-50 text-blue-700"[39m
+      [36m>[39m
+        [0mSubmitted[0m
+      [36m</span>[39m
+      [36m<a[39m
+        [33maria-label[39m=[32m"Open event Event submitted"[39m
+        [33mclass[39m=[32m"ml-3 text-sm font-medium text-indigo-700 hover:underline"[39m
+        [33mdata-discover[39m=[32m"true"[39m
+        [33mhref[39m=[32m"/requests/submitted"[39m
+      [36m>[39m
+        [0mOpen event[0m
+      [36m</a>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-2 whitespace-pre-wrap text-sm text-slate-600"[39m
+      [36m>[39m
+        [0mFirst aid[0m
+      [36m</p>[39m
+      [36m<dl[39m
+        [33mclass[39m=[32m"mt-4 grid gap-4 text-sm sm:grid-cols-2 lg:grid-cols-4"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"text-slate-500"[39m
+          [36m>[39m
+            [0mEvent type[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0mWorkshop[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"text-slate-500"[39m
+          [36m>[39m
+            [0mStarts (Singapore time)[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0m3 Jan 2030, 09:00[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"text-slate-500"[39m
+          [36m>[39m
+            [0mEnds (Singapore time)[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0m3 Jan 2030, 11:00[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"text-slate-500"[39m
+          [36m>[39m
+            [0mExpected attendance[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0m40[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+      [36m</dl>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-4 text-sm font-medium text-slate-700"[39m
+      [36m>[39m
+        [0mCurrent coordinator: [0m
+        [0mAlice[0m
+      [36m</p>[39m
+      [36m<form[39m
+        [33mclass[39m=[32m"mt-5 border-t border-slate-100 pt-4"[39m
+      [36m>[39m
+        [36m<label[39m
+          [33mclass[39m=[32m"block text-sm font-medium text-slate-700"[39m
+          [33mfor[39m=[32m":r1:"[39m
+        [36m>[39m
+          [0mCoordinator for [0m
+          [0mEvent submitted[0m
+        [36m</label>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"mt-2 flex flex-wrap gap-3"[39m
+        [36m>[39m
+          [36m<select[39m
+            [33mclass[39m=[32m"min-w-0 rounded-md border border-slate-300 bg-white p-2 text-sm disabled:opacity-60"[39m
+            [33mid[39m=[32m":r1:"[39m
+          [36m>[39m
+            [36m<option[39m
+              [33mvalue[39m=[32m""[39m
+            [36m>[39m
+              [0mChoose a coordinator[0m
+            [36m</option>[39m
+            [36m<option[39m
+              [33mvalue[39m=[32m"alice"[39m
+            [36m>[39m
+              [0mAlice[0m
+              [0m — [0m
+              [0m1[0m
+              [0m active [0m
+              [0mevent[0m
+            [36m</option>[39m
+            [36m<option[39m
+              [33mvalue[39m=[32m"bob"[39m
+            [36m>[39m
+              [0mBob[0m
+              [0m — [0m
+              [0m0[0m
+              [0m active [0m
+              [0mevents[0m
+            [36m</option>[39m
+          [36m</select>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"[39m
+            [33mdisabled[39m=[32m""[39m
+            [33mtype[39m=[32m"submit"[39m
+          [36m>[39m
+            [0mReassign coordinator[0m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</form>[39m
+    [36m</li>[39m
+    [36m<li[39m
+      [33mclass[39m=[32m"rounded-xl border border-slate-200 bg-white p-5 shadow-sm"[39m
+    [36m>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"font-mono text-xs text-slate-500"[39m
+      [36m>[39m
+        [0mEVT-036[0m
+      [36m</p>[39m
+      [36m<h3[39m
+        [33mclass[39m=[32m"mt-1 font-semibold text-slate-900"[39m
+      [36m>[39m
+        [0mEvent under_review[0m
+      [36m</h3>[39m
+      [36m<span[39m
+        [33mclass[39m=[32m"inline-flex shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium bg-amber-50 text-amber-800"[39m
+      [36m>[39m
+        [0mUnder review[0m
+      [36m</span>[39m
+      [36m<a[39m
+        [33maria-label[39m=[32m"Open event Event under_review"[39m
+        [33mclass[39m=[32m"ml-3 text-sm font-medium text-indigo-700 hover:underline"[39m
+        [33mdata-discover[39m=[32m"true"[39m
+        [33mhref[39m=[32m"/requests/under_review"[39m
+      [36m>[39m
+        [0mOpen event[0m
+      [36m</a>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-2 whitespace-pre-wrap text-sm text-slate-600"[39m
+      [36m>[39m
+        [0mFirst aid[0m
+      [36m</p>[39m
+      [36m<dl[39m
+        [33mclass[39m=[32m"mt-4 grid gap-4 text-sm sm:grid-cols-2 lg:grid-cols-4"[39m
+      [36m>[39m
+        [36m<div>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"text-slate-500"[39m
+          [36m>[39m
+            [0mEvent type[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0mWorkshop[0m
+          [36m</dd>[39m
+        [36m</div>[39m
+        [36m<div>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"text-slate-500"[39m
+          [36m>[39m
+            [0mStarts (Singapore time)[0m
+          [36m</dt>[39m
+          [36m<dd>[39m
+            [0m3 J...
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/features/events/__tests__/CoordinatorActiveEvents.test.tsx:55:25
+     53|   expect(within(planning).getByText('Current coordinator: Alice')).toB…
+     54|   expect(within(planning).getByText(/3 Jan 2030, 09:00/)).toBeInTheDoc…
+     55|   expect(within(events).getByText('Unassigned planning')).toBeInTheDoc…
+       |                         ^
+     56|   expect(within(events).getByText('Current coordinator: Unassigned')).…
+     57|   expect(screen.getAllByText('Waiting request')).toHaveLength(1)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 skipped (4)
+   Start at  08:19:26
+   Duration  1.55s (transform 105ms, setup 81ms, collect 300ms, tests 126ms, environment 485ms, prepare 53ms)
+
+
+Process exit code: 1
