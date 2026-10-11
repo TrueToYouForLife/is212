@@ -68,7 +68,7 @@ export function VenueAvailabilityGrid({
 }) {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full min-w-[48rem] border-separate border-spacing-x-1 border-spacing-y-0.5 text-xs">
+      <table className="w-full min-w-[48rem] table-fixed border-separate border-spacing-x-1 border-spacing-y-0.5 text-xs">
         <caption className="sr-only">Availability of every venue by date and slot</caption>
         <thead>
           <tr>
