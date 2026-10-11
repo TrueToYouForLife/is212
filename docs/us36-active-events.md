@@ -5,8 +5,8 @@ Owner: Jaydon
 ## First increment: active-event overview
 
 The Coordinator Lead's existing Requests page now shows status, current coordinator
-or Unassigned, and Singapore dates for active events. Submitted unassigned requests
-remain in the US17 queue; every other active event appears under Active events.
+or Unassigned, and Singapore dates in one Active events list, including submitted
+unassigned requests. Unassigned + Submitted filters reproduce the US17 queue.
 Each event appears once. Active statuses match the existing workload function:
 submitted, under_review, approved, planning and confirmed. Drafts and closed events
 are excluded. Withdrawn is not a current EventStatus value; unknown statuses are
@@ -31,6 +31,10 @@ File: frontend/src/features/events/__tests__/CoordinatorActiveEvents.test.tsx
   assigned names, unassigned planning and submitted events, status and Singapore
   date display, exclusion of draft/closed/withdrawn records, no duplicate events,
   and empty list after refresh.
+- AC-036.2.1 — Functional/component, happy/negative/boundary: coordinator-only,
+  status-only and combined filters; Unassigned across active statuses; no
+  matches; reset; unchanged workload totals; no additional reads for filtering;
+  refreshed data respects the current selection.
 - AC-036.3.1 — Functional/component, happy/negative/boundary: count read failure,
   retry, positive and zero coordinator workloads. Counts are mocked here; their
   database computation remains covered by existing US17 SQL tests.
@@ -41,8 +45,10 @@ File: frontend/src/features/events/__tests__/CoordinatorActiveEvents.test.tsx
   all six other staff/user roles do not render it or call the workload service.
 
 Code-first: implementation preceded the new tests. These are not TDD red/green
-cycles. Existing AC-017.3.2 only changes its expected section heading from Assigned
+cycles. Existing AC-017.3.2 changes its expected section heading from Assigned
 events to Active events; its reassignment and error assertions are preserved.
+The combined-list refinement also updates AC-017.1.10 to use queue filters and
+AC-017.2.9 to check the saved assignee.
 
 ## Verification status
 
@@ -79,6 +85,42 @@ Results below are Jaydon's reported manual verification, not automated browser r
 
 ## Remaining story work
 
-AC-036.2: coordinator/status filters, combined filtering, reset and no-match state.
-Complete filters and their verification, PR CI and evidence-sheet
-entries before declaring US36 Done. Git commits, pushes and PRs remain with Jaydon.
+The overview PR is merged; Jaydon confirmed its CI passed.
+Complete filter manual verification, filter PR CI/merge and evidence-sheet entries
+before declaring US36 Done. Git commits, pushes and PRs remain with Jaydon.
+
+## Second increment: assignment filters
+
+Branch: us36-assignment-filters. AC: AC-036.2. Owner: Jaydon.
+
+Coordinator (including Unassigned) and status dropdowns filter events
+with AND semantics in one Active events list. Reset restores all active events. Workload totals always reflect
+all active assignments, not the filtered subset. Only active statuses are offered;
+filters cannot expose drafts or closed events. Filtering uses the loaded data with
+no new service calls, migration or permissions. Selections persist through refresh
+and reassignment, so events that no longer match disappear from the filtered list.
+There is no separate Unassigned requests section. An empty filtered list shows
+one no-match message; an empty unfiltered list shows No active events.
+
+
+Code-first: implemented the filters, then added one grouped AC-036.2.1 case.
+The existing four US36 cases and four US17 cases passed in the focused run (9 total).
+Full suite: 91 files passed, 871 tests passed and one TODO. Lint and build passed
+locally on 11 October 2026 (existing bundle-size warning remains). Existing story-level
+forced-break evidence remains applicable; no new forced-break cycle was added.
+
+### Filter manual checks — pending
+
+Jaydon confirmed the initial filters worked, then requested one combined list to
+remove ambiguity between unassigned requests and unassigned events. AC-036.2.1
+checks the combined list and Reset. AC-017.1.10 now uses Unassigned + Submitted
+filters; AC-017.2.9 checks the saved assignee rather than removal from a separate
+queue. No new test cases were added for this refinement. Manual retest pending.
+
+1. As Lead, confirm one Active events heading and no Unassigned requests heading.
+2. Select Unassigned + Submitted to find requests needing first assignment; select
+   all active statuses to include unassigned events at later stages too.
+3. Combine coordinator/status filters, check no matches and Reset. Workload totals
+   must remain unchanged while filtering.
+4. Reassign under the old coordinator filter; the event disappears after refresh
+   and appears under the new coordinator filter.

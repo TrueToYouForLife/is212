@@ -2,8 +2,8 @@
 
 ## US36 active-event overview (local, automated checks verified)
 - Reuses CoordinatorAssignmentQueue/Card and 0041 workload RPC; no migration.
-- Submitted unassigned events stay in the existing queue; other active events
-  (including unassigned planning events) appear once under Active events.
+- All active events, including submitted unassigned events, appear once in one
+  Active events list. Unassigned + Submitted filters reproduce the US17 queue.
 - Cards show status and a detail link; workload summary includes zero counts and
   disappears on read error. Existing reassignment refreshes both data sources.
 - Four code-first UI cases: AC-036.1.1, .3.1, .4.1, .5.1. Existing AC-017.3.2's
@@ -12,7 +12,15 @@
   missing unassigned planning event; exact implementation restored and test passed.
   Logs: docs/test-evidence/us36/. No broken code retained and no test changes.
 - Jaydon confirmed all four overview/link/reassignment/role UI checks passed on
-  11 October. Filters, evidence-sheet updates and PR CI remain pending. Details and test
+  11 October; overview PR merged with green CI. Filters now combine coordinator
+  (including Unassigned) and active status across the combined list; Reset restores all.
+  Workload counts stay independent; selections persist on data refresh. The
+  combined-list refinement removes the separate Unassigned requests heading.
+  US17 .1.10/.2.9 assertions follow the filtered queue and saved assignee. Manual
+  retest pending; no extra test cases for this refinement.
+  One new code-first case AC-036.2.1; full local tests/lint/build passed before the
+  refinement; nine focused tests, lint and build passed after it. Filter manual
+  checks, evidence-sheet updates and filter PR CI/merge remain pending. Details and test
   scope are in docs/us36-active-events.md. User handles Git commits/pushes/PRs.
 
 - US17 coordinator Requests view groups readable requests by coordinatorId:
