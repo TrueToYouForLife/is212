@@ -1,6 +1,27 @@
 # US10 Slice 3: venue approval
 
-## Completed locally
+## Latest integration / publication checkpoint
+
+The user requested publishing Slice 3 toward main. Slice 2 PR #71 is now merged.
+Main `4a51574` was integrated in `8835e05`; both evidence ignore rules and all
+US10/US17 test-runner entries were retained. The branch diff against that main
+contains Slice 3 only. Shared Supabase has not been changed.
+
+Post-integration validation: **98 frontend files passed, 927 tests passed,
+1 existing TODO**; build (including typecheck) and the full database suite all
+exited 0. Saved outputs are `pre-push-frontend.log`, `pre-push-build.log` and
+`pre-push-database.log` in the evidence folder. Earlier coverage reports below
+remain labelled historical; this latest run used `npm.cmd test` without coverage.
+GitHub CI and the PR merge still need to be recorded after branch publication.
+
+```powershell
+# Latest frontend results after merging current main.
+Select-String -Path .\docs\us10-slice3-evidence\pre-push-frontend.log -Pattern 'Test Files','Tests  '
+# Latest database concurrency results (expected refusals are passing negative tests).
+Select-String -Path .\docs\us10-slice3-evidence\pre-push-database.log -Pattern 'PASS: AC-010.6.17:', 'PASS: AC-010.12.24:', 'PASS: AC-010.7.4:'
+```
+
+## Historical local completion checkpoint
 
 Branch: `us10/slice3-venue-approval`. Migration **0045** was reserved by the user
 before creation. Nothing from Slice 3 has been pushed or deployed to shared Supabase.
