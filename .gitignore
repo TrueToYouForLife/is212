@@ -9,6 +9,8 @@ coverage
 
 .DS_Store
 *.log
+# Deliberate test evidence is retained with the project documentation.
+!docs/test-evidence/**/*.log
 .vscode/*
 !.vscode/extensions.json
 

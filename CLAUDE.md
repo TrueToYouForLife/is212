@@ -1,5 +1,20 @@
 # ConnectSphere Event Planning System — Project Context
 
+## US36 active-event overview (local, automated checks verified)
+- Reuses CoordinatorAssignmentQueue/Card and 0041 workload RPC; no migration.
+- Submitted unassigned events stay in the existing queue; other active events
+  (including unassigned planning events) appear once under Active events.
+- Cards show status and a detail link; workload summary includes zero counts and
+  disappears on read error. Existing reassignment refreshes both data sources.
+- Four code-first UI cases: AC-036.1.1, .3.1, .4.1, .5.1. Existing AC-017.3.2's
+  heading expectation changes only. After npm ci, Jaydon's 11 October output shows
+  870 passed/one TODO, lint and build passed. AC-036.1.1 forced-break failed for the
+  missing unassigned planning event; exact implementation restored and test passed.
+  Logs: docs/test-evidence/us36/. No broken code retained and no test changes.
+- Jaydon confirmed all four overview/link/reassignment/role UI checks passed on
+  11 October. Filters, evidence-sheet updates and PR CI remain pending. Details and test
+  scope are in docs/us36-active-events.md. User handles Git commits/pushes/PRs.
+
 - US17 coordinator Requests view groups readable requests by coordinatorId:
   Assigned to me first, then Other event requests, preserving service order.
   RequestListItem's optional assignedToYou label is presentation only. No RLS or

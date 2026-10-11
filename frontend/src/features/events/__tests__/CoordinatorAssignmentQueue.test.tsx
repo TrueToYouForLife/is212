@@ -140,7 +140,7 @@ test('AC-017.3.2: Lead reassigns an active event with retry feedback and no cont
   })
 
   render(<MemoryRouter><ReviewRequestsPage /></MemoryRouter>)
-  const assigned = await screen.findByRole('region', { name: /^assigned events$/i })
+  const assigned = await screen.findByRole('region', { name: /^active events$/i })
   expect(await within(assigned).findByText(/current coordinator: Alice/i)).toBeInTheDocument()
   const dropdown = within(assigned).getByRole('combobox', { name: /coordinator for assigned workshop/i })
   const reassign = within(assigned).getByRole('button', { name: /^reassign coordinator$/i })

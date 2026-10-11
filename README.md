@@ -3,6 +3,21 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
+## US36 active-event overview (in progress)
+
+The Coordinator Lead's Requests view now shows event status, Singapore dates,
+current coordinator and workload totals, with links to event details. Submitted
+unassigned requests stay in the US17 queue; other active events include unassigned
+planning events. Existing assignment controls and database permissions are reused.
+No new migration is required. Coordinator/status filters remain pending.
+
+Four code-first test cases cover AC-036.1.1, .3.1, .4.1 and .5.1. On 11 October,
+Jaydon's local full suite passed (870 tests, one TODO); lint and build passed too.
+AC-036.1.1 forced-break and restored-pass logs are saved in
+`docs/test-evidence/us36/`. Jaydon confirmed the overview, links, reassignment and
+role-specific UI checks passed on 11 October. Filters and PR CI remain pending.
+See [US36 implementation and test record](docs/us36-active-events.md).
+
 Implemented so far: **US-005 — submit an event request**.
 
 In progress: **Save Draft Event Request**. Draft validation and the save/update
