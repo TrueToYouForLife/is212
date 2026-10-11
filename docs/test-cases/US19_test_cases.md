@@ -3,7 +3,7 @@
 Status: **implemented; automated cases pass, manual cases not yet run.** Built code-first
 (team decision, Week 7): each acceptance criterion was coded and its tests written straight
 after, committed together. The forced break for this story is AC-019.2.1 (log in the evidence
-folder). On the final run the full app suite is 918 tests; this story adds 52 of them, plus 3
+folder). On the final run the full app suite is 965 tests; this story adds 52 of them, plus 3
 manual cases that need the shared Supabase project.
 
 Implementation is frontend only, in `frontend/src/features/venues/`: `venueAvailability.ts`,
@@ -126,4 +126,4 @@ All new and changed files are at 100% statements, branches, functions and lines:
 
 In `venueAvailability.ts`, every venue was given every venue's claims
 (`claimsByVenue.get(venue.id) ?? []` replaced with `claims`). AC-019.2.1 and AC-019.2.6 failed;
-the code was then restored. Log: `AC-019.2.1.log`.
+the code was then restored. Logs: `docs/test-evidence/us19/AC-019.2.1-forced-break.log` and `AC-019.2.1-restored-pass.log`.
