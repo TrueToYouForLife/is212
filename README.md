@@ -7,15 +7,19 @@ Level Security).
 
 The Coordinator Lead's Requests view now shows event status, Singapore dates,
 current coordinator and workload totals, with links to event details. Submitted
-unassigned requests stay in the US17 queue; other active events include unassigned
-planning events. Existing assignment controls and database permissions are reused.
-No new migration is required. Coordinator/status filters remain pending.
+unassigned requests and other active events now share one Active events list. Existing assignment controls and database permissions are reused.
+No new migration is required. Coordinator/status filters now apply together to
+the combined list, including an Unassigned option, Reset and no-match messages.
+Workload totals remain independent of filtering.
+Unassigned + Submitted filters reproduce the US17 queue. Zero matches show one message.
 
-Four code-first test cases cover AC-036.1.1, .3.1, .4.1 and .5.1. On 11 October,
+Five code-first test cases cover AC-036.1.1, .2.1, .3.1, .4.1 and .5.1. On 11 October,
 Jaydon's local full suite passed (870 tests, one TODO); lint and build passed too.
 AC-036.1.1 forced-break and restored-pass logs are saved in
 `docs/test-evidence/us36/`. Jaydon confirmed the overview, links, reassignment and
-role-specific UI checks passed on 11 October. Filters and PR CI remain pending.
+role-specific UI checks passed on 11 October. The overview PR is merged; filter
+manual verification and the filter PR's CI/merge remain pending. The filter
+increment's full local tests, lint and build passed too.
 See [US36 implementation and test record](docs/us36-active-events.md).
 
 Implemented so far: **US-005 — submit an event request**.
