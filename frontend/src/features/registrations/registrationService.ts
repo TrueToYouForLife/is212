@@ -19,12 +19,24 @@ export const REGISTRATION_SERVICE_MESSAGES = {
   notAttendee: 'Only attendees can register for events.',
   checkFields: 'Check the highlighted fields.',
   failed: 'Your registration could not be saved. Please try again.',
+  withdrawFailed: 'Your registration could not be withdrawn. Please try again.',
+  withdrawNotFound: 'We could not find that registration.',
+  alreadyWithdrawn: 'This registration has already been withdrawn.',
+  cannotWithdraw: 'This event has started or is no longer open, so the registration cannot be withdrawn.',
   loadFailed: 'Events could not be loaded. Please try again.',
 } as const
 
 export type RegisterResult =
   | { ok: true }
   | { ok: false; reason: string; issues?: RegistrationIssue[] }
+
+/**
+ * `stale` means the registration is no longer in the state the page assumed (already withdrawn,
+ * event started or closed, not found), so the page should reload rather than offer a retry.
+ */
+export type WithdrawResult =
+  | { ok: true }
+  | { ok: false; reason: string; stale: boolean }
 
 interface OpenEventRow {
   id: string
@@ -141,5 +153,24 @@ export async function loadMyRegistrations(): Promise<LoadResult<MyRegistration[]
       registrationStatus: row.registration_status,
       registrationStatusLabel: REGISTRATION_STATUS_LABELS[row.registration_status] ?? row.registration_status,
     })),
+  }
+}
+
+// Error codes raised by withdraw_registration (0050). 42501 reuses the registration wording.
+const WITHDRAW_ERRORS: Record<string, { reason: string; stale: boolean }> = {
+  'P0002': { reason: REGISTRATION_SERVICE_MESSAGES.withdrawNotFound, stale: true },
+  '55000': { reason: REGISTRATION_SERVICE_MESSAGES.alreadyWithdrawn, stale: true },
+  '22000': { reason: REGISTRATION_SERVICE_MESSAGES.cannotWithdraw, stale: true },
+  '42501': { reason: REGISTRATION_SERVICE_MESSAGES.notAttendee, stale: false },
+}
+
+export async function withdrawRegistration(registrationId: string): Promise<WithdrawResult> {
+  // Only the id: the Attendee is the signed-in user, so nobody else's registration can be named.
+  const { error } = await supabase.rpc('withdraw_registration', { p_registration_id: registrationId })
+  if (!error) return { ok: true }
+
+  return {
+    ok: false,
+    ...(WITHDRAW_ERRORS[error.code ?? ''] ?? { reason: REGISTRATION_SERVICE_MESSAGES.withdrawFailed, stale: false }),
   }
 }
