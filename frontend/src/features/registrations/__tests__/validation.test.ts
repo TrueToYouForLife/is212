@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { REGISTRATION_MESSAGES, validateRegistration } from '../validation'
+import { REGISTRATION_MESSAGES, canWithdraw, validateRegistration } from '../validation'
 import type { RegistrationInput, RegistrationIssue, RegistrationValidation } from '../validation'
 
 const noPrerequisites = { hasPrerequisites: false }
@@ -58,5 +58,25 @@ describe('AC-015.2: the Attendee inputs the information required to register', (
       .toBe(REGISTRATION_MESSAGES.prerequisitesRequired)
     expect(validateRegistration(unconfirmed, noPrerequisites).ok).toBe(true)
     expect(validateRegistration({ ...valid, prerequisitesConfirmed: true }, withPrerequisites).ok).toBe(true)
+  })
+})
+
+describe('AC-023.1: the Attendee can withdraw while the event has not started', () => {
+  const now = new Date('2035-03-10T00:00:00Z')
+  const active = { registrationStatus: 'registered', eventStatus: 'confirmed', start: '2035-03-10T01:00:00Z' } as const
+
+  test('AC-023.1.6: an active registration for a future Confirmed event can be withdrawn', () => {
+    expect(canWithdraw(active, now)).toBe(true)
+  })
+
+  test('AC-023.1.7: an event starting exactly now, or already started, cannot (boundary)', () => {
+    expect(canWithdraw({ ...active, start: now.toISOString() }, now)).toBe(false)
+    expect(canWithdraw({ ...active, start: '2035-03-09T23:59:00Z' }, now)).toBe(false)
+  })
+
+  test('AC-023.1.8: a withdrawn registration, or a cancelled or completed event, cannot', () => {
+    expect(canWithdraw({ ...active, registrationStatus: 'withdrawn' }, now)).toBe(false)
+    expect(canWithdraw({ ...active, eventStatus: 'cancelled' }, now)).toBe(false)
+    expect(canWithdraw({ ...active, eventStatus: 'completed' }, now)).toBe(false)
   })
 })

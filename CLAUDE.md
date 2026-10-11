@@ -1,5 +1,45 @@
 # ConnectSphere Event Planning System — Project Context
 
+## US36 active-event overview (completed, merged)
+- Reuses CoordinatorAssignmentQueue/Card and 0041 workload RPC; no migration.
+- All active events, including submitted unassigned events, appear once in one
+  Active events list. Unassigned + Submitted filters reproduce the US17 queue.
+- Cards show status and a detail link; workload summary includes zero counts and
+  disappears on read error. Existing reassignment refreshes both data sources.
+- Five code-first UI cases: AC-036.1.1, .2.1, .3.1, .4.1, .5.1. Final local run on
+  11 October 2026: 871 passed/one existing TODO across 91 files; lint/build passed.
+  The TODO is not a passing test. AC-036.1.1 forced-break failed for the
+  missing unassigned planning event; exact implementation restored and test passed.
+  Logs: docs/test-evidence/us36/. No broken code retained and no test changes.
+- Jaydon confirmed the overview/link/reassignment/role UI checks and final
+  combined-list/filter retest passed on 11 October. Both implementation PRs merged
+  with passing CI. Filters combine coordinator
+  (including Unassigned) and active status across the combined list; Reset restores all.
+  Workload counts stay independent; selections persist on data refresh. The
+  combined-list refinement removes the separate Unassigned requests heading.
+  US17 .1.10/.2.9 assertions follow the filtered queue and saved assignee; .3.2
+  expects the Active events heading. No extra cases for the combined-list refinement.
+- Shared sheet updated: five US36 overview cases and five manual records, all
+  ownership fields Jaydon. Heading confusion was found manually and is recorded
+  with its fix under Manual Testing; no genuine automated defect was added.
+  Automated runs are evidenced by GitHub Actions, not the spreadsheet run tab.
+  No TDD record for US36. See docs/us36-active-events.md. User handles Git/Jira.
+
+- US17 coordinator Requests view groups readable requests by coordinatorId:
+  Assigned to me first, then Other event requests, preserving service order.
+  RequestListItem's optional assignedToYou label is presentation only. No RLS or
+  query changes. AC-017.4.6 covers grouping, refreshed assignments and empty states.
+
+## US17 equipment handover follow-up (9 October 2026)
+- 0048 changes legacy equipment booking/line coordinator policies to use
+  is_assigned_event_coordinator; requested_by remains historical attribution.
+- Direct coordinator updates change decision status only. The SECURITY INVOKER
+  guard checks current_user so existing SECURITY DEFINER equipment requirement and
+  reservation functions retain their checked internal updates.
+- AC-017.4.4 is the unchanged handover TDD test; AC-017.4.5 is additional regression
+  coverage. Full SQL suite passed locally; CI and equipment-owner review are pending.
+- No shared database deployment yet. Keep separate from the 0047 venue-access PR.
+
 ## What this is
 University project (SMU IS212). Event planning and venue booking for an events company.
 Roles: Event Organiser, Event Coordinator, Venue Staff, Technical Support Staff, Attendee.
@@ -147,6 +187,35 @@ Draft saves in eventDraftService must never change an existing request's status.
 - Database checks: `backend/supabase/tests/review_decisions_test.sql`, disposable databases only.
 
 ## US17 slice 1 (current assignment rules)
+
+- Latest: slice 4 merged in PR #72; Jaydon confirmed CI green and 0046 deployed.
+  Treat 0046 as immutable. Follow-up venue handover is local-only pending Nicole's
+  agreement: US11 AC8 original-placer wording conflicts with US17 AC4/SCRUM-160.
+  Jaydon claimed 0047, now implemented locally but not deployed. AC-017.4.2 failed
+  because the old coordinator could submit a reassigned hold; unchanged test now
+  passes with the full SQL suite. Frontend: 864 passed, one TODO. Existing unassigned
+  booking behaviour from 0036 is preserved via requester fallback only when no
+  coordinator is assigned. Venue Staff/expired-hold cleanup remain unchanged.
+  Jaydon confirmed database green CI. Frontend AC-017.4.3 is now red: new assignee
+  received an empty booking list. Jaydon confirmed red CI, then service filters
+  changed: assigned-event inner join for listing, RLS for inherited submit/release.
+  Unchanged .4.3 now passes; full frontend 865 passed/one TODO and full SQL passed.
+  Four existing venue test expectations updated for the proposed rule; no new
+  tests in green. Next unused AC4 ID is .4. No extra regression cases. Nicole's
+  approval, green CI and live acceptance remain pending; 0047 is not deployed.
+
+- Slice 4 green checkpoint: 0046 (claimed by Jaydon, not deployed) adds recipient
+  assignment notifications and queues mail through the unchanged US4 sender. Trigger
+  runs from assignment-history insertion in the same transaction. Both channels default
+  on; admin-only per-type settings, recipient/current-event RLS, no browser writes.
+  AC-017.5.1 passes unchanged after its red/green cycle. AC-017.5.2–3 are additional
+  regression tests: reassignment/no-op/refused changes and recipient/current-assignment
+  RLS/write restrictions. Both passed immediately, not TDD cycles. AC-017.5.4–5 cover
+  channel settings and 0046 replay; full SQL suite passed after correcting test syntax,
+  with no feature changes. These are regression coverage too. Live delivery remains
+  unverified. Do not claim a shared inbox. Next AC5 test ID: .6.
+  Continue TDD for US17 at Jaydon's explicit request and flag any additional regression tests.
+
 - `0038_coordinator_lead_assignment.sql` accepts coordinator_lead and grants SELECT on
   non-draft events. The existing assignment RPC and guard now require that role.
 - Do not convert existing Manager accounts automatically or grant Leads unrelated

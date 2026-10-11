@@ -192,6 +192,8 @@ SQL
   cat "$repo_root/supabase/tests/coordinator_assignment.sql"
   # US15 after US14: AC-015.5.4 reuses equipment_reservations.sql's pg_temp.us14_race.
   cat "$repo_root/supabase/tests/event_registrations.sql"
+  # US23 straight after US15: AC-023.5.7 reuses the same pg_temp.us14_race helper.
+  cat "$repo_root/supabase/tests/withdraw_registration.sql"
   # US29 near the end: it commits its accounts so that replaying 0042 can be compared with them.
   cat "$repo_root/supabase/tests/attendee_signup.sql"
   cat "$repo_root/supabase/migrations/0042_attendee_self_signup.sql"
@@ -201,8 +203,16 @@ select pg_temp.assert_true(
     union all (select * from profiles_before_us29_replay except select * from public.profiles)),
   'AC-029.3.13: replaying 0042 changes no existing profile');
 SQL
-  # Keep the current RED checkpoint last so earlier regression suites still run.
   cat "$repo_root/supabase/tests/venue_booking_review.sql"
   cat "$repo_root/supabase/tests/venue_booking_review_details.sql"
   cat "$repo_root/supabase/tests/venue_booking_conflicts.sql"
+  # US17 notifications, then replay 0046 against populated records/settings.
+  cat "$repo_root/supabase/tests/coordinator_assignment_notifications.sql"
+  cat "$repo_root/supabase/migrations/0046_coordinator_assignment_notifications.sql"
+  cat "$repo_root/supabase/tests/coordinator_assignment_notifications_replay.sql"
+  # US17/US11 handover coverage (integration agreement pending before merge).
+  cat "$repo_root/supabase/tests/coordinator_assignment_venue_access.sql"
+  cat "$repo_root/supabase/tests/coordinator_assignment_equipment_access.sql"
+  # 0049: coordinators cannot hold venues for unassigned events (US17 AC1).
+  cat "$repo_root/supabase/tests/venue_booking_assignment.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1

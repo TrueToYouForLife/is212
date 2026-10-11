@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import type { RegistrationAnswers } from './types'
+import type { RegistrationAnswers, WithdrawableRegistration } from './types'
 
 /**
  * PURE MODULE — no React, no Supabase, no I/O.
@@ -83,4 +83,17 @@ export function validateRegistration(
     }
   }
   return { ok: false, issues }
+}
+
+/**
+ * US23 AC-023.1: whether to offer "Withdraw". The same rule as withdraw_registration (0050): an
+ * active registration, a Confirmed event, and a start still in the future. Half-open, so an event
+ * starting exactly now has started. This only decides what to show; the database decides.
+ */
+export function canWithdraw(registration: WithdrawableRegistration, now: Date): boolean {
+  return (
+    registration.registrationStatus === 'registered' &&
+    registration.eventStatus === 'confirmed' &&
+    new Date(registration.start).getTime() > now.getTime()
+  )
 }

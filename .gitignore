@@ -10,6 +10,8 @@ coverage
 .DS_Store
 *.log
 !docs/us10-slice2-evidence/*.log
+# Deliberate test evidence is retained with the project documentation.
+!docs/test-evidence/**/*.log
 .vscode/*
 !.vscode/extensions.json
 

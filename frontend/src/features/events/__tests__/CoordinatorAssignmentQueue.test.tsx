@@ -15,7 +15,8 @@ vi.mock('../../auth/sessionContext', () => ({
   }),
 }))
 
-test('AC-017.1.10: Lead queue shows basic details of submitted unassigned requests only', async () => {
+test('AC-017.1.10: Lead filters submitted unassigned requests and sees their basic details', async () => {
+  const user = userEvent.setup()
   const request = {
     id: '17100000-0000-0000-0000-000000000010', reference: 'EVT-017-010',
     organiserId: 'organiser', coordinatorId: null,
@@ -37,7 +38,9 @@ test('AC-017.1.10: Lead queue shows basic details of submitted unassigned reques
 
   // Wait for data, so a missing queue is a UI failure rather than a loading race.
   await screen.findByText('Community workshop')
-  const queue = screen.getByRole('region', { name: /unassigned requests/i })
+  await user.selectOptions(screen.getByRole('combobox', { name: 'Filter by coordinator' }), 'unassigned')
+  await user.selectOptions(screen.getByRole('combobox', { name: 'Filter by status' }), 'submitted')
+  const queue = screen.getByRole('region', { name: /active events/i })
   expect(within(queue).getByText('EVT-017-010')).toBeInTheDocument()
   expect(within(queue).getByText('Teach first aid')).toBeInTheDocument()
   expect(within(queue).getByText('40')).toBeInTheDocument()
@@ -99,8 +102,8 @@ test('AC-017.2.9: Lead selects a coordinator with workload shown and retries a f
   await user.click(assign)
   expect(await screen.findByRole('status')).toHaveTextContent(/coordinator assigned successfully/i)
   await waitFor(() => {
-    const queue = screen.getByRole('region', { name: /unassigned requests/i })
-    expect(within(queue).queryByText('Community workshop')).not.toBeInTheDocument()
+    expect(screen.getByText('Current coordinator: Bob')).toBeInTheDocument()
+    expect(screen.queryByText('Current coordinator: Unassigned')).not.toBeInTheDocument()
   })
   expect(saves).toBe(2)
 })
@@ -140,7 +143,7 @@ test('AC-017.3.2: Lead reassigns an active event with retry feedback and no cont
   })
 
   render(<MemoryRouter><ReviewRequestsPage /></MemoryRouter>)
-  const assigned = await screen.findByRole('region', { name: /^assigned events$/i })
+  const assigned = await screen.findByRole('region', { name: /^active events$/i })
   expect(await within(assigned).findByText(/current coordinator: Alice/i)).toBeInTheDocument()
   const dropdown = within(assigned).getByRole('combobox', { name: /coordinator for assigned workshop/i })
   const reassign = within(assigned).getByRole('button', { name: /^reassign coordinator$/i })

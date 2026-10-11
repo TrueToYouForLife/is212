@@ -322,7 +322,7 @@ describe('AC-009.4 / AC-010.7 — submit a hold for Venue Staff review', () => {
     const update = fake.queryThatCalled('venue_bookings', 'update')
     expect(update?.update).toHaveBeenCalledWith({ status: 'pending_approval' })
     expect(update?.eq.mock.calls).toEqual([
-      ['id', BOOKING_ID], ['requested_by', COORDINATOR_ID], ['status', 'held'],
+      ['id', BOOKING_ID], ['status', 'held'],
     ])
     expect(update?.gt).toHaveBeenCalledWith('hold_expires_at', NOW)
   })
@@ -357,11 +357,11 @@ describe('AC-010.8 — releasing a hold returns its slots immediately', () => {
     expect(freed?.eq).toHaveBeenCalledWith('booking_id', BOOKING_ID)
     expect(callOrder(update, 'update')).toBeLessThan(callOrder(freed, 'delete'))
   })
-  test('AC-010.8.5: only the coordinator who placed the hold may release it', async () => {
+  test('AC-010.8.5: release targets the booking without excluding an inherited hold', async () => {
     fake.plan('venue_bookings', { data: { id: BOOKING_ID } })
     await releaseHold(BOOKING_ID)
     expect(fake.queryThatCalled('venue_bookings', 'update')?.eq.mock.calls)
-      .toEqual([['id', BOOKING_ID], ['requested_by', COORDINATOR_ID]])
+      .toEqual([['id', BOOKING_ID]])
   })
   test('AC-010.8.6: a booking that is already confirmed, rejected or released cannot be released', async () => {
     fake.plan('venue_bookings', { data: null })
@@ -406,7 +406,8 @@ describe('AC-009.9 — view your requests and their status', () => {
   test('AC-009.9.2: only this coordinator’s bookings are requested, newest first', async () => {
     fake.plan('venue_bookings', { data: [] })
     await listMyVenueBookings()
-    expect(fake.callsTo('venue_bookings', 'eq')).toEqual([['requested_by', COORDINATOR_ID]])
+    expect(fake.callsTo('venue_bookings', 'eq')).toEqual([['events.coordinator_id', COORDINATOR_ID]])
+    expect(String(fake.callsTo('venue_bookings', 'select')[0][0])).toContain('events!inner(')
     expect(fake.callsTo('venue_bookings', 'order')).toEqual([['created_at', { ascending: false }]])
   })
   test('AC-009.9.3: a rejected request shows the Venue Staff note', async () => {
@@ -425,10 +426,10 @@ describe('AC-009.9 — view your requests and their status', () => {
     expect(await listMyVenueBookings()).toEqual({ ok: false, reason: messages.loadFailed })
     expect(console.error).toHaveBeenCalled()
   })
-  test('AC-009.9.5: a booking whose venue or event cannot be read still appears', async () => {
-    fake.plan('venue_bookings', { data: [{ ...ROW, venues: null, events: null, venue_slot_claims: null }] })
+  test('AC-009.9.5: an assigned booking whose venue cannot be read still appears', async () => {
+    fake.plan('venue_bookings', { data: [{ ...ROW, venues: null, venue_slot_claims: null }] })
     expect(await listMyVenueBookings()).toMatchObject({
-      ok: true, bookings: [{ venueName: '', eventReference: null, eventName: null, cells: [] }],
+      ok: true, bookings: [{ venueName: '', eventReference: 'EVT-1', eventName: 'Gala', cells: [] }],
     })
   })
   test('AC-009.9.6: a signed-out user sees nothing, and nothing is queried', async () => {

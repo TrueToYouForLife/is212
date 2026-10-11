@@ -3,6 +3,29 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
+## US36 active-event overview (completed)
+
+The Coordinator Lead's Requests view now shows event status, Singapore dates,
+current coordinator and workload totals, with links to event details. Submitted
+unassigned requests and other active events now share one Active events list.
+Existing assignment controls and database permissions are reused.
+No new migration is required. Coordinator/status filters now apply together to
+the combined list, including an Unassigned option, Reset and no-match messages.
+Workload totals remain independent of filtering.
+Unassigned + Submitted filters reproduce the US17 queue. Zero matches show one message.
+
+Five code-first test cases cover AC-036.1.1, .2.1, .3.1, .4.1 and .5.1. Final local
+verification on 11 October 2026 passed: 871 tests across 91 files, with one existing
+TODO (not a passing test); lint and build passed too.
+AC-036.1.1 forced-break and restored-pass logs are saved in
+`docs/test-evidence/us36/`. Jaydon confirmed the overview, links, reassignment,
+role-specific view and final combined-list/filter UI checks passed on 11 October.
+Both implementation PRs merged with passing CI. The shared sheet contains the five
+test cases and five manual records, including the manually discovered heading
+defect and its verified fix. Automated-run evidence is kept in GitHub Actions;
+the sheet's Automated Test Case Runs tab is intentionally not maintained for US36.
+See [US36 implementation and test record](docs/us36-active-events.md).
+
 Implemented so far: **US-005 — submit an event request**.
 
 In progress: **Save Draft Event Request**. Draft validation and the save/update
@@ -856,6 +879,12 @@ and `frontend/src/components/layout/__tests__/TopNav.test.tsx`):
 
 ## US17 - Coordinator assignment
 
+Coordinators see **Assigned to me** first on the Requests page, followed by **Other
+event requests**. Assigned cards show **Assigned to you**. Refresh/polling updates
+the groups after reassignment, preserving ordering within each group. This is a
+display change only; database permissions still control access. AC-017.4.6 covers
+the grouping and refresh behaviour.
+
 Migration `0038_coordinator_lead_assignment.sql` adds the `coordinator_lead` role,
 non-draft event read access, and Lead-only assignment through the existing function
 and guard. Drafts, null targets and non-coordinator targets are refused; a coordinator
@@ -886,10 +915,55 @@ Jaydon confirmed applying 0039 to shared Supabase on 6 October 2026. Treat it as
 and immutable; further database changes require a new claimed migration. Coordinators now
 need assignment before original-request review, including US4's existing update path.
 
-Tests: four frontend tests (profile, Lead queue, assignment and reassignment) and 19 SQL cases, with IDs, TDD cycles, additional
+Slice 4: `0046_coordinator_assignment_notifications.sql` records notifications for the
+new coordinator and organiser from each Lead assignment-history entry, and queues
+emails in the existing `notification_outbox`. Both channels default on in the
+administrator-only `coordinator_assignment_notification_settings` table. Settings apply
+to future notices; replaying the migration preserves configuration. Recipient-only
+reads also require current event access. No browser writes, sender changes, historical
+backfill or inbox UI are included. Accounts without email retain their in-app record.
+The unchanged AC-017.5.1 passes in the full disposable SQL suite. Additional regression
+cases AC-017.5.2–3 verify reassignment recipients, no-op/failed-write exclusion, recipient
+and current-assignment reads, and denied browser writes/outbox access. They passed on
+first execution and are not red/green cycles. AC-017.5.4–5 additionally verify channel
+combinations, preservation of earlier notices, and replay of 0046 with populated data
+and non-default settings. The full SQL suite passed after correcting syntax in the
+new test, without feature changes; these are also regression coverage. Actual live
+delivery remains unverified.
+Jaydon reported 0046 applied to shared Supabase. Record actual email/in-app delivery
+separately from these queue assertions.
+Jaydon previously reported slice 3's manual UI checks passed; repeat affected flows
+after this slice rather than treating the earlier pending-live wording as current.
+
+Tests: four frontend tests (profile, Lead queue, assignment and reassignment) and 24 SQL cases, with IDs, TDD cycles, additional
 coverage and deployment details in [US17 assignment](docs/us17-assignment.md).
 
+US17 equipment handover follow-up: migration `0048_equipment_booking_assignment_access.sql`
+makes legacy equipment booking/line permissions follow the current event coordinator,
+preserving original requesters and existing Technical Support workflows. It is pending
+equipment-owner review and deployment. AC-017.4.4 is the unchanged red/green handover
+test; AC-017.4.5 adds regression coverage for requester/reservation protection. Both
+run in the disposable database suite. This branch does not include the separate 0047
+venue-access PR.
+
 ## Shared Supabase state (5 October 2026)
+
+US17 update (9 October): slice 4 merged in PR #72, CI passed, and Jaydon confirmed
+0046 applied to shared Supabase. Earlier pending notes describe its development
+checkpoints. Live delivery remains unverified. A local-only US17 venue handover
+follow-up adds AC-017.4.2 for the old coordinator retaining booking rights. It now
+passes unchanged with local migration 0047; the full SQL suite and 864 frontend
+tests passed (one TODO). 0047 is not deployed. It transfers booking/slot write
+authority to the assigned coordinator, retaining the requester fallback for
+legacy unassigned events. Frontend booking filters were updated in the next
+TDD checkpoint described below. Coordinate US11/US17 wording with Nicole
+before merging that follow-up. See [US17 assignment](docs/us17-assignment.md).
+Frontend checkpoint AC-017.4.3 now passes unchanged after its red CI run. Booking
+lists use current event assignment; submit/release rely on 0047's write policies
+instead of original-requester filters. The full frontend suite has 865 passes
+and one existing TODO, and the full SQL suite passes. Four existing venue test
+expectations were updated for the proposed rule. Green CI and live acceptance
+remain pending; 0047 is not deployed and Nicole's approval is still required.
 
 All migrations `0001`–`0025`, plus the `0019a` repair, were replayed in order on shared
 Supabase on 5 October 2026, one transaction per file. No file failed. Before the replay,

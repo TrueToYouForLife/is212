@@ -46,6 +46,9 @@ export interface MyRegistration {
   registrationStatusLabel: string
 }
 
+/** US23: the Attendee's own withdrawal, as the rows the page shows (see canWithdraw). */
+export type WithdrawableRegistration = Pick<MyRegistration, 'registrationStatus' | 'eventStatus' | 'start'>
+
 /** What the Attendee enters to register (US15 D9). */
 export interface RegistrationAnswers {
   phone: string

@@ -343,11 +343,20 @@ select pg_temp.hold('b12a0000-0000-0000-0000-0000000000b9',
   '[{"date":"2040-03-11","slot":"AM","kind":"buffer"},{"date":"2040-03-11","slot":"PM","kind":"event"},
     {"date":"2040-03-11","slot":"NIGHT","kind":"buffer"}]');
 -- B8: Night event on 12 Mar for the unassigned event, requested by coordinator 4. Pending below.
-select pg_temp.as_user('00000000-0000-0000-0000-000000000004');
-select pg_temp.hold('b12a0000-0000-0000-0000-0000000000b8',
-  'b12a0000-0000-0000-0000-0000000000f3', 'b12a0000-0000-0000-0000-0000000000e8',
-  '[{"date":"2040-03-12","slot":"PM","kind":"buffer"},{"date":"2040-03-12","slot":"NIGHT","kind":"event"},
-    {"date":"2040-03-13","slot":"AM","kind":"buffer"}]');
+-- Placed by the test administrator, not through RLS: since 0049 no coordinator can hold a
+-- venue for an unassigned event. Such bookings can still exist (placed before 0049, or the
+-- event lost its coordinator later), and AC-012.8.3 checks how their flags are routed.
+reset role;
+select set_config('request.jwt.claim.sub', '', false);
+insert into public.venue_bookings (id, event_id, venue_id, requested_by, status, hold_expires_at)
+values ('b12a0000-0000-0000-0000-0000000000b8', 'b12a0000-0000-0000-0000-0000000000e8',
+        'b12a0000-0000-0000-0000-0000000000f3', '00000000-0000-0000-0000-000000000004',
+        'held', now() + interval '2 days');
+insert into public.venue_slot_claims (venue_id, slot_date, slot, kind, booking_id) values
+  ('b12a0000-0000-0000-0000-0000000000f3', '2040-03-12', 'PM', 'buffer', 'b12a0000-0000-0000-0000-0000000000b8'),
+  ('b12a0000-0000-0000-0000-0000000000f3', '2040-03-12', 'NIGHT', 'event', 'b12a0000-0000-0000-0000-0000000000b8'),
+  ('b12a0000-0000-0000-0000-0000000000f3', '2040-03-13', 'AM', 'buffer', 'b12a0000-0000-0000-0000-0000000000b8');
+
 
 reset role;
 select set_config('request.jwt.claim.sub', '', false);
