@@ -7,8 +7,11 @@ import type { CurrentUser } from '../../auth/sessionContext'
 import { formatDateTime } from '../../events/formatters'
 import type { MyRegistration } from '../types'
 
-const mocks = vi.hoisted(() => ({ loadMyRegistrations: vi.fn() }))
-vi.mock('../registrationService', () => ({ loadMyRegistrations: mocks.loadMyRegistrations }))
+const mocks = vi.hoisted(() => ({ loadMyRegistrations: vi.fn(), withdrawRegistration: vi.fn() }))
+vi.mock('../registrationService', () => ({
+  loadMyRegistrations: mocks.loadMyRegistrations,
+  withdrawRegistration: mocks.withdrawRegistration,
+}))
 
 const attendee: CurrentUser = {
   session: { userId: 'user-1', email: 'ann@example.test' },
@@ -92,5 +95,63 @@ describe('AC-015.7: the Attendee sees their registrations', () => {
 
     expect(await screen.findByText('Data Workshop')).toBeInTheDocument()
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  })
+})
+
+const withdrawnRegistration: MyRegistration = {
+  ...registrations[0], registrationId: 'r-3', eventName: 'Past Talk',
+  registrationStatus: 'withdrawn', registrationStatusLabel: 'Withdrawn',
+}
+const workshopNowWithdrawn: MyRegistration = {
+  ...registrations[0], registrationStatus: 'withdrawn', registrationStatusLabel: 'Withdrawn',
+}
+
+describe('AC-023: the Attendee withdraws from My registrations', () => {
+  test('AC-023.1.10: Withdraw is offered only on a future, active, Confirmed registration', async () => {
+    const started: MyRegistration = {
+      ...registrations[0], registrationId: 'r-4', eventName: 'Started Meetup', start: '2020-01-01T00:00:00Z',
+    }
+    mocks.loadMyRegistrations.mockResolvedValue({
+      ok: true, value: [registrations[0], registrations[1], withdrawnRegistration, started],
+    })
+    renderPage()
+
+    const workshop = (await screen.findByText('Data Workshop')).closest('li')
+    if (!workshop) throw new Error('each registration should be a list item')
+
+    expect(screen.getAllByRole('button', { name: 'Withdraw' })).toHaveLength(1)
+    expect(within(workshop).getByRole('button', { name: 'Withdraw' })).toBeInTheDocument()
+  })
+
+  test('AC-023.3.5: after withdrawing, the row shows Withdrawn and no longer offers Withdraw', async () => {
+    mocks.loadMyRegistrations
+      .mockResolvedValueOnce({ ok: true, value: [registrations[0]] })
+      .mockResolvedValue({ ok: true, value: [workshopNowWithdrawn] })
+    mocks.withdrawRegistration.mockResolvedValue({ ok: true })
+    renderPage()
+
+    fireEvent.click(await screen.findByRole('button', { name: 'Withdraw' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Yes, withdraw' }))
+
+    expect(await screen.findByRole('status')).toHaveTextContent('Your registration for Data Workshop has been withdrawn.')
+    expect(await screen.findByText(/Registration: Withdrawn/)).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Withdraw' })).not.toBeInTheDocument()
+  })
+
+  test('AC-023.5.9: a registration already withdrawn elsewhere is explained and the list reloads', async () => {
+    mocks.loadMyRegistrations
+      .mockResolvedValueOnce({ ok: true, value: [registrations[0]] })
+      .mockResolvedValue({ ok: true, value: [workshopNowWithdrawn] })
+    mocks.withdrawRegistration.mockResolvedValue({
+      ok: false, reason: 'This registration has already been withdrawn.', stale: true,
+    })
+    renderPage()
+
+    fireEvent.click(await screen.findByRole('button', { name: 'Withdraw' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Yes, withdraw' }))
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('This registration has already been withdrawn.')
+    expect(await screen.findByText(/Registration: Withdrawn/)).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Withdraw' })).not.toBeInTheDocument()
   })
 })
