@@ -2,6 +2,9 @@
 
 Owner: Jaydon
 
+Status: implementation and verification complete; both implementation PRs merged
+with passing CI, as confirmed by Jaydon. Jira status changes remain with Jaydon.
+
 ## First increment: active-event overview
 
 The Coordinator Lead's existing Requests page now shows status, current coordinator
@@ -52,10 +55,12 @@ AC-017.2.9 to check the saved assignee.
 
 ## Verification status
 
-11 October 2026, local results supplied by Jaydon:
+11 October 2026, final local verification after the combined-list refinement:
 
-- Full frontend suite: 91 files passed; 870 tests passed, one TODO.
-- All four US36 tests passed, along with existing US17 tests.
+- Full frontend suite: 91 files passed; 871 tests passed, one existing TODO.
+  The TODO is not counted as passed. The earlier overview run had 870 passing tests;
+  AC-036.2.1 added the final passing case.
+- All five US36 tests passed, along with existing US17 tests.
 - Lint and production build passed. React act warnings in other test files and the
   build chunk-size warning did not fail these checks.
 - Initial test/build stalls stopped occurring after npm ci. The exact cause was
@@ -65,12 +70,14 @@ Forced-break check completed for AC-036.1.1: temporarily required a coordinator 
 in the active-event filter. The unchanged test failed at the assertion for the
 missing Unassigned planning event (exit 1). The component was restored byte-for-byte
 and the same test passed (exit 0). Both logs are stored in docs/test-evidence/us36/.
-Only this case was selected, so the other three cases are skipped in those logs.
+Only this case was selected, so the other three cases existing at that time are
+skipped in those logs. The filter case was added in the next increment.
 This is deliberate code-first test-sensitivity evidence, not a product defect or
 a TDD cycle. The broken implementation is not retained.
 
 Manual UI checks passed, confirmed by Jaydon on 11 October 2026.
-CI for the PR and shared evidence-sheet updates remain pending.
+Both implementation PRs merged with passing CI, as confirmed by Jaydon.
+The shared evidence sheet is updated; see Documentation close-out below.
 
 ## Manual checks — passed
 
@@ -83,11 +90,12 @@ Results below are Jaydon's reported manual verification, not automated browser r
 3. Reassignment: current coordinator and both workload counts update — Pass.
 4. Ordinary coordinator: Lead overview is not displayed — Pass.
 
-## Remaining story work
+## Completion
 
-The overview PR is merged; Jaydon confirmed its CI passed.
-Complete filter manual verification, filter PR CI/merge and evidence-sheet entries
-before declaring US36 Done. Git commits, pushes and PRs remain with Jaydon.
+All five ACs have implementation and test coverage. Both implementation PRs are
+merged, final manual checks passed and the requested sheet records are updated.
+No remaining US36 implementation task is recorded. This documentation close-out
+must still be committed through the team's PR process; Jaydon handles Git and Jira.
 
 ## Second increment: assignment filters
 
@@ -109,18 +117,31 @@ Full suite: 91 files passed, 871 tests passed and one TODO. Lint and build passe
 locally on 11 October 2026 (existing bundle-size warning remains). Existing story-level
 forced-break evidence remains applicable; no new forced-break cycle was added.
 
-### Filter manual checks — pending
+### Filter manual checks — passed
 
 Jaydon confirmed the initial filters worked, then requested one combined list to
 remove ambiguity between unassigned requests and unassigned events. AC-036.2.1
 checks the combined list and Reset. AC-017.1.10 now uses Unassigned + Submitted
 filters; AC-017.2.9 checks the saved assignee rather than removal from a separate
-queue. No new test cases were added for this refinement. Manual retest pending.
+queue. No new test cases were added for this refinement. Jaydon confirmed the
+final combined-list version passed a manual browser retest on 11 October 2026.
 
-1. As Lead, confirm one Active events heading and no Unassigned requests heading.
+1. One Active events heading and no Unassigned requests heading — Pass.
 2. Select Unassigned + Submitted to find requests needing first assignment; select
-   all active statuses to include unassigned events at later stages too.
+   all active statuses to include unassigned events at later stages too — Pass.
 3. Combine coordinator/status filters, check no matches and Reset. Workload totals
-   must remain unchanged while filtering.
+   remain unchanged while filtering — Pass.
 4. Reassign under the old coordinator filter; the event disappears after refresh
-   and appears under the new coordinator filter.
+   and appears under the new coordinator filter — Pass.
+
+## Documentation close-out
+
+- Shared Test Case Overview: AC-036.1.1, .2.1, .3.1, .4.1 and .5.1, all Pass.
+- Shared Manual Testing: five AC-grouped records dated 11 October 2026, tested by
+  Jaydon, all Pass. AC2 retains the confusing section-heading defect and verified fix.
+- Defects (Automated Testing): reviewed, no US36 entry added. The heading issue was
+  discovered manually; the forced break is deliberate test evidence, not a defect.
+- Automated execution evidence lives in GitHub Actions. Per team agreement, do
+  not duplicate automated runs in the sheet's Automated Test Case Runs tab.
+- Existing forced-break logs stay under docs/test-evidence/us36/. No new TDD
+  record is required because US36 followed code-first development.
