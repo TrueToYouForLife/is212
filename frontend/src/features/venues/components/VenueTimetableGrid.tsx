@@ -1,15 +1,8 @@
-import type { TimetableCell, VenueTimetable } from '../bookingTypes'
+import type { VenueTimetable } from '../bookingTypes'
 import { timetableCellLabel } from '../venueTimetable'
 import { SLOT_SHORT_LABELS, formatPlainDate } from '../slotFormat'
 import type { SlotCode } from '../slots'
-
-const CELL_STYLES: Record<TimetableCell['state'], string> = {
-  free: 'bg-white text-slate-400',
-  held: 'bg-amber-100 text-amber-900',
-  pending_approval: 'bg-indigo-100 text-indigo-900',
-  confirmed: 'bg-emerald-100 text-emerald-900',
-  maintenance: 'bg-slate-300 text-slate-700',
-}
+import { TIMETABLE_CELL_STYLES } from '../timetableStyles'
 
 const ROW_ORDER: SlotCode[] = ['AM', 'PM', 'NIGHT']
 
@@ -54,7 +47,7 @@ export function VenueTimetableGrid({
                     key={key}
                     data-testid={`cell-${key}`}
                     aria-label={`${formatPlainDate(cell.date)} ${SLOT_SHORT_LABELS[cell.slot]}: ${timetableCellLabel(cell)}`}
-                    className={`rounded-md px-2 py-3 text-center text-xs ${CELL_STYLES[cell.state]} ${
+                    className={`rounded-md px-2 py-3 text-center text-xs ${TIMETABLE_CELL_STYLES[cell.state]} ${
                       selected ? 'ring-2 ring-indigo-600 ring-offset-1' : ''
                     }`}
                   >

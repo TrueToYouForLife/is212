@@ -1,0 +1,51 @@
+
+ RUN  v2.1.9 /Users/truetoyou/SMU/Data Minining/Group Project/is212/frontend
+
+ ❯ src/features/venues/__tests__/venueAvailability.test.ts (10 tests | 2 failed) 17ms
+   × AC-019.2 — bookings and confirmed events are blocked out > AC-019.2.1: each venue gets only its own bookings, never another venue's 13ms
+     → expected 'confirmed' to be 'free' // Object.is equality
+   × AC-019.2 — bookings and confirmed events are blocked out > AC-019.2.6: a booking for a venue that is not listed, such as a retired one, is not drawn anywhere 1ms
+     → expected false to be true // Object.is equality
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/venues/__tests__/venueAvailability.test.ts > AC-019.2 — bookings and confirmed events are blocked out > AC-019.2.1: each venue gets only its own bookings, never another venue's
+AssertionError: expected 'confirmed' to be 'free' // Object.is equality
+
+Expected: "free"
+Received: "confirmed"
+
+ ❯ src/features/venues/__tests__/venueAvailability.test.ts:31:65
+     29| 
+     30|     expect(stateOf(result, HALL.id, '2026-10-12', 'AM')?.state).toBe('…
+     31|     expect(stateOf(result, HALL.id, '2026-10-12', 'PM')?.state).toBe('…
+       |                                                                 ^
+     32|     expect(stateOf(result, ROOM.id, '2026-10-12', 'AM')?.state).toBe('…
+     33|     expect(stateOf(result, ROOM.id, '2026-10-12', 'PM')).toMatchObject…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/features/venues/__tests__/venueAvailability.test.ts > AC-019.2 — bookings and confirmed events are blocked out > AC-019.2.6: a booking for a venue that is not listed, such as a retired one, is not drawn anywhere
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ src/features/venues/__tests__/venueAvailability.test.ts:74:89
+     72|     const result = buildVenueAvailability([HALL], SLOTS, [claim({ venu…
+     73|     expect(result.rows).toHaveLength(1)
+     74|     expect(result.rows[0].timetable.days.flat().every((cell) => cell.s…
+       |                                                                                         ^
+     75|   })
+     76| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 8 passed (10)
+   Start at  23:18:18
+   Duration  577ms (transform 52ms, setup 37ms, collect 38ms, tests 17ms, environment 244ms, prepare 70ms)
+

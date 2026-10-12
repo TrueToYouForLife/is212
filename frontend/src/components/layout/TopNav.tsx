@@ -36,6 +36,7 @@ function navItemsFor(role: UserRole | null): NavItem[] {
         home,
         { label: 'Requests', to: '/requests' },
         { label: 'Venues', to: '/venues/search' },
+        { label: 'Availability', to: '/venues/availability' },
         ...(FEATURES.venueSuitability ? [{ label: 'Suitability', to: '/venues/suitability' }] : []),
         ...(FEATURES.venueBooking ? [{ label: 'My bookings', to: '/venues/bookings' }] : []),
         ...(FEATURES.venueBlocks ? [{ label: 'Venue alerts', to: '/venues/alerts' }] : []),
@@ -59,6 +60,7 @@ function navItemsFor(role: UserRole | null): NavItem[] {
     case 'venue_staff':
       return [
         home,
+        { label: 'Availability', to: '/venues/availability' },
         ...(FEATURES.venueBooking ? [{ label: 'Booking requests', to: '/venues/review' }] : []),
         ...(FEATURES.venueBlocks ? [{ label: 'Venue blocks', to: '/venues/blocks' }] : []),
       ]

@@ -82,3 +82,18 @@ describe('AC-015.7: the Attendee sees their registrations', () => {
     expect(screen.queryAllByRole('link', { name: 'My registrations' })).toHaveLength(0)
   })
 })
+
+describe('AC-019.1 — staff can view availability across dates', () => {
+  test.each(['venue_staff', 'coordinator'])('AC-019.1.25: a %s is offered the availability calendar', (role) => {
+    renderNavFor(role)
+    expect(screen.getAllByRole('link', { name: 'Availability' })[0]).toHaveAttribute('href', '/venues/availability')
+  })
+
+  test.each(['organiser', 'coordinator_lead', 'operations_manager', 'tech_support', 'attendee'])(
+    'AC-019.1.26: a %s is not offered it',
+    (role) => {
+      renderNavFor(role)
+      expect(screen.queryAllByRole('link', { name: 'Availability' })).toHaveLength(0)
+    },
+  )
+})
