@@ -68,5 +68,10 @@ do $$ begin
  or not exists(select 1 from public.venue_bookings where id='b10c0000-0000-0000-0000-000000000209' and status='rejected') then
  raise exception 'Race final state is incorrect'; end if;
  raise notice 'PASS: AC-010.7.4: concurrent loser has no claims and winner retains all three cells';
+ if (select count(*) from public.venue_booking_decision_notifications where booking_id='b10c0000-0000-0000-0000-000000000211')<>1
+ or exists(select 1 from public.venue_booking_decision_notifications where booking_id='b10c0000-0000-0000-0000-000000000212')
+ or (select count(*) from public.venue_booking_decision_notifications where booking_id='b10c0000-0000-0000-0000-000000000209' and decision='rejected')<>1 then
+ raise exception 'Race notification state is incorrect'; end if;
+ raise notice 'PASS: AC-010.14.34: concurrent decisions deliver only the winning outcome once';
 end $$;
 SQL
