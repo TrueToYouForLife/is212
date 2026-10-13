@@ -1,6 +1,9 @@
 # ConnectSphere Event Planning System — Project Context
 
-## US41 implementation complete within agreed scope
+## US41 AC3 follow-up pending review/deployment
+- 0053 fixes stale structured-layout precedence after an approved layout change.
+  Subsequent coordinator saves confirm the structured layout. AC-041.3.3 tests both
+  sequences. 0053 is local, not deployed; leave 0052 unchanged.
 - Backend, flags/indicators and resolution/history merged in PRs #86–88. 0052 applied,
   confirmed by Jaydon. Current branch contains documentation close-out only.
 - Approved significant changes create per-arrangement reasons; no booking/claim/allocation
@@ -10,7 +13,7 @@
   consumes these rows; document the handoff, do not claim notification delivery.
 - Uses existing slot-based venue_review_cells and date-based equipment_free_units.
   Fifteen-minute and per-booking/session requirement changes remain shared dependencies.
-- 21 US41 cases: ten DB, eleven frontend. Latest implementation verification: full DB
+- 22 US41 cases: eleven DB, eleven frontend. Latest implementation verification: full DB
   runner passed; frontend 1,003 pass/one TODO; lint/build passed. Close-out does not rerun tests.
 - Jaydon confirmed indicators, one venue with multiple reasons counted once, equipment
   flag count 1→2, resolution 2→1 and history persistence. Do not infer unreported manual tests.

@@ -243,5 +243,7 @@ select pg_temp.assert_true(
  union all (select * from us41_notices_replay except select * from public.arrangement_review_notifications)),
  'AC-041.1.3: migration replay preserves review history and notification records');
 SQL
+  cat "$repo_root/supabase/migrations/0053_arrangement_layout_capacity.sql"
+  cat "$repo_root/supabase/tests/arrangement_layout_capacity.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"

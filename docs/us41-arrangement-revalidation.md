@@ -2,8 +2,8 @@
 
 Owner: Jaydon
 
-Status: implementation merged in PRs #86, #87 and #88. Migration 0052 applied to
-shared Supabase, confirmed by Jaydon. Implementation is complete within the agreed
+Status: AC3 follow-up fix pending review and deployment (migration 0053). Original implementation merged in PRs #86, #87 and #88. Migration 0052 applied to
+shared Supabase, confirmed by Jaydon. The original implementation covers the agreed
 US41 responsibility: flag affected arrangements, record coordinator notifications,
 display reasons and allow recorded resolution. Shared notification UI and email
 delivery are owned elsewhere and are not claimed as delivered by US41.
@@ -101,8 +101,8 @@ uncertain network result, refresh to inspect server state before retrying.
 
 ## Automated coverage
 
-Code-first development; these are not TDD red/green records. Twenty-one US41 cases:
-ten database integration cases and eleven frontend service/component/page cases.
+Code-first development; these are not TDD red/green records. Twenty-two US41 cases:
+eleven database integration cases and eleven frontend service/component/page cases.
 
 Database: `backend/supabase/tests/arrangement_revalidation.sql`, plus replay in
 `run_change_request_review.sh`. Real approval RPCs, triggers and RLS run in disposable
@@ -183,10 +183,42 @@ bugs or TDD cycles. Non-selected cases are skipped in those logs.
 
 ## Administrative close-out
 
-No additional feature code is proposed within the agreed US41 scope. Remaining actions:
+AC3 follow-up identified during the final audit. Remaining actions:
+- Review/merge migration 0053 and deploy it to shared Supabase; recheck the layout/attendance sequence.
+- Add AC-041.3.3 and the stale-layout defect/fix to the evidence sheet. The existing sheet entries are already recorded.
 - Commit/review this documentation close-out.
 - Update the shared test overview, manual results and defect records; ownership Jaydon.
   Keep automated-run evidence in GitHub Actions, not duplicated in the spreadsheet run tab.
 - Record AC4's producer/delivery boundary and notification integration dependency in Jira.
 - Mark US41 Done through the team's agreed review/Definition of Done process. Do not
   describe notification delivery or fifteen-minute venue booking as implemented by US41.
+
+
+## AC3 follow-up — migration 0053 (13 October 2026)
+
+A final audit reproduced a missed capacity flag: an approved change from Theatre
+(capacity 200) to Classroom (150), followed by attendance increasing to 160, used
+an older structured Theatre requirement. Existing tests passed but did not exercise
+consecutive layout and attendance approvals.
+
+0053 replaces only `check_changed_arrangements`. For attendance checks, structured
+requirements are used only when saved after the latest approved layout change;
+otherwise the current approved event layout is used. A later coordinator save of
+venue requirements confirms that complete structured selection, including layout.
+Equal timestamps conservatively favour the approved event layout. Missing or unknown
+layout capacity still produces a manual-review reason. No booking/claim/allocation
+is updated and existing flags are neither rewritten nor backfilled.
+
+AC-041.3.3 in `arrangement_layout_capacity.sql` covers the consecutive approvals and
+later coordinator confirmation in one regression case. The runner reapplies 0053
+after its intentional historical 0052 replay so it tests the current function.
+The original defect was reproduced in a disposable database before the correction.
+This is code-first defect/regression evidence, not a new TDD cycle.
+
+Verification: the complete disposable database runner passed with 0053 and
+AC-041.3.3, including the existing concurrency checks. No frontend code changed;
+the preceding audit passed 35 relevant frontend tests. CI is pending the user push.
+
+0053 remains local and has not been applied to shared Supabase. Jaydon handles the
+commit, push, PR and deployment. Review the shared-notification dependency separately;
+this fix does not introduce delivery or change the AC4 agreement.
