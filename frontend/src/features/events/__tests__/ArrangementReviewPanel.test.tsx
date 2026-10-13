@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, expect, test, vi } from 'vitest'
 import { ArrangementReviewPanel } from '../components/ArrangementReviewPanel'
@@ -19,13 +19,13 @@ test('AC-041.1.7: groups all reasons by arrangement, identifies venue and equipm
   expect(within(venue).getAllByText(/13 Oct 2026, 09:00/)).toHaveLength(2)
   expect(screen.getByRole('article', { name: 'Equipment reservation' })).toHaveTextContent('equipment-booking-1')
   expect(screen.getAllByText('Needs review')).toHaveLength(2)
-  expect(onCount).toHaveBeenLastCalledWith(2)
+  await waitFor(() => expect(onCount).toHaveBeenLastCalledWith(2))
   expect(screen.queryByRole('button', { name: /resolve|clear/i })).not.toBeInTheDocument()
   mocks.read.mockResolvedValue({ ok: true, value: [] })
   rerender(<ArrangementReviewPanel eventId="event1" refreshVersion={1} onCount={onCount} />)
   expect(await screen.findByText('No arrangements are currently flagged for review.')).toBeInTheDocument()
   expect(screen.queryByText('Attendance exceeds capacity.')).not.toBeInTheDocument()
-  expect(onCount).toHaveBeenLastCalledWith(0)
+  await waitFor(() => expect(onCount).toHaveBeenLastCalledWith(0))
 })
 test('AC-041.1.8: loading, failed read, retry and changed event do not show stale reasons or a false empty state', async () => {
   const user = userEvent.setup()
