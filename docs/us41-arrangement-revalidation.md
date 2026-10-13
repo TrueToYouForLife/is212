@@ -2,14 +2,16 @@
 
 Owner: Jaydon
 
-Status: AC3 follow-up fix pending review and deployment (migration 0053). Original implementation merged in PRs #86, #87 and #88. Migration 0052 applied to
-shared Supabase, confirmed by Jaydon. The original implementation covers the agreed
+Status: completed within the agreed US41 scope. Original implementation merged in
+PRs #86, #87 and #88; AC3 correction merged in PR #90. Migrations 0052 and 0053 applied to
+shared Supabase, confirmed by Jaydon. The implementation covers the agreed
 US41 responsibility: flag affected arrangements, record coordinator notifications,
 display reasons and allow recorded resolution. Shared notification UI and email
 delivery are owned elsewhere and are not claimed as delivered by US41.
 
 Close-out review: 13 October 2026, against SCRUM-237 (1).doc and merged code at
-3e90307. This documentation change still needs its own PR; Jaydon handles Git/Jira.
+3e90307, followed by the AC3 correction merged at b834981. Jaydon confirmed
+0053 deployment and the successful manual retest. Jira closure remains user-managed.
 
 ## Acceptance criteria review
 
@@ -25,6 +27,8 @@ Close-out review: 13 October 2026, against SCRUM-237 (1).doc and merged code at
 - **AC-041.3 — Recheck layout capacity:** attendance is compared with each venue's
   capacity for the requested layout. Equality remains suitable; unknown layout
   capacity requests manual review rather than falsely reporting insufficient space.
+  0053 preserves the approved layout on later attendance changes while respecting
+  subsequently saved coordinator requirements.
 - **AC-041.4 — Notify coordinator:** the agreed US41 producer responsibility is complete.
   One protected database notification is created per new reason, addressed to the
   assigned coordinator and linked to the arrangement. This is not an end-to-end
@@ -104,7 +108,8 @@ uncertain network result, refresh to inspect server state before retrying.
 Code-first development; these are not TDD red/green records. Twenty-two US41 cases:
 eleven database integration cases and eleven frontend service/component/page cases.
 
-Database: `backend/supabase/tests/arrangement_revalidation.sql`, plus replay in
+Database: `backend/supabase/tests/arrangement_revalidation.sql` and
+`arrangement_layout_capacity.sql`, plus replay in
 `run_change_request_review.sh`. Real approval RPCs, triggers and RLS run in disposable
 PostgreSQL, not the shared project.
 
@@ -116,6 +121,8 @@ PostgreSQL, not the shared project.
   a free new interval gets review without a false conflict.
 - AC-041.3.1 — Boundary: attendance equal to layout capacity remains suitable.
 - AC-041.3.2 — Happy/negative: flag only the undersized venue, including actual capacity.
+- AC-041.3.3 — Regression: consecutive layout/attendance approvals use current capacity;
+  later coordinator-saved requirements remain authoritative.
 - AC-041.4.1 — Happy: each reason has one correctly addressed notification record.
 - AC-041.5.1 — Negative: ordinary, rejected and unapproved changes produce no flags.
 - AC-041.6.1 — Happy/negative: assigned-only resolution, required note, both methods,
@@ -143,7 +150,7 @@ Services are mocked in UI tests; the SQL cases independently cover server permis
 ## Verification and manual evidence
 
 Recorded implementation verification, 13 October 2026:
-- Complete disposable database runner passed, including ten new US41 cases and
+- Complete disposable database runner passed, including all eleven US41 database cases and
   existing regression/concurrency coverage.
 - Latest full frontend run: 110 files, 1,003 passing tests, one existing TODO.
 - Lint and production build passed; existing bundle-size warning remains.
@@ -157,6 +164,8 @@ Manual results reported by Jaydon on 13 October 2026:
 - Approved equipment change after actual reservation increased count from 1 to 2 — Pass.
 - Resolving the equipment reason reduced count from 2 to 1, leaving venue review — Pass.
 - Resolution history persisted after reloading — Pass.
+- After 0053 deployment, approved layout change followed by attendance increase
+  correctly flags the venue using the updated layout capacity — Pass.
 
 Do not expand these reports into claims that every suggested browser scenario was
 executed. Both resolution methods, invalid submissions, server permission rejection,
@@ -172,6 +181,8 @@ pass is claimed for those scenarios or for notification delivery.
   Fixed by waiting for the callback with unchanged expected values. Full suite passed
   locally and the follow-up is included in merged PR #87. Use its actual CI links
   in the evidence sheet; no new CI verification was performed during close-out.
+- Product defect: attendance revalidation used stale structured layout after an approved
+  layout change. Fixed by 0053; AC-041.3.3 and the deployed manual retest passed.
 - Forced-break .1.7 deliberately discarded all but the last reason; unchanged test
   failed for the missing reason and passed after byte-for-byte restoration.
 - Forced-break .6.3 omitted the post-save refresh; unchanged test failed for missing
@@ -183,12 +194,14 @@ bugs or TDD cycles. Non-selected cases are skipped in those logs.
 
 ## Administrative close-out
 
-AC3 follow-up identified during the final audit. Remaining actions:
-- Review/merge migration 0053 and deploy it to shared Supabase; recheck the layout/attendance sequence.
-- Add AC-041.3.3 and the stale-layout defect/fix to the evidence sheet. The existing sheet entries are already recorded.
-- Commit/review this documentation close-out.
-- Update the shared test overview, manual results and defect records; ownership Jaydon.
-  Keep automated-run evidence in GitHub Actions, not duplicated in the spreadsheet run tab.
+Implementation and AC3 correction are merged. Jaydon confirmed shared deployment
+and the final manual retest. The shared evidence sheet contains all 22 overview
+cases and the defect/fix records, with ownership Jaydon.
+
+Remaining administrative actions:
+- Record the confirmed final manual pass in the sheet and remove the pending-retest
+  wording from the AC-041.3.3 defect entry if not already updated.
+- Keep automated-run evidence in GitHub Actions; leave the spreadsheet run tab unchanged.
 - Record AC4's producer/delivery boundary and notification integration dependency in Jira.
 - Mark US41 Done through the team's agreed review/Definition of Done process. Do not
   describe notification delivery or fifteen-minute venue booking as implemented by US41.
@@ -217,8 +230,8 @@ This is code-first defect/regression evidence, not a new TDD cycle.
 
 Verification: the complete disposable database runner passed with 0053 and
 AC-041.3.3, including the existing concurrency checks. No frontend code changed;
-the preceding audit passed 35 relevant frontend tests. CI is pending the user push.
+the preceding audit passed 35 relevant frontend tests. The correction is merged in
+PR #90. No new test execution is claimed for this documentation-only update.
 
-0053 remains local and has not been applied to shared Supabase. Jaydon handles the
-commit, push, PR and deployment. Review the shared-notification dependency separately;
-this fix does not introduce delivery or change the AC4 agreement.
+Jaydon confirmed 0053 is applied to shared Supabase and the deployed manual regression
+passed. This fix does not introduce notification delivery or change the AC4 agreement.
