@@ -4,7 +4,7 @@ import { beforeEach, expect, test, vi } from 'vitest'
 import { ArrangementReviewPanel } from '../components/ArrangementReviewPanel'
 const mocks = vi.hoisted(() => ({ read: vi.fn() }))
 vi.mock('../arrangementReviewService', () => ({ listArrangementReviews: mocks.read }))
-const flag = { id: 'reason1', venue_booking_id: 'venue-booking-1', equipment_booking_id: null,
+const flag = { id: 'reason1', status: 'open', venue_booking_id: 'venue-booking-1', equipment_booking_id: null,
   detail: 'Attendance exceeds capacity.', created_at: '2026-10-13T01:00:00Z', venue_booking: { venue: { name: 'Hall A' } } }
 beforeEach(() => vi.resetAllMocks())
 test('AC-041.1.7: groups all reasons by arrangement, identifies venue and equipment and refreshes after review', async () => {
@@ -20,7 +20,7 @@ test('AC-041.1.7: groups all reasons by arrangement, identifies venue and equipm
   expect(screen.getByRole('article', { name: 'Equipment reservation' })).toHaveTextContent('equipment-booking-1')
   expect(screen.getAllByText('Needs review')).toHaveLength(2)
   await waitFor(() => expect(onCount).toHaveBeenLastCalledWith(2))
-  expect(screen.queryByRole('button', { name: /resolve|clear/i })).not.toBeInTheDocument()
+  expect(screen.getAllByRole('form', { name: 'Resolve review reason' })).toHaveLength(3)
   mocks.read.mockResolvedValue({ ok: true, value: [] })
   rerender(<ArrangementReviewPanel eventId="event1" refreshVersion={1} onCount={onCount} />)
   expect(await screen.findByText('No arrangements are currently flagged for review.')).toBeInTheDocument()

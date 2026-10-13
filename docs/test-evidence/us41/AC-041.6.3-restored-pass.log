@@ -1,0 +1,16 @@
+Original form restored byte-for-byte. Tests unchanged.
+
+> connectsphere@0.1.0 test
+> vitest run src/features/events/__tests__/ArrangementResolution.test.tsx -t AC-041.6.3 --maxWorkers=1 --minWorkers=1
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+ ✓ src/features/events/__tests__/ArrangementResolution.test.tsx (2 tests | 1 skipped) 337ms
+   ✓ AC-041.6.3: resolves individual reasons using both methods, keeps other reasons open and displays retained history 336ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 1 skipped (2)
+   Start at  11:17:10
+   Duration  962ms (transform 61ms, setup 39ms, collect 156ms, tests 337ms, environment 242ms, prepare 34ms)
+

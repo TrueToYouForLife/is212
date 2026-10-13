@@ -1,0 +1,901 @@
+Temporary mutation: omit the successful resolution refresh callback. Tests unchanged.
+
+> connectsphere@0.1.0 test
+> vitest run src/features/events/__tests__/ArrangementResolution.test.tsx -t AC-041.6.3 --maxWorkers=1 --minWorkers=1
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+ ❯ src/features/events/__tests__/ArrangementResolution.test.tsx (2 tests | 1 failed | 1 skipped) 1174ms
+   × AC-041.6.3: resolves individual reasons using both methods, keeps other reasons open and displays retained history 1174ms
+     → Unable to find role="region" and name "Resolution history"
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"scroll-mt-6"[39m
+      [33mid[39m=[32m"arrangement-reviews"[39m
+    [36m>[39m
+      [36m<section[39m
+        [33mclass[39m=[32m"rounded-xl border border-slate-200 bg-white shadow-sm"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"border-b border-slate-100 px-6 py-5"[39m
+        [36m>[39m
+          [36m<h2[39m
+            [33mclass[39m=[32m"text-base font-semibold text-slate-900"[39m
+          [36m>[39m
+            [0mArrangement reviews[0m
+          [36m</h2>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"mt-1 text-sm text-slate-500"[39m
+          [36m>[39m
+            [0mBookings and reservations needing review after approved changes. Existing reservations remain unchanged.[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"px-6 py-6"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"mb-4 text-sm font-medium text-indigo-700 hover:underline"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mRefresh arrangement reviews[0m
+          [36m</button>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"space-y-4"[39m
+          [36m>[39m
+            [36m<article[39m
+              [33maria-label[39m=[32m"Venue booking — Hall A"[39m
+              [33mclass[39m=[32m"rounded-lg border border-amber-200 p-4"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex flex-wrap items-center gap-2"[39m
+              [36m>[39m
+                [36m<h3[39m
+                  [33mclass[39m=[32m"font-semibold text-slate-900"[39m
+                [36m>[39m
+                  [0mVenue booking — Hall A[0m
+                [36m</h3>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-900"[39m
+                [36m>[39m
+                  [0mNeeds review[0m
+                [36m</span>[39m
+              [36m</div>[39m
+              [36m<p[39m
+                [33mclass[39m=[32m"mt-2 break-all text-xs text-slate-500"[39m
+              [36m>[39m
+                [0mReference: [0m
+                [0mbooking[0m
+              [36m</p>[39m
+              [36m<ul[39m
+                [33mclass[39m=[32m"mt-3 space-y-3"[39m
+              [36m>[39m
+                [36m<li>[39m
+                  [36m<p[39m
+                    [33mclass[39m=[32m"whitespace-pre-wrap break-words text-sm text-slate-700"[39m
+                  [36m>[39m
+                    [0mCapacity needs review[0m
+                  [36m</p>[39m
+                  [36m<p[39m
+                    [33mclass[39m=[32m"mt-1 text-xs text-slate-500"[39m
+                  [36m>[39m
+                    [0mFlagged [0m
+                    [0m13 Oct 2026, 09:00[0m
+                    [0m (Singapore time)[0m
+                  [36m</p>[39m
+                  [36m<form[39m
+                    [33maria-label[39m=[32m"Resolve review reason"[39m
+                    [33mclass[39m=[32m"mt-3 space-y-2"[39m
+                    [33mnovalidate[39m=[32m""[39m
+                  [36m>[39m
+                    [36m<fieldset[39m
+                      [33mclass[39m=[32m"space-y-2 disabled:opacity-60"[39m
+                      [33mdisabled[39m=[32m""[39m
+                    [36m>[39m
+                      [36m<label[39m
+                        [33mclass[39m=[32m"block text-sm"[39m
+                      [36m>[39m
+                        [0mResolution[0m
+                        [36m<select[39m
+                          [33mclass[39m=[32m"mt-1 block rounded-lg border border-slate-300 p-2"[39m
+                        [36m>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m""[39m
+                          [36m>[39m
+                            [0mChoose a resolution[0m
+                          [36m</option>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m"corrected"[39m
+                          [36m>[39m
+                            [0mArrangement corrected[0m
+                          [36m</option>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m"confirmed_valid"[39m
+                          [36m>[39m
+                            [0mStill valid[0m
+                          [36m</option>[39m
+                        [36m</select>[39m
+                      [36m</label>[39m
+                      [36m<label[39m
+                        [33mclass[39m=[32m"block text-sm"[39m
+                      [36m>[39m
+                        [0mExplanation[0m
+                        [36m<textarea[39m
+                          [33mclass[39m=[32m"mt-1 block w-full rounded-lg border border-slate-300 p-2"[39m
+                          [33mrows[39m=[32m"3"[39m
+                        [36m>[39m
+                          [0mChanged to the larger room.[0m
+                        [36m</textarea>[39m
+                      [36m</label>[39m
+                      [36m<p[39m
+                        [33mclass[39m=[32m"text-xs text-slate-600"[39m
+                      [36m>[39m
+                        [0mRecord what you corrected or why the arrangement remains valid. Saving resolves only this reason; it does not modify the booking.[0m
+                      [36m</p>[39m
+                      [36m<button[39m
+                        [33mclass[39m=[32m"rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white"[39m
+                        [33mtype[39m=[32m"submit"[39m
+                      [36m>[39m
+                        [0mSave resolution[0m
+                      [36m</button>[39m
+                    [36m</fieldset>[39m
+                    [36m<p[39m
+                      [33mclass[39m=[32m"text-sm text-green-800"[39m
+                      [33mrole[39m=[32m"status"[39m
+                    [36m>[39m
+                      [0mResolution saved. Refresh arrangement reviews if the history has not updated.[0m
+                    [36m</p>[39m
+                  [36m</form>[39m
+                [36m</li>[39m
+                [36m<li>[39m
+                  [36m<p[39m
+                    [33mclass[39m=[32m"whitespace-pre-wrap break-words text-sm text-slate-700"[39m
+                  [36m>[39m
+                    [0mTiming needs review[0m
+                  [36m</p>[39m
+                  [36m<p[39m
+                    [33mclass[39m=[32m"mt-1 text-xs text-slate-500"[39m
+                  [36m>[39m
+                    [0mFlagged [0m
+                    [0m13 Oct 2026, 09:00[0m
+                    [0m (Singapore time)[0m
+                  [36m</p>[39m
+                  [36m<form[39m
+                    [33maria-label[39m=[32m"Resolve review reason"[39m
+                    [33mclass[39m=[32m"mt-3 space-y-2"[39m
+                    [33mnovalidate[39m=[32m""[39m
+                  [36m>[39m
+                    [36m<fieldset[39m
+                      [33mclass[39m=[32m"space-y-2 disabled:opacity-60"[39m
+                    [36m>[39m
+                      [36m<label[39m
+                        [33mclass[39m=[32m"block text-sm"[39m
+                      [36m>[39m
+                        [0mResolution[0m
+                        [36m<select[39m
+                          [33mclass[39m=[32m"mt-1 block rounded-lg border border-slate-300 p-2"[39m
+                        [36m>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m""[39m
+                          [36m>[39m
+                            [0mChoose a resolution[0m
+                          [36m</option>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m"corrected"[39m
+                          [36m>[39m
+                            [0mArrangement corrected[0m
+                          [36m</option>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m"confirmed_valid"[39m
+                          [36m>[39m
+                            [0mStill valid[0m
+                          [36m</option>[39m
+                        [36m</select>[39m
+                      [36m</label>[39m
+                      [36m<label[39m
+                        [33mclass[39m=[32m"block text-sm"[39m
+                      [36m>[39m
+                        [0mExplanation[0m
+                        [36m<textarea[39m
+                          [33mclass[39m=[32m"mt-1 block w-full rounded-lg border border-slate-300 p-2"[39m
+                          [33mrows[39m=[32m"3"[39m
+                        [36m/>[39m
+                      [36m</label>[39m
+                      [36m<p[39m
+                        [33mclass[39m=[32m"text-xs text-slate-600"[39m
+                      [36m>[39m
+                        [0mRecord what you corrected or why the arrangement remains valid. Saving resolves only this reason; it does not modify the booking.[0m
+                      [36m</p>[39m
+                      [36m<button[39m
+                        [33mclass[39m=[32m"rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white"[39m
+                        [33mtype[39m=[32m"submit"[39m
+                      [36m>[39m
+                        [0mSave resolution[0m
+                      [36m</button>[39m
+                    [36m</fieldset>[39m
+                  [36m</form>[39m
+                [36m</li>[39m
+              [36m</ul>[39m
+            [36m</article>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"scroll-mt-6"[39m
+      [33mid[39m=[32m"arrangement-reviews"[39m
+    [36m>[39m
+      [36m<section[39m
+        [33mclass[39m=[32m"rounded-xl border border-slate-200 bg-white shadow-sm"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"border-b border-slate-100 px-6 py-5"[39m
+        [36m>[39m
+          [36m<h2[39m
+            [33mclass[39m=[32m"text-base font-semibold text-slate-900"[39m
+          [36m>[39m
+            [0mArrangement reviews[0m
+          [36m</h2>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"mt-1 text-sm text-slate-500"[39m
+          [36m>[39m
+            [0mBookings and reservations needing review after approved changes. Existing reservations remain unchanged.[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"px-6 py-6"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"mb-4 text-sm font-medium text-indigo-700 hover:underline"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mRefresh arrangement reviews[0m
+          [36m</button>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"space-y-4"[39m
+          [36m>[39m
+            [36m<article[39m
+              [33maria-label[39m=[32m"Venue booking — Hall A"[39m
+              [33mclass[39m=[32m"rounded-lg border border-amber-200 p-4"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex flex-wrap items-center gap-2"[39m
+              [36m>[39m
+                [36m<h3[39m
+                  [33mclass[39m=[32m"font-semibold text-slate-900"[39m
+                [36m>[39m
+                  [0mVenue booking — Hall A[0m
+                [36m</h3>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-900"[39m
+                [36m>[39m
+                  [0mNeeds review[0m
+                [36m</span>[39m
+              [36m</div>[39m
+              [36m<p[39m
+                [33mclass[39m=[32m"mt-2 break-all text-xs text-slate-500"[39m
+              [36m>[39m
+                [0mReference: [0m
+                [0mbooking[0m
+              [36m</p>[39m
+              [36m<ul[39m
+                [33mclass[39m=[32m"mt-3 space-y-3"[39m
+              [36m>[39m
+                [36m<li>[39m
+                  [36m<p[39m
+                    [33mclass[39m=[32m"whitespace-pre-wrap break-words text-sm text-slate-700"[39m
+                  [36m>[39m
+                    [0mCapacity needs review[0m
+                  [36m</p>[39m
+                  [36m<p[39m
+                    [33mclass[39m=[32m"mt-1 text-xs text-slate-500"[39m
+                  [36m>[39m
+                    [0mFlagged [0m
+                    [0m13 Oct 2026, 09:00[0m
+                    [0m (Singapore time)[0m
+                  [36m</p>[39m
+                  [36m<form[39m
+                    [33maria-label[39m=[32m"Resolve review reason"[39m
+                    [33mclass[39m=[32m"mt-3 space-y-2"[39m
+                    [33mnovalidate[39m=[32m""[39m
+                  [36m>[39m
+                    [36m<fieldset[39m
+                      [33mclass[39m=[32m"space-y-2 disabled:opacity-60"[39m
+                      [33mdisabled[39m=[32m""[39m
+                    [36m>[39m
+                      [36m<label[39m
+                        [33mclass[39m=[32m"block text-sm"[39m
+                      [36m>[39m
+                        [0mResolution[0m
+                        [36m<select[39m
+                          [33mclass[39m=[32m"mt-1 block rounded-lg border border-slate-300 p-2"[39m
+                        [36m>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m""[39m
+                          [36m>[39m
+                            [0mChoose a resolution[0m
+                          [36m</option>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m"corrected"[39m
+                          [36m>[39m
+                            [0mArrangement corrected[0m
+                          [36m</option>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m"confirmed_valid"[39m
+                          [36m>[39m
+                            [0mStill valid[0m
+                          [36m</option>[39m
+                        [36m</select>[39m
+                      [36m</label>[39m
+                      [36m<label[39m
+                        [33mclass[39m=[32m"block text-sm"[39m
+                      [36m>[39m
+                        [0mExplanation[0m
+                        [36m<textarea[39m
+                          [33mclass[39m=[32m"mt-1 block w-full rounded-lg border border-slate-300 p-2"[39m
+                          [33mrows[39m=[32m"3"[39m
+                        [36m>[39m
+                          [0mChanged to the larger room.[0m
+                        [36m</textarea>[39m
+                      [36m</label>[39m
+                      [36m<p[39m
+                        [33mclass[39m=[32m"text-xs text-slate-600"[39m
+                      [36m>[39m
+                        [0mRecord what you corrected or why the arrangement remains valid. Saving resolves only this reason; it does not modify the booking.[0m
+                      [36m</p>[39m
+                      [36m<button[39m
+                        [33mclass[39m=[32m"rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white"[39m
+                        [33mtype[39m=[32m"submit"[39m
+                      [36m>[39m
+                        [0mSave resolution[0m
+                      [36m</button>[39m
+                    [36m</fieldset>[39m
+                    [36m<p[39m
+                      [33mclass[39m=[32m"text-sm text-green-800"[39m
+                      [33mrole[39m=[32m"status"[39m
+                    [36m>[39m
+                      [0mResolution saved. Refresh arrangement reviews if the history has not updated.[0m
+                    [36m</p>[39m
+                  [36m</form>[39m
+                [36m</li>[39m
+                [36m<li>[39m
+                  [36m<p[39m
+                    [33mclass[39m=[32m"whitespace-pre-wrap break-words text-sm text-slate-700"[39m
+                  [36m>[39m
+                    [0mTiming needs review[0m
+                  [36m</p>[39m
+                  [36m<p[39m
+                    [33mclass[39m=[32m"mt-1 text-xs text-slate-500"[39m
+                  [36m>[39m
+                    [0mFlagged [0m
+                    [0m13 Oct 2026, 09:00[0m
+                    [0m (Singapore time)[0m
+                  [36m</p>[39m
+                  [36m<form[39m
+                    [33maria-label[39m=[32m"Resolve review reason"[39m
+                    [33mclass[39m=[32m"mt-3 space-y-2"[39m
+                    [33mnovalidate[39m=[32m""[39m
+                  [36m>[39m
+                    [36m<fieldset[39m
+                      [33mclass[39m=[32m"space-y-2 disabled:opacity-60"[39m
+                    [36m>[39m
+                      [36m<label[39m
+                        [33mclass[39m=[32m"block text-sm"[39m
+                      [36m>[39m
+                        [0mResolution[0m
+                        [36m<select[39m
+                          [33mclass[39m=[32m"mt-1 block rounded-lg border border-slate-300 p-2"[39m
+                        [36m>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m""[39m
+                          [36m>[39m
+                            [0mChoose a resolution[0m
+                          [36m</option>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m"corrected"[39m
+                          [36m>[39m
+                            [0mArrangement corrected[0m
+                          [36m</option>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m"confirmed_valid"[39m
+                          [36m>[39m
+                            [0mStill valid[0m
+                          [36m</option>[39m
+                        [36m</select>[39m
+                      [36m</label>[39m
+                      [36m<label[39m
+                        [33mclass[39m=[32m"block text-sm"[39m
+                      [36m>[39m
+                        [0mExplanation[0m
+                        [36m<textarea[39m
+                          [33mclass[39m=[32m"mt-1 block w-full rounded-lg border border-slate-300 p-2"[39m
+                          [33mrows[39m=[32m"3"[39m
+                        [36m/>[39m
+                      [36m</label>[39m
+                      [36m<p[39m
+                        [33mclass[39m=[32m"text-xs text-slate-600"[39m
+                      [36m>[39m
+                        [0mRecord what you corrected or why the arrangement remains valid. Saving resolves only this reason; it does not modify the booking.[0m
+                      [36m</p>[39m
+                      [36m<button[39m
+                        [33mclass[39m=[32m"rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white"[39m
+                        [33mtype[39m=[32m"submit"[39m
+                      [36m>[39m
+                        [0mSave resolution[0m
+                      [36m</button>[39m
+                    [36m</fieldset>[39m
+                  [36m</form>[39m
+                [36m</li>[39m
+              [36m</ul>[39m
+            [36m</article>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/events/__tests__/ArrangementResolution.test.tsx > AC-041.6.3: resolves individual reasons using both methods, keeps other reasons open and displays retained history
+TestingLibraryElementError: Unable to find role="region" and name "Resolution history"
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"scroll-mt-6"[39m
+      [33mid[39m=[32m"arrangement-reviews"[39m
+    [36m>[39m
+      [36m<section[39m
+        [33mclass[39m=[32m"rounded-xl border border-slate-200 bg-white shadow-sm"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"border-b border-slate-100 px-6 py-5"[39m
+        [36m>[39m
+          [36m<h2[39m
+            [33mclass[39m=[32m"text-base font-semibold text-slate-900"[39m
+          [36m>[39m
+            [0mArrangement reviews[0m
+          [36m</h2>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"mt-1 text-sm text-slate-500"[39m
+          [36m>[39m
+            [0mBookings and reservations needing review after approved changes. Existing reservations remain unchanged.[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"px-6 py-6"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"mb-4 text-sm font-medium text-indigo-700 hover:underline"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mRefresh arrangement reviews[0m
+          [36m</button>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"space-y-4"[39m
+          [36m>[39m
+            [36m<article[39m
+              [33maria-label[39m=[32m"Venue booking — Hall A"[39m
+              [33mclass[39m=[32m"rounded-lg border border-amber-200 p-4"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex flex-wrap items-center gap-2"[39m
+              [36m>[39m
+                [36m<h3[39m
+                  [33mclass[39m=[32m"font-semibold text-slate-900"[39m
+                [36m>[39m
+                  [0mVenue booking — Hall A[0m
+                [36m</h3>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-900"[39m
+                [36m>[39m
+                  [0mNeeds review[0m
+                [36m</span>[39m
+              [36m</div>[39m
+              [36m<p[39m
+                [33mclass[39m=[32m"mt-2 break-all text-xs text-slate-500"[39m
+              [36m>[39m
+                [0mReference: [0m
+                [0mbooking[0m
+              [36m</p>[39m
+              [36m<ul[39m
+                [33mclass[39m=[32m"mt-3 space-y-3"[39m
+              [36m>[39m
+                [36m<li>[39m
+                  [36m<p[39m
+                    [33mclass[39m=[32m"whitespace-pre-wrap break-words text-sm text-slate-700"[39m
+                  [36m>[39m
+                    [0mCapacity needs review[0m
+                  [36m</p>[39m
+                  [36m<p[39m
+                    [33mclass[39m=[32m"mt-1 text-xs text-slate-500"[39m
+                  [36m>[39m
+                    [0mFlagged [0m
+                    [0m13 Oct 2026, 09:00[0m
+                    [0m (Singapore time)[0m
+                  [36m</p>[39m
+                  [36m<form[39m
+                    [33maria-label[39m=[32m"Resolve review reason"[39m
+                    [33mclass[39m=[32m"mt-3 space-y-2"[39m
+                    [33mnovalidate[39m=[32m""[39m
+                  [36m>[39m
+                    [36m<fieldset[39m
+                      [33mclass[39m=[32m"space-y-2 disabled:opacity-60"[39m
+                      [33mdisabled[39m=[32m""[39m
+                    [36m>[39m
+                      [36m<label[39m
+                        [33mclass[39m=[32m"block text-sm"[39m
+                      [36m>[39m
+                        [0mResolution[0m
+                        [36m<select[39m
+                          [33mclass[39m=[32m"mt-1 block rounded-lg border border-slate-300 p-2"[39m
+                        [36m>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m""[39m
+                          [36m>[39m
+                            [0mChoose a resolution[0m
+                          [36m</option>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m"corrected"[39m
+                          [36m>[39m
+                            [0mArrangement corrected[0m
+                          [36m</option>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m"confirmed_valid"[39m
+                          [36m>[39m
+                            [0mStill valid[0m
+                          [36m</option>[39m
+                        [36m</select>[39m
+                      [36m</label>[39m
+                      [36m<label[39m
+                        [33mclass[39m=[32m"block text-sm"[39m
+                      [36m>[39m
+                        [0mExplanation[0m
+                        [36m<textarea[39m
+                          [33mclass[39m=[32m"mt-1 block w-full rounded-lg border border-slate-300 p-2"[39m
+                          [33mrows[39m=[32m"3"[39m
+                        [36m>[39m
+                          [0mChanged to the larger room.[0m
+                        [36m</textarea>[39m
+                      [36m</label>[39m
+                      [36m<p[39m
+                        [33mclass[39m=[32m"text-xs text-slate-600"[39m
+                      [36m>[39m
+                        [0mRecord what you corrected or why the arrangement remains valid. Saving resolves only this reason; it does not modify the booking.[0m
+                      [36m</p>[39m
+                      [36m<button[39m
+                        [33mclass[39m=[32m"rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white"[39m
+                        [33mtype[39m=[32m"submit"[39m
+                      [36m>[39m
+                        [0mSave resolution[0m
+                      [36m</button>[39m
+                    [36m</fieldset>[39m
+                    [36m<p[39m
+                      [33mclass[39m=[32m"text-sm text-green-800"[39m
+                      [33mrole[39m=[32m"status"[39m
+                    [36m>[39m
+                      [0mResolution saved. Refresh arrangement reviews if the history has not updated.[0m
+                    [36m</p>[39m
+                  [36m</form>[39m
+                [36m</li>[39m
+                [36m<li>[39m
+                  [36m<p[39m
+                    [33mclass[39m=[32m"whitespace-pre-wrap break-words text-sm text-slate-700"[39m
+                  [36m>[39m
+                    [0mTiming needs review[0m
+                  [36m</p>[39m
+                  [36m<p[39m
+                    [33mclass[39m=[32m"mt-1 text-xs text-slate-500"[39m
+                  [36m>[39m
+                    [0mFlagged [0m
+                    [0m13 Oct 2026, 09:00[0m
+                    [0m (Singapore time)[0m
+                  [36m</p>[39m
+                  [36m<form[39m
+                    [33maria-label[39m=[32m"Resolve review reason"[39m
+                    [33mclass[39m=[32m"mt-3 space-y-2"[39m
+                    [33mnovalidate[39m=[32m""[39m
+                  [36m>[39m
+                    [36m<fieldset[39m
+                      [33mclass[39m=[32m"space-y-2 disabled:opacity-60"[39m
+                    [36m>[39m
+                      [36m<label[39m
+                        [33mclass[39m=[32m"block text-sm"[39m
+                      [36m>[39m
+                        [0mResolution[0m
+                        [36m<select[39m
+                          [33mclass[39m=[32m"mt-1 block rounded-lg border border-slate-300 p-2"[39m
+                        [36m>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m""[39m
+                          [36m>[39m
+                            [0mChoose a resolution[0m
+                          [36m</option>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m"corrected"[39m
+                          [36m>[39m
+                            [0mArrangement corrected[0m
+                          [36m</option>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m"confirmed_valid"[39m
+                          [36m>[39m
+                            [0mStill valid[0m
+                          [36m</option>[39m
+                        [36m</select>[39m
+                      [36m</label>[39m
+                      [36m<label[39m
+                        [33mclass[39m=[32m"block text-sm"[39m
+                      [36m>[39m
+                        [0mExplanation[0m
+                        [36m<textarea[39m
+                          [33mclass[39m=[32m"mt-1 block w-full rounded-lg border border-slate-300 p-2"[39m
+                          [33mrows[39m=[32m"3"[39m
+                        [36m/>[39m
+                      [36m</label>[39m
+                      [36m<p[39m
+                        [33mclass[39m=[32m"text-xs text-slate-600"[39m
+                      [36m>[39m
+                        [0mRecord what you corrected or why the arrangement remains valid. Saving resolves only this reason; it does not modify the booking.[0m
+                      [36m</p>[39m
+                      [36m<button[39m
+                        [33mclass[39m=[32m"rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white"[39m
+                        [33mtype[39m=[32m"submit"[39m
+                      [36m>[39m
+                        [0mSave resolution[0m
+                      [36m</button>[39m
+                    [36m</fieldset>[39m
+                  [36m</form>[39m
+                [36m</li>[39m
+              [36m</ul>[39m
+            [36m</article>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"scroll-mt-6"[39m
+      [33mid[39m=[32m"arrangement-reviews"[39m
+    [36m>[39m
+      [36m<section[39m
+        [33mclass[39m=[32m"rounded-xl border border-slate-200 bg-white shadow-sm"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"border-b border-slate-100 px-6 py-5"[39m
+        [36m>[39m
+          [36m<h2[39m
+            [33mclass[39m=[32m"text-base font-semibold text-slate-900"[39m
+          [36m>[39m
+            [0mArrangement reviews[0m
+          [36m</h2>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"mt-1 text-sm text-slate-500"[39m
+          [36m>[39m
+            [0mBookings and reservations needing review after approved changes. Existing reservations remain unchanged.[0m
+          [36m</p>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"px-6 py-6"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"mb-4 text-sm font-medium text-indigo-700 hover:underline"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mRefresh arrangement reviews[0m
+          [36m</button>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"space-y-4"[39m
+          [36m>[39m
+            [36m<article[39m
+              [33maria-label[39m=[32m"Venue booking — Hall A"[39m
+              [33mclass[39m=[32m"rounded-lg border border-amber-200 p-4"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex flex-wrap items-center gap-2"[39m
+              [36m>[39m
+                [36m<h3[39m
+                  [33mclass[39m=[32m"font-semibold text-slate-900"[39m
+                [36m>[39m
+                  [0mVenue booking — Hall A[0m
+                [36m</h3>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-900"[39m
+                [36m>[39m
+                  [0mNeeds review[0m
+                [36m</span>[39m
+              [36m</div>[39m
+              [36m<p[39m
+                [33mclass[39m=[32m"mt-2 break-all text-xs text-slate-500"[39m
+              [36m>[39m
+                [0mReference: [0m
+                [0mbooking[0m
+              [36m</p>[39m
+              [36m<ul[39m
+                [33mclass[39m=[32m"mt-3 space-y-3"[39m
+              [36m>[39m
+                [36m<li>[39m
+                  [36m<p[39m
+                    [33mclass[39m=[32m"whitespace-pre-wrap break-words text-sm text-slate-700"[39m
+                  [36m>[39m
+                    [0mCapacity needs review[0m
+                  [36m</p>[39m
+                  [36m<p[39m
+                    [33mclass[39m=[32m"mt-1 text-xs text-slate-500"[39m
+                  [36m>[39m
+                    [0mFlagged [0m
+                    [0m13 Oct 2026, 09:00[0m
+                    [0m (Singapore time)[0m
+                  [36m</p>[39m
+                  [36m<form[39m
+                    [33maria-label[39m=[32m"Resolve review reason"[39m
+                    [33mclass[39m=[32m"mt-3 space-y-2"[39m
+                    [33mnovalidate[39m=[32m""[39m
+                  [36m>[39m
+                    [36m<fieldset[39m
+                      [33mclass[39m=[32m"space-y-2 disabled:opacity-60"[39m
+                      [33mdisabled[39m=[32m""[39m
+                    [36m>[39m
+                      [36m<label[39m
+                        [33mclass[39m=[32m"block text-sm"[39m
+                      [36m>[39m
+                        [0mResolution[0m
+                        [36m<select[39m
+                          [33mclass[39m=[32m"mt-1 block rounded-lg border border-slate-300 p-2"[39m
+                        [36m>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m""[39m
+                          [36m>[39m
+                            [0mChoose a resolution[0m
+                          [36m</option>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m"corrected"[39m
+                          [36m>[39m
+                            [0mArrangement corrected[0m
+                          [36m</option>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m"confirmed_valid"[39m
+                          [36m>[39m
+                            [0mStill valid[0m
+                          [36m</option>[39m
+                        [36m</select>[39m
+                      [36m</label>[39m
+                      [36m<label[39m
+                        [33mclass[39m=[32m"block text-sm"[39m
+                      [36m>[39m
+                        [0mExplanation[0m
+                        [36m<textarea[39m
+                          [33mclass[39m=[32m"mt-1 block w-full rounded-lg border border-slate-300 p-2"[39m
+                          [33mrows[39m=[32m"3"[39m
+                        [36m>[39m
+                          [0mChanged to the larger room.[0m
+                        [36m</textarea>[39m
+                      [36m</label>[39m
+                      [36m<p[39m
+                        [33mclass[39m=[32m"text-xs text-slate-600"[39m
+                      [36m>[39m
+                        [0mRecord what you corrected or why the arrangement remains valid. Saving resolves only this reason; it does not modify the booking.[0m
+                      [36m</p>[39m
+                      [36m<button[39m
+                        [33mclass[39m=[32m"rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white"[39m
+                        [33mtype[39m=[32m"submit"[39m
+                      [36m>[39m
+                        [0mSave resolution[0m
+                      [36m</button>[39m
+                    [36m</fieldset>[39m
+                    [36m<p[39m
+                      [33mclass[39m=[32m"text-sm text-green-800"[39m
+                      [33mrole[39m=[32m"status"[39m
+                    [36m>[39m
+                      [0mResolution saved. Refresh arrangement reviews if the history has not updated.[0m
+                    [36m</p>[39m
+                  [36m</form>[39m
+                [36m</li>[39m
+                [36m<li>[39m
+                  [36m<p[39m
+                    [33mclass[39m=[32m"whitespace-pre-wrap break-words text-sm text-slate-700"[39m
+                  [36m>[39m
+                    [0mTiming needs review[0m
+                  [36m</p>[39m
+                  [36m<p[39m
+                    [33mclass[39m=[32m"mt-1 text-xs text-slate-500"[39m
+                  [36m>[39m
+                    [0mFlagged [0m
+                    [0m13 Oct 2026, 09:00[0m
+                    [0m (Singapore time)[0m
+                  [36m</p>[39m
+                  [36m<form[39m
+                    [33maria-label[39m=[32m"Resolve review reason"[39m
+                    [33mclass[39m=[32m"mt-3 space-y-2"[39m
+                    [33mnovalidate[39m=[32m""[39m
+                  [36m>[39m
+                    [36m<fieldset[39m
+                      [33mclass[39m=[32m"space-y-2 disabled:opacity-60"[39m
+                    [36m>[39m
+                      [36m<label[39m
+                        [33mclass[39m=[32m"block text-sm"[39m
+                      [36m>[39m
+                        [0mResolution[0m
+                        [36m<select[39m
+                          [33mclass[39m=[32m"mt-1 block rounded-lg border border-slate-300 p-2"[39m
+                        [36m>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m""[39m
+                          [36m>[39m
+                            [0mChoose a resolution[0m
+                          [36m</option>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m"corrected"[39m
+                          [36m>[39m
+                            [0mArrangement corrected[0m
+                          [36m</option>[39m
+                          [36m<option[39m
+                            [33mvalue[39m=[32m"confirmed_valid"[39m
+                          [36m>[39m
+                            [0mStill valid[0m
+                          [36m</option>[39m
+                        [36m</select>[39m
+                      [36m</label>[39m
+                      [36m<label[39m
+                        [33mclass[39m=[32m"block text-sm"[39m
+                      [36m>[39m
+                        [0mExplanation[0m
+                        [36m<textarea[39m
+                          [33mclass[39m=[32m"mt-1 block w-full rounded-lg border border-slate-300 p-2"[39m
+                          [33mrows[39m=[32m"3"[39m
+                        [36m/>[39m
+                      [36m</label>[39m
+                      [36m<p[39m
+                        [33mclass[39m=[32m"text-xs text-slate-600"[39m
+                      [36m>[39m
+                        [0mRecord what you corrected or why the arrangement remains valid. Saving resolves only this reason; it does not modify the booking.[0m
+                      [36m</p>[39m
+                      [36m<button[39m
+                        [33mclass[39m=[32m"rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white"[39m
+                        [33mtype[39m=[32m"submit"[39m
+                      [36m>[39m
+                        [0mSave resolution[0m
+                      [36m</button>[39m
+                    [36m</fieldset>[39m
+                  [36m</form>[39m
+                [36m</li>[39m
+              [36m</ul>[39m
+            [36m</article>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/features/events/__tests__/ArrangementResolution.test.tsx:32:34
+     30|     await user.type(within(form).getByLabelText('Explanation'), note)
+     31|     await user.click(within(form).getByRole('button', { name: 'Save re…
+     32|     const history = await screen.findByRole('region', { name: 'Resolut…
+       |                                  ^
+     33|     expect(await within(history).findByText(`Resolved — ${label}`)).to…
+     34|     expect(within(history).getByText(note)).toBeInTheDocument()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 skipped (2)
+   Start at  11:17:08
+   Duration  2.27s (transform 66ms, setup 77ms, collect 189ms, tests 1.17s, environment 401ms, prepare 44ms)
+

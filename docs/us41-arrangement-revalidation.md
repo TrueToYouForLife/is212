@@ -2,10 +2,10 @@
 
 Owner: Jaydon
 
-Status: backend PR merged and migration 0052 applied to shared Supabase, confirmed
-by Jaydon. Read-only flag display is implemented locally; verification and review
-are tracked below. Notification display and resolution controls remain separate
-increments. This is code-first development, not TDD.
+Status: backend and review-indicator PRs merged; migration 0052 applied to shared
+Supabase, confirmed by Jaydon. Resolution controls and history are implemented
+locally on us41-resolve-arrangements. Notification display remains a separate
+increment. This is code-first development, not TDD.
 
 ## Scope and behavior
 
@@ -204,3 +204,71 @@ a booking with several reasons contributes only one to the displayed count.
 Final indicator verification, 13 October 2026: full frontend suite passed, 109 files,
 1,000 passing tests and one existing TODO. Lint and production build passed.
 Browser retest by Jaydon remains pending.
+
+## Resolution controls and history increment
+
+Branch: us41-resolve-arrangements. Reuses migration 0052; no new migration.
+
+Each open reason has a Resolution selection (Arrangement corrected / Still valid)
+and a required Explanation. Resolving one reason leaves other reasons open and
+keeps the arrangement's Needs review badge until its final open reason is resolved.
+The form explicitly states that saving records a review, not a booking change.
+Coordinators should first make any required booking correction through the booking
+workflow and then describe what they corrected, or explain why it remains valid.
+
+The service validates ID/method/nonblank explanation, trims the note and calls
+resolve_arrangement_review. The database enforces current assignment and records
+actor/time. A pending or successful submission cannot be repeated through the
+same form. Permission errors, already-resolved records and uncertain network results
+are shown without claiming success. Typed explanations are kept on save errors;
+refresh to inspect server state before retrying an uncertain write.
+
+After success, the panel reloads. Open arrangement counts update from the refreshed
+records; resolved reasons move to Resolution history with the original reason,
+booking reference, method, explanation, resolver and Singapore timestamp. Resolved
+records have no editing controls. Names are shown when accessible, with the saved
+resolver ID as fallback. Request-list badges update on return/focus, periodic refresh
+or Refresh requests. Notification inbox remains outside this PR.
+
+Automated coverage (three new cases, existing read/display cases extended):
+- AC-041.6.2 — Service unit, happy/negative: both methods, trimmed note, invalid
+  input without a write, RPC arguments, forbidden/stale/database errors, empty
+  success response and connection loss.
+- AC-041.6.3 — Component integration, happy/boundary: resolve two reasons on one
+  arrangement using both methods; keep the badge after the first, clear it after
+  the last, and retain explanations, methods, actor and Singapore time in history.
+- AC-041.6.4 — Component, negative: mandatory method/explanation, whitespace-only
+  note, pending double-submit protection, failed writes preserving input, and
+  successful form locking while refresh completes.
+- Existing AC-041.1.5 now reads/maps open and resolved records and checks the history
+  projection; .1.7/.1.8 retain grouping, error and refresh coverage with open flags.
+  SQL AC-041.6.1 already covers real RPC permissions and immutable resolution history.
+
+Manual checks for Jaydon (pending):
+1. Use an event with two reasons on the same arrangement. Confirm blank resolution
+   or explanation cannot be saved.
+2. Record one as Arrangement corrected with an explanation. Confirm it moves into
+   history and the remaining reason and Needs review badge stay visible.
+3. Record the remaining reason as Still valid, explaining why. Confirm both history
+   entries remain while the arrangement badge and top count disappear.
+4. Reload the event. Confirm notes, methods, recorded actor and Singapore times persist.
+5. Return to Requests and refresh; confirm the count no longer includes this arrangement.
+6. Confirm another coordinator cannot see or use these controls. If reassigned while
+   open, an old coordinator's save must be refused by the database.
+7. Confirm recording a resolution did not change booking status, slots or allocations.
+
+Jaydon handles commits, pushes, PR review and shared evidence-sheet updates.
+
+### Resolution increment verification — 13 October 2026
+
+Full frontend suite: 110 files passed, 1,003 tests passed and one existing TODO.
+Lint and production build passed (existing bundle-size warning only). No database
+code changed; browser verification remains pending.
+
+Forced-break AC-041.6.3 temporarily omitted the successful save refresh callback.
+The unchanged test failed because Resolution history never appeared. The form was
+restored byte-for-byte and the same test passed. Only this selected case ran;
+the other case is skipped in the two logs. Evidence:
+[expected failure](test-evidence/us41/AC-041.6.3-forced-break.log) and
+[restored pass](test-evidence/us41/AC-041.6.3-restored-pass.log).
+This is code-first sensitivity evidence, not a product defect or a TDD cycle.
