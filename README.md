@@ -3,6 +3,15 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
+## US41 arrangement review (backend increment, in progress)
+
+Migration 0052 adds per-arrangement review reasons after approved significant changes,
+checks venue capacity/timing and reserved equipment availability, and records coordinator
+notices. It preserves existing bookings and allocations. Only the assigned coordinator
+can resolve a review with an explanation. Visible badges, notifications and resolution
+controls are still pending; this is not yet a completed user story or deployed change.
+See [US41 scope, tests and remaining work](docs/us41-arrangement-revalidation.md).
+
 ## Architecture and workflows
 
 The [architecture guide](docs/architecture/README.md) contains the C1 context,

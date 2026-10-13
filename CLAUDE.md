@@ -1,5 +1,17 @@
 # ConnectSphere Event Planning System — Project Context
 
+## US41 arrangement review (local backend increment)
+- Claimed migration 0052 consumes the US7 approved-field hook synchronously. No backfill.
+- Separate arrangement_review_flags/notifications support venue and equipment reasons;
+  preserve booking states, claims and allocations. Current-coordinator access only.
+- checked_at marks evaluation; legacy queue status stays pending. Resolve through the
+  note-required RPC, retaining history. Resolution does not rebook an arrangement.
+- Reuse venue_review_cells and equipment_free_units; current shared venue timing is
+  still slot-based. Do not claim fifteen-minute support from this migration.
+- Ten code-first database cases pass locally, including replay and atomic rollback.
+  UI, manual verification, forced-break evidence and shared deployment remain pending.
+- See docs/us41-arrangement-revalidation.md. Jaydon handles all Git/PR operations.
+
 ## Architecture and workflow diagrams
 - `docs/architecture/README.md` records sources and modelling decisions; `index.html`
   is the local viewer. C1–C3 and Workflow Parts 1–3 describe the whole-project target,

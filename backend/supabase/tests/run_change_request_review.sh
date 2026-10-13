@@ -233,5 +233,15 @@ select pg_temp.assert_true(not exists(
  union all (select * from decisions_before_replay except select * from public.venue_booking_decision_notifications)),
  'AC-010.14.19: migration replay preserves notices and does not backfill historical decisions');
 SQL
+  cat "$repo_root/supabase/tests/arrangement_revalidation.sql"
+  cat "$repo_root/supabase/migrations/0052_arrangement_revalidation.sql"
+  cat <<'SQL'
+select pg_temp.assert_true(
+ not exists((select * from public.arrangement_review_flags except select * from us41_flags_replay)
+ union all (select * from us41_flags_replay except select * from public.arrangement_review_flags))
+ and not exists((select * from public.arrangement_review_notifications except select * from us41_notices_replay)
+ union all (select * from us41_notices_replay except select * from public.arrangement_review_notifications)),
+ 'AC-041.1.3: migration replay preserves review history and notification records');
+SQL
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
