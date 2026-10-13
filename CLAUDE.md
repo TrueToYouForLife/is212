@@ -1,34 +1,23 @@
 # ConnectSphere Event Planning System — Project Context
 
-## US41 resolution UI (local increment)
-- Branch us41-resolve-arrangements; no migration. Reuses 0052 resolution RPC.
-- Resolve each reason using corrected/confirmed_valid plus a mandatory explanation.
-  Do not automatically mutate bookings. Preserve remaining open reasons and counts.
-- Detail read now includes resolved metadata and resolver profile; list counts still
-  query only open flags. History is read-only; errors must not imply success.
-- Three new cases AC-041.6.2–4; existing read/panel fixtures extended. 1,003 tests
-  passed/one TODO; lint/build passed. Forced-break .6.3 caught missing refresh and
-  restored form passed; evidence under docs/test-evidence/us41/. Notification
-  display remains separate. Manual checks and verification in the US41 guide.
-
-## US41 arrangement review (in progress)
-- Claimed migration 0052 consumes the US7 approved-field hook synchronously. No backfill.
-- Separate arrangement_review_flags/notifications support venue and equipment reasons;
-  preserve booking states, claims and allocations. Current-coordinator access only.
-- checked_at marks evaluation; legacy queue status stays pending. Resolve through the
-  note-required RPC, retaining history. Resolution does not rebook an arrangement.
-- Reuse venue_review_cells and equipment_free_units; current shared venue timing is
-  still slot-based. Do not claim fifteen-minute support from this migration.
-- Ten code-first database cases pass locally, including replay and atomic rollback.
-  Backend merged and 0052 applied, confirmed by Jaydon. Read-only UI now groups open
-  flags per arrangement on the assigned coordinator detail page. Five new UI/service
-  cases AC-041.1.5–9. Final frontend: 1,000 pass, one TODO; lint/build pass. Forced-break
-  .1.7 caught a dropped reason and restored version passed; logs docs/test-evidence/us41/.
-  Requests cards show distinct arrangement counts from one RLS-protected query; the
-  detail status notice links to the reason panel and shares its data. Regression .1.10
-  covers coordinator_id projection; .1.11–12 cover counts/list indicators. Eight new
-  UI/service cases total. Manual checks, notification UI and resolution controls remain.
-- See docs/us41-arrangement-revalidation.md. Jaydon handles all Git/PR operations.
+## US41 implementation complete within agreed scope
+- Backend, flags/indicators and resolution/history merged in PRs #86–88. 0052 applied,
+  confirmed by Jaydon. Current branch contains documentation close-out only.
+- Approved significant changes create per-arrangement reasons; no booking/claim/allocation
+  mutation. Current coordinator resolves each reason with a mandatory note. History retained.
+- AC4 scope: produce arrangement_review_notifications with recipient/event/flag/reason.
+  Shared notification UI/email are owned elsewhere. No existing reader or outbox bridge
+  consumes these rows; document the handoff, do not claim notification delivery.
+- Uses existing slot-based venue_review_cells and date-based equipment_free_units.
+  Fifteen-minute and per-booking/session requirement changes remain shared dependencies.
+- 21 US41 cases: ten DB, eleven frontend. Latest implementation verification: full DB
+  runner passed; frontend 1,003 pass/one TODO; lint/build passed. Close-out does not rerun tests.
+- Jaydon confirmed indicators, one venue with multiple reasons counted once, equipment
+  flag count 1→2, resolution 2→1 and history persistence. Do not infer unreported manual tests.
+- Two defects: missing coordinator_id in detail read (fixed, regression .1.10); asynchronous
+  callback assertion in .1.7 (waitFor fix). Deliberate mutation logs .1.7/.6.3 are not defects.
+- docs/us41-arrangement-revalidation.md holds AC review, notification handoff and evidence.
+  Shared sheet/Jira updates and docs PR remain user-managed; never mark delivery complete.
 
 ## Architecture and workflow diagrams
 - `docs/architecture/README.md` records sources and modelling decisions; `index.html`
