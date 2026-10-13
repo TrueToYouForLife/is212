@@ -3,7 +3,7 @@ import { formatDateTime, orDash } from '../formatters'
 import { StatusBadge } from './StatusBadge'
 import type { EventRequestSummary } from '../types'
 
-export function RequestListItem({ request, organiserView = false, assignedToYou = false }: { request: EventRequestSummary; organiserView?: boolean; assignedToYou?: boolean }) {
+export function RequestListItem({ request, organiserView = false, assignedToYou = false, arrangementReviewCount = 0 }: { request: EventRequestSummary; organiserView?: boolean; assignedToYou?: boolean; arrangementReviewCount?: number }) {
   return (
     <li className="rounded-xl border border-slate-200 bg-white shadow-sm transition hover:border-slate-300">
       <Link
@@ -19,7 +19,12 @@ export function RequestListItem({ request, organiserView = false, assignedToYou 
               {orDash(request.name ?? request.purpose)}
             </h3>
           </div>
+          <div className="flex flex-wrap items-center gap-2">
           <StatusBadge status={request.status} organiserView={organiserView} reviewNote={request.reviewNote} />
+          {assignedToYou && arrangementReviewCount > 0 && <span className="rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-900">
+            Needs review · {arrangementReviewCount} {arrangementReviewCount === 1 ? 'arrangement' : 'arrangements'}
+          </span>}
+          </div>
         </div>
 
         <dl className="mt-4 grid gap-x-6 gap-y-2 text-xs sm:grid-cols-3">

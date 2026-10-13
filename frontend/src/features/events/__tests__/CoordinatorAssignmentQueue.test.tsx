@@ -1,3 +1,4 @@
+vi.mock('../arrangementReviewService', () => ({ listArrangementReviewCounts: vi.fn().mockResolvedValue({ ok: true, value: {} }) }))
 import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'

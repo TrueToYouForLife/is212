@@ -1,0 +1,125 @@
+Temporary mutation: retain only the last reason per arrangement. Tests unchanged.
+
+> connectsphere@0.1.0 test
+> vitest run src/features/events/__tests__/ArrangementReviewPanel.test.tsx -t AC-041.1.7 --maxWorkers=1 --minWorkers=1
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+ ❯ src/features/events/__tests__/ArrangementReviewPanel.test.tsx (2 tests | 1 failed | 1 skipped) 64ms
+   × AC-041.1.7: groups all reasons by arrangement, identifies venue and equipment and refreshes after review 63ms
+     → Unable to find an element with the text: Attendance exceeds capacity.. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<article[39m
+  [33maria-label[39m=[32m"Venue booking — Hall A"[39m
+  [33mclass[39m=[32m"rounded-lg border border-amber-200 p-4"[39m
+[36m>[39m
+  [36m<div[39m
+    [33mclass[39m=[32m"flex flex-wrap items-center gap-2"[39m
+  [36m>[39m
+    [36m<h3[39m
+      [33mclass[39m=[32m"font-semibold text-slate-900"[39m
+    [36m>[39m
+      [0mVenue booking — Hall A[0m
+    [36m</h3>[39m
+    [36m<span[39m
+      [33mclass[39m=[32m"rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-900"[39m
+    [36m>[39m
+      [0mNeeds review[0m
+    [36m</span>[39m
+  [36m</div>[39m
+  [36m<p[39m
+    [33mclass[39m=[32m"mt-2 break-all text-xs text-slate-500"[39m
+  [36m>[39m
+    [0mReference: [0m
+    [0mvenue-booking-1[0m
+  [36m</p>[39m
+  [36m<ul[39m
+    [33mclass[39m=[32m"mt-3 space-y-3"[39m
+  [36m>[39m
+    [36m<li>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"whitespace-pre-wrap break-words text-sm text-slate-700"[39m
+      [36m>[39m
+        [0mTiming conflicts.[0m
+      [36m</p>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-1 text-xs text-slate-500"[39m
+      [36m>[39m
+        [0mFlagged [0m
+        [0m13 Oct 2026, 09:00[0m
+        [0m (Singapore time)[0m
+      [36m</p>[39m
+    [36m</li>[39m
+  [36m</ul>[39m
+[36m</article>[39m
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/events/__tests__/ArrangementReviewPanel.test.tsx > AC-041.1.7: groups all reasons by arrangement, identifies venue and equipment and refreshes after review
+TestingLibraryElementError: Unable to find an element with the text: Attendance exceeds capacity.. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<article[39m
+  [33maria-label[39m=[32m"Venue booking — Hall A"[39m
+  [33mclass[39m=[32m"rounded-lg border border-amber-200 p-4"[39m
+[36m>[39m
+  [36m<div[39m
+    [33mclass[39m=[32m"flex flex-wrap items-center gap-2"[39m
+  [36m>[39m
+    [36m<h3[39m
+      [33mclass[39m=[32m"font-semibold text-slate-900"[39m
+    [36m>[39m
+      [0mVenue booking — Hall A[0m
+    [36m</h3>[39m
+    [36m<span[39m
+      [33mclass[39m=[32m"rounded-full bg-amber-100 px-2 py-1 text-xs font-medium text-amber-900"[39m
+    [36m>[39m
+      [0mNeeds review[0m
+    [36m</span>[39m
+  [36m</div>[39m
+  [36m<p[39m
+    [33mclass[39m=[32m"mt-2 break-all text-xs text-slate-500"[39m
+  [36m>[39m
+    [0mReference: [0m
+    [0mvenue-booking-1[0m
+  [36m</p>[39m
+  [36m<ul[39m
+    [33mclass[39m=[32m"mt-3 space-y-3"[39m
+  [36m>[39m
+    [36m<li>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"whitespace-pre-wrap break-words text-sm text-slate-700"[39m
+      [36m>[39m
+        [0mTiming conflicts.[0m
+      [36m</p>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-1 text-xs text-slate-500"[39m
+      [36m>[39m
+        [0mFlagged [0m
+        [0m13 Oct 2026, 09:00[0m
+        [0m (Singapore time)[0m
+      [36m</p>[39m
+    [36m</li>[39m
+  [36m</ul>[39m
+[36m</article>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/features/events/__tests__/ArrangementReviewPanel.test.tsx:15:24
+     13|   const { rerender } = render(<ArrangementReviewPanel eventId="event1"…
+     14|   const venue = await screen.findByRole('article', { name: 'Venue book…
+     15|   expect(within(venue).getByText('Attendance exceeds capacity.')).toBe…
+       |                        ^
+     16|   expect(within(venue).getByText('Timing conflicts.')).toBeInTheDocume…
+     17|   expect(within(venue).getByText('Reference: venue-booking-1')).toBeIn…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 skipped (2)
+   Start at  10:32:49
+   Duration  1.00s (transform 65ms, setup 56ms, collect 192ms, tests 64ms, environment 315ms, prepare 53ms)
+
