@@ -2,273 +2,191 @@
 
 Owner: Jaydon
 
-Status: backend and review-indicator PRs merged; migration 0052 applied to shared
-Supabase, confirmed by Jaydon. Resolution controls and history are implemented
-locally on us41-resolve-arrangements. Notification display remains a separate
-increment. This is code-first development, not TDD.
+Status: implementation merged in PRs #86, #87 and #88. Migration 0052 applied to
+shared Supabase, confirmed by Jaydon. Implementation is complete within the agreed
+US41 responsibility: flag affected arrangements, record coordinator notifications,
+display reasons and allow recorded resolution. Shared notification UI and email
+delivery are owned elsewhere and are not claimed as delivered by US41.
 
-## Scope and behavior
+Close-out review: 13 October 2026, against SCRUM-237 (1).doc and merged code at
+3e90307. This documentation change still needs its own PR; Jaydon handles Git/Jira.
 
-Migration `0052_arrangement_revalidation.sql` consumes the US7 accepted-field hook
-in the same approval transaction. Only approved significant fields are considered.
-An ordinary edit or a rejected significant field does not create arrangement flags.
-There is no backfill of historical approvals.
+## Acceptance criteria review
 
-Each `arrangement_review_flags` record links an event, change request, one venue
-booking or equipment reservation, and a stable reason code with readable detail.
-Several reasons can coexist for the same arrangement. Open records are shown
-as **Needs review** in the read-only UI; they do not replace booking status.
-Bookings, slot claims and equipment allocations are never moved or cancelled by
-this migration, including when a flag is resolved.
+- **AC-041.1 — Flag affected arrangements without changing reservations:** implemented
+  in 0052 and the arrangement review UI. Each reason links its change request and
+  venue booking or equipment reservation. Several reasons may belong to one
+  arrangement; badges count distinct arrangements. Snapshot tests verify that
+  approval and resolution do not mutate bookings, claims or equipment allocations.
+- **AC-041.2 — Recheck timing:** each live venue booking is checked against the updated
+  event window, occupied cells and active closures. Actual reserved equipment units
+  are checked using existing collection/return availability rules. A free new interval
+  that differs from reserved dates receives a review reason, not a false conflict.
+- **AC-041.3 — Recheck layout capacity:** attendance is compared with each venue's
+  capacity for the requested layout. Equality remains suitable; unknown layout
+  capacity requests manual review rather than falsely reporting insufficient space.
+- **AC-041.4 — Notify coordinator:** the agreed US41 producer responsibility is complete.
+  One protected database notification is created per new reason, addressed to the
+  assigned coordinator and linked to the arrangement. This is not an end-to-end
+  notification-delivery claim. Shared UI/email integration remains a dependency;
+  record this ownership boundary in Jira when closing the story.
+- **AC-041.5 — Ordinary edits:** US7's accepted-field hook excludes ordinary edits,
+  rejected significant fields and provisional decisions awaiting clarification.
+- **AC-041.6 — Resolve flags:** only the current assigned coordinator may record
+  Arrangement corrected or Still valid with a mandatory explanation. Other open
+  reasons remain flagged. History retains the method, note, actor and timestamp.
+  Correction is performed through the existing booking workflow, then recorded here;
+  saving a resolution does not itself rebook, cancel or edit an arrangement.
 
-- Timing: check each live venue booking against the new event window, existing
-  occupied cells and active closures. A free new window still requires review if
-  the existing reserved cells do not match it. Pending/confirmed bookings and
-  unexpired holds are considered; cancelled/rejected/expired bookings are excluded.
-- Equipment timing: check the actual reserved or checked-out units against the
-  new dates using the existing availability function and collection rules. Preserve
-  each allocation's agreed return extension. A change of reservation dates also
-  receives a review reason even when no conflicting allocation exists.
-- Attendance: compare each venue's capacity for the requested layout. Equality is
-  suitable. Unknown layout capacity requires manual review, not a claim that the
-  venue is too small. This uses the existing event-level requirements model.
-- Layout, accessibility and equipment requirement changes: store a reusable manual
-  review explanation. Free-text requirements cannot prove incompatibility, so the
-  messages do not claim a shortage or accessibility failure automatically.
-- Notifications: one protected database notice per new reason, addressed to the
-  currently assigned coordinator and linked to the arrangement through its flag.
-  No email delivery or visible in-app notification panel is added in this increment.
-- Resolution: `resolve_arrangement_review` accepts `corrected` or `confirmed_valid`
-  with a mandatory explanation. Only the current assigned coordinator can call it.
-  It records actor/time/method/note and refuses a second resolution. It records the
-  coordinator's review; it does not itself correct or rebook the arrangement.
+## Notification handoff contract
 
-The existing `event_change_revalidations.status` remains unchanged for compatibility;
-`checked_at` records execution of these checks. It is not a claim that all reviews
-are resolved. New code must use open flags when deciding whether review is pending.
+Existing source: `public.arrangement_review_notifications`, created by 0052.
+No new schema, notification interface or email sender was added during close-out.
 
-## Existing timing dependency
+- `id`: stable notification identifier.
+- `recipient_id`: coordinator assigned when the reason was generated.
+- `event_id`: event to open at `/requests/<event_id>#arrangement-reviews`.
+- `flag_id`: join to `arrangement_review_flags.id` for venue/equipment booking ID,
+  reason code, open/resolved status and resolution history.
+- `detail`: readable reason at creation; `created_at`: server timestamp.
+- Unique `flag_id` prevents duplicate notices for the same flag. Separate reasons
+  generate separate notices, although UI arrangement counts deduplicate bookings.
+- Creation is atomic with the approval and flag; a failed notice insert rolls back
+  the approval. No historical backfill. Migration replay preserves existing records.
+- Browser reads require both the original recipient and current assignment, with
+  coordinator role. After reassignment, the new coordinator can read event flags,
+  but old notices are not automatically readdressed or redelivered.
 
-Venue timing uses the shared `venue_review_cells` function and current slot ledger.
-Those currently represent AM/PM/Night cells. US41 does not independently implement
-the Week 7 fifteen-minute booking change; it must remain aligned with the shared
-booking implementation when that work lands. Equipment reservations remain date-based.
+Repository comparison: US10 also uses a separate per-feature notification table;
+US17 additionally connects its own notifications to `notification_outbox`. The
+existing send-review-notifications function consumes that outbox, not the US41
+notification table. No frontend consumer or email-outbox bridge currently reads
+US41 notices. The notification owner must integrate this source; it is not already
+wired into a shared inbox, dispatcher or email channel. US41 badges and reasons
+are visible independently of that future delivery integration.
 
-## Automated cases
+## Behavior and dependency limits
 
-File: `backend/supabase/tests/arrangement_revalidation.sql`, with replay verification
-in `backend/supabase/tests/run_change_request_review.sh`.
+- Active venue checks include pending/confirmed bookings and unexpired holds.
+  Rejected, cancelled and expired arrangements are excluded.
+- Equipment checks require actual reserved/checked-out allocations. A requirement
+  marked Unavailable with 0 units reserved is not an existing reservation. A booking
+  created after approval is not retrospectively flagged by that earlier approval.
+- Equipment return extensions are preserved per allocated item. Reservations remain
+  date-based under the existing equipment model.
+- Venue checks reuse `venue_review_cells` and the current AM/PM/Night ledger. US41
+  does not independently implement Week 7 fifteen-minute booking support. It must
+  stay aligned when the shared booking implementation changes.
+- Capacity currently uses event-level attendance/layout; per-session or per-booking
+  requirements must be integrated when the shared model supports them.
+- Free-text accessibility/layout/equipment changes generate manual-review explanations;
+  they do not prove incompatibility automatically. Significance remains owned by US7.
+- `event_change_revalidations.checked_at` means checks executed, not all issues resolved.
+  Its legacy status stays pending; use open flags for outstanding reviews.
 
-All cases are database integration tests using disposable PostgreSQL, actual review
-RPCs, triggers and row-level security. They are automated, not manual SQL checks.
+## User interface
 
-- AC-041.5.1 — Negative: ordinary approvals, rejected significant changes and pending
-  proposals create no arrangement flags.
+Assigned coordinator request cards display Needs review and distinct arrangement
+counts. Below Current status, a matching notice links to Arrangement reviews.
+The panel groups all open reasons under their arrangement, showing booking references,
+venue names where readable and Singapore timestamps. Only the assigned coordinator
+sees the controls; database RLS independently enforces access.
+
+Reads refresh on focus, every 30 seconds and via refresh controls. A saved resolution
+reloads the panel and its count. Resolved entries move into read-only history.
+Request-card counts refresh on returning to Requests/focus or explicit refresh.
+Errors are displayed rather than interpreted as an empty list. Saving prevents
+pending duplicate submissions and keeps explanations when a write fails. For an
+uncertain network result, refresh to inspect server state before retrying.
+
+## Automated coverage
+
+Code-first development; these are not TDD red/green records. Twenty-one US41 cases:
+ten database integration cases and eleven frontend service/component/page cases.
+
+Database: `backend/supabase/tests/arrangement_revalidation.sql`, plus replay in
+`run_change_request_review.sh`. Real approval RPCs, triggers and RLS run in disposable
+PostgreSQL, not the shared project.
+
+- AC-041.1.1 — Happy: independent requirement reasons preserve earlier flags.
+- AC-041.1.2 — Regression: bookings, claims and allocations remain unchanged.
+- AC-041.1.3 — Regression: replay preserves flags and notices.
+- AC-041.1.4 — Negative: notice-write failure rolls back approval and review records.
+- AC-041.2.1 — Happy/negative: timing conflicts checked per venue and reserved unit;
+  a free new interval gets review without a false conflict.
 - AC-041.3.1 — Boundary: attendance equal to layout capacity remains suitable.
-- AC-041.3.2 — Happy/negative: increased attendance flags only the smaller of two
-  venues, with attendance and capacity in the explanation.
-- AC-041.2.1 — Happy/negative: changed timing checks both venues and reserved equipment;
-  distinguishes real conflicts from a free window that has not been reserved.
-- AC-041.1.1 — Happy: requirement changes retain independent reasons and earlier flags.
-- AC-041.4.1 — Happy: each new reason has one coordinator notice and arrangement reference.
-- AC-041.6.1 — Happy/negative: current-coordinator-only access and resolution, mandatory
-  note, both resolution methods and refusal to overwrite recorded history.
-- AC-041.1.2 — Regression: approval and resolution leave all booking/claim/allocation
-  records unchanged, checked against snapshots in both directions.
-- AC-041.1.4 — Negative: a simulated notification-write failure rolls back event changes,
-  the approval, queue record and flags together.
-- AC-041.1.3 — Regression: replaying migration 0052 preserves existing flags and notices.
+- AC-041.3.2 — Happy/negative: flag only the undersized venue, including actual capacity.
+- AC-041.4.1 — Happy: each reason has one correctly addressed notification record.
+- AC-041.5.1 — Negative: ordinary, rejected and unapproved changes produce no flags.
+- AC-041.6.1 — Happy/negative: assigned-only resolution, required note, both methods,
+  retained history and refusal to overwrite a resolution.
 
-## Verification
+Frontend: arrangementReviewService, ArrangementReviewPanel, ArrangementReviewIndicators,
+ArrangementResolution, ChangeRequestReviewPage and eventReviewService test files.
+Services are mocked in UI tests; the SQL cases independently cover server permissions.
 
-13 October 2026: complete local disposable database runner passed (exit 0), including
-all ten new US41 cases and the existing database regression/concurrency tests.
-The first new-test run exposed a missing `reserved_by` in the test fixture; the
-fixture was corrected. No frontend code changed or frontend verification is claimed.
+- AC-041.1.5 — Service unit, happy/boundary: event-scoped reads, projection and mapping
+  of open/resolved records, stable ordering and empty results.
+- AC-041.1.6 — Service unit, negative: invalid ID, malformed response and read failures.
+- AC-041.1.7 — Component, happy: grouped reasons, references, Singapore dates and count.
+- AC-041.1.8 — Component, negative/boundary: loading, failure, retry and event changes.
+- AC-041.1.9 — Page integration, happy/negative: assigned-only section and status notice.
+- AC-041.1.10 — Service unit, regression: real detail projection includes coordinator ID.
+- AC-041.1.11 — Service unit, happy/negative: distinct counts and failure handling.
+- AC-041.1.12 — Page integration, happy/negative: assigned-only list indicators and refresh.
+- AC-041.6.2 — Service unit, happy/negative: resolution input, RPC and failure handling.
+- AC-041.6.3 — Component integration, happy/boundary: individual resolutions, remaining
+  flags, final count removal and retained actor/method/note/time in history.
+- AC-041.6.4 — Component, negative: missing/blank explanation, duplicate submissions,
+  save errors preserving input and locking after success.
 
-At the backend checkpoint, forced-break evidence, visible UI tests and Jaydon's
-manual checks remained pending. The read-only increment below updates that status.
-A simulated write failure is a negative test; it is not a TDD red run or a separate
-forced-break demonstration. GitHub Actions evidence will be available after Jaydon
-pushes. Automated run records do not need duplicating in the spreadsheet run tab.
+## Verification and manual evidence
 
-## Remaining work before completing US41
+Recorded implementation verification, 13 October 2026:
+- Complete disposable database runner passed, including ten new US41 cases and
+  existing regression/concurrency coverage.
+- Latest full frontend run: 110 files, 1,003 passing tests, one existing TODO.
+- Lint and production build passed; existing bundle-size warning remains.
+- No new test run is claimed for this documentation-only close-out.
+- Merged PRs #86/#87/#88 are visible in Git history. Jaydon confirmed the merges and
+  shared deployment of 0052; shared Supabase was not queried during this close-out.
 
-- Finish verification and review of the read-only arrangement display.
-- Add coordinator notification display and appropriate arrangement navigation.
-- Resolution controls and retained history, including loading, errors and refresh.
-- Focused UI coverage and a code-first forced-break/restored-pass evidence check.
-- Manual end-to-end checks, evidence-sheet updates and PR review.
-- Apply 0052 through the team's migration process only when ready for shared testing.
+Manual results reported by Jaydon on 13 October 2026:
+- Request-list indicators, top status notice and detailed review UI worked — Pass.
+- One venue booking with capacity and timing reasons counted as one arrangement — Pass.
+- Approved equipment change after actual reservation increased count from 1 to 2 — Pass.
+- Resolving the equipment reason reduced count from 2 to 1, leaving venue review — Pass.
+- Resolution history persisted after reloading — Pass.
 
-Jaydon handles commits, pushes, PRs, deployment and Jira updates.
+Do not expand these reports into claims that every suggested browser scenario was
+executed. Both resolution methods, invalid submissions, server permission rejection,
+booking preservation and atomic failures have automated evidence; no separate manual
+pass is claimed for those scenarios or for notification delivery.
 
-## Read-only review display increment
+## Defects and test-sensitivity evidence
 
-The assigned coordinator's event detail page now shows **Arrangement reviews**.
-Open reasons are grouped by venue booking or equipment reservation, with one
-Needs review badge per arrangement, full booking reference, reason text and
-Singapore timestamps. Venue names are shown when accessible; the booking reference
-remains available if the related venue cannot be read. Resolved flags are excluded.
-An empty result means no current flags, not a guarantee of arrangement suitability.
+- Product defect: event detail omitted coordinator_id, hiding the review section.
+  Fixed projection; AC-041.1.10 failed before the fix and passed afterwards. Jaydon
+  subsequently confirmed the UI worked. Record in the shared manual-defect records.
+- Test defect: AC-041.1.7 asserted count before its React effect completed in CI.
+  Fixed by waiting for the callback with unchanged expected values. Full suite passed
+  locally and the follow-up is included in merged PR #87. Use its actual CI links
+  in the evidence sheet; no new CI verification was performed during close-out.
+- Forced-break .1.7 deliberately discarded all but the last reason; unchanged test
+  failed for the missing reason and passed after byte-for-byte restoration.
+- Forced-break .6.3 omitted the post-save refresh; unchanged test failed for missing
+  history and passed after byte-for-byte restoration.
 
-Reads are scoped to the event and open status, with database RLS enforcing assignment.
-The page mounts this section only for its current assigned coordinator. It refreshes
-on page focus, every 30 seconds, after a review decision, and using either the page
-refresh or the section's refresh button. Errors display a retryable message rather
-than a misleading empty result. No write operations, resolution controls or notification
-inbox are included. No additional migration is needed.
+Logs are under `docs/test-evidence/us41/`: the forced-break/restored-pass pairs for
+AC-041.1.7 and AC-041.6.3. These mutations are test-sensitivity evidence, not product
+bugs or TDD cycles. Non-selected cases are skipped in those logs.
 
-Five new automated cases (code-first):
-- AC-041.1.5 — Service unit, happy/boundary: event/open filtering, stable ordering,
-  related venue mapping, retained reasons and empty results.
-- AC-041.1.6 — Service unit, negative: invalid ID, database failure, malformed response
-  and thrown connection error are not treated as an empty list.
-- AC-041.1.7 — Component, happy: multiple reasons grouped once per arrangement,
-  equipment/venue references, Singapore dates and refresh after approval.
-- AC-041.1.8 — Component, negative/boundary: loading, failed read, retry, inaccessible
-  venue-name fallback and changing events without retaining old reasons.
-- AC-041.1.9 — Page integration, happy/negative: only assigned coordinator sees the
-  section and page refresh reloads it. Browser tests mock services; SQL tests cover RLS.
+## Administrative close-out
 
-Manual checks for Jaydon (pending):
-1. Sign in as the assigned coordinator and open an event with open US41 flags.
-   Confirm each arrangement appears once and every reason is visible.
-2. Check a flagged venue and equipment reservation against their stored references.
-3. Approve a significant change that generates a flag; confirm the section refreshes
-   without navigating away. Existing booking status must remain unchanged.
-4. Open an event without flags; confirm the empty message. View the same flagged event
-   as another coordinator or an organiser; the section must not appear.
-5. Simulate an offline read and refresh: an error should appear. Restore the connection
-   and refresh again to recover the reasons.
-
-UI notification display and resolution/history controls remain outstanding. Do not
-mark the whole US41 complete after this read-only increment.
-
-### Read-only increment verification — 13 October 2026
-
-- Full frontend suite passed: 108 files, 997 tests passed, one existing TODO.
-- Lint and production build passed. The existing large-bundle warning remains.
-- Initial module reads timed out before verification could run; `npm ci` restored
-  the locked dependencies and the rerun completed. No dependency versions changed.
-- Forced-break AC-041.1.7: temporarily kept only the last reason in each group. The
-  unchanged test failed because the attendance reason disappeared. Restoring the
-  component byte-for-byte made the same test pass. Only the selected case ran;
-  the other case was skipped in these two logs. This is test-sensitivity evidence,
-  not a real product defect or TDD cycle. Logs:
-  [expected failure](test-evidence/us41/AC-041.1.7-forced-break.log) and
-  [restored pass](test-evidence/us41/AC-041.1.7-restored-pass.log).
-- No database code changed in this UI increment. No new deployment is required.
-- Jaydon's browser checks, GitHub CI and PR review are pending.
-
-### Manual defect — arrangement section hidden
-
-Discovered by: Jaydon. Fixed by: Jaydon. Date: 13 October 2026.
-The event detail query omitted coordinator_id, so the assigned-coordinator display
-condition received undefined and hid the entire section. Page mocks included the
-field and did not expose the missing query column. Added coordinator_id to the
-actual detail projection. Regression AC-041.1.10 models selected columns only and
-checks both assigned and unassigned mapping; it failed before the fix and passed
-afterwards. All 30 tests across the four relevant service/page/panel files passed.
-This is a genuine manually reported defect, separate from the deliberate forced-break
-check. Jaydon's browser retest remains pending. There are now six new UI/service
-cases for this increment. No migration change is required.
-
-### Review indicators on request cards and event status
-
-The assigned coordinator's Requests cards now show **Needs review · N arrangements**
-next to the unchanged event status. A single open-flag query supplies counts for
-all cards; database RLS limits the rows. Counts deduplicate venue bookings and
-equipment reservations, so three reasons on one booking count as one arrangement.
-Other coordinators' cards and non-coordinator views do not show the indicator.
-Failed count reads show an explicit warning rather than implying no flags exist.
-
-Below Current status, the assigned coordinator sees a matching count and a link to
-`#arrangement-reviews`. This uses the detailed panel's loaded data, with no additional
-query; empty/error/loading data removes the notice. Refreshing the page or review
-section updates both. This is an arrangement indicator, not a notification inbox
-or an event-status change. No database migration is required.
-
-Additional cases:
-- AC-041.1.11 — Service unit, happy/negative: distinct per-event counts from one
-  open-flag query, plus failure handling.
-- AC-041.1.12 — Page integration, happy/negative: assigned-only badges, unchanged
-  event status, failed read, retry, singular/plural counts and no organiser query.
-- Existing .1.7 and .1.9 also check the detail count and anchor, including removal
-  when no arrangements remain. Eight new UI/service cases now cover this increment.
-
-Manual retest pending: check Requests as the assigned coordinator, open a flagged
-event and click the notice below Current status to reach the reasons. Confirm that
-a booking with several reasons contributes only one to the displayed count.
-
-Final indicator verification, 13 October 2026: full frontend suite passed, 109 files,
-1,000 passing tests and one existing TODO. Lint and production build passed.
-Browser retest by Jaydon remains pending.
-
-## Resolution controls and history increment
-
-Branch: us41-resolve-arrangements. Reuses migration 0052; no new migration.
-
-Each open reason has a Resolution selection (Arrangement corrected / Still valid)
-and a required Explanation. Resolving one reason leaves other reasons open and
-keeps the arrangement's Needs review badge until its final open reason is resolved.
-The form explicitly states that saving records a review, not a booking change.
-Coordinators should first make any required booking correction through the booking
-workflow and then describe what they corrected, or explain why it remains valid.
-
-The service validates ID/method/nonblank explanation, trims the note and calls
-resolve_arrangement_review. The database enforces current assignment and records
-actor/time. A pending or successful submission cannot be repeated through the
-same form. Permission errors, already-resolved records and uncertain network results
-are shown without claiming success. Typed explanations are kept on save errors;
-refresh to inspect server state before retrying an uncertain write.
-
-After success, the panel reloads. Open arrangement counts update from the refreshed
-records; resolved reasons move to Resolution history with the original reason,
-booking reference, method, explanation, resolver and Singapore timestamp. Resolved
-records have no editing controls. Names are shown when accessible, with the saved
-resolver ID as fallback. Request-list badges update on return/focus, periodic refresh
-or Refresh requests. Notification inbox remains outside this PR.
-
-Automated coverage (three new cases, existing read/display cases extended):
-- AC-041.6.2 — Service unit, happy/negative: both methods, trimmed note, invalid
-  input without a write, RPC arguments, forbidden/stale/database errors, empty
-  success response and connection loss.
-- AC-041.6.3 — Component integration, happy/boundary: resolve two reasons on one
-  arrangement using both methods; keep the badge after the first, clear it after
-  the last, and retain explanations, methods, actor and Singapore time in history.
-- AC-041.6.4 — Component, negative: mandatory method/explanation, whitespace-only
-  note, pending double-submit protection, failed writes preserving input, and
-  successful form locking while refresh completes.
-- Existing AC-041.1.5 now reads/maps open and resolved records and checks the history
-  projection; .1.7/.1.8 retain grouping, error and refresh coverage with open flags.
-  SQL AC-041.6.1 already covers real RPC permissions and immutable resolution history.
-
-Manual checks for Jaydon (pending):
-1. Use an event with two reasons on the same arrangement. Confirm blank resolution
-   or explanation cannot be saved.
-2. Record one as Arrangement corrected with an explanation. Confirm it moves into
-   history and the remaining reason and Needs review badge stay visible.
-3. Record the remaining reason as Still valid, explaining why. Confirm both history
-   entries remain while the arrangement badge and top count disappear.
-4. Reload the event. Confirm notes, methods, recorded actor and Singapore times persist.
-5. Return to Requests and refresh; confirm the count no longer includes this arrangement.
-6. Confirm another coordinator cannot see or use these controls. If reassigned while
-   open, an old coordinator's save must be refused by the database.
-7. Confirm recording a resolution did not change booking status, slots or allocations.
-
-Jaydon handles commits, pushes, PR review and shared evidence-sheet updates.
-
-### Resolution increment verification — 13 October 2026
-
-Full frontend suite: 110 files passed, 1,003 tests passed and one existing TODO.
-Lint and production build passed (existing bundle-size warning only). No database
-code changed; browser verification remains pending.
-
-Forced-break AC-041.6.3 temporarily omitted the successful save refresh callback.
-The unchanged test failed because Resolution history never appeared. The form was
-restored byte-for-byte and the same test passed. Only this selected case ran;
-the other case is skipped in the two logs. Evidence:
-[expected failure](test-evidence/us41/AC-041.6.3-forced-break.log) and
-[restored pass](test-evidence/us41/AC-041.6.3-restored-pass.log).
-This is code-first sensitivity evidence, not a product defect or a TDD cycle.
+No additional feature code is proposed within the agreed US41 scope. Remaining actions:
+- Commit/review this documentation close-out.
+- Update the shared test overview, manual results and defect records; ownership Jaydon.
+  Keep automated-run evidence in GitHub Actions, not duplicated in the spreadsheet run tab.
+- Record AC4's producer/delivery boundary and notification integration dependency in Jira.
+- Mark US41 Done through the team's agreed review/Definition of Done process. Do not
+  describe notification delivery or fifteen-minute venue booking as implemented by US41.

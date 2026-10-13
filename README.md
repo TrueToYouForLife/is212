@@ -3,7 +3,7 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
-## US41 arrangement review (in progress)
+## US41 arrangement review (implemented; close-out documentation)
 
 Migration 0052 adds per-arrangement review reasons after approved significant changes,
 checks venue capacity/timing and reserved equipment availability, and records coordinator
@@ -14,8 +14,11 @@ Needs review badges and Singapore timestamps. Assigned request cards also show t
 number of affected arrangements; a notice below Current status links to the reasons.
 Assigned coordinators can now resolve individual reasons with a required explanation
 and view the retained resolution history. Saving a resolution does not change a
-booking. Notification display is still pending; US41 is not complete. Jaydon confirmed
-0052 is applied; this UI needs no additional migration.
+booking. US41 writes coordinator notification records to `arrangement_review_notifications`;
+shared notification UI and email delivery are owned elsewhere and are not connected
+to these records yet. This is the agreed notification-producer scope, not a delivery
+completion claim. Jaydon confirmed 0052 is applied and the UI/resolution history
+checks passed. The implementation PRs are merged; evidence-sheet/Jira close-out remains.
 See [US41 scope, tests and remaining work](docs/us41-arrangement-revalidation.md).
 
 ## Architecture and workflows
