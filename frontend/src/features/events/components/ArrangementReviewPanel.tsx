@@ -1,4 +1,5 @@
 import { useCallback, useEffect } from 'react'
+import { ArrangementResolutionForm } from './ArrangementResolutionForm'
 import { Card } from '../../../components/ui/Card'
 import { listArrangementReviews } from '../arrangementReviewService'
 import type { ArrangementReviewFlag } from '../arrangementReviewService'
@@ -9,10 +10,12 @@ export function ArrangementReviewPanel({ eventId, refreshVersion = 0, onCount }:
   const read = useCallback(() => listArrangementReviews(eventId), [eventId])
   const { value, loading, error, refresh } = useRequestResource(`${eventId}:${refreshVersion}`, read)
   const groups = new Map<string, ArrangementReviewFlag[]>()
-  for (const flag of value ?? []) {
+  for (const flag of (value ?? []).filter(flag => flag.status === 'open')) {
     const key = flag.venue_booking_id ? `venue:${flag.venue_booking_id}` : `equipment:${flag.equipment_booking_id}`
     groups.set(key, [...(groups.get(key) ?? []), flag])
   }
+  const resolved = (value ?? []).filter(flag => flag.status === 'resolved')
+    .sort((a, b) => (b.resolved_at ?? '').localeCompare(a.resolved_at ?? ''))
   const count = loading || error ? null : groups.size
   useEffect(() => { onCount?.(count) }, [onCount, count])
   return <div id="arrangement-reviews" className="scroll-mt-6"><Card title="Arrangement reviews" description="Bookings and reservations needing review after approved changes. Existing reservations remain unchanged.">
@@ -33,8 +36,20 @@ export function ArrangementReviewPanel({ eventId, refreshVersion = 0, onCount }:
             <ul className="mt-3 space-y-3">{flags.map(flag => <li key={flag.id}>
               <p className="whitespace-pre-wrap break-words text-sm text-slate-700">{flag.detail}</p>
               <p className="mt-1 text-xs text-slate-500">Flagged {formatDateTime(flag.created_at)} (Singapore time)</p>
+              <ArrangementResolutionForm flagId={flag.id} onResolved={refresh} />
             </li>)}</ul>
           </article>
         })}</div>}
+    {!loading && !error && resolved.length > 0 && <section aria-label="Resolution history" className="mt-6 border-t border-slate-200 pt-4">
+      <h3 className="font-semibold text-slate-900">Resolution history</h3>
+      <ul className="mt-3 space-y-4">{resolved.map(flag => <li key={flag.id} className="rounded-lg bg-slate-50 p-3 text-sm">
+        <p className="font-medium">{flag.venue_booking_id ? 'Venue booking' : 'Equipment reservation'} — {flag.venue_booking?.venue?.name ?? flag.venue_booking_id ?? flag.equipment_booking_id}</p>
+        <p className="break-all text-xs text-slate-500">Reference: {flag.venue_booking_id ?? flag.equipment_booking_id}</p>
+        <p className="mt-2 whitespace-pre-wrap">{flag.detail}</p>
+        <p className="mt-2 font-medium text-green-800">Resolved — {flag.resolution_method === 'corrected' ? 'Arrangement corrected' : 'Still valid'}</p>
+        <p className="whitespace-pre-wrap break-words">{flag.resolution}</p>
+        <p className="mt-1 text-xs text-slate-500">Recorded by {flag.resolver?.full_name || flag.resolved_by} · {formatDateTime(flag.resolved_at)} (Singapore time)</p>
+      </li>)}</ul>
+    </section>}
   </Card></div>
 }

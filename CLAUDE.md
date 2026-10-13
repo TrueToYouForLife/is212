@@ -1,5 +1,16 @@
 # ConnectSphere Event Planning System — Project Context
 
+## US41 resolution UI (local increment)
+- Branch us41-resolve-arrangements; no migration. Reuses 0052 resolution RPC.
+- Resolve each reason using corrected/confirmed_valid plus a mandatory explanation.
+  Do not automatically mutate bookings. Preserve remaining open reasons and counts.
+- Detail read now includes resolved metadata and resolver profile; list counts still
+  query only open flags. History is read-only; errors must not imply success.
+- Three new cases AC-041.6.2–4; existing read/panel fixtures extended. 1,003 tests
+  passed/one TODO; lint/build passed. Forced-break .6.3 caught missing refresh and
+  restored form passed; evidence under docs/test-evidence/us41/. Notification
+  display remains separate. Manual checks and verification in the US41 guide.
+
 ## US41 arrangement review (in progress)
 - Claimed migration 0052 consumes the US7 approved-field hook synchronously. No backfill.
 - Separate arrangement_review_flags/notifications support venue and equipment reasons;
