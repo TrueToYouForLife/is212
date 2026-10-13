@@ -1,0 +1,15 @@
+Original component restored byte-for-byte. Tests unchanged.
+
+> connectsphere@0.1.0 test
+> vitest run src/features/events/__tests__/ArrangementReviewPanel.test.tsx -t AC-041.1.7 --maxWorkers=1 --minWorkers=1
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+ ✓ src/features/events/__tests__/ArrangementReviewPanel.test.tsx (2 tests | 1 skipped) 79ms
+
+ Test Files  1 passed (1)
+      Tests  1 passed | 1 skipped (2)
+   Start at  10:32:51
+   Duration  792ms (transform 59ms, setup 49ms, collect 154ms, tests 79ms, environment 285ms, prepare 43ms)
+

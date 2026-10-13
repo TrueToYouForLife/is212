@@ -341,3 +341,19 @@ describe('remaining lifecycle persistence', () => {
     expect(mocks.from).not.toHaveBeenCalled()
   })
 })
+test('AC-041.1.10: event detail fetches and maps current assignment for arrangement-review visibility', async () => {
+  for (const coordinatorId of ['assigned-coordinator', null]) {
+    const row = { id: EVENT_ID, organiser_id: 'organiser', coordinator_id: coordinatorId, status: 'approved' }
+    // Model the projection: an omitted column cannot appear in the service result.
+    const select = vi.fn((columns: string) => ({ eq: vi.fn().mockReturnValue({
+      maybeSingle: vi.fn().mockResolvedValue({
+        data: Object.fromEntries(Object.entries(row).filter(([key]) => columns.split(', ').includes(key))),
+        error: null,
+      }),
+    }) }))
+    mocks.from.mockReturnValue({ select })
+    const result = await getEventRequest(EVENT_ID)
+    expect(result).toMatchObject({ ok: true, request: { coordinatorId } })
+    expect(select.mock.calls[0][0].split(', ')).toContain('coordinator_id')
+  }
+})

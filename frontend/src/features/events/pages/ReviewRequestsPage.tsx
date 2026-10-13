@@ -4,6 +4,7 @@ import { PageContainer } from '../../../components/layout/PageContainer'
 import { useCurrentUser } from '../../auth/sessionContext'
 import { RequestListItem } from '../components/RequestListItem'
 import { CoordinatorAssignmentQueue } from '../components/CoordinatorAssignmentQueue'
+import { listArrangementReviewCounts } from '../arrangementReviewService'
 import { listEventRequests } from '../eventReviewService'
 import { useRequestResource } from '../status/useRequestResource'
 
@@ -21,6 +22,11 @@ export function ReviewRequestsPage() {
   const { value, error, loading, refresh } = useRequestResource(
     `${profile?.id}:${profile?.role}:${userLoading}`, read,
   )
+  const readCounts = useCallback(async () => {
+    if (userLoading || profile?.role !== 'coordinator') return { ok: true as const, value: {} as Record<string, number> }
+    return listArrangementReviewCounts()
+  }, [userLoading, profile?.role])
+  const counts = useRequestResource(`counts:${profile?.id}:${profile?.role}:${userLoading}`, readCounts)
   const requests = value ?? []
 
   const isCoordinator = profile?.role === 'coordinator'
@@ -44,8 +50,9 @@ export function ReviewRequestsPage() {
         </p>}
       </div>
 
-      <button type="button" onClick={refresh} className="mb-4 text-sm font-medium text-indigo-700 hover:underline">Refresh requests</button>
+      <button type="button" onClick={() => { refresh(); counts.refresh() }} className="mb-4 text-sm font-medium text-indigo-700 hover:underline">Refresh requests</button>
 
+      {isCoordinator && counts.error && <p role="alert" className="mb-4 text-sm text-red-700">Review indicators are unavailable. Refresh requests to try again.</p>}
       {userLoading || loading ? (
         <p className="text-sm text-slate-500">Loading requests…</p>
       ) : error ? (
@@ -65,7 +72,7 @@ export function ReviewRequestsPage() {
               <p className="text-sm text-slate-600">No event requests are assigned to you yet.</p>
             ) : (
               <ul className="space-y-4">
-                {assignedRequests.map(request => <RequestListItem key={request.id} request={request} assignedToYou />)}
+                {assignedRequests.map(request => <RequestListItem key={request.id} request={request} assignedToYou arrangementReviewCount={counts.value?.[request.id] ?? 0} />)}
               </ul>
             )}
           </section>

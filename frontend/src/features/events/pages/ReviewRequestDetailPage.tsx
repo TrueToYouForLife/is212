@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Card } from '../../../components/ui/Card'
 import { PageContainer } from '../../../components/layout/PageContainer'
@@ -14,11 +14,20 @@ import { LOCKED_STATUSES } from '../eventChangeRequestService'
 import { ChangeRequestList } from '../components/ChangeRequestList'
 import { ChangeRequestReviewPanel } from '../components/ChangeRequestReviewPanel'
 import type { ReviewDecision } from '../types'
+import { ArrangementReviewPanel } from '../components/ArrangementReviewPanel'
 import { EQUIPMENT_EDITABLE_STATUSES } from '../../equipment/validation'
 
 export function ReviewRequestDetailPage() {
   const { id = '' } = useParams()
+  const [reviewRefreshVersion, setReviewRefreshVersion] = useState(0)
   const { profile, loading: userLoading } = useCurrentUser()
+
+  const [reviewCount, setReviewCount] = useState<{ key: string; count: number | null } | null>(null)
+  const reviewKey = `${id}:${profile?.id}`
+  const updateReviewCount = useCallback((count: number | null) => {
+    setReviewCount({ key: reviewKey, count })
+  }, [reviewKey])
+  const openArrangementCount = reviewCount?.key === reviewKey ? reviewCount.count : null
 
   // The decision log is internal (it names the reviewer), so only staff load it. RLS
   // enforces the same rule; skipping the query here just avoids a pointless round trip.
@@ -47,6 +56,7 @@ export function ReviewRequestDetailPage() {
   const refreshAll = useCallback(() => {
     refresh()
     refreshHistory()
+    setReviewRefreshVersion(version => version + 1)
   }, [refresh, refreshHistory])
 
   return (
@@ -87,6 +97,11 @@ export function ReviewRequestDetailPage() {
             </header>
 
             <RequestStatusPanel request={request} organiserView={profile?.role === 'organiser'} />
+            {profile?.role === 'coordinator' && request.coordinatorId === profile.id && !!openArrangementCount && (
+              <a href="#arrangement-reviews" className="block rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm font-medium text-amber-900 hover:underline">
+                Needs review: {openArrangementCount} {openArrangementCount === 1 ? 'arrangement needs' : 'arrangements need'} review. View reasons
+              </a>
+            )}
             <p className="text-xs text-slate-500">Status updates automatically every 30 seconds.</p>
 
             <Card title="Request details">
@@ -103,6 +118,10 @@ export function ReviewRequestDetailPage() {
                 currentUserId={profile?.id}
               />}
             </Card>
+
+            {profile?.role === 'coordinator' && request.coordinatorId === profile.id && (
+              <ArrangementReviewPanel key={`${request.id}:${profile.id}`} eventId={request.id} refreshVersion={reviewRefreshVersion} onCount={updateReviewCount} />
+            )}
 
             {profile?.role === 'coordinator' && (
               <Card

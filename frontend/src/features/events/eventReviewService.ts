@@ -27,7 +27,7 @@ const SUMMARY_COLUMNS =
   'id, reference, organiser_id, coordinator_id, name, purpose, event_type, proposed_start, proposed_end, expected_attendance, status, submitted_at, review_note'
 
 const DETAIL_COLUMNS =
-  'id, reference, organiser_id, name, purpose, event_type, proposed_start, proposed_end, expected_attendance, status, submitted_at, description, programme, layout_preference, accessibility_requirements, equipment_requirements, registration_required, special_arrangements, review_note, reviewed_at, created_at'
+  'id, reference, organiser_id, coordinator_id, name, purpose, event_type, proposed_start, proposed_end, expected_attendance, status, submitted_at, description, programme, layout_preference, accessibility_requirements, equipment_requirements, registration_required, special_arrangements, review_note, reviewed_at, created_at'
 
 const DECISION_COLUMNS = 'id, from_status, decision, reason, decided_by_name, decided_at'
 
