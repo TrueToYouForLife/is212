@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 970" role="img"><title>C2 · ConnectSphere containers</title><defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9" fill="#52647a"/></marker></defs><style>text{font-family:Arial,sans-serif;fill:#203047} .title{font-size:30px;font-weight:700} .head{font-size:19px;font-weight:700} .body{font-size:16px} .small{font-size:14px} .edge{fill:none;stroke:#52647a;stroke-width:1.8;marker-end:url(#arrow)} </style><rect width="100%" height="100%" fill="#fff"/>
+<text x="40" y="48" class="title" text-anchor="start">C2 · ConnectSphere containers</text>
+<text x="40" y="79" class="body" text-anchor="start">Whole-project target • Existing stack with planned scheduling and notification capabilities</text>
+<rect x="340" y="115" width="1060" height="690" rx="14" fill="none" stroke="#9aaec5" stroke-dasharray="6 5"/>
+<text x="356" y="139" class="small" text-anchor="start">ConnectSphere</text>
+<rect x="40" y="170" width="260" height="120" rx="10" fill="#e6f4f2" stroke="#4a8d85" stroke-width="1.5"/>
+<text x="170.0" y="200" class="head" text-anchor="middle">Users</text>
+<text x="170.0" y="227" class="body" text-anchor="middle">Organiser, Lead, Coordinator</text>
+<text x="170.0" y="250" class="body" text-anchor="middle">Venue, Technical, Safety staff</text>
+<text x="170.0" y="273" class="body" text-anchor="middle">Attendee</text>
+<rect x="390" y="170" width="350" height="120" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
+<text x="565.0" y="200" class="head" text-anchor="middle">Web application</text>
+<text x="565.0" y="227" class="body" text-anchor="middle">React + TypeScript / Vite</text>
+<text x="565.0" y="250" class="body" text-anchor="middle">Role-specific browser interface</text>
+<rect x="970" y="170" width="350" height="120" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
+<text x="1145.0" y="200" class="head" text-anchor="middle">Authentication</text>
+<text x="1145.0" y="227" class="body" text-anchor="middle">Supabase Auth</text>
+<text x="1145.0" y="250" class="body" text-anchor="middle">Sign-in and session tokens</text>
+<rect x="390" y="400" width="350" height="120" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
+<text x="565.0" y="430" class="head" text-anchor="middle">Data API</text>
+<text x="565.0" y="457" class="body" text-anchor="middle">Supabase PostgREST / RPC</text>
+<text x="565.0" y="480" class="body" text-anchor="middle">Authenticated reads and operations</text>
+<rect x="970" y="400" width="350" height="120" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
+<text x="1145.0" y="430" class="head" text-anchor="middle">Notification sender</text>
+<text x="1145.0" y="457" class="body" text-anchor="middle">Supabase Edge Function</text>
+<text x="1145.0" y="480" class="body" text-anchor="middle">Reads outbox; records delivery</text>
+<rect x="390" y="640" width="350" height="120" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
+<text x="565.0" y="670" class="head" text-anchor="middle">Database</text>
+<text x="565.0" y="697" class="body" text-anchor="middle">PostgreSQL on Supabase</text>
+<text x="565.0" y="720" class="body" text-anchor="middle">Data, RLS, atomic rules and history</text>
+<rect x="970" y="640" width="350" height="120" rx="10" fill="#fff8e9" stroke="#bc933b" stroke-width="1.5"/>
+<text x="1145.0" y="670" class="head" text-anchor="middle">Scheduled processing</text>
+<text x="1145.0" y="697" class="body" text-anchor="middle">Planned: expiry and reminders</text>
+<text x="1145.0" y="720" class="body" text-anchor="middle">Execution mechanism to be agreed</text>
+<rect x="970" y="835" width="350" height="85" rx="10" fill="#f0f1f4" stroke="#929baa" stroke-width="1.5"/>
+<text x="1145.0" y="865" class="head" text-anchor="middle">Email service</text>
+<text x="1145.0" y="892" class="body" text-anchor="middle">External SMTP • current sender: Gmail</text>
+<path class="edge" d="M300,230 L390,230"/>
+<rect x="317" y="203" width="38.4" height="20" fill="white"/>
+<text x="321" y="218" class="small" text-anchor="start">uses</text>
+<path class="edge" d="M740,225 L970,225"/>
+<rect x="820" y="198" width="46.0" height="20" fill="white"/>
+<text x="824" y="213" class="small" text-anchor="start">HTTPS</text>
+<path class="edge" d="M565,290 L565,400"/>
+<rect x="576" y="338" width="167.6" height="20" fill="white"/>
+<text x="580" y="353" class="small" text-anchor="start">HTTPS + session token</text>
+<path class="edge" d="M565,520 L565,640"/>
+<rect x="576" y="573" width="160.0" height="20" fill="white"/>
+<text x="580" y="588" class="small" text-anchor="start">SQL / authorised RPC</text>
+<path class="edge" d="M970,460 L740,460"/>
+<rect x="780" y="432" width="144.79999999999998" height="20" fill="white"/>
+<text x="784" y="447" class="small" text-anchor="start">read/update outbox</text>
+<path class="edge" d="M970,700 L740,700"/>
+<rect x="791" y="671" width="137.2" height="20" fill="white"/>
+<text x="795" y="686" class="small" text-anchor="start">expiry operations</text>
+<path class="edge" d="M1320,460 L1360,460 L1360,880 L1320,880"/>
+<rect x="1256" y="802" width="68.8" height="20" fill="white"/>
+<text x="1260" y="817" class="small" text-anchor="start">SMTP/TLS</text>
+<text x="40" y="946" class="small" text-anchor="start">Sender invocation/deployment is not asserted here. No separate custom API server; database rules enforce access and integrity.</text>
+</svg>
