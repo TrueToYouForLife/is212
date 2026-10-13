@@ -1,5 +1,13 @@
 # ConnectSphere Event Planning System — Project Context
 
+## Architecture and workflow diagrams
+- `docs/architecture/README.md` records sources and modelling decisions; `index.html`
+  is the local viewer. C1–C3 and Workflow Parts 1–3 describe the whole-project target,
+  including planned features. Do not infer implementation completion from them.
+- Edit `docs/architecture/generate.py` and regenerate the six SVGs with
+  `python3 docs/architecture/generate.py`. Keep viewer links and the guide aligned.
+  Retain only the three agreed workflow parts; do not regenerate superseded versions.
+
 ## US36 active-event overview (completed, merged)
 - Reuses CoordinatorAssignmentQueue/Card and 0041 workload RPC; no migration.
 - All active events, including submitted unassigned events, appear once in one

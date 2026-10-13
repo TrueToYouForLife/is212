@@ -3,6 +3,17 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
+## Architecture and workflows
+
+The [architecture guide](docs/architecture/README.md) contains the C1 context,
+C2 container and C3 component diagrams, plus Workflow Parts 1–3 covering request
+submission through event completion. These show the **whole-project target**, including
+planned functionality; they are not a feature-completion report.
+
+Open `docs/architecture/index.html` locally to view and zoom the diagrams, or open
+its editable SVG files directly. Sources, modelling decisions and regeneration
+instructions are documented in the architecture guide.
+
 ## US10 venue booking review (four slices implemented)
 
 Venue Staff can open **Booking requests** (`/venues/review`), inspect event timing,
