@@ -3,7 +3,7 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
-## US41 arrangement review (AC3 follow-up pending deployment)
+## US41 arrangement review (completed within agreed scope)
 
 Migration 0052 adds per-arrangement review reasons after approved significant changes,
 checks venue capacity/timing and reserved equipment availability, and records coordinator
@@ -18,10 +18,12 @@ booking. US41 writes coordinator notification records to `arrangement_review_not
 shared notification UI and email delivery are owned elsewhere and are not connected
 to these records yet. This is the agreed notification-producer scope, not a delivery
 completion claim. Jaydon confirmed 0052 is applied and the UI/resolution history
-checks passed. The implementation PRs are merged; evidence-sheet/Jira close-out remains.
+checks passed. The implementation PRs, including the AC3 fix in PR #90, are merged.
 Migration 0053 fixes capacity checks after successive layout and attendance changes.
-It preserves later coordinator-confirmed requirements; review and deployment are pending.
-Regression AC-041.3.3 covers both sequences.
+It preserves later coordinator-confirmed requirements. Jaydon confirmed 0053 is applied
+and the deployed layout/attendance retest passed. Regression AC-041.3.3 covers both
+sequences. The evidence sheet contains the automated cases and defects; Jira close-out
+and recording the final manual pass remain administrative actions.
 
 See [US41 scope, tests and remaining work](docs/us41-arrangement-revalidation.md).
 

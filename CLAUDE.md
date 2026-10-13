@@ -1,11 +1,12 @@
 # ConnectSphere Event Planning System — Project Context
 
-## US41 AC3 follow-up pending review/deployment
+## US41 completed within agreed scope
 - 0053 fixes stale structured-layout precedence after an approved layout change.
   Subsequent coordinator saves confirm the structured layout. AC-041.3.3 tests both
-  sequences. 0053 is local, not deployed; leave 0052 unchanged.
+  sequences. PR #90 merged; Jaydon confirmed 0053 deployed and manual retest passed.
+  Leave deployed migrations unchanged.
 - Backend, flags/indicators and resolution/history merged in PRs #86–88. 0052 applied,
-  confirmed by Jaydon. Current branch contains documentation close-out only.
+  confirmed by Jaydon. Documentation close-out merged in PR #89.
 - Approved significant changes create per-arrangement reasons; no booking/claim/allocation
   mutation. Current coordinator resolves each reason with a mandatory note. History retained.
 - AC4 scope: produce arrangement_review_notifications with recipient/event/flag/reason.
@@ -17,10 +18,11 @@
   runner passed; frontend 1,003 pass/one TODO; lint/build passed. Close-out does not rerun tests.
 - Jaydon confirmed indicators, one venue with multiple reasons counted once, equipment
   flag count 1→2, resolution 2→1 and history persistence. Do not infer unreported manual tests.
-- Two defects: missing coordinator_id in detail read (fixed, regression .1.10); asynchronous
+- Three fixed defects: stale layout capacity after successive approvals (0053, .3.3); missing coordinator_id in detail read (fixed, regression .1.10); asynchronous
   callback assertion in .1.7 (waitFor fix). Deliberate mutation logs .1.7/.6.3 are not defects.
 - docs/us41-arrangement-revalidation.md holds AC review, notification handoff and evidence.
-  Shared sheet/Jira updates and docs PR remain user-managed; never mark delivery complete.
+  Shared overview and defect records include .3.3; Jaydon confirmed the final manual pass.
+  Record that pass in the sheet and finish Jira close-out; never mark delivery complete.
 
 ## Architecture and workflow diagrams
 - `docs/architecture/README.md` records sources and modelling decisions; `index.html`
