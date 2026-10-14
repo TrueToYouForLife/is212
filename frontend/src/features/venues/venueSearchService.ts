@@ -1,4 +1,5 @@
 import { supabase } from '../../lib/supabase'
+import { matchesAnyText, matchesText, normaliseForMatch, sameCode } from './searchTextMatch'
 import { claimsForEvent, slotWindow } from './slots'
 import type { TimeSlot, SlotCode } from './slots'
 import type { AssignedEventOption, Venue, VenueSearchFilters, VenueStatus } from './types'
@@ -21,6 +22,11 @@ interface VenueRow {
   facility: Record<string, unknown> | null
   status: VenueStatus
   location: string | null
+}
+
+/** A filter made only of spaces or punctuation is not a filter. */
+function normalisedIsSet(value: string): boolean {
+  return normaliseForMatch(value) !== ''
 }
 
 function toVenue(row: VenueRow): Venue {
@@ -113,16 +119,10 @@ export async function searchVenues(
     .select('id, name, capacity, layout, accessibility, facility, status, location')
     .eq('status', 'active')
 
-  const keyword = filters.keyword.trim()
-  if (keyword) {
-    query = query.or(`name.ilike.%${keyword}%,location.ilike.%${keyword}%`)
-  }
-
-  const location = filters.location.trim()
-  if (location) query = query.ilike('location', `%${location}%`)
-
-    if (filters.layout.trim()) query = query.eq('layout', filters.layout.trim())
-
+  // keyword, location and layout are matched in the browser, not here: see
+  // searchTextMatch for why `ilike` cannot ignore punctuation and spacing, and why a
+  // venue's stored layout ("Hall", "U-shape") may be written differently from the
+  // catalogue code the filter now holds ("hall", "u_shape").
   const minAttendance = filters.minAttendance.trim() === '' ? null : Number(filters.minAttendance)
   if (minAttendance !== null && !Number.isNaN(minAttendance)) {
     query = query.gte('capacity', minAttendance)
@@ -139,6 +139,18 @@ export async function searchVenues(
   }
 
   let venues = ((data ?? []) as VenueRow[]).map(toVenue)
+
+  // Case, spacing and punctuation are ignored on both sides, so "level 2." finds
+  // "Level 2" and a stray double space is not a failed search.
+  if (normalisedIsSet(filters.keyword)) {
+    venues = venues.filter((venue) => matchesAnyText([venue.name, venue.location], filters.keyword))
+  }
+  if (normalisedIsSet(filters.location)) {
+    venues = venues.filter((venue) => matchesText(venue.location, filters.location))
+  }
+  if (normalisedIsSet(filters.layout)) {
+    venues = venues.filter((venue) => sameCode(venue.layout, filters.layout))
+  }
 
   // Facility values may be counts, not booleans, so "has this facility" means the key is
   // present with a truthy value. Done client-side: matching several jsonb keys at once isn't
@@ -164,8 +176,9 @@ interface AssignedEventRow {
   proposed_end: string | null
   expected_attendance: number | null
   layout_preference: string | null
-  accessibility_requirements: string | null
-  equipment_requirements: string | null
+  accessibility_requirements: string[] | null
+  facility_requirements: string[] | null
+  equipment_requirements: string[] | null
 }
 
 /** Events the signed-in coordinator is assigned to, for the "search for this event" shortcut. */
@@ -178,7 +191,8 @@ export async function listMyAssignedEvents(): Promise<AssignedEventOption[]> {
     .from('events')
     .select(`
       id, reference, name, proposed_start, proposed_end, expected_attendance,
-      layout_preference, accessibility_requirements, equipment_requirements
+      layout_preference, accessibility_requirements, facility_requirements,
+      equipment_requirements
     `)
     .eq('coordinator_id', userId)
     .order('proposed_start', { ascending: true })
@@ -196,7 +210,8 @@ export async function listMyAssignedEvents(): Promise<AssignedEventOption[]> {
     proposedEnd: row.proposed_end,
     expectedAttendance: row.expected_attendance,
     layoutPreference: row.layout_preference,
-    accessibilityRequirements: row.accessibility_requirements,
-    equipmentRequirements: row.equipment_requirements,
+    accessibilityRequirements: row.accessibility_requirements ?? [],
+    facilityRequirements: row.facility_requirements ?? [],
+    equipmentRequirements: row.equipment_requirements ?? [],
   }))
 }

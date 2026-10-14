@@ -905,6 +905,38 @@ Totals: **523 app tests** and **323 database checks** (including US18's repair c
 
 ## US8 search and filter venues (SCRUM-63)
 
+A coordinator searches at `/venues/search`. Every active venue is listed by default and
+each filter narrows it: keyword (name or location), expected attendance against capacity,
+layout, accessibility, facilities, and either a date and slot or one of the coordinator's
+own events. Choosing an event applies that event's attendance **and its requirements** to
+the filters, and uses its proposed dates for the availability check. The availability
+filter excludes a venue using the same rule that guards a real booking — the event's slots
+plus the trailing setup/turnaround slot — so a venue shown here is genuinely bookable
+rather than superficially free.
+
+Capacity and accessibility are narrowed in the query. Keyword, location, layout and
+facilities are matched in the browser, for two reasons worth knowing:
+
+- `facility` is `jsonb` and "has this facility" means the key is present with a truthy
+  value, which is not one query-builder call.
+- Text and layout comparisons reduce both sides to their letters and digits, lower case,
+  so "Level 2." finds "Level 2" and the catalogue code `u_shape` matches a venue whose
+  `layout` column holds `U-shape` after `0019a`'s repair. `ilike` only ignores case, so a
+  stripped search term could never match a stored value that keeps its punctuation. A
+  filter made only of spaces or punctuation matches everything: typing "." is not a
+  filter. See `frontend/src/features/venues/searchTextMatch.ts`.
+
+Depends on `0018` for the tables, `0019a` for the column shapes and `0020` for
+`venues.accessibility` as `text[]`.
+
+Tests: 34 numbered cases — AC-008.1/.2 in `searchTextMatch.test.ts` (pure matching),
+AC-008.3/.4 in `VenueFilters.test.tsx` (applying an event, the layout dropdown) and
+AC-008.5/.6 in `venueSearchService.test.ts` (the filters are really applied, and the
+assigned-event columns are really read). **This story had no numbered cases at all before
+the structured-requirements change**; the AC-008 criteria numbering is read from the code
+rather than from Jira and should be checked against the backlog.
+
+
 ## US2/US6 structured event requirements (0052–0054)
 
 The organiser's four requirement fields are fixed catalogue choices rather than free text,

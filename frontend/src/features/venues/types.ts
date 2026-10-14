@@ -13,9 +13,18 @@ export interface Venue {
   location: string
 }
 
-/** An event the signed-in coordinator is assigned to, for the "search for this event"
- *  shortcut. The free-text fields are shown to the coordinator as read-only reference —
- *  they aren't structured, so they can't be matched against a venue automatically. */
+/**
+ * An event the signed-in coordinator is assigned to, for the "search for this event"
+ * shortcut.
+ *
+ * The requirement fields are catalogue codes (0052), drawn from the same lists as the
+ * venue filters below, so choosing an event can set those filters directly. They used to
+ * be free text, which is why this type's previous comment said they could not be matched
+ * against a venue automatically — that was the limitation this change removes.
+ *
+ * equipmentRequirements is carried for display only: portable equipment is reserved
+ * through US13/US14 and is not a property of a venue, so it is not a search filter.
+ */
 export interface AssignedEventOption {
   id: string
   reference: string | null
@@ -24,8 +33,9 @@ export interface AssignedEventOption {
   proposedEnd: string | null
   expectedAttendance: number | null
   layoutPreference: string | null
-  accessibilityRequirements: string | null
-  equipmentRequirements: string | null
+  accessibilityRequirements: string[]
+  facilityRequirements: string[]
+  equipmentRequirements: string[]
 }
 
 export interface VenueSearchFilters {

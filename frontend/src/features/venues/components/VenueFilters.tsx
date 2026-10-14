@@ -1,11 +1,10 @@
 import { Field, TextInput } from '../../../components/ui/FormControls'
 import { Button } from '../../../components/ui/Button'
 import type { AssignedEventOption, VenueSearchFilters } from '../types'
+import type { LayoutType } from '../suitabilityTypes'
 import type { SlotCode } from '../slots'
-import { ACCESSIBILITY_OPTIONS, FACILITY_OPTIONS } from '../venueFeatureCatalogue'
+import { ACCESSIBILITY_OPTIONS, FACILITY_OPTIONS, featureLabel } from '../venueFeatureCatalogue'
 
-// No features/facilities catalogue table exists yet — these are placeholder codes.
-// Swap in your real catalogue once one exists.
 const SLOT_OPTIONS: { value: SlotCode; label: string }[] = [
   { value: 'AM', label: 'AM (7am–12pm)' },
   { value: 'PM', label: 'PM (1pm–6pm)' },
@@ -27,6 +26,7 @@ export function VenueFilters({
   onSearch,
   onClear,
   assignedEvents,
+  layoutTypes,
   disabled,
 }: {
   filters: VenueSearchFilters
@@ -34,19 +34,39 @@ export function VenueFilters({
   onSearch: () => void
   onClear: () => void
   assignedEvents: AssignedEventOption[]
+  /** From layout_types (0021); empty until loaded, which only costs the dropdown. */
+  layoutTypes: LayoutType[]
   disabled: boolean
 }) {
   const selectedEvent = assignedEvents.find((event) => event.id === filters.eventId)
 
+  /**
+   * Choosing an event copies its requirements straight into the filters. This is only
+   * possible because the event stores the same catalogue codes the filters use (0052):
+   * previously these were free text and the coordinator had to read them and tick the
+   * matching boxes by hand, which is exactly where a requirement got lost.
+   *
+   * They are copied, not locked: the coordinator can still untick one to widen a search
+   * that returns nothing, which is a normal thing to want and not a reason to make the
+   * filters read-only. Clearing the event selection leaves them as they are, so an
+   * adjusted search is not silently undone.
+   */
   const handleEventSelect = (eventId: string) => {
     const event = assignedEvents.find((candidate) => candidate.id === eventId)
+    if (!event) {
+      onChange({ ...filters, eventId: '' })
+      return
+    }
     onChange({
       ...filters,
       eventId,
       date: '',
       slot: '',
       minAttendance:
-        event?.expectedAttendance != null ? String(event.expectedAttendance) : filters.minAttendance,
+        event.expectedAttendance != null ? String(event.expectedAttendance) : filters.minAttendance,
+      layout: event.layoutPreference ?? '',
+      accessibility: [...event.accessibilityRequirements],
+      facilities: [...event.facilityRequirements],
     })
   }
 
@@ -71,19 +91,19 @@ export function VenueFilters({
 
       {selectedEvent && (
         <div className="rounded-lg bg-slate-50 p-3 text-xs text-slate-600">
-          <p>This event&rsquo;s requested date and time decide which venues show as available.</p>
-          {selectedEvent.layoutPreference && (
-            <p className="mt-1">Requested layout: {selectedEvent.layoutPreference}</p>
-          )}
-          {selectedEvent.accessibilityRequirements && (
-            <p className="mt-1">Requested accessibility: {selectedEvent.accessibilityRequirements}</p>
-          )}
-          {selectedEvent.equipmentRequirements && (
-            <p className="mt-1">Requested equipment: {selectedEvent.equipmentRequirements}</p>
+          <p>
+            This event&rsquo;s requested date and time decide which venues show as
+            available, and its requirements have been applied to the filters below.
+          </p>
+          {selectedEvent.equipmentRequirements.length > 0 && (
+            <p className="mt-1">
+              Equipment requested:{' '}
+              {selectedEvent.equipmentRequirements.join(', ')} — reserved separately, so
+              it is not a venue filter.
+            </p>
           )}
           <p className="mt-1 text-slate-500">
-            These are free-text requirements from the event — match them to the layout,
-            accessibility and facility filters below yourself.
+            Untick a requirement below to widen the search.
           </p>
         </div>
       )}
@@ -110,13 +130,23 @@ export function VenueFilters({
         </Field>
 
         <Field id="venue-search-layout" label="Layout">
-          <TextInput
+          <select
             id="venue-search-layout"
-            placeholder="e.g. theatre, banquet"
+            className={selectClassName}
             disabled={disabled}
             value={filters.layout}
             onChange={(e) => onChange({ ...filters, layout: e.target.value })}
-          />
+          >
+            <option value="">Any layout</option>
+            {layoutTypes.map((type) => (
+              <option key={type.code} value={type.code}>{type.label}</option>
+            ))}
+            {/* An event may ask for a layout the catalogue no longer lists; keep it
+                selectable rather than silently dropping the requirement. */}
+            {filters.layout !== '' && !layoutTypes.some((type) => type.code === filters.layout) && (
+              <option value={filters.layout}>{filters.layout}</option>
+            )}
+          </select>
         </Field>
 
         {!filters.eventId && (
@@ -188,6 +218,19 @@ export function VenueFilters({
           ))}
         </div>
       </fieldset>
+
+      {selectedEvent && (
+        <p className="text-xs text-slate-500">
+          Applied from {selectedEvent.reference ?? selectedEvent.name ?? 'the selected event'}:{' '}
+          {[
+            selectedEvent.layoutPreference ? `layout ${selectedEvent.layoutPreference}` : null,
+            selectedEvent.accessibilityRequirements
+              .map((code) => featureLabel(ACCESSIBILITY_OPTIONS, code)).join(', ') || null,
+            selectedEvent.facilityRequirements
+              .map((code) => featureLabel(FACILITY_OPTIONS, code)).join(', ') || null,
+          ].filter(Boolean).join(' · ') || 'no specific requirements'}
+        </p>
+      )}
 
       <div className="flex flex-wrap items-center justify-end gap-3 border-t border-slate-100 pt-4">
         <Button type="button" onClick={onClear} disabled={disabled}>Clear filters</Button>
