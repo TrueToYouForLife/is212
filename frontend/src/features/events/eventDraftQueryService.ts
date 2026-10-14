@@ -10,7 +10,7 @@ export const DRAFT_LOAD_MESSAGES = {
 
 // Explicit columns avoid requesting review-only data when reopening an organiser's draft.
 const DRAFT_COLUMNS =
-  'id, organiser_id, status, updated_at, name, purpose, event_type, description, proposed_start, proposed_end, expected_attendance, programme, layout_preference, accessibility_requirements, equipment_requirements, registration_required, special_arrangements'
+  'id, organiser_id, status, updated_at, name, purpose, event_type, description, proposed_start, proposed_end, expected_attendance, programme, layout_preference, accessibility_requirements, facility_requirements, equipment_requirements, registration_required, special_arrangements'
 
 /** Read only: opening a draft must not save it or trigger submission. */
 export async function getEventDraft(id: string): Promise<LoadEventDraftResult> {
@@ -52,9 +52,11 @@ export async function getEventDraft(id: string): Promise<LoadEventDraftResult> {
           proposedEnd: data.proposed_end ?? '',
           expectedAttendance: data.expected_attendance ?? '',
           programme: data.programme ?? '',
+          // null only reaches here from a row written before 0052 set the defaults.
           layoutPreference: data.layout_preference ?? '',
-          accessibilityRequirements: data.accessibility_requirements ?? '',
-          equipmentRequirements: data.equipment_requirements ?? '',
+          accessibilityRequirements: data.accessibility_requirements ?? [],
+          facilityRequirements: data.facility_requirements ?? [],
+          equipmentRequirements: data.equipment_requirements ?? [],
           registrationRequired: data.registration_required ?? false,
           specialArrangements: data.special_arrangements ?? '',
         },

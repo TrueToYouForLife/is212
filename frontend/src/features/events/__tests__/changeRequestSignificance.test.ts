@@ -23,10 +23,12 @@ test('AC-007.11.8: absent or undefined fields do not falsely flag a significant 
   expect(classifyChangeRequest({ equipmentRequirements: undefined })).toEqual({ kind: 'ordinary', fields: [] })
 })
 test('AC-007.11.9: removing an equipment requirement still counts as a significant change', () => {
-  expect(classifyChangeRequest({ equipmentRequirements: '' })).toEqual({ kind: 'significant', fields: ['equipmentRequirements'] })
+  // An empty list is "drop every equipment requirement", which is as significant as
+  // adding one. Codes rather than free text (0052); the classification is unchanged.
+  expect(classifyChangeRequest({ equipmentRequirements: [] })).toEqual({ kind: 'significant', fields: ['equipmentRequirements'] })
 })
 test('AC-007.11.10: a mixed request lists significant fields in stable order without mutating the proposal', () => {
-  const proposal = { equipmentRequirements: 'Projector', name: 'New title', expectedAttendance: '20', proposedStart: '2030-01-01T10:00' }
+  const proposal = { equipmentRequirements: ['projector'], name: 'New title', expectedAttendance: '20', proposedStart: '2030-01-01T10:00' }
   const before = structuredClone(proposal)
   expect(classifyChangeRequest(proposal)).toEqual({ kind: 'significant', fields: ['proposedStart', 'expectedAttendance', 'equipmentRequirements'] })
   expect(proposal).toEqual(before)

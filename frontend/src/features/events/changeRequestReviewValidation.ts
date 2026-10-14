@@ -1,8 +1,11 @@
 import { z } from 'zod'
 import type { ChangeRequestReviewValidationResult, ProposedEventChanges } from './types'
 
-// Match US6's field names. Reject unexpected keys rather than allowing workflow
-// fields such as status or organiserId to become part of an approved event update.
+// Match US6's field names and value shapes. Reject unexpected keys rather than allowing
+// workflow fields such as status or organiserId to become part of an approved event
+// update. The three requirement lists are arrays of codes, matching the columns 0052
+// created and the types 0053's review RPC accepts; a string here would be rejected by
+// that RPC with "Invalid proposed value type", so the shapes have to agree.
 const changeFieldsSchema = z.object({
   name: z.string(),
   purpose: z.string(),
@@ -13,8 +16,9 @@ const changeFieldsSchema = z.object({
   expectedAttendance: z.string(),
   programme: z.string(),
   layoutPreference: z.string(),
-  accessibilityRequirements: z.string(),
-  equipmentRequirements: z.string(),
+  accessibilityRequirements: z.array(z.string()),
+  facilityRequirements: z.array(z.string()),
+  equipmentRequirements: z.array(z.string()),
   registrationRequired: z.boolean(),
   specialArrangements: z.string(),
 }).partial().strict()

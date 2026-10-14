@@ -27,7 +27,7 @@ const SUMMARY_COLUMNS =
   'id, reference, organiser_id, coordinator_id, name, purpose, event_type, proposed_start, proposed_end, expected_attendance, status, submitted_at, review_note'
 
 const DETAIL_COLUMNS =
-  'id, reference, organiser_id, coordinator_id, name, purpose, event_type, proposed_start, proposed_end, expected_attendance, status, submitted_at, description, programme, layout_preference, accessibility_requirements, equipment_requirements, registration_required, special_arrangements, review_note, reviewed_at, created_at'
+  'id, reference, organiser_id, name, purpose, event_type, proposed_start, proposed_end, expected_attendance, status, submitted_at, description, programme, layout_preference, accessibility_requirements, facility_requirements, equipment_requirements, registration_required, special_arrangements, review_note, reviewed_at, created_at'
 
 const DECISION_COLUMNS = 'id, from_status, decision, reason, decided_by_name, decided_at'
 
@@ -131,8 +131,9 @@ export async function getEventRequest(id: string): Promise<DetailResult> {
       description: data.description,
       programme: data.programme,
       layoutPreference: data.layout_preference,
-      accessibilityRequirements: data.accessibility_requirements,
-      equipmentRequirements: data.equipment_requirements,
+      accessibilityRequirements: data.accessibility_requirements ?? [],
+      facilityRequirements: data.facility_requirements ?? [],
+      equipmentRequirements: data.equipment_requirements ?? [],
       registrationRequired: data.registration_required ?? false,
       specialArrangements: data.special_arrangements,
       reviewNote: data.review_note,

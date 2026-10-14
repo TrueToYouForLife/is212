@@ -28,8 +28,21 @@ export const EVENT_STATUS_LABELS: Record<EventStatus, string> = {
 }
 
 /**
- * What a form (or a test) hands to validation: every field optional and text-shaped,
- * because that is what an HTML form produces. Validation is what turns this into a
+ * The four requirement fields are catalogue codes, not free text (0052):
+ *
+ *   layoutPreference           one layout_types code, or null for "no preference"
+ *   accessibilityRequirements  accessibility_types codes
+ *   facilityRequirements       facility_types codes — what the room must already have
+ *   equipmentRequirements      equipment_types codes — portable kit, brought in
+ *
+ * facility and equipment are separate on purpose. A projector fixed in the ceiling is a
+ * venue feature and filters venue search (venues.facility); a projector on a trolley is
+ * equipment and is reserved through US13/US14. One combined list could not do both.
+ */
+
+/**
+ * What a form (or a test) hands to validation: every field optional, because that is what
+ * a partly filled form produces. Validation is what turns this into a
  * SubmittableEventRequest; nothing else in the app should assume these are present.
  */
 export interface EventRequestInput {
@@ -41,14 +54,16 @@ export interface EventRequestInput {
   proposedEnd?: string
   expectedAttendance?: string | number
   programme?: string
-  layoutPreference?: string
-  accessibilityRequirements?: string
-  equipmentRequirements?: string
+  layoutPreference?: string | null
+  accessibilityRequirements?: readonly string[]
+  facilityRequirements?: readonly string[]
+  equipmentRequirements?: readonly string[]
   registrationRequired?: boolean
   specialArrangements?: string
 }
 
-/** Form state is always fully populated, unlike the partial input validation accepts. */
+/** Form state is always fully populated, unlike the partial input validation accepts.
+ *  An unticked checkbox group is an empty array, and "no layout preference" is ''. */
 export interface EventRequestFormValues {
   name: string
   purpose: string
@@ -59,8 +74,9 @@ export interface EventRequestFormValues {
   expectedAttendance: string
   programme: string
   layoutPreference: string
-  accessibilityRequirements: string
-  equipmentRequirements: string
+  accessibilityRequirements: string[]
+  facilityRequirements: string[]
+  equipmentRequirements: string[]
   registrationRequired: boolean
   specialArrangements: string
 }
@@ -76,8 +92,9 @@ export interface SubmittableEventRequest {
   expectedAttendance: number
   programme: string | null
   layoutPreference: string | null
-  accessibilityRequirements: string | null
-  equipmentRequirements: string | null
+  accessibilityRequirements: string[]
+  facilityRequirements: string[]
+  equipmentRequirements: string[]
   registrationRequired: boolean
   specialArrangements: string | null
 }
@@ -103,14 +120,14 @@ export interface SavedEventDraft {
   updatedAt: string
 }
 
-export type SaveEventDraftResult =
-  | { ok: true; draft: SavedEventDraft }
-  | { ok: false; reason: string; issues: ValidationIssue[] }
-
 /** Loaded dates remain ISO timestamps; the editor converts them for datetime inputs. */
 export interface LoadedEventDraft extends SavedEventDraft {
   values: EventRequestInput
 }
+
+export type SaveEventDraftResult =
+  | { ok: true; draft: SavedEventDraft }
+  | { ok: false; reason: string; issues: ValidationIssue[] }
 
 export type LoadEventDraftResult =
   | { ok: true; draft: LoadedEventDraft }
@@ -151,13 +168,14 @@ export interface EventRequestSummary {
   submittedAt: string | null
 }
 
-/** Everything AC-002.1 captured, for a coordinator deciding on a request. */
+/** Everything AC-002.1 captured, for a coordinator deciding on it. */
 export interface EventRequestDetail extends EventRequestSummary {
   description: string | null
   programme: string | null
   layoutPreference: string | null
-  accessibilityRequirements: string | null
-  equipmentRequirements: string | null
+  accessibilityRequirements: string[]
+  facilityRequirements: string[]
+  equipmentRequirements: string[]
   registrationRequired: boolean
   specialArrangements: string | null
   reviewNote: string | null
@@ -203,8 +221,15 @@ export type ChangeRequestStatus =
   | 'submitted' | 'approved' | 'partially_approved' | 'rejected'
   | 'clarification_requested' | 'withdrawn'
 
-/** A partial diff of the event's editable fields — only the ones being proposed for change.
- *  Reuse the same field names/types as your event's own input type where possible, e.g.: */
+/**
+ * A partial diff of the event's editable fields — only the ones being proposed for change.
+ * The field names and value shapes match EventRequestFormValues, so one definition of
+ * "what a requirement looks like" covers the request form, the change form and the review.
+ *
+ * A requirement field present here is a complete replacement for the stored list, never a
+ * delta: the organiser ticks the set they want to end up with. That is what lets the
+ * review RPC apply an approved field by assignment, with no merge rules to get wrong.
+ */
 export type ProposedEventChanges = Partial<{
   name: string
   purpose: string
@@ -215,8 +240,9 @@ export type ProposedEventChanges = Partial<{
   expectedAttendance: string
   programme: string
   layoutPreference: string
-  accessibilityRequirements: string
-  equipmentRequirements: string
+  accessibilityRequirements: string[]
+  facilityRequirements: string[]
+  equipmentRequirements: string[]
   registrationRequired: boolean
   specialArrangements: string
 }>

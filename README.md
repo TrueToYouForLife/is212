@@ -208,6 +208,38 @@ This presentation change reuses the existing status-panel, submission and change
 cases; no new test IDs are allocated. Request summaries now include the existing
 `review_note` column so list badges can distinguish clarification from review.
 
+## US6 organiser change requests (SCRUM-11)
+
+An organiser proposes changes to an event they own at `/requests/:id/request-change`,
+with the current details shown above the form. Changes are recorded in
+`event_change_requests` (`0007`) and never applied to the event: US7 reviews them. An
+event that is confirmed, cancelled or rejected is refused (`LOCKED_STATUSES`), as is a
+second pending request for the same event, and both checks are in the service rather than
+only hidden in the UI so a direct call cannot bypass them. The organiser can withdraw a
+request that has not been reviewed; the `status = 'submitted'` filter on that update is
+the safety net if a coordinator decided in the meantime.
+
+Two kinds of field behave differently on the form, and have to:
+
+- **Free text** keeps blank-means-no-change. A blank text box is unambiguous.
+- **The four requirement controls** are prefilled from the event and compared against it.
+  A blank dropdown is a real choice ("no layout preference") and an empty checkbox group
+  is a real proposal ("drop every requirement"), so neither can also mean "no change" —
+  it has to mean "unchanged from what was shown". `collectChanges` proposes only what
+  moved, which matters because every proposed field costs the coordinator a decision and
+  a note. See [structured event requirements](#us2us6-structured-event-requirements-00520054).
+
+`registrationRequired` is deliberately never proposed: a plain checkbox cannot say "no
+change" and it is not prefilled, so a diff would be meaningless. It needs a tri-state
+control, which is separate work.
+
+Tests: 27 numbered cases across `eventChangeRequestService.test.ts`,
+`EventChangeRequestForm.test.tsx`, `ChangeRequestList.test.tsx` and
+`changeRequestDiff.test.ts` (AC-006.5.1–.3 are one parameterised row per locked status).
+AC-006.3.7–.17 cover the prefill-and-diff rule. Database coverage for this story sits in
+US7's suites, which exercise the same table through the real review operation.
+
+
 ## US7 review rules and service
 
 ### Shared database status-rule correction
@@ -552,19 +584,30 @@ frontend/                            React app (Vite, Tailwind, Vitest)
     ├── components/layout/           app shell, navigation, footer
     └── features/
         ├── auth/                    session plumbing (US-002 owns the real story)
-        └── events/                  one folder per backlog component
-            ├── types.ts
-            ├── validation.ts        PURE functions — no React, no Supabase, no I/O
-            ├── useEventRequestForm.ts form state and separate save/submit actions
-            ├── draftValidation.ts   incomplete draft validation, separate from submission
-            ├── eventService.ts      submits new event requests to Supabase
-            ├── eventDraftQueryService.ts lists and loads a signed-in organiser’s drafts
-            ├── eventDraftService.ts saves new drafts and updates existing owned drafts
+        ├── events/                  one folder per backlog component
+        │   ├── types.ts
+        │   ├── validation.ts        PURE functions — no React, no Supabase, no I/O
+        │   ├── useEventRequestForm.ts form state and separate save/submit actions
+        │   ├── draftValidation.ts   incomplete draft validation, separate from submission
+        │   ├── eventService.ts      submits new event requests to Supabase
+        │   ├── eventDraftQueryService.ts lists and loads a signed-in organiser’s drafts
+        │   ├── eventDraftService.ts saves new drafts and updates existing owned drafts
+        │   ├── requirementCatalogue.ts PURE — the fixed requirement option lists
+        │   ├── requirementCatalogueService.ts loads layout_types and equipment_types
+        │   ├── components/
+        │   └── __tests__/
+        └── venues/
+            ├── slots.ts             PURE — slot windows and the cells a booking claims
+            ├── holdRules.ts         PURE — what may be booked, and for how long
+            ├── searchTextMatch.ts   PURE — case/space/punctuation-insensitive matching
+            ├── venueSearchService.ts US8 search and the coordinator's assigned events
+            ├── venueBookingService.ts US9/US11 holds and booking requests
             ├── components/
             └── __tests__/
 backend/
 └── backend/supabase/migrations/             database schema, RLS, triggers
 ```
+
 
 The split follows where code runs, not a separate API server. The browser talks to
 Supabase directly, so the backend is the database itself: its schema, its RLS policies
