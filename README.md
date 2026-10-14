@@ -143,11 +143,18 @@ supabase link --project-ref <your-project-ref>
 supabase db push
 ```
 
-Apply migrations **in order**, `0001` through `0034`, including both `0005` files
+Apply migrations **in order**, `0001` through `0054`, including both `0005` files
 before `0006` and `0019a` straight after `0019`. All are safe to replay; see
 [Shared Supabase state](#shared-supabase-state-5-october-2026). The two files currently share a version prefix, so the CLI path above
 needs that version collision resolved before it can be relied on; use the SQL Editor
 for the existing sequence in the meantime.
+
+`0052`–`0054` turn the organiser's requirement fields into catalogue codes and must be
+applied as a set, in that order, in the same sitting: after `0052` the event columns are
+code lists, and until `0053` lands the change-request review operation still refuses a
+code list with *"Invalid proposed value type"*. See
+[structured event requirements](#us2us6-structured-event-requirements-00520054).
+
 
 ### Change-request database baseline
 
