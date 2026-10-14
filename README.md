@@ -860,6 +860,59 @@ Totals: **523 app tests** and **323 database checks** (including US18's repair c
 (direct-write lockdown, agreed). See [test cases](docs/test-cases/US14_test_cases.md) and
 [design and assumptions](docs/us14-equipment-reservations.md).
 
+## US8 search and filter venues (SCRUM-63)
+
+## US2/US6 structured event requirements (0052–0054)
+
+The organiser's four requirement fields are fixed catalogue choices rather than free text,
+so a coordinator searching venues for an event can have the event's own requirements
+become the search filters.
+
+| Field | Shape | Catalogue | Filters venue search? |
+| --- | --- | --- | --- |
+| `layout_preference` | one code, nullable, foreign key | `layout_types` (0021) | yes, against `venues.layout` |
+| `accessibility_requirements` | `text[]` | `accessibility_types` (0052) | yes, against `venues.accessibility` |
+| `facility_requirements` | `text[]`, new column | `facility_types` (0052) | yes, against `venues.facility` keys |
+| `equipment_requirements` | `text[]` | `equipment_types` (0019, `code` added by 0052) | no — portable kit, US13/US14 |
+
+Facility and equipment are separate on purpose: a projector fixed in the ceiling is a
+property of the room and filters venue search, while a projector on a trolley is reserved
+through US13/US14 and is not a property of any venue. The form previously had only
+`equipment_requirements`, so a fourth field was added rather than overloading one list.
+
+Before this change the accessibility and facility codes existed only in
+`frontend/src/features/venues/venueFeatureCatalogue.ts` — not in any table — and the
+organiser's fields could not be matched against a venue at all. `0052` creates the two
+catalogue tables, seeds them from that file, converts the `events` columns, and enforces
+every stored code with a `BEFORE INSERT OR UPDATE` trigger (a `CHECK` cannot read another
+table, and PostgreSQL has no per-element foreign key for arrays). Free text that could not
+be mapped to a code is preserved in `event_requirement_migration_notes` rather than lost.
+
+`0052` also widens the `equipment_types` read policy from coordinator/tech-support to every
+signed-in role — without it the organiser's equipment checkboxes render empty with no error
+— and adds a trigger-filled `code` column, so existing inserts into that table keep
+working. `0053` replaces the change-request review operation, which insisted every proposed
+value was a string. `0054` returns the organiser's requirements from
+`get_venue_booking_review` as code lists and adds `facility_requirements` to
+`venue_booking_review_version`, so a facility added after the review screen loaded
+invalidates the approval exactly as layout and accessibility already did.
+
+Stories touched, and who should review: **US7** (review operation, significance, the AC12
+revalidation trigger), **US10** (booking-review keys and version hash), **US13/US14**
+(`equipment_types.code` and its read policy), **US18** (`SuitabilityEvent` carries code
+lists). See [the full change log and per-story PR list](docs/us2-structured-requirements.md).
+
+Tests: AC-002.1.7–.14 in `requirementCatalogue.test.ts`, AC-006.3.7–.17 in
+`changeRequestDiff.test.ts`, AC-008.1–.6 in the three venue files above, and 18 database
+checks in `backend/supabase/tests/structured_event_requirements.sql`
+(AC-002.1.15–.25, AC-007.9.18–.22, AC-007.12.20) plus a replay check, AC-002.1.26, in the
+runner. Verified 12 October 2026: **993 app tests** across 106 files (one pre-existing
+todo), lint and build clean, and **589 database checks** passing locally. The six
+`dblink` race checks need the Docker runner; with it the expected total is **595**.
+
+`event_venue_requirements` (0023) exists only because the organiser's fields used to be
+free text, so a coordinator now retypes information the organiser already supplied in the
+same vocabulary. Consolidating the two belongs in a US18 PR with that story's owner.
 
 
 ## US18 venue suitability (SCRUM-62)
