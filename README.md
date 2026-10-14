@@ -1116,7 +1116,13 @@ US12's migrations `0026`–`0034` were then applied in order on shared Supabase 
 From then on, Venue Staff cannot write `venue_closures` directly, and a booking with an
 open venue-block flag cannot be confirmed.
 
-
+Structured requirements update (13 October): `0052`, `0053` and `0054` are local only and
+**not applied to shared Supabase**. Apply them as a set, in that order, after the US7,
+US10 and US13/US14 owners have reviewed their parts — `0053` is what lets the review
+operation accept a code list, so applying `0052` alone leaves change requests for a
+requirement field failing. After applying, read `event_requirement_migration_notes` to see
+which existing free text could not be mapped to a code, and decide with the organisers
+whether any of it should become a new catalogue option.
 
 
 Latest progress supersedes older remaining-work notes: significance, the revalidation
