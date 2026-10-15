@@ -245,7 +245,7 @@ select pg_temp.assert_true(not exists(
  union all (select * from decisions_before_replay except select * from public.venue_booking_decision_notifications)),
  'AC-010.14.19: migration replay preserves notices and does not backfill historical decisions');
 SQL
-  # US2/US6 structured requirements: catalogues, the equipment code trigger and the
+  # US8 structured requirements: catalogues, the equipment code trigger and the
   # array-aware review RPC, then replay 0054-0056 against populated events.
   cat "$repo_root/supabase/tests/structured_event_requirements.sql"
   echo 'create temp table requirement_events_before_replay as select id, layout_preference, accessibility_requirements, facility_requirements, equipment_requirements from public.events;'

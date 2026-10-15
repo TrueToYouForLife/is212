@@ -968,7 +968,7 @@ Tests: 106 AC-009 cases and 15 AC-011 cases across `holdRules.test.ts` and `slot
 `backend/supabase/tests/venue_booking_conflicts.sql` and `venue_booking_assignment.sql`.
 
 
-## US2/US6 structured event requirements (0054–0056)
+## US8 structured event requirements (0054–0056)
 
 The organiser's four requirement fields are fixed catalogue choices rather than free text,
 so a coordinator searching venues for an event can have the event's own requirements

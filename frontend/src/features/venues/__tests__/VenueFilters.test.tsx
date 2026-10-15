@@ -42,6 +42,11 @@ function setup(filters: VenueSearchFilters = emptyFilters, events: AssignedEvent
   return { onChange }
 }
 
+/**
+ * All of this file is AC-008.3 — filtering by event requirements. .3.1–.3.6 cover applying
+ * a selected event's requirements to the filters; .3.7–.3.9 cover choosing the layout from
+ * the catalogue, which is the "supported layout" part of the same criterion.
+ */
 describe("AC-008.3 — choosing an event applies its requirements to the filters", () => {
   test("AC-008.3.1: the event's layout, accessibility and facilities become the filters", () => {
     // This is only possible because the event stores the same catalogue codes the filters
@@ -107,8 +112,8 @@ describe("AC-008.3 — choosing an event applies its requirements to the filters
   })
 })
 
-describe('AC-008.4 — layout is chosen from the catalogue, not typed', () => {
-  test('AC-008.4.1: every layout in the catalogue is offered, plus "any layout"', () => {
+describe('AC-008.3 — layout is chosen from the catalogue, not typed', () => {
+  test('AC-008.3.7: every layout in the catalogue is offered, plus "any layout"', () => {
     setup()
     const select = screen.getByLabelText('Layout')
     expect(select).toBeInstanceOf(HTMLSelectElement)
@@ -117,13 +122,13 @@ describe('AC-008.4 — layout is chosen from the catalogue, not typed', () => {
     expect(screen.getByRole('option', { name: 'Banquet (rounds)' })).toBeInTheDocument()
   })
 
-  test('AC-008.4.2: choosing a layout sets its code, not its label', () => {
+  test('AC-008.3.8: choosing a layout sets its code, not its label', () => {
     const { onChange } = setup()
     fireEvent.change(screen.getByLabelText('Layout'), { target: { value: 'theatre' } })
     expect(onChange).toHaveBeenCalledWith(expect.objectContaining({ layout: 'theatre' }))
   })
 
-  test('AC-008.4.3: a layout the catalogue no longer lists stays selectable', () => {
+  test('AC-008.3.9: a layout the catalogue no longer lists stays selectable', () => {
     // An event may ask for a retired layout; dropping it from the dropdown would silently
     // widen the search without telling the coordinator their requirement was discarded.
     setup({ ...emptyFilters, layout: 'cabaret' })

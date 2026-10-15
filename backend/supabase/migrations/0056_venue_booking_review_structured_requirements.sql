@@ -1,4 +1,4 @@
--- US2/US6 structured event requirements, part 3 (follows 0055). Safe to replay.
+-- US8 structured event requirements, part 3 (follows 0055). Safe to replay.
 --
 -- 0044's get_venue_booking_review hands Venue Staff the organiser's requirements as
 -- 'layoutPreference' plus 'accessibilityNotes'. Both read event columns that are now a

@@ -1,4 +1,4 @@
--- US2/US6 structured event requirements, part 1 (follows 0051). Safe to replay.
+-- US8 structured event requirements, part 1 (follows 0051). Safe to replay.
 --
 -- Why this exists: the organiser's layout/accessibility/equipment fields were free text,
 -- so nothing could be matched against a venue. 0023 worked around that by asking the

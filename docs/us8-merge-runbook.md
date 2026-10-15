@@ -159,7 +159,7 @@ Line numbers are the post-change ones.
 | Commit | README region | Lines |
 | --- | --- | --- |
 | 1 migrations | migration range `0001`–`0056` + the "apply 0054–0056 as a set" paragraph | 111–121 |
-| 1 migrations | the whole `## US2/US6 structured event requirements` section | 937–988 |
+| 1 migrations | the whole `## US8 structured event requirements` section | 937–988 |
 | 1 migrations | `Structured requirements update (13 October)` in Shared Supabase state | 1201–1208 |
 | 2 database tests | *nothing* | — |
 | 3 new files | the `## Project structure` tree (now shows `venues/` and the new modules) | 539–575 |

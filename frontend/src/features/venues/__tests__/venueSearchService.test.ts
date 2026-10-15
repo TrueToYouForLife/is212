@@ -69,8 +69,17 @@ beforeEach(() => {
   mocks.getUser.mockResolvedValue({ data: { user: { id: 'coordinator-1' } }, error: null })
 })
 
-describe('AC-008.5 — the free-text filters are applied, ignoring case and punctuation', () => {
-  test('AC-008.5.1: a keyword with different case and a full stop still finds the venue', async () => {
+describe('AC-008.1 — Event Coordinators can view a list of all available venues', () => {
+  test('AC-008.1.1: a signed-out caller is refused before any query runs', async () => {
+    mocks.getUser.mockResolvedValue({ data: { user: null }, error: null })
+    const result = await searchVenues(emptyFilters, [])
+    expect(result).toEqual({ ok: false, reason: VENUE_SEARCH_MESSAGES.notSignedIn })
+    expect(mocks.from).not.toHaveBeenCalled()
+  })
+})
+
+describe('AC-008.2 — Event Coordinators can search for specific venues', () => {
+  test('AC-008.2.10: a keyword with different case and a full stop still finds the venue', async () => {
     stubVenues([
       { id: 'v1', name: 'Main Hall', location: 'Level 2' },
       { id: 'v2', name: 'Annex', location: 'Level 3' },
@@ -81,7 +90,7 @@ describe('AC-008.5 — the free-text filters are applied, ignoring case and punc
     expect(result.venues.map((venue) => venue.id)).toEqual(['v1'])
   })
 
-  test('AC-008.5.2: the keyword matches the location as well as the name', async () => {
+  test('AC-008.2.11: the keyword matches the location as well as the name', async () => {
     stubVenues([
       { id: 'v1', name: 'Main Hall', location: 'Level 2' },
       { id: 'v2', name: 'Annex', location: 'Basement' },
@@ -92,7 +101,7 @@ describe('AC-008.5 — the free-text filters are applied, ignoring case and punc
     expect(result.venues.map((venue) => venue.id)).toEqual(['v2'])
   })
 
-  test('AC-008.5.3: a keyword of only punctuation does not hide every venue', async () => {
+  test('AC-008.2.12: a keyword of only punctuation does not hide every venue', async () => {
     stubVenues([{ id: 'v1', name: 'Main Hall', location: 'Level 2' }])
     const result = await searchVenues({ ...emptyFilters, keyword: ' . ' }, [])
     expect(result.ok).toBe(true)
@@ -100,7 +109,18 @@ describe('AC-008.5 — the free-text filters are applied, ignoring case and punc
     expect(result.venues).toHaveLength(1)
   })
 
-  test('AC-008.5.4: a layout code matches a venue that spells it differently', async () => {
+  test('AC-008.2.13: text filters are not sent to the database as ilike patterns', async () => {
+    // They cannot be: the stored value keeps its punctuation, so a stripped search term
+    // would never match it. Sending both would also double-filter and drop valid rows.
+    const { calls } = stubVenues([{ id: 'v1', name: 'Main Hall', location: 'Level 2' }])
+    await searchVenues({ ...emptyFilters, keyword: 'main', location: 'level' }, [])
+    expect(calls.filter((call) => call.method === 'or')).toHaveLength(0)
+    expect(calls.filter((call) => call.method === 'ilike')).toHaveLength(0)
+  })
+})
+
+describe('AC-008.3 — filtering by event requirements', () => {
+  test('AC-008.3.13: a layout code matches a venue that spells it differently', async () => {
     // venues.layout was repaired from older data by 0019a and holds "U-shape" here,
     // while the filter holds the catalogue code "u_shape".
     stubVenues([
@@ -113,16 +133,7 @@ describe('AC-008.5 — the free-text filters are applied, ignoring case and punc
     expect(result.venues.map((venue) => venue.id)).toEqual(['v1'])
   })
 
-  test('AC-008.5.5: text filters are not sent to the database as ilike patterns', async () => {
-    // They cannot be: the stored value keeps its punctuation, so a stripped search term
-    // would never match it. Sending both would also double-filter and drop valid rows.
-    const { calls } = stubVenues([{ id: 'v1', name: 'Main Hall', location: 'Level 2' }])
-    await searchVenues({ ...emptyFilters, keyword: 'main', location: 'level' }, [])
-    expect(calls.filter((call) => call.method === 'or')).toHaveLength(0)
-    expect(calls.filter((call) => call.method === 'ilike')).toHaveLength(0)
-  })
-
-  test('AC-008.5.6: capacity and accessibility are still narrowed by the database', async () => {
+  test('AC-008.3.14: capacity and accessibility are still narrowed by the database', async () => {
     const { calls } = stubVenues([{ id: 'v1', name: 'Main Hall', location: 'Level 2' }])
     await searchVenues({
       ...emptyFilters, minAttendance: '150', accessibility: ['lift_access'],
@@ -133,16 +144,7 @@ describe('AC-008.5 — the free-text filters are applied, ignoring case and punc
     ]))
   })
 
-  test('AC-008.5.7: a signed-out caller is refused before any query runs', async () => {
-    mocks.getUser.mockResolvedValue({ data: { user: null }, error: null })
-    const result = await searchVenues(emptyFilters, [])
-    expect(result).toEqual({ ok: false, reason: VENUE_SEARCH_MESSAGES.notSignedIn })
-    expect(mocks.from).not.toHaveBeenCalled()
-  })
-})
-
-describe('AC-008.6 — an assigned event carries its structured requirements', () => {
-  test('AC-008.6.1: the requirement columns are read and mapped to code lists', async () => {
+  test('AC-008.3.15: the requirement columns are read and mapped to code lists', async () => {
     const query: Record<string, unknown> = {}
     const selected: string[] = []
     query.select = vi.fn((columns: string) => { selected.push(columns); return query })
@@ -172,7 +174,7 @@ describe('AC-008.6 — an assigned event carries its structured requirements', (
     }])
   })
 
-  test('AC-008.6.2: a row written before the columns had defaults reads as empty lists', async () => {
+  test('AC-008.3.16: a row written before the columns had defaults reads as empty lists', async () => {
     const query: Record<string, unknown> = {}
     query.select = vi.fn(() => query)
     query.eq = vi.fn(() => query)
