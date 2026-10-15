@@ -42,7 +42,7 @@ export function VenueFilters({
 
   /**
    * Choosing an event copies its requirements straight into the filters. This is only
-   * possible because the event stores the same catalogue codes the filters use (0052):
+   * possible because the event stores the same catalogue codes the filters use (0054):
    * previously these were free text and the coordinator had to read them and tick the
    * matching boxes by hand, which is exactly where a requirement got lost.
    *

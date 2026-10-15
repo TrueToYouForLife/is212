@@ -31,7 +31,7 @@ const FACILITY_CODES = FACILITY_OPTIONS.map((option) => option.code)
 
 /**
  * A draft may be missing anything, but a requirement it does hold must still be a real
- * code: the column constraints from 0052 apply to a draft row exactly as they do to a
+ * code: the column constraints from 0054 apply to a draft row exactly as they do to a
  * submitted one, so accepting an unknown code here would only move the failure to the
  * save. Unticked groups are empty lists, which is always valid.
  */

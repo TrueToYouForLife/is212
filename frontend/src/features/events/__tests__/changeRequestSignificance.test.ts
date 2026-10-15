@@ -24,7 +24,7 @@ test('AC-007.11.8: absent or undefined fields do not falsely flag a significant 
 })
 test('AC-007.11.9: removing an equipment requirement still counts as a significant change', () => {
   // An empty list is "drop every equipment requirement", which is as significant as
-  // adding one. Codes rather than free text (0052); the classification is unchanged.
+  // adding one. Codes rather than free text (0054); the classification is unchanged.
   expect(classifyChangeRequest({ equipmentRequirements: [] })).toEqual({ kind: 'significant', fields: ['equipmentRequirements'] })
 })
 test('AC-007.11.10: a mixed request lists significant fields in stable order without mutating the proposal', () => {

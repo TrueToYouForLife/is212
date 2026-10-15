@@ -28,7 +28,7 @@ export const EVENT_STATUS_LABELS: Record<EventStatus, string> = {
 }
 
 /**
- * The four requirement fields are catalogue codes, not free text (0052):
+ * The four requirement fields are catalogue codes, not free text (0054):
  *
  *   layoutPreference           one layout_types code, or null for "no preference"
  *   accessibilityRequirements  accessibility_types codes

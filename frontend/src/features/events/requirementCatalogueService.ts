@@ -10,9 +10,9 @@ import type { FeatureOption, RequirementCatalogue } from './requirementCatalogue
  * The only Supabase access for the requirement catalogues, per the house rule.
  *
  * Layout comes from layout_types (0021) and equipment from equipment_types (0019 plus the
- * code column added in 0052); both are tables precisely so staff can add an option without
+ * code column added in 0054); both are tables precisely so staff can add an option without
  * a code change. Accessibility and facility are the static lists shared with the venues
- * feature — 0052 seeds the same codes into accessibility_types and facility_types, so the
+ * feature — 0054 seeds the same codes into accessibility_types and facility_types, so the
  * database refuses anything these lists do not offer.
  */
 
@@ -63,7 +63,7 @@ export async function loadRequirementCatalogue(): Promise<LoadRequirementCatalog
     label: row.label,
   }))
 
-  // equipment_types has no label column: its name is the label, and 0052 gave it a stable
+  // equipment_types has no label column: its name is the label, and 0054 gave it a stable
   // code so a renamed type keeps the same stored requirement.
   const equipment: FeatureOption[] = ((equipmentResult.data ?? []) as EquipmentRow[]).map(
     (row) => ({ code: row.code, label: row.name }),

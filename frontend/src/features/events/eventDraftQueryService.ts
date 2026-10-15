@@ -52,7 +52,7 @@ export async function getEventDraft(id: string): Promise<LoadEventDraftResult> {
           proposedEnd: data.proposed_end ?? '',
           expectedAttendance: data.expected_attendance ?? '',
           programme: data.programme ?? '',
-          // null only reaches here from a row written before 0052 set the defaults.
+          // null only reaches here from a row written before 0054 set the defaults.
           layoutPreference: data.layout_preference ?? '',
           accessibilityRequirements: data.accessibility_requirements ?? [],
           facilityRequirements: data.facility_requirements ?? [],

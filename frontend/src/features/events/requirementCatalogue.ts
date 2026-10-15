@@ -16,7 +16,7 @@ import type { FeatureOption } from '../venues/venueFeatureCatalogue'
  * fixed is that the event's requirements and the venue's features are drawn from one
  * list, so a requirement can be matched to a venue. A second copy of the codes in this
  * folder would be free to drift, and a drifted code silently matches nothing — exactly
- * the bug this change exists to remove. 0052 seeds the same codes into
+ * the bug this change exists to remove. 0054 seeds the same codes into
  * accessibility_types and facility_types, so the database enforces what this file offers.
  *
  * Layout and equipment are not listed here because they are genuinely dynamic: layouts

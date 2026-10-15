@@ -1,4 +1,4 @@
--- US2/US6 structured event requirements, slice 2 (follows 0052). Safe to replay.
+-- US2/US6 structured event requirements, part 2 (follows 0054). Safe to replay.
 --
 -- 0013's review_event_change_request insists every proposed value except
 -- registrationRequired is a JSON string:

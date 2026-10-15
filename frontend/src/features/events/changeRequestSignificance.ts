@@ -6,7 +6,7 @@ import type { ProposedEventChanges } from './types'
 //
 // facilityRequirements joins the list because it is a venue requirement in exactly the
 // way layout and accessibility are: changing it can make the booked venue unsuitable.
-// It must stay in step with the significant-field list in 0053's revalidation trigger —
+// It must stay in step with the significant-field list in 0055's revalidation trigger —
 // that trigger is the enforcement, this is only the label.
 const SIGNIFICANT_FIELDS = [
   'proposedStart', 'proposedEnd', 'expectedAttendance',

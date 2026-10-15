@@ -51,7 +51,7 @@ export function matchesAnyText(
  * Two codes mean the same layout.
  *
  * This exists because `venues.layout` is unconstrained. `events.layout_preference` has a
- * foreign key to `layout_types` (0052) and `venue_layouts.layout` has one too (0022), but
+ * foreign key to `layout_types` (0054) and `venue_layouts.layout` has one too (0022), but
  * `venues.layout` is plain `text`: 0019a filled it from a hand-edited array, verbatim, so
  * it holds `Hall` and `U-shape` where the catalogue holds `hall` and `u_shape`. A plain
  * `.eq()` matched neither, which meant the layout filter silently returned nothing for a

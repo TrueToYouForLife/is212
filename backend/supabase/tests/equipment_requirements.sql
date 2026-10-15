@@ -61,7 +61,7 @@ select ('13400000-0000-0000-0000-0000000000' || e.n)::uuid, 'EVT-US13-' || e.n,
        '13000000-0000-0000-0000-000000000001', e.coordinator, 'US13 event ' || e.n, 'Equipment fixture',
        '2035-03-01 01:00+00', '2035-03-01 02:00+00', 50, e.equipment, e.status
 from (values
-  -- The organiser's request is equipment_types codes since 0052, not free text.
+  -- The organiser's request is equipment_types codes since 0054, not free text.
   ('01', 'approved',     '13000000-0000-0000-0000-000000000002'::uuid, array['projector','wireless_mic']),
   ('02', 'planning',     '13000000-0000-0000-0000-000000000002'::uuid, '{}'::text[]),
   ('03', 'confirmed',    '13000000-0000-0000-0000-000000000002'::uuid, '{}'::text[]),

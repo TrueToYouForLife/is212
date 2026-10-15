@@ -4,7 +4,7 @@ select set_config('request.jwt.claim.sub','',false);
 insert into public.events (id,organiser_id,coordinator_id,purpose,name,proposed_start,proposed_end,expected_attendance,status)
 values ('60000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000001',
  '00000000-0000-0000-0000-000000000003','Revalidation fixture','Original','2035-01-01 01:00+00','2035-01-01 03:00+00',10,'submitted');
--- Requirement proposals are catalogue code lists since 0052, so this file brings its own
+-- Requirement proposals are catalogue code lists since 0054, so this file brings its own
 -- equipment types. Names are unique table-wide, hence the prefix.
 insert into public.equipment_types (id,name,category) values
  ('70100000-0000-0000-0000-000000000001','Revalidation projector','Visual'),

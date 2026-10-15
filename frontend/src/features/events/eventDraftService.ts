@@ -49,7 +49,7 @@ export async function saveEventDraft(
   input: EventRequestInput,
   draftId?: string,
   // The loaded layout/equipment codes, when the caller has them. Omitted, those two
-  // fields are only shape-checked here and the 0052 trigger remains the authority.
+  // fields are only shape-checked here and the 0054 trigger remains the authority.
   options: { codes?: RequirementCodeOptions } = {},
 ): Promise<SaveEventDraftResult> {
   const validation = validateEventDraft(input, { codes: options.codes })

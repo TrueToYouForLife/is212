@@ -5,7 +5,7 @@ import type { VenueBookingRequestDetails as Details } from '../venueBookingRevie
 const details: Details = {
   eventName: 'Conference', reference: 'EVT-10', startsAt: '2032-10-12T05:00:00Z', endsAt: '2032-10-12T08:00:00Z',
   attendance: 120, layoutPreference: 'theatre',
-  // The organiser's own requirements are code lists since 0052/0054.
+  // The organiser's own requirements are code lists since 0054/0056.
   accessibilityRequirements: ['lift_access'], facilityRequirements: ['stage'],
   specialArrangements: 'Quiet space',
   requirementsRecorded: true, layout: 'theatre', accessibility: ['wheelchair_access'], facilities: ['projector'],

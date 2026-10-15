@@ -3,8 +3,8 @@ import type { ChangeRequestReviewValidationResult, ProposedEventChanges } from '
 
 // Match US6's field names and value shapes. Reject unexpected keys rather than allowing
 // workflow fields such as status or organiserId to become part of an approved event
-// update. The three requirement lists are arrays of codes, matching the columns 0052
-// created and the types 0053's review RPC accepts; a string here would be rejected by
+// update. The three requirement lists are arrays of codes, matching the columns 0056
+// created and the types 0055's review RPC accepts; a string here would be rejected by
 // that RPC with "Invalid proposed value type", so the shapes have to agree.
 const changeFieldsSchema = z.object({
   name: z.string(),

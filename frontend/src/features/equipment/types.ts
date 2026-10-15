@@ -11,7 +11,7 @@ export type RequirementDisplayStatus = RequirementStatus | 'non_essential'
 
 export interface EquipmentType {
   id: string
-  /** The stable slug added by 0052. Organisers' requests are stored as these codes, so a
+  /** The stable slug added by 0054. Organisers' requests are stored as these codes, so a
    *  type that is renamed keeps the requests already made against it. */
   code: string
   name: string
@@ -37,7 +37,7 @@ export interface RequirementEvent {
   status: EventStatus
   coordinatorId: string | null
   /** The Organiser's original free-text equipment needs, shown for reference. */
-  /** The organiser's equipment_types codes (0052), not the free text this once held. */
+  /** The organiser's equipment_types codes (0054), not the free text this once held. */
   organiserEquipment: string[]
 }
 

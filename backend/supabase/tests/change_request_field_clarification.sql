@@ -2,7 +2,7 @@
 -- Four proposed fields reproduce: two approved, one rejected, one clarification.
 reset role;
 select set_config('request.jwt.claim.sub','',false);
--- The proposed equipment requirement is an equipment_types code (0052), so this file
+-- The proposed equipment requirement is an equipment_types code (0054), so this file
 -- brings its own type. A distinct name keeps it clear of equipment_requirements.sql's
 -- 'Projector', which equipment_types.name requires to be unique.
 insert into public.equipment_types (id,name,category)

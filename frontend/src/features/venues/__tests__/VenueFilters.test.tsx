@@ -45,7 +45,7 @@ function setup(filters: VenueSearchFilters = emptyFilters, events: AssignedEvent
 describe("AC-008.3 — choosing an event applies its requirements to the filters", () => {
   test("AC-008.3.1: the event's layout, accessibility and facilities become the filters", () => {
     // This is only possible because the event stores the same catalogue codes the filters
-    // use (0052). Previously these were free text and the coordinator had to read them
+    // use (0054). Previously these were free text and the coordinator had to read them
     // and tick the matching boxes by hand, which is where a requirement got lost.
     const { onChange } = setup()
     fireEvent.change(screen.getByLabelText('Search for one of your events'), {

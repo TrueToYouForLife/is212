@@ -15,7 +15,7 @@ const fullRequest: EventRequestDetail = {
   proposedEnd: '2099-06-01T14:00:00Z',
   expectedAttendance: 120,
   programme: '18:00 reception, 19:00 dinner',
-  // Catalogue codes now, not free text (0052). The component turns them into labels.
+  // Catalogue codes now, not free text (0054). The component turns them into labels.
   layoutPreference: 'banquet',
   accessibilityRequirements: ['wheelchair_access', 'hearing_loop'],
   facilityRequirements: ['projector'],

@@ -22,7 +22,7 @@ describe('AC-002.1 — the requirement controls work on catalogue codes', () => 
   })
 
   test('AC-002.1.9: two lists holding the same codes are the same requirement', () => {
-    // Order is not meaningful: the 0052 trigger normalises each list on write, so two
+    // Order is not meaningful: the 0054 trigger normalises each list on write, so two
     // forms that tick the same boxes in a different order store the same value.
     expect(sameCodes(['a', 'b'], ['b', 'a'])).toBe(true)
     expect(sameCodes([], [])).toBe(true)

@@ -17,7 +17,7 @@ export interface Venue {
  * An event the signed-in coordinator is assigned to, for the "search for this event"
  * shortcut.
  *
- * The requirement fields are catalogue codes (0052), drawn from the same lists as the
+ * The requirement fields are catalogue codes (0054), drawn from the same lists as the
  * venue filters below, so choosing an event can set those filters directly. They used to
  * be free text, which is why this type's previous comment said they could not be matched
  * against a venue automatically — that was the limitation this change removes.

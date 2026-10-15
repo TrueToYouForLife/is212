@@ -1,4 +1,4 @@
--- US2/US6 structured event requirements (0052-0054). Disposable PostgreSQL only.
+-- US2/US6 structured event requirements (0054-0056). Disposable PostgreSQL only.
 -- Run after change_request_field_clarification.sql, which leaves the US7 review fixtures
 -- in place; this file makes its own events so it does not depend on their state.
 --

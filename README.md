@@ -149,11 +149,11 @@ before `0006` and `0019a` straight after `0019`. All are safe to replay; see
 needs that version collision resolved before it can be relied on; use the SQL Editor
 for the existing sequence in the meantime.
 
-`0052`–`0054` turn the organiser's requirement fields into catalogue codes and must be
-applied as a set, in that order, in the same sitting: after `0052` the event columns are
-code lists, and until `0053` lands the change-request review operation still refuses a
+`0054`–`0056` turn the organiser's requirement fields into catalogue codes and must be
+applied as a set, in that order, in the same sitting: after `0054` the event columns are
+code lists, and until `0055` lands the change-request review operation still refuses a
 code list with *"Invalid proposed value type"*. See
-[structured event requirements](#us2us6-structured-event-requirements-00520054).
+[structured event requirements](#us2us6-structured-event-requirements-00540056).
 
 
 ### Change-request database baseline
@@ -227,7 +227,7 @@ Two kinds of field behave differently on the form, and have to:
   is a real proposal ("drop every requirement"), so neither can also mean "no change" —
   it has to mean "unchanged from what was shown". `collectChanges` proposes only what
   moved, which matters because every proposed field costs the coordinator a decision and
-  a note. See [structured event requirements](#us2us6-structured-event-requirements-00520054).
+  a note. See [structured event requirements](#us2us6-structured-event-requirements-00540056).
 
 `registrationRequired` is deliberately never proposed: a plain checkbox cannot say "no
 change" and it is not prefilled, so a diff would be meaningless. It needs a tri-state
@@ -968,7 +968,7 @@ Tests: 106 AC-009 cases and 15 AC-011 cases across `holdRules.test.ts` and `slot
 `backend/supabase/tests/venue_booking_conflicts.sql` and `venue_booking_assignment.sql`.
 
 
-## US2/US6 structured event requirements (0052–0054)
+## US2/US6 structured event requirements (0054–0056)
 
 The organiser's four requirement fields are fixed catalogue choices rather than free text,
 so a coordinator searching venues for an event can have the event's own requirements
@@ -994,11 +994,11 @@ every stored code with a `BEFORE INSERT OR UPDATE` trigger (a `CHECK` cannot rea
 table, and PostgreSQL has no per-element foreign key for arrays). Free text that could not
 be mapped to a code is preserved in `event_requirement_migration_notes` rather than lost.
 
-`0052` also widens the `equipment_types` read policy from coordinator/tech-support to every
+`0054` also widens the `equipment_types` read policy from coordinator/tech-support to every
 signed-in role — without it the organiser's equipment checkboxes render empty with no error
 — and adds a trigger-filled `code` column, so existing inserts into that table keep
-working. `0053` replaces the change-request review operation, which insisted every proposed
-value was a string. `0054` returns the organiser's requirements from
+working. `0055` replaces the change-request review operation, which insisted every proposed
+value was a string. `0056` returns the organiser's requirements from
 `get_venue_booking_review` as code lists and adds `facility_requirements` to
 `venue_booking_review_version`, so a facility added after the review screen loaded
 invalidates the approval exactly as layout and accessibility already did.
@@ -1222,10 +1222,10 @@ US12's migrations `0026`–`0034` were then applied in order on shared Supabase 
 From then on, Venue Staff cannot write `venue_closures` directly, and a booking with an
 open venue-block flag cannot be confirmed.
 
-Structured requirements update (13 October): `0052`, `0053` and `0054` are local only and
+Structured requirements update (13 October): `0054`, `0055` and `0056` are local only and
 **not applied to shared Supabase**. Apply them as a set, in that order, after the US7,
-US10 and US13/US14 owners have reviewed their parts — `0053` is what lets the review
-operation accept a code list, so applying `0052` alone leaves change requests for a
+US10 and US13/US14 owners have reviewed their parts — `0055` is what lets the review
+operation accept a code list, so applying `0054` alone leaves change requests for a
 requirement field failing. After applying, read `event_requirement_migration_notes` to see
 which existing free text could not be mapped to a code, and decide with the organisers
 whether any of it should become a new catalogue option.

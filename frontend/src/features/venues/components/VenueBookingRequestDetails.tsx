@@ -7,7 +7,7 @@ import type { VenueBookingRequestDetails as Details } from '../venueBookingRevie
  * Codes to words. An unknown code is shown as itself rather than dropped.
  *
  * The list is defaulted because this data comes from get_venue_booking_review: against a
- * database where 0054 has not been applied yet the new keys are simply absent, and a
+ * database where 0056 has not been applied yet the new keys are simply absent, and a
  * missing requirement list should read as "none recorded", not crash the review screen.
  */
 function describe(
@@ -22,7 +22,7 @@ export function VenueBookingRequestDetails({ details }: { details: Details }) {
     ['Event', orDash(details.eventName)], ['Reference', orDash(details.reference)],
     ['Starts (Singapore)', formatDateTime(details.startsAt)], ['Ends (Singapore)', formatDateTime(details.endsAt)],
     ['Expected attendance', orDash(details.attendance)],
-    // The organiser's own requirements, as catalogue codes since 0052/0054.
+    // The organiser's own requirements, as catalogue codes since 0054/0056.
     ['Organiser layout preference', orDash(details.layoutPreference)],
     ['Organiser accessibility requirements',
       orDash(describe(ACCESSIBILITY_OPTIONS, details.accessibilityRequirements) || null)],

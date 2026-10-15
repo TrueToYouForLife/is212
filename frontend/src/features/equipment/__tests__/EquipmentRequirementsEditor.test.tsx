@@ -35,7 +35,7 @@ const line: EquipmentRequirement = {
 const reservedLine: EquipmentRequirement = { ...line, status: 'reserved', displayStatus: 'reserved' }
 function context(
   requirements: EquipmentRequirement[] = [],
-  // equipment_types codes since 0052, not a typed sentence.
+  // equipment_types codes since 0054, not a typed sentence.
   organiserEquipment: string[] = ['projector', 'wireless_mic'],
 ): EventRequirements {
   return {
@@ -81,7 +81,7 @@ describe('AC-013.1: assigned-coordinator editing with the organiser request show
     expect(await screen.findByText('The organiser did not list any equipment.')).toBeInTheDocument()
     unmount()
     // An empty list is the only "nothing requested" value now: the column cannot be null
-    // and a blank code cannot be stored (0052).
+    // and a blank code cannot be stored (0054).
     setup(context([], []))
     expect(await screen.findByText('The organiser did not list any equipment.')).toBeInTheDocument()
   })

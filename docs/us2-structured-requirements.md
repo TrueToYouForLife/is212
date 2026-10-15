@@ -35,7 +35,7 @@ overloading one list to mean both.
 **There were no accessibility or facility catalogue tables.** The codes existed only in
 `frontend/src/features/venues/venueFeatureCatalogue.ts`, whose own comment said
 "Placeholder codes from US8 until a catalogue table exists". Even
-`event_venue_requirements` (0023) stored them as bare `text[]` with no foreign key. 0052
+`event_venue_requirements` (0023) stored them as bare `text[]` with no foreign key. 0054
 creates the tables and seeds them from that file, so the database now enforces what the UI
 offers.
 
@@ -43,7 +43,7 @@ offers.
 
 All three are additive and safe to replay. **None has been applied to shared Supabase.**
 
-### `0052_structured_event_requirements.sql`
+### `0054_structured_event_requirements.sql`
 
 1. Creates `accessibility_types` and `facility_types` (`code`, `label`, `sort_order`),
    seeded to match `venueFeatureCatalogue.ts` exactly. Readable by every signed-in role.
@@ -69,7 +69,7 @@ All three are additive and safe to replay. **None has been applied to shared Sup
    table-wide SELECT and re-granted column by column, so a new column is otherwise
    invisible, and the failure is silent.
 
-### `0053_change_request_structured_requirements.sql`
+### `0055_change_request_structured_requirements.sql`
 
 Replaces `review_event_change_request`. 0013's version insists every proposed value except
 `registrationRequired` is a JSON string:
@@ -90,7 +90,7 @@ Also adds `facilityRequirements` to `queue_change_request_revalidation` (US7 AC1
 venue requirement in exactly the way layout and accessibility are, so it queues a venue
 recheck.
 
-### `0054_venue_booking_review_structured_requirements.sql`
+### `0056_venue_booking_review_structured_requirements.sql`
 
 Replaces `get_venue_booking_review` so Venue Staff see the organiser's requirements as code
 lists: `accessibilityNotes` becomes `accessibilityRequirements`, and `facilityRequirements`
@@ -155,11 +155,11 @@ The same reduction fixes a second problem: `venues.layout` was repaired from old
 
 | File | Change |
 | --- | --- |
-| `migrations/0052_structured_event_requirements.sql` | **new** — catalogues, column conversion, validation trigger, grants |
-| `migrations/0053_change_request_structured_requirements.sql` | **new** — array-aware review RPC, facility in revalidation |
-| `migrations/0054_venue_booking_review_structured_requirements.sql` | **new** — booking-review details and version hash |
+| `migrations/0054_structured_event_requirements.sql` | **new** — catalogues, column conversion, validation trigger, grants |
+| `migrations/0055_change_request_structured_requirements.sql` | **new** — array-aware review RPC, facility in revalidation |
+| `migrations/0056_venue_booking_review_structured_requirements.sql` | **new** — booking-review details and version hash |
 | `tests/structured_event_requirements.sql` | **new** — 18 checks |
-| `tests/run_change_request_review.sh` | restores 0053 after each historical 0010/0013/0015 replay; runs the new suite plus a replay check |
+| `tests/run_change_request_review.sh` | restores 0055 after each historical 0010/0013/0015 replay; runs the new suite plus a replay check |
 | `tests/change_request_field_clarification.sql` | proposal value is a code list; brings its own equipment type |
 | `tests/change_request_revalidation.sql` | proposals are code lists; brings its own equipment types |
 | `tests/change_request_review_history.sql` | the retained snapshot holds a list, not a string |
@@ -167,10 +167,10 @@ The same reduction fixes a second problem: `venues.layout` was repaired from old
 | `tests/event_registrations.sql` | `facility_requirements` added to the "no internal fields leak to Attendees" assertion |
 | `tests/venue_booking_review_details.sql` | fixture and expected JSON keys |
 
-> The runner needed four `cat 0053` restores. Its own comment already explains the pattern:
+> The runner needed four `cat 0055` restores. Its own comment already explains the pattern:
 > *"Replay later replacements too: replaying 0008 alone would restore an old RPC."* The
 > same is true of 0010, 0013 and 0015 — each replays a historical version of a function
-> that 0053 replaces, and the tests that follow then run against the obsolete one.
+> that 0055 replaces, and the tests that follow then run against the obsolete one.
 
 ### Frontend — new
 
@@ -277,10 +277,10 @@ Two real bugs were found and fixed during verification rather than by inspection
 
 ## Still to do
 
-- Apply 0052, 0053 and 0054 to shared Supabase, in that order, after the PRs land.
+- Apply 0054, 0055 and 0056 to shared Supabase, in that order, after the PRs land.
 - Browser verification of the organiser form, the change request form and venue search
   against real data — nothing here proves the live flow.
 - A check on existing shared-database rows: read
-  `event_requirement_migration_notes` after applying 0052 to see what free text could not
+  `event_requirement_migration_notes` after applying 0054 to see what free text could not
   be mapped, and decide with the organisers whether any of it should become a new catalogue
   option.

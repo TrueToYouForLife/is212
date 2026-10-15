@@ -10,7 +10,7 @@ Commands are written one per line because Windows PowerShell 5.1 does not suppor
 
 `README.md` and `docs/us2-structured-requirements.md` go in **PR 1**, not a separate earlier
 PR. Most of the README change describes behaviour that only exists once the code lands — the
-new columns, the migration range `0001`–`0054`. Merging it first would leave main's README
+new columns, the migration range `0001`–`0056`. Merging it first would leave main's README
 documenting a main that does not do those things yet.
 
 (The four backfilled sections for US6, US8, US9 and US11 *are* accurate today, since they
@@ -33,10 +33,10 @@ by concern lets each reviewer read only their own commits.
 ### Commit 1 — the migrations
 
 ```powershell
-git add backend/supabase/migrations/0052_structured_event_requirements.sql
-git add backend/supabase/migrations/0053_change_request_structured_requirements.sql
-git add backend/supabase/migrations/0054_venue_booking_review_structured_requirements.sql
-git commit -m "feat(db): store event requirements as catalogue codes (0052-0054)"
+git add backend/supabase/migrations/0054_structured_event_requirements.sql
+git add backend/supabase/migrations/0055_change_request_structured_requirements.sql
+git add backend/supabase/migrations/0056_venue_booking_review_structured_requirements.sql
+git commit -m "feat(db): store event requirements as catalogue codes (0054-0056)"
 ```
 
 ### Commit 2 — database tests and the runner
@@ -50,12 +50,12 @@ git add backend/supabase/tests/change_request_review_history.sql
 git add backend/supabase/tests/equipment_requirements.sql
 git add backend/supabase/tests/event_registrations.sql
 git add backend/supabase/tests/venue_booking_review_details.sql
-git commit -m "test(db): code-list fixtures, 18 new checks, restore 0053 after replays"
+git commit -m "test(db): code-list fixtures, 18 new checks, restore 0055 after replays"
 ```
 
 **Expect a merge conflict in `run_change_request_review.sh`** — the same file that conflicted
 between `us17-venue-access` and `main`. Resolve it by keeping both sides: the additions here
-are `cat` lines for the 0053 restores and the new suite, not replacements.
+are `cat` lines for the 0055 restores and the new suite, not replacements.
 
 ### Commit 3 — the four new files
 
@@ -158,7 +158,7 @@ Line numbers are the post-change ones.
 
 | Commit | README region | Lines |
 | --- | --- | --- |
-| 1 migrations | migration range `0001`–`0054` + the "apply 0052–0054 as a set" paragraph | 111–121 |
+| 1 migrations | migration range `0001`–`0056` + the "apply 0054–0056 as a set" paragraph | 111–121 |
 | 1 migrations | the whole `## US2/US6 structured event requirements` section | 937–988 |
 | 1 migrations | `Structured requirements update (13 October)` in Shared Supabase state | 1201–1208 |
 | 2 database tests | *nothing* | — |
@@ -205,8 +205,8 @@ git push -u origin feature/structured-event-requirements
 | Reviewer | Owns | Point them at |
 | --- | --- | --- |
 | **US7 owner** | review RPC, AC12 trigger | commits 1, 2, and the four `changeRequest*` files in commit 4 |
-| **US13/US14 owner** | `equipment_types` | section 2 of `0052` in commit 1, the fixture in commit 2, commit 6 |
-| **US10 owner** | booking review and approval | `0054` in commit 1, the fixture in commit 2, the two booking-review files in commit 5 |
+| **US13/US14 owner** | `equipment_types` | section 2 of `0054` in commit 1, the fixture in commit 2, commit 6 |
+| **US10 owner** | booking review and approval | `0056` in commit 1, the fixture in commit 2, the two booking-review files in commit 5 |
 | **US1 owner** | save draft | the four `draft*`/`eventDraft*` files in commit 4 |
 
 Courtesy notice, no approval needed: whoever owns **US15/US29** — one existing assertion in
@@ -235,7 +235,7 @@ git push -u origin feature/us18-requirement-labels
 PR 2 carries a README change of its own, in the existing `## US18 venue suitability`
 section (around line 989). The old text said the coordinator records requirements "beside
 the organiser's own **words**" — codes are not words, so that sentence became wrong the
-moment `0052` landed, and this is the commit that makes the page show labels. The change is
+moment `0054` landed, and this is the commit that makes the page show labels. The change is
 the four-word fix on that line plus a paragraph explaining that the verdict is still
 computed from the coordinator's `event_venue_requirements` overlay.
 
@@ -251,14 +251,14 @@ This change is **not backward compatible**. There is no ordering of "apply the s
 "deploy the client" that avoids a broken window, because the breaking step is the column type
 conversion itself:
 
-- apply `0052` while the old client is live → the organiser form posts a string to a `text[]`
+- apply `0054` while the old client is live → the organiser form posts a string to a `text[]`
   column and submitting an event request fails
-- deploy the new client before `0052` → it posts an array to a `text` column, the same failure
+- deploy the new client before `0054` → it posts an array to a `text` column, the same failure
   in reverse
 
 So do it in one sitting, with the team told in advance:
 
-1. In the Supabase SQL Editor, run **`0052`**, then **`0053`**, then **`0054`**, one file per
+1. In the Supabase SQL Editor, run **`0054`**, then **`0055`**, then **`0056`**, one file per
    run, checking each returns success.
 2. Confirm with a read-only query:
    ```sql

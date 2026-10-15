@@ -175,7 +175,7 @@ describe('AC-002.1 — optional information', () => {
     if (!result.ok) return
     expect(result.value.purpose).toBe('Annual client appreciation dinner')
     expect(result.value.programme).toBeNull()
-    // A requirement nobody ticked is an empty list, not null: the columns 0052 created
+    // A requirement nobody ticked is an empty list, not null: the columns 0054 created
     // are "text[] not null default '{}'", so null is not a value they can hold.
     expect(result.value.accessibilityRequirements).toEqual([])
     expect(result.value.facilityRequirements).toEqual([])

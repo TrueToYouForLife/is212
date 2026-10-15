@@ -35,7 +35,7 @@ if [ "$ready" != true ]; then echo 'Temporary database did not become ready.' >&
   # requirement fields now hold. Same reason as the 0038/0039 restore above: a historical
   # replay must not leave an obsolete function in place for the tests that follow.
   cat "$repo_root/supabase/migrations/0013_change_request_replies.sql"
-  cat "$repo_root/supabase/migrations/0053_change_request_structured_requirements.sql"
+  cat "$repo_root/supabase/migrations/0055_change_request_structured_requirements.sql"
   cat <<'SQL'
 select pg_temp.assert_true(
   not exists ((select * from public.event_change_requests except select * from requests_before_repeat)
@@ -45,7 +45,7 @@ SQL
   cat "$repo_root/supabase/tests/change_request_field_clarification.sql"
   cat "$repo_root/supabase/migrations/0010_change_request_field_clarification.sql"
   cat "$repo_root/supabase/migrations/0013_change_request_replies.sql"
-  cat "$repo_root/supabase/migrations/0053_change_request_structured_requirements.sql"
+  cat "$repo_root/supabase/migrations/0055_change_request_structured_requirements.sql"
   cat <<'SQL'
 select pg_temp.assert_true(
   not exists ((select * from public.event_change_requests except select * from field_reviews_before_repeat)
@@ -71,11 +71,11 @@ SQL
   cat "$repo_root/supabase/tests/change_request_legacy_status_constraint.sql"
   cat "$repo_root/supabase/tests/direct_event_review.sql"
   cat "$repo_root/supabase/migrations/0013_change_request_replies.sql"
-  cat "$repo_root/supabase/migrations/0053_change_request_structured_requirements.sql"
+  cat "$repo_root/supabase/migrations/0055_change_request_structured_requirements.sql"
   cat "$repo_root/supabase/tests/change_request_replies.sql"
   echo 'create temp table replies_before_repeat as select * from public.event_change_requests;'
   cat "$repo_root/supabase/migrations/0013_change_request_replies.sql"
-  cat "$repo_root/supabase/migrations/0053_change_request_structured_requirements.sql"
+  cat "$repo_root/supabase/migrations/0055_change_request_structured_requirements.sql"
   cat <<'SQL'
 select pg_temp.assert_true(
   not exists ((select * from public.event_change_requests except select * from replies_before_repeat)
@@ -87,7 +87,7 @@ SQL
   cat "$repo_root/supabase/migrations/0015_change_request_revalidation.sql"
   # 0015 restores the revalidation trigger without facilityRequirements in its significant
   # list, so put the current one back — same reason as the 0038/0039 and 0013 restores.
-  cat "$repo_root/supabase/migrations/0053_change_request_structured_requirements.sql"
+  cat "$repo_root/supabase/migrations/0055_change_request_structured_requirements.sql"
   cat <<'SQL'
 select pg_temp.assert_true(
   not exists ((select * from public.event_change_revalidations except select * from revalidation_before_repeat)
@@ -246,10 +246,10 @@ select pg_temp.assert_true(not exists(
  'AC-010.14.19: migration replay preserves notices and does not backfill historical decisions');
 SQL
   # US2/US6 structured requirements: catalogues, the equipment code trigger and the
-  # array-aware review RPC, then replay 0052-0054 against populated events.
+  # array-aware review RPC, then replay 0054-0056 against populated events.
   cat "$repo_root/supabase/tests/structured_event_requirements.sql"
   echo 'create temp table requirement_events_before_replay as select id, layout_preference, accessibility_requirements, facility_requirements, equipment_requirements from public.events;'
-  for n in 0052 0053 0054; do
+  for n in 0054 0055 0056; do
     cat "$repo_root"/supabase/migrations/${n}_*.sql
   done
   cat <<'SQL'

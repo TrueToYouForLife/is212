@@ -1,10 +1,10 @@
--- US2/US6 structured event requirements, slice 3 (follows 0053). Safe to replay.
+-- US2/US6 structured event requirements, part 3 (follows 0055). Safe to replay.
 --
 -- 0044's get_venue_booking_review hands Venue Staff the organiser's requirements as
 -- 'layoutPreference' plus 'accessibilityNotes'. Both read event columns that are now a
 -- code and a code list, so "Notes" is the wrong word and the value is no longer a string.
 -- This replaces the function so the event's own requirements come back as catalogue
--- codes, and adds the facility list 0052 introduced.
+-- codes, and adds the facility list 0054 introduced.
 --
 -- The coordinator's structured overlay from 0023 (keys 'requirementsRecorded', 'layout',
 -- 'accessibility', 'facilities') is returned exactly as before: whether that overlay is
@@ -21,7 +21,7 @@ begin;
 
 -- The version a Venue Staff member approves against must change when anything they were
 -- shown changes. 0045 hashes the organiser's layout and accessibility for that reason, so
--- the facility list 0052 added belongs in the hash too: otherwise a facility requirement
+-- the facility list 0054 added belongs in the hash too: otherwise a facility requirement
 -- could be added after the screen was loaded and the approval would still go through.
 create or replace function public.venue_booking_review_version(p_booking_id uuid)
 returns text language sql stable security definer set search_path='' as $$

@@ -12,9 +12,9 @@ export interface VenueBookingRequestDetails {
   endsAt: string | null
   attendance: number | null
   /**
-   * The organiser's own requirements, as catalogue codes. Before 0052 these were free
+   * The organiser's own requirements, as catalogue codes. Before 0054 these were free
    * text and accessibility arrived as a single note, which is why the field used to be
-   * called accessibilityNotes; 0054 renames the keys this type mirrors.
+   * called accessibilityNotes; 0056 renames the keys this type mirrors.
    */
   layoutPreference: string | null
   accessibilityRequirements: string[]

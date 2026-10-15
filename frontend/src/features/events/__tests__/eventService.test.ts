@@ -121,7 +121,7 @@ describe('AC-002.1', () => {
     const payload = insert.mock.calls[0][0]
     expect(payload.programme).toBeNull()
     // Free text still collapses to null; a requirement list collapses to an empty
-    // array instead, because its column is not nullable (0052).
+    // array instead, because its column is not nullable (0054).
     expect(payload.equipment_requirements).toEqual([])
     expect(payload.accessibility_requirements).toEqual([])
     expect(payload.facility_requirements).toEqual([])
