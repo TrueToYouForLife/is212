@@ -936,6 +936,37 @@ assigned-event columns are really read). **This story had no numbered cases at a
 the structured-requirements change**; the AC-008 criteria numbering is read from the code
 rather than from Jira and should be checked against the backlog.
 
+## US9 and US11 venue booking requests and tentative holds (US11 = SCRUM-16)
+
+> US9's Jira key is not recorded in the repo either. Fill it in.
+
+Behind `VITE_FEATURE_VENUE_BOOKING`. A coordinator opens a venue from the search results
+(`/venues/:id`), checks its timetable (`/venues/:id/timetable`), places a tentative hold on
+the slots an event needs, and then submits the hold as a booking request. Their own
+bookings are at `/venues/bookings`. Only an `approved` or `planning` event may be booked
+(`BOOKABLE_EVENT_STATUSES`), a hold lasts `HOLD_DURATION_DAYS` = 3 days, and the slots a
+booking claims are the event's own slots plus the trailing setup/turnaround slot — the same
+rule venue search uses, defined once in `slots.ts`.
+
+Two constraint decisions are worth being able to defend:
+
+- **One active hold per event, not one live booking per event.** `ACTIVE_HOLD_STATUSES` is
+  `held` and `pending_approval` only, and the unique index in `0036` matches it.
+  `confirmed` is deliberately excluded: an event may legitimately need two venues at once,
+  and including it blocked US14's multi-venue fixture.
+- **An unassigned event can still be held.** `0036`'s insert policy allows
+  `coordinator_id is null`, because events reach the queue before a coordinator is
+  assigned (US17). `0049` later moved booking authority to the *currently* assigned
+  coordinator, keeping the requester fallback only for those legacy unassigned rows.
+
+Apply `0035` then `0036`; `0049` belongs to US17's handover.
+
+Tests: 106 AC-009 cases and 15 AC-011 cases across `holdRules.test.ts` and `slots.test.ts`
+(pure rules, no mocks), `venueBookingService.test.ts` and `venueTimetableService.test.ts`
+(services against a Supabase fake), and `VenueBookingComponents.test.tsx` /
+`VenueBookingPages.test.tsx`. Database coverage is in
+`backend/supabase/tests/venue_booking_conflicts.sql` and `venue_booking_assignment.sql`.
+
 
 ## US2/US6 structured event requirements (0052–0054)
 
