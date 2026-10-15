@@ -6,7 +6,7 @@ vi.mock('../../../lib/supabase', () => ({
   supabase: { from: mocks.from, auth: { getUser: mocks.getUser } },
 }))
 
-import { listMyAssignedEvents, searchVenues, VENUE_SEARCH_MESSAGES } from '../../../../is212-structured-requirements-v5/frontend/src/features/venues/venueSearchService'
+import { listMyAssignedEvents, searchVenues, VENUE_SEARCH_MESSAGES } from '../venueSearchService'
 import type { VenueSearchFilters } from '../types'
 
 /**
