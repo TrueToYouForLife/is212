@@ -25,15 +25,19 @@ vi.mock('../equipmentRequirementService', () => ({
 
 const coordinator: Viewer = { id: 'coordinator-1', role: 'coordinator' }
 const catalogue: EquipmentType[] = [
-  { id: 'mic', name: 'Wireless mic', category: 'Audio' },
-  { id: 'projector', name: 'Projector', category: 'Visual' },
+  { id: 'mic', code: 'wireless_mic', name: 'Wireless mic', category: 'Audio' },
+  { id: 'projector', code: 'projector', name: 'Projector', category: 'Visual' },
 ]
 const line: EquipmentRequirement = {
   id: 'req-1', eventId: 'event-1', typeId: 'projector', typeName: 'Projector', quantity: 2,
   technicalNotes: null, essential: true, status: 'pending_review', displayStatus: 'pending_review',
 }
 const reservedLine: EquipmentRequirement = { ...line, status: 'reserved', displayStatus: 'reserved' }
-function context(requirements: EquipmentRequirement[] = [], organiserEquipment: string | null = '2 projectors, 4 mics'): EventRequirements {
+function context(
+  requirements: EquipmentRequirement[] = [],
+  // equipment_types codes since 0052, not a typed sentence.
+  organiserEquipment: string[] = ['projector', 'wireless_mic'],
+): EventRequirements {
   return {
     event: {
       id: 'event-1', reference: 'EVT-2026-0001', name: 'Launch', status: 'approved',
@@ -60,22 +64,34 @@ beforeEach(() => {
 describe('AC-013.1: assigned-coordinator editing with the organiser request shown', () => {
   test("AC-013.1.9: shows the organiser's original equipment request next to the requirements", async () => {
     setup(context([line]))
-    expect(await screen.findByRole('heading', { name: "Organiser's equipment request" })).toBeInTheDocument()
-    expect(screen.getByText('2 projectors, 4 mics')).toBeInTheDocument()
+    const heading = await screen.findByRole('heading', { name: "Organiser's equipment request" })
+    expect(heading).toBeInTheDocument()
+    // The codes are shown by name, resolved against the loaded catalogue. Scoped to the
+    // organiser's own section: the catalogue picker and the coordinator's requirement
+    // list name the same equipment.
+    const organiserRequest = heading.closest('section')
+    expect(organiserRequest).not.toBeNull()
+    expect(within(organiserRequest as HTMLElement).getByText('Wireless mic')).toBeInTheDocument()
+    expect(within(organiserRequest as HTMLElement).getByText('Projector')).toBeInTheDocument()
     // Scoped to the list: the catalogue picker also offers "Projector".
     expect(within(screen.getByRole('list', { name: 'Equipment requirements' })).getByText('Projector')).toBeInTheDocument()
   })
   test('AC-013.1.10: says so when the organiser listed no equipment', async () => {
-    const { unmount } = setup(context([], null))
+    const { unmount } = setup(context([], []))
     expect(await screen.findByText('The organiser did not list any equipment.')).toBeInTheDocument()
     unmount()
-    setup(context([], '   '))
+    // An empty list is the only "nothing requested" value now: the column cannot be null
+    // and a blank code cannot be stored (0052).
+    setup(context([], []))
     expect(await screen.findByText('The organiser did not list any equipment.')).toBeInTheDocument()
   })
   test('AC-013.1.11: viewers who may not write see the lines without write controls', async () => {
     for (const viewer of [{ id: 'tech-1', role: 'tech_support' }, { id: 'coordinator-2', role: 'coordinator' }] as Viewer[]) {
       const { unmount } = setup(context([line]), viewer)
-      expect(await screen.findByText('Projector')).toBeInTheDocument()
+      // "Projector" also appears in the organiser's request, so read it from the list.
+      expect(await screen.findByRole('list', { name: 'Equipment requirements' })).toBeInTheDocument()
+      expect(within(screen.getByRole('list', { name: 'Equipment requirements' }))
+        .getByText('Projector')).toBeInTheDocument()
       expect(screen.queryByRole('button', { name: /add requirement|edit|remove/i })).not.toBeInTheDocument()
       unmount()
     }

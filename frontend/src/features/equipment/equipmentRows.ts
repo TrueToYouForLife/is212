@@ -34,7 +34,7 @@ export interface EventRow {
   name: string | null
   status: EventStatus
   coordinator_id: string | null
-  equipment_requirements: string | null
+  equipment_requirements: string[] | null
   event_equipment_requirements: RequirementRow[] | null
 }
 export interface TechSupportRow extends RequirementRow {
@@ -68,7 +68,7 @@ export function toEventRequirements(row: EventRow): EventRequirements {
   return {
     event: {
       id: row.id, reference: row.reference, name: row.name, status: row.status,
-      coordinatorId: row.coordinator_id, organiserEquipment: row.equipment_requirements,
+      coordinatorId: row.coordinator_id, organiserEquipment: row.equipment_requirements ?? [],
     },
     requirements: (row.event_equipment_requirements ?? []).map(toRequirement),
   }

@@ -11,8 +11,8 @@ const coordinatorId = 'coordinator-1'
 const assigned = { id: coordinatorId, role: 'coordinator' as const }
 const approved = { status: 'approved' as EventStatus, coordinatorId }
 const catalogue: EquipmentType[] = [
-  { id: 'projector', name: 'Projector', category: 'Visual' },
-  { id: 'mic', name: 'Wireless mic', category: 'Audio' },
+  { id: 'projector', code: 'projector', name: 'Projector', category: 'Visual' },
+  { id: 'mic', code: 'wireless_mic', name: 'Wireless mic', category: 'Audio' },
 ]
 const valid = { typeId: 'projector', quantity: '3', technicalNotes: 'HDMI, 4K', essential: true }
 
