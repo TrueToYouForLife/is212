@@ -15,7 +15,7 @@ const request: EventRequestDetail = {
   purpose: null, eventType: null, proposedStart: null, proposedEnd: null,
   expectedAttendance: null, status: 'draft', submittedAt: null,
   description: null, programme: null, layoutPreference: null,
-  accessibilityRequirements: null, equipmentRequirements: null,
+  accessibilityRequirements: [], facilityRequirements: [], equipmentRequirements: [],
   registrationRequired: false, specialArrangements: null,
   reviewNote: null, reviewedAt: null, createdAt: null,
 }

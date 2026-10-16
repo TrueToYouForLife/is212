@@ -3,7 +3,8 @@ reset role;
 select set_config('request.jwt.claim.sub','',false);
 update public.events set name='Review conference', proposed_start='2032-10-12T13:00:00+08:00',
  proposed_end='2032-10-12T16:00:00+08:00', expected_attendance=120,
- layout_preference='Theatre', accessibility_requirements='Step-free access'
+ layout_preference='theatre', accessibility_requirements=array['wheelchair_access'],
+ facility_requirements=array['stage']
  where id='b10a0000-0000-0000-0000-000000000102';
 insert into public.event_venue_requirements(event_id,facilities,accessibility,updated_by)
  values('b10a0000-0000-0000-0000-000000000102',array['projector'],array['wheelchair_access'],
@@ -12,7 +13,7 @@ set role authenticated;
 select set_config('request.jwt.claim.sub','b10a0000-0000-0000-0000-000000000001',false);
 select pg_temp.assert_true(
  public.get_venue_booking_review('b10a0000-0000-0000-0000-000000000202')->'details'
- @> '{"eventName":"Review conference","attendance":120,"layoutPreference":"Theatre","accessibilityNotes":"Step-free access","requirementsRecorded":true,"facilities":["projector"],"accessibility":["wheelchair_access"]}'
+ @> '{"eventName":"Review conference","attendance":120,"layoutPreference":"theatre","accessibilityRequirements":["wheelchair_access"],"facilityRequirements":["stage"],"requirementsRecorded":true,"facilities":["projector"],"accessibility":["wheelchair_access"]}'
  and (public.get_venue_booking_review('b10a0000-0000-0000-0000-000000000202')#>>'{details,startsAt}')::timestamptz='2032-10-12T13:00:00+08:00'::timestamptz
  and (public.get_venue_booking_review('b10a0000-0000-0000-0000-000000000202')#>>'{details,endsAt}')::timestamptz='2032-10-12T16:00:00+08:00'::timestamptz,
  'AC-010.2.1: Venue Staff read the booked event timing and requirements');

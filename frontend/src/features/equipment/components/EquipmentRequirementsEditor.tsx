@@ -74,7 +74,7 @@ export function EquipmentRequirementsEditor({ eventId, viewer }: EquipmentRequir
   }
 
   return <div className="grid gap-6 lg:grid-cols-[1fr_2fr]">
-    <OrganiserEquipmentRequest text={data.event.organiserEquipment} />
+    <OrganiserEquipmentRequest codes={data.event.organiserEquipment} catalogue={catalogue} />
     <div className="space-y-4">
       {!canManage && viewer.role === 'coordinator' && <p className="text-sm text-slate-600">
         Read-only: only the assigned Event Coordinator can change these requirements, while the

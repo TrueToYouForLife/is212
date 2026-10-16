@@ -1,5 +1,6 @@
 import { supabase } from '../../lib/supabase'
 import { validateEventDraft } from './draftValidation'
+import type { RequirementCodeOptions } from './validation'
 import type { EventRequestInput, SaveableEventDraft, SaveEventDraftResult } from './types'
 
 export const DRAFT_MESSAGES = {
@@ -23,6 +24,7 @@ function toDraftFields(draft: SaveableEventDraft) {
     programme: draft.programme,
     layout_preference: draft.layoutPreference,
     accessibility_requirements: draft.accessibilityRequirements,
+    facility_requirements: draft.facilityRequirements,
     equipment_requirements: draft.equipmentRequirements,
     registration_required: draft.registrationRequired,
     special_arrangements: draft.specialArrangements,
@@ -46,8 +48,11 @@ function describeError(code?: string): string {
 export async function saveEventDraft(
   input: EventRequestInput,
   draftId?: string,
+  // The loaded layout/equipment codes, when the caller has them. Omitted, those two
+  // fields are only shape-checked here and the 0054 trigger remains the authority.
+  options: { codes?: RequirementCodeOptions } = {},
 ): Promise<SaveEventDraftResult> {
-  const validation = validateEventDraft(input)
+  const validation = validateEventDraft(input, { codes: options.codes })
   if (!validation.ok) {
     return {
       ok: false,

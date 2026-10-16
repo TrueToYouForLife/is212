@@ -1,6 +1,8 @@
 import { z } from 'zod'
 import type { DraftValidationResult, EventRequestInput, SaveableEventDraft, ValidationIssue } from './types'
-import { VALIDATION_MESSAGES } from './validation'
+import { VALIDATION_MESSAGES, codeListSchema, layoutCodeSchema } from './validation'
+import { ACCESSIBILITY_OPTIONS, FACILITY_OPTIONS } from './requirementCatalogue'
+import type { RequirementCodeOptions } from './validation'
 
 const optionalText = z.string().nullish().transform((value) => value?.trim() || null)
 
@@ -24,7 +26,16 @@ const optionalAttendance = z.preprocess(
     .nullable(),
 )
 
-const draftSchema = z.object({
+const ACCESSIBILITY_CODES = ACCESSIBILITY_OPTIONS.map((option) => option.code)
+const FACILITY_CODES = FACILITY_OPTIONS.map((option) => option.code)
+
+/**
+ * A draft may be missing anything, but a requirement it does hold must still be a real
+ * code: the column constraints from 0054 apply to a draft row exactly as they do to a
+ * submitted one, so accepting an unknown code here would only move the failure to the
+ * save. Unticked groups are empty lists, which is always valid.
+ */
+const createDraftSchema = (codes: RequirementCodeOptions) => z.object({
   name: optionalText,
   purpose: optionalText,
   eventType: optionalText,
@@ -33,9 +44,13 @@ const draftSchema = z.object({
   proposedEnd: optionalDate(VALIDATION_MESSAGES.endInvalid),
   expectedAttendance: optionalAttendance,
   programme: optionalText,
-  layoutPreference: optionalText,
-  accessibilityRequirements: optionalText,
-  equipmentRequirements: optionalText,
+  layoutPreference: layoutCodeSchema(codes.layouts),
+  accessibilityRequirements: codeListSchema(
+    ACCESSIBILITY_CODES, VALIDATION_MESSAGES.accessibilityUnknown),
+  facilityRequirements: codeListSchema(
+    FACILITY_CODES, VALIDATION_MESSAGES.facilityUnknown),
+  equipmentRequirements: codeListSchema(
+    codes.equipment, VALIDATION_MESSAGES.equipmentUnknown),
   registrationRequired: z.boolean().optional().default(false),
   specialArrangements: optionalText,
 }).superRefine((value, ctx) => {
@@ -51,8 +66,11 @@ const draftSchema = z.object({
 })
 
 /** Save Draft Event Request: validate unfinished form data without submitting or contacting Supabase. */
-export function validateEventDraft(input: EventRequestInput): DraftValidationResult {
-  const result = draftSchema.safeParse(input)
+export function validateEventDraft(
+  input: EventRequestInput,
+  options: { codes?: RequirementCodeOptions } = {},
+): DraftValidationResult {
+  const result = createDraftSchema(options.codes ?? {}).safeParse(input)
   if (result.success) {
     const value: SaveableEventDraft = result.data
     return { ok: true, value }

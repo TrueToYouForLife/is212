@@ -15,9 +15,11 @@ const fullRequest: EventRequestDetail = {
   proposedEnd: '2099-06-01T14:00:00Z',
   expectedAttendance: 120,
   programme: '18:00 reception, 19:00 dinner',
-  layoutPreference: 'Banquet',
-  accessibilityRequirements: 'Step-free access',
-  equipmentRequirements: 'Two radio microphones',
+  // Catalogue codes now, not free text (0054). The component turns them into labels.
+  layoutPreference: 'banquet',
+  accessibilityRequirements: ['wheelchair_access', 'hearing_loop'],
+  facilityRequirements: ['projector'],
+  equipmentRequirements: ['wireless_mic'],
   registrationRequired: true,
   specialArrangements: 'Halal menu options',
   status: 'submitted',
@@ -31,7 +33,13 @@ const valueFor = (label: string) => screen.getByText(label).nextElementSibling
 
 describe('AC-004.1 — coordinator views the full details of a submitted request', () => {
   test('AC-004.1.4: shows every detail the organiser supplied', () => {
-    render(<RequestDetails request={fullRequest} />)
+    render(
+      <RequestDetails
+        request={fullRequest}
+        layouts={[{ code: 'banquet', label: 'Banquet (rounds)' }]}
+        equipment={[{ code: 'wireless_mic', label: 'Wireless mic' }]}
+      />,
+    )
 
     expect(valueFor('Event name')).toHaveTextContent('Client Appreciation Dinner')
     expect(valueFor('Purpose')).toHaveTextContent('Thank our largest clients')
@@ -39,9 +47,10 @@ describe('AC-004.1 — coordinator views the full details of a submitted request
     expect(valueFor('Description')).toHaveTextContent('Evening reception followed by dinner.')
     expect(valueFor('Expected attendance')).toHaveTextContent('120')
     expect(valueFor('Programme')).toHaveTextContent('18:00 reception, 19:00 dinner')
-    expect(valueFor('Room layout')).toHaveTextContent('Banquet')
-    expect(valueFor('Accessibility')).toHaveTextContent('Step-free access')
-    expect(valueFor('Equipment')).toHaveTextContent('Two radio microphones')
+    expect(valueFor('Room layout')).toHaveTextContent('Banquet (rounds)')
+    expect(valueFor('Accessibility')).toHaveTextContent('Wheelchair access, Hearing loop')
+    expect(valueFor('Venue facilities')).toHaveTextContent('Projector')
+    expect(valueFor('Equipment')).toHaveTextContent('Wireless mic')
     expect(valueFor('Registration required')).toHaveTextContent('Yes')
     expect(valueFor('Special arrangements')).toHaveTextContent('Halal menu options')
     // Dates are formatted for reading, so only check that a real date replaced the dash.
@@ -56,14 +65,16 @@ describe('AC-004.1 — coordinator views the full details of a submitted request
         request={{
           ...fullRequest,
           name: null, eventType: null, description: null, programme: null,
-          layoutPreference: null, accessibilityRequirements: null,
-          equipmentRequirements: null, specialArrangements: null, registrationRequired: false,
+          layoutPreference: null, accessibilityRequirements: [],
+          facilityRequirements: [], equipmentRequirements: [],
+          specialArrangements: null, registrationRequired: false,
         }}
       />,
     )
 
     for (const label of ['Event name', 'Type of event', 'Description', 'Programme',
-      'Room layout', 'Accessibility', 'Equipment', 'Special arrangements']) {
+      'Room layout', 'Accessibility', 'Venue facilities', 'Equipment',
+      'Special arrangements']) {
       expect(valueFor(label)).toHaveTextContent('—')
     }
     expect(valueFor('Registration required')).toHaveTextContent('No')

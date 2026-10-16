@@ -31,6 +31,11 @@ if [ "$ready" != true ]; then echo 'Temporary database did not become ready.' >&
   cat "$repo_root/supabase/migrations/0039_coordinator_reassignment.sql"
   # Replay later replacements too: replaying 0008 alone would restore an old RPC.
   cat "$repo_root/supabase/migrations/0010_change_request_field_clarification.sql"
+  # ... and 0010 alone restores the string-only RPC, which refuses the code lists the
+  # requirement fields now hold. Same reason as the 0038/0039 restore above: a historical
+  # replay must not leave an obsolete function in place for the tests that follow.
+  cat "$repo_root/supabase/migrations/0013_change_request_replies.sql"
+  cat "$repo_root/supabase/migrations/0055_change_request_structured_requirements.sql"
   cat <<'SQL'
 select pg_temp.assert_true(
   not exists ((select * from public.event_change_requests except select * from requests_before_repeat)
@@ -39,6 +44,8 @@ select pg_temp.assert_true(
 SQL
   cat "$repo_root/supabase/tests/change_request_field_clarification.sql"
   cat "$repo_root/supabase/migrations/0010_change_request_field_clarification.sql"
+  cat "$repo_root/supabase/migrations/0013_change_request_replies.sql"
+  cat "$repo_root/supabase/migrations/0055_change_request_structured_requirements.sql"
   cat <<'SQL'
 select pg_temp.assert_true(
   not exists ((select * from public.event_change_requests except select * from field_reviews_before_repeat)
@@ -64,9 +71,11 @@ SQL
   cat "$repo_root/supabase/tests/change_request_legacy_status_constraint.sql"
   cat "$repo_root/supabase/tests/direct_event_review.sql"
   cat "$repo_root/supabase/migrations/0013_change_request_replies.sql"
+  cat "$repo_root/supabase/migrations/0055_change_request_structured_requirements.sql"
   cat "$repo_root/supabase/tests/change_request_replies.sql"
   echo 'create temp table replies_before_repeat as select * from public.event_change_requests;'
   cat "$repo_root/supabase/migrations/0013_change_request_replies.sql"
+  cat "$repo_root/supabase/migrations/0055_change_request_structured_requirements.sql"
   cat <<'SQL'
 select pg_temp.assert_true(
   not exists ((select * from public.event_change_requests except select * from replies_before_repeat)
@@ -76,6 +85,9 @@ SQL
   cat "$repo_root/supabase/tests/change_request_revalidation.sql"
   echo 'create temp table revalidation_before_repeat as select * from public.event_change_revalidations;'
   cat "$repo_root/supabase/migrations/0015_change_request_revalidation.sql"
+  # 0015 restores the revalidation trigger without facilityRequirements in its significant
+  # list, so put the current one back — same reason as the 0038/0039 and 0013 restores.
+  cat "$repo_root/supabase/migrations/0055_change_request_structured_requirements.sql"
   cat <<'SQL'
 select pg_temp.assert_true(
   not exists ((select * from public.event_change_revalidations except select * from revalidation_before_repeat)
@@ -233,17 +245,22 @@ select pg_temp.assert_true(not exists(
  union all (select * from decisions_before_replay except select * from public.venue_booking_decision_notifications)),
  'AC-010.14.19: migration replay preserves notices and does not backfill historical decisions');
 SQL
-  cat "$repo_root/supabase/tests/arrangement_revalidation.sql"
-  cat "$repo_root/supabase/migrations/0052_arrangement_revalidation.sql"
+  # US8 structured requirements: catalogues, the equipment code trigger and the
+  # array-aware review RPC, then replay 0054-0056 against populated events.
+  cat "$repo_root/supabase/tests/structured_event_requirements.sql"
+  echo 'create temp table requirement_events_before_replay as select id, layout_preference, accessibility_requirements, facility_requirements, equipment_requirements from public.events;'
+  for n in 0054 0055 0056; do
+    cat "$repo_root"/supabase/migrations/${n}_*.sql
+  done
   cat <<'SQL'
 select pg_temp.assert_true(
- not exists((select * from public.arrangement_review_flags except select * from us41_flags_replay)
- union all (select * from us41_flags_replay except select * from public.arrangement_review_flags))
- and not exists((select * from public.arrangement_review_notifications except select * from us41_notices_replay)
- union all (select * from us41_notices_replay except select * from public.arrangement_review_notifications)),
- 'AC-041.1.3: migration replay preserves review history and notification records');
+  not exists ((select id, layout_preference, accessibility_requirements, facility_requirements,
+                      equipment_requirements from public.events
+               except select * from requirement_events_before_replay)
+    union all (select * from requirement_events_before_replay
+               except select id, layout_preference, accessibility_requirements,
+                             facility_requirements, equipment_requirements from public.events)),
+  'AC-002.1.26: replaying the requirement migrations changes no stored requirement');
 SQL
-  cat "$repo_root/supabase/migrations/0053_arrangement_layout_capacity.sql"
-  cat "$repo_root/supabase/tests/arrangement_layout_capacity.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"

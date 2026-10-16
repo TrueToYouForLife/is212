@@ -95,7 +95,7 @@ describe('AC-007.7: request clarification', () => {
       { field: 'expectedAttendance', decision: 'rejected', note: 'Capacity limit.' },
       { field: 'equipmentRequirements', decision: 'clarification_requested', note: '  How many projectors?  ' },
     ]
-    expect(validateChangeRequestReview({ ...proposed, equipmentRequirements: 'Projectors' }, {
+    expect(validateChangeRequestReview({ ...proposed, equipmentRequirements: ['projector'] }, {
       action: 'decide', decisions,
     })).toEqual({ ok: true, review: { status: 'clarification_requested', approvedChanges: {}, decisions: [
       { ...approveName, note: '' }, decisions[1], { ...decisions[2], note: 'How many projectors?' },

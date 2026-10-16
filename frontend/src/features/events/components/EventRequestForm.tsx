@@ -9,7 +9,8 @@ import type { LoadedEventDraft } from '../types'
 
 export function EventRequestForm({ initialDraft }: { initialDraft?: LoadedEventDraft }) {
   const {
-    register, errors, result, draftResult, draftId, resultRef,
+    register, control, errors, result, draftResult, draftId, resultRef,
+    catalogue, catalogueError,
     onSubmit, onSaveDraft, onChange, isSaving, isSubmitting, disabled,
   } = useEventRequestForm(initialDraft)
 
@@ -103,7 +104,13 @@ export function EventRequestForm({ initialDraft }: { initialDraft?: LoadedEventD
       </fieldset>
 
       <fieldset disabled={disabled}>
-        <OptionalRequirementsFields register={register} />
+        <OptionalRequirementsFields
+          register={register}
+          control={control}
+          catalogue={catalogue}
+          errors={errors}
+          catalogueError={catalogueError}
+        />
       </fieldset>
 
       <div className="flex flex-wrap items-center justify-end gap-4 border-t border-slate-100 pt-6">

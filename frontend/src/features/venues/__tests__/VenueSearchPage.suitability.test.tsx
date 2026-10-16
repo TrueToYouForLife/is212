@@ -12,7 +12,12 @@ vi.mock('../../auth/sessionContext', () => ({
 vi.mock('../../../lib/features', () => ({ FEATURES: { venueSuitability: true, venueBlocks: false } }))
 vi.mock('../venueSearchService', () => ({ searchVenues: mocks.search, listMyAssignedEvents: async () => [] }))
 vi.mock('../venueBookingService', () => ({ loadTimeSlots: async () => [] }))
-vi.mock('../suitabilityService', () => ({ assessVenuesForEvent: mocks.assess }))
+// loadLayoutTypes feeds the layout dropdown in VenueFilters; the page loads it with the
+// slots and assigned events, so the mock has to offer it too.
+vi.mock('../suitabilityService', () => ({
+  assessVenuesForEvent: mocks.assess,
+  loadLayoutTypes: async () => [{ code: 'theatre', label: 'Theatre' }],
+}))
 // The real filters are US8's; these two buttons stand in for "pick my event" and "Search".
 vi.mock('../components/VenueFilters', () => ({
   VenueFilters: ({ filters, onChange, onSearch }: {

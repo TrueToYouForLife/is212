@@ -78,9 +78,19 @@ export function SubmitEventChangesPage() {
 
           <Card
             title="Proposed changes"
-            description="Only fill in the fields you want to change. Anything left blank stays as it is above."
+            description="Text fields left blank stay as they are. The layout, accessibility, facility and equipment controls start at what this event asks for today — change only what you want reviewed."
           >
-            <EventChangeRequestForm eventId={id} />
+            {/* The requirement controls are prefilled from, and compared against, these
+                current values, so an untouched control proposes nothing. */}
+            <EventChangeRequestForm
+              eventId={id}
+              current={{
+                layoutPreference: event.layoutPreference,
+                accessibilityRequirements: event.accessibilityRequirements,
+                facilityRequirements: event.facilityRequirements,
+                equipmentRequirements: event.equipmentRequirements,
+              }}
+            />
           </Card>
         </>
       )}

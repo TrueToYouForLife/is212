@@ -7,7 +7,9 @@ select pg_temp.assert_true((select count(*)>=2 from public.event_change_review_h
  'AC-007.13.13: clarification and later review survive organiser replies');
 select pg_temp.assert_true(not exists(select 1 from public.event_change_review_history where reviewed_by is null or reviewer_name='' or reviewed_at is null),
  'AC-007.13.14: retained actions contain actor name identity and timestamp');
-select pg_temp.assert_true((select proposed_changes->>'equipmentRequirements'='Projector' and field_decisions->0->>'note'='Keep existing'
+-- The proposal is a code list since 0054, so the snapshot holds the list, not a string.
+select pg_temp.assert_true((select proposed_changes->'equipmentRequirements'='["revalidation_projector"]'::jsonb
+ and field_decisions->0->>'note'='Keep existing'
  from public.event_change_review_history where change_request_id='70000000-0000-0000-0000-000000000002'),
  'AC-007.13.15: rejected proposal and explanation are preserved');
 create temp table history_snapshot as select * from public.event_change_review_history;

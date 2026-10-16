@@ -13,9 +13,9 @@ vi.mock('../reservationService', () => ({
 }))
 
 const catalogue: EquipmentType[] = [
-  { id: 'projector', name: 'Projector', category: 'Visual' },
-  { id: 'mic', name: 'Wireless mic', category: 'Audio' },
-  { id: 'speaker', name: 'Speaker', category: 'Audio' },
+  { id: 'projector', code: 'projector', name: 'Projector', category: 'Visual' },
+  { id: 'mic', code: 'wireless_mic', name: 'Wireless mic', category: 'Audio' },
+  { id: 'speaker', code: 'speaker', name: 'Speaker', category: 'Audio' },
 ]
 // 00:30 SGT on 10 March to 17:00 SGT on 11 March.
 const item: ReviewQueueItem = {

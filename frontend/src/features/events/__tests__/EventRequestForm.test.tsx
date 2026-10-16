@@ -3,7 +3,11 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { EventRequestForm } from '../components/EventRequestForm'
 import type { SaveEventDraftResult, SubmitEventRequestResult } from '../types'
 
-const mocks = vi.hoisted(() => ({ submitEventRequest: vi.fn(), saveEventDraft: vi.fn() }))
+const mocks = vi.hoisted(() => ({
+  submitEventRequest: vi.fn(),
+  saveEventDraft: vi.fn(),
+  loadRequirementCatalogue: vi.fn(),
+}))
 
 // The form is presentational; persistence belongs to the service, so the service is what
 // we stub. No Supabase client is involved in a component test.
@@ -16,6 +20,33 @@ vi.mock('../eventDraftService', () => ({
   saveEventDraft: mocks.saveEventDraft,
   DRAFT_MESSAGES: { saveFailed: 'Save not confirmed.' },
 }))
+
+// Layout and equipment options come from layout_types and equipment_types, so the
+// catalogue read is a service call like any other and is stubbed the same way.
+vi.mock('../requirementCatalogueService', () => ({
+  loadRequirementCatalogue: mocks.loadRequirementCatalogue,
+  REQUIREMENT_CATALOGUE_MESSAGES: { unavailable: 'Options unavailable.' },
+}))
+
+const CATALOGUE = {
+  layouts: [
+    { code: 'theatre', label: 'Theatre' },
+    { code: 'banquet', label: 'Banquet (rounds)' },
+  ],
+  accessibility: [
+    { code: 'wheelchair_access', label: 'Wheelchair access' },
+    { code: 'hearing_loop', label: 'Hearing loop' },
+    { code: 'accessible_toilet', label: 'Accessible toilet' },
+    { code: 'lift_access', label: 'Lift access' },
+  ],
+  facilities: [
+    { code: 'projector', label: 'Projector' },
+    { code: 'microphone', label: 'Microphone' },
+    { code: 'stage', label: 'Stage' },
+    { code: 'wifi', label: 'Wi-Fi' },
+  ],
+  equipment: [{ code: 'wireless_mic', label: 'Wireless mic' }],
+}
 
 const success: SubmitEventRequestResult = {
   ok: true,
@@ -47,6 +78,7 @@ const submit = () =>
 
 beforeEach(() => {
   vi.resetAllMocks()
+  mocks.loadRequirementCatalogue.mockResolvedValue({ ok: true, catalogue: CATALOGUE })
 })
 
 const savedDraft: SaveEventDraftResult = {
@@ -98,7 +130,8 @@ describe('AC-001.3', () => {
     saveDraft()
     expect(await screen.findByRole('status')).toHaveTextContent('Draft saved')
     expect(screen.getByText('Draft', { exact: true })).toBeInTheDocument()
-    expect(mocks.saveEventDraft).toHaveBeenCalledWith(expect.objectContaining({ purpose: '' }), undefined)
+    expect(mocks.saveEventDraft).toHaveBeenCalledWith(
+      expect.objectContaining({ purpose: '' }), undefined, expect.anything())
     expect(mocks.submitEventRequest).not.toHaveBeenCalled()
     expect(screen.queryByText('Purpose is required.')).not.toBeInTheDocument()
   })
@@ -116,7 +149,8 @@ describe('AC-001.4', () => {
     expect(screen.queryByText('Draft saved')).not.toBeInTheDocument()
     saveDraft()
     await screen.findByText('Draft saved')
-    expect(mocks.saveEventDraft).toHaveBeenLastCalledWith(expect.objectContaining({ name: 'Lunch' }), 'draft-1')
+    expect(mocks.saveEventDraft).toHaveBeenLastCalledWith(
+      expect.objectContaining({ name: 'Lunch' }), 'draft-1', expect.anything())
     expect(mocks.submitEventRequest).not.toHaveBeenCalled()
   })
 })
@@ -153,7 +187,8 @@ describe('AC-001.6', () => {
     expect(screen.queryByText('Draft', { exact: true })).not.toBeInTheDocument()
     saveDraft()
     await screen.findByText('Draft saved')
-    expect(mocks.saveEventDraft).toHaveBeenLastCalledWith(expect.objectContaining({ purpose: '' }), undefined)
+    expect(mocks.saveEventDraft).toHaveBeenLastCalledWith(
+      expect.objectContaining({ purpose: '' }), undefined, expect.anything())
   })
 
   test("AC-001.6.3: a saved incomplete draft still cannot be submitted", async () => {
@@ -177,13 +212,17 @@ describe('AC-001.6', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('Service unreachable.')
     saveDraft()
     await screen.findByText('Draft saved')
-    expect(mocks.saveEventDraft).toHaveBeenLastCalledWith(expect.objectContaining({ expectedAttendance: '120' }), 'draft-1')
+    expect(mocks.saveEventDraft).toHaveBeenLastCalledWith(
+      expect.objectContaining({ expectedAttendance: '120' }), 'draft-1', expect.anything())
   })
 })
 
 describe('AC-002.1', () => {
-  test('AC-002.1.6: offers an input for every piece of preliminary information', () => {
+  test('AC-002.1.6: offers an input for every piece of preliminary information', async () => {
     render(<EventRequestForm />)
+    // The layout and equipment options are fetched, so wait for them before asserting
+    // that the form offers a control for every field.
+    await screen.findByLabelText('Wireless mic')
     for (const label of [
       /purpose of the event/i,
       /type of event/i,
@@ -192,13 +231,25 @@ describe('AC-002.1', () => {
       /expected number of attendees/i,
       /general programme/i,
       /room layout preference/i,
-      /accessibility requirements/i,
-      /equipment requirements/i,
       /attendees must register/i,
       /other special arrangements/i,
     ]) {
       expect(screen.getByLabelText(label)).toBeInTheDocument()
     }
+
+    // The three requirement groups are sets of checkboxes, not single inputs, so each
+    // one is a fieldset with a legend rather than one labelled control. Checking an
+    // option from each group proves the group rendered its catalogue.
+    for (const legend of [
+      /accessibility requirements/i,
+      /facilities the venue must have/i,
+      /equipment to be provided/i,
+    ]) {
+      expect(screen.getByText(legend)).toBeInTheDocument()
+    }
+    expect(screen.getByLabelText('Wheelchair access')).toBeInTheDocument()
+    expect(screen.getByLabelText('Projector')).toBeInTheDocument()
+    expect(screen.getByLabelText('Wireless mic')).toBeInTheDocument()
   })
 })
 

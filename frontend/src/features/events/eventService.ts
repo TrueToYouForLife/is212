@@ -50,8 +50,12 @@ function toEventRow(request: SubmittableEventRequest, organiserId: string) {
     proposed_end: request.proposedEnd.toISOString(),
     expected_attendance: request.expectedAttendance,
     programme: request.programme,
+    // Catalogue codes, not free text (0052). The arrays go across as arrays: PostgREST
+    // maps a JSON array onto a text[] column, and the events trigger refuses any code
+    // that is not in its catalogue.
     layout_preference: request.layoutPreference,
     accessibility_requirements: request.accessibilityRequirements,
+    facility_requirements: request.facilityRequirements,
     equipment_requirements: request.equipmentRequirements,
     registration_required: request.registrationRequired,
     special_arrangements: request.specialArrangements,
