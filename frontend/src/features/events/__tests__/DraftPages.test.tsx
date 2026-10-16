@@ -22,6 +22,25 @@ vi.mock('../eventService', () => ({
   submitEventRequest: mocks.submit, SERVICE_MESSAGES: { network: 'Offline.' },
 }))
 
+// The draft form loads the requirement catalogues on mount. Unmocked, that reached the
+// real Supabase project named in frontend/.env and failed with "permission denied for
+// table layout_types" — anon has no grant, which is correct. These tests passed only
+// because that request failed, and every one of them made a live HTTP call to do it.
+vi.mock('../requirementCatalogueService', () => ({
+  loadRequirementCatalogue: async () => ({
+    ok: true,
+    catalogue: {
+      layouts: [{ code: 'theatre', label: 'Theatre' }],
+      accessibility: [{ code: 'wheelchair_access', label: 'Wheelchair access' }],
+      facilities: [{ code: 'projector', label: 'Projector' }],
+      equipment: [{ code: 'wireless_mic', label: 'Wireless mic' }],
+    },
+  }),
+  REQUIREMENT_CATALOGUE_MESSAGES: {
+    unavailable: 'The requirement options could not be loaded. Please reload the page.',
+  },
+}))
+
 const user: CurrentUser = {
   session: { userId: 'owner-1', email: null },
   profile: { id: 'owner-1', fullName: 'Organiser', role: 'organiser' },

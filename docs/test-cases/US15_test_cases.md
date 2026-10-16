@@ -168,6 +168,10 @@ App tests (Vitest) mock Supabase, as the existing tests do.
 | AC-015.7.9 | 015.7 | Vitest | Attendees are offered My registrations in the navigation; organisers are not | attendee, organiser profiles | Render the top navigation | none | Attendee sees "My registrations" → `/registrations`; organiser does not | **Pass** |
 | AC-015.7.10 | 015.7 | Vitest | After a load error, Try again loads the registrations | mocked error, then success | Render `/registrations`; click Try again | none | The registrations appear and the error goes | **Pass** (failed first, commit `3ade5a0`) |
 | AC-015.7.11 | 015.7 | Vitest | An Attendee's Home also links to My registrations | attendee profile | Render Home | attendee | "My registrations" links to `/registrations` | **Pass** (failed first, commit `4a1ecad`) |
+| AC-015.7.12 | 015.7 | Vitest | A Confirmed event that has not started has a details page to link to | pure rule `hasEventDetailsPage` | Call it with a future Confirmed event | start after now | true | **Pass** |
+| AC-015.7.13 | 015.7 | Vitest | Boundary: an event that started or starts exactly now, or is cancelled or completed, has none | pure rule | Call it for each | start equal to now; started a minute ago; cancelled; completed | false for each | **Pass** |
+| AC-015.7.14 | 015.7 | Vitest | On My registrations, a Confirmed event that has not started links to its details | mocked service | Render the page as an Attendee | one future Confirmed registration | The event name is a link to `/events/open/<event id>` | **Pass** |
+| AC-015.7.15 | 015.7 | Vitest | Boundary: a cancelled or already-started event is plain text, not a dead link | mocked service | Render the page | a cancelled and a started registration | Names shown, no link for either | **Pass** |
 
 ---
 
