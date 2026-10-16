@@ -39,7 +39,7 @@ export const VALIDATION_MESSAGES = {
  * checked, because their lists are static (see requirementCatalogue). Layout and
  * equipment are only checked when the caller supplies the codes it loaded, since this
  * module cannot read layout_types or equipment_types without becoming impure. The
- * database trigger from 0052 is the backstop either way: an unknown code is refused
+ * database trigger from 0054 is the backstop either way: an unknown code is refused
  * there whether or not this layer saw the catalogue.
  */
 export interface RequirementCodeOptions {
@@ -93,7 +93,7 @@ const attendanceSchema = z.preprocess(
 )
 
 /** "No preference" is null, never the empty string: an empty layout code would fail the
- *  foreign key added in 0052, and null is what "the organiser did not choose" means. */
+ *  foreign key added in 0054, and null is what "the organiser did not choose" means. */
 export const layoutCodeSchema = (allowed: readonly string[] | undefined) =>
   z
     .union([z.string(), z.undefined(), z.null()])

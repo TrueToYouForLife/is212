@@ -440,8 +440,51 @@ describe('AC-009.9 — view your requests and their status', () => {
 })
 
 describe('AC-009.8 — Venue Staff are notified', () => {
-  // A database trigger on venue_bookings owns this, following the change-request pattern in
-  // 0016. The client must not insert notification rows, so there is nothing to assert here;
-  // the SQL test in backend/ is what proves it.
-  test.todo('AC-009.8.1: submitting a request queues a notification for Venue Staff (SQL test)')
+  /**
+   * `notify_venue_staff_of_booking_request()` in 0035 owns this: an AFTER UPDATE trigger
+   * on venue_bookings writes venue_booking_notifications in the same transaction as the
+   * submission, so a notification cannot be missing for a request that exists.
+   *
+   * What the client owes that design is the absence of a write path. These cases prove the
+   * browser never touches the notification table and never supplies a recipient, which is
+   * what makes the trigger the single source of the row. They cannot prove the row is
+   * actually written — only a database test can, and AC-009.8 has none yet (see below).
+   */
+  test('AC-009.8.1: submitting a request writes no notification itself, leaving the trigger to do it', async () => {
+    fake.plan('venue_bookings', { data: { id: BOOKING_ID } })
+
+    expect(await submitVenueBooking(BOOKING_ID)).toEqual({ ok: true })
+
+    // venue_bookings and nothing else. A client insert here would mean a request could be
+    // submitted with no notification, or a notification with no request.
+    expect(fake.tablesTouched()).toEqual(['venue_bookings'])
+    expect(fake.tablesTouched()).not.toContain('venue_booking_notifications')
+  })
+
+  test('AC-009.8.2: the submission sends only the status, so it cannot name its own recipient', async () => {
+    // The trigger resolves recipients from the venue_staff role. If the client could pass a
+    // recipient, it could direct or suppress the notification for a request it owns.
+    fake.plan('venue_bookings', { data: { id: BOOKING_ID } })
+
+    await submitVenueBooking(BOOKING_ID)
+
+    const update = fake.queryThatCalled('venue_bookings', 'update')
+    expect(update?.update).toHaveBeenCalledWith({ status: 'pending_approval' })
+    expect(update?.update).toHaveBeenCalledTimes(1)
+  })
+
+  test('AC-009.8.3: a refused submission touches nothing, so no notification can be orphaned', async () => {
+    // The trigger fires on a successful update. A refusal must not reach the table at all,
+    // or Venue Staff would be told about a request that was never submitted.
+    fake.plan('venue_bookings', { data: null })
+
+    expect(await submitVenueBooking(BOOKING_ID)).toEqual({ ok: false, reason: messages.notSubmittable })
+    expect(fake.tablesTouched()).not.toContain('venue_booking_notifications')
+  })
+
+  // STILL OWED: a database test that the trigger writes the row, that it is scoped to
+  // venue_staff recipients, and that the browser has no insert grant on the table. The
+  // original note here claimed "the SQL test in backend/ is what proves it" — no such test
+  // exists in backend/supabase/tests/, so the database half of AC-009.8 is unproven. That
+  // is a US9 ticket, not part of this change.
 })

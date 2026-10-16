@@ -12,7 +12,7 @@ vi.mock('../eventReviewService', () => ({
   getEventRequest: async () => ({ ok: true, request: { id: eventId, organiserId: 'viewer', status: 'approved', coordinatorId: mocks.coordinatorId, name: 'An event' } }),
   listReviewDecisions: async () => ({ ok: true, decisions: [] }),
 }))
-vi.mock('../eventChangeRequestService', () => ({ LOCKED_STATUSES: ['cancelled', 'rejected', 'confirmed'] }))
+vi.mock('../eventChangeRequestService', () => ({ LOCKED_STATUSES: ['cancelled', 'rejected', 'completed'] }))
 vi.mock('../components/ChangeRequestReviewPanel', () => ({
   ChangeRequestReviewPanel: (props: unknown) => { mocks.reviewPanel(props); return <p>Coordinator change review</p> },
 }))

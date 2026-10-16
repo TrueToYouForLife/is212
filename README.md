@@ -213,7 +213,7 @@ cases; no new test IDs are allocated. Request summaries now include the existing
 An organiser proposes changes to an event they own at `/requests/:id/request-change`,
 with the current details shown above the form. Changes are recorded in
 `event_change_requests` (`0007`) and never applied to the event: US7 reviews them. An
-event that is confirmed, cancelled or rejected is refused (`LOCKED_STATUSES`), as is a
+event that is completed, cancelled or rejected is refused (`LOCKED_STATUSES`), as is a
 second pending request for the same event, and both checks are in the service rather than
 only hidden in the UI so a direct call cannot bypass them. The organiser can withdraw a
 request that has not been reviewed; the `status = 'submitted'` filter on that update is

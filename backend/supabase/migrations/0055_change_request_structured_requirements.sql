@@ -1,4 +1,5 @@
--- US8 structured event requirements, part 2 (follows 0054). Safe to replay.
+-- US8 structured event requirements, part 2 of 3 (apply with 0054 and 0056).
+-- Safe to replay. See 0054's header: these three are one change, not three slices.
 --
 -- 0013's review_event_change_request insists every proposed value except
 -- registrationRequired is a JSON string:

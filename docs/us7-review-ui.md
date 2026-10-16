@@ -132,9 +132,6 @@ manually change its status to work around this.
 - Subsequent increments added organiser replies/history and the significant-change display
   (see us7-reply-preparation.md and us7-significance.md). Notifications, database
   revalidation and full change-review activity history remain.
-- Existing US6 `LOCKED_STATUSES` wrongly includes confirmed and omits completed.
-  The Jira description permits confirmed requests and blocks completed ones. Coordinate
-  that correction with its owner; this increment leaves that submission rule untouched.
 - These 37 tests use mocks. They check UI and service contracts, not live RLS or actual
   saved rows. Existing SQL checks cover database enforcement separately.
 - Run `npm test`, `npm run lint` and `npm run build` before committing. Live browser

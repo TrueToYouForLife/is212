@@ -11,8 +11,13 @@ import type { EventStatus } from './types' // adjust path if EventStatus lives e
 const PENDING_STATUS: ChangeRequestStatus = 'submitted'
 const WITHDRAWN_STATUS: ChangeRequestStatus = 'withdrawn'
 
-// AC: changes can only be requested on events that are not confirmed, cancelled or rejected.
-export const LOCKED_STATUSES: EventStatus[] = ['confirmed', 'cancelled', 'rejected']
+// AC-006.2: cancelled, completed and rejected events are blocked. Confirmed is NOT in
+// this list, deliberately: AC-006.9 ("original confirmed details remain in force and
+// visible until the request is approved") only makes sense if a confirmed event can
+// still be changed. This list previously held 'confirmed' instead of 'completed', which
+// blocked the story's main case and let a finished event be edited.
+export const LOCKED_STATUSES: EventStatus[] = ['cancelled', 'completed', 'rejected']
+
 
 const POSTGRES_FOREIGN_KEY_VIOLATION = '23503'
 const POSTGRES_RLS_VIOLATION = '42501'

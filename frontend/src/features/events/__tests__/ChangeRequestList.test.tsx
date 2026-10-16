@@ -16,6 +16,43 @@ function setup() {
   return userEvent.setup()
 }
 
+// AC-006.7 — the organiser can see where a request stands. The statuses named in the
+// criterion are pending, approved and rejected; the implementation also has withdrawn,
+// clarification_requested and partially_approved, which US7 introduced and whose wording
+// is covered by the AC-007 cases further down this file. These cases are US6's: they check
+// the organiser's own view of their request's state, and that a settled request stops
+// offering actions that no longer apply.
+test('AC-006.7.1: a request awaiting review reads as in review, with withdrawal still offered', async () => {
+  setup()
+  expect(await screen.findByText('In review')).toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Withdraw request' })).toBeInTheDocument()
+})
+test('AC-006.7.2: an approved request reads as approved and can no longer be withdrawn', async () => {
+  mocks.load.mockResolvedValue([{ ...changeRequest, status: 'approved', reviewedAt: '2026-02-01T00:00:00Z' }])
+  setup()
+  expect(await screen.findByText('Approved')).toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'Withdraw request' })).not.toBeInTheDocument()
+})
+test('AC-006.7.3: a rejected request reads as rejected and can no longer be withdrawn', async () => {
+  mocks.load.mockResolvedValue([{ ...changeRequest, status: 'rejected', reviewedAt: '2026-02-01T00:00:00Z' }])
+  setup()
+  expect(await screen.findByText('Rejected')).toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'Withdraw request' })).not.toBeInTheDocument()
+})
+test('AC-006.7.4: a withdrawn request still shows its own outcome rather than disappearing', async () => {
+  // Boundary on the three named statuses: the organiser's own withdrawal is an outcome
+  // too, and hiding the row would read as the request never having existed.
+  mocks.load.mockResolvedValue([{ ...changeRequest, status: 'withdrawn' }])
+  setup()
+  expect(await screen.findByText('Withdrawn')).toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'Withdraw request' })).not.toBeInTheDocument()
+})
+test('AC-006.7.5: an event with no requests says so rather than rendering an empty panel', async () => {
+  mocks.load.mockResolvedValue([])
+  setup()
+  expect(await screen.findByText('No changes have been requested for this event.')).toBeInTheDocument()
+})
+
 test('AC-006.8.1: the existing owner withdrawal action still sends the selected request and reloads', async () => {
   mocks.withdraw.mockResolvedValue({ ok: true })
   const user = setup()
@@ -28,6 +65,13 @@ test('AC-006.8.2: a refused withdrawal displays its reason instead of silently f
   const user = setup()
   await user.click(await screen.findByRole('button', { name: 'Withdraw request' }))
   expect(await screen.findByRole('alert')).toHaveTextContent('already been reviewed')
+})
+test('AC-006.8.7: only the owning organiser is offered the withdrawal control', async () => {
+  // Hiding it from everyone else is a courtesy; the service's own cases prove a direct
+  // call from another account is refused.
+  render(<ChangeRequestList eventId={eventId} organiserId="owner" currentUserId="someone-else" />)
+  expect(await screen.findByText('In review')).toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'Withdraw request' })).not.toBeInTheDocument()
 })
 test('AC-007.6.7: the organiser sees the reason attached to a rejected field', async () => {
   mocks.load.mockResolvedValue([{ ...changeRequest, status: 'partially_approved', fieldDecisions: [
