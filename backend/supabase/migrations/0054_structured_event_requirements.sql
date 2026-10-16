@@ -1,4 +1,11 @@
--- US8 structured event requirements, part 1 (follows 0051). Safe to replay.
+-- US8 structured event requirements, part 1 of 3. Safe to replay.
+-- Depends on nothing later than 0051; the number is 0054 only to sit after the migrations
+-- that reached main while this was in review, so do not read it as "follows 0053".
+-- NOT a slice in the US12 sense: 0054, 0055 and 0056 are one atomic change split by
+-- which story owns each function, so that each owner can review their own part. They are
+-- NOT independently mergeable or independently appliable — apply all three together, in
+-- order. 0054 alone leaves the database suite red, because the fixtures that propose code
+-- lists meet 0013's string-only review operation until 0055 lands.
 --
 -- Why this exists: the organiser's layout/accessibility/equipment fields were free text,
 -- so nothing could be matched against a venue. 0023 worked around that by asking the
