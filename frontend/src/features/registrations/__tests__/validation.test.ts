@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { REGISTRATION_MESSAGES, canWithdraw, validateRegistration } from '../validation'
+import { REGISTRATION_MESSAGES, canWithdraw, hasEventDetailsPage, validateRegistration } from '../validation'
 import type { RegistrationInput, RegistrationIssue, RegistrationValidation } from '../validation'
 
 const noPrerequisites = { hasPrerequisites: false }
@@ -78,5 +78,21 @@ describe('AC-023.1: the Attendee can withdraw while the event has not started', 
     expect(canWithdraw({ ...active, registrationStatus: 'withdrawn' }, now)).toBe(false)
     expect(canWithdraw({ ...active, eventStatus: 'cancelled' }, now)).toBe(false)
     expect(canWithdraw({ ...active, eventStatus: 'completed' }, now)).toBe(false)
+  })
+})
+
+describe('AC-015.7: the Attendee sees their registrations', () => {
+  const now = new Date('2035-03-10T00:00:00Z')
+  const confirmedLater = { eventStatus: 'confirmed', start: '2035-03-10T01:00:00Z' } as const
+
+  test('AC-015.7.12: a Confirmed event that has not started has a details page to link to', () => {
+    expect(hasEventDetailsPage(confirmedLater, now)).toBe(true)
+  })
+
+  test('AC-015.7.13: an event that started (or starts exactly now), or is cancelled or completed, does not (boundary)', () => {
+    expect(hasEventDetailsPage({ ...confirmedLater, start: now.toISOString() }, now)).toBe(false)
+    expect(hasEventDetailsPage({ ...confirmedLater, start: '2035-03-09T23:59:00Z' }, now)).toBe(false)
+    expect(hasEventDetailsPage({ ...confirmedLater, eventStatus: 'cancelled' }, now)).toBe(false)
+    expect(hasEventDetailsPage({ ...confirmedLater, eventStatus: 'completed' }, now)).toBe(false)
   })
 })

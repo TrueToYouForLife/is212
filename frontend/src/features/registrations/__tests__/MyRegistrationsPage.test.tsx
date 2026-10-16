@@ -155,3 +155,24 @@ describe('AC-023: the Attendee withdraws from My registrations', () => {
     expect(screen.queryByRole('button', { name: 'Withdraw' })).not.toBeInTheDocument()
   })
 })
+
+describe('AC-015.7: the Attendee opens an event from their registrations', () => {
+  test('AC-015.7.14: the name of a Confirmed event that has not started links to its details', async () => {
+    renderPage()
+
+    expect(await screen.findByRole('link', { name: 'Data Workshop' })).toHaveAttribute('href', '/events/open/e-1')
+  })
+
+  test('AC-015.7.15: a cancelled or already-started event is plain text, not a dead link (boundary)', async () => {
+    const started: MyRegistration = {
+      ...registrations[0], registrationId: 'r-5', eventId: 'e-5', eventName: 'Started Meetup', start: '2020-01-01T00:00:00Z',
+    }
+    mocks.loadMyRegistrations.mockResolvedValue({ ok: true, value: [registrations[1], started] })
+    renderPage()
+
+    expect(await screen.findByText('Spring Gala')).toBeInTheDocument()
+    expect(screen.getByText('Started Meetup')).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'Spring Gala' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'Started Meetup' })).not.toBeInTheDocument()
+  })
+})
