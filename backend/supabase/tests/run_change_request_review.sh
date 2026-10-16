@@ -218,6 +218,8 @@ SQL
   cat "$repo_root/supabase/tests/venue_booking_review.sql"
   cat "$repo_root/supabase/tests/venue_booking_review_details.sql"
   cat "$repo_root/supabase/tests/venue_booking_conflicts.sql"
+  # US9 AC8: the trigger from 0035 that notifies Venue Staff of a new request.
+  cat "$repo_root/supabase/tests/venue_booking_request_notifications.sql"
   cat "$repo_root/supabase/tests/venue_booking_approval.sql"
   cat "$repo_root/supabase/migrations/0045_venue_booking_approval.sql"
   cat <<'SQL'
