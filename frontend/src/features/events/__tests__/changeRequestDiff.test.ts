@@ -33,31 +33,31 @@ const asShown: ChangeRequestFormValues = {
   reason: 'Because',
 }
 
-describe('AC-006.3 — only the fields the organiser changed are proposed', () => {
-  test('AC-006.3.7: submitting the form untouched proposes nothing', () => {
+describe('AC-006.4 — only the fields the organiser changed are proposed', () => {
+  test('AC-006.4.9: submitting the form untouched proposes nothing', () => {
     // Every proposed field costs the coordinator a decision and a note, so a form that
     // was only opened and submitted must not queue four of them.
     expect(collectChanges(asShown, current)).toEqual({})
   })
 
-  test('AC-006.3.8: changing the layout dropdown proposes only the layout', () => {
+  test('AC-006.4.10: changing the layout dropdown proposes only the layout', () => {
     expect(collectChanges({ ...asShown, layoutPreference: 'banquet' }, current))
       .toEqual({ layoutPreference: 'banquet' })
   })
 
-  test('AC-006.3.9: clearing the layout proposes "no preference", not nothing', () => {
+  test('AC-006.4.11: clearing the layout proposes "no preference", not nothing', () => {
     // The event asks for theatre today; choosing the blank option is a real change.
     expect(collectChanges({ ...asShown, layoutPreference: '' }, current))
       .toEqual({ layoutPreference: '' })
   })
 
-  test('AC-006.3.10: unticking every accessibility box proposes an empty list', () => {
+  test('AC-006.4.12: unticking every accessibility box proposes an empty list', () => {
     // This is the case a blank-means-no-change rule cannot express at all.
     expect(collectChanges({ ...asShown, accessibilityRequirements: [] }, current))
       .toEqual({ accessibilityRequirements: [] })
   })
 
-  test('AC-006.3.11: reordering the same ticks is not a change', () => {
+  test('AC-006.4.13: reordering the same ticks is not a change', () => {
     expect(collectChanges({
       ...asShown,
       accessibilityRequirements: ['wheelchair_access'],
@@ -65,7 +65,7 @@ describe('AC-006.3 — only the fields the organiser changed are proposed', () =
     }, current)).toEqual({})
   })
 
-  test('AC-006.3.12: adding a requirement proposes the whole new list, not the addition', () => {
+  test('AC-006.4.14: adding a requirement proposes the whole new list, not the addition', () => {
     // The review RPC applies an approved field by assignment, so a proposal has to be
     // the complete set the organiser wants to end up with. A delta would need merge
     // rules, and a merge rule applied to a partly approved review would be guesswork.
@@ -75,13 +75,13 @@ describe('AC-006.3 — only the fields the organiser changed are proposed', () =
     }, current)).toEqual({ accessibilityRequirements: ['wheelchair_access', 'lift_access'] })
   })
 
-  test('AC-006.3.13: text fields still use blank to mean "keep current"', () => {
+  test('AC-006.4.15: text fields still use blank to mean "keep current"', () => {
     expect(collectChanges({ ...asShown, name: 'New name' }, current))
       .toEqual({ name: 'New name' })
     expect(collectChanges({ ...asShown, name: '   ' }, current)).toEqual({})
   })
 
-  test('AC-006.3.14: a changed text field and a changed requirement travel together', () => {
+  test('AC-006.4.16: a changed text field and a changed requirement travel together', () => {
     expect(collectChanges({
       ...asShown,
       expectedAttendance: '200',
@@ -92,7 +92,7 @@ describe('AC-006.3 — only the fields the organiser changed are proposed', () =
     })
   })
 
-  test('AC-006.3.15: an event with no requirements yet proposes only what was ticked', () => {
+  test('AC-006.4.17: an event with no requirements yet proposes only what was ticked', () => {
     const empty: ChangeRequestCurrentValues = {
       layoutPreference: null,
       accessibilityRequirements: [],
@@ -111,7 +111,7 @@ describe('AC-006.3 — only the fields the organiser changed are proposed', () =
       .toEqual({ facilityRequirements: ['wifi'] })
   })
 
-  test('AC-006.3.16: the proposal does not share arrays with the form state', () => {
+  test('AC-006.4.18: the proposal does not share arrays with the form state', () => {
     // The form keeps editing its own value after submitting; a shared array would let a
     // later tick change what was already sent for review.
     const values = { ...asShown, facilityRequirements: ['projector', 'stage'] }
@@ -120,7 +120,7 @@ describe('AC-006.3 — only the fields the organiser changed are proposed', () =
     expect(changes.facilityRequirements).toEqual(['projector', 'stage'])
   })
 
-  test('AC-006.3.17: registrationRequired is never proposed', () => {
+  test('AC-006.4.19: registrationRequired is never proposed', () => {
     // A plain checkbox cannot say "no change" and it is not prefilled from the event, so
     // a diff would be meaningless. It needs a tri-state control, which is separate work.
     expect(collectChanges({ ...asShown, registrationRequired: true }, current)).toEqual({})
