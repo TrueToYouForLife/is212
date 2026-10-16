@@ -41,19 +41,16 @@ describe('AC-001.1', () => {
     await saveEventDraft({
       name: ' Dinner ', purpose: 'Celebrate', eventType: 'Dinner', description: 'Team meal',
       proposedStart: '2030-01-01T18:00:00+08:00', proposedEnd: '2030-01-01T20:00:00+08:00',
-      expectedAttendance: '25', programme: 'Welcome', layoutPreference: 'banquet',
-      accessibilityRequirements: ['wheelchair_access'], facilityRequirements: ['projector'],
-      equipmentRequirements: ['wireless_mic'],
+      expectedAttendance: '25', programme: 'Welcome', layoutPreference: 'Banquet',
+      accessibilityRequirements: 'Ramp', equipmentRequirements: 'Microphone',
       registrationRequired: true, specialArrangements: 'Vegetarian meals',
     })
     expect(query.insert).toHaveBeenCalledWith({
       organiser_id: ORGANISER_ID, status: 'draft', name: 'Dinner', purpose: 'Celebrate',
       event_type: 'Dinner', description: 'Team meal',
       proposed_start: '2030-01-01T10:00:00.000Z', proposed_end: '2030-01-01T12:00:00.000Z',
-      expected_attendance: 25, programme: 'Welcome', layout_preference: 'banquet',
-      accessibility_requirements: ['wheelchair_access'],
-      facility_requirements: ['projector'],
-      equipment_requirements: ['wireless_mic'],
+      expected_attendance: 25, programme: 'Welcome', layout_preference: 'Banquet',
+      accessibility_requirements: 'Ramp', equipment_requirements: 'Microphone',
       registration_required: true, special_arrangements: 'Vegetarian meals',
     })
   })
@@ -114,7 +111,7 @@ describe('AC-001.2', () => {
       organiser_id: ORGANISER_ID, status: 'draft', name: null, purpose: null,
       event_type: null, description: null, proposed_start: null, proposed_end: null,
       expected_attendance: null, programme: null, layout_preference: null,
-      accessibility_requirements: [], facility_requirements: [], equipment_requirements: [],
+      accessibility_requirements: null, equipment_requirements: null,
       registration_required: false, special_arrangements: null,
     })
     expect(query.update).not.toHaveBeenCalled()

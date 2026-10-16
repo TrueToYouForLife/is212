@@ -79,9 +79,7 @@ describe('AC-001.4', () => {
     fireEvent.change(screen.getByLabelText('Event name'), { target: { value: 'Lunch' } })
     fireEvent.click(screen.getByRole('button', { name: 'Save Draft' }))
     await screen.findByText('Draft saved')
-    expect(mocks.save).toHaveBeenCalledWith(
-      expect.objectContaining({ name: 'Lunch', expectedAttendance: '20' }), 'draft-1',
-      expect.anything())
+    expect(mocks.save).toHaveBeenCalledWith(expect.objectContaining({ name: 'Lunch', expectedAttendance: '20' }), 'draft-1')
     expect(mocks.submit).not.toHaveBeenCalled()
   })
 
@@ -91,9 +89,7 @@ describe('AC-001.4', () => {
     expect(await screen.findByLabelText('Event name')).toHaveValue('')
     fireEvent.click(screen.getByRole('button', { name: 'Save Draft' }))
     await screen.findByText('Draft saved')
-    expect(mocks.save).toHaveBeenCalledWith(
-      expect.objectContaining({ purpose: '', proposedStart: '' }), 'draft-1',
-      expect.anything())
+    expect(mocks.save).toHaveBeenCalledWith(expect.objectContaining({ purpose: '', proposedStart: '' }), 'draft-1')
   })
 
   test("AC-001.4.26: empty state offers a new request", async () => {

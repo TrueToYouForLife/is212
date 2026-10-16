@@ -4,25 +4,19 @@ select set_config('request.jwt.claim.sub','',false);
 insert into public.events (id,organiser_id,coordinator_id,purpose,name,proposed_start,proposed_end,expected_attendance,status)
 values ('60000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000001',
  '00000000-0000-0000-0000-000000000003','Revalidation fixture','Original','2035-01-01 01:00+00','2035-01-01 03:00+00',10,'submitted');
--- Requirement proposals are catalogue code lists since 0054, so this file brings its own
--- equipment types. Names are unique table-wide, hence the prefix.
-insert into public.equipment_types (id,name,category) values
- ('70100000-0000-0000-0000-000000000001','Revalidation projector','Visual'),
- ('70100000-0000-0000-0000-000000000002','Revalidation microphone','Audio')
-on conflict (id) do nothing;
 insert into public.event_change_requests (id,event_id,organiser_id,proposed_changes,reason)
 select ('70000000-0000-0000-0000-'||lpad(n::text,12,'0'))::uuid,
  '60000000-0000-0000-0000-000000000001','00000000-0000-0000-0000-000000000001',proposal,'Revalidation test'
 from (values
  (1,'{"name":"Edited name"}'::jsonb),
- (2,'{"equipmentRequirements":["revalidation_projector"]}'::jsonb),
- (3,'{"name":"Another name","equipmentRequirements":["revalidation_projector"]}'::jsonb),
+ (2,'{"equipmentRequirements":"Projector"}'::jsonb),
+ (3,'{"name":"Another name","equipmentRequirements":"Projector"}'::jsonb),
  (4,'{"expectedAttendance":"80","name":"Provisional title"}'::jsonb),
- (5,'{"equipmentRequirements":[]}'::jsonb),
- (6,'{"layoutPreference":"theatre","accessibilityRequirements":["wheelchair_access"]}'::jsonb),
+ (5,'{"equipmentRequirements":""}'::jsonb),
+ (6,'{"layoutPreference":"Theatre","accessibilityRequirements":"Ramp"}'::jsonb),
  (7,'{"expectedAttendance":"80"}'::jsonb),
  (8,'{"proposedStart":"2035-01-01T01:30:00Z","proposedEnd":"2035-01-01T02:30:00Z"}'::jsonb),
- (9,'{"equipmentRequirements":["revalidation_microphone"]}'::jsonb)
+ (9,'{"equipmentRequirements":"Must roll back"}'::jsonb)
 ) as fixtures(n,proposal);
 create function pg_temp.revalidation_review(n integer, decisions jsonb) returns text language sql as $$
  select public.review_event_change_request(
@@ -98,7 +92,7 @@ select pg_temp.assert_true((select status='submitted' from public.events where i
 select set_config('request.jwt.claim.sub','',false);
 insert into public.event_change_requests (id,event_id,organiser_id,proposed_changes,reason)
 values ('70000000-0000-0000-0000-000000000010','60000000-0000-0000-0000-000000000001',
- '00000000-0000-0000-0000-000000000001','{"equipmentRequirements":["revalidation_microphone"],"name":"Rejected name"}','Partial approval fixture');
+ '00000000-0000-0000-0000-000000000001','{"equipmentRequirements":"Two microphones","name":"Rejected name"}','Partial approval fixture');
 set role authenticated;
 select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000003',false);
 select pg_temp.revalidation_review(10,'[{"field":"equipmentRequirements","decision":"approved"},{"field":"name","decision":"rejected","note":"Keep title"}]');

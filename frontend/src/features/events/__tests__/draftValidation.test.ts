@@ -7,9 +7,8 @@ describe('AC-001.2', () => {
     expect(validateEventDraft({})).toEqual({ ok: true, value: {
       name: null, purpose: null, eventType: null, description: null,
       proposedStart: null, proposedEnd: null, expectedAttendance: null,
-      programme: null, layoutPreference: null, accessibilityRequirements: [],
-      facilityRequirements: [], equipmentRequirements: [],
-      registrationRequired: false, specialArrangements: null,
+      programme: null, layoutPreference: null, accessibilityRequirements: null,
+      equipmentRequirements: null, registrationRequired: false, specialArrangements: null,
     } })
   })
 

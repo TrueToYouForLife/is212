@@ -1,6 +1,4 @@
 import { formatDateTime, orDash } from '../formatters'
-import { ACCESSIBILITY_OPTIONS, FACILITY_OPTIONS, describeCodes, featureLabel } from '../requirementCatalogue'
-import type { FeatureOption } from '../requirementCatalogue'
 import type { EventRequestDetail } from '../types'
 
 function Row({ label, value }: { label: string; value: string }) {
@@ -14,16 +12,8 @@ function Row({ label, value }: { label: string; value: string }) {
   )
 }
 
-interface RequestDetailsProps {
-  request: EventRequestDetail
-  /** Loaded layout and equipment options, when the caller has them. Without them a code
-   *  is shown as itself, which is readable (they are slugs) but less pretty. */
-  layouts?: readonly FeatureOption[]
-  equipment?: readonly FeatureOption[]
-}
-
 /** Everything AC-005.1 asked the organiser for, laid out for whoever has to decide on it. */
-export function RequestDetails({ request, layouts = [], equipment = [] }: RequestDetailsProps) {
+export function RequestDetails({ request }: { request: EventRequestDetail }) {
   return (
     <dl>
       <Row label="Event name" value={orDash(request.name)} />
@@ -34,24 +24,9 @@ export function RequestDetails({ request, layouts = [], equipment = [] }: Reques
       <Row label="Preferred end" value={formatDateTime(request.proposedEnd)} />
       <Row label="Expected attendance" value={orDash(request.expectedAttendance)} />
       <Row label="Programme" value={orDash(request.programme)} />
-      <Row
-        label="Room layout"
-        value={orDash(request.layoutPreference
-          ? featureLabel(layouts, request.layoutPreference)
-          : null)}
-      />
-      <Row
-        label="Accessibility"
-        value={orDash(describeCodes(ACCESSIBILITY_OPTIONS, request.accessibilityRequirements) || null)}
-      />
-      <Row
-        label="Venue facilities"
-        value={orDash(describeCodes(FACILITY_OPTIONS, request.facilityRequirements) || null)}
-      />
-      <Row
-        label="Equipment"
-        value={orDash(describeCodes(equipment, request.equipmentRequirements) || null)}
-      />
+      <Row label="Room layout" value={orDash(request.layoutPreference)} />
+      <Row label="Accessibility" value={orDash(request.accessibilityRequirements)} />
+      <Row label="Equipment" value={orDash(request.equipmentRequirements)} />
       <Row label="Registration required" value={request.registrationRequired ? 'Yes' : 'No'} />
       <Row label="Special arrangements" value={orDash(request.specialArrangements)} />
       <Row label="Submitted" value={formatDateTime(request.submittedAt)} />

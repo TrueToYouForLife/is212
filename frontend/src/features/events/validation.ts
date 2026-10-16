@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { ACCESSIBILITY_OPTIONS, FACILITY_OPTIONS } from './requirementCatalogue'
 import type {
   EventRequestInput,
   SubmittableEventRequest,
@@ -28,25 +27,9 @@ export const VALIDATION_MESSAGES = {
   attendanceRequired: 'The expected number of attendees is required.',
   attendanceNumeric: 'The expected number of attendees must be a whole number.',
   attendancePositive: 'The expected number of attendees must be at least 1.',
-  layoutUnknown: 'Choose a room layout from the list.',
-  accessibilityUnknown: 'Choose accessibility requirements from the list.',
-  facilityUnknown: 'Choose venue facilities from the list.',
-  equipmentUnknown: 'Choose equipment from the list.',
 } as const
 
-/**
- * Which codes each requirement field may contain. Accessibility and facility are always
- * checked, because their lists are static (see requirementCatalogue). Layout and
- * equipment are only checked when the caller supplies the codes it loaded, since this
- * module cannot read layout_types or equipment_types without becoming impure. The
- * database trigger from 0052 is the backstop either way: an unknown code is refused
- * there whether or not this layer saw the catalogue.
- */
-export interface RequirementCodeOptions {
-  layouts?: readonly string[]
-  equipment?: readonly string[]
-}
-
+/** Optional free-text collapses to null, so "" and "   " never reach the database. */
 const optionalText = z
   .union([z.string(), z.undefined(), z.null()])
   .transform((value) => {
@@ -92,56 +75,12 @@ const attendanceSchema = z.preprocess(
     .positive(VALIDATION_MESSAGES.attendancePositive),
 )
 
-/** "No preference" is null, never the empty string: an empty layout code would fail the
- *  foreign key added in 0052, and null is what "the organiser did not choose" means. */
-export const layoutCodeSchema = (allowed: readonly string[] | undefined) =>
-  z
-    .union([z.string(), z.undefined(), z.null()])
-    .transform((value) => {
-      const trimmed = (value ?? '').trim()
-      return trimmed.length > 0 ? trimmed : null
-    })
-    .superRefine((value, ctx) => {
-      if (value === null || allowed === undefined) return
-      if (!allowed.includes(value)) {
-        ctx.addIssue({ code: z.ZodIssueCode.custom, message: VALIDATION_MESSAGES.layoutUnknown })
-      }
-    })
-
-/**
- * A requirement list. Blanks are dropped and duplicates collapsed before the codes are
- * checked, so a double-submitted checkbox or a stray empty value is tidied rather than
- * rejected — the same normalisation the database trigger performs, kept in step with it.
- */
-export const codeListSchema = (
-  allowed: readonly string[] | undefined,
-  message: string,
-) =>
-  z
-    .union([z.array(z.string()), z.undefined(), z.null()])
-    .transform((value) => [...new Set((value ?? []).map((code) => code.trim()).filter(Boolean))])
-    .superRefine((codes, ctx) => {
-      if (allowed === undefined) return
-      for (const code of codes) {
-        if (!allowed.includes(code)) {
-          ctx.addIssue({ code: z.ZodIssueCode.custom, message })
-          return
-        }
-      }
-    })
-
-const ACCESSIBILITY_CODES = ACCESSIBILITY_OPTIONS.map((option) => option.code)
-const FACILITY_CODES = FACILITY_OPTIONS.map((option) => option.code)
-
 /**
  * Built per call rather than as a module constant so "in the past" is measured against
  * an injected clock. A schema that closed over `new Date()` at import time would make
  * the past-date test depend on when the suite happens to run.
  */
-export const createEventRequestSchema = (
-  now: Date,
-  codes: RequirementCodeOptions = {},
-) =>
+export const createEventRequestSchema = (now: Date) =>
   z
     .object({
       name: optionalText,
@@ -158,19 +97,9 @@ export const createEventRequestSchema = (
       ),
       expectedAttendance: attendanceSchema,
       programme: optionalText,
-      layoutPreference: layoutCodeSchema(codes.layouts),
-      accessibilityRequirements: codeListSchema(
-        ACCESSIBILITY_CODES,
-        VALIDATION_MESSAGES.accessibilityUnknown,
-      ),
-      facilityRequirements: codeListSchema(
-        FACILITY_CODES,
-        VALIDATION_MESSAGES.facilityUnknown,
-      ),
-      equipmentRequirements: codeListSchema(
-        codes.equipment,
-        VALIDATION_MESSAGES.equipmentUnknown,
-      ),
+      layoutPreference: optionalText,
+      accessibilityRequirements: optionalText,
+      equipmentRequirements: optionalText,
       registrationRequired: z.boolean().optional().default(false),
       specialArrangements: optionalText,
     })
@@ -200,10 +129,10 @@ export const createEventRequestSchema = (
  */
 export function validateEventRequest(
   input: EventRequestInput,
-  options: { now?: Date; codes?: RequirementCodeOptions } = {},
+  options: { now?: Date } = {},
 ): ValidationResult {
   const now = options.now ?? new Date()
-  const result = createEventRequestSchema(now, options.codes ?? {}).safeParse(input)
+  const result = createEventRequestSchema(now).safeParse(input)
 
   if (result.success) {
     // Deliberately assigned, not cast: if the schema and SubmittableEventRequest ever

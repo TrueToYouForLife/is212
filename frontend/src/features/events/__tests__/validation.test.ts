@@ -175,11 +175,7 @@ describe('AC-002.1 — optional information', () => {
     if (!result.ok) return
     expect(result.value.purpose).toBe('Annual client appreciation dinner')
     expect(result.value.programme).toBeNull()
-    // A requirement nobody ticked is an empty list, not null: the columns 0054 created
-    // are "text[] not null default '{}'", so null is not a value they can hold.
-    expect(result.value.accessibilityRequirements).toEqual([])
-    expect(result.value.facilityRequirements).toEqual([])
-    expect(result.value.equipmentRequirements).toEqual([])
+    expect(result.value.accessibilityRequirements).toBeNull()
     expect(result.value.registrationRequired).toBe(false)
   })
 
@@ -189,10 +185,9 @@ describe('AC-002.1 — optional information', () => {
       eventType: 'Gala dinner',
       description: 'Evening reception followed by dinner and awards.',
       programme: '18:00 reception, 19:00 dinner, 21:00 awards',
-      layoutPreference: 'banquet',
-      accessibilityRequirements: ['wheelchair_access', 'hearing_loop'],
-      facilityRequirements: ['projector', 'stage'],
-      equipmentRequirements: ['wireless_mic'],
+      layoutPreference: 'Banquet',
+      accessibilityRequirements: 'Step-free access and a hearing loop',
+      equipmentRequirements: 'Stage lighting, two radio microphones',
       registrationRequired: true,
       specialArrangements: 'Kosher and halal menu options',
     })
@@ -201,10 +196,7 @@ describe('AC-002.1 — optional information', () => {
     expect(result.value).toMatchObject({
       name: 'Client Appreciation Dinner 2026',
       eventType: 'Gala dinner',
-      layoutPreference: 'banquet',
-      accessibilityRequirements: ['wheelchair_access', 'hearing_loop'],
-      facilityRequirements: ['projector', 'stage'],
-      equipmentRequirements: ['wireless_mic'],
+      layoutPreference: 'Banquet',
       registrationRequired: true,
       specialArrangements: 'Kosher and halal menu options',
     })

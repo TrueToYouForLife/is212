@@ -12,12 +12,6 @@ export function toDateTimeInput(value?: string): string {
     `.${String(date.getMilliseconds()).padStart(3, '0')}`
 }
 
-/** A stored requirement list becomes a fresh mutable array: the form owns its own copy,
- *  so ticking a box cannot write through to the loaded draft. */
-function toCodeList(value?: readonly string[] | null): string[] {
-  return value ? [...value] : []
-}
-
 export function draftFormValues(draft: LoadedEventDraft): EventRequestFormValues {
   const values = draft.values
   return {
@@ -26,12 +20,9 @@ export function draftFormValues(draft: LoadedEventDraft): EventRequestFormValues
     proposedStart: toDateTimeInput(values.proposedStart),
     proposedEnd: toDateTimeInput(values.proposedEnd),
     expectedAttendance: String(values.expectedAttendance ?? ''),
-    programme: values.programme ?? '',
-    // '' is the dropdown's "no preference" option, which validation turns back into null.
-    layoutPreference: values.layoutPreference ?? '',
-    accessibilityRequirements: toCodeList(values.accessibilityRequirements),
-    facilityRequirements: toCodeList(values.facilityRequirements),
-    equipmentRequirements: toCodeList(values.equipmentRequirements),
+    programme: values.programme ?? '', layoutPreference: values.layoutPreference ?? '',
+    accessibilityRequirements: values.accessibilityRequirements ?? '',
+    equipmentRequirements: values.equipmentRequirements ?? '',
     registrationRequired: values.registrationRequired ?? false,
     specialArrangements: values.specialArrangements ?? '',
   }

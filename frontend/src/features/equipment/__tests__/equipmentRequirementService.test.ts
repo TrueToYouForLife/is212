@@ -25,7 +25,7 @@ function query(result: QueryResult) {
   return builder
 }
 
-const catalogue: EquipmentType[] = [{ id: 'projector', code: 'projector', name: 'Projector', category: 'Visual' }]
+const catalogue: EquipmentType[] = [{ id: 'projector', name: 'Projector', category: 'Visual' }]
 const input = { typeId: 'projector', quantity: '3', technicalNotes: ' HDMI ', essential: true }
 const requirementRow = {
   id: 'req-1', event_id: 'event-1', type_id: 'projector', quantity: 2, technical_notes: null,
@@ -91,9 +91,9 @@ describe('AC-013.2: catalogue type, quantity and technical requirements', () => 
   test('AC-013.2.15: loads the catalogue sorted by category, then name', async () => {
     query({
       data: [
-        { id: 'projector', code: 'projector', name: 'Projector', category: 'Visual' },
-        { id: 'mic', code: 'wireless_mic', name: 'Wireless mic', category: 'Audio' },
-        { id: 'camera', code: 'camera', name: 'Camera', category: 'Visual' },
+        { id: 'projector', name: 'Projector', category: 'Visual' },
+        { id: 'mic', name: 'Wireless mic', category: 'Audio' },
+        { id: 'camera', name: 'Camera', category: 'Visual' },
       ],
       error: null,
     })

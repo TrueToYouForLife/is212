@@ -11,9 +11,8 @@ const row = {
   id: 'draft-1', organiser_id: 'organiser-1', status: 'draft', updated_at: '2026-09-17T10:00:00Z',
   name: 'Team dinner', purpose: 'Celebrate', event_type: 'Dinner', description: 'Team meal',
   proposed_start: '2030-01-01T10:00:00Z', proposed_end: '2030-01-01T12:00:00Z',
-  expected_attendance: 25, programme: 'Welcome', layout_preference: 'banquet',
-  accessibility_requirements: ['wheelchair_access'], facility_requirements: ['projector'],
-  equipment_requirements: ['wireless_mic'],
+  expected_attendance: 25, programme: 'Welcome', layout_preference: 'Banquet',
+  accessibility_requirements: 'Ramp', equipment_requirements: 'Microphone',
   registration_required: true, special_arrangements: 'Vegetarian meals',
 }
 
@@ -51,11 +50,8 @@ describe('AC-001.4', () => {
         values: {
           name: 'Team dinner', purpose: 'Celebrate', eventType: 'Dinner', description: 'Team meal',
           proposedStart: row.proposed_start, proposedEnd: row.proposed_end, expectedAttendance: 25,
-          programme: 'Welcome', layoutPreference: 'banquet',
-          accessibilityRequirements: ['wheelchair_access'],
-          facilityRequirements: ['projector'],
-          equipmentRequirements: ['wireless_mic'],
-          registrationRequired: true, specialArrangements: 'Vegetarian meals',
+          programme: 'Welcome', layoutPreference: 'Banquet', accessibilityRequirements: 'Ramp',
+          equipmentRequirements: 'Microphone', registrationRequired: true, specialArrangements: 'Vegetarian meals',
         },
       },
     })
@@ -75,9 +71,8 @@ describe('AC-001.4', () => {
     if (!result.ok) return
     expect(result.draft.values).toEqual({
       name: '', purpose: '', eventType: '', description: '', proposedStart: '', proposedEnd: '',
-      expectedAttendance: '', programme: '', layoutPreference: '',
-      accessibilityRequirements: [], facilityRequirements: [], equipmentRequirements: [],
-      registrationRequired: false, specialArrangements: '',
+      expectedAttendance: '', programme: '', layoutPreference: '', accessibilityRequirements: '',
+      equipmentRequirements: '', registrationRequired: false, specialArrangements: '',
     })
   })
 

@@ -143,18 +143,11 @@ supabase link --project-ref <your-project-ref>
 supabase db push
 ```
 
-Apply migrations **in order**, `0001` through `0054`, including both `0005` files
+Apply migrations **in order**, `0001` through `0034`, including both `0005` files
 before `0006` and `0019a` straight after `0019`. All are safe to replay; see
 [Shared Supabase state](#shared-supabase-state-5-october-2026). The two files currently share a version prefix, so the CLI path above
 needs that version collision resolved before it can be relied on; use the SQL Editor
 for the existing sequence in the meantime.
-
-`0054`–`0056` turn the organiser's requirement fields into catalogue codes and must be
-applied as a set, in that order, in the same sitting: after `0054` the event columns are
-code lists, and until `0055` lands the change-request review operation still refuses a
-code list with *"Invalid proposed value type"*. See
-[structured event requirements](#us2us6-structured-event-requirements-00540056).
-
 
 ### Change-request database baseline
 
@@ -207,38 +200,6 @@ using those direct decisions. See [the direct-review change log](docs/direct-eve
 This presentation change reuses the existing status-panel, submission and change-list
 cases; no new test IDs are allocated. Request summaries now include the existing
 `review_note` column so list badges can distinguish clarification from review.
-
-## US6 organiser change requests (SCRUM-11)
-
-An organiser proposes changes to an event they own at `/requests/:id/request-change`,
-with the current details shown above the form. Changes are recorded in
-`event_change_requests` (`0007`) and never applied to the event: US7 reviews them. An
-event that is confirmed, cancelled or rejected is refused (`LOCKED_STATUSES`), as is a
-second pending request for the same event, and both checks are in the service rather than
-only hidden in the UI so a direct call cannot bypass them. The organiser can withdraw a
-request that has not been reviewed; the `status = 'submitted'` filter on that update is
-the safety net if a coordinator decided in the meantime.
-
-Two kinds of field behave differently on the form, and have to:
-
-- **Free text** keeps blank-means-no-change. A blank text box is unambiguous.
-- **The four requirement controls** are prefilled from the event and compared against it.
-  A blank dropdown is a real choice ("no layout preference") and an empty checkbox group
-  is a real proposal ("drop every requirement"), so neither can also mean "no change" —
-  it has to mean "unchanged from what was shown". `collectChanges` proposes only what
-  moved, which matters because every proposed field costs the coordinator a decision and
-  a note. See [structured event requirements](#us2us6-structured-event-requirements-00540056).
-
-`registrationRequired` is deliberately never proposed: a plain checkbox cannot say "no
-change" and it is not prefilled, so a diff would be meaningless. It needs a tri-state
-control, which is separate work.
-
-Tests: 27 numbered cases across `eventChangeRequestService.test.ts`,
-`EventChangeRequestForm.test.tsx`, `ChangeRequestList.test.tsx` and
-`changeRequestDiff.test.ts` (AC-006.5.1–.3 are one parameterised row per locked status).
-AC-006.3.7–.17 cover the prefill-and-diff rule. Database coverage for this story sits in
-US7's suites, which exercise the same table through the real review operation.
-
 
 ## US7 review rules and service
 
@@ -584,30 +545,19 @@ frontend/                            React app (Vite, Tailwind, Vitest)
     ├── components/layout/           app shell, navigation, footer
     └── features/
         ├── auth/                    session plumbing (US-002 owns the real story)
-        ├── events/                  one folder per backlog component
-        │   ├── types.ts
-        │   ├── validation.ts        PURE functions — no React, no Supabase, no I/O
-        │   ├── useEventRequestForm.ts form state and separate save/submit actions
-        │   ├── draftValidation.ts   incomplete draft validation, separate from submission
-        │   ├── eventService.ts      submits new event requests to Supabase
-        │   ├── eventDraftQueryService.ts lists and loads a signed-in organiser’s drafts
-        │   ├── eventDraftService.ts saves new drafts and updates existing owned drafts
-        │   ├── requirementCatalogue.ts PURE — the fixed requirement option lists
-        │   ├── requirementCatalogueService.ts loads layout_types and equipment_types
-        │   ├── components/
-        │   └── __tests__/
-        └── venues/
-            ├── slots.ts             PURE — slot windows and the cells a booking claims
-            ├── holdRules.ts         PURE — what may be booked, and for how long
-            ├── searchTextMatch.ts   PURE — case/space/punctuation-insensitive matching
-            ├── venueSearchService.ts US8 search and the coordinator's assigned events
-            ├── venueBookingService.ts US9/US11 holds and booking requests
+        └── events/                  one folder per backlog component
+            ├── types.ts
+            ├── validation.ts        PURE functions — no React, no Supabase, no I/O
+            ├── useEventRequestForm.ts form state and separate save/submit actions
+            ├── draftValidation.ts   incomplete draft validation, separate from submission
+            ├── eventService.ts      submits new event requests to Supabase
+            ├── eventDraftQueryService.ts lists and loads a signed-in organiser’s drafts
+            ├── eventDraftService.ts saves new drafts and updates existing owned drafts
             ├── components/
             └── __tests__/
 backend/
 └── backend/supabase/migrations/             database schema, RLS, triggers
 ```
-
 
 The split follows where code runs, not a separate API server. The browser talks to
 Supabase directly, so the backend is the database itself: its schema, its RLS policies
@@ -903,122 +853,6 @@ Totals: **523 app tests** and **323 database checks** (including US18's repair c
 (direct-write lockdown, agreed). See [test cases](docs/test-cases/US14_test_cases.md) and
 [design and assumptions](docs/us14-equipment-reservations.md).
 
-## US8 search and filter venues (SCRUM-63)
-
-A coordinator searches at `/venues/search`. Every active venue is listed by default and
-each filter narrows it: keyword (name or location), expected attendance against capacity,
-layout, accessibility, facilities, and either a date and slot or one of the coordinator's
-own events. Choosing an event applies that event's attendance **and its requirements** to
-the filters, and uses its proposed dates for the availability check. The availability
-filter excludes a venue using the same rule that guards a real booking — the event's slots
-plus the trailing setup/turnaround slot — so a venue shown here is genuinely bookable
-rather than superficially free.
-
-Capacity and accessibility are narrowed in the query. Keyword, location, layout and
-facilities are matched in the browser, for two reasons worth knowing:
-
-- `facility` is `jsonb` and "has this facility" means the key is present with a truthy
-  value, which is not one query-builder call.
-- Text and layout comparisons reduce both sides to their letters and digits, lower case,
-  so "Level 2." finds "Level 2" and the catalogue code `u_shape` matches a venue whose
-  `layout` column holds `U-shape` after `0019a`'s repair. `ilike` only ignores case, so a
-  stripped search term could never match a stored value that keeps its punctuation. A
-  filter made only of spaces or punctuation matches everything: typing "." is not a
-  filter. See `frontend/src/features/venues/searchTextMatch.ts`.
-
-Depends on `0018` for the tables, `0019a` for the column shapes and `0020` for
-`venues.accessibility` as `text[]`.
-
-Tests: 34 numbered cases — AC-008.1/.2 in `searchTextMatch.test.ts` (pure matching),
-AC-008.3/.4 in `VenueFilters.test.tsx` (applying an event, the layout dropdown) and
-AC-008.5/.6 in `venueSearchService.test.ts` (the filters are really applied, and the
-assigned-event columns are really read). **This story had no numbered cases at all before
-the structured-requirements change**; the AC-008 criteria numbering is read from the code
-rather than from Jira and should be checked against the backlog.
-
-## US9 and US11 venue booking requests and tentative holds (US11 = SCRUM-16)
-
-> US9's Jira key is not recorded in the repo either. Fill it in.
-
-Behind `VITE_FEATURE_VENUE_BOOKING`. A coordinator opens a venue from the search results
-(`/venues/:id`), checks its timetable (`/venues/:id/timetable`), places a tentative hold on
-the slots an event needs, and then submits the hold as a booking request. Their own
-bookings are at `/venues/bookings`. Only an `approved` or `planning` event may be booked
-(`BOOKABLE_EVENT_STATUSES`), a hold lasts `HOLD_DURATION_DAYS` = 3 days, and the slots a
-booking claims are the event's own slots plus the trailing setup/turnaround slot — the same
-rule venue search uses, defined once in `slots.ts`.
-
-Two constraint decisions are worth being able to defend:
-
-- **One active hold per event, not one live booking per event.** `ACTIVE_HOLD_STATUSES` is
-  `held` and `pending_approval` only, and the unique index in `0036` matches it.
-  `confirmed` is deliberately excluded: an event may legitimately need two venues at once,
-  and including it blocked US14's multi-venue fixture.
-- **An unassigned event can still be held.** `0036`'s insert policy allows
-  `coordinator_id is null`, because events reach the queue before a coordinator is
-  assigned (US17). `0049` later moved booking authority to the *currently* assigned
-  coordinator, keeping the requester fallback only for those legacy unassigned rows.
-
-Apply `0035` then `0036`; `0049` belongs to US17's handover.
-
-Tests: 106 AC-009 cases and 15 AC-011 cases across `holdRules.test.ts` and `slots.test.ts`
-(pure rules, no mocks), `venueBookingService.test.ts` and `venueTimetableService.test.ts`
-(services against a Supabase fake), and `VenueBookingComponents.test.tsx` /
-`VenueBookingPages.test.tsx`. Database coverage is in
-`backend/supabase/tests/venue_booking_conflicts.sql` and `venue_booking_assignment.sql`.
-
-
-## US8 structured event requirements (0054–0056)
-
-The organiser's four requirement fields are fixed catalogue choices rather than free text,
-so a coordinator searching venues for an event can have the event's own requirements
-become the search filters.
-
-| Field | Shape | Catalogue | Filters venue search? |
-| --- | --- | --- | --- |
-| `layout_preference` | one code, nullable, foreign key | `layout_types` (0021) | yes, against `venues.layout` |
-| `accessibility_requirements` | `text[]` | `accessibility_types` (0052) | yes, against `venues.accessibility` |
-| `facility_requirements` | `text[]`, new column | `facility_types` (0052) | yes, against `venues.facility` keys |
-| `equipment_requirements` | `text[]` | `equipment_types` (0019, `code` added by 0052) | no — portable kit, US13/US14 |
-
-Facility and equipment are separate on purpose: a projector fixed in the ceiling is a
-property of the room and filters venue search, while a projector on a trolley is reserved
-through US13/US14 and is not a property of any venue. The form previously had only
-`equipment_requirements`, so a fourth field was added rather than overloading one list.
-
-Before this change the accessibility and facility codes existed only in
-`frontend/src/features/venues/venueFeatureCatalogue.ts` — not in any table — and the
-organiser's fields could not be matched against a venue at all. `0052` creates the two
-catalogue tables, seeds them from that file, converts the `events` columns, and enforces
-every stored code with a `BEFORE INSERT OR UPDATE` trigger (a `CHECK` cannot read another
-table, and PostgreSQL has no per-element foreign key for arrays). Free text that could not
-be mapped to a code is preserved in `event_requirement_migration_notes` rather than lost.
-
-`0054` also widens the `equipment_types` read policy from coordinator/tech-support to every
-signed-in role — without it the organiser's equipment checkboxes render empty with no error
-— and adds a trigger-filled `code` column, so existing inserts into that table keep
-working. `0055` replaces the change-request review operation, which insisted every proposed
-value was a string. `0056` returns the organiser's requirements from
-`get_venue_booking_review` as code lists and adds `facility_requirements` to
-`venue_booking_review_version`, so a facility added after the review screen loaded
-invalidates the approval exactly as layout and accessibility already did.
-
-Stories touched, and who should review: **US7** (review operation, significance, the AC12
-revalidation trigger), **US10** (booking-review keys and version hash), **US13/US14**
-(`equipment_types.code` and its read policy), **US18** (`SuitabilityEvent` carries code
-lists). See [the full change log and per-story PR list](docs/us2-structured-requirements.md).
-
-Tests: AC-002.1.7–.14 in `requirementCatalogue.test.ts`, AC-006.3.7–.17 in
-`changeRequestDiff.test.ts`, AC-008.1–.6 in the three venue files above, and 18 database
-checks in `backend/supabase/tests/structured_event_requirements.sql`
-(AC-002.1.15–.25, AC-007.9.18–.22, AC-007.12.20) plus a replay check, AC-002.1.26, in the
-runner. Verified 12 October 2026: **993 app tests** across 106 files (one pre-existing
-todo), lint and build clean, and **589 database checks** passing locally. The six
-`dblink` race checks need the Docker runner; with it the expected total is **595**.
-
-`event_venue_requirements` (0023) exists only because the organiser's fields used to be
-free text, so a coordinator now retypes information the organiser already supplied in the
-same vocabulary. Consolidating the two belongs in a US18 PR with that story's owner.
 
 
 ## US18 venue suitability (SCRUM-62)
@@ -1222,13 +1056,7 @@ US12's migrations `0026`–`0034` were then applied in order on shared Supabase 
 From then on, Venue Staff cannot write `venue_closures` directly, and a booking with an
 open venue-block flag cannot be confirmed.
 
-Structured requirements update (13 October): `0054`, `0055` and `0056` are local only and
-**not applied to shared Supabase**. Apply them as a set, in that order, after the US7,
-US10 and US13/US14 owners have reviewed their parts — `0055` is what lets the review
-operation accept a code list, so applying `0054` alone leaves change requests for a
-requirement field failing. After applying, read `event_requirement_migration_notes` to see
-which existing free text could not be mapped to a code, and decide with the organisers
-whether any of it should become a new catalogue option.
+
 
 
 Latest progress supersedes older remaining-work notes: significance, the revalidation

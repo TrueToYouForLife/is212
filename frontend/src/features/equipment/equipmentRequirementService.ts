@@ -60,7 +60,7 @@ export function loadEventRequirements(eventId: string): Promise<ServiceResult<Ev
 
 export function loadCatalogue(): Promise<ServiceResult<EquipmentType[]>> {
   // Grouping by category keeps related equipment together in the picker.
-  return read<EquipmentType[], EquipmentType[]>(() => supabase.from('equipment_types').select('id, code, name, category'),
+  return read<EquipmentType[], EquipmentType[]>(() => supabase.from('equipment_types').select('id, name, category'),
     (types) => [...types].sort((a, b) => a.category.localeCompare(b.category) || a.name.localeCompare(b.name)),
     EQUIPMENT_SERVICE_MESSAGES.catalogueFailed)
 }

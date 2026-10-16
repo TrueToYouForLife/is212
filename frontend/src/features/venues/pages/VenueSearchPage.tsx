@@ -7,8 +7,8 @@ import { VenueFilters } from '../components/VenueFilters'
 import { VenueResultCard } from '../components/VenueResultCard'
 import { searchVenues, listMyAssignedEvents } from '../venueSearchService'
 import { loadTimeSlots } from '../venueBookingService.ts'
-import { assessVenuesForEvent, loadLayoutTypes } from '../suitabilityService'
-import type { LayoutType, VenueAssessment } from '../suitabilityTypes'
+import { assessVenuesForEvent } from '../suitabilityService'
+import type { VenueAssessment } from '../suitabilityTypes'
 import type { AssignedEventOption, Venue, VenueSearchFilters as Filters } from '../types'
 import type { TimeSlot } from '../slots'
 
@@ -32,7 +32,6 @@ export function VenueSearchPage() {
   const [slots, setSlots] = useState<TimeSlot[]>([])
   const [assignedEvents, setAssignedEvents] = useState<AssignedEventOption[]>([])
   const [assessments, setAssessments] = useState<Map<string, VenueAssessment>>(new Map())
-  const [layoutTypes, setLayoutTypes] = useState<LayoutType[]>([])
 
   const isCoordinator = profile?.role === 'coordinator'
 
@@ -63,13 +62,10 @@ export function VenueSearchPage() {
     if (!isCoordinator) return
     let cancelled = false
     async function init() {
-      const [slotDefs, events, layouts] = await Promise.all([
-        loadTimeSlots(), listMyAssignedEvents(), loadLayoutTypes(),
-      ])
+      const [slotDefs, events] = await Promise.all([loadTimeSlots(), listMyAssignedEvents()])
       if (cancelled) return
       setSlots(slotDefs)
       setAssignedEvents(events)
-      setLayoutTypes(layouts)
       await runSearch(emptyFilters, slotDefs)
     }
     init()
@@ -111,7 +107,6 @@ export function VenueSearchPage() {
             onSearch={handleSearch}
             onClear={handleClear}
             assignedEvents={assignedEvents}
-            layoutTypes={layoutTypes}
             disabled={loading}
           />
 
