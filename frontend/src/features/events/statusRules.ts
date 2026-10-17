@@ -13,9 +13,11 @@ import type { EventStatus } from './types'
  */
 export const STATUS_TRANSITIONS: Record<EventStatus, readonly EventStatus[]> = {
   draft: ['submitted', 'cancelled'],
-  submitted: ['under_review', 'cancelled'],
+  // US22: withdrawal closes a request awaiting a decision. Both states mean
+  // "under review" — 'submitted' displays as "In review" to the organiser.
+  submitted: ['under_review', 'cancelled', 'withdrawn'],
   // Back to submitted is a coordinator asking for more detail — a normal review outcome.
-  under_review: ['approved', 'rejected', 'submitted', 'cancelled'],
+  under_review: ['approved', 'rejected', 'submitted', 'cancelled', 'withdrawn'],
   approved: ['planning', 'cancelled'],
   planning: ['confirmed', 'cancelled'],
   confirmed: ['completed', 'cancelled'],
@@ -23,6 +25,7 @@ export const STATUS_TRANSITIONS: Record<EventStatus, readonly EventStatus[]> = {
   completed: [],
   cancelled: [],
   rejected: [],
+  withdrawn: [],
 }
 
 export function canTransition(from: EventStatus, to: EventStatus): boolean {
@@ -70,6 +73,7 @@ const REVIEW_ACTIONS: readonly ReviewAction[] = [
   { to: 'approved', label: 'Approve', tone: 'primary' },
   { to: 'submitted', label: 'Return for more detail', tone: 'neutral' },
   { to: 'rejected', label: 'Reject', tone: 'danger' },
+  { to: 'withdrawn', label: 'Withdraw request', tone: 'danger' },
   { to: 'planning', label: 'Start planning', tone: 'primary' },
   { to: 'confirmed', label: 'Confirm event', tone: 'primary' },
   { to: 'completed', label: 'Mark completed', tone: 'primary' },
@@ -81,13 +85,4 @@ export function reviewActionsFor(status: EventStatus): ReviewAction[] {
     status !== 'draft' &&
     canActorTransition({ role: 'coordinator', isOwner: false }, status, action.to),
   )
-}
-
-/**
- * Mirrors set_event_registration in 0057: only a Confirmed event can have registration
- * switched (attendees cannot register before then, and a closed event has nothing to switch).
- * The database is the control; this only decides whether to show the switch.
- */
-export function canChangeRegistration(status: EventStatus): boolean {
-  return status === 'confirmed'
 }

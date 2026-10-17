@@ -167,8 +167,13 @@ export async function transitionEventStatus(options: {
     return { ok: false, reason: REVIEW_MESSAGES.notPermitted }
   }
 
-  // A rejection or a return without a reason leaves the organiser nothing to act on.
-  const needsNote = to === 'rejected' || (to === 'submitted' && ['submitted', 'under_review'].includes(from))
+  // A rejection, a return or a withdrawal without a reason leaves the organiser nothing
+  // to act on. AC-022 does not ask for a reason on withdrawal; it is required here to
+  // match the other two terminal decisions, and because event_review_decisions.reason
+  // would otherwise record a closed request with no explanation. A decision for the PO
+  // if the team would rather withdrawal were reasonless.
+  const needsNote = to === 'rejected' || to === 'withdrawn'
+    || (to === 'submitted' && ['submitted', 'under_review'].includes(from))
   if (needsNote && !note?.trim()) {
     return { ok: false, reason: REVIEW_MESSAGES.noteRequired }
   }
