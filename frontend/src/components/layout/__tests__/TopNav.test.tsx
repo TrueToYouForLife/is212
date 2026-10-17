@@ -1,10 +1,10 @@
 import { cleanup, render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import { beforeEach, describe, expect, test, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { UserProfile } from '../../../features/auth/types'
 import { TopNav } from '../TopNav'
 
-const flags = vi.hoisted(() => ({ venueBlocks: true, venueSuitability: false }))
+const flags = vi.hoisted(() => ({ venueBlocks: true, venueSuitability: false, venueManagement: false }))
 vi.mock('../../../lib/features', () => ({ FEATURES: flags }))
 vi.mock('../../../features/auth/components/SessionBadge', () => ({ SessionBadge: () => null }))
 
@@ -94,6 +94,32 @@ describe('AC-019.1 — staff can view availability across dates', () => {
     (role) => {
       renderNavFor(role)
       expect(screen.queryAllByRole('link', { name: 'Availability' })).toHaveLength(0)
+    },
+  )
+})
+
+describe('AC-046.6 — only Venue Staff can add venues', () => {
+  beforeEach(() => {
+    flags.venueManagement = true
+  })
+  afterEach(() => {
+    flags.venueManagement = false
+  })
+
+  test('AC-046.6.11: Venue Staff are offered "Add venue" once venue management is switched on', () => {
+    renderNavFor('venue_staff')
+    expect(screen.getAllByRole('link', { name: 'Add venue' })[0]).toHaveAttribute('href', '/venues/new')
+    cleanup()
+    flags.venueManagement = false
+    renderNavFor('venue_staff')
+    expect(screen.queryAllByRole('link', { name: 'Add venue' })).toHaveLength(0)
+  })
+
+  test.each(['coordinator', 'coordinator_lead', 'organiser', 'operations_manager', 'tech_support', 'attendee'])(
+    'AC-046.6.12: a %s is never offered it',
+    (role) => {
+      renderNavFor(role)
+      expect(screen.queryAllByRole('link', { name: 'Add venue' })).toHaveLength(0)
     },
   )
 })

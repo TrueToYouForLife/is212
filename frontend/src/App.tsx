@@ -20,6 +20,7 @@ import { VenueSuitabilityPage } from './features/venues/pages/VenueSuitabilityPa
 import { VenueDetailsPage } from './features/venues/pages/VenueDetailsPage'
 import { VenueTimetablePage } from './features/venues/pages/VenueTimetablePage'
 import { VenueAvailabilityPage } from './features/venues/pages/VenueAvailabilityPage'
+import { AddVenuePage } from './features/venues/pages/AddVenuePage'
 import { MyVenueBookingsPage } from './features/venues/pages/MyVenueBookingsPage'
 import { VenueBookingReviewPage } from './features/venues/pages/VenueBookingReviewPage'
 import { VenueBookingQueuePage } from './features/venues/pages/VenueBookingQueuePage'
@@ -60,6 +61,7 @@ export default function App() {
             <Route path="/requests/:id/request-change" element={<SubmitEventChangesPage />} />
             <Route path="/venues/search" element={<VenueSearchPage />} />
             <Route path="/venues/availability" element={<VenueAvailabilityPage />} />
+            {FEATURES.venueManagement && <Route path="/venues/new" element={<AddVenuePage />} />}
             {FEATURES.venueSuitability && <Route path="/venues/suitability" element={<VenueSuitabilityPage />} />}
             {FEATURES.venueBooking && <Route path="/venues/bookings" element={<MyVenueBookingsPage />} />}
             {FEATURES.venueBooking && <Route path="/venues/review" element={<VenueBookingQueuePage />} />}

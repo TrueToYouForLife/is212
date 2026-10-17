@@ -1110,6 +1110,23 @@ and `frontend/src/components/layout/__tests__/TopNav.test.tsx`):
 | AC-012.9 — current blocks can be viewed and removed | AC-012.9.1–9.11 | AC-012.9.12–9.25 |
 | AC-012.10 — who blocked, and when, is recorded | AC-012.10.1–10.4 | AC-012.10.5–10.6 |
 
+## US46 Add and edit venue details (SCRUM-241)
+
+Built in slices (trunk-based). **Slice 1 (add a venue):** Venue Staff add a venue with its name,
+location, facilities, accessibility features, operating hours and each supported layout with
+its capacity (at least 1). Operating hours open and close on slot boundaries (7am, 1pm or 7pm
+to 12pm, 6pm or midnight). Only Venue Staff can change venues and layouts; the Operations
+Manager keeps read access only. Every change to a venue or its layouts is recorded in
+`venue_changes` with who made it and when. The **Add venue** page (`/venues/new`) is behind
+`VITE_FEATURE_VENUE_MANAGEMENT`, which is off unless set to `true` in your own `frontend/.env`.
+Slices 2 (edit, flagging affected bookings) and 3 (retire) follow.
+
+| File | Adds |
+| --- | --- |
+| `0064_venue_management.sql` | `venues.opens_at`/`closes_at`, Venue Staff-only venue and layout writes, `venue_changes` and its triggers, `add_venue()` |
+
+Test cases: `docs/test-cases/US46_test_cases.md`.
+
 ## US17 - Coordinator assignment
 
 Coordinators see **Assigned to me** first on the Requests page, followed by **Other
