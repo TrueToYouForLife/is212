@@ -1,0 +1,42 @@
+﻿AC,Story,Owner,Test name,Test type,Scenario,PR,Forced-break log,Source
+AC-020.3.1,US20 / SCRUM-65,,assigned coordinator sees eligible retired bookings but not active venues or confirmed events,integration,normal,,,backend/supabase/tests/retired_venue_replacement.sql
+AC-020.3.2,US20 / SCRUM-65,,proposal records the alternative and keeps the original booking without duplicate propose controls,integration,normal,,,backend/supabase/tests/retired_venue_replacement.sql
+AC-020.3.3,US20 / SCRUM-65,,duplicate pending proposals and blank reasons are refused,integration,boundary,,,backend/supabase/tests/retired_venue_replacement.sql
+AC-020.3.4,US20 / SCRUM-65,,"nonplanning events, active originals, maintenance targets and same-venue replacements are refused",integration,boundary,,,backend/supabase/tests/retired_venue_replacement.sql
+AC-020.3.5,US20 / SCRUM-65,,coordinator cannot approve their own replacement,integration,failure,,,backend/supabase/tests/retired_venue_replacement.sql
+AC-020.3.6,US20 / SCRUM-65,,unassigned coordinator cannot propose or read another event replacement,integration,failure,,,backend/supabase/tests/retired_venue_replacement.sql
+AC-020.3.7,US20 / SCRUM-65,,organiser cannot read the staff workflow or propose replacements,integration,failure,,,backend/supabase/tests/retired_venue_replacement.sql
+AC-020.3.8,US20 / SCRUM-65,,Venue Staff must record an agreement note,integration,boundary,,,backend/supabase/tests/retired_venue_replacement.sql
+AC-020.3.9,US20 / SCRUM-65,,"approval atomically confirms the replacement, releases original claims and records actual Venue Staff identity",integration,normal,,,backend/supabase/tests/retired_venue_replacement.sql
+AC-020.3.10,US20 / SCRUM-65,,repeated decisions cannot duplicate a replacement,integration,conflict,,,backend/supabase/tests/retired_venue_replacement.sql
+AC-020.3.11,US20 / SCRUM-65,,rejection and withdrawal retain original pending bookings and holds,integration,normal,,,backend/supabase/tests/retired_venue_replacement.sql
+AC-020.3.12,US20 / SCRUM-65,,an occupied target rolls back the replacement and original cancellation,integration,conflict,,,backend/supabase/tests/retired_venue_replacement.sql
+AC-020.3.13,US20 / SCRUM-65,,"failed approval, rejection and withdrawal preserve every original slot",integration,failure,,,backend/supabase/tests/retired_venue_replacement.sql
+AC-020.3.14,US20 / SCRUM-65,,changed event details require a new coordinator proposal even after staff reload,integration,conflict,,,backend/supabase/tests/retired_venue_replacement.sql
+AC-020.3.15,US20 / SCRUM-65,,decision storage failure rolls back new approval and preserves the original booking,integration,failure,,,backend/supabase/tests/retired_venue_replacement.sql
+AC-020.3.16,US20 / SCRUM-65,,browser clients cannot rewrite or delete proposal/decision evidence,integration,failure,,,backend/supabase/tests/retired_venue_replacement.sql
+AC-020.3.17,US20 / SCRUM-65,,"replaying 0065 preserves proposals, decisions and bookings",integration,normal,,,backend/supabase/tests/run_change_request_review.sh
+AC-020.3.18,US20 / SCRUM-65,,concurrent approval/rejection has one winner and one confirmed replacement,integration,conflict,,,backend/supabase/tests/retired_venue_replacement_races.sh
+AC-020.3.19,US20 / SCRUM-65,,pending original can be replaced without violating the one-active-hold index,integration,normal,,,backend/supabase/tests/retired_venue_replacement.sql
+AC-020.3.20,US20 / SCRUM-65,,expired holds cannot be proposed for replacement,integration,boundary,,,backend/supabase/tests/retired_venue_replacement.sql
+AC-020.3.21,US20 / SCRUM-65,,a live hold can become a confirmed staff-agreed replacement,integration,normal,,,backend/supabase/tests/retired_venue_replacement.sql
+AC-020.3.30,US20 / SCRUM-65,,loads proposals and retained history with validated current versions,unit,normal,,,frontend/src/features/venues/__tests__/venueReplacementService.test.ts
+AC-020.3.31,US20 / SCRUM-65,,"malformed data, denied reads and offline reads fail instead of showing empty history",unit,failure,,,frontend/src/features/venues/__tests__/venueReplacementService.test.ts
+AC-020.3.32,US20 / SCRUM-65,,"proposal sends original booking, selected alternative and trimmed reason with source version",unit,normal,,,frontend/src/features/venues/__tests__/venueReplacementService.test.ts
+AC-020.3.33,US20 / SCRUM-65,,incomplete and invalid proposals are rejected before RPC,unit,boundary,,,frontend/src/features/venues/__tests__/venueReplacementService.test.ts
+AC-020.3.34,US20 / SCRUM-65,,review decisions carry expected version and note without trusting a client-supplied reviewer,unit,normal,,,frontend/src/features/venues/__tests__/venueReplacementService.test.ts
+AC-020.3.35,US20 / SCRUM-65,,invalid decisions and missing notes or versions never call the database,unit,boundary,,,frontend/src/features/venues/__tests__/venueReplacementService.test.ts
+AC-020.3.36,US20 / SCRUM-65,,"permission, stale, conflict and eligibility failures remain actionable",unit,failure,,,frontend/src/features/venues/__tests__/venueReplacementService.test.ts
+AC-020.3.37,US20 / SCRUM-65,,lost responses and malformed successes require reload without automatic retry,unit,failure,,,frontend/src/features/venues/__tests__/venueReplacementService.test.ts
+AC-020.3.50,US20 / SCRUM-65,,coordinator proposes an alternative with a reason and sees the original-preservation message,integration,normal,,,frontend/src/features/venues/__tests__/VenueReplacementPanel.test.tsx
+AC-020.3.51,US20 / SCRUM-65,,Venue Staff see current requirements and approve with a recorded note,integration,normal,,,frontend/src/features/venues/__tests__/VenueReplacementPanel.test.tsx
+AC-020.3.52,US20 / SCRUM-65,,rejection and coordinator withdrawal use their distinct decision actions,integration,normal,,,frontend/src/features/venues/__tests__/VenueReplacementPanel.test.tsx
+AC-020.3.53,US20 / SCRUM-65,,stale source disables approval but allows rejection with an explanation,integration,conflict,,,frontend/src/features/venues/__tests__/VenueReplacementPanel.test.tsx
+AC-020.3.54,US20 / SCRUM-65,,conflicts keep the decision note and do not report success,integration,conflict,,,frontend/src/features/venues/__tests__/VenueReplacementPanel.test.tsx
+AC-020.3.55,US20 / SCRUM-65,,a pending decision disables actions and sends only one request,integration,conflict,,,frontend/src/features/venues/__tests__/VenueReplacementPanel.test.tsx
+AC-020.3.56,US20 / SCRUM-65,,failed proposal preserves selections and text for correction,integration,failure,,,frontend/src/features/venues/__tests__/VenueReplacementPanel.test.tsx
+AC-020.3.57,US20 / SCRUM-65,,load failure is distinct from an empty queue and reload recovers,integration,failure,,,frontend/src/features/venues/__tests__/VenueReplacementPanel.test.tsx
+AC-020.3.58,US20 / SCRUM-65,,approved history retains staff attribution and the replacement booking link,integration,normal,,,frontend/src/features/venues/__tests__/VenueReplacementPanel.test.tsx
+AC-020.3.59,US20 / SCRUM-65,,late loads are ignored after unmount and a pending proposal prevents duplicate submissions,integration,conflict,,,frontend/src/features/venues/__tests__/VenueReplacementPanel.test.tsx
+AC-020.3.60,US20 / SCRUM-65,,replacement review loads on the staff queue and is absent for other roles,integration,failure,,,frontend/src/features/venues/__tests__/VenueBookingQueuePage.test.tsx
+AC-020.3.61,US20 / SCRUM-65,,coordinator booking page includes replacement history and removes it after role loss,integration,failure,,,frontend/src/features/venues/__tests__/MyVenueBookingsNotifications.test.tsx

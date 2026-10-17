@@ -58,6 +58,11 @@ and disposable database suites; save logs and coverage. Perform and restore one
 deliberate code break for this story and preserve the failing output as evidence.
 Update README on completion. Human review remains before push/PR/merge.
 
-Slice 1 implementation and tests are recorded locally. See [Slice 1](us20-slice1.md)
-for validation results and evidence. No push, PR or shared database change.
-Unrelated root package-lock.json remains untouched. Slice 2 has not started.
+Slice 1 merged in PR #98, confirmed on origin/main on 18 October 2026.
+See [Slice 1](us20-slice1.md) for its implementation-time validation and evidence.
+[Slice 2](us20-slice2.md) has its own local branch from main `07255f9`.
+The user allocated **0065** and confirmed the existing **retired** venue status.
+Implementation uses a coordinator proposal and an actual Venue Staff decision;
+the reservation switch is atomic. See the slice record for verification evidence.
+No shared database deployment is inferred from the merge.
+Unrelated root package-lock.json remains untouched.
