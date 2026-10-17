@@ -16,6 +16,9 @@ import { ChangeRequestReviewPanel } from '../components/ChangeRequestReviewPanel
 import type { ReviewDecision } from '../types'
 import { ArrangementReviewPanel } from '../components/ArrangementReviewPanel'
 import { EQUIPMENT_EDITABLE_STATUSES } from '../../equipment/validation'
+import { RegistrationSettingPanel } from '../components/RegistrationSettingPanel'
+import { EventWaitlistPanel } from '../../registrations/components/EventWaitlistPanel'
+import { canChangeRegistration } from '../statusRules'
 
 export function ReviewRequestDetailPage() {
   const { id = '' } = useParams()
@@ -133,6 +136,26 @@ export function ReviewRequestDetailPage() {
                   status={request.status}
                   onReviewed={refreshAll}
                 />
+              </Card>
+            )}
+
+            {profile?.role === 'coordinator' && request.coordinatorId === profile.id
+              && canChangeRegistration(request.status) && (
+              <Card title="Attendee registration" description="Choose whether attendees can register for this event.">
+                <RegistrationSettingPanel
+                  key={request.id}
+                  eventId={request.id}
+                  enabled={request.registrationRequired}
+                  onChanged={refreshAll}
+                />
+              </Card>
+            )}
+
+            {profile?.role === 'coordinator' && request.coordinatorId === profile.id
+              && canChangeRegistration(request.status) && (
+              <Card title="Waiting list"
+                description="People waiting for a place, in first-come-first-served order. You can move someone to change who is offered the next place.">
+                <EventWaitlistPanel key={request.id} eventId={request.id} />
               </Card>
             )}
 

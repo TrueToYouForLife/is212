@@ -51,7 +51,7 @@ describe('AC-004.1 — coordinator views the full details of a submitted request
     expect(valueFor('Accessibility')).toHaveTextContent('Wheelchair access, Hearing loop')
     expect(valueFor('Venue facilities')).toHaveTextContent('Projector')
     expect(valueFor('Equipment')).toHaveTextContent('Wireless mic')
-    expect(valueFor('Registration required')).toHaveTextContent('Yes')
+    expect(valueFor('Attendee registration')).toHaveTextContent('Enabled')
     expect(valueFor('Special arrangements')).toHaveTextContent('Halal menu options')
     // Dates are formatted for reading, so only check that a real date replaced the dash.
     for (const label of ['Preferred start', 'Preferred end', 'Submitted']) {
@@ -77,7 +77,7 @@ describe('AC-004.1 — coordinator views the full details of a submitted request
       'Special arrangements']) {
       expect(valueFor(label)).toHaveTextContent('—')
     }
-    expect(valueFor('Registration required')).toHaveTextContent('No')
+    expect(valueFor('Attendee registration')).toHaveTextContent('Disabled')
   })
 
   test('AC-004.1.6: an earlier review note is shown only when one exists', () => {

@@ -445,3 +445,23 @@ Reporting, analytics, recurring events, multi-session events, dashboards.
   tests; 462 database checks. Next IDs: AC-015.6.13, AC-015.7.12.
 - US29 Home defect (8 October): Attendees get their own Home (Browse events, My registrations).
   Tests AC-029.4.11-12 and AC-015.7.11 in pages/__tests__/SignedInHome.test.tsx. See docs/test-cases/US15_test_cases.md.
+
+## US16 join event waiting list (17 October 2026)
+- 0058 (table, join/leave/accept, replaces register_for_event and get_open_event), 0059 (expiry also runs
+  when the event page or My registrations is read; a lapsed accept returns null, not an error), 0060
+  (Coordinator override, queue_key ordering), 0062 (expiry timer) and 0061 (Coordinator names, US17 AC4).
+  0058 to 0060 are applied to shared Supabase: never edit them. 0061 and 0062 are not applied yet.
+- Capacity is events.expected_attendance only (team decision); there is no second capacity number. Places
+  left = capacity - registrations - unexpired offers. While anyone is waiting, direct registration is refused
+  (53000) so nobody jumps the queue.
+- One advisory lock per event (waitlist_lock) serialises every waiting-list path; lock order is registration
+  or entry row, then event row, then that lock. A call that raises rolls back any expiry it recorded, which is
+  why reads clear overdue offers and accept returns null for a lapsed offer.
+- No offers in the last 24 hours before the start, none while registration is off or the event is not
+  Confirmed, and an offer never outlasts the event start (team proposals, to confirm).
+- Emails use notification_outbox as before. The sender needs a caller: a pg_cron job `send-notifications`
+  calls the Edge Function every minute (set up by hand in the dashboard, not in the repo) and 0062 schedules
+  `expire-waitlist-offers`. pg_cron and pg_net must be enabled; the test database has neither.
+- Tests: 123 AC-016 cases (62 SQL, 61 app); see docs/test-cases/US16_test_cases.md. The team dropped TDD:
+  code was written first. Seven manual cases are not yet run. Next IDs: AC-016.1.20, .2.47, .3.29, .4.26,
+  .5.13. Coordinator names: AC-017.4.7 to .25, next .4.26 (docs/us17-assignment.md).

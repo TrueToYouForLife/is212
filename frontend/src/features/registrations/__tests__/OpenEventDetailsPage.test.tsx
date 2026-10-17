@@ -25,6 +25,8 @@ const details: OpenEventDetails = {
   description: 'Hands-on data workshop',
   programme: '09:00 Welcome; 10:00 Labs',
   prerequisites: 'Bring a laptop',
+  full: false,
+  waitlist: null,
 }
 
 const attendee: CurrentUser = {

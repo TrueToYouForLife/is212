@@ -25,6 +25,11 @@ const detailsRow = {
   description: 'Hands-on data workshop',
   programme: '09:00 Welcome',
   prerequisites: 'Bring a laptop',
+  full: false,
+  waitlist_entry_id: null,
+  waitlist_status: null,
+  waitlist_position: null,
+  offer_expires_at: null,
 }
 const answers = { phone: ' 9123 4567 ', dietaryRequirements: '', accessibilityNeeds: 'Ramp' }
 
@@ -55,6 +60,8 @@ describe('AC-015.1: the Attendee views details of a confirmed event', () => {
         description: 'Hands-on data workshop',
         programme: '09:00 Welcome',
         prerequisites: 'Bring a laptop',
+        full: false,
+        waitlist: null,
       },
     })
   })
