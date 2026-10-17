@@ -16,6 +16,8 @@ import { ChangeRequestReviewPanel } from '../components/ChangeRequestReviewPanel
 import type { ReviewDecision } from '../types'
 import { ArrangementReviewPanel } from '../components/ArrangementReviewPanel'
 import { EQUIPMENT_EDITABLE_STATUSES } from '../../equipment/validation'
+import { RegistrationSettingPanel } from '../components/RegistrationSettingPanel'
+import { canChangeRegistration } from '../statusRules'
 
 export function ReviewRequestDetailPage() {
   const { id = '' } = useParams()
@@ -132,6 +134,18 @@ export function ReviewRequestDetailPage() {
                   eventId={request.id}
                   status={request.status}
                   onReviewed={refreshAll}
+                />
+              </Card>
+            )}
+
+            {profile?.role === 'coordinator' && request.coordinatorId === profile.id
+              && canChangeRegistration(request.status) && (
+              <Card title="Attendee registration" description="Choose whether attendees can register for this event.">
+                <RegistrationSettingPanel
+                  key={request.id}
+                  eventId={request.id}
+                  enabled={request.registrationRequired}
+                  onChanged={refreshAll}
                 />
               </Card>
             )}
