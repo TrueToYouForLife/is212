@@ -5,8 +5,11 @@ import { useCurrentUser } from '../../auth/sessionContext'
 import { RequestListItem } from '../components/RequestListItem'
 import { CoordinatorAssignmentQueue } from '../components/CoordinatorAssignmentQueue'
 import { listArrangementReviewCounts } from '../arrangementReviewService'
+import { loadCoordinatorNames } from '../eventCoordinatorService'
+import { describeCoordinator } from '../coordinatorLabel'
 import { listEventRequests } from '../eventReviewService'
 import { useRequestResource } from '../status/useRequestResource'
+import type { EventRequestSummary } from '../types'
 
 /**
  * Role-specific request views. RLS controls readable rows; the Lead's queue further
@@ -28,6 +31,16 @@ export function ReviewRequestsPage() {
   }, [userLoading, profile?.role])
   const counts = useRequestResource(`counts:${profile?.id}:${profile?.role}:${userLoading}`, readCounts)
   const requests = value ?? []
+
+  // Who coordinates each event, by name. A Lead's cards already name them, so only the other views ask.
+  const requestIds = requests.map(request => request.id).join(',')
+  const readNames = useCallback(async () => {
+    if (userLoading || profile?.role === 'coordinator_lead' || !requestIds) return { ok: true as const, value: {} as Record<string, string> }
+    return loadCoordinatorNames(requestIds.split(','))
+  }, [userLoading, profile?.role, requestIds])
+  const names = useRequestResource(`names:${profile?.id}:${profile?.role}:${requestIds}`, readNames)
+  const labelFor = (request: EventRequestSummary) =>
+    describeCoordinator(request.coordinatorId, names.value?.[request.id], profile?.id)
 
   const isCoordinator = profile?.role === 'coordinator'
   const isManager = profile?.role === 'operations_manager'
@@ -72,7 +85,7 @@ export function ReviewRequestsPage() {
               <p className="text-sm text-slate-600">No event requests are assigned to you yet.</p>
             ) : (
               <ul className="space-y-4">
-                {assignedRequests.map(request => <RequestListItem key={request.id} request={request} assignedToYou arrangementReviewCount={counts.value?.[request.id] ?? 0} />)}
+                {assignedRequests.map(request => <RequestListItem key={request.id} request={request} assignedToYou coordinatorLabel={labelFor(request)} arrangementReviewCount={counts.value?.[request.id] ?? 0} />)}
               </ul>
             )}
           </section>
@@ -82,7 +95,7 @@ export function ReviewRequestsPage() {
               <p className="text-sm text-slate-600">No other event requests to show.</p>
             ) : (
               <ul className="space-y-4">
-                {otherRequests.map(request => <RequestListItem key={request.id} request={request} />)}
+                {otherRequests.map(request => <RequestListItem key={request.id} request={request} coordinatorLabel={labelFor(request)} />)}
               </ul>
             )}
           </section>
@@ -98,7 +111,7 @@ export function ReviewRequestsPage() {
       ) : (
         <ul className="space-y-4">
           {requests.map((request) => (
-            <RequestListItem key={request.id} request={request} organiserView={profile?.role === 'organiser'} />
+            <RequestListItem key={request.id} request={request} organiserView={profile?.role === 'organiser'} coordinatorLabel={labelFor(request)} />
           ))}
         </ul>
       )}

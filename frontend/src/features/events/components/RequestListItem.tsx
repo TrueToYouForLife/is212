@@ -3,7 +3,17 @@ import { formatDateTime, orDash } from '../formatters'
 import { StatusBadge } from './StatusBadge'
 import type { EventRequestSummary } from '../types'
 
-export function RequestListItem({ request, organiserView = false, assignedToYou = false, arrangementReviewCount = 0 }: { request: EventRequestSummary; organiserView?: boolean; assignedToYou?: boolean; arrangementReviewCount?: number }) {
+interface RequestListItemProps {
+  request: EventRequestSummary
+  organiserView?: boolean
+  /** Only affects the arrangement-review badge; who coordinates the event is coordinatorLabel. */
+  assignedToYou?: boolean
+  arrangementReviewCount?: number
+  /** Who coordinates the event, already worded (see describeCoordinator); null shows nothing. */
+  coordinatorLabel?: string | null
+}
+
+export function RequestListItem({ request, organiserView = false, assignedToYou = false, arrangementReviewCount = 0, coordinatorLabel = null }: RequestListItemProps) {
   return (
     <li className="rounded-xl border border-slate-200 bg-white shadow-sm transition hover:border-slate-300">
       <Link
@@ -14,7 +24,7 @@ export function RequestListItem({ request, organiserView = false, assignedToYou 
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="min-w-0">
             <p className="font-mono text-xs text-slate-500">{orDash(request.reference)}</p>
-            {assignedToYou && <p className="mt-1 text-xs font-semibold text-indigo-700">Assigned to you</p>}
+            {coordinatorLabel && <p className="mt-1 text-xs font-semibold text-indigo-700">Coordinator: {coordinatorLabel}</p>}
             <h3 className="mt-1 truncate text-sm font-semibold text-slate-900">
               {orDash(request.name ?? request.purpose)}
             </h3>

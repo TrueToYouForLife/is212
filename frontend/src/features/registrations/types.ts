@@ -12,10 +12,34 @@ export interface OpenEvent {
   registered: boolean
 }
 
+/** US16: the Attendee's own place in a full event's queue. 'expired' is an offer that has lapsed. */
+export type WaitlistStatus = 'waiting' | 'offered' | 'expired'
+
+export interface WaitlistState {
+  entryId: string
+  status: WaitlistStatus
+  /** 1-based place among those still waiting; null once offered or expired. */
+  position: number | null
+  /** When an offer lapses; null while only waiting. */
+  offerExpiresAt: string | null
+}
+
 export interface OpenEventDetails extends OpenEvent {
   description: string | null
   programme: string | null
   prerequisites: string | null
+  /** No place left, or people already queued: register is replaced by the waiting list (US16). */
+  full: boolean
+  /** The signed-in Attendee's active waiting-list entry for this event, if any. */
+  waitlist: WaitlistState | null
+}
+
+/** One row of "Waiting lists" on My registrations (US16). */
+export interface MyWaitlistEntry extends WaitlistState {
+  eventId: string
+  eventName: string
+  start: string
+  venue: string | null
 }
 
 // The only statuses a registered event can reach (0004: confirmed -> completed | cancelled).
@@ -58,3 +82,17 @@ export interface RegistrationAnswers {
 }
 
 export type LoadResult<T> = { ok: true; value: T } | { ok: false; reason: string }
+
+/** US16 SCRUM-154: one row of the waiting list as the assigned Coordinator sees it. */
+export type ManagedWaitlistStatus = 'waiting' | 'offered' | 'expired'
+export type WaitlistMove = 'front' | 'up' | 'down'
+
+export interface ManagedWaitlistEntry {
+  entryId: string
+  attendeeName: string
+  status: ManagedWaitlistStatus
+  /** 1-based place in the queue; null for someone who already holds an offered place. */
+  position: number | null
+  joinedAt: string
+  offerExpiresAt: string | null
+}

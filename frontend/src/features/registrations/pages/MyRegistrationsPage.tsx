@@ -6,7 +6,9 @@ import { ErrorAlert } from '../../../components/ui/ErrorAlert'
 import { useCurrentUser } from '../../auth/sessionContext'
 import { useRequestResource } from '../../events/status/useRequestResource'
 import { RegistrationListItem } from '../components/RegistrationListItem'
+import { WaitlistListItem } from '../components/WaitlistListItem'
 import { loadMyRegistrations } from '../registrationService'
+import { loadMyWaitlist } from '../waitlistService'
 
 /**
  * US15 AC-015.7: the signed-in Attendee's registrations. Refreshed periodically and on focus,
@@ -24,6 +26,18 @@ export function MyRegistrationsPage() {
   )
   const { value: registrations, error, refresh } = useRequestResource(`my-registrations:${signedInAs}`, read)
   const [notice, setNotice] = useState<{ tone: 'success' | 'error'; text: string } | null>(null)
+
+  // US16: the Attendee's waiting lists, refreshed the same way so an offer shows up without a reload.
+  const readWaitlist = useCallback(
+    () => (signedInAs ? loadMyWaitlist() : Promise.resolve({ ok: true as const, value: [] })),
+    [signedInAs],
+  )
+  const { value: waitlist, refresh: refreshWaitlist } = useRequestResource(`my-waitlist:${signedInAs}`, readWaitlist)
+  const handleWaitlistChanged = () => refreshWaitlist()
+  const handleWaitlistStale = (reason: string) => {
+    setNotice({ tone: 'error', text: reason })
+    refreshWaitlist()
+  }
 
   const handleWithdrawn = (eventName: string) => {
     setNotice({ tone: 'success', text: `Your registration for ${eventName} has been withdrawn.` })
@@ -74,6 +88,18 @@ export function MyRegistrationsPage() {
           </ul>
         )}
       </div>
+
+      {waitlist && waitlist.length > 0 && (
+        <section aria-labelledby="waiting-lists" className="mt-10">
+          <h2 id="waiting-lists" className="text-xl font-bold tracking-tight text-slate-900">Waiting lists</h2>
+          <ul className="mt-4 space-y-3">
+            {waitlist.map((entry) => (
+              <WaitlistListItem key={entry.entryId} entry={entry}
+                onChanged={handleWaitlistChanged} onStale={handleWaitlistStale} />
+            ))}
+          </ul>
+        </section>
+      )}
     </PageContainer>
   )
 }

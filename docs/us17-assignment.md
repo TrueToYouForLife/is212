@@ -395,3 +395,20 @@ No additional tests were added during green. Local full-suite results on 9 Octob
 passed. The existing large-bundle build warning remains. No visual redesign,
 commit, push, merge or shared migration application was performed by the assistant.
 Nicole's agreement and live acceptance still remain before completing this follow-up.
+
+## Coordinator names on request cards (AC-017.4 refinement, 17 October 2026)
+
+The Requests list only said "Assigned to you", which told a Coordinator nothing about the other events.
+Every card now says "Coordinator: <name>", with "(you)" on the viewer's own events and "No coordinator
+assigned" when there is none. If a name cannot be loaded the card says "Coordinator assigned" and never
+guesses. A Coordinator Lead's assignment cards already named the Coordinator, so they are unchanged.
+
+- `0061_event_coordinator_names.sql` adds `event_coordinator_names(uuid[])`: SECURITY DEFINER, names only,
+  for Coordinators, Coordinator Leads and Operations Managers on any event and for an Organiser on their own
+  events. Others and visitors get nothing; more than 500 ids returns nothing. It does not widen who can read
+  profiles. **Not applied to shared Supabase yet.**
+- `coordinatorLabel.ts` is the pure wording rule; `eventCoordinatorService.ts` is the only caller of the
+  function (chunks of 500); `ReviewRequestsPage` passes each card its label.
+- Tests, written after the code: AC-017.4.7 to .12 in `event_coordinator_names.sql` (who is told a name),
+  AC-017.4.13 to .20 in `coordinatorNames.test.ts`, AC-017.4.21 to .25 in `RequestCoordinatorNames.test.tsx`.
+  The existing AC-017.4.6 now checks the Coordinator's name instead of "Assigned to you". Next unused AC4 ID: .4.26.

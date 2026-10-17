@@ -2,6 +2,7 @@ import { supabase } from '../../lib/supabase'
 import { EVENT_STATUS_LABELS, REGISTRATION_STATUS_LABELS } from './types'
 import type {
   AttendeeEventStatus, LoadResult, MyRegistration, OpenEvent, OpenEventDetails, RegistrationStatus,
+  WaitlistStatus,
 } from './types'
 import { validateRegistration } from './validation'
 import type { RegistrationInput, RegistrationIssue } from './validation'
@@ -16,6 +17,8 @@ export const REGISTRATION_SERVICE_MESSAGES = {
   notOpen: 'This event is not open for registration.',
   registrationClosed: 'Registration is not open for this event.',
   duplicate: 'You are already registered for this event.',
+  alreadyWaitlisted: 'You are already on the waiting list for this event.',
+  full: 'This event is now full. Join the waiting list instead.',
   notAttendee: 'Only attendees can register for events.',
   checkFields: 'Check the highlighted fields.',
   failed: 'Your registration could not be saved. Please try again.',
@@ -52,6 +55,11 @@ interface OpenEventDetailsRow extends OpenEventRow {
   description: string | null
   programme: string | null
   prerequisites: string | null
+  full: boolean
+  waitlist_entry_id: string | null
+  waitlist_status: WaitlistStatus | null
+  waitlist_position: number | null
+  offer_expires_at: string | null
 }
 
 interface MyRegistrationRow {
@@ -97,6 +105,15 @@ export async function loadOpenEvent(eventId: string): Promise<LoadResult<OpenEve
       description: row.description,
       programme: row.programme,
       prerequisites: row.prerequisites,
+      full: row.full,
+      waitlist: row.waitlist_entry_id && row.waitlist_status
+        ? {
+            entryId: row.waitlist_entry_id,
+            status: row.waitlist_status,
+            position: row.waitlist_position,
+            offerExpiresAt: row.offer_expires_at,
+          }
+        : null,
     },
   }
 }
@@ -107,6 +124,8 @@ const REGISTER_ERRORS: Record<string, string> = {
   '23505': REGISTRATION_SERVICE_MESSAGES.duplicate,
   '22000': REGISTRATION_SERVICE_MESSAGES.registrationClosed,
   '42501': REGISTRATION_SERVICE_MESSAGES.notAttendee,
+  // 0058: someone took the last place, or a queue formed, after this page loaded.
+  '53000': REGISTRATION_SERVICE_MESSAGES.full,
 }
 
 export async function registerForEvent(
@@ -130,7 +149,10 @@ export async function registerForEvent(
   })
 
   if (!error) return { ok: true }
-  const reason = REGISTER_ERRORS[error.code ?? '']
+  const reason = (error.code === '23505' && error.hint === 'already_waitlisted'
+    ? REGISTRATION_SERVICE_MESSAGES.alreadyWaitlisted
+    : undefined)
+    ?? REGISTER_ERRORS[error.code ?? '']
     ?? (error.code === '22023' && error.message ? error.message : REGISTRATION_SERVICE_MESSAGES.failed)
   return { ok: false, reason }
 }

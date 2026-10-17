@@ -11,6 +11,12 @@ vi.mock('../eventReviewService', () => ({ listEventRequests: mocks.list }))
 vi.mock('../../auth/sessionContext', () => ({
   useCurrentUser: () => ({ loading: false, profile: { id: 'coordinator-a', role: 'coordinator' } }),
 }))
+// Which coordinator each event has, by name (0061): the cards say who, not just "assigned to you".
+vi.mock('../eventCoordinatorService', () => ({
+  loadCoordinatorNames: async () => ({ ok: true, value: {
+    other: 'Bob Coordinator', 'mine-new': 'Ann Coordinator', 'mine-old': 'Ann Coordinator',
+  } }),
+}))
 // Lead-only service is not used by the coordinator view.
 vi.mock('../coordinatorAssignmentService', () => ({ listAssignmentCoordinators: vi.fn() }))
 
@@ -38,8 +44,10 @@ test('AC-017.4.6: coordinator sees assigned requests first and refresh moves rea
     .toEqual(['My newer event', 'My older event'])
   expect(within(others).getAllByRole('heading', { level: 3 }).map(el => el.textContent))
     .toEqual(['Other event', 'Unassigned event'])
-  expect(within(mine).getAllByText('Assigned to you')).toHaveLength(2)
-  expect(within(others).queryByText('Assigned to you')).not.toBeInTheDocument()
+  await waitFor(() => expect(within(mine).getAllByText('Coordinator: Ann Coordinator (you)')).toHaveLength(2))
+  expect(within(others).queryByText(/\(you\)/)).not.toBeInTheDocument()
+  expect(within(others).getByText('Coordinator: Bob Coordinator')).toBeInTheDocument()
+  expect(within(others).getByText('Coordinator: No coordinator assigned')).toBeInTheDocument()
   expect(within(mine).getAllByRole('link')[0]).toHaveAttribute('href', '/requests/mine-new')
 
   mocks.list.mockResolvedValue({ ok: true, requests: rows.map(row => ({ ...row, coordinatorId: 'coordinator-b' })) })
