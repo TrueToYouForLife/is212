@@ -82,3 +82,12 @@ export function reviewActionsFor(status: EventStatus): ReviewAction[] {
     canActorTransition({ role: 'coordinator', isOwner: false }, status, action.to),
   )
 }
+
+/**
+ * Mirrors set_event_registration in 0057: only a Confirmed event can have registration
+ * switched (attendees cannot register before then, and a closed event has nothing to switch).
+ * The database is the control; this only decides whether to show the switch.
+ */
+export function canChangeRegistration(status: EventStatus): boolean {
+  return status === 'confirmed'
+}

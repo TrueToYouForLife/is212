@@ -52,7 +52,8 @@ export function RequestDetails({ request, layouts = [], equipment = [] }: Reques
         label="Equipment"
         value={orDash(describeCodes(equipment, request.equipmentRequirements) || null)}
       />
-      <Row label="Registration required" value={request.registrationRequired ? 'Yes' : 'No'} />
+      {/* Starts as the organiser asked and then follows the coordinator's setting (US52). */}
+      <Row label="Attendee registration" value={request.registrationRequired ? 'Enabled' : 'Disabled'} />
       <Row label="Special arrangements" value={orDash(request.specialArrangements)} />
       <Row label="Submitted" value={formatDateTime(request.submittedAt)} />
       {request.reviewNote && <Row label="Review note" value={request.reviewNote} />}
