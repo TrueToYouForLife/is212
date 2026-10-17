@@ -1,5 +1,8 @@
 import { z } from 'zod'
-import type { MyRegistration, RegistrationAnswers, WithdrawableRegistration } from './types'
+import type {
+  ManagedWaitlistEntry, MyRegistration, RegistrationAnswers, WaitlistMove, WaitlistState,
+  WithdrawableRegistration,
+} from './types'
 
 /**
  * PURE MODULE — no React, no Supabase, no I/O.
@@ -106,4 +109,32 @@ export function canWithdraw(registration: WithdrawableRegistration, now: Date): 
  */
 export function hasEventDetailsPage(registration: Pick<MyRegistration, 'eventStatus' | 'start'>, now: Date): boolean {
   return registration.eventStatus === 'confirmed' && new Date(registration.start).getTime() > now.getTime()
+}
+
+/**
+ * US16 AC-016.3: whether an offer can still be accepted. Mirrors accept_waitlist_offer (0058),
+ * which expires an overdue offer itself; this only stops the form being shown for one that has
+ * lapsed while the page stayed open. Half-open: an offer expiring exactly now has lapsed.
+ */
+export function canAcceptOffer(waitlist: Pick<WaitlistState, 'status' | 'offerExpiresAt'>, now: Date): boolean {
+  return (
+    waitlist.status === 'offered' &&
+    waitlist.offerExpiresAt !== null &&
+    new Date(waitlist.offerExpiresAt).getTime() > now.getTime()
+  )
+}
+
+/**
+ * US16 SCRUM-154: which moves the Coordinator can make for one entry. Mirrors move_waitlist_entry
+ * (0060): only someone still waiting moves, never past either end of the queue. The list is read in
+ * queue order. This only decides which buttons to enable; the database decides.
+ */
+export function availableMoves(
+  entries: readonly Pick<ManagedWaitlistEntry, 'entryId' | 'status'>[],
+  entryId: string,
+): Record<WaitlistMove, boolean> {
+  const waiting = entries.filter((entry) => entry.status === 'waiting')
+  const index = waiting.findIndex((entry) => entry.entryId === entryId)
+  if (index === -1) return { front: false, up: false, down: false }
+  return { front: index > 0, up: index > 0, down: index < waiting.length - 1 }
 }

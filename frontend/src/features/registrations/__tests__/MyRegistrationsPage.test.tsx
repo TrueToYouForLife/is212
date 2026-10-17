@@ -12,6 +12,10 @@ vi.mock('../registrationService', () => ({
   loadMyRegistrations: mocks.loadMyRegistrations,
   withdrawRegistration: mocks.withdrawRegistration,
 }))
+// US16 added a waiting-list section to this page; these US15/US23 cases have none.
+vi.mock('../waitlistService', () => ({
+  loadMyWaitlist: async () => ({ ok: true, value: [] }), leaveWaitlist: vi.fn(),
+}))
 
 const attendee: CurrentUser = {
   session: { userId: 'user-1', email: 'ann@example.test' },

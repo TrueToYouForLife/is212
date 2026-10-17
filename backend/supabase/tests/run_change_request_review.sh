@@ -208,6 +208,14 @@ SQL
   cat "$repo_root/supabase/tests/withdraw_registration.sql"
   # US52 after US15/US23: it registers Attendees through register_for_event and reads their lists.
   cat "$repo_root/supabase/tests/registration_setting.sql"
+  # US16 after US52: it reuses pg_temp.us14_race and registers Attendees on its own events.
+  cat "$repo_root/supabase/tests/waiting_list.sql"
+  # US16 SCRUM-154 straight after: it reuses the pg_temp helpers waiting_list.sql defines.
+  cat "$repo_root/supabase/tests/waitlist_override.sql"
+  # US16 SCRUM-153 after the override: it reuses the same pg_temp helpers.
+  cat "$repo_root/supabase/tests/waitlist_expiry_job.sql"
+  # US17 AC4 names (0061) last of this group: it reuses the same pg_temp helpers.
+  cat "$repo_root/supabase/tests/event_coordinator_names.sql"
   # US29 near the end: it commits its accounts so that replaying 0042 can be compared with them.
   cat "$repo_root/supabase/tests/attendee_signup.sql"
   cat "$repo_root/supabase/migrations/0042_attendee_self_signup.sql"

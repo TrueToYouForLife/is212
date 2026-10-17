@@ -4,7 +4,7 @@ import { PageContainer } from '../../../components/layout/PageContainer'
 import { Card } from '../../../components/ui/Card'
 import { useCurrentUser } from '../../auth/sessionContext'
 import { formatDateTime } from '../../events/formatters'
-import { RegistrationForm } from '../components/RegistrationForm'
+import { RegisterOrWaitlist } from '../components/RegisterOrWaitlist'
 import { loadOpenEvent } from '../registrationService'
 import type { LoadResult, OpenEventDetails } from '../types'
 
@@ -22,13 +22,16 @@ export function OpenEventDetailsPage() {
   const { id = '' } = useParams()
   const { session, loading } = useCurrentUser()
   const [result, setResult] = useState<LoadResult<OpenEventDetails> | null>(null)
+  // US16: bumped after a waiting-list change so the page shows the Attendee's new state.
+  const [reloads, setReloads] = useState(0)
+  const [notice, setNotice] = useState<string | null>(null)
 
   useEffect(() => {
     if (!session) return
     let active = true
     void loadOpenEvent(id).then((loaded) => { if (active) setResult(loaded) })
     return () => { active = false }
-  }, [id, session])
+  }, [id, session, reloads])
 
   if (loading) return <PageContainer><p className="text-sm text-slate-500">Loading…</p></PageContainer>
   if (!session) return <Navigate to="/signin" replace state={{ from: `/events/open/${id}` }} />
@@ -85,14 +88,9 @@ export function OpenEventDetailsPage() {
         </Card>
 
         <Card title="Register">
-          {event.registered ? (
-            <p className="text-sm text-slate-700">
-              You&apos;re registered for this event.{' '}
-              <Link to="/registrations" className="font-medium text-indigo-700 underline">My registrations</Link>
-            </p>
-          ) : (
-            <RegistrationForm eventId={event.id} hasPrerequisites={prerequisites !== null} />
-          )}
+          {notice && <p role="alert" className="mb-3 text-sm text-red-700">{notice}</p>}
+          <RegisterOrWaitlist event={event} hasPrerequisites={prerequisites !== null}
+            onChanged={() => setReloads((count) => count + 1)} onNotice={setNotice} />
         </Card>
       </div>
     </PageContainer>

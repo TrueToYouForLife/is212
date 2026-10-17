@@ -6,12 +6,15 @@ import { Button } from '../../../components/ui/Button'
 import { ErrorAlert } from '../../../components/ui/ErrorAlert'
 import { Checkbox, Field, TextInput } from '../../../components/ui/FormControls'
 import { registerForEvent } from '../registrationService'
+import { acceptWaitlistOffer } from '../waitlistService'
 import type { RegistrationAnswers } from '../types'
 import { registrationSchema } from '../validation'
 
 export interface RegistrationFormProps {
   eventId: string
   hasPrerequisites: boolean
+  /** US16: set when this form accepts a waiting-list offer instead of registering directly. */
+  waitlistEntryId?: string
 }
 
 interface FormValues {
@@ -22,7 +25,7 @@ interface FormValues {
 }
 
 /** US15 AC-015.2: the information an Attendee gives to register for one event. */
-export function RegistrationForm({ eventId, hasPrerequisites }: RegistrationFormProps) {
+export function RegistrationForm({ eventId, hasPrerequisites, waitlistEntryId }: RegistrationFormProps) {
   const { register, handleSubmit, formState: { errors, isSubmitting } } =
     useForm<FormValues, unknown, RegistrationAnswers>({
       resolver: zodResolver(registrationSchema(hasPrerequisites)),
@@ -38,7 +41,9 @@ export function RegistrationForm({ eventId, hasPrerequisites }: RegistrationForm
     if (inFlight.current) return
     inFlight.current = true
     setSaveError(null)
-    const result = await registerForEvent(eventId, answers, { hasPrerequisites })
+    const result = waitlistEntryId
+      ? await acceptWaitlistOffer(waitlistEntryId, answers, { hasPrerequisites })
+      : await registerForEvent(eventId, answers, { hasPrerequisites })
     inFlight.current = false
 
     if (result.ok) setRegistered(true)
@@ -87,7 +92,7 @@ export function RegistrationForm({ eventId, hasPrerequisites }: RegistrationForm
       )}
 
       <Button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? 'Registering…' : 'Register'}
+        {isSubmitting ? 'Registering…' : waitlistEntryId ? 'Accept place' : 'Register'}
       </Button>
     </form>
   )
