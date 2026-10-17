@@ -86,7 +86,7 @@ SQL
   echo 'create temp table revalidation_before_repeat as select * from public.event_change_revalidations;'
   cat "$repo_root/supabase/migrations/0015_change_request_revalidation.sql"
   # 0015 restores the revalidation trigger without facilityRequirements in its significant
-  # list, so put the current one back — same reason as the 0038/0039 and 0013 restores.
+  # list, so put the current one back â€” same reason as the 0038/0039 and 0013 restores.
   cat "$repo_root/supabase/migrations/0055_change_request_structured_requirements.sql"
   cat <<'SQL'
 select pg_temp.assert_true(
@@ -274,5 +274,14 @@ select pg_temp.assert_true(
                              facility_requirements, equipment_requirements from public.events)),
   'AC-002.1.26: replaying the requirement migrations changes no stored requirement');
 SQL
+  cat "$repo_root/supabase/tests/event_planning_updates.sql"
+  cat "$repo_root/supabase/migrations/0063_event_planning_updates.sql"
+  cat <<'SQL'
+select pg_temp.assert_true(not exists(
+ (select * from public.event_planning_updates except select * from us20_history_before_replay)
+ union all (select * from us20_history_before_replay except select * from public.event_planning_updates)),
+ 'AC-020.2.4: replaying 0063 preserves history without backfilling');
+SQL
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
+bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"

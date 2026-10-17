@@ -13,6 +13,7 @@ interface OptionalRequirementsFieldsProps {
   /** Set when the catalogues could not be loaded, so the organiser is told why the
    *  layout and equipment lists are empty instead of assuming there are no options. */
   catalogueError?: string | null
+  showRegistration?: boolean
 }
 
 /**
@@ -26,7 +27,7 @@ interface OptionalRequirementsFieldsProps {
  * checkboxes that together make one array.
  */
 export function OptionalRequirementsFields({
-  register, control, catalogue, errors, catalogueError,
+  register, control, catalogue, errors, catalogueError, showRegistration = true,
 }: OptionalRequirementsFieldsProps) {
   return (
     <fieldset className="space-y-4">
@@ -114,12 +115,12 @@ export function OptionalRequirementsFields({
         )}
       />
 
-      <div className="flex items-center gap-2">
+      {showRegistration && <div className="flex items-center gap-2">
         <Checkbox id="registrationRequired" {...register('registrationRequired')} />
         <label htmlFor="registrationRequired" className="text-sm text-slate-700">
           Attendees must register for this event
         </label>
-      </div>
+      </div>}
 
       <Field id="specialArrangements" label="Other special arrangements">
         <TextArea id="specialArrangements" {...register('specialArrangements')} />
