@@ -28,7 +28,8 @@ interface EventRow {
   proposed_end: string | null
   expected_attendance: number | null
   layout_preference: string | null
-  accessibility_requirements: string | null
+  accessibility_requirements: string[] | null
+  facility_requirements: string[] | null
 }
 
 interface RequirementsRow {
@@ -46,7 +47,8 @@ function toEvent(row: EventRow): SuitabilityEvent {
     proposedEnd: row.proposed_end,
     expectedAttendance: row.expected_attendance,
     layoutPreference: row.layout_preference,
-    accessibilityRequirements: row.accessibility_requirements,
+    accessibilityRequirements: row.accessibility_requirements ?? [],
+    facilityRequirements: row.facility_requirements ?? [],  
   }
 }
 

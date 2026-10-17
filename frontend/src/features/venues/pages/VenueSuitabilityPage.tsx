@@ -11,7 +11,18 @@ import {
 import type { LayoutType, SuitabilityEvent, VenueAssessment, VenueRequirements } from '../suitabilityTypes'
 import type { AssignedEventOption } from '../types'
 import { loadTimeSlots } from '../venueBookingService'
+import { ACCESSIBILITY_OPTIONS, FACILITY_OPTIONS } from '../venueFeatureCatalogue'
 import { listMyAssignedEvents } from '../venueSearchService'
+
+/** Codes to words, for the organiser's own requirements shown above the form. */
+function describeCodes(
+  options: readonly { code: string; label: string }[],
+  codes: readonly string[],
+): string {
+  return codes
+    .map((code) => options.find((option) => option.code === code)?.label ?? code)
+    .join(', ')
+}
 
 const selectClasses =
   'block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 ' +
@@ -115,18 +126,32 @@ export function VenueSuitabilityPage() {
             title="Requirements"
             description="The organiser's own words, and the structured version each venue is checked against."
           >
-            <dl className="mb-6 grid gap-4 text-sm sm:grid-cols-3">
+            <dl className="mb-6 grid gap-4 text-sm sm:grid-cols-4">
               <div>
                 <dt className="text-slate-500">Expected attendance</dt>
                 <dd className="mt-0.5 text-slate-900">{context.event.expectedAttendance ?? 'Not given'}</dd>
               </div>
               <div>
                 <dt className="text-slate-500">Organiser's layout request</dt>
-                <dd className="mt-0.5 text-slate-900">{context.event.layoutPreference || 'None'}</dd>
+                <dd className="mt-0.5 text-slate-900">
+                  {context.event.layoutPreference
+                    ? layoutLabel(context.event.layoutPreference)
+                    : 'None'}
+                </dd>
               </div>
+              {/* Codes since 0054, so these read as labels from the shared catalogue
+                  rather than as whatever the organiser once typed. */}
               <div>
                 <dt className="text-slate-500">Organiser's accessibility needs</dt>
-                <dd className="mt-0.5 text-slate-900">{context.event.accessibilityRequirements || 'None'}</dd>
+                <dd className="mt-0.5 text-slate-900">
+                  {describeCodes(ACCESSIBILITY_OPTIONS, context.event.accessibilityRequirements) || 'None'}
+                </dd>
+              </div>
+              <div>
+                <dt className="text-slate-500">Organiser's facility needs</dt>
+                <dd className="mt-0.5 text-slate-900">
+                  {describeCodes(FACILITY_OPTIONS, context.event.facilityRequirements) || 'None'}
+                </dd>
               </div>
             </dl>
             <VenueRequirementsForm
