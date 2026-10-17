@@ -1,0 +1,39 @@
+﻿AC,Story,Owner,Test name,Test type,Scenario,PR,Forced-break log,Source
+AC-020.1.1,US20 / SCRUM-65,,assigned coordinator edits approved/planning events and minimum attendance without changing lifecycle,integration,normal,,,backend/supabase/tests/event_planning_updates.sql
+AC-020.1.2,US20 / SCRUM-65,,every other event state refuses planning edits,integration,boundary,,,backend/supabase/tests/event_planning_updates.sql
+AC-020.1.3,US20 / SCRUM-65,,protected fields cannot be smuggled into an edit,integration,failure,,,backend/supabase/tests/event_planning_updates.sql
+AC-020.1.4,US20 / SCRUM-65,,stale versions cannot overwrite newer data,integration,conflict,,,backend/supabase/tests/event_planning_updates.sql
+AC-020.1.5,US20 / SCRUM-65,,"empty purpose, invalid attendance and non-future or empty intervals are refused",integration,boundary,,,backend/supabase/tests/event_planning_updates.sql
+AC-020.1.6,US20 / SCRUM-65,,structured requirements cannot be replaced with free text or non-string codes,integration,failure,,,backend/supabase/tests/event_planning_updates.sql
+AC-020.1.7,US20 / SCRUM-65,,catalogue validation rolls back the whole edit and leaves no audit record,integration,failure,,,backend/supabase/tests/event_planning_updates.sql
+AC-020.1.8,US20 / SCRUM-65,,unassigned coordinator cannot edit or read planning history,integration,failure,,,backend/supabase/tests/event_planning_updates.sql
+AC-020.1.9,US20 / SCRUM-65,,owning organiser cannot use the coordinator edit route,integration,failure,,,backend/supabase/tests/event_planning_updates.sql
+AC-020.1.10,US20 / SCRUM-65,,direct browser writes remain blocked,integration,failure,,,backend/supabase/tests/event_planning_updates.sql
+AC-020.1.11,US20 / SCRUM-65,,"capacity, facilities, accessibility and timing edits create source-linked arrangement reviews without fake organiser requests",integration,normal,,,backend/supabase/tests/event_planning_updates.sql
+AC-020.1.12,US20 / SCRUM-65,,significant edits preserve bookings and their reserved slots,integration,normal,,,backend/supabase/tests/event_planning_updates.sql
+AC-020.1.13,US20 / SCRUM-65,,timing and structured equipment changes flag existing equipment reservations,integration,normal,,,backend/supabase/tests/event_planning_updates.sql
+AC-020.1.14,US20 / SCRUM-65,,equipment allocations are not moved or released by planning edits,integration,normal,,,backend/supabase/tests/event_planning_updates.sql
+AC-020.1.15,US20 / SCRUM-65,,audit failure rolls back the event edit atomically,integration,failure,,,backend/supabase/tests/event_planning_updates.sql
+AC-020.1.16,US20 / SCRUM-65,,anonymous writes and direct calls to internal review helpers are forbidden,integration,failure,,,backend/supabase/tests/event_planning_updates.sql
+AC-020.1.17,US20 / SCRUM-65,,concurrent editors have one winner and exactly one audit entry,integration,conflict,,,backend/supabase/tests/event_planning_update_races.sh
+AC-020.1.18,US20 / SCRUM-65,,existing organiser approval still records independent source-linked reviews with structured requirements,integration,normal,,,backend/supabase/tests/event_planning_updates.sql
+AC-020.1.30,US20 / SCRUM-65,,saves validated details with the loaded version and excludes registration,unit,normal,,AC-020.1.30-forced-break.log,frontend/src/features/events/__tests__/planningUpdateService.test.ts
+AC-020.1.31,US20 / SCRUM-65,,"invalid id, missing version and invalid details never reach the database",unit,boundary,,,frontend/src/features/events/__tests__/planningUpdateService.test.ts
+AC-020.1.32,US20 / SCRUM-65,,"stale, permission, state, catalogue and unexpected errors have actionable messages",unit,failure,,,frontend/src/features/events/__tests__/planningUpdateService.test.ts
+AC-020.1.33,US20 / SCRUM-65,,lost response and malformed success are uncertain saves and never automatically retried,unit,failure,,,frontend/src/features/events/__tests__/planningUpdateService.test.ts
+AC-020.1.34,US20 / SCRUM-65,,an unchanged save is successful without claiming a new update,unit,boundary,,,frontend/src/features/events/__tests__/planningUpdateService.test.ts
+AC-020.1.50,US20 / SCRUM-65,,assigned coordinator edits existing values and refreshes after a successful save,integration,normal,,,frontend/src/features/events/__tests__/PlanningUpdatePanel.test.tsx
+AC-020.1.51,US20 / SCRUM-65,,invalid attendance and purpose show validation without attempting a save,integration,boundary,,,frontend/src/features/events/__tests__/PlanningUpdatePanel.test.tsx
+AC-020.1.52,US20 / SCRUM-65,,a stale save preserves entered text until the user explicitly reloads,integration,conflict,,,frontend/src/features/events/__tests__/PlanningUpdatePanel.test.tsx
+AC-020.1.53,US20 / SCRUM-65,,pending save disables inputs and prevents duplicate requests,integration,conflict,,,frontend/src/features/events/__tests__/PlanningUpdatePanel.test.tsx
+AC-020.1.54,US20 / SCRUM-65,,catalogue failure blocks edits without hiding existing history,integration,failure,,,frontend/src/features/events/__tests__/PlanningUpdatePanel.test.tsx
+AC-020.1.55,US20 / SCRUM-65,,completed events retain history but expose no editing controls,integration,boundary,,,frontend/src/features/events/__tests__/PlanningUpdatePanel.test.tsx
+AC-020.2.1,US20 / SCRUM-65,,audit stores original and new values with server-derived actor and chronological history,integration,normal,,,backend/supabase/tests/event_planning_updates.sql
+AC-020.2.2,US20 / SCRUM-65,,an unchanged save creates no extra history,integration,boundary,,,backend/supabase/tests/event_planning_updates.sql
+AC-020.2.3,US20 / SCRUM-65,,authenticated users cannot rewrite or delete audit evidence,integration,failure,,,backend/supabase/tests/event_planning_updates.sql
+AC-020.2.4,US20 / SCRUM-65,,replaying 0063 preserves history without backfilling,integration,normal,,,backend/supabase/tests/run_change_request_review.sh
+AC-020.2.5,US20 / SCRUM-65,,loads the server history and structured values together with their version,unit,normal,,,frontend/src/features/events/__tests__/planningUpdateService.test.ts
+AC-020.2.6,US20 / SCRUM-65,,read failures or malformed history never become an empty success,unit,failure,,,frontend/src/features/events/__tests__/planningUpdateService.test.ts
+AC-020.2.7,US20 / SCRUM-65,,"history displays oldest first with actor, timestamp and before/after details",integration,normal,,,frontend/src/features/events/__tests__/PlanningUpdatePanel.test.tsx
+AC-020.2.8,US20 / SCRUM-65,,read errors are explicit and reload recovers instead of showing a false empty history,integration,failure,,,frontend/src/features/events/__tests__/PlanningUpdatePanel.test.tsx
+AC-020.2.9,US20 / SCRUM-65,,unexpected load rejection is reported and a response after unmount is ignored,integration,failure,,,frontend/src/features/events/__tests__/PlanningUpdatePanel.test.tsx
