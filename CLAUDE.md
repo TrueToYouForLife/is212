@@ -1,5 +1,14 @@
 # ConnectSphere Event Planning System — Project Context
 
+## US42 slice 1: organiser venue arrangements (18 October 2026)
+- Branch `us42-venue-arrangements`; code-first. Migration 0068 was claimed and applied to shared Supabase.
+- Owner-only RPC returns confirmed venue bookings and actual saved event/buffer cells. No staff notes, reviewer details or direct table access are added. Coordinate organisation-wide access with US31; do not implement it here implicitly.
+- Organiser panel sits below Request details and supports Singapore dates, midnight, empty/error states and refresh. Equipment (AC-042.2) remains outstanding.
+- Ten new cases: four SQL and six frontend. Full DB suite passed; frontend 139 files / 1,293 tests passed; build/typecheck and lint passed.
+- Manual checks passed: approved booking visibility, pending/empty behaviour and unrelated-organiser denial. Other manual scenarios remain unverified.
+- Story: `docs/us42-confirmed-arrangements.md`; cases: `docs/test-cases/US42_test_cases.md`; logs: `docs/test-evidence/us42/`. Next IDs: .1.7, .2.1, .3.5.
+- Shared sheet updated with ten automated cases and three passed manual checks. AC-042.1.4 forced-break caught read errors incorrectly returning an empty success; exact service restored, all three service tests passed. Logs saved; no test changes or product defect. PR/CI and coverage measurement remain pending. Commits, pushes and merges are handled manually; pause between logical portions.
+
 ## US41 completed within agreed scope
 - 0053 fixes stale structured-layout precedence after an approved layout change.
   Subsequent coordinator saves confirm the structured layout. AC-041.3.3 tests both
