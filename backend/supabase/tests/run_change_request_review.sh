@@ -304,6 +304,24 @@ select pg_temp.assert_true(not exists(
 SQL
   # US32 slice 1: one feed of each user's own notifications, from every source.
   cat "$repo_root/supabase/tests/notification_feed.sql"
+  # US47: the additive foundation must also preserve populated booking state on replay.
+  cat <<'SQL'
+create temp table us47_bookings_before as select * from public.venue_bookings;
+create temp table us47_claims_before as select * from public.venue_slot_claims;
+create temp table us47_venues_before as select * from public.venues;
+SQL
+  cat "$repo_root/supabase/migrations/0074_venue_buffer_foundation.sql"
+  cat <<'SQL'
+select pg_temp.assert_true(
+ not exists((select * from public.venue_bookings except select * from us47_bookings_before)
+ union all (select * from us47_bookings_before except select * from public.venue_bookings))
+ and not exists((select * from public.venue_slot_claims except select * from us47_claims_before)
+ union all (select * from us47_claims_before except select * from public.venue_slot_claims))
+ and not exists((select * from public.venues except select * from us47_venues_before)
+ union all (select * from us47_venues_before except select * from public.venues)),
+ 'AC-047.4.2: foundation replay preserves existing venues, bookings and occupied cells');
+SQL
+  cat "$repo_root/supabase/tests/venue_buffer_foundation.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"

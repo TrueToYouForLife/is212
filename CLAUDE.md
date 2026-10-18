@@ -1,3 +1,10 @@
+# US47 foundation checkpoint — 19 October 2026
+- Branch `us47-venue-buffer-settings`; migration 0074 claimed. Duration fields default to zero and accept non-negative multiples of 15. Internal exact occupied-period helper; no cell allocation or active booking changes.
+- Browser writes to new fields are temporarily guarded until the final save/review path is integrated. Existing venue edits still work. Do not expose the settings UI yet.
+- Full disposable DB suite passed, including six foundation cases and regression/concurrency checks. Evidence: docs/test-evidence/us47/foundation-database.log. No frontend changes/tests this portion.
+- US47 includes supporting 15-minute booking work; preserve saved reservation occupancy during conversion. Next portions: booking consumers/UI, then settings-change flags and Coordinator/Venue Staff notifications.
+- No shared deployment, commits, pushes or PRs performed. Code-first, pause between logical portions. Docs: docs/us47-venue-buffers.md and docs/test-cases/US47_test_cases.md.
+
 # US42 merged implementation (18 October 2026)
 - Venue PR #103 and equipment PR #106 merged; local main updated to dd07c40 and equipment branch deleted.
 - Claimed migration 0071 adds owner-only equipment read: name, requested/reserved quantities, existing status. Pending review stays distinct; no staff notes or unit allocations exposed.
