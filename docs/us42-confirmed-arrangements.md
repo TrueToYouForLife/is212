@@ -4,8 +4,9 @@ Owner: Jaydon
 
 Story: SCRUM-238. Updated: 18 October 2026.
 
-Status: venue portion implemented and locally verified; PR review and CI pending.
-Migration 0068 applied to shared Supabase. Equipment arrangements remain outstanding;
+Status: venue portion merged in PR #103 after passing CI. Equipment database read,
+service and UI implemented; equipment manual checks passed, with PR review and CI pending.
+Migration 0068 applied to shared Supabase; equipment requires migration 0071;
 the whole story is not ready to mark Done.
 
 ## Acceptance criteria review
@@ -13,12 +14,11 @@ the whole story is not ready to mark Done.
 - **AC-042.1 — Approved venue bookings:** implemented. The owning organiser sees
   each confirmed venue booking with its venue name, reserved dates and slots.
   Local automated tests and the manual booking-to-approval flow passed.
-- **AC-042.2 — Equipment reservation status:** not implemented in this slice.
-  Reserved, partially reserved and unavailable equipment will be added separately.
-- **AC-042.3 — Internal information excluded:** implemented and tested for the
-  venue response. Staff notes, reviewer identities and audit records are not returned.
-  Equipment unit allocations and equipment-related privacy checks remain part of
-  the next portion. Do not treat the whole criterion as complete yet.
+- **AC-042.2 — Equipment reservation status:** implemented locally through 0071, the validated service and organiser panel.
+  Reserved, partially reserved, unavailable and pending review display with quantities.
+- **AC-042.3 — Internal information excluded:** implemented and tested locally for venue and equipment responses. Staff notes,
+  reviewer identities, unit allocations and audit records are not returned.
+  Equipment browser status, refresh and privacy checks passed.
 
 ## First increment: venue arrangements
 
@@ -60,7 +60,7 @@ A failed refresh removes stale results and offers Try again.
 
 - **US10:** existing Venue Staff approval owns booking decisions. US42 only reads
   the resulting confirmed bookings; it does not approve or change reservations.
-- **US14:** existing equipment reservation data will supply AC-042.2. This slice
+- **US14:** existing equipment reservation data supplies AC-042.2. US42
   does not change requirements, allocations or reservation statuses.
 - **US31:** organisation-wide access belongs to the organisation-access story.
   The current function permits only the event's owning organiser. Align the read
@@ -88,7 +88,7 @@ Verification on 18 October 2026:
 - AC-042.1.4 caught a deliberate service fault that returned an empty successful result on a database read error. After restoring the original service byte-for-byte, the unchanged service file passed all three tests. Both logs are saved in the evidence folder.
 - This is code-first test-effectiveness evidence, not a product defect or TDD cycle. Coverage percentages have not been measured yet.
 
-Next unused test IDs: **AC-042.1.7**, **AC-042.2.1**, **AC-042.3.5**.
+Next unused test IDs: **AC-042.1.7**, **AC-042.2.7**, **AC-042.3.8**.
 
 ## Manual checks — passed
 
@@ -120,8 +120,30 @@ as a demonstrated product defect, a forced break or a TDD red/green cycle.
 ## Remaining work
 
 - Complete the coverage review and reassess test-effectiveness evidence when equipment is added.
-- Prepare the venue PR, obtain review and passing CI, then merge through the team process.
-- Add equipment statuses and their privacy checks in the next short-lived branch.
+- Venue PR #103 merged after passing CI; equipment branch is `us42-equipment-arrangements`.
+- Obtain equipment PR review and passing CI; manual equipment statuses, refresh and privacy checks passed.
 - Coordinate the US31 access boundary and perform final whole-story verification.
-- Shared Test Case Overview now contains ten venue cases, and Manual Testing contains three passed checks dated 18 October 2026. Keep these aligned as equipment is added; record genuine defects only if discovered. Automated CI execution evidence stays in GitHub Actions, not the spreadsheet's Automated Test Case Runs tab.
+- Shared Test Case Overview contains 19 cases (ten venue/page cases and nine equipment cases), and Manual Testing contains seven passed checks dated 18 October 2026. Keep these aligned; record genuine defects only if discovered. Automated CI execution evidence stays in GitHub Actions, not the spreadsheet's Automated Test Case Runs tab.
 - Mark US42 Done only after all ACs and the team's Definition of Done are satisfied.
+
+## Equipment database checkpoint — migration 0071
+
+`get_organiser_equipment_arrangements(uuid)` checks organiser role and event
+ownership, matching the venue read. It returns requirement ID, equipment name,
+requested/reserved quantities and the existing requirement status. Pending review
+is preserved and has zero reserved; the current booking-line link supplies the
+reserved quantity, excluding historical lines and suggested alternatives.
+Technical notes, allocation identities, staff details and audit data are excluded.
+Existing reservation writes and staff-table policies are unchanged.
+
+Four new SQL cases passed with the full database suite on 18 October 2026, using
+real reservation calls for the outcomes. Evidence is in `test-evidence/us42/database-equipment.log`.
+The frontend service now validates the permitted fields, statuses and integer quantities, rejects extra internal fields, and keeps errors distinct from empty results. Three focused service tests passed. The organiser panel is integrated below venue arrangements with refresh, empty/error states, quantities and all four status labels. Two component cases cover display and recovery; existing AC-042.3.4 now checks both panels and all staff roles.
+
+Latest equipment integration verification: full frontend suite **143 files / 1,318 tests passed**;
+production build/typecheck and lint passed. Saved logs are in `docs/test-evidence/us42/`.
+The earlier venue-only counts above remain historical. Equipment manual checks passed on
+18 October 2026: all four status labels and quantities, refresh after reservation changes,
+unrelated-organiser denial and exclusion of internal information. Tested by: Jaydon.
+Shared evidence sheet updated with the nine equipment cases, extended AC-042.3.4 and
+four manual equipment records. No new product defect was observed.
