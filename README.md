@@ -1110,6 +1110,26 @@ and `frontend/src/components/layout/__tests__/TopNav.test.tsx`):
 | AC-012.9 — current blocks can be viewed and removed | AC-012.9.1–9.11 | AC-012.9.12–9.25 |
 | AC-012.10 — who blocked, and when, is recorded | AC-012.10.1–10.4 | AC-012.10.5–10.6 |
 
+## US42 View my event’s confirmed arrangements (SCRUM-238)
+
+Slice 1 adds an owner-only Venue arrangements panel to the event detail page. It
+shows confirmed venue bookings and their saved Singapore dates/slots, including
+buffer slots, without exposing staff records. Equipment statuses remain outstanding.
+Migration `0068_organiser_venue_arrangements.sql` was applied to shared Supabase
+on 18 October 2026. Coordinate organisation-wide reads with US31;
+this slice permits only the owning organiser.
+
+Local verification: full database suite passed; 139 frontend files / 1,293 tests
+passed; build/typecheck and lint passed. Manual checks passed for approved-booking
+visibility, pending/empty behaviour and unrelated-organiser access denial. AC-042.1.4
+caught a deliberate error-to-empty-result fault; after exact restoration, all three
+service tests passed. The shared sheet contains ten automated cases and three manual
+passes. PR review and CI are pending.
+
+See [US42 story documentation](docs/us42-confirmed-arrangements.md),
+[test cases and manual checks](docs/test-cases/US42_test_cases.md)
+and [saved test evidence](docs/test-evidence/us42/README.md).
+
 ## US46 Add and edit venue details (SCRUM-241)
 
 Built in slices (trunk-based). **Slice 1 (add a venue):** Venue Staff add a venue with its name,

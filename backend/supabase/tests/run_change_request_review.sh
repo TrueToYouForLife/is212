@@ -286,6 +286,7 @@ select pg_temp.assert_true(not exists(
  union all (select * from us20_history_before_replay except select * from public.event_planning_updates)),
  'AC-020.2.4: replaying 0063 preserves history without backfilling');
 SQL
+  cat "$repo_root/supabase/tests/organiser_venue_arrangements.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"
