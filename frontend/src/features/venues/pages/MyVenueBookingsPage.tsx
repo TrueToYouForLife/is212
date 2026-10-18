@@ -7,6 +7,7 @@ import { useCurrentUser } from '../../auth/sessionContext'
 import { BookingStatusBadge } from '../components/BookingStatusBadge'
 import { SlotClaimPreview } from '../components/SlotClaimPreview'
 import { VenueDecisionNotifications } from '../components/VenueDecisionNotifications'
+import { VenueReplacementPanel } from '../components/VenueReplacementPanel'
 import { daysUntilExpiry, isHoldLive } from '../holdRules'
 import { listMyVenueBookings, releaseHold, submitVenueBooking } from '../venueBookingService'
 import type { VenueBookingSummary } from '../bookingTypes'
@@ -157,6 +158,7 @@ export function MyVenueBookingsPage() {
         </div>
       )}
       <VenueDecisionNotifications />
+      {!userLoading && isCoordinator && <VenueReplacementPanel key={profile.id} role="coordinator" onChanged={() => void load()} />}
     </PageContainer>
   )
 }

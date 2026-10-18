@@ -1110,6 +1110,28 @@ and `frontend/src/components/layout/__tests__/TopNav.test.tsx`):
 | AC-012.9 — current blocks can be viewed and removed | AC-012.9.1–9.11 | AC-012.9.12–9.25 |
 | AC-012.10 — who blocked, and when, is recorded | AC-012.10.1–10.4 | AC-012.10.5–10.6 |
 
+## US42 View my event’s confirmed arrangements (SCRUM-238)
+
+Slice 1 adds an owner-only Venue arrangements panel to the event detail page. It
+shows confirmed venue bookings and their saved Singapore dates/slots, including
+buffer slots, without exposing staff records. The equipment increment adds reserved,
+partially reserved, unavailable and pending-review labels with quantities below the
+venue panel. It uses the owner-only read function in migration 0071. Equipment
+manual checks passed for statuses/quantities, refresh, access denial and privacy.
+Migration `0068_organiser_venue_arrangements.sql` was applied to shared Supabase
+on 18 October 2026. Arrangement reads permit only the owning organiser.
+
+Latest local verification: full database suite passed; 143 frontend files / 1,318 tests
+passed; build/typecheck and lint passed. Manual checks passed for approved-booking
+visibility, pending/empty behaviour and unrelated-organiser access denial. AC-042.1.4
+caught a deliberate error-to-empty-result fault; after exact restoration, all three
+service tests passed. The shared sheet contains 19 automated cases and seven manual
+passes. Venue PR #103 and equipment PR #106 are merged.
+
+See [US42 story documentation](docs/us42-confirmed-arrangements.md),
+[test cases and manual checks](docs/test-cases/US42_test_cases.md)
+and [saved test evidence](docs/test-evidence/us42/README.md).
+
 ## US46 Add and edit venue details (SCRUM-241)
 
 Built in slices (trunk-based). **Slice 1 (add a venue):** Venue Staff add a venue with its name,
@@ -1137,6 +1159,24 @@ the pages are no longer behind a feature flag.
 | `0070_venue_retirement.sql` | `retire_venue()`, `venues.retirement_note`, reason `venue_retired`, no new holds on a retired venue |
 
 Test cases: `docs/test-cases/US46_test_cases.md`.
+
+## US32 View in-app notifications (SCRUM-229)
+
+Built in slices (trunk-based). **Slice 1 (the feed):** **Notifications** (`/notifications`, in
+every signed-in role's nav) lists the user's own notifications from every source, newest first,
+each with what happened, which event and when. It reads the features' own notification tables
+with the user's permissions, plus the emails in `notification_outbox` addressed to the user's
+own email, so notices that were only ever emailed also show in the app. **Slice 2 (read and unread):** unread notices stand out, the nav shows the unread count,
+opening a notice marks it read and goes to its event or item (by role), and **Mark all as
+read** clears them. Read state is kept per user in `notification_reads`, keyed on the feed's
+(source, id). US32 is complete, so the page is no longer behind a feature flag.
+
+| File | Adds |
+| --- | --- |
+| `0072_notification_feed.sql` | `get_my_notifications()`, `my_email_notifications()` |
+| `0073_notification_reads.sql` | `notification_reads`, read state and `item_id` in the feed, `mark_notification_read()`, `mark_all_notifications_read()`, `count_my_unread_notifications()` |
+
+Test cases: `docs/test-cases/US32_test_cases.md`.
 
 ## US17 - Coordinator assignment
 
@@ -1263,3 +1303,30 @@ Latest progress supersedes older remaining-work notes: significance, the revalid
 hook, clarification replies and coordinator notification triggers are implemented. Jaydon
 reported a queued email in shared Supabase; delivery is not yet verified. Organiser
 notifications are deferred. The story still needs final verification and team review.
+
+## US20 — coordinator event updates (SCRUM-65)
+
+- **Slice 1, AC1–AC2:** assigned coordinators edit Approved/Planning event details,
+  with chronological before/after history and arrangement-review safeguards.
+  Migration `0063_event_planning_updates.sql`; merged in PR #98.
+- **Slice 2, AC3:** assigned coordinators propose an active alternative for a booking
+  at a venue whose existing status is **retired**. Venue Staff approve/reject with
+  a recorded note. Approval atomically confirms the replacement and releases the
+  original reservation; failures preserve the original. Coordinators can withdraw
+  pending proposals. Migration `0065_retired_venue_replacement.sql` is reserved and
+  implemented locally; publication, CI review and shared deployment remain pending.
+
+Coordinator entry: **Your venue bookings → Retired venue replacements**. Venue Staff
+entry: **Pending venue bookings → Retired venue replacements**. Proposals do not
+reserve alternative slots. Existing slot/buffer/conflict checks run at approval;
+staff assess venue suitability from current requirements and venue information.
+The workflow supports live holds, pending bookings and confirmed bookings while
+the event is Approved/Planning. It does not introduce scheduled retirement or
+allow edits to Confirmed/Completed/Cancelled events.
+
+Development follows code-first implementation with AC-labelled tests and saved
+evidence. [Slice 1 documentation](docs/us20-slice1.md) and
+[Slice 2 documentation](docs/us20-slice2.md) include test results, traceability and
+terminal commands for capturing Scrum evidence. Slice 2 cases use AC-020.3.1–21,
+.30–37 and .50–61; next ID is **AC-020.3.62**. Keep migrations 0063 and 0065 in the
+normal ordered deployment process; no shared Supabase deployment is implied here.

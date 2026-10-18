@@ -1,0 +1,45 @@
+Controlled fault: database read errors return an empty successful result. Tests unchanged.
+Command: npm run test -- src/features/events/__tests__/organiserVenueArrangementService.test.ts --maxWorkers=1 --minWorkers=1
+
+> connectsphere@0.1.0 test
+> vitest run src/features/events/__tests__/organiserVenueArrangementService.test.ts --maxWorkers=1 --minWorkers=1
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+ ❯ src/features/events/__tests__/organiserVenueArrangementService.test.ts (3 tests | 1 failed) 9ms
+   × AC-042.1.4: invalid IDs, refused reads, malformed data and network failures never appear as no bookings 5ms
+     → expected { ok: true, value: [] } to deeply equal { ok: false, …(1) }
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/events/__tests__/organiserVenueArrangementService.test.ts > AC-042.1.4: invalid IDs, refused reads, malformed data and network failures never appear as no bookings
+AssertionError: expected { ok: true, value: [] } to deeply equal { ok: false, …(1) }
+
+- Expected
++ Received
+
+  Object {
+-   "ok": false,
+-   "reason": "Venue arrangements could not be loaded. Please try again.",
++   "ok": true,
++   "value": Array [],
+  }
+
+ ❯ src/features/events/__tests__/organiserVenueArrangementService.test.ts:38:59
+     36|   for (const code of ['42501', 'PGRST202', 'unknown']) {
+     37|     mocks.rpc.mockResolvedValue({ data: null, error: { code, message: …
+     38|     expect(await loadOrganiserVenueArrangements(eventId)).toEqual(fail…
+       |                                                           ^
+     39|   }
+     40|   for (const data of [null, {}, [{ venue_name: 'Incomplete' }],
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  15:45:00
+   Duration  953ms (transform 42ms, setup 78ms, collect 32ms, tests 9ms, environment 419ms, prepare 47ms)
+
+
+Exit code: 1

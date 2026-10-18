@@ -1,4 +1,20 @@
+# US42 merged implementation (18 October 2026)
+- Venue PR #103 and equipment PR #106 merged; local main updated to dd07c40 and equipment branch deleted.
+- Claimed migration 0071 adds owner-only equipment read: name, requested/reserved quantities, existing status. Pending review stays distinct; no staff notes or unit allocations exposed.
+- Four SQL cases .2.1–2 and .3.5–6 passed with full DB suite; log docs/test-evidence/us42/database-equipment.log. Code-first, no TDD. Next IDs .1.7, .2.7, .3.8.
+- Full frontend integration: 143 files / 1,318 tests passed; build/typecheck and lint passed. Logs saved under docs/test-evidence/us42/.
+- Service and equipment panel implemented; cases .2.3–6/.3.7 passed. Existing .3.4 now checks both panels. User handles commits/pushes/PRs. Shared sheet updated: 19 overview cases (nine new equipment cases and extended .3.4), seven manual passes. Equipment statuses/quantities, refresh, unrelated-organiser denial and privacy manually passed on 18 October. Equipment PR #106 merged. Coverage review remains outstanding; no coverage percentage is claimed.
+
 # ConnectSphere Event Planning System — Project Context
+
+## US42 slice 1: organiser venue arrangements (historical checkpoint, 18 October 2026)
+- Branch `us42-venue-arrangements`; code-first. Migration 0068 was claimed and applied to shared Supabase.
+- Owner-only RPC returns confirmed venue bookings and actual saved event/buffer cells. No staff notes, reviewer details or direct table access are added.
+- Organiser panel sits below Request details and supports Singapore dates, midnight, empty/error states and refresh. Equipment (AC-042.2) is covered by the later checkpoint above.
+- Ten new cases: four SQL and six frontend. Full DB suite passed; frontend 139 files / 1,293 tests passed; build/typecheck and lint passed.
+- Manual checks passed: approved booking visibility, pending/empty behaviour and unrelated-organiser denial. Other manual scenarios remain unverified.
+- Story: `docs/us42-confirmed-arrangements.md`; cases: `docs/test-cases/US42_test_cases.md`; logs: `docs/test-evidence/us42/`. Next IDs: .1.7, .2.1, .3.5.
+- Shared sheet updated with ten automated cases and three passed manual checks. AC-042.1.4 forced-break caught read errors incorrectly returning an empty success; exact service restored, all three service tests passed. Logs saved; no test changes or product defect. Venue PR #103 subsequently merged; coverage measurement remains unclaimed. Commits, pushes and merges are handled manually; pause between logical portions.
 
 ## US41 completed within agreed scope
 - 0053 fixes stale structured-layout precedence after an approved layout change.

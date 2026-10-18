@@ -4,7 +4,8 @@ import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, expect, test, vi } from 'vitest'
 import { VenueBookingQueuePage } from '../pages/VenueBookingQueuePage'
 
-const mocks = vi.hoisted(() => ({ list: vi.fn(), role: 'venue_staff', id: 'u1', loading: false }))
+const mocks = vi.hoisted(() => ({ list: vi.fn(), replacements: vi.fn().mockResolvedValue({ ok: true, value: { sources: [], venues: [], requests: [] } }), role: 'venue_staff', id: 'u1', loading: false }))
+vi.mock('../venueReplacementService', () => ({ getVenueReplacements: mocks.replacements }))
 vi.mock('../venueBookingQueueService', () => ({ listPendingVenueBookings: mocks.list }))
 vi.mock('../../auth/sessionContext', () => ({ useCurrentUser: () => ({ loading: mocks.loading, profile: { id: mocks.id, role: mocks.role } }) }))
 const show = () => render(<MemoryRouter><VenueBookingQueuePage /></MemoryRouter>)
@@ -52,4 +53,14 @@ test('AC-010.1.12: a stale response cannot overwrite a newer staff session queue
   await act(async () => finish())
   expect(screen.getByText('New hall')).toBeInTheDocument()
   expect(screen.queryByText('Old hall')).not.toBeInTheDocument()
+})
+
+test('AC-020.3.60: replacement review loads on the staff queue and is absent for other roles', async () => {
+  const view = show()
+  expect(await screen.findByText('No replacement requests.')).toBeInTheDocument()
+  expect(mocks.replacements).toHaveBeenCalledOnce()
+  mocks.role = 'organiser'
+  view.rerender(<MemoryRouter><VenueBookingQueuePage /></MemoryRouter>)
+  expect(screen.queryByText('Retired venue replacements')).not.toBeInTheDocument()
+  expect(mocks.replacements).toHaveBeenCalledOnce()
 })

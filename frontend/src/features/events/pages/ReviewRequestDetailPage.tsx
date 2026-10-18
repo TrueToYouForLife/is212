@@ -15,6 +15,8 @@ import { ChangeRequestList } from '../components/ChangeRequestList'
 import { ChangeRequestReviewPanel } from '../components/ChangeRequestReviewPanel'
 import type { ReviewDecision } from '../types'
 import { ArrangementReviewPanel } from '../components/ArrangementReviewPanel'
+import { OrganiserVenueArrangements } from '../components/OrganiserVenueArrangements'
+import { OrganiserEquipmentArrangements } from '../components/OrganiserEquipmentArrangements'
 import { EQUIPMENT_EDITABLE_STATUSES } from '../../equipment/validation'
 import { RegistrationSettingPanel } from '../components/RegistrationSettingPanel'
 import { EventWaitlistPanel } from '../../registrations/components/EventWaitlistPanel'
@@ -111,6 +113,15 @@ export function ReviewRequestDetailPage() {
             <Card title="Request details">
               <RequestDetails request={request} />
             </Card>
+
+            {profile?.role === 'organiser' && request.organiserId === profile.id && (
+              <>
+                <OrganiserVenueArrangements key={`venue:${request.id}:${profile.id}`} eventId={request.id}
+                  refreshVersion={reviewRefreshVersion} />
+                <OrganiserEquipmentArrangements key={`equipment:${request.id}:${profile.id}`} eventId={request.id}
+                  refreshVersion={reviewRefreshVersion} />
+              </>
+            )}
 
             <Card title="Requested changes" description="Changes proposed by the organiser for this event.">
               {profile?.role === 'coordinator' ? <ChangeRequestReviewPanel
