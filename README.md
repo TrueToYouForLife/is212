@@ -1326,3 +1326,16 @@ evidence. [Slice 1 documentation](docs/us20-slice1.md) and
 terminal commands for capturing Scrum evidence. Slice 2 cases use AC-020.3.1–21,
 .30–37 and .50–61; next ID is **AC-020.3.62**. Keep migrations 0063 and 0065 in the
 normal ordered deployment process; no shared Supabase deployment is implied here.
+
+## US47 venue setup and turnaround — foundation
+
+Claimed migration `0074_venue_buffer_foundation.sql` adds zero-default duration
+fields (non-negative multiples of 15 minutes) and an internal occupied-period
+calculation. It does not switch existing booking rules or modify reservations.
+Browser configuration remains disabled until booking/review integration is ready.
+The full disposable database suite passed with six foundation cases. No frontend
+changed; shared Supabase deployment and PR/CI remain pending.
+
+See [US47 scope and remaining work](docs/us47-venue-buffers.md),
+[test cases](docs/test-cases/US47_test_cases.md) and
+[evidence](docs/test-evidence/us47/README.md).
