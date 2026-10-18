@@ -1,3 +1,6 @@
+import { z } from 'zod'
+import { ACCESSIBILITY_OPTIONS, FACILITY_OPTIONS } from './venueFeatureCatalogue'
+
 /**
  * PURE MODULE — US46. Checks the add-venue form before anything is sent, so Venue Staff see
  * every problem at once, next to its field. The database (0064) enforces the same rules;
@@ -131,5 +134,51 @@ export function validateVenueForm(values: VenueFormValues, layoutCodes: readonly
       facilities: [...new Set(values.facilities)],
       layouts,
     },
+  }
+}
+
+/** A venue as get_venue_for_edit (0067) returns it. Hours are null for venues added before 0064. */
+export const loadedVenueSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  location: z.string().nullable().transform((value) => value ?? ''),
+  status: z.enum(['active', 'under_maintenance', 'retired']),
+  opensAt: z.string().nullable(),
+  closesAt: z.string().nullable(),
+  accessibility: z.array(z.string()),
+  facilities: z.array(z.string()),
+  layouts: z.array(z.object({ layout: z.string(), capacity: z.number().int() })),
+  version: z.string(),
+})
+export type LoadedVenue = z.infer<typeof loadedVenueSchema>
+
+const ACCESSIBILITY_CODES: readonly string[] = ACCESSIBILITY_OPTIONS.map((option) => option.code)
+const FACILITY_CODES: readonly string[] = FACILITY_OPTIONS.map((option) => option.code)
+
+/**
+ * AC-046.2: the edit form, filled in with the venue as it is. A feature the catalogue no longer
+ * lists has no checkbox, so it is left out and named in `dropped`: saving would otherwise be
+ * refused for a value Venue Staff cannot see. Hours a venue does not have yet stay blank, so
+ * they must be chosen before saving.
+ */
+export function venueFormValuesFrom(venue: LoadedVenue): { values: VenueFormValues; dropped: string[] } {
+  const known = (codes: string[], catalogue: readonly string[]) => codes.filter((code) => catalogue.includes(code))
+  const dropped = [
+    ...venue.accessibility.filter((code) => !ACCESSIBILITY_CODES.includes(code)),
+    ...venue.facilities.filter((code) => !FACILITY_CODES.includes(code)),
+  ]
+  return {
+    values: {
+      name: venue.name,
+      location: venue.location,
+      opensAt: venue.opensAt ?? '',
+      closesAt: venue.closesAt ?? '',
+      accessibility: known(venue.accessibility, ACCESSIBILITY_CODES),
+      facilities: known(venue.facilities, FACILITY_CODES),
+      layouts: venue.layouts.length > 0
+        ? venue.layouts.map((row) => ({ layout: row.layout, capacity: String(row.capacity) }))
+        : [{ layout: '', capacity: '' }],
+    },
+    dropped,
   }
 }
