@@ -7,13 +7,13 @@ tests are committed together.
 
 | Slice | ACs | Status |
 |---|---|---|
-| 1. Add a venue | AC-046.1, AC-046.3, AC-046.6 | implemented; automated cases pass |
-| 2. Edit a venue, flag affected bookings | AC-046.2, AC-046.4 | not started |
+| 1. Add a venue | AC-046.1, AC-046.3, AC-046.6 | merged (0064) |
+| 2. Edit a venue, flag affected bookings | AC-046.2, AC-046.4 (and AC-046.6 for editing) | implemented; automated cases pass |
 | 3. Retire a venue | AC-046.5 | not started |
 
 Test IDs follow `CLAUDE.md`: `AC-046.Y.Z`, Z unique across the story and increasing top to
-bottom within each test file. Next free IDs: AC-046.1.29, AC-046.2.1, AC-046.3.11,
-AC-046.4.1, AC-046.5.1, AC-046.6.13.
+bottom within each test file. Next free IDs: AC-046.1.29, AC-046.2.30, AC-046.3.11,
+AC-046.4.17, AC-046.5.1, AC-046.6.20.
 
 ## Acceptance criteria (Jira)
 
@@ -112,17 +112,116 @@ or component; **unit (service)** is a service against the mocked Supabase client
 
 0064 is replayed by the database runner before these tests, which also shows it is safe to replay.
 
-## Manual test cases (shared Supabase, after 0064 is applied)
+## Design decisions (slice 2)
+
+| # | Decision | Why |
+|---|---|---|
+| D8 | Reviews use the arrangement review records of US41 (0052) and US20 (0063): `arrangement_review_flags` and `arrangement_review_notifications`. 0067 adds `venue_change_id` as a third possible source, beside a change request and a planning update. | One place for a Coordinator to see and resolve every reason to recheck an arrangement, with the existing panel and `resolve_arrangement_review`. No change to US41's or US20's code. |
+| D9 | Each review points at the `venue_changes` row that caused it, and is raised from 0064's history triggers. | Every path that changes a venue is reviewed, not only the edit page, and each flag says exactly which edit caused it. |
+| D10 | Only what an edit takes away is reviewed: a requested layout's capacity lowered below the attendance, a requested layout removed, a required accessibility feature or facility removed, or hours that no longer cover a booked slot. Name and location changes are not reviewed. | AC-046.4 asks for bookings that may now be unsuitable. Flagging problems an edit did not cause would bury the real ones. |
+| D11 | Only live bookings are reviewed: held and not lapsed, awaiting Venue Staff, or confirmed, for events that have not ended. | A cancelled booking, a lapsed hold or a past event has nothing left to rearrange. |
+| D12 | One open venue review per booking and reason. Once the Coordinator resolves it, a further edit of that kind is flagged again. | A second edit before anyone has looked adds nothing to act on; after a resolution it is new information. |
+| D13 | An event with no Coordinator is still flagged, with no notice; whoever the Lead assigns sees it. | Same as 0063's `record_arrangement_review`. |
+| D14 | New reason `venue_hours_review` added to 0063's list. The other reasons (`venue_capacity`, `venue_layout_review`, `venue_accessibility_review`, `venue_facility_review`) are reused. | Operating hours (0064) had no reason of their own. |
+| D15 | Saving checks a fingerprint of everything the form shows (`venue_edit_version`), and refuses with "changed by someone else" if it moved. | One person's edit never silently overwrites another's, including layout-only edits. |
+| D16 | Adding and editing share one set of checks (`check_venue_input`), moved out of 0064's `add_venue` unchanged. | A venue is checked the same way however it is saved. Slice 1's tests still pass against it. |
+| D17 | The nav item is now **Manage venues** (`/venues/manage`), listing every venue with an Edit link and an Add venue button. | One entry point for Venue Staff. AC-046.6.11/12 test the new label. |
+| D18 | A venue added before 0064 opens with blank hours, which must be chosen before saving. A feature the catalogue no longer lists is left out and named on screen. | Saving would otherwise be refused for a value Venue Staff cannot see or fix. |
+
+Known overlap: `event_requested_layout()` repeats the rule 0063 uses inline to decide which
+layout an event needs. If US20 moves that rule into a function, both should call it.
+
+## Automated test cases (slice 2)
+
+### AC-046.2 Venue Staff can edit any of a venue's details
+
+| ID | Test | Type | Scenario | File |
+|---|---|---|---|---|
+| AC-046.2.1 | a venue opens with every editable detail; an unknown venue is not found | integration (SQL) | normal | venue_edit.sql |
+| AC-046.2.2 | name, location, accessibility and facilities can be changed | integration (SQL) | normal | venue_edit.sql |
+| AC-046.2.3 | a layout can be added and a capacity changed; the largest becomes primary | integration (SQL) | normal | venue_edit.sql |
+| AC-046.2.4 | removing a layout nobody booked is saved without a review | integration (SQL) | boundary | venue_edit.sql |
+| AC-046.2.5 | an edit from an out-of-date copy is refused | integration (SQL) | conflict | venue_edit.sql |
+| AC-046.2.6 | an edit is checked like a new venue; a refused edit changes nothing | integration (SQL) | failure | venue_edit.sql |
+| AC-046.2.7 | renaming to another venue's name is refused | integration (SQL) | conflict | venue_edit.sql |
+| AC-046.2.8 | the form opens with the current details, capacities as text | unit | normal | venueManagementValidation.test.ts |
+| AC-046.2.9 | a venue without hours opens with them blank and must have them chosen | unit | boundary | venueManagementValidation.test.ts |
+| AC-046.2.10 | a feature no longer in the catalogue is left out and named | unit | boundary | venueManagementValidation.test.ts |
+| AC-046.2.11 | a venue with no location opens with it blank | unit | boundary | venueManagementValidation.test.ts |
+| AC-046.2.12 | venues to manage are listed by name, retired included | unit (service) | normal | venueManagementService.test.ts |
+| AC-046.2.13 | a failed list is reported and logged; an empty one is empty | unit (service) | failure | venueManagementService.test.ts |
+| AC-046.2.14 | a venue opens with the version saving will check | unit (service) | normal | venueManagementService.test.ts |
+| AC-046.2.15 | a missing venue, failed load or unexpected answer is reported | unit (service) | failure | venueManagementService.test.ts |
+| AC-046.2.16 | every detail is saved in one call with the opened version | unit (service) | normal | venueManagementService.test.ts |
+| AC-046.2.17 | an out-of-date edit is reported so it can be reloaded | unit (service) | conflict | venueManagementService.test.ts |
+| AC-046.2.18 | not found, duplicate name and invalid hours are explained | unit (service) | failure | venueManagementService.test.ts |
+| AC-046.2.19 | database reasons shown as they are; unexpected ones logged; signed out sends nothing | unit (service) | failure | venueManagementService.test.ts |
+| AC-046.2.20 | Venue Staff see every venue with an Edit link and an Add venue button | unit | normal | ManageVenuesPage.test.tsx |
+| AC-046.2.21 | a failed list is reported; an empty catalogue says so | unit | failure | ManageVenuesPage.test.tsx |
+| AC-046.2.22 | leaving before the list arrives does not update the page | unit | boundary | ManageVenuesPage.test.tsx |
+| AC-046.2.23 | the edit page opens with the venue's current details | unit | normal | EditVenuePage.test.tsx |
+| AC-046.2.24 | saving sends the edits with the opened version | unit | normal | EditVenuePage.test.tsx |
+| AC-046.2.25 | an out-of-date edit is explained; reloading shows the other change | unit | conflict | EditVenuePage.test.tsx |
+| AC-046.2.26 | another refusal keeps the edits and shows why | unit | failure | EditVenuePage.test.tsx |
+| AC-046.2.27 | a feature no longer in the catalogue is named before saving | unit | boundary | EditVenuePage.test.tsx |
+| AC-046.2.28 | a venue or layout options that cannot load are reported | unit | failure | EditVenuePage.test.tsx |
+| AC-046.2.29 | "Edit again" reopens the saved venue; leaving early does not update the page | unit | boundary | EditVenuePage.test.tsx |
+
+### AC-046.4 An edit never changes a booking; possibly unsuitable bookings are flagged and their Coordinators notified
+
+| ID | Test | Type | Scenario | File |
+|---|---|---|---|---|
+| AC-046.4.1 | lowering a capacity that still fits raises no review | integration (SQL) | boundary | venue_edit.sql |
+| AC-046.4.2 | lowering a requested layout below attendance flags the booking and notifies its Coordinator | integration (SQL) | normal | venue_edit.sql |
+| AC-046.4.3 | other layouts, past events, cancelled bookings and lapsed holds are not flagged | integration (SQL) | boundary | venue_edit.sql |
+| AC-046.4.4 | an event with no Coordinator is flagged with no one to notify | integration (SQL) | boundary | venue_edit.sql |
+| AC-046.4.5 | a further edit of the same kind adds no second open review | integration (SQL) | conflict | venue_edit.sql |
+| AC-046.4.6 | removing a requested layout flags the booking | integration (SQL) | normal | venue_edit.sql |
+| AC-046.4.7 | removing a required accessibility feature flags it; an unneeded one does not | integration (SQL) | normal | venue_edit.sql |
+| AC-046.4.8 | removing a required facility flags it; an unneeded one does not | integration (SQL) | normal | venue_edit.sql |
+| AC-046.4.9 | hours that no longer cover a booked slot flag it; hours that still do not | integration (SQL) | boundary | venue_edit.sql |
+| AC-046.4.10 | only the assigned Coordinator sees the reviews and notices | integration (SQL) | conflict | venue_edit.sql |
+| AC-046.4.11 | the Coordinator resolves a venue review like any other; the booking stays confirmed | integration (SQL) | normal | venue_edit.sql |
+| AC-046.4.12 | a direct change to the venue tables is reviewed too, once the earlier review is resolved | integration (SQL) | conflict | venue_edit.sql |
+| AC-046.4.13 | after every edit, no booking's status, hold or slots changed | integration (SQL) | normal | venue_edit.sql |
+| AC-046.4.14 | saving reports how many bookings were flagged | unit (service) | normal | venueManagementService.test.ts |
+| AC-046.4.15 | an answer without a count is read as nothing flagged | unit (service) | boundary | venueManagementService.test.ts |
+| AC-046.4.16 | after saving, Venue Staff are told how many bookings were sent for review and that none changed | unit | normal | EditVenuePage.test.tsx |
+
+### AC-046.6 Only Venue Staff edit venues; each edit recorded
+
+| ID | Test | Type | Scenario | File |
+|---|---|---|---|---|
+| AC-046.6.13 | only Venue Staff can open a venue for editing or save an edit | integration (SQL) | conflict | venue_edit.sql |
+| AC-046.6.14 | every saved edit is recorded with who, when and what changed | integration (SQL) | normal | venue_edit.sql |
+| AC-046.6.15 | a "not Venue Staff" refusal is explained when opening or saving | unit (service) | conflict | venueManagementService.test.ts |
+| AC-046.6.16 | other roles are told managing venues is for Venue Staff; nothing loads | unit | conflict | ManageVenuesPage.test.tsx |
+| AC-046.6.17 | while the session loads, the list shows nothing | unit | boundary | ManageVenuesPage.test.tsx |
+| AC-046.6.18 | other roles are told editing venues is for Venue Staff; nothing loads | unit | conflict | EditVenuePage.test.tsx |
+| AC-046.6.19 | while the session loads, the edit page shows nothing | unit | boundary | EditVenuePage.test.tsx |
+
+0067 is replayed by the database runner before these tests, which also shows it is safe to replay.
+
+## Manual test cases (shared Supabase, after 0064 and 0067 are applied)
 
 | ID | Steps | Expected |
 |---|---|---|
 | M1 | With `VITE_FEATURE_VENUE_MANAGEMENT=true`, sign in as Venue Staff and open **Add venue**. Add a venue with two layouts. | "Venue added"; the venue appears on **Availability** and in venue search with its larger layout. |
 | M2 | Try a capacity of 0, then a name another venue uses. | Each is refused with its reason; nothing is saved. |
 | M3 | Sign in as an Operations Manager and open `/venues/new`. | Told adding venues is for Venue Staff. |
+| M4 | As Venue Staff, open **Manage venues**, edit a venue that has a confirmed booking, and lower its booked layout's capacity below that event's attendance. | "Venue updated" says 1 booking was sent for review; the booking is still confirmed. |
+| M5 | Sign in as that event's Coordinator and open the event. | The arrangement review panel shows the capacity reason; resolving it works as for any other review. |
+| M6 | Open the same venue in two tabs, save in one, then save in the other. | The second save is refused as changed by someone else; "Reload the venue" shows the first save. |
 
 ## Coverage and forced break
 
 Slice 1: `venueManagementValidation.ts`, `venueManagementService.ts`, `VenueForm.tsx` and
-`AddVenuePage.tsx` are at 100% statements, branches, functions and lines. SQL has no coverage
-tool; 0064 is covered case by case above. The story's forced break is planned for slice 2,
-which carries the booking-flagging logic.
+`AddVenuePage.tsx` are at 100% statements, branches, functions and lines.
+
+Slice 2: the same files plus `ManageVenuesPage.tsx` and `EditVenuePage.tsx` are at 100%.
+SQL has no coverage tool; 0064 and 0067 are covered case by case above.
+
+Forced break (the story's one, in slice 2, which carries the booking-review logic): in
+`0067_venue_edit_review.sql` the capacity check (`and b.expected_attendance > v_capacity`)
+was replaced with `and false`. The runner failed at AC-046.4.2; the file was then restored.
+Log: `docs/test-evidence/us46/AC-046.4.2-forced-break.log`.
