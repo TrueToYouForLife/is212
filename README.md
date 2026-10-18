@@ -1127,7 +1127,8 @@ passed; build/typecheck and lint passed. Manual checks passed for approved-booki
 visibility, pending/empty behaviour and unrelated-organiser access denial. AC-042.1.4
 caught a deliberate error-to-empty-result fault; after exact restoration, all three
 service tests passed. The shared sheet contains 19 automated cases and seven manual
-passes. Venue PR #103 merged with passing CI; equipment PR review and CI are pending.
+passes. Venue PR #103 and equipment PR #106 are merged. US31 colleague-access
+integration still needs agreement before closing the story dependency.
 
 See [US42 story documentation](docs/us42-confirmed-arrangements.md),
 [test cases and manual checks](docs/test-cases/US42_test_cases.md)
