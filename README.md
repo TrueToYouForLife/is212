@@ -1252,3 +1252,30 @@ Latest progress supersedes older remaining-work notes: significance, the revalid
 hook, clarification replies and coordinator notification triggers are implemented. Jaydon
 reported a queued email in shared Supabase; delivery is not yet verified. Organiser
 notifications are deferred. The story still needs final verification and team review.
+
+## US20 — coordinator event updates (SCRUM-65)
+
+- **Slice 1, AC1–AC2:** assigned coordinators edit Approved/Planning event details,
+  with chronological before/after history and arrangement-review safeguards.
+  Migration `0063_event_planning_updates.sql`; merged in PR #98.
+- **Slice 2, AC3:** assigned coordinators propose an active alternative for a booking
+  at a venue whose existing status is **retired**. Venue Staff approve/reject with
+  a recorded note. Approval atomically confirms the replacement and releases the
+  original reservation; failures preserve the original. Coordinators can withdraw
+  pending proposals. Migration `0065_retired_venue_replacement.sql` is reserved and
+  implemented locally; publication, CI review and shared deployment remain pending.
+
+Coordinator entry: **Your venue bookings → Retired venue replacements**. Venue Staff
+entry: **Pending venue bookings → Retired venue replacements**. Proposals do not
+reserve alternative slots. Existing slot/buffer/conflict checks run at approval;
+staff assess venue suitability from current requirements and venue information.
+The workflow supports live holds, pending bookings and confirmed bookings while
+the event is Approved/Planning. It does not introduce scheduled retirement or
+allow edits to Confirmed/Completed/Cancelled events.
+
+Development follows code-first implementation with AC-labelled tests and saved
+evidence. [Slice 1 documentation](docs/us20-slice1.md) and
+[Slice 2 documentation](docs/us20-slice2.md) include test results, traceability and
+terminal commands for capturing Scrum evidence. Slice 2 cases use AC-020.3.1–21,
+.30–37 and .50–61; next ID is **AC-020.3.62**. Keep migrations 0063 and 0065 in the
+normal ordered deployment process; no shared Supabase deployment is implied here.

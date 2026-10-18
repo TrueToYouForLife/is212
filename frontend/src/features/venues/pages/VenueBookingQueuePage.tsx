@@ -7,6 +7,7 @@ import { useCurrentUser } from '../../auth/sessionContext'
 import { formatDateTime } from '../../events/formatters'
 import { listPendingVenueBookings } from '../venueBookingQueueService'
 import type { PendingVenueBooking } from '../venueBookingQueueService'
+import { VenueReplacementPanel } from '../components/VenueReplacementPanel'
 
 export function VenueBookingQueuePage() {
   const { profile, loading: sessionLoading } = useCurrentUser()
@@ -34,6 +35,7 @@ export function VenueBookingQueuePage() {
   if (sessionLoading) return <p>Checking your session…</p>
   if (!allowed) return <Card title="Booking requests">Only Venue Staff can review venue bookings.</Card>
   return <PageContainer>
+    <VenueReplacementPanel key={profile.id} role="venue_staff" onChanged={() => void load()} />
     <Card title="Pending venue bookings">
       <div className="space-y-4">
         {loading && <p role="status">Loading booking requests…</p>}
