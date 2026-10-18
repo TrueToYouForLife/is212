@@ -4,17 +4,16 @@ Owner: Jaydon
 
 Story: SCRUM-238. Updated: 18 October 2026.
 
-Status: venue portion merged in PR #103 after passing CI. Equipment database read,
-service and UI implemented; equipment manual checks passed, with PR review and CI pending.
-Migration 0068 applied to shared Supabase; equipment requires migration 0071;
-the whole story is not ready to mark Done.
+Status: venue portion merged in PR #103; equipment portion merged in PR #106
+(commit dd07c40). Automated and manual verification is recorded below.
+Migration 0068 applied to shared Supabase; equipment requires migration 0071.
 
 ## Acceptance criteria review
 
 - **AC-042.1 — Approved venue bookings:** implemented. The owning organiser sees
   each confirmed venue booking with its venue name, reserved dates and slots.
   Local automated tests and the manual booking-to-approval flow passed.
-- **AC-042.2 — Equipment reservation status:** implemented locally through 0071, the validated service and organiser panel.
+- **AC-042.2 — Equipment reservation status:** implemented through 0071, the validated service and organiser panel.
   Reserved, partially reserved, unavailable and pending review display with quantities.
 - **AC-042.3 — Internal information excluded:** implemented and tested locally for venue and equipment responses. Staff notes,
   reviewer identities, unit allocations and audit records are not returned.
@@ -62,9 +61,6 @@ A failed refresh removes stale results and offers Try again.
   the resulting confirmed bookings; it does not approve or change reservations.
 - **US14:** existing equipment reservation data supplies AC-042.2. US42
   does not change requirements, allocations or reservation statuses.
-- **US31:** organisation-wide access belongs to the organisation-access story.
-  The current function permits only the event's owning organiser. Align the read
-  boundary with US31 before claiming the full dependency is satisfied.
 - Read the existing slot catalogue and saved ledger cells. This slice does not
   implement a new booking time model, notification delivery or internal review UI.
 
@@ -119,10 +115,10 @@ as a demonstrated product defect, a forced break or a TDD red/green cycle.
 
 ## Remaining work
 
-- Complete the coverage review and reassess test-effectiveness evidence when equipment is added.
-- Venue PR #103 merged after passing CI; equipment branch is `us42-equipment-arrangements`.
-- Obtain equipment PR review and passing CI; manual equipment statuses, refresh and privacy checks passed.
-- Coordinate the US31 access boundary and perform final whole-story verification.
+- Complete the coverage review; no coverage percentage is claimed.
+- Venue PR #103 and equipment PR #106 are merged; both implementation branches have been deleted.
+- Manual equipment statuses, refresh and privacy checks passed; automated run records remain in GitHub Actions.
+- The final read-only AC review found all three ACs implemented for the owning organiser and no new defect in that scope.
 - Shared Test Case Overview contains 19 cases (ten venue/page cases and nine equipment cases), and Manual Testing contains seven passed checks dated 18 October 2026. Keep these aligned; record genuine defects only if discovered. Automated CI execution evidence stays in GitHub Actions, not the spreadsheet's Automated Test Case Runs tab.
 - Mark US42 Done only after all ACs and the team's Definition of Done are satisfied.
 

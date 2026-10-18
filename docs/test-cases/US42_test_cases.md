@@ -8,11 +8,11 @@ Feature behaviour, AC progress and dependencies: [US42 story documentation](../u
 | Portion | Scope | Status |
 |---|---|---|
 | Slice 1: venue arrangements | AC-042.1 and venue-related AC-042.3 | Implemented; local automated checks and three manual scenarios passed; PR #103 merged with passing CI |
-| Equipment arrangements | AC-042.2 and equipment-related AC-042.3 | Database read and frontend service implemented; four SQL, three service and two component cases passed; four manual equipment scenarios passed; equipment PR/CI pending |
+| Equipment arrangements | AC-042.2 and equipment-related AC-042.3 | Database read and frontend service implemented; four SQL, three service and two component cases passed; four manual equipment scenarios passed; PR #106 merged |
 
 Branch: `us42-venue-arrangements`. Migration: `0068_organiser_venue_arrangements.sql`.
 Migration 0068 applied to shared Supabase on 18 October 2026.
-US42 is not complete until equipment and remaining integration checks are finished.
+Venue and equipment implementations are merged, with automated and manual results recorded below.
 
 ## Acceptance criteria
 
@@ -28,7 +28,7 @@ US42 is not complete until equipment and remaining integration checks are finish
 - Dates and slots come from saved `venue_slot_claims`, not subsequently edited event dates. Event and buffer cells are distinguished; a confirmed booking without cells remains visible with an explicit unavailable message.
 - The service validates the response and rejects extra fields. This complements, and does not replace, database access control.
 - Dates/times display in Singapore time, including 24:00 as midnight at the end of the booked day. Existing refresh logic handles page refresh, focus and polling.
-- US10 and US14 own booking/reservation behaviour. US31 owns access for colleagues within a client organisation; coordinate with Nicole before extending the current owner-only rule. Do not claim organisation-wide access is implemented here.
+- US10 and US14 own booking/reservation behaviour. Arrangement reads permit only the owning organiser.
 
 ## Automated test cases
 
@@ -70,7 +70,7 @@ Saved logs: [US42 test evidence](../test-evidence/us42/README.md).
 - Full database suite passed, including four new US42 cases and existing concurrency checks.
 - Full frontend suite: **139 files, 1,293 tests passed**, including six new US42 service/component/page cases.
 - Production build (including TypeScript) and lint passed. Vite reports a large-bundle warning; the build succeeds.
-- Venue PR #103 merged with passing CI; equipment GitHub Actions and PR review are pending. Automated CI runs remain recorded in GitHub Actions, not the spreadsheet's automated-run tab.
+- Venue PR #103 merged with passing CI; equipment PR #106 is merged. Automated CI runs remain recorded in GitHub Actions, not the spreadsheet's automated-run tab.
 - Shared evidence sheet updated on 18 October 2026: 19 overview cases and seven manual passes, with Jaydon in the manual tester field. Existing AC-042.3.4 now covers both panels; Automated Test Case Runs remains unchanged.
 - Forced-break check: AC-042.1.4 failed when a database read error deliberately returned an empty success. The exact original service was restored and all three unchanged service tests passed. Logs are linked in the evidence index. This is not a new test case, product defect or TDD cycle.
 - No coverage percentage is claimed; coverage measurement remains pending.
@@ -124,7 +124,7 @@ Total US42 cases: 19 (8 SQL, 11 frontend). Four equipment manual scenarios passe
 Latest equipment integration verification: full frontend suite **143 files / 1,318 tests passed**;
 production build/typecheck and lint passed. Saved logs are in `docs/test-evidence/us42/`.
 The earlier venue-only counts above remain historical. Equipment browser checks passed;
-equipment PR review and CI remain pending.
+equipment PR #106 is merged.
 
 ## Equipment manual checks — 18 October 2026
 
