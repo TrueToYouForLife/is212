@@ -1147,6 +1147,22 @@ Slices 2 (edit, flagging affected bookings) and 3 (retire) follow.
 
 Test cases: `docs/test-cases/US46_test_cases.md`.
 
+## US32 View in-app notifications (SCRUM-229)
+
+Built in slices (trunk-based). **Slice 1 (the feed):** **Notifications** (`/notifications`, in
+every signed-in role's nav) lists the user's own notifications from every source, newest first,
+each with what happened, which event and when. It reads the features' own notification tables
+with the user's permissions, plus the emails in `notification_outbox` addressed to the user's
+own email, so notices that were only ever emailed also show in the app. Behind
+`VITE_FEATURE_NOTIFICATIONS`, which is off unless set to `true` in your own `frontend/.env`.
+Slice 2 (read and unread, the nav count, mark all read) follows.
+
+| File | Adds |
+| --- | --- |
+| `0072_notification_feed.sql` | `get_my_notifications()`, `my_email_notifications()` |
+
+Test cases: `docs/test-cases/US32_test_cases.md`.
+
 ## US17 - Coordinator assignment
 
 Coordinators see **Assigned to me** first on the Requests page, followed by **Other

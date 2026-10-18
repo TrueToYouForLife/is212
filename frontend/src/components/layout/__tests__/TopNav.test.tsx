@@ -4,7 +4,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import type { UserProfile } from '../../../features/auth/types'
 import { TopNav } from '../TopNav'
 
-const flags = vi.hoisted(() => ({ venueBlocks: true, venueSuitability: false, venueManagement: false }))
+const flags = vi.hoisted(() => ({ notifications: false, venueBlocks: true, venueSuitability: false, venueManagement: false }))
 vi.mock('../../../lib/features', () => ({ FEATURES: flags }))
 vi.mock('../../../features/auth/components/SessionBadge', () => ({ SessionBadge: () => null }))
 
@@ -122,4 +122,31 @@ describe('AC-046.6 — only Venue Staff can add venues', () => {
       expect(screen.queryAllByRole('link', { name: 'Add venue' })).toHaveLength(0)
     },
   )
+})
+
+describe('AC-032.1 — a user sees their notifications', () => {
+  beforeEach(() => {
+    flags.notifications = true
+  })
+  afterEach(() => {
+    flags.notifications = false
+  })
+
+  test.each(['organiser', 'coordinator', 'coordinator_lead', 'operations_manager', 'venue_staff', 'tech_support', 'attendee'])(
+    'AC-032.1.19: a signed-in %s is offered Notifications once the feature is switched on',
+    (role) => {
+      renderNavFor(role)
+      expect(screen.getAllByRole('link', { name: 'Notifications' })[0]).toHaveAttribute('href', '/notifications')
+    },
+  )
+
+  test('AC-032.1.20: Notifications is not offered while the feature is off, or to someone signed out', () => {
+    flags.notifications = false
+    renderNavFor('coordinator')
+    expect(screen.queryAllByRole('link', { name: 'Notifications' })).toHaveLength(0)
+    cleanup()
+    flags.notifications = true
+    render(<MemoryRouter><TopNav session={null} profile={null} loading={false} /></MemoryRouter>)
+    expect(screen.queryAllByRole('link', { name: 'Notifications' })).toHaveLength(0)
+  })
 })
