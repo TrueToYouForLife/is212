@@ -3,6 +3,7 @@ import { SessionBadge } from '../../features/auth/components/SessionBadge'
 import type { AppSession, UserProfile, UserRole } from '../../features/auth/types'
 import { BrandMark } from './BrandMark'
 import { FEATURES } from '../../lib/features'
+import { useUnreadNotificationCount } from '../../features/notifications/useUnreadNotificationCount'
 
 interface TopNavProps {
   session: AppSession | null
@@ -13,6 +14,8 @@ interface TopNavProps {
 interface NavItem {
   label: string
   to: string
+  /** A count shown beside the label (US32's unread notifications). */
+  badge?: number | null
 }
 
 /**
@@ -73,10 +76,11 @@ function navItemsFor(role: UserRole | null): NavItem[] {
 const baseItemClasses = 'rounded-md px-3 py-2 text-sm font-medium transition'
 
 export function TopNav({ session, profile, loading }: TopNavProps) {
-  // US32: every signed-in person has notifications, whatever their role.
-  const items = [
+  // US32: every signed-in person has notifications, whatever their role, with the unread count.
+  const unread = useUnreadNotificationCount(Boolean(profile))
+  const items: NavItem[] = [
     ...navItemsFor(profile?.role ?? null),
-    ...(FEATURES.notifications && profile ? [{ label: 'Notifications', to: '/notifications' }] : []),
+    ...(profile ? [{ label: 'Notifications', to: '/notifications', badge: unread }] : []),
   ]
 
   return (
@@ -96,6 +100,7 @@ export function TopNav({ session, profile, loading }: TopNavProps) {
                 <NavLink
                   to={item.to}
                   end={item.to === '/'}
+                  aria-label={item.badge ? `${item.label}, ${item.badge} unread` : undefined}
                   className={({ isActive }) =>
                     isActive
                       ? `${baseItemClasses} bg-slate-100 text-slate-900`
@@ -103,6 +108,11 @@ export function TopNav({ session, profile, loading }: TopNavProps) {
                   }
                 >
                   {item.label}
+                  {item.badge ? (
+                    <span aria-hidden="true" className="ml-1.5 rounded-full bg-indigo-600 px-1.5 py-0.5 text-xs font-semibold text-white">
+                      {item.badge > 99 ? '99+' : item.badge}
+                    </span>
+                  ) : null}
                 </NavLink>
               </li>
             ))}

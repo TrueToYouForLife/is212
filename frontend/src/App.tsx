@@ -61,7 +61,7 @@ export default function App() {
             <Route path="*" element={<NotFoundPage />} />
             <Route path="/requests/:id/request-change" element={<SubmitEventChangesPage />} />
             <Route path="/venues/search" element={<VenueSearchPage />} />
-            {FEATURES.notifications && <Route path="/notifications" element={<NotificationsPage />} />}
+            <Route path="/notifications" element={<NotificationsPage />} />
             <Route path="/venues/availability" element={<VenueAvailabilityPage />} />
             {FEATURES.venueManagement && <Route path="/venues/new" element={<AddVenuePage />} />}
             {FEATURES.venueSuitability && <Route path="/venues/suitability" element={<VenueSuitabilityPage />} />}

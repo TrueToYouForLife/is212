@@ -1156,13 +1156,15 @@ Built in slices (trunk-based). **Slice 1 (the feed):** **Notifications** (`/noti
 every signed-in role's nav) lists the user's own notifications from every source, newest first,
 each with what happened, which event and when. It reads the features' own notification tables
 with the user's permissions, plus the emails in `notification_outbox` addressed to the user's
-own email, so notices that were only ever emailed also show in the app. Behind
-`VITE_FEATURE_NOTIFICATIONS`, which is off unless set to `true` in your own `frontend/.env`.
-Slice 2 (read and unread, the nav count, mark all read) follows.
+own email, so notices that were only ever emailed also show in the app. **Slice 2 (read and unread):** unread notices stand out, the nav shows the unread count,
+opening a notice marks it read and goes to its event or item (by role), and **Mark all as
+read** clears them. Read state is kept per user in `notification_reads`, keyed on the feed's
+(source, id). US32 is complete, so the page is no longer behind a feature flag.
 
 | File | Adds |
 | --- | --- |
 | `0072_notification_feed.sql` | `get_my_notifications()`, `my_email_notifications()` |
+| `0073_notification_reads.sql` | `notification_reads`, read state and `item_id` in the feed, `mark_notification_read()`, `mark_all_notifications_read()`, `count_my_unread_notifications()` |
 
 Test cases: `docs/test-cases/US32_test_cases.md`.
 
