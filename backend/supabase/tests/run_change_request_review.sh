@@ -274,6 +274,10 @@ select pg_temp.assert_true(
                              facility_requirements, equipment_requirements from public.events)),
   'AC-002.1.26: replaying the requirement migrations changes no stored requirement');
 SQL
+  # US46 slice 1: 0022 is replayed above and restores its Operations Manager layout policy, so
+  # 0064 is replayed here first, which also shows it is safe to replay.
+  cat "$repo_root/supabase/migrations/0064_venue_management.sql"
+  cat "$repo_root/supabase/tests/venue_management.sql"
   cat "$repo_root/supabase/tests/event_planning_updates.sql"
   cat "$repo_root/supabase/migrations/0063_event_planning_updates.sql"
   cat <<'SQL'
