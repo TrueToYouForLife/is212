@@ -290,9 +290,14 @@ select pg_temp.us46e_save(:'us46e_venue',
   layouts => '[{"layout":"theatre","capacity":65},{"layout":"classroom","capacity":60}]') as us46e_smaller_again \gset
 reset role;
 select pg_temp.assert_true(
-  :'us46e_smaller_again' = '0'
-  and pg_temp.us46e_flags('46e20000-0000-0000-0000-000000000001', 'venue_capacity') = 1,
-  'AC-046.4.5: a further edit of the same kind adds no second review while the first is still open');
+  :'us46e_smaller_again' = '2'
+  and pg_temp.us46e_flags('46e20000-0000-0000-0000-000000000001', 'venue_capacity') = 1
+  and (select detail = '0067 Grand Hall: capacity for the theatre layout is now 65; this event expects 80. The booking is unchanged.'
+       from public.arrangement_review_flags
+       where venue_booking_id = '46e20000-0000-0000-0000-000000000001' and reason_code = 'venue_capacity')
+  and (select count(*) = 1 from public.arrangement_review_notifications n join public.arrangement_review_flags f on f.id = n.flag_id
+       where f.venue_booking_id = '46e20000-0000-0000-0000-000000000001' and f.reason_code = 'venue_capacity'),
+  'AC-046.4.5: a further edit of the same kind updates the open review to the latest figures instead of adding a second');
 
 set local role authenticated;
 select pg_temp.us46e_save(:'us46e_venue', layouts => '[{"layout":"theatre","capacity":65}]') as us46e_no_classroom \gset
@@ -386,5 +391,30 @@ select pg_temp.assert_true(
   and not exists (select * from us46e_claims_before
                   except select venue_id, slot_date, slot, kind, booking_id from public.venue_slot_claims where venue_id = :'us46e_venue'),
   'AC-046.4.13: after every edit, no booking''s status, hold or reserved slots have changed');
+
+-- One booking whose event needs both a feature and a facility the next edit removes together.
+set local role authenticated;
+select set_config('request.jwt.claim.sub', '46e00000-0000-0000-0000-000000000001', true);
+select public.add_venue('0067 Annex', 'Level 7', '07:00', '24:00', '{wheelchair_access}', '{projector}',
+  '[{"layout":"theatre","capacity":100}]') as us46e_annex \gset
+reset role;
+select set_config('request.jwt.claim.sub', '', true);
+insert into public.events (id, organiser_id, coordinator_id, name, purpose, proposed_start, proposed_end,
+  expected_attendance, layout_preference, accessibility_requirements, facility_requirements, status)
+values ('46e10000-0000-0000-0000-000000000007', '46e00000-0000-0000-0000-000000000004', '46e00000-0000-0000-0000-000000000002',
+  '0067 Two reasons event', 'Fixture', '2039-05-12 09:00+08', '2039-05-12 11:00+08', 20, 'theatre',
+  '{wheelchair_access}', '{projector}', 'planning');
+insert into public.venue_bookings (id, event_id, venue_id, requested_by, status, hold_expires_at)
+values ('46e20000-0000-0000-0000-000000000007', '46e10000-0000-0000-0000-000000000007', :'us46e_annex',
+  '46e00000-0000-0000-0000-000000000002', 'confirmed', null);
+
+set local role authenticated;
+select pg_temp.us46e_save(:'us46e_annex', accessibility => '{}', facilities => '{}') as us46e_two_reasons \gset
+reset role;
+select pg_temp.assert_true(
+  :'us46e_two_reasons' = '1'
+  and pg_temp.us46e_flags('46e20000-0000-0000-0000-000000000007', 'venue_accessibility_review') = 1
+  and pg_temp.us46e_flags('46e20000-0000-0000-0000-000000000007', 'venue_facility_review') = 1,
+  'AC-046.4.17: one booking reviewed for two reasons in one edit is counted as one booking sent for review');
 
 rollback;
