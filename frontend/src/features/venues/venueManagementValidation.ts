@@ -143,6 +143,7 @@ export const loadedVenueSchema = z.object({
   name: z.string(),
   location: z.string().nullable().transform((value) => value ?? ''),
   status: z.enum(['active', 'under_maintenance', 'retired']),
+  retirementNote: z.string().nullable().optional().transform((value) => value ?? null),
   opensAt: z.string().nullable(),
   closesAt: z.string().nullable(),
   accessibility: z.array(z.string()),
@@ -181,4 +182,14 @@ export function venueFormValuesFrom(venue: LoadedVenue): { values: VenueFormValu
     },
     dropped,
   }
+}
+
+export const RETIREMENT_MESSAGES = {
+  noteRequired: 'Say why the venue is being retired. Coordinators see this when they review their bookings.',
+} as const
+
+/** AC-046.5: retiring needs a reason, which is passed on to the affected Coordinators. */
+export function validateRetirementNote(note: string): { ok: true; note: string } | { ok: false; error: string } {
+  const trimmed = note.trim()
+  return trimmed ? { ok: true, note: trimmed } : { ok: false, error: RETIREMENT_MESSAGES.noteRequired }
 }
