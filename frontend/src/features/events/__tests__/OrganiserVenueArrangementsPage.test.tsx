@@ -3,7 +3,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { expect, test, vi } from 'vitest'
 import { ReviewRequestDetailPage } from '../pages/ReviewRequestDetailPage'
 
-const mocks = vi.hoisted(() => ({ role: 'organiser', owner: 'viewer', panel: vi.fn() }))
+const mocks = vi.hoisted(() => ({ role: 'organiser', owner: 'viewer', panel: vi.fn(), equipment: vi.fn() }))
 vi.mock('../../auth/sessionContext', () => ({
   useCurrentUser: () => ({ loading: false, profile: { id: 'viewer', role: mocks.role } }),
 }))
@@ -16,6 +16,9 @@ vi.mock('../eventReviewService', () => ({
 vi.mock('../components/OrganiserVenueArrangements', () => ({
   OrganiserVenueArrangements: (props: unknown) => { mocks.panel(props); return <p>Venue arrangements panel</p> },
 }))
+vi.mock('../components/OrganiserEquipmentArrangements', () => ({
+  OrganiserEquipmentArrangements: (props: unknown) => { mocks.equipment(props); return <p>Equipment arrangements panel</p> },
+}))
 vi.mock('../components/RequestDetails', () => ({ RequestDetails: () => null }))
 vi.mock('../status/RequestStatusPanel', () => ({ RequestStatusPanel: () => null }))
 vi.mock('../components/ChangeRequestList', () => ({ ChangeRequestList: () => null }))
@@ -23,24 +26,30 @@ vi.mock('../components/ChangeRequestReviewPanel', () => ({ ChangeRequestReviewPa
 vi.mock('../components/ReviewActions', () => ({ ReviewActions: () => null }))
 vi.mock('../components/DecisionHistory', () => ({ DecisionHistory: () => null }))
 
-test('AC-042.3.4: the shared request page mounts venue arrangements only for the owning organiser', async () => {
+test('AC-042.3.4: the shared request page mounts venue and equipment arrangements only for the owning organiser', async () => {
   for (const [role, owner, visible] of [
     ['organiser', 'viewer', true], ['organiser', 'someone-else', false],
     ['coordinator', 'viewer', false], ['coordinator_lead', 'viewer', false],
     ['venue_staff', 'viewer', false], ['attendee', 'viewer', false],
+    ['tech_support', 'viewer', false], ['operations_manager', 'viewer', false],
   ] as const) {
     Object.assign(mocks, { role, owner })
     mocks.panel.mockClear()
+    mocks.equipment.mockClear()
     const { unmount } = render(<MemoryRouter initialEntries={['/requests/event1']}>
       <Routes><Route path="/requests/:id" element={<ReviewRequestDetailPage />} /></Routes>
     </MemoryRouter>)
     await screen.findByRole('heading', { name: 'Venue test event' })
     if (visible) {
       expect(screen.getByText('Venue arrangements panel')).toBeInTheDocument()
+      expect(screen.getByText('Equipment arrangements panel')).toBeInTheDocument()
+      expect(mocks.equipment).toHaveBeenCalledWith(expect.objectContaining({ eventId: 'event1' }))
       await waitFor(() => expect(mocks.panel).toHaveBeenCalledWith(expect.objectContaining({ eventId: 'event1' })))
     } else {
       expect(screen.queryByText('Venue arrangements panel')).not.toBeInTheDocument()
       expect(mocks.panel).not.toHaveBeenCalled()
+      expect(screen.queryByText('Equipment arrangements panel')).not.toBeInTheDocument()
+      expect(mocks.equipment).not.toHaveBeenCalled()
     }
     unmount()
   }

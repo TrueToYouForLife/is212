@@ -1114,17 +1114,20 @@ and `frontend/src/components/layout/__tests__/TopNav.test.tsx`):
 
 Slice 1 adds an owner-only Venue arrangements panel to the event detail page. It
 shows confirmed venue bookings and their saved Singapore dates/slots, including
-buffer slots, without exposing staff records. Equipment statuses remain outstanding.
+buffer slots, without exposing staff records. The equipment increment adds reserved,
+partially reserved, unavailable and pending-review labels with quantities below the
+venue panel. It uses the owner-only read function in migration 0071. Equipment
+manual checks passed for statuses/quantities, refresh, access denial and privacy.
 Migration `0068_organiser_venue_arrangements.sql` was applied to shared Supabase
 on 18 October 2026. Coordinate organisation-wide reads with US31;
 this slice permits only the owning organiser.
 
-Local verification: full database suite passed; 139 frontend files / 1,293 tests
+Latest local verification: full database suite passed; 143 frontend files / 1,318 tests
 passed; build/typecheck and lint passed. Manual checks passed for approved-booking
 visibility, pending/empty behaviour and unrelated-organiser access denial. AC-042.1.4
 caught a deliberate error-to-empty-result fault; after exact restoration, all three
-service tests passed. The shared sheet contains ten automated cases and three manual
-passes. PR review and CI are pending.
+service tests passed. The shared sheet contains 19 automated cases and seven manual
+passes. Venue PR #103 merged with passing CI; equipment PR review and CI are pending.
 
 See [US42 story documentation](docs/us42-confirmed-arrangements.md),
 [test cases and manual checks](docs/test-cases/US42_test_cases.md)

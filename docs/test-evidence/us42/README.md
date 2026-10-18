@@ -23,4 +23,23 @@ On 18 October 2026, temporarily changed the service error branch from `if (error
 
 Command from frontend: `npm run test -- src/features/events/__tests__/organiserVenueArrangementService.test.ts --maxWorkers=1 --minWorkers=1`.
 
-Shared sheet updated with ten overview cases and three manual passes; Automated Test Case Runs remains unchanged. No coverage percentage is claimed. PR review and CI remain pending.
+Venue checkpoint: ten overview cases and three manual passes were recorded; venue PR #103 subsequently merged with passing CI. No coverage percentage is claimed.
+
+## Equipment database checkpoint — 18 October 2026
+
+Migration 0071 adds the owner-only equipment read function. The complete disposable
+DB suite passed (exit 0), including four new equipment cases and all venue and
+existing concurrency checks. Log: [database-equipment.log](database-equipment.log).
+Real US14 reservation calls establish full, partial and unavailable outcomes;
+pending review and changed requirements remain distinct. No UI or shared deployment
+is claimed at this checkpoint. No frontend tests were rerun for this database-only change.
+
+## Equipment UI checkpoint — 18 October 2026
+
+- [frontend-equipment.log](frontend-equipment.log): complete frontend suite, **143 files / 1,318 tests passed**, exit 0.
+- [build-equipment.log](build-equipment.log): production build including typecheck passed; existing large-bundle warning remains.
+- [lint-equipment.log](lint-equipment.log): lint passed, exit 0.
+- Nine new equipment cases total: four SQL, three service, two component. Existing AC-042.3.4 extended to both organiser panels.
+- Equipment manual checks passed: statuses/quantities, refresh, unrelated-organiser denial and internal-field exclusion. Tested by Jaydon on 18 October 2026.
+- Shared sheet now contains 19 overview cases and seven manual passes. AC-042.3.4 covers both panels. Automated Test Case Runs and defect records are unchanged.
+- Equipment PR/CI, coverage review and final US31 access-boundary coordination remain pending.

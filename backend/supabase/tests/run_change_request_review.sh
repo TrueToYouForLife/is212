@@ -287,6 +287,7 @@ select pg_temp.assert_true(not exists(
  'AC-020.2.4: replaying 0063 preserves history without backfilling');
 SQL
   cat "$repo_root/supabase/tests/organiser_venue_arrangements.sql"
+  cat "$repo_root/supabase/tests/organiser_equipment_arrangements.sql"
   cat "$repo_root/supabase/tests/retired_venue_replacement.sql"
   cat "$repo_root/supabase/migrations/0065_retired_venue_replacement.sql"
   cat <<'SQL'
