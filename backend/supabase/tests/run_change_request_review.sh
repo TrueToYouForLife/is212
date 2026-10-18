@@ -225,6 +225,21 @@ select pg_temp.assert_true(
     union all (select * from profiles_before_us29_replay except select * from public.profiles)),
   'AC-029.3.13: replaying 0042 changes no existing profile');
 SQL
+  # US20 before the venue booking tests: 0063's replay resets arrangement_review_flags'
+  # source check to two sources, so it must run before US10's approval tests retire a venue
+  # and 0070 records venue-change reviews (a third source, from 0067).
+  cat "$repo_root/supabase/tests/event_planning_updates.sql"
+  cat "$repo_root/supabase/migrations/0063_event_planning_updates.sql"
+  cat <<'SQL'
+select pg_temp.assert_true(not exists(
+ (select * from public.event_planning_updates except select * from us20_history_before_replay)
+ union all (select * from us20_history_before_replay except select * from public.event_planning_updates)),
+ 'AC-020.2.4: replaying 0063 preserves history without backfilling');
+SQL
+  # 0063's replay also restores its two-source check and nine reasons, so put back the venue
+  # reviews of 0067 and 0070 (same reason as the 0038/0039 and 0055 restores above).
+  cat "$repo_root/supabase/migrations/0067_venue_edit_review.sql"
+  cat "$repo_root/supabase/migrations/0070_venue_retirement.sql"
   cat "$repo_root/supabase/tests/venue_booking_review.sql"
   cat "$repo_root/supabase/tests/venue_booking_review_details.sql"
   cat "$repo_root/supabase/tests/venue_booking_conflicts.sql"
@@ -282,14 +297,10 @@ SQL
   # review, so 0067 is replayed before its tests, which also shows it is safe to replay.
   cat "$repo_root/supabase/migrations/0067_venue_edit_review.sql"
   cat "$repo_root/supabase/tests/venue_edit.sql"
-  cat "$repo_root/supabase/tests/event_planning_updates.sql"
-  cat "$repo_root/supabase/migrations/0063_event_planning_updates.sql"
-  cat <<'SQL'
-select pg_temp.assert_true(not exists(
- (select * from public.event_planning_updates except select * from us20_history_before_replay)
- union all (select * from us20_history_before_replay except select * from public.event_planning_updates)),
- 'AC-020.2.4: replaying 0063 preserves history without backfilling');
-SQL
+  # US46 slice 3: the 0067 replay above restores its versions of the review functions, so
+  # 0070 is replayed before its tests, which also shows it is safe to replay.
+  cat "$repo_root/supabase/migrations/0070_venue_retirement.sql"
+  cat "$repo_root/supabase/tests/venue_retire.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"
