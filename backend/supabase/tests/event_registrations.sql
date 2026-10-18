@@ -20,7 +20,7 @@ insert into auth.users (id, email, raw_user_meta_data) values
   ('15000000-0000-0000-0000-000000000007', 'v1-us15@example.test', '{"full_name":"Vic Venue"}'),
   ('15000000-0000-0000-0000-000000000008', 't1-us15@example.test', '{"full_name":"Tess Tech"}');
 -- New accounts are Attendees since US29; every other role is assigned by an administrator.
-update public.profiles set role = 'organiser' where id = '15000000-0000-0000-0000-000000000004';
+update public.profiles set role = 'organiser', client_org_id = '0c0a0000-0000-4000-8000-000000000001' where id = '15000000-0000-0000-0000-000000000004';
 update public.profiles set role = 'coordinator' where id = '15000000-0000-0000-0000-000000000005';
 update public.profiles set role = 'operations_manager' where id = '15000000-0000-0000-0000-000000000006';
 update public.profiles set role = 'venue_staff' where id = '15000000-0000-0000-0000-000000000007';

@@ -13,7 +13,10 @@ insert into auth.users (id, email) values
 update public.profiles set role = case id
   when '17600000-0000-0000-0000-000000000001'::uuid then 'coordinator_lead'
   when '17600000-0000-0000-0000-000000000002'::uuid then 'organiser'
-  else 'coordinator' end
+  else 'coordinator' end,
+  client_org_id = case id
+  when '17600000-0000-0000-0000-000000000002'::uuid then '0c0a0000-0000-4000-8000-000000000001'::uuid
+  else null end
 where id::text like '17600000-%';
 insert into public.events (id, organiser_id, coordinator_id, name, purpose,
   proposed_start, proposed_end, expected_attendance, status) values

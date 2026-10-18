@@ -61,7 +61,7 @@ select set_config('request.jwt.claim.sub', '29000000-0000-0000-0000-000000000001
 do $$
 begin
   begin
-    update public.profiles set role = 'organiser' where id = '29000000-0000-0000-0000-000000000001';
+    update public.profiles set role = 'organiser', client_org_id = '0c0a0000-0000-4000-8000-000000000001' where id = '29000000-0000-0000-0000-000000000001';
     raise exception 'FAIL: AC-029.3.4: an Attendee changed their own role to organiser';
   exception when insufficient_privilege then null;
   end;

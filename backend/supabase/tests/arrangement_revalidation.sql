@@ -5,7 +5,8 @@ insert into auth.users(id,email) values
  ('41000000-0000-0000-0000-000000000001','us41-owner@example.test'),
  ('41000000-0000-0000-0000-000000000002','us41-coordinator@example.test'),
  ('41000000-0000-0000-0000-000000000003','us41-other@example.test');
-update public.profiles set role=case when id='41000000-0000-0000-0000-000000000001' then 'organiser' else 'coordinator' end
+update public.profiles set role=case when id='41000000-0000-0000-0000-000000000001' then 'organiser' else 'coordinator' end,
+       client_org_id=case when id='41000000-0000-0000-0000-000000000001' then '0c0a0000-0000-4000-8000-000000000001'::uuid else null end
  where id::text like '41000000-%';
 insert into public.events(id,organiser_id,coordinator_id,name,purpose,proposed_start,proposed_end,expected_attendance,layout_preference,status)
 select ('41100000-0000-0000-0000-'||lpad(n::text,12,'0'))::uuid,

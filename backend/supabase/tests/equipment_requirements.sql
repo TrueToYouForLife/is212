@@ -35,7 +35,7 @@ insert into auth.users (id, email) values
  ('13000000-0000-0000-0000-000000000008', 'us13-attendee@example.test'),
  ('13000000-0000-0000-0000-000000000009', 'us13-lead@example.test');
 -- Self sign-up creates Attendees since US29 (0042), so organisers are assigned like other roles.
-update public.profiles set role = 'organiser' where id = '13000000-0000-0000-0000-000000000001';
+update public.profiles set role = 'organiser', client_org_id = '0c0a0000-0000-4000-8000-000000000001' where id = '13000000-0000-0000-0000-000000000001';
 update public.profiles set role = 'coordinator' where id in
  ('13000000-0000-0000-0000-000000000002', '13000000-0000-0000-0000-000000000003');
 update public.profiles set role = 'tech_support' where id in

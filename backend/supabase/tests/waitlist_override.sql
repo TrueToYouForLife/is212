@@ -20,7 +20,7 @@ insert into auth.users (id, email, raw_user_meta_data) values
   ('18000000-0000-0000-0000-000000000008', 'c1-us16o@example.test', '{"full_name":"Cory Coord"}'),
   ('18000000-0000-0000-0000-000000000009', 'c2-us16o@example.test', '{"full_name":"Cleo Coord"}'),
   ('18000000-0000-0000-0000-000000000010', 'l1-us16o@example.test', '{"full_name":"Lena Lead"}');
-update public.profiles set role = 'organiser' where id = '18000000-0000-0000-0000-000000000007';
+update public.profiles set role = 'organiser', client_org_id = '0c0a0000-0000-4000-8000-000000000001' where id = '18000000-0000-0000-0000-000000000007';
 update public.profiles set role = 'coordinator'
  where id in ('18000000-0000-0000-0000-000000000008', '18000000-0000-0000-0000-000000000009');
 update public.profiles set role = 'coordinator_lead' where id = '18000000-0000-0000-0000-000000000010';
