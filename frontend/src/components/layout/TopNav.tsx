@@ -73,7 +73,11 @@ function navItemsFor(role: UserRole | null): NavItem[] {
 const baseItemClasses = 'rounded-md px-3 py-2 text-sm font-medium transition'
 
 export function TopNav({ session, profile, loading }: TopNavProps) {
-  const items = navItemsFor(profile?.role ?? null)
+  // US32: every signed-in person has notifications, whatever their role.
+  const items = [
+    ...navItemsFor(profile?.role ?? null),
+    ...(FEATURES.notifications && profile ? [{ label: 'Notifications', to: '/notifications' }] : []),
+  ]
 
   return (
     <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/90 backdrop-blur">
