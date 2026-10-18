@@ -40,28 +40,34 @@ begin
   end if;
 end $$;
 
+drop function if exists public.record_venue_change_review(uuid, uuid, uuid, text, text);
+
 -- Records one review and notifies the event's current Coordinator, as 0063's
 -- record_arrangement_review does. An event with no Coordinator gets the flag and no notice;
--- whoever the Lead assigns sees it. Returns whether a flag was recorded.
+-- whoever the Lead assigns sees it.
+--
+-- If the booking already has an open venue review for this reason, that review is brought up
+-- to date instead: its detail becomes the latest one and it points at the newest edit, so a
+-- Coordinator never acts on figures a later edit has replaced. It is not notified again:
+-- 0052 keeps one notice per review, and the open review already shows in their panel.
 create or replace function public.record_venue_change_review(
   p_change uuid, p_event uuid, p_booking uuid, p_code text, p_detail text)
-returns boolean language plpgsql security definer set search_path = '' as $$
+returns void language plpgsql security definer set search_path = '' as $$
 declare
   v_flag uuid;
   v_recipient uuid;
 begin
-  -- One open review per booking and reason: a second edit of the same kind before the
-  -- Coordinator has looked adds nothing they can act on.
-  if exists (select 1 from public.arrangement_review_flags f
-             where f.venue_booking_id = p_booking and f.reason_code = p_code
-               and f.venue_change_id is not null and f.status = 'open') then
-    return false;
-  end if;
+  update public.arrangement_review_flags f
+  set detail = p_detail, venue_change_id = p_change
+  where f.venue_booking_id = p_booking and f.reason_code = p_code
+    and f.venue_change_id is not null and f.status = 'open';
+  if found then return; end if;
+
   insert into public.arrangement_review_flags (venue_change_id, event_id, venue_booking_id, reason_code, detail)
   values (p_change, p_event, p_booking, p_code, p_detail)
   on conflict do nothing
   returning id into v_flag;
-  if v_flag is null then return false; end if;
+  if v_flag is null then return; end if;
 
   select e.coordinator_id into v_recipient
   from public.events e join public.profiles p on p.id = e.coordinator_id and p.role = 'coordinator'
@@ -70,7 +76,6 @@ begin
     insert into public.arrangement_review_notifications (flag_id, event_id, recipient_id, detail)
     values (v_flag, p_event, v_recipient, p_detail);
   end if;
-  return true;
 end $$;
 revoke all on function public.record_venue_change_review(uuid, uuid, uuid, text, text) from public, anon, authenticated;
 
@@ -414,22 +419,23 @@ end $$;
 revoke all on function public.get_venue_for_edit(uuid) from public, anon;
 grant execute on function public.get_venue_for_edit(uuid) to authenticated;
 
--- How many venue reviews exist for a venue. update_venue counts before and after saving, so
--- the difference is exactly what one save raised, however many saves share a transaction.
+-- How many bookings at a venue were sent for review by the changes not in p_before: the
+-- venue's change records from before a save. Counts bookings, not review records, since one
+-- booking can be reviewed for several reasons, and includes open reviews a save refreshed.
 -- SECURITY DEFINER: Venue Staff cannot read the flags themselves (they are the Coordinator's);
 -- a count for a venue reveals nothing about any event.
-create or replace function public.count_venue_reviews(p_venue uuid)
+create or replace function public.count_venue_reviewed_bookings(p_venue uuid, p_before uuid[])
 returns integer language sql stable security definer set search_path = '' as $$
-  select count(*)::integer from public.arrangement_review_flags f
+  select count(distinct f.venue_booking_id)::integer from public.arrangement_review_flags f
   join public.venue_changes c on c.id = f.venue_change_id
-  where c.venue_id = p_venue;
+  where c.venue_id = p_venue and not (c.id = any (coalesce(p_before, '{}')));
 $$;
-revoke all on function public.count_venue_reviews(uuid) from public, anon;
-grant execute on function public.count_venue_reviews(uuid) to authenticated;
+revoke all on function public.count_venue_reviewed_bookings(uuid, uuid[]) from public, anon;
+grant execute on function public.count_venue_reviewed_bookings(uuid, uuid[]) to authenticated;
 
 -- Saves every detail together or nothing at all. Layouts are written before the venue row, so
 -- 0022's sync of the primary layout finds them already correct and records nothing twice.
--- Returns how many bookings this edit flagged for review.
+-- Returns how many bookings this edit sent for review.
 create or replace function public.update_venue(
   p_venue_id uuid, p_version text,
   p_name text, p_location text, p_opens_at time, p_closes_at time,
@@ -437,7 +443,7 @@ create or replace function public.update_venue(
 returns integer language plpgsql security invoker set search_path = '' as $$
 declare
   v_primary record;
-  v_reviews_before integer;
+  v_changes_before uuid[];
 begin
   if public.current_user_role() is distinct from 'venue_staff' then
     raise exception 'Only Venue Staff can edit venues' using errcode = '42501';
@@ -451,7 +457,7 @@ begin
   end if;
   select * into v_primary from public.check_venue_input(
     p_name, p_location, p_opens_at, p_closes_at, p_accessibility, p_facilities, p_layouts);
-  v_reviews_before := public.count_venue_reviews(p_venue_id);
+  select coalesce(array_agg(id), '{}') into v_changes_before from public.venue_changes where venue_id = p_venue_id;
 
   delete from public.venue_layouts l
   where l.venue_id = p_venue_id
@@ -472,7 +478,7 @@ begin
     closes_at = p_closes_at
   where id = p_venue_id;
 
-  return public.count_venue_reviews(p_venue_id) - v_reviews_before;
+  return public.count_venue_reviewed_bookings(p_venue_id, v_changes_before);
 end $$;
 revoke execute on function public.update_venue(uuid, text, text, text, time, time, text[], text[], jsonb) from public, anon;
 grant execute on function public.update_venue(uuid, text, text, text, time, time, text[], text[], jsonb) to authenticated;

@@ -13,7 +13,7 @@ tests are committed together.
 
 Test IDs follow `CLAUDE.md`: `AC-046.Y.Z`, Z unique across the story and increasing top to
 bottom within each test file. Next free IDs: AC-046.1.29, AC-046.2.30, AC-046.3.11,
-AC-046.4.17, AC-046.5.1, AC-046.6.20.
+AC-046.4.18, AC-046.5.1, AC-046.6.20.
 
 ## Acceptance criteria (Jira)
 
@@ -120,7 +120,7 @@ or component; **unit (service)** is a service against the mocked Supabase client
 | D9 | Each review points at the `venue_changes` row that caused it, and is raised from 0064's history triggers. | Every path that changes a venue is reviewed, not only the edit page, and each flag says exactly which edit caused it. |
 | D10 | Only what an edit takes away is reviewed: a requested layout's capacity lowered below the attendance, a requested layout removed, a required accessibility feature or facility removed, or hours that no longer cover a booked slot. Name and location changes are not reviewed. | AC-046.4 asks for bookings that may now be unsuitable. Flagging problems an edit did not cause would bury the real ones. |
 | D11 | Only live bookings are reviewed: held and not lapsed, awaiting Venue Staff, or confirmed, for events that have not ended. | A cancelled booking, a lapsed hold or a past event has nothing left to rearrange. |
-| D12 | One open venue review per booking and reason. Once the Coordinator resolves it, a further edit of that kind is flagged again. | A second edit before anyone has looked adds nothing to act on; after a resolution it is new information. |
+| D12 | One open venue review per booking and reason. A further edit of that kind updates the open review to the latest detail and points it at the newest edit, without a second notice (0052 keeps one notice per review). Once the Coordinator resolves it, a further edit is a new review. | A Coordinator never acts on figures a later edit replaced (review feedback, US20). |
 | D13 | An event with no Coordinator is still flagged, with no notice; whoever the Lead assigns sees it. | Same as 0063's `record_arrangement_review`. |
 | D14 | New reason `venue_hours_review` added to 0063's list. The other reasons (`venue_capacity`, `venue_layout_review`, `venue_accessibility_review`, `venue_facility_review`) are reused. | Operating hours (0064) had no reason of their own. |
 | D15 | Saving checks a fingerprint of everything the form shows (`venue_edit_version`), and refuses with "changed by someone else" if it moved. | One person's edit never silently overwrites another's, including layout-only edits. |
@@ -175,7 +175,7 @@ layout an event needs. If US20 moves that rule into a function, both should call
 | AC-046.4.2 | lowering a requested layout below attendance flags the booking and notifies its Coordinator | integration (SQL) | normal | venue_edit.sql |
 | AC-046.4.3 | other layouts, past events, cancelled bookings and lapsed holds are not flagged | integration (SQL) | boundary | venue_edit.sql |
 | AC-046.4.4 | an event with no Coordinator is flagged with no one to notify | integration (SQL) | boundary | venue_edit.sql |
-| AC-046.4.5 | a further edit of the same kind adds no second open review | integration (SQL) | conflict | venue_edit.sql |
+| AC-046.4.5 | a further edit of the same kind updates the open review to the latest figures instead of adding a second | integration (SQL) | conflict | venue_edit.sql |
 | AC-046.4.6 | removing a requested layout flags the booking | integration (SQL) | normal | venue_edit.sql |
 | AC-046.4.7 | removing a required accessibility feature flags it; an unneeded one does not | integration (SQL) | normal | venue_edit.sql |
 | AC-046.4.8 | removing a required facility flags it; an unneeded one does not | integration (SQL) | normal | venue_edit.sql |
@@ -184,7 +184,8 @@ layout an event needs. If US20 moves that rule into a function, both should call
 | AC-046.4.11 | the Coordinator resolves a venue review like any other; the booking stays confirmed | integration (SQL) | normal | venue_edit.sql |
 | AC-046.4.12 | a direct change to the venue tables is reviewed too, once the earlier review is resolved | integration (SQL) | conflict | venue_edit.sql |
 | AC-046.4.13 | after every edit, no booking's status, hold or slots changed | integration (SQL) | normal | venue_edit.sql |
-| AC-046.4.14 | saving reports how many bookings were flagged | unit (service) | normal | venueManagementService.test.ts |
+| AC-046.4.17 | one booking reviewed for two reasons in one edit counts as one booking sent for review | integration (SQL) | boundary | venue_edit.sql |
+| AC-046.4.14 | saving reports how many bookings were sent for review | unit (service) | normal | venueManagementService.test.ts |
 | AC-046.4.15 | an answer without a count is read as nothing flagged | unit (service) | boundary | venueManagementService.test.ts |
 | AC-046.4.16 | after saving, Venue Staff are told how many bookings were sent for review and that none changed | unit | normal | EditVenuePage.test.tsx |
 
