@@ -19,4 +19,8 @@ export interface AppNotification {
   title: string
   detail: string | null
   createdAt: string
+  /** The venue booking a venue notice is about, so it can be opened; null for other notices. */
+  itemId: string | null
+  /** When the user read it; null while unread (AC-032.2). */
+  readAt: string | null
 }
