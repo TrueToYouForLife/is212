@@ -201,4 +201,141 @@ select pg_temp.expect_error($q$select * from public.notification_outbox$q$, '425
   'AC-032.5.5: the email outbox itself stays unreadable from the app');
 reset role;
 
+
+-- ===========================================================================
+-- Slice 2 (0073): read and unread
+-- ===========================================================================
+-- Runs one statement as a user and returns its single value, or the SQLSTATE of a refusal.
+create function pg_temp.us32_as(actor uuid, statement text) returns text
+language plpgsql as $$
+declare answer text;
+begin
+  perform set_config('request.jwt.claim.sub', coalesce(actor::text, ''), true);
+  execute statement into answer;
+  -- A function that returns nothing comes back as an empty value: report it as ok.
+  return coalesce(nullif(answer, ''), 'ok');
+exception when others then
+  return sqlstate;
+end $$;
+
+create function pg_temp.us32_unread(actor uuid) returns text
+language sql as $$ select pg_temp.us32_as(actor, 'select public.count_my_unread_notifications()::text') $$;
+
+create function pg_temp.us32_read_at(actor uuid, wanted_source text, wanted_id uuid) returns text
+language sql as $$
+  select pg_temp.us32_as(actor, format(
+    'select coalesce(read_at::text, ''unread'') from public.get_my_notifications(100) where source = %L and id = %L',
+    wanted_source, wanted_id));
+$$;
+
+-- Feeds are read while signed in as each user: run as the superuser, RLS would not apply.
+set local role authenticated;
+select pg_temp.us32_unread('32000000-0000-0000-0000-000000000002') as us32_coord_unread \gset
+select pg_temp.us32_unread('32000000-0000-0000-0000-000000000001') as us32_org_unread \gset
+select pg_temp.us32_feed('32000000-0000-0000-0000-000000000002') as us32_coord_feed2 \gset
+select pg_temp.us32_feed('32000000-0000-0000-0000-000000000004') as us32_staff_feed2 \gset
+reset role;
+
+-- ---------------------------------------------------------------------------
+-- AC-032.2: unread notifications stand out, with an unread count
+-- ---------------------------------------------------------------------------
+select pg_temp.assert_true(
+  :'us32_coord_unread' = '5' and :'us32_org_unread' = '2'
+  and jsonb_array_length(:'us32_coord_feed2'::jsonb) = 5
+  and (select bool_and(x -> 'read_at' = 'null'::jsonb) from jsonb_array_elements(:'us32_coord_feed2'::jsonb) x),
+  'AC-032.2.1: every notification starts unread, and the unread count is how many there are');
+
+select pg_temp.assert_true(
+  (select x ->> 'item_id' from jsonb_array_elements(:'us32_coord_feed2'::jsonb) x
+   where x ->> 'source' = 'venue_decision') = '32300000-0000-0000-0000-000000000001'
+  and (select x ->> 'item_id' from jsonb_array_elements(:'us32_staff_feed2'::jsonb) x
+       where x ->> 'source' = 'venue_request') = '32300000-0000-0000-0000-000000000002',
+  'AC-032.2.2: a venue notification carries the booking it is about, so it can be opened');
+
+-- ---------------------------------------------------------------------------
+-- AC-032.3: opening a notification marks it read
+-- ---------------------------------------------------------------------------
+set local role authenticated;
+select pg_temp.us32_as('32000000-0000-0000-0000-000000000002',
+  $sql$select public.mark_notification_read('venue_decision', '32930000-0000-0000-0000-000000000001')::text$sql$) as us32_mark \gset
+select pg_temp.us32_read_at('32000000-0000-0000-0000-000000000002', 'venue_decision', '32930000-0000-0000-0000-000000000001') as us32_marked_at \gset
+select pg_temp.us32_read_at('32000000-0000-0000-0000-000000000002', 'change_request', '32910000-0000-0000-0000-000000000001') as us32_other_at \gset
+select pg_temp.us32_unread('32000000-0000-0000-0000-000000000002') as us32_after_one \gset
+reset role;
+select pg_temp.assert_true(
+  :'us32_mark' = 'ok' and :'us32_marked_at' <> 'unread' and :'us32_other_at' = 'unread' and :'us32_after_one' = '4',
+  'AC-032.3.1: opening a notification marks that one read and lowers the count by one');
+
+set local role authenticated;
+select pg_temp.us32_as('32000000-0000-0000-0000-000000000002',
+  $sql$select public.mark_notification_read('venue_decision', '32930000-0000-0000-0000-000000000001')::text$sql$) as us32_mark_again \gset
+select pg_temp.us32_unread('32000000-0000-0000-0000-000000000002') as us32_after_again \gset
+reset role;
+select pg_temp.assert_true(
+  :'us32_mark_again' = 'ok' and :'us32_after_again' = '4',
+  'AC-032.3.2: opening an already-read notification again changes nothing');
+
+set local role authenticated;
+select pg_temp.us32_as('32000000-0000-0000-0000-000000000003',
+  $sql$select public.mark_notification_read('change_request', '32910000-0000-0000-0000-000000000001')::text$sql$) as us32_mark_others \gset
+select pg_temp.us32_as('32000000-0000-0000-0000-000000000001',
+  $sql$select public.mark_notification_read('email', '32800000-0000-0000-0000-000000000005')::text$sql$) as us32_mark_strangers_email \gset
+select pg_temp.us32_read_at('32000000-0000-0000-0000-000000000002', 'change_request', '32910000-0000-0000-0000-000000000001') as us32_still_unread \gset
+reset role;
+select pg_temp.assert_true(
+  :'us32_mark_others' = 'P0002' and :'us32_mark_strangers_email' = 'P0002' and :'us32_still_unread' = 'unread',
+  'AC-032.3.3: nobody can mark a notification that is not in their own feed');
+
+-- A second booking-request notice, already marked read on US9's booking-requests page.
+set local session_replication_role = replica;
+insert into public.venue_booking_notifications (id, venue_booking_id, venue_id, recipient_id, created_at, read_at)
+values ('32950000-0000-0000-0000-000000000002', '32300000-0000-0000-0000-000000000001', '32200000-0000-0000-0000-000000000001',
+        '32000000-0000-0000-0000-000000000004', '2039-01-01 11:30+08', '2039-01-01 11:45+08');
+set local session_replication_role = origin;
+set local role authenticated;
+select pg_temp.us32_read_at('32000000-0000-0000-0000-000000000004', 'venue_request', '32950000-0000-0000-0000-000000000002') as us32_read_elsewhere \gset
+select pg_temp.us32_as('32000000-0000-0000-0000-000000000004',
+  $sql$select public.mark_notification_read('venue_request', '32950000-0000-0000-0000-000000000001')::text$sql$) as us32_staff_mark \gset
+reset role;
+select pg_temp.assert_true(
+  :'us32_read_elsewhere' <> 'unread' and :'us32_staff_mark' = 'ok'
+  and (select read_at is not null from public.venue_booking_notifications where id = '32950000-0000-0000-0000-000000000001'),
+  'AC-032.3.4: a booking request read on the booking-requests page shows as read, and reading one here marks it read there too');
+
+-- ---------------------------------------------------------------------------
+-- AC-032.4: mark all as read
+-- ---------------------------------------------------------------------------
+set local role authenticated;
+select pg_temp.us32_as('32000000-0000-0000-0000-000000000001', 'select public.mark_all_notifications_read()::text') as us32_all \gset
+select pg_temp.us32_unread('32000000-0000-0000-0000-000000000001') as us32_org_after_all \gset
+select pg_temp.us32_as('32000000-0000-0000-0000-000000000001', 'select public.mark_all_notifications_read()::text') as us32_all_again \gset
+select pg_temp.us32_unread('32000000-0000-0000-0000-000000000002') as us32_coord_untouched \gset
+reset role;
+select pg_temp.assert_true(
+  :'us32_all' = '2' and :'us32_org_after_all' = '0' and :'us32_all_again' = '0' and :'us32_coord_untouched' = '4',
+  'AC-032.4.1: marking all as read clears the user''s own unread notices only, and says how many there were');
+
+-- ---------------------------------------------------------------------------
+-- AC-032.5: each user's read state is their own
+-- ---------------------------------------------------------------------------
+set local role authenticated;
+select pg_temp.us32_as('32000000-0000-0000-0000-000000000003',
+  $sql$select count(*)::text from public.notification_reads$sql$) as us32_others_reads \gset
+select pg_temp.us32_as('32000000-0000-0000-0000-000000000003',
+  $sql$insert into public.notification_reads (user_id, source, notification_id)
+       values ('32000000-0000-0000-0000-000000000002', 'change_request', '32910000-0000-0000-0000-000000000001') returning 'x'$sql$) as us32_forge_read \gset
+reset role;
+select pg_temp.assert_true(
+  :'us32_others_reads' = '0' and :'us32_forge_read' = '42501',
+  'AC-032.5.9: another user can neither see someone''s read state nor mark their notifications read');
+
+set local role authenticated;
+select pg_temp.us32_as(null, $sql$select public.mark_notification_read('email', '32800000-0000-0000-0000-000000000001')::text$sql$) as us32_out_mark \gset
+select pg_temp.us32_as(null, 'select public.mark_all_notifications_read()::text') as us32_out_all \gset
+select pg_temp.us32_unread(null) as us32_out_count \gset
+reset role;
+select pg_temp.assert_true(
+  :'us32_out_mark' = '42501' and :'us32_out_all' = '42501' and :'us32_out_count' = '42501',
+  'AC-032.5.10: signed out, nothing can be marked or counted');
+
 rollback;
