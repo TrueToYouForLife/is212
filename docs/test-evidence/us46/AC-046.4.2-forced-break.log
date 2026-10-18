@@ -1,0 +1,29 @@
+NOTICE:  PASS: AC-046.1.1: Venue Staff add a venue with its name, location, facilities, accessibility, operating hours and each layout's capacity
+NOTICE:  PASS: AC-046.1.2: the largest layout becomes the venue's primary layout, which venue search reads
+NOTICE:  PASS: AC-046.1.3: on a tie the first layout listed is primary; a venue may have no facilities or accessibility features, and may close at midnight
+NOTICE:  PASS: AC-046.1.4: operating hours must open and close on slot boundaries, closing after opening
+NOTICE:  PASS: AC-046.1.5: a venue needs a name, a location and operating hours
+NOTICE:  PASS: AC-046.1.6: layouts, facilities and accessibility features must come from the catalogues events use
+NOTICE:  PASS: AC-046.1.7: a name another venue already uses is refused
+NOTICE:  PASS: AC-046.3.1: a layout capacity below 1, fractional or missing is refused; exactly 1 is accepted
+NOTICE:  PASS: AC-046.3.2: a venue needs at least one layout, and each layout is listed once
+NOTICE:  PASS: AC-046.3.3: a venue with one invalid layout is not saved at all, not even its valid layouts
+NOTICE:  PASS: AC-046.3.4: the database refuses a layout capacity below 1 even when written directly
+NOTICE:  PASS: AC-046.6.1: no role but Venue Staff can add a venue, through the function or directly
+NOTICE:  PASS: AC-046.6.2: the Operations Manager can no longer change venues or their layouts
+NOTICE:  PASS: AC-046.6.3: adding a venue records who added it and when, and each layout added
+NOTICE:  PASS: AC-046.6.4: an edit records who made it, when, and each detail's old and new value; an edit that changes nothing records nothing
+NOTICE:  PASS: AC-046.6.5: changing or removing a layout records who did it and the capacity involved
+NOTICE:  PASS: AC-046.6.6: nobody can write or erase the change history from the app, and only Venue Staff can read it
+NOTICE:  PASS: AC-046.6.7: a venue added outside the app is still recorded, with no user attached
+NOTICE:  PASS: AC-046.2.1: Venue Staff open a venue with every detail they can edit; an unknown venue is reported as not found
+NOTICE:  PASS: AC-046.2.2: Venue Staff change the name, location, accessibility features and facilities
+NOTICE:  PASS: AC-046.2.3: Venue Staff add a layout and change a capacity; the largest layout becomes primary
+NOTICE:  PASS: AC-046.2.4: removing a layout no booking needs is saved without a review, and the primary layout moves back
+NOTICE:  PASS: AC-046.2.5: an edit made from an out-of-date copy of the venue is refused, so nobody overwrites another's change
+NOTICE:  PASS: AC-046.2.6: an edit is checked like a new venue, and a refused edit changes nothing at all
+NOTICE:  PASS: AC-046.2.7: renaming a venue to another venue's name is refused
+NOTICE:  PASS: AC-046.6.13: only Venue Staff can open a venue for editing or save an edit
+NOTICE:  PASS: AC-046.6.14: every saved edit is recorded with who made it, when, and what changed
+NOTICE:  PASS: AC-046.4.1: lowering a capacity that still fits the event raises no review
+ERROR:  FAIL: AC-046.4.2: lowering a requested layout below an event's attendance flags its booking and notifies its Coordinator

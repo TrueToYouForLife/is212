@@ -278,6 +278,10 @@ SQL
   # 0064 is replayed here first, which also shows it is safe to replay.
   cat "$repo_root/supabase/migrations/0064_venue_management.sql"
   cat "$repo_root/supabase/tests/venue_management.sql"
+  # US46 slice 2: the 0064 replay above restores the history triggers without the booking
+  # review, so 0067 is replayed before its tests, which also shows it is safe to replay.
+  cat "$repo_root/supabase/migrations/0067_venue_edit_review.sql"
+  cat "$repo_root/supabase/tests/venue_edit.sql"
   cat "$repo_root/supabase/tests/event_planning_updates.sql"
   cat "$repo_root/supabase/migrations/0063_event_planning_updates.sql"
   cat <<'SQL'

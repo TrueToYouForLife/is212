@@ -1,5 +1,7 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
-import { VENUE_MANAGEMENT_MESSAGES as messages, addVenue, loadLayoutOptions } from '../venueManagementService'
+import {
+  VENUE_MANAGEMENT_MESSAGES as messages, addVenue, listManagedVenues, loadLayoutOptions, loadVenueForEdit, updateVenue,
+} from '../venueManagementService'
 import type { NewVenue } from '../venueManagementValidation'
 import { createSupabaseFake } from './fixtures/venueBooking'
 
@@ -92,5 +94,113 @@ describe('AC-046.6 — only Venue Staff can add venues', () => {
   test('AC-046.6.8: when the database refuses because the user is not Venue Staff, they are told so', async () => {
     mocks.rpc.mockResolvedValue({ data: null, error: { code: '42501', message: 'Only Venue Staff can add venues' } })
     expect(await addVenue(VENUE)).toEqual({ ok: false, reason: messages.notVenueStaff })
+  })
+})
+
+const LOADED = {
+  id: 'venue-1', name: 'Grand Hall', location: 'Level 1', status: 'active', opensAt: '07:00', closesAt: '24:00',
+  accessibility: ['wheelchair_access'], facilities: ['projector'], layouts: [{ layout: 'theatre', capacity: 120 }],
+  version: 'v1',
+}
+
+describe('AC-046.2 — Venue Staff can edit any of a venue’s details', () => {
+  test('AC-046.2.12: the venues to manage are listed by name, retired ones included', async () => {
+    fake.plan('venues', { data: [
+      { id: 'v1', name: 'Alpha', location: null, status: 'retired', capacity: 10 },
+      { id: 'v2', name: 'Beta', location: 'Level 2', status: 'active', capacity: 50 },
+    ] })
+    expect(await listManagedVenues()).toEqual({ ok: true, venues: [
+      { id: 'v1', name: 'Alpha', location: '', status: 'retired', capacity: 10 },
+      { id: 'v2', name: 'Beta', location: 'Level 2', status: 'active', capacity: 50 },
+    ] })
+    expect(fake.callsTo('venues', 'order')).toEqual([['name']])
+    expect(fake.callsTo('venues', 'neq')).toEqual([])
+  })
+
+  test('AC-046.2.13: a failed venue list is reported and logged; an empty one is just empty', async () => {
+    fake.plan('venues', { error: { message: 'down' } })
+    expect(await listManagedVenues()).toEqual({ ok: false, reason: messages.venuesUnavailable })
+    expect(console.error).toHaveBeenCalled()
+    fake.reset()
+    fake.plan('venues', { data: null })
+    expect(await listManagedVenues()).toEqual({ ok: true, venues: [] })
+  })
+
+  test('AC-046.2.14: a venue opens for editing with the version saving will check', async () => {
+    mocks.rpc.mockResolvedValue({ data: LOADED, error: null })
+    expect(await loadVenueForEdit('venue-1')).toEqual({ ok: true, venue: LOADED })
+    expect(mocks.rpc).toHaveBeenCalledWith('get_venue_for_edit', { p_venue_id: 'venue-1' })
+  })
+
+  test('AC-046.2.15: a missing venue, a failed load or an unexpected answer is reported, never shown as a blank form', async () => {
+    mocks.rpc.mockResolvedValueOnce({ data: null, error: { code: 'P0002', message: 'Venue not found' } })
+    expect(await loadVenueForEdit('venue-1')).toEqual({ ok: false, reason: messages.venueNotFound })
+    mocks.rpc.mockResolvedValueOnce({ data: null, error: { code: '08006', message: 'down' } })
+    expect(await loadVenueForEdit('venue-1')).toEqual({ ok: false, reason: messages.venueUnavailable })
+    mocks.rpc.mockResolvedValueOnce({ data: { id: 'venue-1' }, error: null })
+    expect(await loadVenueForEdit('venue-1')).toEqual({ ok: false, reason: messages.venueUnavailable })
+    expect(console.error).toHaveBeenCalledTimes(2)
+  })
+
+  test('AC-046.2.16: every detail is saved in one call, with the version the form was opened at', async () => {
+    mocks.rpc.mockResolvedValue({ data: 0, error: null })
+    expect(await updateVenue('venue-1', 'v1', VENUE)).toEqual({ ok: true, flagged: 0 })
+    expect(mocks.rpc).toHaveBeenCalledWith('update_venue', {
+      p_venue_id: 'venue-1',
+      p_version: 'v1',
+      p_name: 'Grand Hall',
+      p_location: 'Level 1',
+      p_opens_at: '07:00',
+      p_closes_at: '24:00',
+      p_accessibility: ['wheelchair_access'],
+      p_facilities: ['projector', 'wifi'],
+      p_layouts: [{ layout: 'theatre', capacity: 120 }, { layout: 'classroom', capacity: 60 }],
+    })
+  })
+
+  test('AC-046.2.17: an edit someone else got to first is reported as out of date, so it can be reloaded', async () => {
+    mocks.rpc.mockResolvedValue({ data: null, error: { code: '40001', message: 'changed' } })
+    expect(await updateVenue('venue-1', 'v1', VENUE)).toEqual({ ok: false, reason: messages.stale, stale: true })
+  })
+
+  test.each([
+    ['P0002', messages.venueNotFound],
+    ['23505', messages.duplicateName],
+    ['23514', messages.invalidHours],
+  ])('AC-046.2.18: a %s refusal is explained', async (code, reason) => {
+    mocks.rpc.mockResolvedValue({ data: null, error: { code, message: 'refused' } })
+    expect(await updateVenue('venue-1', 'v1', VENUE)).toEqual({ ok: false, reason })
+  })
+
+  test('AC-046.2.19: the database’s own reasons are shown as they are; anything unexpected is general and logged; signed out sends nothing', async () => {
+    mocks.rpc.mockResolvedValueOnce({ data: null, error: { code: '22023', message: 'A venue needs at least one layout' } })
+    expect(await updateVenue('venue-1', 'v1', VENUE)).toEqual({ ok: false, reason: 'A venue needs at least one layout' })
+    mocks.rpc.mockResolvedValueOnce({ data: null, error: { code: '08006', message: 'down' } })
+    expect(await updateVenue('venue-1', 'v1', VENUE)).toEqual({ ok: false, reason: messages.failed })
+    expect(console.error).toHaveBeenCalled()
+    mocks.getUser.mockResolvedValue({ data: { user: null }, error: null })
+    mocks.rpc.mockClear()
+    expect(await updateVenue('venue-1', 'v1', VENUE)).toEqual({ ok: false, reason: messages.notSignedIn })
+    expect(mocks.rpc).not.toHaveBeenCalled()
+  })
+})
+
+describe('AC-046.4 — bookings an edit may have made unsuitable are flagged', () => {
+  test('AC-046.4.14: saving reports how many bookings were flagged for review', async () => {
+    mocks.rpc.mockResolvedValue({ data: 3, error: null })
+    expect(await updateVenue('venue-1', 'v1', VENUE)).toEqual({ ok: true, flagged: 3 })
+  })
+
+  test('AC-046.4.15: an answer without a count is read as nothing flagged, never as a failure', async () => {
+    mocks.rpc.mockResolvedValue({ data: null, error: null })
+    expect(await updateVenue('venue-1', 'v1', VENUE)).toEqual({ ok: true, flagged: 0 })
+  })
+})
+
+describe('AC-046.6 — only Venue Staff can edit venues', () => {
+  test('AC-046.6.15: someone who is not Venue Staff is told so, when opening or saving', async () => {
+    mocks.rpc.mockResolvedValue({ data: null, error: { code: '42501', message: 'Only Venue Staff can edit venues' } })
+    expect(await loadVenueForEdit('venue-1')).toEqual({ ok: false, reason: messages.notVenueStaffEdit })
+    expect(await updateVenue('venue-1', 'v1', VENUE)).toEqual({ ok: false, reason: messages.notVenueStaffEdit })
   })
 })

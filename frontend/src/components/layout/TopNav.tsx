@@ -66,7 +66,7 @@ function navItemsFor(role: UserRole | null): NavItem[] {
         { label: 'Availability', to: '/venues/availability' },
         ...(FEATURES.venueBooking ? [{ label: 'Booking requests', to: '/venues/review' }] : []),
         ...(FEATURES.venueBlocks ? [{ label: 'Venue blocks', to: '/venues/blocks' }] : []),
-        ...(FEATURES.venueManagement ? [{ label: 'Add venue', to: '/venues/new' }] : []),
+        ...(FEATURES.venueManagement ? [{ label: 'Manage venues', to: '/venues/manage' }] : []),
       ]
     default:
       return [home]

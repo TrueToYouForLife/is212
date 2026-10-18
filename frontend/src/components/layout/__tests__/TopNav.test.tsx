@@ -110,20 +110,20 @@ describe('AC-046.6 — only Venue Staff can add venues', () => {
     flags.venueManagement = false
   })
 
-  test('AC-046.6.11: Venue Staff are offered "Add venue" once venue management is switched on', () => {
+  test('AC-046.6.11: Venue Staff are offered "Manage venues" once venue management is switched on', () => {
     renderNavFor('venue_staff')
-    expect(screen.getAllByRole('link', { name: 'Add venue' })[0]).toHaveAttribute('href', '/venues/new')
+    expect(screen.getAllByRole('link', { name: 'Manage venues' })[0]).toHaveAttribute('href', '/venues/manage')
     cleanup()
     flags.venueManagement = false
     renderNavFor('venue_staff')
-    expect(screen.queryAllByRole('link', { name: 'Add venue' })).toHaveLength(0)
+    expect(screen.queryAllByRole('link', { name: 'Manage venues' })).toHaveLength(0)
   })
 
   test.each(['coordinator', 'coordinator_lead', 'organiser', 'operations_manager', 'tech_support', 'attendee'])(
     'AC-046.6.12: a %s is never offered it',
     (role) => {
       renderNavFor(role)
-      expect(screen.queryAllByRole('link', { name: 'Add venue' })).toHaveLength(0)
+      expect(screen.queryAllByRole('link', { name: 'Manage venues' })).toHaveLength(0)
     },
   )
 })
