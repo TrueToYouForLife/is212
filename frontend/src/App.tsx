@@ -63,9 +63,9 @@ export default function App() {
             <Route path="/requests/:id/request-change" element={<SubmitEventChangesPage />} />
             <Route path="/venues/search" element={<VenueSearchPage />} />
             <Route path="/venues/availability" element={<VenueAvailabilityPage />} />
-            {FEATURES.venueManagement && <Route path="/venues/new" element={<AddVenuePage />} />}
-            {FEATURES.venueManagement && <Route path="/venues/manage" element={<ManageVenuesPage />} />}
-            {FEATURES.venueManagement && <Route path="/venues/:id/edit" element={<EditVenuePage />} />}
+            <Route path="/venues/new" element={<AddVenuePage />} />
+            <Route path="/venues/manage" element={<ManageVenuesPage />} />
+            <Route path="/venues/:id/edit" element={<EditVenuePage />} />
             {FEATURES.venueSuitability && <Route path="/venues/suitability" element={<VenueSuitabilityPage />} />}
             {FEATURES.venueBooking && <Route path="/venues/bookings" element={<MyVenueBookingsPage />} />}
             {FEATURES.venueBooking && <Route path="/venues/review" element={<VenueBookingQueuePage />} />}
