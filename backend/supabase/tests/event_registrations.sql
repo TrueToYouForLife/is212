@@ -97,7 +97,8 @@ select pg_temp.assert_true(
     where p.oid = 'public.get_open_event(uuid)'::regprocedure
       and arg.name in ('purpose', 'expected_attendance', 'reference', 'organiser_id',
                        'layout_preference', 'equipment_requirements',
-                       'accessibility_requirements', 'special_arrangements', 'status')),
+                       'accessibility_requirements', 'facility_requirements',
+                       'special_arrangements', 'status')),
   'AC-015.1.2: details contain no internal fields');
 
 set role authenticated;
@@ -439,7 +440,8 @@ select pg_temp.assert_true(
     where p.oid = 'public.list_open_events()'::regprocedure
       and arg.name in ('purpose', 'expected_attendance', 'reference', 'organiser_id',
                        'layout_preference', 'equipment_requirements',
-                       'accessibility_requirements', 'special_arrangements', 'status')),
+                       'accessibility_requirements', 'facility_requirements',
+                       'special_arrangements', 'status')),
   'AC-015.6.3: each row has only public fields');
 
 set role authenticated;

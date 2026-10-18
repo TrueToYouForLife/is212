@@ -70,7 +70,8 @@ export interface SuitabilityEvent {
   proposedEnd: string | null
   expectedAttendance: number | null
   layoutPreference: string | null
-  accessibilityRequirements: string | null
+  accessibilityRequirements: string[] 
+  facilityRequirements: string[]
 }
 
 export type SuitabilityResult<T> = { ok: true; value: T } | { ok: false; reason: string }

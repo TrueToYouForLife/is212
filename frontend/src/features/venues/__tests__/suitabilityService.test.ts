@@ -52,8 +52,9 @@ const EVENT_ROW = {
   proposed_start: '2041-03-10T01:00:00Z', // 9am Singapore, so the AM slot
   proposed_end: '2041-03-10T03:00:00Z',
   expected_attendance: 60,
-  layout_preference: 'Theatre style please',
-  accessibility_requirements: 'Step-free access',
+  layout_preference: 'theatre',
+  accessibility_requirements: ['wheelchair_access'],
+  facility_requirements: ['projector'],
 }
 
 const SLOTS: TimeSlot[] = [
@@ -113,8 +114,9 @@ describe('AC-018.1 — coordinators can identify suitable venues', () => {
           proposedStart: '2041-03-10T01:00:00Z',
           proposedEnd: '2041-03-10T03:00:00Z',
           expectedAttendance: 60,
-          layoutPreference: 'Theatre style please',
-          accessibilityRequirements: 'Step-free access',
+          layoutPreference: 'theatre',
+          accessibilityRequirements: ['wheelchair_access'],
+          facilityRequirements: ['projector'],
         },
         requirements: { layout: 'theatre', accessibility: ['wheelchair_access'], facilities: ['projector'] },
       },

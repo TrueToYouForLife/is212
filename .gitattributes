@@ -1,0 +1,2 @@
+# Keep test runners executable by Git Bash on Windows and Bash in CI.
+*.sh text eol=lf

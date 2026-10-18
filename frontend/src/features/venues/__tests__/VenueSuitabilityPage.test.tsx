@@ -15,8 +15,9 @@ vi.mock('../../auth/sessionContext', () => ({
 vi.mock('../venueSearchService', () => ({
   listMyAssignedEvents: async () => [{
     id: 'event-1', reference: 'EVT-1', name: 'Workshop', proposedStart: null, proposedEnd: null,
-    expectedAttendance: 60, layoutPreference: 'Theatre style please',
-    accessibilityRequirements: 'Step-free access', equipmentRequirements: null,
+    expectedAttendance: 60, layoutPreference: 'theatre',
+    accessibilityRequirements: ['wheelchair_access'], facilityRequirements: ['projector'],
+    equipmentRequirements: [],
   }],
 }))
 vi.mock('../venueBookingService', () => ({ loadTimeSlots: async () => [] }))
@@ -29,7 +30,8 @@ vi.mock('../suitabilityService', () => ({
 
 const EVENT = {
   id: 'event-1', reference: 'EVT-1', name: 'Workshop', proposedStart: null, proposedEnd: null,
-  expectedAttendance: 60, layoutPreference: 'Theatre style please', accessibilityRequirements: 'Step-free access',
+  expectedAttendance: 60, layoutPreference: 'theatre',
+  accessibilityRequirements: ['wheelchair_access'], facilityRequirements: ['projector'],
 }
 const HALL = {
   venue: {
@@ -63,11 +65,17 @@ describe('AC-018.1 — coordinators can identify suitable venues', () => {
     expect(screen.queryByLabelText('Event')).not.toBeInTheDocument()
   })
 
-  test("AC-018.1.29: choosing an event shows the organiser's own words and every venue assessed", async () => {
+  test("AC-018.1.29: choosing an event shows the organiser's own requirements and every venue assessed", async () => {
     await chooseEvent()
     expect(await screen.findByText('Main Hall')).toBeInTheDocument()
-    expect(screen.getByText('Theatre style please')).toBeInTheDocument()
-    expect(screen.getByText('Step-free access')).toBeInTheDocument()
+    // Codes since 0054, so the page shows catalogue labels instead of free text. Read
+    // from the description list: "Theatre" is also an option in the requirements form's
+    // layout dropdown, and "Projector" one of its facility checkboxes.
+    const organiserValue = (label: string) =>
+      screen.getByText(label).nextElementSibling?.textContent
+    expect(organiserValue("Organiser's layout request")).toBe('Theatre')
+    expect(organiserValue("Organiser's accessibility needs")).toBe('Wheelchair access')
+    expect(organiserValue("Organiser's facility needs")).toBe('Projector')
     expect(mocks.assess).toHaveBeenCalledWith('event-1', [])
   })
 

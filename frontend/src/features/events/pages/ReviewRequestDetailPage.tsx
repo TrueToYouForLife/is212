@@ -19,6 +19,7 @@ import { EQUIPMENT_EDITABLE_STATUSES } from '../../equipment/validation'
 import { RegistrationSettingPanel } from '../components/RegistrationSettingPanel'
 import { EventWaitlistPanel } from '../../registrations/components/EventWaitlistPanel'
 import { canChangeRegistration } from '../statusRules'
+import { PlanningUpdatePanel } from '../components/PlanningUpdatePanel'
 
 export function ReviewRequestDetailPage() {
   const { id = '' } = useParams()
@@ -170,6 +171,12 @@ export function ReviewRequestDetailPage() {
                 >
                   Open equipment requirements
                 </Link>
+              </Card>
+            )}
+
+            {profile?.role === 'coordinator' && request.coordinatorId === profile.id && (
+              <Card title="Planning details and history">
+                <PlanningUpdatePanel key={request.id} eventId={request.id} onChanged={refreshAll} />
               </Card>
             )}
 
