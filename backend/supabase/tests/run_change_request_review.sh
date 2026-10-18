@@ -297,6 +297,8 @@ select pg_temp.assert_true(not exists(
  union all(select * from us20s2_bookings_before_replay except select * from public.venue_bookings)),
  'AC-020.3.17: replaying 0065 preserves proposals, decisions and bookings');
 SQL
+  # US32 slice 1: one feed of each user's own notifications, from every source.
+  cat "$repo_root/supabase/tests/notification_feed.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"
