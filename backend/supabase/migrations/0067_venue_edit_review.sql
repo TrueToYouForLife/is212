@@ -22,11 +22,23 @@ create unique index if not exists venue_change_review_reason on public.arrangeme
   (venue_change_id, venue_booking_id, reason_code) where venue_change_id is not null;
 
 -- 0063's reasons plus one: operating hours that no longer cover a booked slot.
-alter table public.arrangement_review_flags drop constraint if exists arrangement_review_flags_reason_code_check;
-alter table public.arrangement_review_flags add constraint arrangement_review_flags_reason_code_check
-  check (reason_code in ('venue_time_conflict', 'venue_timing_changed', 'venue_capacity', 'venue_layout_review',
-    'venue_accessibility_review', 'venue_facility_review', 'venue_hours_review',
-    'equipment_time_conflict', 'equipment_timing_changed', 'equipment_requirements_review'));
+-- Only widened, never narrowed: if the list already has venue_hours_review (a later migration may have
+-- added more reasons since), a replay leaves it alone instead of dropping theirs.
+do $$
+begin
+  if not exists (
+    select 1 from pg_constraint
+    where conrelid = 'public.arrangement_review_flags'::regclass
+      and conname = 'arrangement_review_flags_reason_code_check'
+      and pg_get_constraintdef(oid) like '%venue_hours_review%'
+  ) then
+    alter table public.arrangement_review_flags drop constraint if exists arrangement_review_flags_reason_code_check;
+    alter table public.arrangement_review_flags add constraint arrangement_review_flags_reason_code_check
+      check (reason_code in ('venue_time_conflict', 'venue_timing_changed', 'venue_capacity', 'venue_layout_review',
+        'venue_accessibility_review', 'venue_facility_review', 'venue_hours_review',
+        'equipment_time_conflict', 'equipment_timing_changed', 'equipment_requirements_review'));
+  end if;
+end $$;
 
 -- Records one review and notifies the event's current Coordinator, as 0063's
 -- record_arrangement_review does. An event with no Coordinator gets the flag and no notice;
