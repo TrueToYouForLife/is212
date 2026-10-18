@@ -234,12 +234,12 @@ revoke all on function public.get_venue_for_edit(uuid) from public, anon;
 grant execute on function public.get_venue_for_edit(uuid) to authenticated;
 
 -- Retires a venue the person has open, with a reason. Like update_venue it refuses if the
--- venue changed since it was opened. Returns how many bookings were flagged for review.
+-- venue changed since it was opened. Returns how many bookings were sent for review.
 create or replace function public.retire_venue(p_venue_id uuid, p_version text, p_note text)
 returns integer language plpgsql security invoker set search_path = '' as $$
 declare
   v_status text;
-  v_reviews_before integer;
+  v_changes_before uuid[];
 begin
   if public.current_user_role() is distinct from 'venue_staff' then
     raise exception 'Only Venue Staff can retire venues' using errcode = '42501';
@@ -258,9 +258,9 @@ begin
     raise exception 'Say why the venue is being retired' using errcode = '22023';
   end if;
 
-  v_reviews_before := public.count_venue_reviews(p_venue_id);
+  select coalesce(array_agg(id), '{}') into v_changes_before from public.venue_changes where venue_id = p_venue_id;
   update public.venues set status = 'retired', retirement_note = btrim(p_note) where id = p_venue_id;
-  return public.count_venue_reviews(p_venue_id) - v_reviews_before;
+  return public.count_venue_reviewed_bookings(p_venue_id, v_changes_before);
 end $$;
 revoke execute on function public.retire_venue(uuid, text, text) from public, anon;
 grant execute on function public.retire_venue(uuid, text, text) to authenticated;
