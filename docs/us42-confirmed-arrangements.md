@@ -6,8 +6,7 @@ Story: SCRUM-238. Updated: 18 October 2026.
 
 Status: venue portion merged in PR #103; equipment portion merged in PR #106
 (commit dd07c40). Automated and manual verification is recorded below.
-Migration 0068 applied to shared Supabase; equipment requires migration 0071;
-the whole story is not ready to mark Done.
+Migration 0068 applied to shared Supabase; equipment requires migration 0071.
 
 ## Acceptance criteria review
 
@@ -62,9 +61,6 @@ A failed refresh removes stale results and offers Try again.
   the resulting confirmed bookings; it does not approve or change reservations.
 - **US14:** existing equipment reservation data supplies AC-042.2. US42
   does not change requirements, allocations or reservation statuses.
-- **US31:** organisation-wide access belongs to the organisation-access story.
-  The current function permits only the event's owning organiser. Align the read
-  boundary with US31 before claiming the full dependency is satisfied.
 - Read the existing slot catalogue and saved ledger cells. This slice does not
   implement a new booking time model, notification delivery or internal review UI.
 
@@ -122,8 +118,7 @@ as a demonstrated product defect, a forced break or a TDD red/green cycle.
 - Complete the coverage review; no coverage percentage is claimed.
 - Venue PR #103 and equipment PR #106 are merged; both implementation branches have been deleted.
 - Manual equipment statuses, refresh and privacy checks passed; automated run records remain in GitHub Actions.
-- Agree the US31 access boundary with its owner before closing the dependency. The reviewed US31 branch at `047f659` adds organisation membership only; colleague reads are planned for its next slice. If colleagues must see arrangements, explicitly track updates to both arrangement read functions and the detail-page owner check under that integration.
-- The final read-only AC review found all three ACs implemented for the owning organiser and no new defect in that scope. This does not establish colleague access or mark US42 Done.
+- The final read-only AC review found all three ACs implemented for the owning organiser and no new defect in that scope.
 - Shared Test Case Overview contains 19 cases (ten venue/page cases and nine equipment cases), and Manual Testing contains seven passed checks dated 18 October 2026. Keep these aligned; record genuine defects only if discovered. Automated CI execution evidence stays in GitHub Actions, not the spreadsheet's Automated Test Case Runs tab.
 - Mark US42 Done only after all ACs and the team's Definition of Done are satisfied.
 

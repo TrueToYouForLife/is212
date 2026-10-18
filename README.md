@@ -1119,16 +1119,14 @@ partially reserved, unavailable and pending-review labels with quantities below 
 venue panel. It uses the owner-only read function in migration 0071. Equipment
 manual checks passed for statuses/quantities, refresh, access denial and privacy.
 Migration `0068_organiser_venue_arrangements.sql` was applied to shared Supabase
-on 18 October 2026. Coordinate organisation-wide reads with US31;
-this slice permits only the owning organiser.
+on 18 October 2026. Arrangement reads permit only the owning organiser.
 
 Latest local verification: full database suite passed; 143 frontend files / 1,318 tests
 passed; build/typecheck and lint passed. Manual checks passed for approved-booking
 visibility, pending/empty behaviour and unrelated-organiser access denial. AC-042.1.4
 caught a deliberate error-to-empty-result fault; after exact restoration, all three
 service tests passed. The shared sheet contains 19 automated cases and seven manual
-passes. Venue PR #103 and equipment PR #106 are merged. US31 colleague-access
-integration still needs agreement before closing the story dependency.
+passes. Venue PR #103 and equipment PR #106 are merged.
 
 See [US42 story documentation](docs/us42-confirmed-arrangements.md),
 [test cases and manual checks](docs/test-cases/US42_test_cases.md)

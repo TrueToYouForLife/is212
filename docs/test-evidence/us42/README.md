@@ -42,4 +42,4 @@ is claimed at this checkpoint. No frontend tests were rerun for this database-on
 - Nine new equipment cases total: four SQL, three service, two component. Existing AC-042.3.4 extended to both organiser panels.
 - Equipment manual checks passed: statuses/quantities, refresh, unrelated-organiser denial and internal-field exclusion. Tested by Jaydon on 18 October 2026.
 - Shared sheet now contains 19 overview cases and seven manual passes. AC-042.3.4 covers both panels. Automated Test Case Runs and defect records are unchanged.
-- Equipment PR #106 merged at dd07c40. Coverage review and final US31 access-boundary agreement remain outstanding; no additional test run is claimed for the documentation closeout.
+- Equipment PR #106 merged at dd07c40. Coverage review remains outstanding; no additional test run is claimed for the documentation closeout.

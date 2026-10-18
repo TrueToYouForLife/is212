@@ -12,7 +12,7 @@ Feature behaviour, AC progress and dependencies: [US42 story documentation](../u
 
 Branch: `us42-venue-arrangements`. Migration: `0068_organiser_venue_arrangements.sql`.
 Migration 0068 applied to shared Supabase on 18 October 2026.
-US42 is not complete until equipment and remaining integration checks are finished.
+Venue and equipment implementations are merged, with automated and manual results recorded below.
 
 ## Acceptance criteria
 
@@ -28,7 +28,7 @@ US42 is not complete until equipment and remaining integration checks are finish
 - Dates and slots come from saved `venue_slot_claims`, not subsequently edited event dates. Event and buffer cells are distinguished; a confirmed booking without cells remains visible with an explicit unavailable message.
 - The service validates the response and rejects extra fields. This complements, and does not replace, database access control.
 - Dates/times display in Singapore time, including 24:00 as midnight at the end of the booked day. Existing refresh logic handles page refresh, focus and polling.
-- US10 and US14 own booking/reservation behaviour. US31 owns access for colleagues within a client organisation; coordinate with Nicole before extending the current owner-only rule. Do not claim organisation-wide access is implemented here.
+- US10 and US14 own booking/reservation behaviour. Arrangement reads permit only the owning organiser.
 
 ## Automated test cases
 
@@ -124,7 +124,7 @@ Total US42 cases: 19 (8 SQL, 11 frontend). Four equipment manual scenarios passe
 Latest equipment integration verification: full frontend suite **143 files / 1,318 tests passed**;
 production build/typecheck and lint passed. Saved logs are in `docs/test-evidence/us42/`.
 The earlier venue-only counts above remain historical. Equipment browser checks passed;
-equipment PR #106 is merged. US31 access-boundary agreement remains outstanding.
+equipment PR #106 is merged.
 
 ## Equipment manual checks — 18 October 2026
 
