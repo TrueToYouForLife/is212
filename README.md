@@ -143,7 +143,7 @@ supabase link --project-ref <your-project-ref>
 supabase db push
 ```
 
-Apply migrations **in order**, `0001` through `0054`, including both `0005` files
+Apply migrations **in order**, `0001` through `0066`, including both `0005` files
 before `0006` and `0019a` straight after `0019`. All are safe to replay; see
 [Shared Supabase state](#shared-supabase-state-5-october-2026). The two files currently share a version prefix, so the CLI path above
 needs that version collision resolved before it can be relied on; use the SQL Editor
@@ -429,6 +429,47 @@ and .13.1–3. Four `REGRESSION-US1/US4/US6` checks protect other stories rather
 claiming additional US7 ACs. Coverage includes access, reassignment, partial decisions,
 invalid/stale reviews, a forced final-save failure with rollback, and rerun preservation.
 Concurrent sessions have not yet been exercised by this suite.
+
+## US22 withdraw a submitted request (SCRUM-67)
+
+A Coordinator closes a request that is awaiting a decision, without rejecting it.
+`0065_withdraw_submitted_request.sql` adds `withdrawn` to `events_status_valid`, makes it
+reachable from `submitted` and `under_review` only, and leaves it terminal like
+completed, cancelled and rejected.
+
+**Why a new status rather than reusing `cancelled`.** Cancelling a confirmed event and
+closing a request nobody has decided on are different facts. AC-022.2 asks for a
+withdrawn event to stay distinguishable from draft, submitted, approved and rejected, and
+the organiser's panel has to say which happened — `cancelled` already means an event that
+was going ahead and then was not.
+
+**Who may do it is unchanged code.** Two existing guards already settle it, so the
+migration adds no new authorisation:
+
+- `enforce_event_status_transition` (`0006`) lets a coordinator make any valid transition
+  and restricts an organiser to `submitted` or `cancelled`, so an organiser cannot
+  withdraw their own request. Their close is Cancel.
+- `guard_assigned_coordinator_event_update` (`0039`) refuses any coordinator who is not
+  `events.coordinator_id`, so only the assigned coordinator can withdraw.
+
+**A reason is required**, which AC-022 does not ask for. It is not a new rule either:
+`event_review_decisions_reason_required` (`0009`) already says every decision except
+`approved` carries a reason, so the service refuses a blank note rather than letting the
+insert fail. `withdrawn` also joins `event_review_decisions_decision_valid` and the
+`record_event_review_decision` trigger, so a withdrawal is logged with who closed it, the
+state it was closed from, and why.
+
+**No email is sent.** `0009` queues mail for approved and rejected only; a return is
+logged and not emailed, and withdrawal follows the return. Widening the sender is a team
+decision rather than a side effect of this change.
+
+Tests: 34 numbered cases. `withdrawRequest.test.ts` holds AC-022.1.1–.1.10 and
+AC-022.2.1–.2.7 (the transition table, the actions a reviewer is offered, the service's
+note requirement and conflict handling). `withdraw_submitted_request.sql` holds
+AC-022.1.11–.1.16 and AC-022.2.8–.2.18 (the constraint, both refusal paths, the decision
+record and a `0065` replay check). `AC-004.2.14` in `statusRules.test.ts` was updated:
+its closed list of a reviewer's actions now includes `withdrawn`, which is what caught
+the addition.
 
 ## US4 review decisions and notifications (AC-004.4, AC-004.5)
 

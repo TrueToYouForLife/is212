@@ -13,9 +13,9 @@ import type { EventStatus } from './types'
  */
 export const STATUS_TRANSITIONS: Record<EventStatus, readonly EventStatus[]> = {
   draft: ['submitted', 'cancelled'],
-  submitted: ['under_review', 'cancelled'],
+  submitted: ['under_review', 'cancelled', 'withdrawn'],
   // Back to submitted is a coordinator asking for more detail — a normal review outcome.
-  under_review: ['approved', 'rejected', 'submitted', 'cancelled'],
+  under_review: ['approved', 'rejected', 'submitted', 'cancelled', 'withdrawn'],
   approved: ['planning', 'cancelled'],
   planning: ['confirmed', 'cancelled'],
   confirmed: ['completed', 'cancelled'],
@@ -23,6 +23,7 @@ export const STATUS_TRANSITIONS: Record<EventStatus, readonly EventStatus[]> = {
   completed: [],
   cancelled: [],
   rejected: [],
+  withdrawn: [],
 }
 
 export function canTransition(from: EventStatus, to: EventStatus): boolean {
@@ -70,6 +71,7 @@ const REVIEW_ACTIONS: readonly ReviewAction[] = [
   { to: 'approved', label: 'Approve', tone: 'primary' },
   { to: 'submitted', label: 'Return for more detail', tone: 'neutral' },
   { to: 'rejected', label: 'Reject', tone: 'danger' },
+  { to: 'withdrawn', label: 'Withdraw request', tone: 'danger' },
   { to: 'planning', label: 'Start planning', tone: 'primary' },
   { to: 'confirmed', label: 'Confirm event', tone: 'primary' },
   { to: 'completed', label: 'Mark completed', tone: 'primary' },

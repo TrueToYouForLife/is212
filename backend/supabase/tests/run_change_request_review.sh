@@ -230,6 +230,22 @@ SQL
   cat "$repo_root/supabase/tests/venue_booking_conflicts.sql"
   # US9 AC8: the trigger from 0035 that notifies Venue Staff of a new request.
   cat "$repo_root/supabase/tests/venue_booking_request_notifications.sql"
+    # US22: withdrawing a submitted request (0066).
+  cat "$repo_root/supabase/tests/withdraw_submitted_request.sql"
+  cat <<'SQL'
+create temporary table w22_before_replay as
+ select id, status, reviewed_by from public.events where id::text like 'b2200000-%';
+SQL
+  cat "$repo_root/supabase/migrations/0066_withdraw_submitted_request.sql"
+  cat <<'SQL'
+select pg_temp.assert_true(
+ not exists (
+   select 1 from w22_before_replay b join public.events e on e.id = b.id
+    where e.status is distinct from b.status
+       or e.reviewed_by is distinct from b.reviewed_by)
+ and (select count(*) = 2 from public.event_review_decisions where decision = 'withdrawn'),
+ 'AC-022.2.18: replaying 0066 changes no withdrawn event and logs no extra decision');
+SQL
   cat "$repo_root/supabase/tests/venue_booking_approval.sql"
   cat "$repo_root/supabase/migrations/0045_venue_booking_approval.sql"
   cat <<'SQL'
