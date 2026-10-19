@@ -6,7 +6,6 @@ interface ImportMetaEnv {
   readonly VITE_FEATURE_NOTIFICATION_PREFERENCES?: string
   readonly VITE_FEATURE_VENUE_BLOCKS?: string
   readonly VITE_FEATURE_VENUE_SUITABILITY?: string
-  readonly VITE_FEATURE_VENUE_MANAGEMENT?: string
 }
 
 interface ImportMeta {

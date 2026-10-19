@@ -1205,20 +1205,24 @@ location, facilities, accessibility features, operating hours and each supported
 its capacity (at least 1). Operating hours open and close on slot boundaries (7am, 1pm or 7pm
 to 12pm, 6pm or midnight). Only Venue Staff can change venues and layouts; the Operations
 Manager keeps read access only. Every change to a venue or its layouts is recorded in
-`venue_changes` with who made it and when. The **Add venue** page (`/venues/new`) is behind
-`VITE_FEATURE_VENUE_MANAGEMENT`, which is off unless set to `true` in your own `frontend/.env`.
+`venue_changes` with who made it and when. The **Add venue** page is at `/venues/new`.
 **Slice 2 (edit a venue):** Venue Staff open **Manage venues** (`/venues/manage`), which lists
 every venue, and edit any detail (`/venues/:id/edit`). Saving checks nobody changed the venue
 meanwhile. An edit never changes a booking; a live booking it may have made unsuitable (a
 requested layout's capacity below the attendance, a requested layout removed, a required
 accessibility feature or facility removed, or hours that no longer cover a booked slot) is
 flagged as an arrangement review, the same records US41 and US20 use, and its Coordinator is
-notified. Slice 3 (retire) follows.
+notified. **Slice 3 (retire a venue):** from the edit page, Venue Staff retire a venue with a
+reason, after confirming. A retired venue leaves venue search, suitability and availability and
+cannot take new holds. Its live bookings are not cancelled: each is flagged as an arrangement
+review (`venue_retired`, with the reason) and its Coordinator notified. US46 is complete, so
+the pages are no longer behind a feature flag.
 
 | File | Adds |
 | --- | --- |
 | `0064_venue_management.sql` | `venues.opens_at`/`closes_at`, Venue Staff-only venue and layout writes, `venue_changes` and its triggers, `add_venue()` |
 | `0067_venue_edit_review.sql` | `update_venue()`, `get_venue_for_edit()`, venue changes as a source of arrangement reviews (`arrangement_review_flags.venue_change_id`, reason `venue_hours_review`), shared `check_venue_input()` |
+| `0070_venue_retirement.sql` | `retire_venue()`, `venues.retirement_note`, reason `venue_retired`, no new holds on a retired venue |
 
 Test cases: `docs/test-cases/US46_test_cases.md`.
 

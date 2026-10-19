@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest'
 import {
-  EMPTY_VENUE_FORM, VENUE_FORM_MESSAGES as messages, loadedVenueSchema, validateVenueForm, venueFormValuesFrom,
+  EMPTY_VENUE_FORM, RETIREMENT_MESSAGES, VENUE_FORM_MESSAGES as messages, loadedVenueSchema, validateRetirementNote,
+  validateVenueForm, venueFormValuesFrom,
 } from '../venueManagementValidation'
 import type { VenueFormValues } from '../venueManagementValidation'
 
@@ -117,6 +118,7 @@ describe('AC-046.2 — Venue Staff can edit any of a venue’s details', () => {
     name: 'Grand Hall',
     location: 'Level 1',
     status: 'active' as const,
+    retirementNote: null,
     opensAt: '07:00',
     closesAt: '24:00',
     accessibility: ['wheelchair_access'],
@@ -158,5 +160,25 @@ describe('AC-046.2 — Venue Staff can edit any of a venue’s details', () => {
   test('AC-046.2.11: a venue with no location recorded opens with it blank', () => {
     const parsed = loadedVenueSchema.parse({ ...LOADED, location: null })
     expect(parsed.location).toBe('')
+  })
+})
+
+describe('AC-046.5 — Venue Staff can retire a venue', () => {
+  test('AC-046.5.11: retiring needs a reason; spaces alone do not count', () => {
+    expect(validateRetirementNote('   ')).toEqual({ ok: false, error: RETIREMENT_MESSAGES.noteRequired })
+    expect(validateRetirementNote('')).toEqual({ ok: false, error: RETIREMENT_MESSAGES.noteRequired })
+  })
+
+  test('AC-046.5.12: the reason is sent trimmed', () => {
+    expect(validateRetirementNote('  Building closes  ')).toEqual({ ok: true, note: 'Building closes' })
+  })
+
+  test('AC-046.5.13: a venue opens with its retirement reason, or none if it was never given one', () => {
+    const base = {
+      id: 'v1', name: 'Hall', location: 'L1', opensAt: '07:00', closesAt: '12:00',
+      accessibility: [], facilities: [], layouts: [], version: 'v1',
+    }
+    expect(loadedVenueSchema.parse({ ...base, status: 'retired', retirementNote: 'Closing' }).retirementNote).toBe('Closing')
+    expect(loadedVenueSchema.parse({ ...base, status: 'active' }).retirementNote).toBeNull()
   })
 })
