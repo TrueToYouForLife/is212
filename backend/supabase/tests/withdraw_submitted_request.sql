@@ -12,7 +12,7 @@ insert into auth.users (id, email, raw_user_meta_data) values
  ('b2200000-0000-0000-0000-000000000001', 'w22-organiser@example.test', '{}'),
  ('b2200000-0000-0000-0000-000000000002', 'w22-coord-assigned@example.test', '{}'),
  ('b2200000-0000-0000-0000-000000000003', 'w22-coord-other@example.test', '{}');
-update public.profiles set role = 'organiser'   where id = 'b2200000-0000-0000-0000-000000000001';
+update public.profiles set role = 'organiser', client_org_id = '0c0a0000-0000-4000-8000-000000000001' where id = 'b2200000-0000-0000-0000-000000000001';
 update public.profiles set role = 'coordinator' where id in
  ('b2200000-0000-0000-0000-000000000002', 'b2200000-0000-0000-0000-000000000003');
 update public.profiles set full_name = 'Wanda Withdrawer'
