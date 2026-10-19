@@ -324,6 +324,8 @@ SQL
   cat "$repo_root/supabase/tests/venue_buffer_foundation.sql"
   # US5: each event's readiness summary for its assigned Coordinator.
   cat "$repo_root/supabase/tests/event_readiness.sql"
+  # US33 slice 1: each user's notification channel choices, per type.
+  cat "$repo_root/supabase/tests/notification_preferences.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"
