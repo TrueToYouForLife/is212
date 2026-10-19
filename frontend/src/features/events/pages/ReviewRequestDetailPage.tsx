@@ -22,7 +22,9 @@ import { RegistrationSettingPanel } from '../components/RegistrationSettingPanel
 import { EventWaitlistPanel } from '../../registrations/components/EventWaitlistPanel'
 import { canChangeRegistration } from '../statusRules'
 import { PlanningUpdatePanel } from '../components/PlanningUpdatePanel'
-import { EventReadinessCard } from '../readiness/EventReadinessCard'
+import { ClarificationResponseForm } from '../components/ClarificationResponseForm'
+import { ClarificationRoundHistory } from '../components/ClarificationRoundHistory'
+import { isAwaitingClarification } from '../clarificationResponseValidation'
 
 export function ReviewRequestDetailPage() {
   const { id = '' } = useParams()
@@ -111,8 +113,26 @@ export function ReviewRequestDetailPage() {
             )}
             <p className="text-xs text-slate-500">Status updates automatically every 30 seconds.</p>
 
-            {profile?.role === 'coordinator' && request.coordinatorId === profile.id && (
-              <EventReadinessCard key={request.id} eventId={request.id} refreshVersion={reviewRefreshVersion} />
+            {/* US37. Placed above Request details because, when there is a question
+                outstanding, answering it is the only thing the Organiser came here to do.
+                The form renders itself only for a returned request; the history is shown
+                to both audiences whenever any round has been answered. */}
+            {profile?.role === 'organiser' && request.organiserId === profile.id
+              && isAwaitingClarification(request) && (
+              <Card title="Clarification requested"
+                description="The coordinator has asked for more detail before the review can continue.">
+                <ClarificationResponseForm key={`clarify:${request.id}:${request.updatedAt}`}
+                  request={request} onSent={refreshAll} />
+              </Card>
+            )}
+
+            {((profile?.role === 'organiser' && request.organiserId === profile.id)
+              || (profile?.role === 'coordinator' && request.coordinatorId === profile.id)) && (
+              <Card title="Clarification replies"
+                description="What was asked, what the organiser answered, and what changed each time.">
+                <ClarificationRoundHistory key={`clarifyHistory:${request.id}`}
+                  eventId={request.id} refreshVersion={reviewRefreshVersion} />
+              </Card>
             )}
 
             <Card title="Request details">
@@ -144,7 +164,6 @@ export function ReviewRequestDetailPage() {
             )}
 
             {profile?.role === 'coordinator' && (
-              <div id="event-decision">
               <Card
                 title="Decision"
                 description="Your note is shared with the organiser, who is emailed when you approve or reject."
@@ -155,7 +174,6 @@ export function ReviewRequestDetailPage() {
                   onReviewed={refreshAll}
                 />
               </Card>
-              </div>
             )}
 
             {profile?.role === 'coordinator' && request.coordinatorId === profile.id
@@ -178,6 +196,9 @@ export function ReviewRequestDetailPage() {
               </Card>
             )}
 
+            {/* US54. Shown whenever the viewer owns the event or is its assigned
+                Coordinator, and not gated on registration being switched on: turning it
+                off later must not hide the people who had already registered. */}
             {((profile?.role === 'organiser' && request.organiserId === profile.id)
               || (profile?.role === 'coordinator' && request.coordinatorId === profile.id)) && (
               <Card
@@ -208,11 +229,9 @@ export function ReviewRequestDetailPage() {
             )}
 
             {profile?.role === 'coordinator' && request.coordinatorId === profile.id && (
-              <div id="planning-details">
               <Card title="Planning details and history">
                 <PlanningUpdatePanel key={request.id} eventId={request.id} onChanged={refreshAll} />
               </Card>
-              </div>
             )}
 
             {canSeeHistory && (
