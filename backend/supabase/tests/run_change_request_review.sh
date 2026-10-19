@@ -421,6 +421,22 @@ select pg_temp.assert_true(
 reset role;
 select set_config('request.jwt.claim.sub', '', false);
 SQL
+  # US37 slice 2: notifying the assigned Coordinator, then replay 0097.
+  cat "$repo_root/supabase/tests/clarification_response_notifications.sql"
+  cat "$repo_root/supabase/migrations/0097_clarification_response_notifications.sql"
+  cat <<'SQL'
+-- The feed answers per signed-in user, so the replay assertion needs a caller: with nobody
+-- signed in get_my_notifications raises rather than returning an empty list.
+set role authenticated;
+select set_config('request.jwt.claim.sub', '37900000-0000-0000-0000-000000000002', false);
+select pg_temp.assert_true(
+ (select count(*) >= 1 from public.get_my_notifications(200) f
+   where f.source = 'clarification_response'
+     and f.event_id = '37900000-1111-0000-0000-000000000001'),
+ 'AC-037.3.21: replaying 0097 leaves the feed answering exactly as before');
+reset role;
+select set_config('request.jwt.claim.sub', '', false);
+SQL
   done
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
