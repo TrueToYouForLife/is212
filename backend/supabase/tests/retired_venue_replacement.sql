@@ -7,8 +7,8 @@ insert into auth.users(id,email,raw_user_meta_data) values
  ('20650000-0000-0000-0000-000000000003','us20s2-staff@example.test','{"full_name":"Venue Reviewer"}'),
  ('20650000-0000-0000-0000-000000000004','us20s2-other@example.test','{}');
 update public.profiles set role=case right(id::text,1) when '1' then 'organiser' when '3' then 'venue_staff' else 'coordinator' end,
-  client_org_id = case right(id::text,1) when '1' then '0c0a0000-0000-4000-8000-000000000001'::uuid else null end, 
-  where id::text like '20650000-%';
+  client_org_id = case right(id::text,1) when '1' then '0c0a0000-0000-4000-8000-000000000001'::uuid else null end
+ where id::text like '20650000-%';
 insert into public.venues(id,name,location,capacity,layout,status) values
  ('20651000-0000-0000-0000-000000000001','US20 retired hall','Test',100,'Theatre','retired'),
  ('20651000-0000-0000-0000-000000000002','US20 alternative hall','Test',120,'Theatre','active'),
