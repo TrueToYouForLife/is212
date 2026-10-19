@@ -405,6 +405,22 @@ select pg_temp.assert_true(
 reset role;
 select set_config('request.jwt.claim.sub', '', false);
 SQL
+  # US37 slice 1: answering a clarification request, then replay 0096.
+  cat "$repo_root/supabase/tests/clarification_response.sql"
+  cat "$repo_root/supabase/migrations/0096_clarification_response.sql"
+  cat <<'SQL'
+-- clarification_response.sql ends with the session reset, and this assertion reads the
+-- response record under RLS: with nobody signed in it returns nothing, which would make
+-- the check pass for the wrong reason.
+set role authenticated;
+select set_config('request.jwt.claim.sub', '37000000-0000-0000-0000-000000000001', false);
+select pg_temp.assert_true(
+ (select count(*) = 2 from public.event_clarification_responses
+   where event_id = '37000000-1111-0000-0000-000000000001'),
+ 'AC-037.5.10: replaying 0096 leaves the answered rounds exactly as before');
+reset role;
+select set_config('request.jwt.claim.sub', '', false);
+SQL
   done
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
