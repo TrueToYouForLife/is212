@@ -359,6 +359,13 @@ SQL
   cat "$repo_root/supabase/tests/notification_preferences.sql"
   # US33 slice 2a: delivering notices only through each person's chosen channels.
   cat "$repo_root/supabase/tests/notification_delivery.sql"
+  # US33 slice 2b: each feature moved onto the sending helper. Re-apply each one's migration
+  # (named on its test's first line; replays above restore older versions) and check it.
+  for notice_test in "$repo_root"/supabase/tests/notice_channels_*.sql; do
+    [ -e "$notice_test" ] || continue
+    cat "$repo_root/supabase/migrations/$(sed -n '1s/^-- Migration: //p' "$notice_test")"
+    cat "$notice_test"
+  done
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"
