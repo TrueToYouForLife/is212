@@ -56,15 +56,15 @@ describe('AC-031.1 — an Organiser can view and act on their own events', () =>
 })
 
 describe('AC-031.2 — colleagues may view, and only view', () => {
-  test('AC-031.2.13: a colleague’s event is shown with their name and is not a link', async () => {
+  test('AC-031.2.13: a colleague’s event is shown with their name, and opens the read-only view', async () => {
     mocks.load.mockResolvedValue({ ok: true, value: [theirs] })
     renderPage()
 
-    expect(await screen.findByText('Northwind Awards')).toBeInTheDocument()
-    expect(screen.getByText(/Ada Two/)).toBeInTheDocument()
-    // No link, because /requests/:id reads through the owner-scoped service: offering one
-    // would send a colleague to a page that can only tell them "not found".
-    expect(screen.queryByRole('link', { name: 'Northwind Awards' })).not.toBeInTheDocument()
+    expect(await screen.findByText(/Ada Two/)).toBeInTheDocument()
+    // Not /requests/:id — that page reads through the owner-scoped service and would only
+    // tell a colleague "not found". The organisation view is theirs to open.
+    expect(screen.getByRole('link', { name: 'Northwind Awards' }))
+      .toHaveAttribute('href', '/organisation/events/c0ffee00-0000-4000-8000-000000000002')
   })
 
   test('AC-031.2.14: a colleague’s submitted event reads as In review, never as clarification', async () => {

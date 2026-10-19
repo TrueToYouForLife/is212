@@ -36,6 +36,7 @@ import { FEATURES } from './lib/features'
 import { NotificationPreferencesPage } from './features/notifications/preferences/NotificationPreferencesPage'
 import { NotificationsPage } from './features/notifications/pages/NotificationsPage'
 import { EventRegistrationsPage } from './features/events/pages/EventRegistrationsPage'
+import { OrganisationEventDetailPage } from './features/events/pages/OrganisationEventDetailPage'
 
 /**
  * Routes are declared here rather than scattered across features, so the sitemap is one
@@ -69,6 +70,7 @@ export default function App() {
             <Route path="/venues/search" element={<VenueSearchPage />} />
             <Route path="/notifications" element={<NotificationsPage />} />
             <Route path="/requests/:id/registrations" element={<EventRegistrationsPage />} />
+            <Route path="/organisation/events/:id" element={<OrganisationEventDetailPage />} />
             {FEATURES.notificationPreferences && <Route path="/notifications/settings" element={<NotificationPreferencesPage />} />}
             <Route path="/venues/availability" element={<VenueAvailabilityPage />} />
             {FEATURES.venueManagement && <Route path="/venues/new" element={<AddVenuePage />} />}
