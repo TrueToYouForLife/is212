@@ -1207,6 +1207,7 @@ until slice 2 (Sprint 4) makes delivery follow the choices through one shared se
 | File | Adds |
 | --- | --- |
 | `0077_notification_preferences.sql` | `notification_types`, `notification_preferences`, `get_my_notification_preferences()`, `set_my_notification_preference()` |
+| `0079_notification_delivery.sql` | slice 2a: `notification_channels()`, `queue_notification_email()`, `record_in_app_notice()`, `send_notification()`, `user_notifications`; the feed shows in-app copies and leaves out emails sent through the helper |
 
 Test cases: `docs/test-cases/US33_test_cases.md`.
 

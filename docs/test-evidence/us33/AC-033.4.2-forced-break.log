@@ -1,0 +1,9 @@
+NOTICE:  PASS: AC-033.1.1: each role sees exactly the notification types it receives, in a fixed order
+NOTICE:  PASS: AC-033.1.2: each type has a name and says when it is sent; a role that receives none sees none; signed out is refused
+NOTICE:  PASS: AC-033.3.1: a new user receives every type both in-app and by email until they change it
+NOTICE:  PASS: AC-033.2.1: in-app and email are switched independently for each type, and other types keep their settings
+NOTICE:  PASS: AC-033.2.2: changing a type again updates the one choice rather than adding another
+NOTICE:  PASS: AC-033.2.3: a type that does not apply to you, an unknown type or a missing choice is refused, and nothing is saved
+NOTICE:  PASS: AC-033.2.4: each person's choices are their own: nobody can read or change another's, and one person's choice leaves others on the default
+NOTICE:  PASS: AC-033.4.1: with no choices made, a notice is emailed and shown in the app once, not twice
+ERROR:  FAIL: AC-033.4.2: with email off a notice is only in the app; with in-app off it is only emailed, and the feed does not show that email

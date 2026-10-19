@@ -7,6 +7,8 @@ export type NotificationSource =
   | 'venue_decision'
   | 'venue_request'
   | 'email'
+  /** US33: the in-app copy of a notice that used to be email-only. */
+  | 'notice'
 
 /** One entry in a user's feed (0072's get_my_notifications). */
 export interface AppNotification {
