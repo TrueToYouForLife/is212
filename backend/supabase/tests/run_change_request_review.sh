@@ -245,6 +245,22 @@ SQL
   cat "$repo_root/supabase/tests/venue_booking_conflicts.sql"
   # US9 AC8: the trigger from 0035 that notifies Venue Staff of a new request.
   cat "$repo_root/supabase/tests/venue_booking_request_notifications.sql"
+    # US22: withdrawing a submitted request (0066).
+  cat "$repo_root/supabase/tests/withdraw_submitted_request.sql"
+  cat <<'SQL'
+create temporary table w22_before_replay as
+ select id, status, reviewed_by from public.events where id::text like 'b2200000-%';
+SQL
+  cat "$repo_root/supabase/migrations/0066_withdraw_submitted_request.sql"
+  cat <<'SQL'
+select pg_temp.assert_true(
+ not exists (
+   select 1 from w22_before_replay b join public.events e on e.id = b.id
+    where e.status is distinct from b.status
+       or e.reviewed_by is distinct from b.reviewed_by)
+ and (select count(*) = 2 from public.event_review_decisions where decision = 'withdrawn'),
+ 'AC-022.2.18: replaying 0066 changes no withdrawn event and logs no extra decision');
+SQL
   cat "$repo_root/supabase/tests/venue_booking_approval.sql"
   cat "$repo_root/supabase/migrations/0045_venue_booking_approval.sql"
   cat <<'SQL'
@@ -315,6 +331,68 @@ select pg_temp.assert_true(not exists(
 SQL
   # US32 slice 1: one feed of each user's own notifications, from every source.
   cat "$repo_root/supabase/tests/notification_feed.sql"
+  # US47: the additive foundation must also preserve populated booking state on replay.
+  cat <<'SQL'
+create temp table us47_bookings_before as select * from public.venue_bookings;
+create temp table us47_claims_before as select * from public.venue_slot_claims;
+create temp table us47_venues_before as select * from public.venues;
+SQL
+  cat "$repo_root/supabase/migrations/0074_venue_buffer_foundation.sql"
+  cat <<'SQL'
+select pg_temp.assert_true(
+ not exists((select * from public.venue_bookings except select * from us47_bookings_before)
+ union all (select * from us47_bookings_before except select * from public.venue_bookings))
+ and not exists((select * from public.venue_slot_claims except select * from us47_claims_before)
+ union all (select * from us47_claims_before except select * from public.venue_slot_claims))
+ and not exists((select * from public.venues except select * from us47_venues_before)
+ union all (select * from us47_venues_before except select * from public.venues)),
+ 'AC-047.4.2: foundation replay preserves existing venues, bookings and occupied cells');
+SQL
+  cat "$repo_root/supabase/tests/venue_buffer_foundation.sql"
+  # US31 slice 1: organisation ownership, then replay 0069 against assigned Organisers.
+  # The replay matters more here than usual: the backfill writes to profiles, so a replay
+  # that re-ran it would drag hand-corrected Organisers back to the default organisation.
+  cat "$repo_root/supabase/tests/client_organisations.sql"
+  echo 'create temp table us31_assignments_before_replay as
+          select id, client_org_id from public.profiles where client_org_id is not null;'
+  cat "$repo_root/supabase/migrations/0069_client_organisations.sql"
+  cat <<'SQL'
+select pg_temp.assert_true(not exists(
+ (select id, client_org_id from public.profiles where client_org_id is not null
+  except select * from us31_assignments_before_replay)
+ union all (select * from us31_assignments_before_replay
+            except select id, client_org_id from public.profiles where client_org_id is not null)),
+ 'AC-031.4.16: replaying 0069 preserves assignments and does not re-run the backfill');
+SQL
+  # US31 slice 2: the organisation read path, then replay 0078 to show it is idempotent.
+  cat "$repo_root/supabase/tests/organisation_event_access.sql"
+  cat "$repo_root/supabase/migrations/0078_organisation_event_access.sql"
+  cat <<'SQL'
+-- organisation_event_access.sql ends with the session reset, so a caller is needed again:
+-- the projections answer per signed-in user, and with nobody signed in they are empty,
+-- which would make this assertion pass for the wrong reason.
+set role authenticated;
+select set_config('request.jwt.claim.sub', '31100000-0000-0000-0000-000000000003', false);
+select pg_temp.assert_true(
+ (select count(*) = 1 from public.list_organisation_events()
+   where id = '31100000-1111-0000-0000-000000000003'),
+ 'AC-031.3.8: replaying 0078 leaves the projections answering exactly as before');
+reset role;
+select set_config('request.jwt.claim.sub', '', false);
+SQL
+  # US5: each event's readiness summary for its assigned Coordinator.
+  cat "$repo_root/supabase/tests/event_readiness.sql"
+  # US33 slice 1: each user's notification channel choices, per type.
+  cat "$repo_root/supabase/tests/notification_preferences.sql"
+  # US33 slice 2a: delivering notices only through each person's chosen channels.
+  cat "$repo_root/supabase/tests/notification_delivery.sql"
+  # US33 slice 2b: each feature moved onto the sending helper. Re-apply each one's migration
+  # (named on its test's first line; replays above restore older versions) and check it.
+  for notice_test in "$repo_root"/supabase/tests/notice_channels_*.sql; do
+    [ -e "$notice_test" ] || continue
+    cat "$repo_root/supabase/migrations/$(sed -n '1s/^-- Migration: //p' "$notice_test")"
+    cat "$notice_test"
+  done
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"

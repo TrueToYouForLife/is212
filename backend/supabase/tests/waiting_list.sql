@@ -40,7 +40,7 @@ insert into auth.users (id, email, raw_user_meta_data) values
   ('16000000-0000-0000-0000-000000000008', 'a7-us16@example.test', '{"full_name":"Gus Seven"}'),
   ('16000000-0000-0000-0000-000000000009', 'a8-us16@example.test', '{"full_name":"Hana Eight"}');
 -- New accounts are Attendees since US29; every other role is assigned by an administrator.
-update public.profiles set role = 'organiser' where id = '16000000-0000-0000-0000-000000000007';
+update public.profiles set role = 'organiser', client_org_id = '0c0a0000-0000-4000-8000-000000000001' where id = '16000000-0000-0000-0000-000000000007';
 
 -- Events. Capacity is expected_attendance. All start in 2035 unless the name says otherwise.
 -- 01 E-FLOW cap 2, the main story          02 E-ROOM cap 5, never full

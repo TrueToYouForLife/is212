@@ -5,6 +5,9 @@ import type { UserProfile } from '../../../features/auth/types'
 import { TopNav } from '../TopNav'
 
 const flags = vi.hoisted(() => ({ venueBlocks: true, venueSuitability: false }))
+const flags = vi.hoisted(() => ({
+  venueBlocks: true, venueSuitability: false, venueManagement: false,
+}))
 vi.mock('../../../lib/features', () => ({ FEATURES: flags }))
 const unread = vi.hoisted(() => ({ count: null as number | null }))
 vi.mock('../../../features/notifications/useUnreadNotificationCount', () => ({
@@ -156,5 +159,26 @@ describe('AC-032.2 — an unread count is shown in the navigation', () => {
     unread.count = 140
     renderNavFor('coordinator')
     expect(screen.getAllByRole('link', { name: 'Notifications, 140 unread' })[0]).toHaveTextContent('Notifications99+')
+  })
+})
+
+describe('AC-031.2 — colleagues reach their organisation\u2019s events', () => {
+  test('AC-031.2.17: Organisers are offered Our organisation in the navigation', () => {
+    renderNavFor('organiser')
+    const links = screen.getAllByRole('link', { name: 'Organisation' })
+    expect(links.length).toBeGreaterThan(0)
+    expect(links[0]).toHaveAttribute('href', '/organisation/events')
+  })
+
+  test('AC-031.3.14: no other role is offered it', () => {
+    // Navigation shows what this person can actually do. A Coordinator following this
+    // link would be refused by the page and by 0078, so offering it would spend their
+    // attention for nothing.
+    for (const role of ['coordinator', 'coordinator_lead', 'operations_manager',
+                        'venue_staff', 'tech_support', 'attendee']) {
+      renderNavFor(role)
+      expect(screen.queryAllByRole('link', { name: 'Organisation' })).toHaveLength(0)
+      cleanup()
+    }
   })
 })

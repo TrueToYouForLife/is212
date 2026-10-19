@@ -22,11 +22,12 @@ insert into auth.users (id, email) values
   ('00000000-0000-4000-8000-0000000000c1', 'coordinator@example.test');
 
 -- 0005's signup trigger creates organiser profiles; create them here if it is absent.
-insert into public.profiles (id, full_name, role) values
-  ('00000000-0000-4000-8000-0000000000a1', 'Olivia Organiser', 'organiser'),
-  ('00000000-0000-4000-8000-0000000000a2', 'Phone Organiser', 'organiser'),
-  ('00000000-0000-4000-8000-0000000000c1', 'Casey Coordinator', 'coordinator')
-on conflict (id) do update set full_name = excluded.full_name, role = excluded.role;
+insert into public.profiles (id, full_name, role, client_org_id) values
+  ('00000000-0000-4000-8000-0000000000a1', 'Olivia Organiser', 'organiser', '0c0a0000-0000-4000-8000-000000000001'),
+  ('00000000-0000-4000-8000-0000000000a2', 'Phone Organiser', 'organiser', '0c0a0000-0000-4000-8000-000000000001'),
+  ('00000000-0000-4000-8000-0000000000c1', 'Casey Coordinator', 'coordinator', null)
+on conflict (id) do update set full_name = excluded.full_name, role = excluded.role,
+  client_org_id = excluded.client_org_id;
 
 insert into public.events (id, organiser_id, name, purpose, proposed_start, proposed_end,
                            expected_attendance, status) values

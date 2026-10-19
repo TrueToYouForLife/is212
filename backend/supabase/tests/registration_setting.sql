@@ -19,7 +19,7 @@ insert into auth.users (id, email, raw_user_meta_data) values
   ('53000000-0000-0000-0000-000000000007', 'l1-us52@example.test', '{"full_name":"Lena Lead"}'),
   ('53000000-0000-0000-0000-000000000008', 'm1-us52@example.test', '{"full_name":"Mia Manager"}');
 -- New accounts are Attendees since US29; every other role is assigned by an administrator.
-update public.profiles set role = 'organiser' where id in
+update public.profiles set role = 'organiser', client_org_id = '0c0a0000-0000-4000-8000-000000000001' where id in
   ('53000000-0000-0000-0000-000000000003', '53000000-0000-0000-0000-000000000004');
 update public.profiles set role = 'coordinator' where id in
   ('53000000-0000-0000-0000-000000000005', '53000000-0000-0000-0000-000000000006');

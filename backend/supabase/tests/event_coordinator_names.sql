@@ -21,7 +21,7 @@ update public.profiles set role = 'coordinator'
  where id in ('21000000-0000-0000-0000-000000000001', '21000000-0000-0000-0000-000000000002');
 update public.profiles set role = 'coordinator_lead' where id = '21000000-0000-0000-0000-000000000003';
 update public.profiles set role = 'operations_manager' where id = '21000000-0000-0000-0000-000000000004';
-update public.profiles set role = 'organiser'
+update public.profiles set role = 'organiser', client_org_id = '0c0a0000-0000-4000-8000-000000000001'
  where id in ('21000000-0000-0000-0000-000000000005', '21000000-0000-0000-0000-000000000006');
 update public.profiles set role = 'venue_staff' where id = '21000000-0000-0000-0000-000000000008';
 update public.profiles set role = 'tech_support' where id = '21000000-0000-0000-0000-000000000009';

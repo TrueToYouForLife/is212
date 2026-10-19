@@ -15,6 +15,7 @@ import { HomePage } from './pages/HomePage'
 import { LandingPage } from './pages/LandingPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import { SubmitEventChangesPage } from './features/events/pages/SubmitEventChangesPage'
+import { OrganisationEventsPage } from './features/events/pages/OrganisationEventsPage'
 import { VenueSearchPage } from './features/venues/pages/VenueSearchPage'
 import { VenueSuitabilityPage } from './features/venues/pages/VenueSuitabilityPage'
 import { VenueDetailsPage } from './features/venues/pages/VenueDetailsPage'
@@ -32,6 +33,7 @@ import { EventEquipmentPage } from './features/equipment/pages/EventEquipmentPag
 import { TechSupportEquipmentPage } from './features/equipment/pages/TechSupportEquipmentPage'
 import { ReserveEquipmentPage } from './features/equipment/pages/ReserveEquipmentPage'
 import { FEATURES } from './lib/features'
+import { NotificationPreferencesPage } from './features/notifications/preferences/NotificationPreferencesPage'
 import { NotificationsPage } from './features/notifications/pages/NotificationsPage'
 
 /**
@@ -62,8 +64,10 @@ export default function App() {
             <Route path="/requests/:id" element={<ReviewRequestDetailPage />} />
             <Route path="*" element={<NotFoundPage />} />
             <Route path="/requests/:id/request-change" element={<SubmitEventChangesPage />} />
+            <Route path="/organisation/events" element={<OrganisationEventsPage />} />
             <Route path="/venues/search" element={<VenueSearchPage />} />
             <Route path="/notifications" element={<NotificationsPage />} />
+            {FEATURES.notificationPreferences && <Route path="/notifications/settings" element={<NotificationPreferencesPage />} />}
             <Route path="/venues/availability" element={<VenueAvailabilityPage />} />
             <Route path="/venues/new" element={<AddVenuePage />} />
             <Route path="/venues/manage" element={<ManageVenuesPage />} />

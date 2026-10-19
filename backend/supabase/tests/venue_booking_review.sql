@@ -7,7 +7,7 @@ insert into auth.users (id, email, raw_user_meta_data) values
  ('b10a0000-0000-0000-0000-000000000001', 'review10@example.test', '{"full_name":"US10 Venue Staff"}'),
  ('b10a0000-0000-0000-0000-000000000002', 'owner10@example.test', '{"full_name":"US10 Organiser"}');
 -- Self sign-up creates Attendees since US29 (0042), so organisers are assigned like other roles.
-update public.profiles set role='organiser'
+update public.profiles set role='organiser', client_org_id = '0c0a0000-0000-4000-8000-000000000001'
  where id='b10a0000-0000-0000-0000-000000000002';
 update public.profiles set role='venue_staff'
  where id='b10a0000-0000-0000-0000-000000000001';
@@ -233,7 +233,7 @@ begin
    case_number := case_number + 1;
  end loop;
  perform set_config('request.jwt.claim.sub','',false);
- update public.profiles set role='organiser' where id='b10a0000-0000-0000-0000-000000000002';
+ update public.profiles set role='organiser', client_org_id = '0c0a0000-0000-4000-8000-000000000001' where id='b10a0000-0000-0000-0000-000000000002';
 end $$;
 
 select label, case when passed then 'PASS' else 'FAIL' end as result from us10_results;

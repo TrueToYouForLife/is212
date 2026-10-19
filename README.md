@@ -143,7 +143,7 @@ supabase link --project-ref <your-project-ref>
 supabase db push
 ```
 
-Apply migrations **in order**, `0001` through `0054`, including both `0005` files
+Apply migrations **in order**, `0001` through `0066`, including both `0005` files
 before `0006` and `0019a` straight after `0019`. All are safe to replay; see
 [Shared Supabase state](#shared-supabase-state-5-october-2026). The two files currently share a version prefix, so the CLI path above
 needs that version collision resolved before it can be relied on; use the SQL Editor
@@ -430,6 +430,47 @@ claiming additional US7 ACs. Coverage includes access, reassignment, partial dec
 invalid/stale reviews, a forced final-save failure with rollback, and rerun preservation.
 Concurrent sessions have not yet been exercised by this suite.
 
+## US22 withdraw a submitted request (SCRUM-67)
+
+A Coordinator closes a request that is awaiting a decision, without rejecting it.
+`0065_withdraw_submitted_request.sql` adds `withdrawn` to `events_status_valid`, makes it
+reachable from `submitted` and `under_review` only, and leaves it terminal like
+completed, cancelled and rejected.
+
+**Why a new status rather than reusing `cancelled`.** Cancelling a confirmed event and
+closing a request nobody has decided on are different facts. AC-022.2 asks for a
+withdrawn event to stay distinguishable from draft, submitted, approved and rejected, and
+the organiser's panel has to say which happened — `cancelled` already means an event that
+was going ahead and then was not.
+
+**Who may do it is unchanged code.** Two existing guards already settle it, so the
+migration adds no new authorisation:
+
+- `enforce_event_status_transition` (`0006`) lets a coordinator make any valid transition
+  and restricts an organiser to `submitted` or `cancelled`, so an organiser cannot
+  withdraw their own request. Their close is Cancel.
+- `guard_assigned_coordinator_event_update` (`0039`) refuses any coordinator who is not
+  `events.coordinator_id`, so only the assigned coordinator can withdraw.
+
+**A reason is required**, which AC-022 does not ask for. It is not a new rule either:
+`event_review_decisions_reason_required` (`0009`) already says every decision except
+`approved` carries a reason, so the service refuses a blank note rather than letting the
+insert fail. `withdrawn` also joins `event_review_decisions_decision_valid` and the
+`record_event_review_decision` trigger, so a withdrawal is logged with who closed it, the
+state it was closed from, and why.
+
+**No email is sent.** `0009` queues mail for approved and rejected only; a return is
+logged and not emailed, and withdrawal follows the return. Widening the sender is a team
+decision rather than a side effect of this change.
+
+Tests: 34 numbered cases. `withdrawRequest.test.ts` holds AC-022.1.1–.1.10 and
+AC-022.2.1–.2.7 (the transition table, the actions a reviewer is offered, the service's
+note requirement and conflict handling). `withdraw_submitted_request.sql` holds
+AC-022.1.11–.1.16 and AC-022.2.8–.2.18 (the constraint, both refusal paths, the decision
+record and a `0065` replay check). `AC-004.2.14` in `statusRules.test.ts` was updated:
+its closed list of a reviewer's actions now includes `withdrawn`, which is what caught
+the addition.
+
 ## US4 review decisions and notifications (AC-004.4, AC-004.5)
 
 Migration `0009_review_decisions.sql` (run after `0008`) adds two tables, both written only
@@ -498,6 +539,8 @@ Roles live in `public.profiles.role`, never in `auth.users` — Supabase owns th
 it cannot take extra columns. Valid values are constrained by `profiles_role_valid`:
 `organiser`, `coordinator`, `venue_staff`, `tech_support`, `attendee`.
 
+An Organiser also belongs to exactly one client organisation, recorded in `public.profiles.client_org_id` and constrained by `profiles_client_org_required` (`0069`). The column stays empty for every other role, who work across clients or for none. See [US31](#us31-organiser-access-within-a-client-organisation-scrum-228).
+
 **Roles are assigned, not chosen.** `prevent_role_self_assignment` blocks a signed-in user
 from updating their own role, and no client may insert a profile at all: the
 `handle_new_user` trigger (`0005`) creates it in the same transaction as the account, with
@@ -508,6 +551,16 @@ statements run without a JWT:
 update public.profiles set role = 'coordinator'
 where id = (select id from auth.users where email = 'someone@example.com');
 ```
+Promoting someone to organiser must name their client organisation in the same statement, or `profiles_client_org_required` refuses it:
+ 
+```sql
+update public.profiles set role = 'organiser',
+       client_org_id = (select id from public.client_organisations
+                         where name = 'Northwind Trading')
+where id = (select id from auth.users where email = 'someone@example.com');
+```
+ 
+`prevent_client_org_self_assignment` blocks a signed-in user changing their own organisation, the same way `prevent_role_self_assignment` blocks a role change. Both let the SQL editor through, because statements there run without a JWT.
 
 Policies read the caller's role through `public.current_user_role()`. That function is
 `SECURITY DEFINER` for a reason worth knowing: a policy on `profiles` that queries
@@ -530,17 +583,30 @@ coordinator reviews) are tested as two different people, the way RLS will see th
    waits for a confirmation email that a test address can never receive.
 3. Assign the role from the SQL editor. Every new account starts as `attendee`, through the
    `on_auth_user_created` trigger (`0042` replaced `0005`'s `organiser` default for US29), so
-   every other role, organiser included, is set here:
-
+   every other role, organiser included, is set here. Since `0069`, an organiser must be
+   given a client organisation in the same statement:
 ```sql
 update public.profiles p
-set role = v.role
+set role = v.role,
+    client_org_id = case when v.role = 'organiser'
+                         then (select id from public.client_organisations
+                                where name = 'Northwind Trading')
+                         else p.client_org_id end
 from auth.users u,
      (values ('organiser@test.com',   'organiser'),
              ('coordinator@test.com', 'coordinator'),
              ('venue@test.com',       'venue_staff'),
              ('tech@test.com',        'tech_support')) as v(email, role)
 where u.email = v.email and p.id = u.id;
+```
+ 
+To test AC-031.3 you need a second organiser in the *other* organisation; add
+`('organiser2@test.com', 'organiser')` to the list above and move them afterwards:
+ 
+```sql
+update public.profiles set client_org_id =
+       (select id from public.client_organisations where name = 'Harbourline Group')
+where id = (select id from auth.users where email = 'organiser2@test.com');
 ```
 
 | Role | Account |
@@ -1160,6 +1226,36 @@ the pages are no longer behind a feature flag.
 
 Test cases: `docs/test-cases/US46_test_cases.md`.
 
+## US5 Tracking Event Readiness (SCRUM-10)
+
+An event's assigned Coordinator sees a **Readiness** card on the event's page: venue booking,
+equipment reservation, technical support, programme and registration setup, each marked
+Complete or Outstanding, with outstanding ones linking to where they are dealt with.
+Arrangements that do not apply to the event (no equipment, no registration) are left out. It is
+read live from each arrangement's own records and re-read every 30 seconds, so changes by Venue
+Staff or Technical Support show without reloading. Later arrangements (the safety review,
+US43/US44) are added as one more line in `get_event_readiness`.
+
+| File | Adds |
+| --- | --- |
+| `0076_event_readiness.sql` | `get_event_readiness()`, for the event's assigned Coordinator only |
+
+Test cases: `docs/test-cases/US5_test_cases.md`.
+
+## US33 Choose notification channels by type (SCRUM-230)
+
+**Slice 1 (the choices):** **Notification settings** (`/notifications/settings`, linked from
+Notifications) lists the notification types for the user's role, each with In-app and Email
+switches; anything not yet changed is on for both. Behind `VITE_FEATURE_NOTIFICATION_PREFERENCES`
+until slice 2 (Sprint 4) makes delivery follow the choices through one shared sending helper.
+
+| File | Adds |
+| --- | --- |
+| `0077_notification_preferences.sql` | `notification_types`, `notification_preferences`, `get_my_notification_preferences()`, `set_my_notification_preference()` |
+| `0079_notification_delivery.sql` | slice 2a: `notification_channels()`, `queue_notification_email()`, `record_in_app_notice()`, `send_notification()`, `user_notifications`; the feed shows in-app copies and leaves out emails sent through the helper |
+
+Test cases: `docs/test-cases/US33_test_cases.md`.
+
 ## US32 View in-app notifications (SCRUM-229)
 
 Built in slices (trunk-based). **Slice 1 (the feed):** **Notifications** (`/notifications`, in
@@ -1298,6 +1394,7 @@ requirement field failing. After applying, read `event_requirement_migration_not
 which existing free text could not be mapped to a code, and decide with the organisers
 whether any of it should become a new catalogue option.
 
+Client organisations update (18 October): `0069` is local only and **not applied to shared Supabase**. It is the first migration to backfill `profiles`, so apply it in a sitting of its own and check the result before anything else: it places every existing Organiser in `Northwind Trading`, and individual Organisers are moved afterwards from the SQL editor or the table editor, where statements run without a JWT. Renaming the two seeded organisations to real client names is safe at any time; their ids are what the data depends on. Any seed or fixture that creates an Organiser must set `client_org_id` in the same statement from this migration onward.
 
 Latest progress supersedes older remaining-work notes: significance, the revalidation
 hook, clarification replies and coordinator notification triggers are implemented. Jaydon
@@ -1330,3 +1427,16 @@ evidence. [Slice 1 documentation](docs/us20-slice1.md) and
 terminal commands for capturing Scrum evidence. Slice 2 cases use AC-020.3.1–21,
 .30–37 and .50–61; next ID is **AC-020.3.62**. Keep migrations 0063 and 0065 in the
 normal ordered deployment process; no shared Supabase deployment is implied here.
+
+## US47 venue setup and turnaround — foundation
+
+Claimed migration `0074_venue_buffer_foundation.sql` adds zero-default duration
+fields (non-negative multiples of 15 minutes) and an internal occupied-period
+calculation. It does not switch existing booking rules or modify reservations.
+Browser configuration remains disabled until booking/review integration is ready.
+The full disposable database suite passed with six foundation cases. No frontend
+changed; shared Supabase deployment and PR/CI remain pending.
+
+See [US47 scope and remaining work](docs/us47-venue-buffers.md),
+[test cases](docs/test-cases/US47_test_cases.md) and
+[evidence](docs/test-evidence/us47/README.md).

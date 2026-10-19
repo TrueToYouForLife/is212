@@ -65,7 +65,7 @@ do $$ declare role_name text; n integer:=19; refused boolean; begin
   n:=n+1;
  end loop;
  perform set_config('request.jwt.claim.sub','',false);
- update public.profiles set role='organiser' where id='b10a0000-0000-0000-0000-000000000002';
+ update public.profiles set role='organiser', client_org_id = '0c0a0000-0000-4000-8000-000000000001' where id='b10a0000-0000-0000-0000-000000000002';
 end $$;
 
 -- Requirement edits and missing requests cannot silently approve a stale view.

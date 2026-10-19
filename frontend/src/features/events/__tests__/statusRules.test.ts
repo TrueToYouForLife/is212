@@ -76,8 +76,12 @@ describe('AC-004.2 — who may perform a transition', () => {
 })
 
 describe('AC-004.2 — actions offered to a coordinator', () => {
-  test('AC-004.2.14: a newly submitted request offers approve, return and reject', () => {
-    expect(reviewActionsFor('submitted').map((action) => action.to)).toEqual(['approved', 'submitted', 'rejected', 'cancelled'])
+  test('AC-004.2.14: a newly submitted request offers approve, return, reject, withdraw and cancel', () => {
+    // 'withdrawn' joined this list with US22 (0066): a request awaiting a decision can be
+    // closed without being rejected. The assertion is a closed list on purpose — it is
+    // what caught the addition, and it should keep catching the next one.
+    expect(reviewActionsFor('submitted').map((action) => action.to))
+      .toEqual(['approved', 'submitted', 'rejected', 'withdrawn', 'cancelled'])
   })
 
   test('AC-004.2.15: a request under review offers approve, return and reject', () => {
