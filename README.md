@@ -1440,3 +1440,17 @@ changed; shared Supabase deployment and PR/CI remain pending.
 See [US47 scope and remaining work](docs/us47-venue-buffers.md),
 [test cases](docs/test-cases/US47_test_cases.md) and
 [evidence](docs/test-evidence/us47/README.md).
+
+## US47 booking-time conversion
+
+Migration 0075 converts venue occupancy and maintenance definitions to 15-minute
+slots while retaining saved reservations and ownership. Search, suitability,
+timetables, block controls and atomic hold creation use venue-specific setup and
+turnaround durations. This is the booking integration slice; editable buffer
+settings and settings-change reviews/notifications remain for the next slice.
+
+Review and deploy the database and frontend together using
+[the deployment checklist](docs/us47-booking-time-deployment.md). See
+[US47 notes](docs/us47-venue-buffers.md) and [test cases](docs/test-cases/US47_test_cases.md).
+CI runs historical DB regressions separately from converted-schema upgrade and
+fresh-install checks; the historical runner alone is not the release gate.

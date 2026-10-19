@@ -1,3 +1,11 @@
+# US47 booking integration — current working checkpoint
+- Branch us47-booking-time-integration fast-forwarded to main d28e890; US47 changes remain uncommitted.
+- 0075 is now in migrations. Coordinate database and frontend deployment; see docs/us47-booking-time-deployment.md.
+- Production search, suitability, timetable previews, blocks and atomic hold RPC consume quarter-hour occupancy and venue-specific durations.
+- Existing DB runner is explicitly pre-conversion; CI also runs populated upgrade and fresh-order conversion suites with concurrency checks.
+- Preserve 0074 browser duration guard: editable settings/change flags/notifications are a subsequent slice, not completed here.
+- User owns commits, pushes, PR and deployment. Manual shared-environment results must not be inferred from component tests.
+
 # US47 foundation checkpoint — 19 October 2026
 - Branch `us47-venue-buffer-settings`; migration 0074 claimed. Duration fields default to zero and accept non-negative multiples of 15. Internal exact occupied-period helper; no cell allocation or active booking changes.
 - Browser writes to new fields are temporarily guarded until the final save/review path is integrated. Existing venue edits still work. Do not expose the settings UI yet.

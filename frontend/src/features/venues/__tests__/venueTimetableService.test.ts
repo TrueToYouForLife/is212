@@ -10,6 +10,7 @@ vi.mock('../../../lib/supabase', () => ({
 const fake = createSupabaseFake()
 
 const VENUE_ROW = {
+  setup_minutes: 30, turnaround_minutes: 45,
   id: VENUE_ID, name: 'Alpha Hall', capacity: 200, layout: 'theatre',
   accessibility: ['wheelchair_access'], facility: { projector: true }, status: 'active', location: 'Bras Basah',
 }
@@ -27,6 +28,7 @@ describe('getVenue', () => {
   test('AC-009.1.15: returns one venue, normalising a null accessibility, facility or location', async () => {
     fake.plan('venues', { data: { ...VENUE_ROW, accessibility: null, facility: null, location: null } })
     expect(await getVenue(VENUE_ID)).toEqual({ ok: true, venue: {
+      setupMinutes: 30, turnaroundMinutes: 45,
       id: VENUE_ID, name: 'Alpha Hall', capacity: 200, layout: 'theatre',
       accessibility: [], facility: {}, status: 'active', location: '',
     } })

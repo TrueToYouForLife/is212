@@ -62,5 +62,11 @@ jobs:
       - uses: actions/checkout@v4
 
       # Disposable Postgres 17 in Docker; never touches a Supabase project.
-      - name: Database tests
+      - name: Pre-conversion database regressions
         run: bash backend/supabase/tests/run_change_request_review.sh
+
+      - name: Quarter-hour booking upgrade and concurrency
+        run: bash backend/supabase/tests/run_venue_time_conversion.sh
+
+      - name: Quarter-hour booking fresh migration order
+        run: bash backend/supabase/tests/run_venue_time_conversion.sh fresh

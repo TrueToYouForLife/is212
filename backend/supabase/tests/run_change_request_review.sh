@@ -23,7 +23,11 @@ if [ "$ready" != true ]; then echo 'Temporary database did not become ready.' >&
 
 {
   cat "$repo_root/supabase/tests/bootstrap.sql"
-  for migration in "$repo_root"/supabase/migrations/*.sql; do cat "$migration"; printf '\n'; done
+  # Historical suite exercises pre-conversion contracts and their migration replays.
+  # Current quarter-hour upgrade/fresh-install coverage runs separately in CI.
+  for migration in "$repo_root"/supabase/migrations/*.sql; do
+    case "$migration" in */0075_*) continue ;; esac
+    cat "$migration"; printf '\n'; done
   cat "$repo_root/supabase/tests/change_request_review.sql"
   cat "$repo_root/supabase/migrations/0008_change_request_review.sql"
   # Restore the current assignment rules after the historical migration replay.

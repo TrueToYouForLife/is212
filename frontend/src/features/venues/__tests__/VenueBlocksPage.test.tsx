@@ -28,7 +28,7 @@ const BLOCK = {
   venueId: 'v1',
   startsOn: '2040-03-10',
   endsOn: '2040-03-12',
-  slots: ['AM', 'PM', 'NIGHT'],
+  slots: ['T0900', 'T1300', 'T2345'],
   reason: 'Ceiling repair',
   createdByName: 'Vera Venue',
   createdAt: '2039-12-05T02:00:00+00:00',
@@ -83,7 +83,7 @@ describe('AC-012.9 — current blocks can be viewed and removed', () => {
 
     fireEvent.change(screen.getByLabelText(/First day/), { target: { value: '2040-04-01' } })
     fireEvent.change(screen.getByLabelText(/Last day/), { target: { value: '2040-04-01' } })
-    fireEvent.click(screen.getByLabelText(SLOT_LABELS.AM))
+    fireEvent.click(screen.getByLabelText(SLOT_LABELS.T0900))
     fireEvent.change(screen.getByLabelText(/Reason/), { target: { value: 'Deep clean' } })
     fireEvent.click(screen.getByRole('button', { name: 'Preview' }))
     fireEvent.click(await screen.findByRole('button', { name: 'Confirm block' }))

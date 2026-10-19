@@ -1,4 +1,5 @@
 import { supabase } from '../../lib/supabase'
+import type { VenueBufferDurations } from './venueOccupiedSlots'
 import { datesFrom } from './slots'
 import type { TimeSlot } from './slots'
 import { buildTimetable } from './venueTimetable'
@@ -13,13 +14,17 @@ export const VENUE_TIMETABLE_MESSAGES = {
   loadFailed: 'Venue availability could not be loaded. Please try again.',
 } as const
 
+export type VenueWithBuffers = Venue & VenueBufferDurations
+
 export type VenueDetailsResult =
-  | { ok: true; venue: Venue }
+  | { ok: true; venue: VenueWithBuffers }
   | { ok: false; reason: string }
 
 interface VenueRow {
   id: string
   name: string
+  setup_minutes: number
+  turnaround_minutes: number
   capacity: number
   layout: string
   accessibility: string[] | null
@@ -28,11 +33,13 @@ interface VenueRow {
   location: string | null
 }
 
-function toVenue(row: VenueRow): Venue {
+function toVenue(row: VenueRow): VenueWithBuffers {
   return {
     id: row.id,
     name: row.name,
     capacity: row.capacity,
+    setupMinutes: row.setup_minutes,
+    turnaroundMinutes: row.turnaround_minutes,
     layout: row.layout,
     accessibility: row.accessibility ?? [],
     facility: row.facility ?? {},
@@ -48,7 +55,7 @@ export async function getVenue(venueId: string): Promise<VenueDetailsResult> {
   }
   const { data, error } = await supabase
     .from('venues')
-    .select('id, name, capacity, layout, accessibility, facility, status, location')
+    .select('id, name, capacity, layout, accessibility, facility, status, location, setup_minutes, turnaround_minutes')
     .eq('id', venueId)
     .maybeSingle()
   if (error) {

@@ -1,10 +1,7 @@
 import type { VenueTimetable } from '../bookingTypes'
 import { timetableCellLabel } from '../venueTimetable'
 import { SLOT_SHORT_LABELS, formatPlainDate } from '../slotFormat'
-import type { SlotCode } from '../slots'
 import { TIMETABLE_CELL_STYLES } from '../timetableStyles'
-
-const ROW_ORDER: SlotCode[] = ['AM', 'PM', 'NIGHT']
 
 /**
  * A venue's availability as days across and slots down. Cells the current selection would
@@ -19,12 +16,12 @@ export function VenueTimetableGrid({
   selectedKeys?: Set<string>
 }) {
   return (
-    <div className="overflow-x-auto">
+    <div className="max-h-[36rem] overflow-auto" role="region" aria-label="Venue availability timetable" tabIndex={0}>
       <table className="w-full min-w-[32rem] border-separate border-spacing-1 text-sm">
         <caption className="sr-only">Venue availability by date and slot</caption>
-        <thead>
+        <thead className="sticky top-0 z-10 bg-white">
           <tr>
-            <th scope="col" className="w-20 text-left text-xs font-medium text-slate-500">Slot</th>
+            <th scope="col" className="w-20 text-left text-xs font-medium text-slate-500">Slot (SGT)</th>
             {timetable.days.map((day) => (
               <th key={day[0].date} scope="col" className="text-xs font-medium text-slate-500">
                 {formatPlainDate(day[0].date)}
@@ -33,7 +30,7 @@ export function VenueTimetableGrid({
           </tr>
         </thead>
         <tbody>
-          {ROW_ORDER.map((slot, rowIndex) => (
+          {(timetable.days[0] ?? []).map(({ slot }, rowIndex) => (
             <tr key={slot}>
               <th scope="row" className="text-left text-xs font-medium text-slate-500">
                 {SLOT_SHORT_LABELS[slot]}

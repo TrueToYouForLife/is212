@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import type { TimeSlot } from '../slots'
+import { QUARTER_HOUR_SLOTS as SLOTS } from '../quarterHourSlots'
 import {
   SUITABILITY_MESSAGES, assessVenueForBooking, assessVenuesForEvent, loadEventSuitability, saveVenueRequirements,
 } from '../suitabilityService'
@@ -49,7 +49,7 @@ const EVENT_ROW = {
   id: EVENT_ID,
   reference: 'EVT-1',
   name: 'Workshop',
-  proposed_start: '2041-03-10T01:00:00Z', // 9am Singapore, so the AM slot
+  proposed_start: '2041-03-10T01:00:00Z', // 9am Singapore
   proposed_end: '2041-03-10T03:00:00Z',
   expected_attendance: 60,
   layout_preference: 'theatre',
@@ -57,19 +57,13 @@ const EVENT_ROW = {
   facility_requirements: ['projector'],
 }
 
-const SLOTS: TimeSlot[] = [
-  { code: 'AM', startsAt: '07:00:00', endsAt: '12:00:00', sortOrder: 1 },
-  { code: 'PM', startsAt: '13:00:00', endsAt: '18:00:00', sortOrder: 2 },
-  { code: 'NIGHT', startsAt: '19:00:00', endsAt: '24:00:00', sortOrder: 3 },
-]
-
 const VENUE_ROWS = [
   {
-    id: 'v-small', name: 'Small Room', location: 'Level 1', status: 'active',
+    id: 'v-small', name: 'Small Room', location: 'Level 1', status: 'active', setup_minutes: 0, turnaround_minutes: 0,
     accessibility: [], facility: {}, venue_layouts: [{ layout: 'boardroom', capacity: 20 }],
   },
   {
-    id: 'v-hall', name: 'Main Hall', location: 'Level 2', status: 'active',
+    id: 'v-hall', name: 'Main Hall', location: 'Level 2', status: 'active', setup_minutes: 0, turnaround_minutes: 0,
     accessibility: ['wheelchair_access'], facility: { projector: true },
     venue_layouts: [{ layout: 'theatre', capacity: 200 }],
   },
@@ -199,8 +193,8 @@ describe('AC-018.4 — venues taken by bookings or maintenance are blacked out',
     assessTables({
       venue_slot_claims: query({
         data: [
-          { venue_id: 'v-hall', slot_date: '2041-03-10', slot: 'AM', kind: 'maintenance', venue_bookings: null },
-          { venue_id: 'v-small', slot_date: '2041-03-12', slot: 'AM', kind: 'event', venue_bookings: { event_id: 'other' } },
+          { venue_id: 'v-hall', slot_date: '2041-03-10', slot: 'T0900', kind: 'maintenance', venue_bookings: null },
+          { venue_id: 'v-small', slot_date: '2041-03-12', slot: 'T0900', kind: 'event', venue_bookings: { event_id: 'other' } },
         ],
         error: null,
       }),
@@ -210,13 +204,13 @@ describe('AC-018.4 — venues taken by bookings or maintenance are blacked out',
     const hall = result.value.find((a) => a.venue.id === 'v-hall')
     const small = result.value.find((a) => a.venue.id === 'v-small')
     expect(hall?.verdict).toBe('unavailable')
-    expect(hall?.reasons[0]).toEqual({ code: 'blocked', message: 'Blocked by Venue Staff on 10 Mar 2041 (AM).' })
+    expect(hall?.reasons[0]).toEqual({ code: 'blocked', message: 'Blocked by Venue Staff on 10 Mar 2041 (09:00–09:15).' })
     expect(small?.reasons.map((reason) => reason.code)).not.toContain('booked')
   })
   test("AC-018.4.8: this event's own hold on a venue is not counted as a clash", async () => {
     assessTables({
       venue_slot_claims: query({
-        data: [{ venue_id: 'v-hall', slot_date: '2041-03-10', slot: 'AM', kind: 'event', venue_bookings: { event_id: EVENT_ID } }],
+        data: [{ venue_id: 'v-hall', slot_date: '2041-03-10', slot: 'T0900', kind: 'event', venue_bookings: { event_id: EVENT_ID } }],
         error: null,
       }),
     })
@@ -236,7 +230,7 @@ describe('AC-018.4 — venues taken by bookings or maintenance are blacked out',
     expect(result.value.every((a) => a.verdict === 'unavailable')).toBe(true)
     expect(result.value[0].reasons[0].code).toBe('timing')
   })
-  test('AC-018.4.11: an event outside every bookable slot is not offered any venue as free', async () => {
+  test('AC-018.4.11: overnight events use the full-day quarter-hour catalogue', async () => {
     assessTables({
       events: query({
         data: { ...EVENT_ROW, proposed_start: '2041-03-10T18:30:00Z', proposed_end: '2041-03-10T19:00:00Z' }, // 2:30–3am Singapore
@@ -245,8 +239,8 @@ describe('AC-018.4 — venues taken by bookings or maintenance are blacked out',
     })
     const result = await assessVenuesForEvent(EVENT_ID, SLOTS)
     if (!result.ok) throw new Error(result.reason)
-    expect(result.value.every((a) => a.verdict === 'unavailable')).toBe(true)
-    expect(result.value[0].reasons[0].code).toBe('timing')
+    expect(result.value.every((a) => a.reasons.every((r) => r.code !== 'timing'))).toBe(true)
+    expect(result.value.find((a) => a.venue.id === 'v-hall')?.verdict).toBe('suitable')
   })
 })
 
@@ -262,5 +256,49 @@ describe('AC-018.2 — coordinators are alerted when booking an unsuitable venue
     assessTables({ venues: query({ data: [], error: null }) })
     expect(await assessVenueForBooking(EVENT_ID, 'v-gone', SLOTS))
       .toEqual({ ok: false, reason: SUITABILITY_MESSAGES.venueNotFound })
+  })
+})
+
+describe('US47 suitability occupied periods', () => {
+  test('AC-047.2.30: each venue uses its own buffers, excludes adjacent cells and ignores its own hold', async () => {
+    const venues = [
+      { ...VENUE_ROWS[1], id: 'buffered', setup_minutes: 30, turnaround_minutes: 15 },
+      { ...VENUE_ROWS[1], id: 'zero' },
+    ]
+    const claims = query({ data: venues.flatMap((venue) => [
+      { venue_id: venue.id, slot_date: '2041-03-10', slot: 'T0830', kind: 'maintenance', venue_bookings: null },
+      { venue_id: venue.id, slot_date: '2041-03-10', slot: 'T1100', kind: 'event', venue_bookings: { event_id: 'other' } },
+      { venue_id: venue.id, slot_date: '2041-03-10', slot: 'T1115', kind: 'maintenance', venue_bookings: null },
+      { venue_id: venue.id, slot_date: '2041-03-10', slot: 'T0900', kind: 'event', venue_bookings: { event_id: EVENT_ID } },
+    ]), error: null })
+    assessTables({ venues: query({ data: venues, error: null }), venue_slot_claims: claims })
+    const result = await assessVenuesForEvent(EVENT_ID, SLOTS)
+    if (!result.ok) throw new Error(result.reason)
+    expect(result.value.find((v) => v.venue.id === 'zero')?.verdict).toBe('suitable')
+    const buffered = result.value.find((v) => v.venue.id === 'buffered')!
+    expect(buffered.verdict).toBe('unavailable')
+    expect(buffered.reasons.map((r) => r.code)).toEqual(['blocked', 'booked'])
+    expect(buffered.reasons.map((r) => r.message).join(' ')).not.toContain('11:15–11:30')
+  })
+
+  test('AC-047.2.31: invalid durations or reversed timing fail closed, and midnight buffers query both dates', async () => {
+    const invalidContexts: Record<string, FakeQuery>[] = [
+      { venues: query({ data: [{ ...VENUE_ROWS[1], setup_minutes: 10 }], error: null }) },
+      { events: query({ data: { ...EVENT_ROW, proposed_end: EVENT_ROW.proposed_start }, error: null }) },
+    ]
+    for (const overrides of invalidContexts) {
+      assessTables(overrides)
+      expect(await assessVenuesForEvent(EVENT_ID, SLOTS))
+        .toEqual({ ok: false, reason: SUITABILITY_MESSAGES.availabilityFailed })
+    }
+    const map = assessTables({
+      venues: query({ data: [{ ...VENUE_ROWS[1], setup_minutes: 15 }], error: null }),
+      events: query({ data: { ...EVENT_ROW, proposed_start: '2041-03-09T16:00:00Z', proposed_end: '2041-03-09T16:15:00Z' }, error: null }),
+      venue_slot_claims: query({ data: [{ venue_id: 'v-hall', slot_date: '2041-03-09', slot: 'T2345', kind: 'maintenance', venue_bookings: null }], error: null }),
+    })
+    const result = await assessVenuesForEvent(EVENT_ID, SLOTS)
+    expect(result.ok && result.value[0].verdict).toBe('unavailable')
+    expect(map.venue_slot_claims.calls.gte).toEqual([['slot_date', '2041-03-09']])
+    expect(map.venue_slot_claims.calls.lte).toEqual([['slot_date', '2041-03-10']])
   })
 })

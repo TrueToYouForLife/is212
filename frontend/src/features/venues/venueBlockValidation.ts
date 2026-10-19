@@ -5,6 +5,7 @@
  * database. This copy puts a message beside the field; the database is the control.
  */
 import type { SlotCode } from './slots'
+import { QUARTER_HOUR_OPTIONS } from './quarterHourSlots'
 import type {
   AffectedBooking,
   PreviewCell,
@@ -17,7 +18,7 @@ import type {
 export const MAX_BLOCK_DAYS = 366
 
 /** The slots in time order, as the database stores them. */
-export const BLOCK_SLOTS: readonly SlotCode[] = ['AM', 'PM', 'NIGHT']
+export const BLOCK_SLOTS: readonly SlotCode[] = QUARTER_HOUR_OPTIONS.map((option) => option.value)
 
 export const BLOCK_VALIDATION_MESSAGES = {
   startRequired: 'Enter the first day of the block.',
@@ -25,6 +26,7 @@ export const BLOCK_VALIDATION_MESSAGES = {
   invalidDate: 'Enter a date that exists.',
   endBeforeStart: 'The block must end on or after the day it starts.',
   tooLong: `A single block can cover at most ${MAX_BLOCK_DAYS} days. Enter a longer closure as more than one block.`,
+  invalidSlots: 'Choose valid 15-minute slots.',
   slotsRequired: 'Choose at least one slot, or Full day.',
   reasonRequired: 'Give a reason, for example maintenance, renovation or a safety concern.',
 } as const
@@ -67,7 +69,7 @@ function dateErrors(startsOn: string, endsOn: string): BlockErrors {
   return errors
 }
 
-/** Each slot once, in time order: NIGHT, AM, AM becomes AM, NIGHT. */
+/** Each quarter-hour slot once, in time order. */
 export function normaliseSlots(slots: readonly string[]): SlotCode[] {
   return BLOCK_SLOTS.filter((code) => slots.includes(code))
 }
@@ -80,6 +82,7 @@ export function validateVenueBlock(input: VenueBlockInput): VenueBlockValidation
   const errors = dateErrors(startsOn, endsOn)
 
   if (slots.length === 0) errors.slots = BLOCK_VALIDATION_MESSAGES.slotsRequired
+  if (input.slots.some((slot) => !BLOCK_SLOTS.includes(slot))) errors.slots = BLOCK_VALIDATION_MESSAGES.invalidSlots
   if (!reason) errors.reason = BLOCK_VALIDATION_MESSAGES.reasonRequired
 
   if (Object.keys(errors).length > 0) return { ok: false, errors }
