@@ -365,6 +365,19 @@ SQL
     [ -e "$notice_test" ] || continue
     cat "$repo_root/supabase/migrations/$(sed -n '1s/^-- Migration: //p' "$notice_test")"
     cat "$notice_test"
+    # US54: who can see an event's registrations, then replay 0094.
+  cat "$repo_root/supabase/tests/event_registration_visibility.sql"
+  cat "$repo_root/supabase/migrations/0094_event_registration_visibility.sql"
+  cat <<'SQL'
+set role authenticated;
+select set_config('request.jwt.claim.sub', '54000000-0000-0000-0000-000000000001', false);
+select pg_temp.assert_true(
+ (select count(*) = 2 from public.list_event_registrations(
+    '54000000-1111-0000-0000-000000000001')),
+ 'AC-054.1.5: replaying 0094 leaves the list answering exactly as before');
+reset role;
+select set_config('request.jwt.claim.sub', '', false);
+SQL
   done
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
