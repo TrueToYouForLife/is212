@@ -10,7 +10,8 @@ insert into auth.users (id, email) values
   ('05000000-0000-0000-0000-000000000002', 'coordinator-us5@example.test'),
   ('05000000-0000-0000-0000-000000000003', 'other-coordinator-us5@example.test'),
   ('05000000-0000-0000-0000-000000000004', 'lead-us5@example.test');
-update public.profiles set role = 'organiser' where id = '05000000-0000-0000-0000-000000000001';
+update public.profiles set role = 'organiser', client_org_id = '0c0a0000-0000-4000-8000-000000000001' 
+where id = '05000000-0000-0000-0000-000000000001';
 update public.profiles set role = 'coordinator'
   where id in ('05000000-0000-0000-0000-000000000002', '05000000-0000-0000-0000-000000000003');
 update public.profiles set role = 'coordinator_lead' where id = '05000000-0000-0000-0000-000000000004';
