@@ -1,0 +1,2 @@
+NOTICE:  PASS: AC-005.1.1: the assigned Coordinator sees one line per arrangement the event needs, in a fixed order
+ERROR:  FAIL: AC-005.2.1: the venue booking is complete only when every live booking is approved; expired holds and rejections do not count

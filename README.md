@@ -1156,6 +1156,22 @@ notified. Slice 3 (retire) follows.
 
 Test cases: `docs/test-cases/US46_test_cases.md`.
 
+## US5 Tracking Event Readiness (SCRUM-10)
+
+An event's assigned Coordinator sees a **Readiness** card on the event's page: venue booking,
+equipment reservation, technical support, programme and registration setup, each marked
+Complete or Outstanding, with outstanding ones linking to where they are dealt with.
+Arrangements that do not apply to the event (no equipment, no registration) are left out. It is
+read live from each arrangement's own records and re-read every 30 seconds, so changes by Venue
+Staff or Technical Support show without reloading. Later arrangements (the safety review,
+US43/US44) are added as one more line in `get_event_readiness`.
+
+| File | Adds |
+| --- | --- |
+| `0076_event_readiness.sql` | `get_event_readiness()`, for the event's assigned Coordinator only |
+
+Test cases: `docs/test-cases/US5_test_cases.md`.
+
 ## US32 View in-app notifications (SCRUM-229)
 
 Built in slices (trunk-based). **Slice 1 (the feed):** **Notifications** (`/notifications`, in

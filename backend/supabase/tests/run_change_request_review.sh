@@ -322,6 +322,8 @@ select pg_temp.assert_true(
  'AC-047.4.2: foundation replay preserves existing venues, bookings and occupied cells');
 SQL
   cat "$repo_root/supabase/tests/venue_buffer_foundation.sql"
+  # US5: each event's readiness summary for its assigned Coordinator.
+  cat "$repo_root/supabase/tests/event_readiness.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"
