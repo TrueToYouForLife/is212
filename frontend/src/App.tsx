@@ -33,6 +33,7 @@ import { EventEquipmentPage } from './features/equipment/pages/EventEquipmentPag
 import { TechSupportEquipmentPage } from './features/equipment/pages/TechSupportEquipmentPage'
 import { ReserveEquipmentPage } from './features/equipment/pages/ReserveEquipmentPage'
 import { FEATURES } from './lib/features'
+import { NotificationPreferencesPage } from './features/notifications/preferences/NotificationPreferencesPage'
 import { NotificationsPage } from './features/notifications/pages/NotificationsPage'
 
 /**
@@ -66,6 +67,7 @@ export default function App() {
             <Route path="/organisation/events" element={<OrganisationEventsPage />} />
             <Route path="/venues/search" element={<VenueSearchPage />} />
             <Route path="/notifications" element={<NotificationsPage />} />
+            {FEATURES.notificationPreferences && <Route path="/notifications/settings" element={<NotificationPreferencesPage />} />}
             <Route path="/venues/availability" element={<VenueAvailabilityPage />} />
             {FEATURES.venueManagement && <Route path="/venues/new" element={<AddVenuePage />} />}
             {FEATURES.venueManagement && <Route path="/venues/manage" element={<ManageVenuesPage />} />}

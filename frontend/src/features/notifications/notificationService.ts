@@ -21,7 +21,7 @@ export type NotificationListResult =
   | { ok: false; reason: string }
 
 const rowSchema = z.object({
-  source: z.enum(['arrangement_review', 'change_request', 'coordinator_assignment', 'equipment', 'venue_decision', 'venue_request', 'email']),
+  source: z.enum(['arrangement_review', 'change_request', 'coordinator_assignment', 'equipment', 'venue_decision', 'venue_request', 'email', 'notice']),
   id: z.string(),
   event_id: z.string().nullable(),
   event_name: z.string().nullable(),

@@ -5,4 +5,5 @@ export const FEATURES = {
   venueSuitability: import.meta.env.VITE_FEATURE_VENUE_SUITABILITY === 'true',
   venueBooking: import.meta.env.VITE_FEATURE_VENUE_BOOKING === 'true',
   venueManagement: import.meta.env.VITE_FEATURE_VENUE_MANAGEMENT === 'true',
+  notificationPreferences: import.meta.env.VITE_FEATURE_NOTIFICATION_PREFERENCES === 'true',
 } as const
