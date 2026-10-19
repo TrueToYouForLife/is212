@@ -22,6 +22,7 @@ import { RegistrationSettingPanel } from '../components/RegistrationSettingPanel
 import { EventWaitlistPanel } from '../../registrations/components/EventWaitlistPanel'
 import { canChangeRegistration } from '../statusRules'
 import { PlanningUpdatePanel } from '../components/PlanningUpdatePanel'
+import { EventReadinessCard } from '../readiness/EventReadinessCard'
 
 export function ReviewRequestDetailPage() {
   const { id = '' } = useParams()
@@ -110,6 +111,10 @@ export function ReviewRequestDetailPage() {
             )}
             <p className="text-xs text-slate-500">Status updates automatically every 30 seconds.</p>
 
+            {profile?.role === 'coordinator' && request.coordinatorId === profile.id && (
+              <EventReadinessCard key={request.id} eventId={request.id} refreshVersion={reviewRefreshVersion} />
+            )}
+
             <Card title="Request details">
               <RequestDetails request={request} />
             </Card>
@@ -139,6 +144,7 @@ export function ReviewRequestDetailPage() {
             )}
 
             {profile?.role === 'coordinator' && (
+              <div id="event-decision">
               <Card
                 title="Decision"
                 description="Your note is shared with the organiser, who is emailed when you approve or reject."
@@ -149,6 +155,7 @@ export function ReviewRequestDetailPage() {
                   onReviewed={refreshAll}
                 />
               </Card>
+              </div>
             )}
 
             {profile?.role === 'coordinator' && request.coordinatorId === profile.id
@@ -186,9 +193,11 @@ export function ReviewRequestDetailPage() {
             )}
 
             {profile?.role === 'coordinator' && request.coordinatorId === profile.id && (
+              <div id="planning-details">
               <Card title="Planning details and history">
                 <PlanningUpdatePanel key={request.id} eventId={request.id} onChanged={refreshAll} />
               </Card>
+              </div>
             )}
 
             {canSeeHistory && (
