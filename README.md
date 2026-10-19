@@ -1197,6 +1197,19 @@ US43/US44) are added as one more line in `get_event_readiness`.
 
 Test cases: `docs/test-cases/US5_test_cases.md`.
 
+## US33 Choose notification channels by type (SCRUM-230)
+
+**Slice 1 (the choices):** **Notification settings** (`/notifications/settings`, linked from
+Notifications) lists the notification types for the user's role, each with In-app and Email
+switches; anything not yet changed is on for both. Behind `VITE_FEATURE_NOTIFICATION_PREFERENCES`
+until slice 2 (Sprint 4) makes delivery follow the choices through one shared sending helper.
+
+| File | Adds |
+| --- | --- |
+| `0077_notification_preferences.sql` | `notification_types`, `notification_preferences`, `get_my_notification_preferences()`, `set_my_notification_preference()` |
+
+Test cases: `docs/test-cases/US33_test_cases.md`.
+
 ## US32 View in-app notifications (SCRUM-229)
 
 Built in slices (trunk-based). **Slice 1 (the feed):** **Notifications** (`/notifications`, in
