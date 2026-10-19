@@ -6,6 +6,10 @@ import { TopNav } from '../TopNav'
 
 const flags = vi.hoisted(() => ({ venueBlocks: true, venueSuitability: false, venueManagement: false }))
 vi.mock('../../../lib/features', () => ({ FEATURES: flags }))
+const unread = vi.hoisted(() => ({ count: null as number | null }))
+vi.mock('../../../features/notifications/useUnreadNotificationCount', () => ({
+  useUnreadNotificationCount: (enabled: boolean) => (enabled ? unread.count : null),
+}))
 vi.mock('../../../features/auth/components/SessionBadge', () => ({ SessionBadge: () => null }))
 
 function renderNavFor(role: string) {
@@ -106,20 +110,62 @@ describe('AC-046.6 — only Venue Staff can add venues', () => {
     flags.venueManagement = false
   })
 
-  test('AC-046.6.11: Venue Staff are offered "Add venue" once venue management is switched on', () => {
+  test('AC-046.6.11: Venue Staff are offered "Manage venues" once venue management is switched on', () => {
     renderNavFor('venue_staff')
-    expect(screen.getAllByRole('link', { name: 'Add venue' })[0]).toHaveAttribute('href', '/venues/new')
+    expect(screen.getAllByRole('link', { name: 'Manage venues' })[0]).toHaveAttribute('href', '/venues/manage')
     cleanup()
     flags.venueManagement = false
     renderNavFor('venue_staff')
-    expect(screen.queryAllByRole('link', { name: 'Add venue' })).toHaveLength(0)
+    expect(screen.queryAllByRole('link', { name: 'Manage venues' })).toHaveLength(0)
   })
 
   test.each(['coordinator', 'coordinator_lead', 'organiser', 'operations_manager', 'tech_support', 'attendee'])(
     'AC-046.6.12: a %s is never offered it',
     (role) => {
       renderNavFor(role)
-      expect(screen.queryAllByRole('link', { name: 'Add venue' })).toHaveLength(0)
+      expect(screen.queryAllByRole('link', { name: 'Manage venues' })).toHaveLength(0)
     },
   )
+})
+
+describe('AC-032.1 — a user sees their notifications', () => {
+  beforeEach(() => {
+    unread.count = null
+  })
+
+  test.each(['organiser', 'coordinator', 'coordinator_lead', 'operations_manager', 'venue_staff', 'tech_support', 'attendee'])(
+    'AC-032.1.19: a signed-in %s is offered Notifications',
+    (role) => {
+      renderNavFor(role)
+      expect(screen.getAllByRole('link', { name: 'Notifications' })[0]).toHaveAttribute('href', '/notifications')
+    },
+  )
+
+  test('AC-032.1.20: someone signed out is not offered Notifications', () => {
+    render(<MemoryRouter><TopNav session={null} profile={null} loading={false} /></MemoryRouter>)
+    expect(screen.queryAllByRole('link', { name: /Notifications/ })).toHaveLength(0)
+  })
+})
+
+describe('AC-032.2 — an unread count is shown in the navigation', () => {
+  beforeEach(() => {
+    unread.count = null
+  })
+
+  test('AC-032.2.10: the unread count is shown beside Notifications, and read out with it', () => {
+    unread.count = 3
+    renderNavFor('coordinator')
+    const link = screen.getAllByRole('link', { name: 'Notifications, 3 unread' })[0]
+    expect(link).toHaveTextContent('Notifications3')
+  })
+
+  test('AC-032.2.11: with nothing unread, or the count unknown, no number is shown; over 99 shows 99+', () => {
+    unread.count = 0
+    renderNavFor('coordinator')
+    expect(screen.getAllByRole('link', { name: 'Notifications' })[0]).toHaveTextContent(/^Notifications$/)
+    cleanup()
+    unread.count = 140
+    renderNavFor('coordinator')
+    expect(screen.getAllByRole('link', { name: 'Notifications, 140 unread' })[0]).toHaveTextContent('Notifications99+')
+  })
 })

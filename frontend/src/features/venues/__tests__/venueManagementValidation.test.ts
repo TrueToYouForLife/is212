@@ -1,5 +1,7 @@
 import { describe, expect, test } from 'vitest'
-import { EMPTY_VENUE_FORM, VENUE_FORM_MESSAGES as messages, validateVenueForm } from '../venueManagementValidation'
+import {
+  EMPTY_VENUE_FORM, VENUE_FORM_MESSAGES as messages, loadedVenueSchema, validateVenueForm, venueFormValuesFrom,
+} from '../venueManagementValidation'
 import type { VenueFormValues } from '../venueManagementValidation'
 
 const LAYOUTS = ['theatre', 'classroom', 'boardroom']
@@ -106,5 +108,55 @@ describe('AC-046.3 — every supported layout has a capacity of at least 1', () 
         { layout: 'boardroom', capacity: '12' },
       ],
     }))).toEqual({ layoutRows: [undefined, messages.capacityInvalid, undefined] })
+  })
+})
+
+describe('AC-046.2 — Venue Staff can edit any of a venue’s details', () => {
+  const LOADED = {
+    id: 'venue-1',
+    name: 'Grand Hall',
+    location: 'Level 1',
+    status: 'active' as const,
+    opensAt: '07:00',
+    closesAt: '24:00',
+    accessibility: ['wheelchair_access'],
+    facilities: ['projector', 'wifi'],
+    layouts: [{ layout: 'theatre', capacity: 120 }, { layout: 'classroom', capacity: 60 }],
+    version: 'v1',
+  }
+
+  test('AC-046.2.8: the edit form opens with the venue’s current details, capacities as typed text', () => {
+    expect(venueFormValuesFrom(LOADED)).toEqual({
+      values: {
+        name: 'Grand Hall',
+        location: 'Level 1',
+        opensAt: '07:00',
+        closesAt: '24:00',
+        accessibility: ['wheelchair_access'],
+        facilities: ['projector', 'wifi'],
+        layouts: [{ layout: 'theatre', capacity: '120' }, { layout: 'classroom', capacity: '60' }],
+      },
+      dropped: [],
+    })
+  })
+
+  test('AC-046.2.9: a venue added before operating hours existed opens with them blank, so they must be chosen', () => {
+    const { values } = venueFormValuesFrom({ ...LOADED, opensAt: null, closesAt: null, layouts: [] })
+    expect(values).toMatchObject({ opensAt: '', closesAt: '', layouts: [{ layout: '', capacity: '' }] })
+    expect(validateVenueForm(values, LAYOUTS).ok).toBe(false)
+  })
+
+  test('AC-046.2.10: a feature the catalogue no longer offers is left out and named, rather than blocking the save', () => {
+    const { values, dropped } = venueFormValuesFrom({
+      ...LOADED, accessibility: ['wheelchair_access', 'ramp'], facilities: ['projector', 'piano'],
+    })
+    expect(values.accessibility).toEqual(['wheelchair_access'])
+    expect(values.facilities).toEqual(['projector'])
+    expect(dropped).toEqual(['ramp', 'piano'])
+  })
+
+  test('AC-046.2.11: a venue with no location recorded opens with it blank', () => {
+    const parsed = loadedVenueSchema.parse({ ...LOADED, location: null })
+    expect(parsed.location).toBe('')
   })
 })

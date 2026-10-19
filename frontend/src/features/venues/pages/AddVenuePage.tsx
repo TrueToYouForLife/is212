@@ -88,6 +88,9 @@ export function AddVenuePage() {
             <Link to="/venues/availability" className="font-semibold text-indigo-700 hover:underline">
               View venue availability
             </Link>
+            <Link to="/venues/manage" className="font-semibold text-indigo-700 hover:underline">
+              Back to all venues
+            </Link>
           </div>
         </Card>
       ) : loadError ? (

@@ -1,0 +1,4 @@
+NOTICE:  PASS: AC-032.1.1: a Coordinator sees every kind of notice addressed to them, newest first, each naming its event
+NOTICE:  PASS: AC-032.1.2: each notice says what happened in words: a decision with its reason and alternative, a partial reservation, a review
+NOTICE:  PASS: AC-032.1.3: an Organiser sees the decisions that were only emailed to them, in the app, with their event
+ERROR:  FAIL: AC-032.1.4: an Attendee sees their emailed notices even when the address differs in letter case, and the event is named

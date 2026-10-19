@@ -1,0 +1,18 @@
+Original service restored byte-for-byte; tests unchanged.
+Command: npm run test -- src/features/events/__tests__/organiserVenueArrangementService.test.ts --maxWorkers=1 --minWorkers=1
+
+> connectsphere@0.1.0 test
+> vitest run src/features/events/__tests__/organiserVenueArrangementService.test.ts --maxWorkers=1 --minWorkers=1
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+ ✓ src/features/events/__tests__/organiserVenueArrangementService.test.ts (3 tests) 5ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  15:45:09
+   Duration  807ms (transform 32ms, setup 65ms, collect 26ms, tests 5ms, environment 326ms, prepare 40ms)
+
+
+Exit code: 0

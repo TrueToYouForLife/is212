@@ -278,6 +278,10 @@ SQL
   # 0064 is replayed here first, which also shows it is safe to replay.
   cat "$repo_root/supabase/migrations/0064_venue_management.sql"
   cat "$repo_root/supabase/tests/venue_management.sql"
+  # US46 slice 2: the 0064 replay above restores the history triggers without the booking
+  # review, so 0067 is replayed before its tests, which also shows it is safe to replay.
+  cat "$repo_root/supabase/migrations/0067_venue_edit_review.sql"
+  cat "$repo_root/supabase/tests/venue_edit.sql"
   cat "$repo_root/supabase/tests/event_planning_updates.sql"
   cat "$repo_root/supabase/migrations/0063_event_planning_updates.sql"
   cat <<'SQL'
@@ -286,6 +290,39 @@ select pg_temp.assert_true(not exists(
  union all (select * from us20_history_before_replay except select * from public.event_planning_updates)),
  'AC-020.2.4: replaying 0063 preserves history without backfilling');
 SQL
+  cat "$repo_root/supabase/tests/organiser_venue_arrangements.sql"
+  cat "$repo_root/supabase/tests/organiser_equipment_arrangements.sql"
+  cat "$repo_root/supabase/tests/retired_venue_replacement.sql"
+  cat "$repo_root/supabase/migrations/0065_retired_venue_replacement.sql"
+  cat <<'SQL'
+select pg_temp.assert_true(not exists(
+ (select * from public.venue_replacement_requests except select * from us20s2_requests_before_replay)
+ union all (select * from us20s2_requests_before_replay except select * from public.venue_replacement_requests))
+ and not exists((select * from public.venue_bookings except select * from us20s2_bookings_before_replay)
+ union all(select * from us20s2_bookings_before_replay except select * from public.venue_bookings)),
+ 'AC-020.3.17: replaying 0065 preserves proposals, decisions and bookings');
+SQL
+  # US32 slice 1: one feed of each user's own notifications, from every source.
+  cat "$repo_root/supabase/tests/notification_feed.sql"
+  # US47: the additive foundation must also preserve populated booking state on replay.
+  cat <<'SQL'
+create temp table us47_bookings_before as select * from public.venue_bookings;
+create temp table us47_claims_before as select * from public.venue_slot_claims;
+create temp table us47_venues_before as select * from public.venues;
+SQL
+  cat "$repo_root/supabase/migrations/0074_venue_buffer_foundation.sql"
+  cat <<'SQL'
+select pg_temp.assert_true(
+ not exists((select * from public.venue_bookings except select * from us47_bookings_before)
+ union all (select * from us47_bookings_before except select * from public.venue_bookings))
+ and not exists((select * from public.venue_slot_claims except select * from us47_claims_before)
+ union all (select * from us47_claims_before except select * from public.venue_slot_claims))
+ and not exists((select * from public.venues except select * from us47_venues_before)
+ union all (select * from us47_venues_before except select * from public.venues)),
+ 'AC-047.4.2: foundation replay preserves existing venues, bookings and occupied cells');
+SQL
+  cat "$repo_root/supabase/tests/venue_buffer_foundation.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"
+bash "$repo_root/supabase/tests/retired_venue_replacement_races.sh" "$container"
