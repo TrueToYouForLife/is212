@@ -118,6 +118,12 @@ create policy clarification_responses_read on public.event_clarification_respons
 -- This deliberately does not re-check that the request was returned or that the reply is
 -- non-blank. Those live in the function, which can report them usefully; a trigger that
 -- restated half of them would only give the two somewhere to disagree.
+--
+-- Restated from 0006's body, NOT 0004's. 0006 tightened the organiser branch to require
+-- actor_role = 'organiser' as well as ownership, so that someone moved off the organiser
+-- role keeps no control over the events they used to own. Postgres has no way to add a
+-- case to a function, so a replacement has to carry every earlier change forward; basing
+-- this on 0004 reverted that one. AC-037.4.16 now fails if it is reverted again.
 create or replace function public.enforce_event_status_transition()
 returns trigger
 language plpgsql
@@ -153,7 +159,7 @@ begin
     return new;
   end if;
 
-  if old.organiser_id = auth.uid() then
+  if actor_role = 'organiser' and old.organiser_id = auth.uid() then
     -- US37 AC-037.2: a returned request goes back under review when its owner answers.
     if old.status = 'submitted' and new.status = 'under_review'
        and exists (

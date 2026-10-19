@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { ClarificationResponseForm } from '../components/ClarificationResponseForm'
 import { CLARIFICATION_SERVICE_MESSAGES as messages } from '../clarificationResponseService'
 import { CLARIFICATION_MESSAGES } from '../clarificationResponseValidation'
+import { EVENT_STATUSES } from '../types'
 import type { EventRequestDetail } from '../types'
 
 /**
@@ -70,7 +71,8 @@ describe('AC-037.4 — the form appears only when there is a question', () => {
   })
 
   test('AC-037.4.15: no other status offers the form, whatever note it carries', () => {
-    for (const status of ['draft', 'under_review', 'approved', 'confirmed', 'rejected'] as const) {
+    // Derived, not listed: a status added to the workflow must not quietly gain a form.
+    for (const status of EVENT_STATUSES.filter((value) => value !== 'submitted')) {
       const { container, unmount } = render(
         <ClarificationResponseForm request={{ ...returned, status }} onSent={vi.fn()} />,
       )

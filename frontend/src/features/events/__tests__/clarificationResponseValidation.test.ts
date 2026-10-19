@@ -7,6 +7,7 @@ import {
   validateClarificationResponse,
 } from '../clarificationResponseValidation'
 import { VALIDATION_MESSAGES } from '../validation'
+import { EVENT_STATUSES } from '../types'
 import type { EventRequestDetail } from '../types'
 
 /**
@@ -43,8 +44,9 @@ describe('AC-037.4 — only a returned request may be answered', () => {
   })
 
   test('AC-037.4.11: no other status is, whatever note it carries', () => {
-    for (const status of ['draft', 'under_review', 'approved', 'planning', 'confirmed',
-                          'completed', 'cancelled', 'rejected'] as const) {
+    // Derived from EVENT_STATUSES rather than listed, so a status added to the workflow
+    // is covered here the day it is added instead of quietly escaping the loop.
+    for (const status of EVENT_STATUSES.filter((value) => value !== 'submitted')) {
       expect(isAwaitingClarification({ ...returned, status })).toBe(false)
     }
   })

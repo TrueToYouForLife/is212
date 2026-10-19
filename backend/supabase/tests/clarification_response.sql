@@ -248,6 +248,24 @@ select pg_temp.expect_error(
      where id = '37000000-1111-0000-0000-000000000006'$q$,
   '42501', 'AC-037.4.8: an Organiser cannot rewrite the question they were asked');
 
+-- Regression guard for the function this migration replaces. 0006 tightened the organiser
+-- branch of enforce_event_status_transition to require the organiser ROLE as well as
+-- ownership, so someone moved off that role keeps no control over the events they used to
+-- own. Postgres cannot add a case to a function, so a replacement must carry every earlier
+-- change forward — and a replacement restated from 0004 reverts this one. That is exactly
+-- the mistake that produced this test.
+--
+-- Asserted against the definition rather than by behaviour, deliberately: events_update_own
+-- already requires the organiser role, so a non-organiser owner is filtered out by RLS
+-- before the trigger runs and no reachable browser path tells the two versions apart. The
+-- tightening is defence in depth for a SECURITY DEFINER caller, and the claim being made
+-- here is about the definition, so that is what is checked.
+select pg_temp.assert_true(
+ (select prosrc like '%actor_role = ''organiser'' and old.organiser_id = auth.uid()%'
+    from pg_catalog.pg_proc
+   where oid = 'public.enforce_event_status_transition()'::regprocedure),
+ 'AC-037.4.16: replacing the transition guard keeps 0006''s organiser-role requirement');
+
 -- ===== AC-037.5 before and after are both kept =====
 
 select pg_temp.assert_true(
