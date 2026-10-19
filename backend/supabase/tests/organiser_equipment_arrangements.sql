@@ -6,7 +6,7 @@ insert into auth.users(id,email) values
  ('42700000-0000-0000-0000-000000000001','us42-equipment-owner@example.test'),
  ('42700000-0000-0000-0000-000000000002','us42-equipment-other@example.test'),
  ('42700000-0000-0000-0000-000000000003','us42-equipment-tech@example.test');
-update public.profiles set role='organiser'
+update public.profiles set role='organiser', client_org_id = '0c0a0000-0000-4000-8000-000000000001'
  where id in ('42700000-0000-0000-0000-000000000001','42700000-0000-0000-0000-000000000002');
 update public.profiles set role='tech_support' where id='42700000-0000-0000-0000-000000000003';
 insert into public.events(id,organiser_id,status,purpose,proposed_start,proposed_end,expected_attendance)
