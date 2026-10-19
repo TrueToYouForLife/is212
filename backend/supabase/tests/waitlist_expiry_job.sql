@@ -12,7 +12,7 @@ insert into auth.users (id, email, raw_user_meta_data) values
   ('19000000-0000-0000-0000-000000000002', 'a2-us16j@example.test', '{"full_name":"Ben Two"}'),
   ('19000000-0000-0000-0000-000000000003', 'a3-us16j@example.test', '{"full_name":"Cal Three"}'),
   ('19000000-0000-0000-0000-000000000004', 'o1-us16j@example.test', '{"full_name":"Olive Org"}');
-update public.profiles set role = 'organiser' where id = '19000000-0000-0000-0000-000000000004';
+update public.profiles set role = 'organiser', client_org_id = '0c0a0000-0000-4000-8000-000000000001' where id = '19000000-0000-0000-0000-000000000004';
 
 -- 01 E-JOB and 02 E-OFF: both Confirmed with capacity 1, A1 holding the only place.
 insert into public.events (id, organiser_id, name, purpose, event_type, proposed_start, proposed_end,

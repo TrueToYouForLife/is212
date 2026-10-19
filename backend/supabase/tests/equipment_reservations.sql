@@ -174,7 +174,7 @@ insert into auth.users (id, email)
 select pg_temp.u(code), 'us14-' || lower(code) || '@example.test'
 from unnest(array['TS1','TS2','C1','C2','O1','M1','A1','V1']) code;
 -- Self sign-up creates Attendees since US29 (0042), so organisers are assigned like other roles.
-update public.profiles set role = 'organiser' where id = pg_temp.u('O1');
+update public.profiles set role = 'organiser', client_org_id = '0c0a0000-0000-4000-8000-000000000001' where id = pg_temp.u('O1');
 update public.profiles set role = 'tech_support' where id in (pg_temp.u('TS1'), pg_temp.u('TS2'));
 update public.profiles set role = 'coordinator' where id in (pg_temp.u('C1'), pg_temp.u('C2'));
 update public.profiles set role = 'operations_manager' where id = pg_temp.u('M1');

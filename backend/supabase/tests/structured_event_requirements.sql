@@ -12,10 +12,11 @@ select set_config('request.jwt.claim.sub','',false);
 insert into auth.users (id, email) values
   ('52000000-0000-0000-0000-000000000001','organiser.sr@example.com'),
   ('52000000-0000-0000-0000-000000000002','coordinator.sr@example.com');
-insert into public.profiles (id, full_name, role) values
-  ('52000000-0000-0000-0000-000000000001','SR Organiser','organiser'),
-  ('52000000-0000-0000-0000-000000000002','SR Coordinator','coordinator')
-on conflict (id) do update set role = excluded.role, full_name = excluded.full_name;
+insert into public.profiles (id, full_name, role, client_org_id) values
+  ('52000000-0000-0000-0000-000000000001','SR Organiser','organiser','0c0a0000-0000-4000-8000-000000000001'),
+  ('52000000-0000-0000-0000-000000000002','SR Coordinator','coordinator',null)
+on conflict (id) do update set role = excluded.role, full_name = excluded.full_name,
+  client_org_id = excluded.client_org_id;
 
 insert into public.equipment_types (id, name, category) values
   ('52100000-0000-0000-0000-000000000001','SR Projector','Visual')

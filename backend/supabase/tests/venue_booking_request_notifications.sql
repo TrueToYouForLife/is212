@@ -23,7 +23,7 @@ insert into auth.users (id, email, raw_user_meta_data) values
 update public.profiles set role = 'venue_staff'
  where id in ('b9080000-0000-0000-0000-000000000001', 'b9080000-0000-0000-0000-000000000002');
 update public.profiles set role = 'coordinator' where id = 'b9080000-0000-0000-0000-000000000003';
-update public.profiles set role = 'organiser'   where id = 'b9080000-0000-0000-0000-000000000004';
+update public.profiles set role = 'organiser', client_org_id = '0c0a0000-0000-4000-8000-000000000001'   where id = 'b9080000-0000-0000-0000-000000000004';
 
 insert into public.venues (id, name, location, capacity, layout, status)
 values ('b9080000-0000-0000-0000-000000000010', 'Notify Hall', 'Level 9', 150, 'Theatre', 'active');

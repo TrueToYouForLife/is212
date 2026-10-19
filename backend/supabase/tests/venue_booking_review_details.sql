@@ -45,7 +45,7 @@ begin
   n:=n+1;
  end loop;
  perform set_config('request.jwt.claim.sub','',false);
- update public.profiles set role='organiser' where id='b10a0000-0000-0000-0000-000000000002';
+ update public.profiles set role='organiser', client_org_id = '0c0a0000-0000-4000-8000-000000000001' where id='b10a0000-0000-0000-0000-000000000002';
 end $$;
 set role authenticated;
 select set_config('request.jwt.claim.sub','b10a0000-0000-0000-0000-000000000001',false);

@@ -12,7 +12,10 @@ insert into auth.users (id, email) values
 update public.profiles set role = case id
   when '17400000-0000-0000-0000-000000000001'::uuid then 'coordinator_lead'
   when '17400000-0000-0000-0000-000000000002'::uuid then 'organiser'
-  else 'coordinator' end
+  else 'coordinator' end,
+  client_org_id = case id
+  when '17400000-0000-0000-0000-000000000002'::uuid then '0c0a0000-0000-4000-8000-000000000001'::uuid
+  else null end
 where id in ('17400000-0000-0000-0000-000000000001',
   '17400000-0000-0000-0000-000000000002', '17400000-0000-0000-0000-000000000003');
 
@@ -70,7 +73,7 @@ insert into auth.users (id, email) values
   ('17400000-0000-0000-0000-000000000005', 'outsider-us17-notify@example.test');
 update public.profiles set role = 'coordinator'
   where id = '17400000-0000-0000-0000-000000000004';
-update public.profiles set role = 'organiser'
+update public.profiles set role = 'organiser', client_org_id = '0c0a0000-0000-4000-8000-000000000001'
   where id = '17400000-0000-0000-0000-000000000005';
 set local role authenticated;
 select set_config('request.jwt.claim.sub', '17400000-0000-0000-0000-000000000001', true);

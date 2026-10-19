@@ -498,6 +498,8 @@ Roles live in `public.profiles.role`, never in `auth.users` — Supabase owns th
 it cannot take extra columns. Valid values are constrained by `profiles_role_valid`:
 `organiser`, `coordinator`, `venue_staff`, `tech_support`, `attendee`.
 
+An Organiser also belongs to exactly one client organisation, recorded in `public.profiles.client_org_id` and constrained by `profiles_client_org_required` (`0069`). The column stays empty for every other role, who work across clients or for none. See [US31](#us31-organiser-access-within-a-client-organisation-scrum-228).
+
 **Roles are assigned, not chosen.** `prevent_role_self_assignment` blocks a signed-in user
 from updating their own role, and no client may insert a profile at all: the
 `handle_new_user` trigger (`0005`) creates it in the same transaction as the account, with
@@ -508,6 +510,16 @@ statements run without a JWT:
 update public.profiles set role = 'coordinator'
 where id = (select id from auth.users where email = 'someone@example.com');
 ```
+Promoting someone to organiser must name their client organisation in the same statement, or `profiles_client_org_required` refuses it:
+ 
+```sql
+update public.profiles set role = 'organiser',
+       client_org_id = (select id from public.client_organisations
+                         where name = 'Northwind Trading')
+where id = (select id from auth.users where email = 'someone@example.com');
+```
+ 
+`prevent_client_org_self_assignment` blocks a signed-in user changing their own organisation, the same way `prevent_role_self_assignment` blocks a role change. Both let the SQL editor through, because statements there run without a JWT.
 
 Policies read the caller's role through `public.current_user_role()`. That function is
 `SECURITY DEFINER` for a reason worth knowing: a policy on `profiles` that queries
@@ -530,17 +542,30 @@ coordinator reviews) are tested as two different people, the way RLS will see th
    waits for a confirmation email that a test address can never receive.
 3. Assign the role from the SQL editor. Every new account starts as `attendee`, through the
    `on_auth_user_created` trigger (`0042` replaced `0005`'s `organiser` default for US29), so
-   every other role, organiser included, is set here:
-
+   every other role, organiser included, is set here. Since `0069`, an organiser must be
+   given a client organisation in the same statement:
 ```sql
 update public.profiles p
-set role = v.role
+set role = v.role,
+    client_org_id = case when v.role = 'organiser'
+                         then (select id from public.client_organisations
+                                where name = 'Northwind Trading')
+                         else p.client_org_id end
 from auth.users u,
      (values ('organiser@test.com',   'organiser'),
              ('coordinator@test.com', 'coordinator'),
              ('venue@test.com',       'venue_staff'),
              ('tech@test.com',        'tech_support')) as v(email, role)
 where u.email = v.email and p.id = u.id;
+```
+ 
+To test AC-031.3 you need a second organiser in the *other* organisation; add
+`('organiser2@test.com', 'organiser')` to the list above and move them afterwards:
+ 
+```sql
+update public.profiles set client_org_id =
+       (select id from public.client_organisations where name = 'Harbourline Group')
+where id = (select id from auth.users where email = 'organiser2@test.com');
 ```
 
 | Role | Account |
@@ -1310,6 +1335,7 @@ requirement field failing. After applying, read `event_requirement_migration_not
 which existing free text could not be mapped to a code, and decide with the organisers
 whether any of it should become a new catalogue option.
 
+Client organisations update (18 October): `0069` is local only and **not applied to shared Supabase**. It is the first migration to backfill `profiles`, so apply it in a sitting of its own and check the result before anything else: it places every existing Organiser in `Northwind Trading`, and individual Organisers are moved afterwards from the SQL editor or the table editor, where statements run without a JWT. Renaming the two seeded organisations to real client names is safe at any time; their ids are what the data depends on. Any seed or fixture that creates an Organiser must set `client_org_id` in the same statement from this migration onward.
 
 Latest progress supersedes older remaining-work notes: significance, the revalidation
 hook, clarification replies and coordinator notification triggers are implemented. Jaydon
