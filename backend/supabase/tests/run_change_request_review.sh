@@ -322,8 +322,37 @@ select pg_temp.assert_true(
  'AC-047.4.2: foundation replay preserves existing venues, bookings and occupied cells');
 SQL
   cat "$repo_root/supabase/tests/venue_buffer_foundation.sql"
-  # US5: each event's readiness summary for its assigned Coordinator.
-  cat "$repo_root/supabase/tests/event_readiness.sql"
+  # US31 slice 1: organisation ownership, then replay 0069 against assigned Organisers.
+  # The replay matters more here than usual: the backfill writes to profiles, so a replay
+  # that re-ran it would drag hand-corrected Organisers back to the default organisation.
+  cat "$repo_root/supabase/tests/client_organisations.sql"
+  echo 'create temp table us31_assignments_before_replay as
+          select id, client_org_id from public.profiles where client_org_id is not null;'
+  cat "$repo_root/supabase/migrations/0069_client_organisations.sql"
+  cat <<'SQL'
+select pg_temp.assert_true(not exists(
+ (select id, client_org_id from public.profiles where client_org_id is not null
+  except select * from us31_assignments_before_replay)
+ union all (select * from us31_assignments_before_replay
+            except select id, client_org_id from public.profiles where client_org_id is not null)),
+ 'AC-031.4.16: replaying 0069 preserves assignments and does not re-run the backfill');
+SQL
+  # US31 slice 2: the organisation read path, then replay 0078 to show it is idempotent.
+  cat "$repo_root/supabase/tests/organisation_event_access.sql"
+  cat "$repo_root/supabase/migrations/0078_organisation_event_access.sql"
+  cat <<'SQL'
+-- organisation_event_access.sql ends with the session reset, so a caller is needed again:
+-- the projections answer per signed-in user, and with nobody signed in they are empty,
+-- which would make this assertion pass for the wrong reason.
+set role authenticated;
+select set_config('request.jwt.claim.sub', '31100000-0000-0000-0000-000000000003', false);
+select pg_temp.assert_true(
+ (select count(*) = 1 from public.list_organisation_events()
+   where id = '31100000-1111-0000-0000-000000000003'),
+ 'AC-031.3.8: replaying 0078 leaves the projections answering exactly as before');
+reset role;
+select set_config('request.jwt.claim.sub', '', false);
+SQL
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"
