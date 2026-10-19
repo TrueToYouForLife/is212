@@ -5,9 +5,7 @@ import type { UserProfile } from '../../../features/auth/types'
 import { TopNav } from '../TopNav'
 
 const flags = vi.hoisted(() => ({ venueBlocks: true, venueSuitability: false }))
-const flags = vi.hoisted(() => ({
-  venueBlocks: true, venueSuitability: false, venueManagement: false,
-}))
+
 vi.mock('../../../lib/features', () => ({ FEATURES: flags }))
 const unread = vi.hoisted(() => ({ count: null as number | null }))
 vi.mock('../../../features/notifications/useUnreadNotificationCount', () => ({
