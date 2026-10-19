@@ -5,12 +5,15 @@ re-estimation before Sprint 4.
 
 | Slice | ACs | Status |
 |---|---|---|
-| 1. The choices: types per role, two switches per type, on by default | AC-033.1, AC-033.2, AC-033.3 | implemented; automated cases pass; page behind `VITE_FEATURE_NOTIFICATION_PREFERENCES` |
-| 2. Delivery follows the choices | AC-033.4, AC-033.5 | Sprint 4, after re-estimation |
+| 1. The choices: types per role, two switches per type, on by default | AC-033.1, AC-033.2, AC-033.3 | implemented; page behind `VITE_FEATURE_NOTIFICATION_PREFERENCES` |
+| 2a. The sending helper (0079) | AC-033.4, AC-033.5 (helper level) | implemented; automated cases pass; changes nothing anyone receives |
+| 2b. Each feature moved onto the helper (0080 to 0092, one PR per function) | AC-033.4 per type | to do |
+| 2c. Email for the four in-app-only types (0093) | AC-033.3 for those types | to do |
+| 2d. Settings page shows types switched off for everyone; flag removed | AC-033.2 | to do |
 
 Test IDs follow `CLAUDE.md`: `AC-033.Y.Z`, Z unique across the story and increasing top to
-bottom within each test file. Next free IDs: AC-033.1.9, AC-033.2.9, AC-033.3.2, AC-033.4.1,
-AC-033.5.1.
+bottom within each test file. Next free IDs: AC-033.1.9, AC-033.2.9, AC-033.3.2, AC-033.4.12,
+AC-033.5.2.
 
 ## Acceptance criteria (Jira)
 
@@ -105,3 +108,39 @@ covered case by case above.
 Forced break: in `0077_notification_preferences.sql`, `set_my_notification_preference`'s check
 that the type applies to the caller's role was removed. AC-033.2.3 failed; the file was then
 restored. Log: `docs/test-evidence/us33/AC-033.2.3-forced-break.log`.
+
+## Slice 2a: the sending helper (0079)
+
+### Design decisions
+
+| # | Decision | Why |
+|---|---|---|
+| D6 | `notification_channels(recipient, type)` is the one place that decides: a channel is used only if the person's choice (on unless they turned it off) and, for change requests, assignments and equipment results, the existing system-wide switch both allow it. | Team decision: people decide day to day; the three system-wide switches stay as an admin kill switch, all on once each feature moves (US7's email switch is turned on in its conversion). |
+| D7 | `queue_notification_email` tags each email with its type and recipient; `record_in_app_notice` stores the in-app copy of notices that had none (`user_notifications`); `send_notification` does both. | Converted features call one helper instead of writing notices directly. |
+| D8 | Event decisions, venue closures, registrations and waiting-list updates get a separate in-app copy instead of the feed showing their email. | So switching email off does not also hide them in the app (AC-033.2 independence). |
+| D9 | The feed shows in-app copies (source `notice`) and leaves out emails sent through the helper; emails from features not yet moved show exactly as before. | Nothing appears twice, and nothing changes until each feature's own PR merges. |
+| D10 | In-app copies are read on the user's behalf with their event's name, like their emails. | Attendees cannot read events directly; their notices named the event when they were emails. |
+| D11 | The helpers can only be called by the database's own triggers and functions, not from the app. | Nobody can send, inspect or plant a notice. |
+| D12 | Choices are read when a notice is created. | AC-033.5: a change affects notices from then on; notices already sent stay. |
+
+### Automated test cases
+
+| ID | Test | Type | Scenario | File |
+|---|---|---|---|---|
+| AC-033.4.1 | with no choices made, a notice is emailed and shown in the app once, not twice | integration (SQL) | normal | notification_delivery.sql |
+| AC-033.4.2 | email off: only in the app; in-app off: only emailed, and the feed does not show that email | integration (SQL) | normal | notification_delivery.sql |
+| AC-033.4.3 | with both off, nothing is sent | integration (SQL) | boundary | notification_delivery.sql |
+| AC-033.4.4 | a channel is used only when both the person's choice and the system-wide switch allow it | integration (SQL) | conflict | notification_delivery.sql |
+| AC-033.4.5 | one person's choices leave another's untouched | integration (SQL) | boundary | notification_delivery.sql |
+| AC-033.4.6 | each email records its type and recipient; unknown type refused; no recipient, nothing queued | integration (SQL) | failure | notification_delivery.sql |
+| AC-033.4.7 | nobody can send, inspect or plant a notice from the app, or read anyone else's | integration (SQL) | conflict | notification_delivery.sql |
+| AC-033.4.8 | an email from a feature not yet using the helper still shows in the feed | integration (SQL) | boundary | notification_delivery.sql |
+| AC-033.4.9 | an in-app copy counts as unread and is marked read like any notice, only by its recipient | integration (SQL) | normal | notification_delivery.sql |
+| AC-033.5.1 | turning a type off stops new notices but leaves ones already sent | integration (SQL) | boundary | notification_delivery.sql |
+| AC-033.4.10 | an in-app copy is listed with its event and marked read by source and id | unit (service) | normal | noticeSource.test.ts |
+| AC-033.4.11 | opening one goes where that role's other notices go | unit | normal | noticeSource.test.ts |
+
+Forced break (slice 2a): in `0079_notification_delivery.sql`, `notification_channels` was made to
+ignore the person's own choice (`coalesce(p.in_app, true)` and `coalesce(p.email, true)` replaced
+with `true`). AC-033.4.2 failed; the file was then restored.
+Log: `docs/test-evidence/us33/AC-033.4.2-forced-break.log`.
