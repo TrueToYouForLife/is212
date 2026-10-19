@@ -1,6 +1,7 @@
 # US5 Tracking Event Readiness (SCRUM-10): test cases
 
-One slice.
+One slice: a 2-point, read-only view (one database function, one card) with no partial state
+worth merging on its own, so splitting it would only spread the same files across PRs.
 
 Test IDs follow `CLAUDE.md`: `AC-005.Y.Z`, Z unique across the story and increasing top to
 bottom within each test file. Next free IDs: AC-005.1.6, AC-005.2.6, AC-005.3.3, AC-005.4.3,
