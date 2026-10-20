@@ -1,7 +1,8 @@
 import { supabase } from '../../lib/supabase'
 import { matchesAnyText, matchesText, normaliseForMatch, sameCode } from './searchTextMatch'
-import { claimsForEvent, slotWindow } from './slots'
-import type { TimeSlot, SlotCode } from './slots'
+import { slotWindow } from './slots'
+import { occupiedVenueCells } from './venueOccupiedSlots'
+import type { TimeSlot } from './slots'
 import type { AssignedEventOption, Venue, VenueSearchFilters, VenueStatus } from './types'
 
 export const VENUE_SEARCH_MESSAGES = {
@@ -22,6 +23,8 @@ interface VenueRow {
   facility: Record<string, unknown> | null
   status: VenueStatus
   location: string | null
+  setup_minutes: number
+  turnaround_minutes: number
 }
 
 /** A filter made only of spaces or punctuation is not a filter. */
@@ -42,38 +45,28 @@ function toVenue(row: VenueRow): Venue {
   }
 }
 
-/** The cells (event + trailing buffer) a booking would need for these filters, or null if
- *  the filters don't ask for an availability check at all. */
-async function requiredCellsForFilters(
-  filters: VenueSearchFilters,
-  slots: TimeSlot[],
-): Promise<{ date: string; slot: SlotCode }[] | null> {
+/** Resolve the requested event interval once; each venue expands it independently. */
+async function requestedPeriod(filters: VenueSearchFilters, slots: TimeSlot[]): Promise<{ start: Date; end: Date } | null> {
   if (filters.eventId) {
-    const { data: event } = await supabase
-      .from('events')
-      .select('proposed_start, proposed_end')
-      .eq('id', filters.eventId)
-      .maybeSingle()
-    if (!event?.proposed_start || !event?.proposed_end) return null
-    return claimsForEvent(new Date(event.proposed_start), new Date(event.proposed_end), slots)
+    const { data: event, error } = await supabase.from('events')
+      .select('proposed_start, proposed_end').eq('id', filters.eventId).maybeSingle()
+    if (error || !event?.proposed_start || !event?.proposed_end) throw new Error('Event timing unavailable')
+    return { start: new Date(event.proposed_start), end: new Date(event.proposed_end) }
   }
-  if (filters.date && filters.slot) {
-    const { start, end } = slotWindow(filters.date, filters.slot, slots)
-    return claimsForEvent(start, end, slots)
-  }
+  if (filters.date && filters.slot) return slotWindow(filters.date, filters.slot, slots)
   return null
 }
 
 /** Drops any venue that already has a claim — event, buffer or maintenance — on a cell the
- *  requested booking would need. This mirrors the exclusion constraint that actually guards
- *  venue_bookings, so a venue shown here is one the real booking call should accept. */
+ *  requested booking would need, including that venue's buffers. This is a preview;
+ *  the database still arbitrates changes and races when a booking is saved. */
 async function excludeUnavailable(
   venues: Venue[],
-  requiredCells: { date: string; slot: SlotCode }[],
+  requiredByVenue: Map<string, { date: string; slot: string }[]>,
 ): Promise<Venue[]> {
-  if (venues.length === 0 || requiredCells.length === 0) return venues
+  if (venues.length === 0) return venues
 
-  const dates = requiredCells.map((cell) => cell.date)
+  const dates = Array.from(requiredByVenue.values()).flat().map((cell) => cell.date)
   const minDate = dates.reduce((a, b) => (a < b ? a : b))
   const maxDate = dates.reduce((a, b) => (a > b ? a : b))
 
@@ -84,20 +77,14 @@ async function excludeUnavailable(
     .gte('slot_date', minDate)
     .lte('slot_date', maxDate)
 
-  if (error) {
-    // A broken availability check shouldn't hide every venue — fail open on this filter only.
-    console.error('[venues] excludeUnavailable', error)
-    return venues
-  }
+  if (error) throw new Error('Venue availability could not be checked')
 
   const claimed = new Set(
     (data ?? []).map((row: { venue_id: string; slot_date: string; slot: string }) =>
       `${row.venue_id}|${row.slot_date}|${row.slot}`),
   )
-  const requiredKeys = requiredCells.map((cell) => `${cell.date}|${cell.slot}`)
-
   return venues.filter((venue) =>
-    requiredKeys.every((key) => !claimed.has(`${venue.id}|${key}`)),
+    (requiredByVenue.get(venue.id) ?? []).every((cell) => !claimed.has(`${venue.id}|${cell.date}|${cell.slot}`)),
   )
 }
 
@@ -116,7 +103,7 @@ export async function searchVenues(
 
   let query = supabase
     .from('venues')
-    .select('id, name, capacity, layout, accessibility, facility, status, location')
+    .select('id, name, capacity, layout, accessibility, facility, status, location, setup_minutes, turnaround_minutes')
     .eq('status', 'active')
 
   // keyword, location and layout are matched in the browser, not here: see
@@ -160,9 +147,20 @@ export async function searchVenues(
       filters.facilities.every((key) => Boolean(venue.facility[key])),
     )
   }
-  const requiredCells = await requiredCellsForFilters(filters, slots)
-  if (requiredCells) {
-    venues = await excludeUnavailable(venues, requiredCells)
+  try {
+    const period = await requestedPeriod(filters, slots)
+    if (period) {
+      const rows = new Map(((data ?? []) as VenueRow[]).map(row => [row.id, row]))
+      const required = new Map(venues.map(venue => {
+        const row = rows.get(venue.id)!
+        return [venue.id, occupiedVenueCells(period.start, period.end, {
+          setupMinutes: row.setup_minutes, turnaroundMinutes: row.turnaround_minutes,
+        })] as const
+      }))
+      venues = await excludeUnavailable(venues, required)
+    }
+  } catch {
+    return { ok: false, reason: VENUE_SEARCH_MESSAGES.unexpected }
   }
 
   return { ok: true, venues }

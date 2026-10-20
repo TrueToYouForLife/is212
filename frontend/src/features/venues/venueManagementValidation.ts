@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { QUARTER_HOUR_OPTIONS } from './quarterHourSlots'
 import { ACCESSIBILITY_OPTIONS, FACILITY_OPTIONS } from './venueFeatureCatalogue'
 
 /**
@@ -7,19 +8,9 @@ import { ACCESSIBILITY_OPTIONS, FACILITY_OPTIONS } from './venueFeatureCatalogue
  * this only makes them visible earlier.
  */
 
-/** Opening times are the starts of AM, PM and Night (time_slots, 0018). */
-export const OPENING_TIMES = [
-  { value: '07:00', label: '7am (start of AM)' },
-  { value: '13:00', label: '1pm (start of PM)' },
-  { value: '19:00', label: '7pm (start of Night)' },
-] as const
-
-/** Closing times are the ends of AM, PM and Night. */
-export const CLOSING_TIMES = [
-  { value: '12:00', label: '12pm (end of AM)' },
-  { value: '18:00', label: '6pm (end of PM)' },
-  { value: '24:00', label: 'Midnight (end of Night)' },
-] as const
+/** Opening and closing boundaries use the same quarter-hour catalogue as bookings. */
+export const OPENING_TIMES = QUARTER_HOUR_OPTIONS.map(({ label }) => ({ value: label.slice(0, 5), label: label.slice(0, 5) }))
+export const CLOSING_TIMES = QUARTER_HOUR_OPTIONS.map(({ label }) => ({ value: label.slice(-5), label: label.slice(-5) }))
 
 export interface VenueLayoutInput {
   layout: string

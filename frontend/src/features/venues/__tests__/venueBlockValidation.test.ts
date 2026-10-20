@@ -6,7 +6,7 @@ const valid: VenueBlockInput = {
   venueId: 'v1',
   startsOn: '2040-03-10',
   endsOn: '2040-03-10',
-  slots: ['AM'],
+  slots: ['T0900'],
   reason: 'Repairs',
 }
 
@@ -73,9 +73,9 @@ describe('AC-012.2 — one or more slots', () => {
   })
 
   test('AC-012.2.19: repeated and unordered slots are passed on once each, in time order', () => {
-    expect(validateVenueBlock({ ...valid, slots: ['NIGHT', 'AM', 'AM'] })).toStrictEqual({
+    expect(validateVenueBlock({ ...valid, slots: ['T2345', 'T0900', 'T0900'] })).toStrictEqual({
       ok: true,
-      value: { ...valid, slots: ['AM', 'NIGHT'] },
+      value: { ...valid, slots: ['T0900', 'T2345'] },
     })
   })
 
@@ -89,4 +89,13 @@ describe('AC-012.2 — one or more slots', () => {
       },
     })
   })
+})
+
+test('AC-047.2.35: legacy and malformed codes are refused even alongside valid quarter-hour cells', () => {
+  for (const slot of ['AM', 'PM', 'NIGHT', 'T0010', 'T2400', 'T9999'] as VenueBlockInput['slots']) {
+    const result = validateVenueBlock({ ...valid, slots: ['T0000', slot] })
+    expect(result).toEqual({ ok: false, errors: { slots: BLOCK_VALIDATION_MESSAGES.invalidSlots } })
+  }
+  expect(validateVenueBlock({ ...valid, slots: ['T2345', 'T0000', 'T1200', 'T0000'] }))
+    .toEqual({ ok: true, value: { ...valid, slots: ['T0000', 'T1200', 'T2345'] } })
 })

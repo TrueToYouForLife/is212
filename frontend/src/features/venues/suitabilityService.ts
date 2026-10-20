@@ -1,5 +1,5 @@
 import { supabase } from '../../lib/supabase'
-import { claimsForEvent } from './slots'
+import { occupiedVenueCells } from './venueOccupiedSlots'
 import type { SlotCell, SlotCode, TimeSlot } from './slots'
 import { evaluateVenueSuitability, normaliseRequirements, sortAssessments } from './suitabilityValidation'
 import type {
@@ -127,6 +127,8 @@ interface VenueRow {
   status: VenueStatus
   accessibility: string[] | null
   facility: Record<string, unknown> | null
+  setup_minutes: number
+  turnaround_minutes: number
   venue_layouts: { layout: string; capacity: number }[] | null
 }
 
@@ -151,14 +153,6 @@ export async function loadLayoutTypes(): Promise<LayoutType[]> {
   return (data ?? []) as LayoutType[]
 }
 
-/** The cells this event's booking would need (event + setup/turnaround), and whether its times allow any. */
-function bookingCells(event: SuitabilityEvent, slots: TimeSlot[]): { timing: TimingState; cells: SlotCell[] } {
-  if (!event.proposedStart || !event.proposedEnd) return { timing: 'missing', cells: [] }
-  const cells = claimsForEvent(new Date(event.proposedStart), new Date(event.proposedEnd), slots)
-  return { timing: cells.length === 0 ? 'outside_slots' : 'ok', cells }
-}
-
-
 interface ClaimRow {
   venue_id: string
   slot_date: string
@@ -173,11 +167,12 @@ interface ClaimRow {
  *  Returns null when the check fails, so the caller can fail closed. */
 async function occupiedCellsByVenue(
   eventId: string,
-  venueIds: string[],
-  cells: SlotCell[],
+  cellsByVenue: Map<string, SlotCell[]>,
 ): Promise<Map<string, OccupiedCell[]> | null> {
   const byVenue = new Map<string, OccupiedCell[]>()
-  if (venueIds.length === 0 || cells.length === 0) return byVenue
+  const venueIds = [...cellsByVenue.keys()]
+  const cells = [...cellsByVenue.values()].flat()
+  if (cells.length === 0) return byVenue
 
   const dates = cells.map((cell) => cell.date).sort()
   const { data, error } = await supabase
@@ -191,9 +186,10 @@ async function occupiedCellsByVenue(
     return null
   }
 
-  const wanted = new Set(cells.map((cell) => `${cell.date}|${cell.slot}`))
+  const wanted = new Map([...cellsByVenue].map(([id, venueCells]) =>
+    [id, new Set(venueCells.map((cell) => `${cell.date}|${cell.slot}`))]))
   for (const row of (data ?? []) as unknown as ClaimRow[]) {
-    if (!wanted.has(`${row.slot_date}|${row.slot}`)) continue
+    if (!wanted.get(row.venue_id)?.has(`${row.slot_date}|${row.slot}`)) continue
     if (row.venue_bookings?.event_id === eventId) continue
     const list = byVenue.get(row.venue_id) ?? []
     list.push({ date: row.slot_date, slot: row.slot, kind: row.kind })
@@ -209,7 +205,7 @@ async function occupiedCellsByVenue(
  *  and reasons. Retired venues are left out entirely; they are not an option to consider. */
 export async function assessVenuesForEvent(
   eventId: string,
-  slots: TimeSlot[],
+  _slots: TimeSlot[],
   venueIds?: string[],
 ): Promise<SuitabilityResult<VenueAssessment[]>> {
   const context = await loadEventSuitability(eventId)
@@ -218,7 +214,7 @@ export async function assessVenuesForEvent(
 
   let venueQuery = supabase
     .from('venues')
-    .select('id, name, location, status, accessibility, facility, venue_layouts(layout, capacity)')
+    .select('id, name, location, status, accessibility, facility, setup_minutes, turnaround_minutes, venue_layouts(layout, capacity)')
     .neq('status', 'retired')
   if (venueIds) venueQuery = venueQuery.in('id', venueIds)
   const { data: venueRows, error: venueError } = await venueQuery.order('name')
@@ -228,8 +224,19 @@ export async function assessVenuesForEvent(
   }
   const venues = ((venueRows ?? []) as VenueRow[]).map(toVenue)
 
-  const { timing, cells } = bookingCells(event, slots)
-  const occupied = await occupiedCellsByVenue(eventId, venues.map((venue) => venue.id), cells)
+  const timing: TimingState = event.proposedStart && event.proposedEnd ? 'ok' : 'missing'
+  const cellsByVenue = new Map<string, SlotCell[]>()
+  try {
+    for (const row of (venueRows ?? []) as VenueRow[]) {
+      cellsByVenue.set(row.id, timing === 'missing' ? [] : occupiedVenueCells(
+        new Date(event.proposedStart!), new Date(event.proposedEnd!),
+        { setupMinutes: row.setup_minutes, turnaroundMinutes: row.turnaround_minutes },
+      ))
+    }
+  } catch {
+    return { ok: false, reason: SUITABILITY_MESSAGES.availabilityFailed }
+  }
+  const occupied = await occupiedCellsByVenue(eventId, cellsByVenue)
   if (!occupied) return { ok: false, reason: SUITABILITY_MESSAGES.availabilityFailed }
 
   const labels = new Map((await loadLayoutTypes()).map((type) => [type.code, type.label]))

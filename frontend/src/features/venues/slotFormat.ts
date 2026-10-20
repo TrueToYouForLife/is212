@@ -1,10 +1,13 @@
 /** PURE MODULE — display wording for slots and plain calendar dates. */
 import type { SlotCode } from './slots'
+import { QUARTER_HOUR_OPTIONS } from './quarterHourSlots'
+const quarterLabels = Object.fromEntries(QUARTER_HOUR_OPTIONS.map(slot => [slot.value, slot.label]))
 
-export const SLOT_SHORT_LABELS: Record<SlotCode, string> = { AM: 'AM', PM: 'PM', NIGHT: 'Night' }
+export const SLOT_SHORT_LABELS: Record<SlotCode, string> = { ...quarterLabels, AM: 'AM', PM: 'PM', NIGHT: 'Night' }
 
 /** Fuller wording for choosing a slot, as on the block form's checkboxes (US12). */
 export const SLOT_LABELS: Record<SlotCode, string> = {
+  ...quarterLabels,
   AM: 'Morning (AM)',
   PM: 'Afternoon (PM)',
   NIGHT: 'Night',

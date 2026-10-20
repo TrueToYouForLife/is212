@@ -60,8 +60,8 @@ describe('AC-046.1 — Venue Staff can add a venue with its details', () => {
   test.each([
     ['no opening time', '', '18:00'],
     ['no closing time', '07:00', ''],
-    ['an opening time between slots', '09:00', '18:00'],
-    ['a closing time between slots', '07:00', '17:00'],
+    ['an opening time between slots', '09:10', '18:00'],
+    ['a closing time between slots', '07:00', '17:10'],
   ])('AC-046.1.10: %s is refused, because hours must be on slot boundaries', (_case, opensAt, closesAt) => {
     expect(errorsOf(form({ opensAt, closesAt })).hours).toBe(messages.hoursRequired)
   })

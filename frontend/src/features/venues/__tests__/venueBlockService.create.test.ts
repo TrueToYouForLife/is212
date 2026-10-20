@@ -11,7 +11,7 @@ const valid: VenueBlockInput = {
   venueId: 'v1',
   startsOn: '2040-03-10',
   endsOn: '2040-03-10',
-  slots: ['AM'],
+  slots: ['T0900'],
   reason: 'Repairs',
 }
 
@@ -31,7 +31,7 @@ describe('saving a block', () => {
       p_venue_id: 'v1',
       p_starts_on: '2040-03-10',
       p_ends_on: '2040-03-10',
-      p_slots: ['AM'],
+      p_slots: ['T0900'],
       p_reason: 'Repairs',
     })
   })

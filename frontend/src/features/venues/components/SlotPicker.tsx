@@ -12,8 +12,7 @@ interface SlotPickerProps {
 }
 
 /**
- * AC-012.2: one or more of AM, PM and Night. "Full day" is a shortcut for all three, not a
- * fourth slot, so the value is only ever slot codes.
+ * AC-012.2: one or more quarter-hour slots. "Full day" selects all 96, so the value is only ever slot codes.
  */
 export function SlotPicker({ id, value, onChange, disabled, error }: SlotPickerProps) {
   const fullDay = BLOCK_SLOTS.every((code) => value.includes(code))
@@ -23,7 +22,7 @@ export function SlotPicker({ id, value, onChange, disabled, error }: SlotPickerP
   return (
     <fieldset aria-describedby={error ? `${id}-error` : undefined}>
       <legend className="text-sm font-medium text-slate-700">
-        Slots
+        Slots (Singapore time)
         <span className="ml-1 text-red-600" aria-label="required">
           *
         </span>
@@ -37,6 +36,8 @@ export function SlotPicker({ id, value, onChange, disabled, error }: SlotPickerP
           />
           Full day
         </label>
+      </div>
+      <div className="mt-3 grid max-h-64 grid-cols-2 gap-2 overflow-y-auto sm:grid-cols-3" role="group" aria-label="15-minute slots">
         {BLOCK_SLOTS.map((code) => (
           <label key={code} className="flex items-center gap-2 text-sm text-slate-700">
             <Checkbox checked={value.includes(code)} disabled={disabled} onChange={() => toggle(code)} />

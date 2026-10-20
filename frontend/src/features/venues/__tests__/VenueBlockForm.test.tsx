@@ -11,7 +11,7 @@ const ENTERED: VenueBlockInput = {
   venueId: 'v1',
   startsOn: '2040-03-10',
   endsOn: '2040-03-10',
-  slots: ['AM'],
+  slots: ['T0900'],
   reason: 'Ceiling repair',
 }
 
@@ -22,7 +22,7 @@ const saving = (flaggedBookings: number | null = 0) =>
 function fillIn(reason = ENTERED.reason) {
   fireEvent.change(screen.getByLabelText(/First day/), { target: { value: ENTERED.startsOn } })
   fireEvent.change(screen.getByLabelText(/Last day/), { target: { value: ENTERED.endsOn } })
-  fireEvent.click(screen.getByLabelText(SLOT_LABELS.AM))
+  fireEvent.click(screen.getByLabelText(SLOT_LABELS.T0900))
   fireEvent.change(screen.getByLabelText(/Reason/), { target: { value: reason } })
 }
 
@@ -75,7 +75,7 @@ describe('AC-012.7 — what the preview shows, and when it still counts', () => 
         status: 'confirmed',
         eventReference: 'EVT-1',
         eventName: 'Gala',
-        cells: [{ date: '2040-03-10', slot: 'AM', kind: 'event' }],
+        cells: [{ date: '2040-03-10', slot: 'T0900', kind: 'event' }],
       }],
       existingBlocks: [],
     })
@@ -93,7 +93,7 @@ describe('AC-012.9 — an existing block must be removed first', () => {
   test('AC-012.9.17: a block overlapping an existing block cannot be confirmed, and the preview says why', async () => {
     const onPreview = previewing({
       affectedBookings: [],
-      existingBlocks: [{ date: '2040-03-10', slot: 'AM', reason: 'Deep clean' }],
+      existingBlocks: [{ date: '2040-03-10', slot: 'T0900', reason: 'Deep clean' }],
     })
     render(<VenueBlockForm venueId="v1" onPreview={onPreview} onCreate={saving()} />)
 

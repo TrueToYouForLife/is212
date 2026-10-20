@@ -3,13 +3,9 @@ import { Button } from '../../../components/ui/Button'
 import type { AssignedEventOption, VenueSearchFilters } from '../types'
 import type { LayoutType } from '../suitabilityTypes'
 import type { SlotCode } from '../slots'
+import { QUARTER_HOUR_OPTIONS } from '../quarterHourSlots'
 import { ACCESSIBILITY_OPTIONS, FACILITY_OPTIONS, featureLabel } from '../venueFeatureCatalogue'
 
-const SLOT_OPTIONS: { value: SlotCode; label: string }[] = [
-  { value: 'AM', label: 'AM (7am–12pm)' },
-  { value: 'PM', label: 'PM (1pm–6pm)' },
-  { value: 'NIGHT', label: 'Night (7pm–12am)' },
-]
 
 const selectClassName =
   'w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 ' +
@@ -161,7 +157,7 @@ export function VenueFilters({
               />
             </Field>
 
-            <Field id="venue-search-slot" label="Slot">
+            <Field id="venue-search-slot" label="Slot (Singapore time)">
               <select
                 id="venue-search-slot"
                 className={selectClassName}
@@ -170,7 +166,7 @@ export function VenueFilters({
                 onChange={(e) => onChange({ ...filters, slot: e.target.value as SlotCode | '' })}
               >
                 <option value="">Any slot</option>
-                {SLOT_OPTIONS.map((slot) => (
+                {QUARTER_HOUR_OPTIONS.map((slot) => (
                   <option key={slot.value} value={slot.value}>{slot.label}</option>
                 ))}
               </select>

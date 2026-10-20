@@ -8,7 +8,7 @@ const BLOCK: VenueBlock = {
   venueId: 'v1',
   startsOn: '2040-03-10',
   endsOn: '2040-03-12',
-  slots: ['AM', 'PM', 'NIGHT'],
+  slots: ['T0900', 'T1300', 'T2345'],
   reason: 'Ceiling repair',
   createdByName: 'Vera Venue',
   createdAt: '2039-12-05T02:00:00+00:00',

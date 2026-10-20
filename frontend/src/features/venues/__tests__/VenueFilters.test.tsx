@@ -136,3 +136,15 @@ describe('AC-008.3 — layout is chosen from the catalogue, not typed', () => {
     expect(screen.getByRole('option', { name: 'cabaret' })).toBeInTheDocument()
   })
 })
+
+
+test('AC-047.2.28: manual search offers all 96 labelled quarter-hours and emits the selected code', () => {
+  const { onChange } = setup()
+  const select = screen.getByLabelText('Slot (Singapore time)') as HTMLSelectElement
+  expect(select.options).toHaveLength(97)
+  expect(select.options[1].text).toBe('00:00–00:15')
+  expect(select.options[96].text).toBe('23:45–24:00')
+  expect(Array.from(select.options).some(option => option.value === 'AM')).toBe(false)
+  fireEvent.change(select, { target: { value: 'T1200' } })
+  expect(onChange).toHaveBeenLastCalledWith(expect.objectContaining({ slot: 'T1200' }))
+})
