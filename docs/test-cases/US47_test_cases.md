@@ -189,9 +189,9 @@ legacy slots tests. Typecheck and lint passed. Next ID: AC-047.2.30.
 ## Quarter-hour timetable display
 
 - AC-047.2.32 — Component test: happy path and boundary. Single-venue grid shows
-  all 96 slots chronologically over two dates, including midnight, lunch and
-  23:45–24:00. Checks claims, buffer wording, selected cells, next-day free cells
-  and an empty timetable.
+  three time sections across date columns, grouping adjacent identical occupancy.
+  Checks midnight, section boundaries, booking separation, free gaps, buffer wording,
+  selected ranges, next-day availability and an empty timetable.
 - AC-047.2.33 — Component test: happy path and boundary. All-venue grid shows
   96 rows per venue, maintenance reasons, held slots and setup/turnaround, without
   showing another venue's claims in a free venue; venue navigation is retained.
@@ -272,3 +272,13 @@ AC-047.2.23: temporarily moving setup forward rather than backward caused the
 unchanged test to fail. Exact implementation restored and the helper tests passed.
 Logs: docs/test-evidence/us47/AC-047.2.23-forced-break.log and
 AC-047.2.23-restored-pass.log. Deliberate mutation, not a discovered defect.
+
+## Coordinator timetable usability defect — 21 October 2026
+
+- Related test: AC-047.2.32; manual UI/usability check against AC-047.2.
+- Discovered by: Jaydon. The timetable displayed up to 96 rows and was difficult to scan.
+- Cause: presentation directly mirrored quarter-hour storage intervals.
+- Fix: date columns with three display sections and consecutive occupancy grouped into time-range cards. Booking IDs, statuses, buffers, maintenance reasons, free gaps and selection boundaries remain separate.
+- No database or booking behaviour changes. The separate all-venue availability grid is unchanged.
+- Automated evidence: docs/test-evidence/us47/timetable-readability-tests.log.
+- Manual retest: pending; do not close the defect until verified in the browser.
