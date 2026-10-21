@@ -176,8 +176,8 @@ async function occupiedCellsByVenue(
 
   const dates = cells.map((cell) => cell.date).sort()
   const { data, error } = await supabase
-    .from('venue_slot_claims')
-    .select('venue_id, slot_date, slot, kind, venue_bookings(event_id)')
+    .from('venue_effective_slot_claims')
+    .select('venue_id, slot_date, slot, kind, venue_bookings')
     .in('venue_id', venueIds)
     .gte('slot_date', dates[0])
     .lte('slot_date', dates[dates.length - 1])

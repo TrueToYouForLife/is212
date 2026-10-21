@@ -71,7 +71,7 @@ async function excludeUnavailable(
   const maxDate = dates.reduce((a, b) => (a > b ? a : b))
 
   const { data, error } = await supabase
-    .from('venue_slot_claims')
+    .from('venue_effective_slot_claims')
     .select('venue_id, slot_date, slot')
     .in('venue_id', venues.map((venue) => venue.id))
     .gte('slot_date', minDate)

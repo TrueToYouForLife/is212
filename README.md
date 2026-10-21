@@ -1454,3 +1454,16 @@ Review and deploy the database and frontend together using
 [US47 notes](docs/us47-venue-buffers.md) and [test cases](docs/test-cases/US47_test_cases.md).
 CI runs historical DB regressions separately from converted-schema upgrade and
 fresh-install checks; the historical runner alone is not the release gate.
+
+## US47 Venue Staff timing settings
+
+Migration 0098 adds staff-only setup/turnaround controls to **Manage venues → Edit**.
+Durations are independent non-negative multiples of 15 minutes and default to zero.
+Conflicting existing reservations remain saved, receive review flags, and trigger
+Coordinator/Venue Staff notices using existing notification preferences. Availability
+and later booking checks include newly required buffers without rewriting history.
+
+Deploy 0098 with this frontend; it requires 0075. Local verification and pending
+manual checks are recorded in [US47 notes](docs/us47-venue-buffers.md). Earlier
+foundation/conversion sections are historical. The story still requires deployment,
+manual verification and evidence-sheet closeout.

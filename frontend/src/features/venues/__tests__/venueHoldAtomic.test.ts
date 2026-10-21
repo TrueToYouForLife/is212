@@ -23,7 +23,7 @@ test('AC-047.2.39: hold saves only through the atomic RPC, with server default o
   await holdVenue(EVENT_ID, VENUE_ID, 2)
   expect(mocks.rpc).toHaveBeenLastCalledWith('hold_venue', { p_event_id: EVENT_ID, p_venue_id: VENUE_ID, p_hold_days: 2 })
   expect(fake.tablesTouched()).not.toContain('venue_bookings')
-  expect(fake.tablesTouched()).not.toContain('venue_slot_claims')
+  expect(fake.tablesTouched()).not.toContain('venue_effective_slot_claims')
 })
 test('AC-047.2.40: assignment, lifecycle, missing timing and invalid durations prevent writes', async () => {
   for (const change of [{ coordinator_id: null }, { coordinator_id: 'other' }, ...['draft', 'submitted', 'under_review', 'confirmed', 'completed', 'cancelled', 'rejected'].map((status) => ({ status })), { proposed_start: null }, { proposed_end: null }]) {
@@ -39,7 +39,7 @@ test('AC-047.2.40: assignment, lifecycle, missing timing and invalid durations p
 test('AC-047.2.41: database conflicts and permission refusals stay refused; lost replies never invite blind retries', async () => {
   plan()
   mocks.rpc.mockResolvedValueOnce({ data: null, error: { code: '23505' } })
-  fake.plan('venue_slot_claims', { data: [] })
+  fake.plan('venue_effective_slot_claims', { data: [] })
   expect(await holdVenue(EVENT_ID, VENUE_ID)).toEqual({ ok: false, reason: messages.unavailable, conflicts: [] })
   plan()
   mocks.rpc.mockResolvedValueOnce({ data: null, error: { code: '42501' } })
@@ -60,7 +60,7 @@ test('AC-047.2.43: conflict details use venue-specific occupied cells and surviv
   // Fixture event is 09:00–11:00 SGT; 30-minute setup starts at 08:30.
   plan()
   mocks.rpc.mockResolvedValue({ data: null, error: { code: '23505' } })
-  fake.plan('venue_slot_claims', { data: [
+  fake.plan('venue_effective_slot_claims', { data: [
     { slot_date: '2026-10-12', slot: 'T0830', kind: 'maintenance' },
     { slot_date: '2026-10-12', slot: 'T1145', kind: 'event' },
   ] })
@@ -68,7 +68,7 @@ test('AC-047.2.43: conflict details use venue-specific occupied cells and surviv
   expect(result.ok ? [] : result.conflicts).toEqual([{ date: '2026-10-12', slot: 'T0830', kind: 'maintenance' }])
   expect(result.ok ? '' : result.reason).toContain('08:30–08:45')
   plan()
-  fake.plan('venue_slot_claims', { error: { message: 'failed' } })
+  fake.plan('venue_effective_slot_claims', { error: { message: 'failed' } })
   const errorLog = vi.spyOn(console, 'error').mockImplementation(() => {})
   expect(await holdVenue(EVENT_ID, VENUE_ID)).toEqual({ ok: false, reason: messages.unavailable, conflicts: [] })
   errorLog.mockRestore()

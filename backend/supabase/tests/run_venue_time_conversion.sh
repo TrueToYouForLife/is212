@@ -17,7 +17,8 @@ if [ "$ready" != true ]; then echo 'Temporary database did not become ready.' >&
   # 0075 was claimed before migrations that have already been deployed.
   mode="${1:-upgrade}"
   for migration in "$repo_root"/supabase/migrations/*.sql; do
-    case "$migration" in */0075_*)
+    case "$migration" in */0098_*) continue ;;
+    */0075_*)
       if [ "$mode" != fresh ]; then continue; fi
       cat "$repo_root/supabase/tests/venue_time_conversion_fixture.sql"
       ;;
@@ -45,6 +46,24 @@ SQL
   cat "$repo_root/supabase/tests/venue_time_approval.sql"
   cat "$repo_root/supabase/tests/venue_time_revalidation.sql"
   cat "$repo_root/supabase/tests/venue_time_operating_hours.sql"
+  cat "$repo_root/supabase/migrations/0098_venue_buffer_settings.sql"
+  cat <<'SQL'
+create temp table settings_replay_claims as select * from public.venue_slot_claims;
+create temp table settings_replay_bookings as select * from public.venue_bookings;
+SQL
+  # Replay must be safe on the populated conversion fixture.
+  cat "$repo_root/supabase/migrations/0098_venue_buffer_settings.sql"
+  cat <<'SQL'
+select pg_temp.us47_assert(
+ not exists((select * from public.venue_slot_claims except select * from settings_replay_claims)
+ union all(select * from settings_replay_claims except select * from public.venue_slot_claims))
+ and not exists((select * from public.venue_bookings except select * from settings_replay_bookings)
+ union all(select * from settings_replay_bookings except select * from public.venue_bookings)),
+ 'AC-047.3.4: replaying settings migration preserves populated bookings and claims');
+SQL
+  cat "$repo_root/supabase/tests/venue_buffer_settings.sql"
+  cat "$repo_root/supabase/tests/venue_time_revalidation.sql"
+
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_time_hold_races.sh" "$container"
 bash "$repo_root/supabase/tests/venue_time_approval_races.sh" "$container"
