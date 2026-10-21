@@ -25,7 +25,7 @@ both runners and concurrency in `affected_venue_replacement_races.sh`.
 | AC-048.3.6 | Integration Test - Negative / Regression | Narrow Confirmed-event replacement support does not allow ordinary unrelated booking approval. |
 | AC-048.3.7 | Integration Test - Boundary / Regression | Two simultaneous proposals produce exactly one pending request. |
 | AC-048.4.1 | Integration Test - Happy path / Regression | Compare all saved event columns before/after successful replacements; every field and status stays unchanged. |
-| AC-048.5.1 | Integration Test - Happy path | Pending proposal retains the original and no target claim, and remains in affectedBookings with needsReplacement true. UI wording is not covered yet. |
+| AC-048.5.1 | Integration Test - Happy path | Pending proposal retains the original and no target claim, and remains in affectedBookings with needsReplacement true. UI wording is covered separately by component case .5.2. |
 | AC-048.6.1 | Integration Test - Happy path / Regression | Approve blocked original with multiple independent reasons: seven target cells include four event and three buffer cells; old cells release/reblock; blocked/retired reviews resolve with actual staff/link audit; unrelated and already-resolved reviews remain intact. |
 | AC-048.6.2 | Integration Test - Happy path / Boundary | Replace a retired booking, an upcoming Confirmed event's booking, a Pending approval original and a live Held original; resolve the retirement review with the replacement link. |
 | AC-048.6.3 | Integration Test - Negative | Reject/withdraw requests, retain recorded decisions and Needs replacement eligibility; exact original snapshots are checked with .6.6. |
@@ -41,7 +41,9 @@ PR1 allocated the IDs below; the next available IDs are listed after PR2.
 
 ## PR2 frontend cases
 
-12 grouped new cases passed; full frontend verification: 1,512 tests / 172 files.
+11 grouped frontend cases directly cover US48 requirements, alongside 20 backend
+cases. The US48 submission contains these 31 cases. Final frontend verification
+remains 1,516 tests / 173 files, including shared regression coverage.
 Component tests render real UI with mocked services; they are not live database or
 browser end-to-end tests. The service unit test mocks Supabase. Existing US20 test
 IDs retain their intent; .3.50/.3.56/.3.59 proposal assertions moved with the extracted
@@ -57,90 +59,67 @@ proposal form. Existing queue/booking role-loss checks use the new panel title.
 | AC-048.2.3 | Component Test - Negative / Boundary | Empty results, unavailable search and missing time options show no stale candidates; disabled search does not falsely remain Searching after load failure. |
 | AC-048.2.4 | Component Test - Negative | Wrong role, invalid URL, unavailable source or pending proposal cannot start replacement search. |
 | AC-048.2.5 | Component Test - Regression | A late old search cannot replace results from explicitly reloaded event consent. |
-| AC-048.2.6 | Component Test - Boundary / Negative / Regression | Venue-block start/end fields retain the exact continuous overnight interval; equal/reversed same-day bounds refuse preview, changed times invalidate confirmation, 24:00 works and Full day sets midnight to end of day. |
 | AC-048.3.8 | Component Test - Happy path / Negative / Boundary | Selecting a venue preserves original booking/version; blank note refuses submission, pending send/reload are disabled, one request succeeds with original-preservation feedback. |
 | AC-048.3.9 | Component Test - Negative / Regression | Failed proposal keeps the note, does not auto-refresh consent, locks retry and requires explicit reload before a fresh version can be submitted. |
 | AC-048.5.2 | Component Test - Happy path / Regression | Badge stays through pending/rejected/withdrawn requests; approval reload shows Released original, replacement history and no Needs replacement badge. |
 
 Locations: `MyVenueBookingsReplacement.test.tsx` (.1.2–3/.5.2),
 `venueReplacementService.test.ts` (.1.4), `VenueReplacementSearchPage.test.tsx`
-(.2.1–5/.3.8–9), `VenueBlockForm.test.tsx` (.2.6), under `frontend/src/features/venues/__tests__/`.
+(.2.1–5/.3.8–9), under `frontend/src/features/venues/__tests__/`.
+
+The existing ID AC-048.2.6 was allocated to the venue-block form refinement.
+That scenario checks blocking controls, not US48 replacement search. Its existing
+code/log ID is retained for history, but it is excluded from the US48 AC table and
+sheet submission. Do not reuse it or relabel dependency tests as replacement ACs.
 
 Next unused IDs: AC-048.1.5, .2.7, .3.10, .4.2, .5.3, .6.11.
 Existing US20/US41 frontend compatibility cases retain their existing IDs.
 
-## Manual checks — pending
+## Manual checks — Jaydon-reported pass, 21 October 2026
 
-Use separate seeded **Venue Staff** and **current assigned Coordinator** accounts.
-Use future disposable events and venues with operating hours covering the full
-occupied interval. Execute after deployment and repeat the complete UI workflow
-with PR2 running against a database with 0099 and 0100. None of these checks is recorded as passed yet.
+Jaydon confirmed all checks passed after the project-chat checklist. Future disposable
+fixtures and separate Venue Staff/assigned Coordinator accounts were the prerequisites;
+an unassigned Coordinator was used for the access scenario. No manual defect was reported.
+The detailed record is [manual results](../test-evidence/us48/manual-results.md).
+The report date is recorded; individual execution times and fixture IDs were not supplied.
 
-| AC | Account and action | Expected result |
-|---|---|---|
-| 1/5 | Venue Staff blocks one original venue and retires another. Coordinator opens their affected bookings. | Both reasons are available; originals remain recorded. Both originals show Needs replacement and a Find replacement link. |
-| 2/3/4 | Coordinator uses Find replacement, checks the prefilled full Singapore interval, attendance/layout and requirements, selects a target, supplies a reason and submits. Then reloads bookings. | Proposal appears in staff review; original reservation and event details remain; target has no reservation yet. |
-| 6 | Staff approves a target with 15-minute setup and 30-minute turnaround. | Target is confirmed with buffers; original cells release, or remain maintenance-blocked where appropriate. Event information is unchanged. |
-| 6 | Approve an original with a blocked/retired review and a separate capacity/layout review. | Only blocked/retired reviews resolve; their audit records the signed-in staff member and replacement booking. Independent review stays open. |
-| 6 | Staff rejects a proposal; Coordinator withdraws another. | Originals and open reviews remain; decision history persists. |
-| 6 | After proposal, block the target's setup period or occupy it with another booking. Staff attempts approval. | Approval fails with no original/claim/review loss and no committed target booking. |
-| 3/4 | Replace an upcoming Confirmed event's affected booking. Attempt ordinary unrelated booking approval separately. | Replacement succeeds without changing event status/details; ordinary approval is refused. |
-| 3 | Change event details or reassign Coordinator after proposal; try an old decision. | Old decision is refused; current Coordinator can withdraw and submit fresh consent. |
+| Checklist group | Story / AC | Scenario | Reported result |
+|---|---|---|---|
+| 2 | US48 / 1, 5 | Affected booking and independent reason. Venue Staff blocks the original booking and reduces its layout capacity; assigned Coordinator reloads bookings and arrangement reviews. | Pass — Original booking remains with Needs replacement and the block reason; independent capacity review also exists; event information remains intact. |
+| 3 | US48 / 2, 3, 4, 5 | Prefilled search and pending proposal. Assigned Coordinator opens Find replacement, checks event timing/requirements, selects an available venue, enters the proposal reason and submits. | Pass — Requirements are prefilled; pending history appears; original reservation/event remain; Needs replacement remains; proposal reserves no target cells. |
+| 4 | US48 / 5, 6 | Withdrawal and rejection. Coordinator withdraws one proposal; submits another; Venue Staff rejects it with a decision note. | Pass — Both decisions remain in history; original reservation and open reviews remain; original still needs replacement. |
+| 5 | US48 / 4, 5, 6 | Failed approval preserves original. After proposal, Venue Staff blocks only the target setup period and attempts approval. | Pass — Approval is refused; no confirmed replacement is created; original reservation and both original reviews remain unchanged. |
+| 6 | US48 / 3, 4, 5, 6 | Successful replacement and buffer occupancy. After removing the target test block, Venue Staff approves a current proposal; Coordinator reloads bookings and history. | Pass — Target confirmed with 15-minute setup and 30-minute turnaround; original Released without Needs replacement; event details/status unchanged; released cells under the original active block remain blocked. |
+| 7 | US48 / 6 | Selective review resolution and audit. After successful approval, compare the original block/capacity reviews and matching replacement decision audit. | Pass — Only eligible block review resolves; capacity review stays open; approving staff and replacement booking match the actual approved request. |
+| 8 | US48 / 1, 3, 4, 5, 6 | Retired-venue replacement. Venue Staff retires a disposable original venue with a reason; Coordinator requests another venue; Venue Staff approves. | Pass — Retirement reason and Needs replacement appear before approval; afterwards the original is released, event preserved and retirement review resolved with staff/replacement attribution. |
+| 9 | US48 / 3 | Access and stale consent. Unassigned Coordinator opens another event replacement URL; separately change relevant event requirements after a proposal and try the previously loaded staff approval. | Pass — Unassigned Coordinator cannot read/propose the replacement; stale requirements cannot be silently approved; fresh Coordinator consent is required. |
 
-Additional continuous-block checks (Venue Staff, pending):
+The submission contains these eight US48 groups; the separate continuous-block
+support check remains in the manual-results record and is not submitted under another
+story. Provide the eight US48 Manual Testing rows directly in chat for Jaydon
+to enter; do not store spreadsheet-paste files in the repository.
+Do not create spreadsheet Automated Test Case Runs: GitHub Actions owns those records.
+Automated-only edge cases (including reassignment, Confirmed-event eligibility,
+legacy gap preservation and races) retain their separate classifications above.
 
-1. Choose a future start date at 21:00 and the next date at 08:00. Preview/save.
-   The list shows both endpoints in Singapore time. Calendar cells from 21:00
-   through 07:45 are blocked; 20:45 before the start and 08:00 at the end stay free.
-2. Use three dates: the middle day is fully blocked. Try 23:45 → next-day 00:00,
-   and Full day (00:00–24:00). No cells after the exclusive endpoint are blocked.
-3. Same-day equal/reversed times refuse preview. Changing either endpoint after
-   preview hides Confirm block until previewed again. Existing overlapping blocks refuse save.
-4. Check an older block with daily gaps: its displayed ranges and gaps stay intact.
-5. Overlap two bookings with the continuous block, including only setup/turnaround
-   for one. Originals/events stay intact, with review reasons. Replace one: only its
-   eligible reviews resolve; its released cells inside the exact block remain blocked.
-6. Remove the block: only its maintenance cells and open block reviews clear;
-   other reservations/reviews stay. Email queueing is not proof of delivery.
+## Supporting regression coverage
 
-## Shared US12 integration cases added with 0100
-
-These belong to the blocking criteria and retain AC-012 IDs; they support US48's
-blocked-booking flow. They are not additional US48 acceptance criteria.
-
-| ID | Type | Scenario and expected result |
-|---|---|---|
-| AC-012.1.13 | Integration Test - Negative | Non-staff cannot preview/save periods; browser roles cannot execute private helpers. |
-| AC-012.2.31 | Unit Test - Boundary / Negative | Quarter-hour alignment, overnight ordering, midnight, real dates and the 366 occupied-day limit. |
-| AC-012.2.32 | Unit Test - Happy path / Boundary / Negative | Service preview/save send identical Singapore instants; 24:00 normalizes; invalid periods make no RPC call. |
-| AC-012.2.33 | Integration Test - Negative / Boundary | Refuse null/infinite/misaligned/nonpositive/overlong periods and blank reasons. |
-| AC-012.2.34 | Integration Test - Happy path / Boundary / Regression | Exact overnight/interior-day cells, exclusive midnight, adjacent periods and legacy gaps/mixed overlap. |
-| AC-012.5.6 | Integration Test - Negative / Boundary | Reviews/approval/holds honor exact closure endpoints; inside requests fail and adjacent requests remain valid. |
-| AC-012.7.15 | Integration Test - Happy path / Boundary | Preview returns only exact overlapping bookings and block cells. |
-| AC-012.7.16 | Integration Test - Boundary / Regression | Newly required setup detects exact continuous-block conflicts; adjacent setup does not; saved claims remain. |
-| AC-012.8.26 | Integration Test - Happy path / Regression | Flag only affected bookings without mutating events/reservations; replacement releases exact cells and selectively resolves its reviews. |
-| AC-012.9.26 | Unit Test - Happy path / Regression | Service retains continuous timestamps and legacy gapped slots. |
-| AC-012.9.27 | Integration Test - Happy path / Regression | Removing a period releases only its maintenance/reviews and preserves other bookings/blocks. |
-| AC-012.9.28 | Integration Test - Negative / Regression | Real concurrent continuous/legacy requests share the venue lock; one complete winner and no losing block. |
-| AC-012.9.29 | Component Test - Happy path / Regression | Both Singapore endpoints display; legacy daily ranges remain readable. |
-| AC-012.10.7 | Integration Test - Regression | Populated 0100 upgrade preserves events, reservations, reviews, history and legacy coverage. |
-| AC-012.10.8 | Integration Test - Regression | Replaying 0100 preserves populated legacy/continuous blocks and related state. |
-
-SQL: `continuous_venue_blocks.sql`, `continuous_venue_block_races.sh` and current
-runners. Frontend: `venueBlockValidation.test.ts`, `venueBlockService.period.test.ts`,
-`VenueBlockList.test.tsx`. Existing US12/US47 component cases were adapted to the
-new controls without adding duplicate happy-path tests.
-Next US12 IDs: .1.14/.2.35/.3.8/.4.3/.5.7/.6.3/.7.17/.8.27/.9.30/.10.9.
+The continuous-block and existing replacement/buffer tests remain in the repository
+with their original IDs. They protect the shared functionality used by US48, but
+are not included in Jaydon's US48 evidence-sheet submission or counted as additional
+US48 acceptance criteria. No other story's sheet records are added or updated.
+Historical implementation evidence remains under `docs/test-evidence/us48/`.
 
 ## Defects and evidence sheet
 
 PR1 demonstrated no product defect. PR2 found/fixed AC-048.2.3: missing booking-time
 options left the disabled filter button labelled Searching after loading ended.
 The fix separates loading wording from disabled state; the unchanged behavioural
-expectation then passed. Preserve the failure log and record this in Defects
-(Automated Testing). Owner/discovered/fixed fields: Jaydon; date 21 October 2026.
+expectation then passed. Failure evidence is retained and Jaydon confirmed the
+evidence sheet is up to date, including Defects (Automated Testing). Owner/discovered/fixed fields: Jaydon; date 21 October 2026.
 Fixture/assertion mistakes and expected refusals are not product defects.
-Manual defects/results, shared sheet updates, CI and deployment remain pending.
-At story closeout update Test Case Overview, Manual Testing and Defects (Automated
-Testing), using Jaydon in required owner/tester fields. Do not populate Automated
+Manual passes are confirmed by Jaydon; no manual defect was reported. PR #128 is
+merged with four checks passed. The sheet is updated per Jaydon; documentation
+merge and Jira transition remain. A separate 0100 deployment timestamp/operator
+was not supplied. Required sheet owner/tester fields use Jaydon. Do not populate Automated
 Test Case Runs. See `docs/test-evidence/us48/README.md` for local logs.
