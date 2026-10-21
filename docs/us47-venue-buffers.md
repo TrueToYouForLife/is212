@@ -2,19 +2,31 @@
 
 Owner: Jaydon. Story: SCRUM-242. Updated: 21 October 2026.
 
-## Current integration status
+## Current status — acceptance review and closeout
 
-Migration 0098 and the Venue Staff settings panel are implemented locally on
-`us47-buffer-settings-review`. Venue Staff can edit independent setup and turnaround
-durations under Manage venues → Edit venue. Zero means none; valid durations are
-non-negative multiples of 15 minutes. Settings apply per venue, including to new
-holds; they are not chosen by Coordinators or separately on every approval.
+Implementation PRs are merged. Migrations 0074, 0075 and 0098 are applied to shared
+Supabase, confirmed during deployment. The settings UI and timetable/history
+readability checks passed manual testing. The shared evidence sheet overview,
+manual results and automated defect record have been updated. Automated runs remain
+in GitHub Actions rather than the spreadsheet's Automated Test Case Runs tab.
 
-The user confirmed 0074/0075 deployment and the preceding readability fix's manual
-checks. 0098 is not applied to shared Supabase. This branch requires coordinated
-0098/frontend deployment, CI review and the manual checks below before US47 is Done.
-Historical checkpoints below describe earlier states and are superseded by this
-section and the 0098 implementation section.
+The acceptance review below maps the agreed Jira criteria to the current code and
+recorded verification. Older checkpoint sections are historical: their draft,
+uncommitted, deployment-pending and manual-pending statements describe that stage
+only. They do not override this current status.
+
+| AC | Current implementation | Verification |
+|---|---|---|
+| AC-047.1 | Venue Staff configure independent setup/turnaround durations through `VenueBufferSettings` on Edit venue. Browser validation and authorised RPC enforce non-negative multiples of 15; zero is valid. Role checks and stale-write protection apply. | SQL .1.1–4, component .1.5–7; manual save/reload, invalid input and stale-tab checks passed. |
+| AC-047.2 | `venue_occupied_period` and venue-specific `venue_review_cells` calculate setup before and turnaround after the event. New holds and approval use quarter-hour occupied cells. Search, suitability, calendar and conflict reads use effective occupancy. Saved history remains preserved. | Calculation/hold/approval/conversion/regression/race cases .2.1–47; manual buffer summary and buffer-only conflict refusal passed. |
+| AC-047.3 | Settings saves preserve existing booking/claim rows, flag overlapping live arrangements through the existing review panel, and create Coordinator/Venue Staff notices using channel preferences. | SQL .3.1–4 plus .1.3; manual preservation, review flag and in-app notification checks passed. |
+| AC-047.4 | Database defaults are zero for both fields; staff read/save flow retains independent values. | SQL .4.1–3 and manual new-venue default check passed. |
+
+Evidence limitations: full-suite automated results are the recorded implementation
+runs, not a new full-suite run for this documentation branch. Manual passes are the
+reported browser results. The notification helper queues email; receipt of email
+was not independently verified. No feature changes or shared deployment are part
+of this documentation closeout.
 
 ## Agreed direction
 
@@ -317,11 +329,11 @@ The coordinator booking preview summarises event time, setup, turnaround and tot
 
 ### Coordinator timetable usability fix — 21 October 2026
 
-The single-venue calendar retains date columns but groups quarter-hour occupancy into readable ranges within three display sections (00:00–12:00, 12:00–18:00, 18:00–24:00). Different bookings, statuses, buffers, maintenance reasons, gaps and selected periods remain distinct. These are display sections, not legacy booking blocks. AC-047.2.32 covers grouping; manual retest is pending. No migration is required; 0098 remains reserved for Venue Staff settings.
+The single-venue calendar retains date columns but groups quarter-hour occupancy into readable ranges within three display sections (00:00–12:00, 12:00–18:00, 18:00–24:00). Different bookings, statuses, buffers, maintenance reasons, gaps and selected periods remain distinct. These are display sections, not legacy booking blocks. AC-047.2.32 covers grouping; manual retest passed. This display fix required no migration; the later 0098 settings migration is now deployed.
 
-The My bookings page also groups saved quarter-hour claims into reserved time ranges, separately by date and event/buffer role. It preserves gaps and uses saved occupancy rather than recalculating history from current venue settings. This is a display-only regression change; manual retest pending.
+The My bookings page also groups saved quarter-hour claims into reserved time ranges, separately by date and event/buffer role. It preserves gaps and uses saved occupancy rather than recalculating history from current venue settings. This display-only regression change passed manual retesting.
 
-Venue Staff booking review now uses the same compact saved/requested time-range display. Conflict warnings remain visible, with individual conflicting slots retained in an expandable list for investigation. Manual retest pending.
+Venue Staff booking review now uses the same compact saved/requested time-range display. Conflict warnings remain visible, with individual conflicting slots retained in an expandable list for investigation. Manual retest passed.
 
 ### Venue Staff buffer settings — migration 0098
 
@@ -354,16 +366,18 @@ qualified as a table reference when refreshing an existing notice. Saving settin
 rolled back. The final implementation uses an unambiguous `v_detail` variable and
 fresh notices through `send_notification`; the same settings-save case now passes.
 Failure: `test-evidence/us47/AC-047.1.3-settings-save-failure.log`.
-Record under Defects (Automated Testing); no shared database was affected.
+Recorded under Defects (Automated Testing); no shared database was affected by the development failure.
 
 ### Deployment and manual verification
 
-After PR approval, coordinate applying `0098_venue_buffer_settings.sql` with deploying
-this frontend. It requires 0075 and the existing notification/venue review migrations.
+The implementation PR was merged and `0098_venue_buffer_settings.sql` applied to
+shared Supabase. It requires 0075 and the existing notification/venue review migrations.
 The frontend reads the new occupancy view, so do not deploy it against a database
 without 0098. Do not replay historical migrations after it.
 
-Manual results for this settings portion are **pending**:
+The settings UI checks passed manual testing. The following scenarios remain the
+reusable verification checklist; automated-only cases and email delivery are not
+converted into additional manual-pass claims:
 
 1. Venue Staff: Manage venues → Edit an active test venue. Check a new venue starts
    at 0/0. Save 15 setup and 30 turnaround, reload and confirm persistence. Try -15,
@@ -383,14 +397,26 @@ Manual results for this settings portion are **pending**:
    reload. A Coordinator must not have access to this settings page/RPC. A retired
    venue must not offer timing edits.
 
-Shared-sheet overview, automated defect and manual results need updating after
-review. Automated runs remain recorded by GitHub Actions; do not duplicate those in
-its Automated Test Case Runs tab. Commits, pushes, PR and deployment remain manual.
+Shared-sheet overview, automated defect and manual results are updated. Automated
+runs remain recorded by GitHub Actions; the Automated Test Case Runs tab is unchanged.
+Commits, pushes and PRs for this documentation closeout remain manual.
 
 ### Final local verification — 21 October 2026
 
 Full frontend coverage: 170 files / 1,500 tests passed; typecheck, lint and production
 build passed. Historical database regressions, populated upgrade and fresh install
 all exited 0. Conversion runners include 0098 replay, settings cases and hold/approval
-concurrency checks. These are local results; PR CI and manual settings checks remain
-pending. Logs are indexed in `docs/test-evidence/us47/README.md`.
+concurrency checks. These are the recorded local implementation results. The PR is merged, deployment
+and manual settings checks are confirmed; no additional GitHub Actions result is inferred. Logs are indexed in `docs/test-evidence/us47/README.md`.
+
+### Acceptance audit result — 21 October 2026
+
+No blocking implementation gap was identified against AC-047.1–4. Eight focused
+frontend tests passed. An isolated database audit passed the existing conversion,
+settings, revalidation and race checks, plus temporary samples for confirmed-booking
+preservation, cross-midnight buffers read as Coordinator, and expired hold occupancy.
+No application code or deployed migration was changed. Evidence is indexed in
+`test-evidence/us47/README.md`. With deployment, manual results and evidence-sheet
+updates confirmed, US47 is ready for the Jira Done transition after this documentation
+closeout is merged. This is an acceptance review based on inspected code and tests,
+not a claim that every possible input has been exhaustively tested.

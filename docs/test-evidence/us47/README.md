@@ -1,4 +1,14 @@
-# US47 foundation evidence — 19 October 2026
+# US47 evidence
+
+## Current closeout — 21 October 2026
+
+Implementation PRs merged; migrations 0074/0075/0098 applied to shared Supabase.
+Manual settings and readability checks passed and the evidence sheet is updated.
+These deployment/manual results were reported during closeout; automated logs below
+remain records of the actual implementation runs. No independent email receipt or
+new GitHub Actions result is inferred. Older pending statements are historical.
+
+## Foundation evidence — 19 October 2026
 
 Owner: Jaydon. Branch: `us47-venue-buffer-settings`.
 
@@ -151,6 +161,20 @@ The evidence sheet was not edited in this completion pass. Deploy checklist:
   the intentionally refused race requests as additional defects.
 - buffer-settings-checkpoint.log records the earlier, narrower draft checkpoint.
 
-No new forced-break run, shared deployment, manual settings pass or GitHub Actions
-pass is claimed. Existing frontend tests required fixture-source updates for the
-new occupancy view; those test-maintenance failures are not additional product defects.
+At that implementation checkpoint no shared deployment/manual settings pass was
+claimed. Both are now confirmed in the closeout above. No new forced-break or
+GitHub Actions result is inferred. Fixture-source updates for the new occupancy
+view are test maintenance, not additional product defects.
+
+## Acceptance closeout audit — 21 October 2026
+
+- closeout-ac-audit.log: isolated conversion/settings/revalidation/race runner exited
+  0, with extra audit checks for confirmed reservation preservation, projected
+  buffers across midnight through Coordinator RLS and expiry. These extra checks
+  used temporary fixtures, not new permanent regression IDs or a live deployment.
+- closeout-frontend.log: 8 focused tests passed across VenueBufferSettings,
+  venueOccupiedSlots and quarterHourTimetables (3 files).
+- Source review mapped all four current acceptance criteria to implemented code
+  and recorded tests. No blocking gap or new product defect was found in this audit.
+- No full frontend suite was rerun for the documentation closeout; use the recorded
+  1,500-test implementation run for that evidence.

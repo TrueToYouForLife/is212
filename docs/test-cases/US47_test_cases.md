@@ -1,6 +1,15 @@
 # US47 test cases
 
-Owner: Jaydon. Updated: 19 October 2026. Code-first development.
+Owner: Jaydon. Updated: 21 October 2026. Code-first development.
+
+## Current status
+
+Implementation is merged; migrations 0074/0075/0098 are applied to shared Supabase.
+The reported manual UI checks passed and evidence-sheet records are updated. The
+acceptance mapping is in `docs/us47-venue-buffers.md`. Sections below retain the
+development history; earlier draft/pending statements apply only to those checkpoints.
+
+## Foundation cases (historical)
 
 These foundation cases cover database primitives, not the complete user-facing ACs.
 File: `backend/supabase/tests/venue_buffer_foundation.sql`, except the replay check
@@ -281,7 +290,7 @@ AC-047.2.23-restored-pass.log. Deliberate mutation, not a discovered defect.
 - Fix: date columns with three display sections and consecutive occupancy grouped into time-range cards. Booking IDs, statuses, buffers, maintenance reasons, free gaps and selection boundaries remain separate.
 - No database or booking behaviour changes. The separate all-venue availability grid is unchanged.
 - Automated evidence: docs/test-evidence/us47/timetable-readability-tests.log.
-- Manual retest: pending; do not close the defect until verified in the browser.
+- Manual retest: passed; the readability fix was verified in the browser.
 
 ## Venue Staff settings and preservation — 21 October 2026
 
@@ -314,6 +323,6 @@ error caused by an incorrectly qualified PL/pgSQL message variable. Fixed by usi
 `v_detail` and the shared notification helper for fresh notices. Original failure
 log retained; restored save case passes. Record in Defects (Automated Testing).
 
-Manual settings verification remains pending. Steps are in `docs/us47-venue-buffers.md`.
-Previous timetable readability checks passed according to the user's confirmation;
-that does not imply this new settings flow has been manually verified.
+Manual settings and timetable readability checks passed. Steps are retained in
+`docs/us47-venue-buffers.md`. The shared overview, manual results and automated
+defect record are updated. The original SQL failure remains recorded after its fix.

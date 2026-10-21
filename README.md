@@ -1428,42 +1428,27 @@ terminal commands for capturing Scrum evidence. Slice 2 cases use AC-020.3.1–2
 .30–37 and .50–61; next ID is **AC-020.3.62**. Keep migrations 0063 and 0065 in the
 normal ordered deployment process; no shared Supabase deployment is implied here.
 
-## US47 venue setup and turnaround — foundation
+## US47 venue setup and turnaround
 
-Claimed migration `0074_venue_buffer_foundation.sql` adds zero-default duration
-fields (non-negative multiples of 15 minutes) and an internal occupied-period
-calculation. It does not switch existing booking rules or modify reservations.
-Browser configuration remains disabled until booking/review integration is ready.
-The full disposable database suite passed with six foundation cases. No frontend
-changed; shared Supabase deployment and PR/CI remain pending.
+Venue Staff configure independent setup/turnaround durations under **Manage venues →
+Edit**. Durations are non-negative multiples of 15 minutes and default to zero.
+New holds and booking checks include setup before and turnaround after the event.
+Search, suitability and calendars account for occupied time; calendar and saved
+booking history show readable time ranges.
 
-See [US47 scope and remaining work](docs/us47-venue-buffers.md),
-[test cases](docs/test-cases/US47_test_cases.md) and
-[evidence](docs/test-evidence/us47/README.md).
+Settings changes preserve existing reservations and flag conflicting arrangements
+for review. Assigned Coordinators and Venue Staff receive notices through the
+existing notification system, respecting their channel preferences. Email is queued;
+email receipt is not claimed by the database tests.
 
-## US47 booking-time conversion
+Implementation PRs are merged and migrations 0074, 0075 and 0098 applied to shared
+Supabase. Manual UI checks passed and the evidence sheet is updated. The recorded
+implementation verification passed 1,500 frontend tests, typecheck, lint, build and
+historical/upgrade/fresh-install database suites, including migration replay and
+hold/approval concurrency checks.
 
-Migration 0075 converts venue occupancy and maintenance definitions to 15-minute
-slots while retaining saved reservations and ownership. Search, suitability,
-timetables, block controls and atomic hold creation use venue-specific setup and
-turnaround durations. This is the booking integration slice; editable buffer
-settings and settings-change reviews/notifications remain for the next slice.
-
-Review and deploy the database and frontend together using
-[the deployment checklist](docs/us47-booking-time-deployment.md). See
-[US47 notes](docs/us47-venue-buffers.md) and [test cases](docs/test-cases/US47_test_cases.md).
-CI runs historical DB regressions separately from converted-schema upgrade and
-fresh-install checks; the historical runner alone is not the release gate.
-
-## US47 Venue Staff timing settings
-
-Migration 0098 adds staff-only setup/turnaround controls to **Manage venues → Edit**.
-Durations are independent non-negative multiples of 15 minutes and default to zero.
-Conflicting existing reservations remain saved, receive review flags, and trigger
-Coordinator/Venue Staff notices using existing notification preferences. Availability
-and later booking checks include newly required buffers without rewriting history.
-
-Deploy 0098 with this frontend; it requires 0075. Local verification and pending
-manual checks are recorded in [US47 notes](docs/us47-venue-buffers.md). Earlier
-foundation/conversion sections are historical. The story still requires deployment,
-manual verification and evidence-sheet closeout.
+See [acceptance review and scope](docs/us47-venue-buffers.md),
+[test cases](docs/test-cases/US47_test_cases.md),
+[evidence](docs/test-evidence/us47/README.md), and the
+[deployment reference](docs/us47-booking-time-deployment.md). Automated runs stay in
+GitHub Actions; the shared sheet's Automated Test Case Runs tab is unchanged.
