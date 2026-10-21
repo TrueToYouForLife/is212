@@ -282,3 +282,38 @@ AC-047.2.23-restored-pass.log. Deliberate mutation, not a discovered defect.
 - No database or booking behaviour changes. The separate all-venue availability grid is unchanged.
 - Automated evidence: docs/test-evidence/us47/timetable-readability-tests.log.
 - Manual retest: pending; do not close the defect until verified in the browser.
+
+## Venue Staff settings and preservation — 21 October 2026
+
+Migration: `backend/supabase/migrations/0098_venue_buffer_settings.sql`.
+Database cases: `backend/supabase/tests/venue_buffer_settings.sql` and conversion runner.
+Frontend cases: `frontend/src/features/venues/__tests__/VenueBufferSettings.test.tsx`.
+
+| Test code | Type of test | Coverage |
+|---|---|---|
+| AC-047.4.3 | Integration Test - Happy path | New venue has independent zero defaults. |
+| AC-047.1.3 | Integration Test - Happy path / Boundary | Save independent durations; detect overlap between buffers in a previously free gap. |
+| AC-047.1.4 | Integration Test - Negative / Boundary | Refuse unauthorised, direct, invalid and stale edits; unchanged save is a no-op. |
+| AC-047.1.5 | Component Test - Happy path | Load zero defaults, save independent durations and show review feedback. |
+| AC-047.1.6 | Component Test - Negative / Boundary | Refuse blank, negative, fractional and non-15 values; recover stale saves by reloading. |
+| AC-047.1.7 | Component Test - Negative | Malformed loads and network failures never show false success. |
+| AC-047.3.1 | Integration Test - Happy path / Regression | Preserve bookings/claims, flag both conflicting holds and notify Coordinator and staff. |
+| AC-047.3.2 | Integration Test - Boundary | Repeated changes notify again; channel preferences respected; emails queued. |
+| AC-047.3.3 | Integration Test - Regression | Decreasing to zero preserves reservations and open reviews. |
+| AC-047.3.4 | Integration Test - Regression | Migration replay preserves populated booking and claim rows. |
+| AC-047.2.45 | Integration Test - Happy path | Effective availability includes newly required setup. |
+| AC-047.2.46 | Integration Test - Negative | A later hold cannot use an existing booking's new buffer; refused write rolls back. |
+| AC-047.2.47 | Integration Test - Boundary | Maintenance overlapping only new setup flags the existing booking. |
+
+These are grouped cases covering multiple related assertions; a row with multiple
+categories includes separate success/refusal scenarios, not one outcome that is
+simultaneously successful and unsuccessful.
+
+Defect associated with AC-047.1.3: settings save rolled back with a missing FROM-clause
+error caused by an incorrectly qualified PL/pgSQL message variable. Fixed by using
+`v_detail` and the shared notification helper for fresh notices. Original failure
+log retained; restored save case passes. Record in Defects (Automated Testing).
+
+Manual settings verification remains pending. Steps are in `docs/us47-venue-buffers.md`.
+Previous timetable readability checks passed according to the user's confirmation;
+that does not imply this new settings flow has been manually verified.

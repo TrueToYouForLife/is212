@@ -51,14 +51,14 @@ describe('getVenue', () => {
 
 describe('AC-010.5 — the venue availability calendar', () => {
   test('AC-010.5.10: reads one venue’s claims across the requested window only', async () => {
-    fake.plan('venue_slot_claims', { data: [] })
+    fake.plan('venue_effective_slot_claims', { data: [] })
     await getVenueTimetable(VENUE_ID, SLOTS, '2026-10-12', 7)
-    expect(fake.callsTo('venue_slot_claims', 'eq')).toEqual([['venue_id', VENUE_ID]])
-    expect(fake.callsTo('venue_slot_claims', 'gte')).toEqual([['slot_date', '2026-10-12']])
-    expect(fake.callsTo('venue_slot_claims', 'lte')).toEqual([['slot_date', '2026-10-18']])
+    expect(fake.callsTo('venue_effective_slot_claims', 'eq')).toEqual([['venue_id', VENUE_ID]])
+    expect(fake.callsTo('venue_effective_slot_claims', 'gte')).toEqual([['slot_date', '2026-10-12']])
+    expect(fake.callsTo('venue_effective_slot_claims', 'lte')).toEqual([['slot_date', '2026-10-18']])
   })
   test('AC-010.5.11: holds, requests, confirmed bookings and blocks all arrive in one query', async () => {
-    fake.plan('venue_slot_claims', { data: [
+    fake.plan('venue_effective_slot_claims', { data: [
       { slot_date: '2026-10-12', slot: 'AM', kind: 'event', booking_id: 'b-1',
         venue_bookings: { status: 'held', events: { reference: 'EVT-1' } }, venue_closures: null },
       { slot_date: '2026-10-12', slot: 'PM', kind: 'buffer', booking_id: 'b-1',
@@ -79,7 +79,7 @@ describe('AC-010.5 — the venue availability calendar', () => {
     expect(day2[1].closureReason).toBe('Floor resurfacing')
   })
   test('AC-010.5.12: a failed load is reported rather than drawn as an empty, free week', async () => {
-    fake.plan('venue_slot_claims', { error: { message: 'down' } })
+    fake.plan('venue_effective_slot_claims', { error: { message: 'down' } })
     expect(await getVenueTimetable(VENUE_ID, SLOTS, '2026-10-12'))
       .toEqual({ ok: false, reason: messages.loadFailed })
     expect(console.error).toHaveBeenCalled()

@@ -93,11 +93,11 @@ export async function getVenueTimetable(
 
   const dates = datesFrom(fromDate, days)
   const { data, error } = await supabase
-    .from('venue_slot_claims')
+    .from('venue_effective_slot_claims')
     .select(`
       slot_date, slot, kind, booking_id,
-      venue_bookings(status, events(reference)),
-      venue_closures(reason)
+      venue_bookings,
+      venue_closures
     `)
     .eq('venue_id', venueId)
     .gte('slot_date', dates[0])

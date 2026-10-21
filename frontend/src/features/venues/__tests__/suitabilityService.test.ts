@@ -75,7 +75,7 @@ function assessTables(overrides: Record<string, FakeQuery> = {}) {
     events: query({ data: EVENT_ROW, error: null }),
     event_venue_requirements: query({ data: null, error: null }),
     venues: query({ data: VENUE_ROWS, error: null }),
-    venue_slot_claims: query({ data: [], error: null }),
+    venue_effective_slot_claims: query({ data: [], error: null }),
     layout_types: query({ data: [{ code: 'theatre', label: 'Theatre' }, { code: 'boardroom', label: 'Boardroom' }], error: null }),
     ...overrides,
   }
@@ -191,7 +191,7 @@ describe('AC-018.1 — coordinators can identify suitable venues', () => {
 describe('AC-018.4 — venues taken by bookings or maintenance are blacked out', () => {
   test('AC-018.4.7: a booking or block on a slot this event needs blacks the venue out; other slots do not', async () => {
     assessTables({
-      venue_slot_claims: query({
+      venue_effective_slot_claims: query({
         data: [
           { venue_id: 'v-hall', slot_date: '2041-03-10', slot: 'T0900', kind: 'maintenance', venue_bookings: null },
           { venue_id: 'v-small', slot_date: '2041-03-12', slot: 'T0900', kind: 'event', venue_bookings: { event_id: 'other' } },
@@ -209,7 +209,7 @@ describe('AC-018.4 — venues taken by bookings or maintenance are blacked out',
   })
   test("AC-018.4.8: this event's own hold on a venue is not counted as a clash", async () => {
     assessTables({
-      venue_slot_claims: query({
+      venue_effective_slot_claims: query({
         data: [{ venue_id: 'v-hall', slot_date: '2041-03-10', slot: 'T0900', kind: 'event', venue_bookings: { event_id: EVENT_ID } }],
         error: null,
       }),
@@ -219,7 +219,7 @@ describe('AC-018.4 — venues taken by bookings or maintenance are blacked out',
     expect(result.value.find((a) => a.venue.id === 'v-hall')?.verdict).toBe('suitable')
   })
   test('AC-018.4.9: if bookings and blocks cannot be checked, an error is shown rather than every venue looking free', async () => {
-    assessTables({ venue_slot_claims: query({ data: null, error: { message: 'timeout' } }) })
+    assessTables({ venue_effective_slot_claims: query({ data: null, error: { message: 'timeout' } }) })
     expect(await assessVenuesForEvent(EVENT_ID, SLOTS))
       .toEqual({ ok: false, reason: SUITABILITY_MESSAGES.availabilityFailed })
   })
@@ -271,7 +271,7 @@ describe('US47 suitability occupied periods', () => {
       { venue_id: venue.id, slot_date: '2041-03-10', slot: 'T1115', kind: 'maintenance', venue_bookings: null },
       { venue_id: venue.id, slot_date: '2041-03-10', slot: 'T0900', kind: 'event', venue_bookings: { event_id: EVENT_ID } },
     ]), error: null })
-    assessTables({ venues: query({ data: venues, error: null }), venue_slot_claims: claims })
+    assessTables({ venues: query({ data: venues, error: null }), venue_effective_slot_claims: claims })
     const result = await assessVenuesForEvent(EVENT_ID, SLOTS)
     if (!result.ok) throw new Error(result.reason)
     expect(result.value.find((v) => v.venue.id === 'zero')?.verdict).toBe('suitable')
@@ -294,11 +294,11 @@ describe('US47 suitability occupied periods', () => {
     const map = assessTables({
       venues: query({ data: [{ ...VENUE_ROWS[1], setup_minutes: 15 }], error: null }),
       events: query({ data: { ...EVENT_ROW, proposed_start: '2041-03-09T16:00:00Z', proposed_end: '2041-03-09T16:15:00Z' }, error: null }),
-      venue_slot_claims: query({ data: [{ venue_id: 'v-hall', slot_date: '2041-03-09', slot: 'T2345', kind: 'maintenance', venue_bookings: null }], error: null }),
+      venue_effective_slot_claims: query({ data: [{ venue_id: 'v-hall', slot_date: '2041-03-09', slot: 'T2345', kind: 'maintenance', venue_bookings: null }], error: null }),
     })
     const result = await assessVenuesForEvent(EVENT_ID, SLOTS)
     expect(result.ok && result.value[0].verdict).toBe('unavailable')
-    expect(map.venue_slot_claims.calls.gte).toEqual([['slot_date', '2041-03-09']])
-    expect(map.venue_slot_claims.calls.lte).toEqual([['slot_date', '2041-03-10']])
+    expect(map.venue_effective_slot_claims.calls.gte).toEqual([['slot_date', '2041-03-09']])
+    expect(map.venue_effective_slot_claims.calls.lte).toEqual([['slot_date', '2041-03-10']])
   })
 })

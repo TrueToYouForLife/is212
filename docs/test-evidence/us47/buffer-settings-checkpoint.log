@@ -1,0 +1,1997 @@
+CREATE ROLE
+CREATE ROLE
+CREATE SCHEMA
+CREATE TABLE
+CREATE FUNCTION
+GRANT
+GRANT
+ALTER DEFAULT PRIVILEGES
+ALTER DEFAULT PRIVILEGES
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE FUNCTION
+DROP TRIGGER
+NOTICE:  trigger "profiles_set_updated_at" for relation "public.profiles" does not exist, skipping
+CREATE TRIGGER
+NOTICE:  trigger "events_set_updated_at" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE SEQUENCE
+CREATE FUNCTION
+NOTICE:  trigger "events_assign_reference" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+ALTER TABLE
+ALTER TABLE
+NOTICE:  policy "profiles_select_own" for relation "public.profiles" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "profiles_insert_own" for relation "public.profiles" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "profiles_update_own" for relation "public.profiles" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "events_select_own" for relation "public.events" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "events_insert_own" for relation "public.events" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "events_update_own" for relation "public.events" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+ALTER TABLE
+ALTER TABLE
+CREATE FUNCTION
+GRANT
+CREATE FUNCTION
+DROP TRIGGER
+NOTICE:  trigger "profiles_prevent_role_self_assignment" for relation "public.profiles" does not exist, skipping
+CREATE TRIGGER
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "events_select_for_coordinators" for relation "public.events" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "profiles_select_for_coordinators" for relation "public.profiles" does not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+GRANT
+REVOKE
+REVOKE
+GRANT
+GRANT
+CREATE FUNCTION
+CREATE FUNCTION
+NOTICE:  trigger "events_enforce_status_transition" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+NOTICE:  policy "events_update_for_coordinators" for relation "public.events" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE FUNCTION
+DROP TRIGGER
+NOTICE:  trigger "events_stamp_review" for relation "public.events" does not exist, skipping
+CREATE TRIGGER
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+REVOKE
+NOTICE:  trigger "on_auth_user_created" for relation "auth.users" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+INSERT 0 0
+DROP POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+REVOKE
+REVOKE
+GRANT
+CREATE FUNCTION
+NOTICE:  trigger "events_require_review_reason" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+BEGIN
+ALTER TABLE
+ALTER TABLE
+DROP POLICY
+NOTICE:  policy "events_select_for_operations_managers" for relation "public.events" does not exist, skipping
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+COMMIT
+BEGIN
+CREATE TABLE
+NOTICE:  trigger "event_change_requests_set_updated_at" for relation "public.event_change_requests" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+ALTER TABLE
+GRANT
+DROP POLICY
+NOTICE:  policy "organisers_select_own_change_requests" for relation "public.event_change_requests" does not exist, skipping
+CREATE POLICY
+NOTICE:  policy "coordinators_select_all_change_requests" for relation "public.event_change_requests" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "organisers_insert_own_change_requests" for relation "public.event_change_requests" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "organisers_withdraw_own_change_requests" for relation "public.event_change_requests" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+COMMIT
+BEGIN
+ALTER TABLE
+GRANT
+CREATE FUNCTION
+NOTICE:  trigger "events_guard_coordinator_assignment" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+NOTICE:  trigger "events_guard_submitted_details" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+REVOKE
+GRANT
+GRANT
+DROP POLICY
+NOTICE:  policy "coordinators_select_assigned_change_requests" for relation "public.event_change_requests" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+NOTICE:  policy "review_decisions_select_for_staff" for relation "public.event_review_decisions" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+REVOKE
+GRANT
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "events_record_review_decision" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+ALTER TABLE
+NOTICE:  constraint "event_change_requests_status_valid" of relation "event_change_requests" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+GRANT
+CREATE FUNCTION
+NOTICE:  trigger "event_change_requests_bump_version" for relation "public.event_change_requests" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+DROP FUNCTION
+BEGIN
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "staff_read_change_revalidations" for relation "public.event_change_revalidations" does not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "event_change_requests_queue_revalidation" for relation "public.event_change_requests" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+CREATE TABLE
+INSERT 0 1
+ALTER TABLE
+REVOKE
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "coordinator_read_own_change_notifications" for relation "public.change_request_notifications" does not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "event_change_requests_notify_submission" for relation "public.event_change_requests" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "staff_read_change_review_history" for relation "public.event_change_review_history" does not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "event_change_requests_record_review" for relation "public.event_change_requests" does not exist, skipping
+CREATE TRIGGER
+COMMIT
+BEGIN
+CREATE EXTENSION
+CREATE TABLE
+INSERT 0 3
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+NOTICE:  trigger "venues_set_updated_at" for relation "public.venues" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+DROP TRIGGER
+NOTICE:  trigger "venue_bookings_set_updated_at" for relation "public.venue_bookings" does not exist, skipping
+CREATE TRIGGER
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+GRANT
+GRANT
+NOTICE:  policy "time_slots_select_all" for relation "public.time_slots" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "venues_select_all" for relation "public.venues" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "venues_manage_insert" for relation "public.venues" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "venues_manage_update" for relation "public.venues" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "closures_select_staff" for relation "public.venue_closures" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "closures_insert_manage" for relation "public.venue_closures" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "closures_update_manage" for relation "public.venue_closures" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "closures_delete_manage" for relation "public.venue_closures" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "bookings_select_staff" for relation "public.venue_bookings" does not exist, skipping
+NOTICE:  policy "bookings_insert_coordinator" for relation "public.venue_bookings" does not exist, skipping
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "bookings_update_own_coordinator" for relation "public.venue_bookings" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "bookings_expire_lapsed_holds" for relation "public.venue_bookings" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "bookings_review_venue_staff" for relation "public.venue_bookings" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "claims_select_staff" for relation "public.venue_slot_claims" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "claims_insert_coordinator" for relation "public.venue_slot_claims" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "claims_insert_maintenance" for relation "public.venue_slot_claims" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "claims_delete_coordinator" for relation "public.venue_slot_claims" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "claims_delete_venue_staff" for relation "public.venue_slot_claims" does not exist, skipping
+CREATE POLICY
+COMMIT
+BEGIN
+CREATE EXTENSION
+NOTICE:  extension "btree_gist" already exists, skipping
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "equipment_allocations_sync_line" for relation "public.equipment_allocations" does not exist, skipping
+CREATE TRIGGER
+CREATE VIEW
+NOTICE:  trigger "equipment_items_set_updated_at" for relation "public.equipment_items" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+DROP TRIGGER
+NOTICE:  trigger "equipment_bookings_set_updated_at" for relation "public.equipment_bookings" does not exist, skipping
+CREATE TRIGGER
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+GRANT
+GRANT
+NOTICE:  policy "distances_select_staff" for relation "public.venue_distances" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "distances_manage_insert" for relation "public.venue_distances" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "distances_manage_update" for relation "public.venue_distances" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "types_select_staff" for relation "public.equipment_types" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "types_manage_insert" for relation "public.equipment_types" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "types_manage_update" for relation "public.equipment_types" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "items_tech_support" for relation "public.equipment_items" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "allocations_tech_support" for relation "public.equipment_allocations" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "defects_tech_support" for relation "public.equipment_defect_reports" does not exist, skipping
+CREATE POLICY
+NOTICE:  policy "eq_bookings_select" for relation "public.equipment_bookings" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "eq_bookings_insert_coordinator" for relation "public.equipment_bookings" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "eq_bookings_cancel_coordinator" for relation "public.equipment_bookings" does not exist, skipping
+CREATE POLICY
+NOTICE:  policy "eq_bookings_review_tech_support" for relation "public.equipment_bookings" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "eq_lines_select" for relation "public.equipment_booking_lines" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "eq_lines_insert_coordinator" for relation "public.equipment_booking_lines" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "eq_lines_respond_coordinator" for relation "public.equipment_booking_lines" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "eq_lines_tech_support" for relation "public.equipment_booking_lines" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+COMMIT
+BEGIN
+CREATE FUNCTION
+DO
+DROP FUNCTION
+COMMIT
+BEGIN
+DO
+UPDATE 0
+ALTER TABLE
+ALTER TABLE
+COMMIT
+BEGIN
+CREATE TABLE
+INSERT 0 7
+ALTER TABLE
+REVOKE
+GRANT
+NOTICE:  policy "layout_types_select_all" for relation "public.layout_types" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+COMMIT
+BEGIN
+CREATE FUNCTION
+CREATE TABLE
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "venue_layouts_select_all" for relation "public.venue_layouts" does not exist, skipping
+CREATE POLICY
+NOTICE:  policy "venue_layouts_manage" for relation "public.venue_layouts" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "venues_sync_primary_layout" for relation "public.venues" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+INSERT 0 0
+INSERT 0 0
+COMMIT
+BEGIN
+CREATE TABLE
+NOTICE:  trigger "event_venue_requirements_set_updated_at" for relation "public.event_venue_requirements" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+ALTER TABLE
+REVOKE
+GRANT
+NOTICE:  policy "event_venue_requirements_select" for relation "public.event_venue_requirements" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "event_venue_requirements_insert" for relation "public.event_venue_requirements" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "event_venue_requirements_update" for relation "public.event_venue_requirements" does not exist, skipping
+CREATE POLICY
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+REVOKE
+GRANT
+GRANT
+GRANT
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+ALTER TABLE
+ALTER TABLE
+DROP POLICY
+NOTICE:  policy "equipment_requirements_select" for relation "public.event_equipment_requirements" does not exist, skipping
+CREATE POLICY
+NOTICE:  policy "equipment_requirements_insert" for relation "public.event_equipment_requirements" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "equipment_requirements_update" for relation "public.event_equipment_requirements" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "equipment_requirements_delete" for relation "public.event_equipment_requirements" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "equipment_notifications_select_own" for relation "public.equipment_requirement_notifications" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "events_select_for_tech_support" for relation "public.events" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "event_equipment_requirements_guard" for relation "public.event_equipment_requirements" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "event_equipment_requirements_release" for relation "public.event_equipment_requirements" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+NOTICE:  trigger "event_equipment_requirements_set_updated_at" for relation "public.event_equipment_requirements" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "event_equipment_requirements_notify" for relation "public.event_equipment_requirements" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+NOTICE:  constraint "equipment_requirement_notifications_action_valid" of relation "equipment_requirement_notifications" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+NOTICE:  policy "equipment_outcome_notices_select_coordinator" for relation "public.equipment_requirement_notifications" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+CREATE TABLE
+INSERT 0 1
+ALTER TABLE
+REVOKE
+DROP POLICY
+NOTICE:  policy "allocations_select_staff" for relation "public.equipment_allocations" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+DROP POLICY
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+DROP POLICY
+REVOKE
+DROP POLICY
+REVOKE
+DROP POLICY
+REVOKE
+DROP POLICY
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE TABLE
+ALTER TABLE
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+GRANT
+DROP POLICY
+NOTICE:  policy "venue_booking_flags_select_staff" for relation "public.venue_booking_flags" does not exist, skipping
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "venue_booking_flags_select_coordinator" for relation "public.venue_booking_flags" does not exist, skipping
+CREATE POLICY
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "venue_bookings_refuse_blocked_confirm" for relation "public.venue_bookings" does not exist, skipping
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "venue_slot_claims_reblock" for relation "public.venue_slot_claims" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+ALTER TABLE
+NOTICE:  constraint "venue_booking_flags_resolution_recorded" of relation "venue_booking_flags" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "venue_bookings_resolve_flags" for relation "public.venue_bookings" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+ALTER TABLE
+NOTICE:  constraint "venue_closures_removal_recorded" of relation "venue_closures" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+COMMIT
+BEGIN
+CREATE INDEX
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+CREATE TRIGGER
+NOTICE:  trigger "events_release_venue_holds" for relation "public.events" does not exist, skipping
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "venue_staff_read_own_booking_notifications" for relation "public.venue_booking_notifications" does not exist, skipping
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "venue_staff_mark_own_booking_notifications" for relation "public.venue_booking_notifications" does not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "venue_bookings_notify_staff" for relation "public.venue_bookings" does not exist, skipping
+CREATE TRIGGER
+COMMIT
+BEGIN
+DROP INDEX
+CREATE INDEX
+DROP POLICY
+CREATE POLICY
+COMMIT
+BEGIN
+NOTICE:  constraint "venue_bookings_rejection_reason_required" of relation "venue_bookings" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+NOTICE:  policy "events_select_for_coordinator_leads" for relation "public.events" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+CREATE FUNCTION
+NOTICE:  trigger "events_guard_assigned_coordinator_update" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+NOTICE:  policy "coordinator_leads_read_assignment_history" for relation "public.event_coordinator_assignment_history" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "events_record_coordinator_assignment" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+ALTER TABLE
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "venue_bookings_stamp_rejection" for relation "public.venue_bookings" does not exist, skipping
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "venue_bookings_release_rejected_claims" for relation "public.venue_bookings" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+CREATE FUNCTION
+REVOKE
+ALTER TABLE
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+NOTICE:  policy "event_registrations_select_own" for relation "public.event_registrations" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+REVOKE
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+REVOKE
+REVOKE
+GRANT
+GRANT
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "event_registrations_queue_confirmation" for relation "public.event_registrations" does not exist, skipping
+CREATE TRIGGER
+BEGIN
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "event_venue_requirements_lock_event" for relation "public.event_venue_requirements" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+NOTICE:  policy "bookings_confirm_through_rpc" for relation "public.venue_bookings" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "venue_claims_protect_confirmed" for relation "public.venue_slot_claims" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE TABLE
+INSERT 0 1
+ALTER TABLE
+REVOKE
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "recipients_read_assignment_notifications" for relation "public.coordinator_assignment_notifications" does not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "assignment_history_notify_recipients" for relation "public.event_coordinator_assignment_history" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "venue_bookings_guard_coordinator_identity" for relation "public.venue_bookings" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+COMMIT
+BEGIN
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "equipment_bookings_guard_coordinator_update" for relation "public.equipment_bookings" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+NOTICE:  trigger "equipment_lines_guard_coordinator_update" for relation "public.equipment_booking_lines" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+DROP POLICY
+CREATE POLICY
+COMMIT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "event_registrations_queue_withdrawal" for relation "public.event_registrations" does not exist, skipping
+CREATE TRIGGER
+BEGIN
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "coordinator_read_own_venue_decisions" for relation "public.venue_booking_decision_notifications" does not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "venue_bookings_notify_decision" for relation "public.venue_bookings" does not exist, skipping
+CREATE TRIGGER
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+NOTICE:  policy "arrangement_review_current_coordinator" for relation "public.arrangement_review_flags" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+CREATE TABLE
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "arrangement_notice_recipient" for relation "public.arrangement_review_notifications" does not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "revalidate_approved_arrangements" for relation "public.event_change_revalidations" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+COMMIT
+BEGIN
+CREATE TABLE
+INSERT 0 4
+CREATE TABLE
+INSERT 0 4
+ALTER TABLE
+ALTER TABLE
+REVOKE
+REVOKE
+GRANT
+GRANT
+NOTICE:  policy "accessibility_types_select_all" for relation "public.accessibility_types" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "facility_types_select_all" for relation "public.facility_types" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+ALTER TABLE
+UPDATE 0
+UPDATE 0
+CREATE INDEX
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "equipment_types_set_code" for relation "public.equipment_types" does not exist, skipping
+CREATE TRIGGER
+ALTER TABLE
+ALTER TABLE
+NOTICE:  constraint "equipment_types_code_format" of relation "equipment_types" does not exist, skipping
+ALTER TABLE
+REVOKE
+DROP POLICY
+CREATE POLICY
+CREATE TABLE
+DO
+ALTER TABLE
+REVOKE
+GRANT
+NOTICE:  policy "event_requirement_notes_select_staff" for relation "public.event_requirement_migration_notes" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+DO
+UPDATE 0
+ALTER TABLE
+ALTER TABLE
+DO
+UPDATE 0
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+UPDATE 0
+ALTER TABLE
+ALTER TABLE
+UPDATE 0
+UPDATE 0
+ALTER TABLE
+NOTICE:  constraint "events_layout_preference_fkey" of relation "events" does not exist, skipping
+ALTER TABLE
+NOTICE:  constraint "events_requirement_codes_not_blank" of relation "events" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "events_validate_requirement_codes" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+GRANT
+DROP FUNCTION
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "event_waitlist_select_own" for relation "public.event_waitlist_entries" does not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+REVOKE
+REVOKE
+REVOKE
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+REVOKE
+REVOKE
+GRANT
+GRANT
+GRANT
+DROP FUNCTION
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+DROP TRIGGER
+NOTICE:  trigger "event_registrations_process_waitlist" for relation "public.event_registrations" does not exist, skipping
+CREATE TRIGGER
+CREATE FUNCTION
+NOTICE:  trigger "events_process_waitlist" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+REVOKE
+REVOKE
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "event_waitlist_queue_notification" for relation "public.event_waitlist_entries" does not exist, skipping
+CREATE TRIGGER
+COMMIT
+BEGIN
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+REVOKE
+REVOKE
+GRANT
+GRANT
+GRANT
+COMMIT
+BEGIN
+ALTER TABLE
+UPDATE 0
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+NOTICE:  constraint "event_waitlist_override_paired" of relation "event_waitlist_entries" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+DROP INDEX
+CREATE INDEX
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+REVOKE
+GRANT
+GRANT
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+REVOKE
+GRANT
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+DO
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+NOTICE:  policy "planning_updates_assigned" for relation "public.event_planning_updates" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+NOTICE:  constraint "arrangement_review_source" of relation "arrangement_review_flags" does not exist, skipping
+ALTER TABLE
+CREATE INDEX
+CREATE INDEX
+ALTER TABLE
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+NOTICE:  constraint "venues_operating_hours_valid" of relation "venues" does not exist, skipping
+ALTER TABLE
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+NOTICE:  policy "venue_changes_select_venue_staff" for relation "public.venue_changes" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "venues_record_change" for relation "public.venues" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "venue_layouts_record_change" for relation "public.venue_layouts" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "venue_replacement_read" for relation "public.venue_replacement_requests" does not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+CREATE FUNCTION
+CREATE FUNCTION
+ALTER TABLE
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE INDEX
+DO
+NOTICE:  function public.record_venue_change_review(uuid,uuid,uuid,text,text) does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE TABLE
+INSERT 0 2
+UPDATE 0
+ALTER TABLE
+NOTICE:  constraint "profiles_client_org_fk" of relation "profiles" does not exist, skipping
+ALTER TABLE
+NOTICE:  constraint "profiles_client_org_required" of relation "profiles" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+CREATE INDEX
+CREATE FUNCTION
+DROP TRIGGER
+NOTICE:  trigger "profiles_prevent_client_org_self_assignment" for relation "public.profiles" does not exist, skipping
+CREATE TRIGGER
+REVOKE
+GRANT
+ALTER TABLE
+NOTICE:  policy "client_organisations_select_own" for relation "public.client_organisations" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+COMMIT
+BEGIN
+ALTER TABLE
+NOTICE:  constraint "venues_retirement_note_valid" of relation "venues" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+DO
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE TABLE
+ALTER TABLE
+REVOKE
+GRANT
+NOTICE:  policy "notification_reads_own" for relation "public.notification_reads" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "notification_reads_insert_own" for relation "public.notification_reads" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP FUNCTION
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+ALTER TABLE
+NOTICE:  constraint "venues_buffer_minutes_valid" of relation "venues" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "venues_guard_buffer_foundation" for relation "public.venues" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE TABLE
+INSERT 0 11
+ALTER TABLE
+REVOKE
+GRANT
+NOTICE:  policy "notification_types_read" for relation "public.notification_types" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+CREATE TABLE
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "notification_preferences_own" for relation "public.notification_preferences" does not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+ALTER TABLE
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+NOTICE:  policy "user_notifications_own" for relation "public.user_notifications" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+UPDATE 4
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+REVOKE
+REVOKE
+REVOKE
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+ALTER TABLE
+ALTER TABLE
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+COMMIT
+CREATE FUNCTION
+INSERT 0 1
+INSERT 0 1
+INSERT 0 3
+INSERT 0 3
+INSERT 0 2
+INSERT 0 4
+INSERT 0 1
+SELECT 3
+SELECT 2
+SELECT 100
+SELECT 60
+BEGIN
+LOCK TABLE
+SELECT 3
+DO
+SELECT 5
+ALTER TABLE
+UPDATE 3
+INSERT 0 96
+DO
+ALTER TABLE
+ALTER TABLE
+INSERT 0 100
+DELETE 5
+ALTER TABLE
+ALTER TABLE
+UPDATE 2
+DELETE 3
+ALTER TABLE
+DO
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+ALTER TABLE
+ALTER TABLE
+COMMIT
+NOTICE:  PASS: AC-047.2.3: conversion preserves exact booking/buffer/maintenance occupancy and all booking metadata
+ us47_assert
+-------------
+
+(1 row)
+
+NOTICE:  PASS: AC-047.2.4: overlapping and removed block definitions retain their exact periods, gaps and metadata; triggers restored
+ us47_assert
+-------------
+
+(1 row)
+
+SELECT 96
+SELECT 100
+SELECT 2
+BEGIN
+LOCK TABLE
+SELECT 0
+DO
+SELECT 0
+ALTER TABLE
+UPDATE 0
+INSERT 0 0
+DO
+ALTER TABLE
+ALTER TABLE
+INSERT 0 0
+DELETE 0
+ALTER TABLE
+ALTER TABLE
+UPDATE 0
+DELETE 0
+ALTER TABLE
+DO
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+ALTER TABLE
+ALTER TABLE
+COMMIT
+ us47_assert
+-------------
+
+(1 row)
+
+NOTICE:  PASS: AC-047.2.5: repeated conversion preserves catalogue, reservations and block definitions
+BEGIN
+RESET
+ set_config
+------------
+
+(1 row)
+
+UPDATE 1
+UPDATE 1
+NOTICE:  PASS: AC-047.2.6: venue durations generate the exact customer-example and cross-midnight quarter-hour cells
+ us47_assert
+-------------
+
+(1 row)
+
+UPDATE 1
+NOTICE:  PASS: AC-047.2.6: zero durations add no buffer; partial quarter-hours occupy every touched cell without changing event times
+ us47_assert
+-------------
+
+(1 row)
+
+SET
+              set_config
+--------------------------------------
+ 47750000-0000-0000-0000-000000000001
+(1 row)
+
+NOTICE:  PASS: AC-047.2.7: invalid block inputs refused and internal/unauthenticated access remains restricted
+DO
+              set_config
+--------------------------------------
+ 47750000-0000-0000-0000-000000000001
+(1 row)
+
+SELECT 1
+NOTICE:  PASS: AC-047.2.8: quarter-hour block normalises codes, includes lunch time and flags overlapping holds without removing their cells
+ us47_assert
+-------------
+
+(1 row)
+
+RESET
+ set_config
+------------
+
+(1 row)
+
+DELETE 1
+NOTICE:  PASS: AC-047.2.8: released quarter-hour reservation cells revert to their covering block
+ us47_assert
+-------------
+
+(1 row)
+
+SET
+              set_config
+--------------------------------------
+ 47750000-0000-0000-0000-000000000001
+(1 row)
+
+ remove_venue_block
+--------------------
+
+(1 row)
+
+NOTICE:  PASS: AC-047.2.8: removing a quarter-hour block preserves remaining booking cells
+ us47_assert
+-------------
+
+(1 row)
+
+RESET
+ROLLBACK
+BEGIN
+UPDATE 1
+UPDATE 1
+INSERT 0 3
+UPDATE 1
+SET
+              set_config
+--------------------------------------
+ 47750000-0000-0000-0000-000000000001
+(1 row)
+
+SELECT 1
+NOTICE:  PASS: AC-047.2.9: assigned Coordinator creates a hold with venue-specific buffers and unchanged default expiry
+ us47_assert
+-------------
+
+(1 row)
+
+DO
+RESET
+NOTICE:  PASS: AC-047.2.10: conflicts and invalid/unauthorised requests leave no partial booking or lost reservation
+ us47_assert
+-------------
+
+(1 row)
+
+UPDATE 1
+SET
+SELECT 1
+RESET
+NOTICE:  PASS: AC-047.2.11: expiry boundary releases the old cells atomically and preserves the expired booking
+ us47_assert
+-------------
+
+(1 row)
+
+UPDATE 1
+INSERT 0 1
+SET
+DO
+RESET
+NOTICE:  PASS: AC-047.2.12: a block covering only setup refuses the hold and rolls back expiry cleanup without losing reservations
+ us47_assert
+-------------
+
+(1 row)
+
+ROLLBACK
+BEGIN
+UPDATE 1
+UPDATE 1
+INSERT 0 2
+INSERT 0 2
+SET
+              set_config
+--------------------------------------
+ 47750000-0000-0000-0000-000000000001
+(1 row)
+
+SELECT 1
+ us47_assert
+-------------
+
+(1 row)
+
+NOTICE:  PASS: AC-047.2.14: review returns venue-specific cells, structured requirements and review version
+        approve_venue_booking
+--------------------------------------
+ 47750000-0000-0000-0000-000000000310
+(1 row)
+
+NOTICE:  PASS: AC-047.2.14: approval reserves event and venue-specific buffer cells together
+ us47_assert
+-------------
+
+(1 row)
+
+SELECT 1
+RESET
+UPDATE 1
+SET
+DO
+NOTICE:  PASS: AC-047.2.15: venue edits invalidate open reviews; conflicting approval rolls back without partial cells
+ us47_assert
+-------------
+
+(1 row)
+
+SELECT 20
+DO
+NOTICE:  PASS: AC-047.2.16: mismatched converted reservation is refused without deleting or shortening its saved occupancy
+ us47_assert
+-------------
+
+(1 row)
+
+RESET
+INSERT 0 1
+INSERT 0 1
+SET
+NOTICE:  PASS: AC-047.2.17: incomplete timing still allows staff to read booking details with conflict checking unavailable
+ us47_assert
+-------------
+
+(1 row)
+
+RESET
+ROLLBACK
+BEGIN
+ set_config
+------------
+
+(1 row)
+
+UPDATE 1
+INSERT 0 2
+INSERT 0 1
+INSERT 0 2
+INSERT 0 10
+INSERT 0 2
+SELECT 10
+SET
+              set_config
+--------------------------------------
+ 47750000-0000-0000-0000-000000000001
+(1 row)
+
+SELECT 1
+RESET
+ us47_assert
+-------------
+
+(1 row)
+
+NOTICE:  PASS: AC-047.2.21: planning timing change checks each venue buffer; setup-only block flags only the buffered venue
+ revalidate_event_arrangements
+-------------------------------
+
+(1 row)
+
+NOTICE:  PASS: AC-047.2.22: revalidation preserves saved reservations and records each flag and coordinator notification once
+ us47_assert
+-------------
+
+(1 row)
+
+ROLLBACK
+BEGIN
+UPDATE 1
+UPDATE 1
+DO
+NOTICE:  PASS: AC-047.2.44: quarter-hour opening hours accept full-day and partial-day bounds, rejecting misaligned and empty periods
+ us47_assert
+-------------
+
+(1 row)
+
+ROLLBACK
+BEGIN
+INSERT 0 1
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+INSERT 0 2
+UPDATE 1
+UPDATE 1
+INSERT 0 1
+INSERT 0 2
+SET
+              set_config
+--------------------------------------
+ 47980000-0000-0000-0000-000000000002
+(1 row)
+
+              hold_venue
+--------------------------------------
+ c0f0333f-968e-4ded-8d68-b74827226239
+(1 row)
+
+              hold_venue
+--------------------------------------
+ 73d2e641-947b-4095-ba68-2562b55f780a
+(1 row)
+
+DO
+RESET
+SELECT 108
+SELECT 5
+SET
+              set_config
+--------------------------------------
+ 47980000-0000-0000-0000-000000000001
+(1 row)
+
+SELECT 1
+ us47_assert
+-------------
+
+(1 row)
+
+NOTICE:  PASS: AC-047.4.3: new venues expose independent zero defaults
+DO
+SELECT 1
+NOTICE:  PASS: AC-047.1.3: Venue Staff save independent durations and detect conflicts between extended buffers
+ us47_assert
+-------------
+
+(1 row)
+
+DO
+RESET
+NOTICE:  PASS: AC-047.3.1: conflicting holds retain every saved row and notify the Coordinator and Venue Staff
+ us47_assert
+-------------
+
+(1 row)
+
+SET
+NOTICE:  PASS: AC-047.1.4: unchanged settings are a no-op; invalid, unauthorised and stale edits are refused
+ us47_assert
+-------------
+
+(1 row)
+
+ROLLBACK
+UPDATE 1
+UPDATE 1
+INSERT 0 2
+SET
+BEGIN
+SET
+47750000-0000-0000-0000-000000000001
+a24e3a48-f587-4aad-b6ee-55ef3b6d382e
+
+COMMIT
+SET
+SET
+47750000-0000-0000-0000-000000000001
+ERROR:  23505: duplicate key value violates unique constraint "venue_slot_claims_pkey"
+DETAIL:  Key (venue_id, slot_date, slot)=(47750000-0000-0000-0000-000000000002, 2047-10-26, T0930) already exists.
+CONTEXT:  SQL statement "insert into public.venue_slot_claims(venue_id,slot_date,slot,kind,booking_id)
+ select p_venue_id,c.slot_date,c.slot,c.kind,booking
+ from public.venue_review_cells(p_venue_id,e.proposed_start,e.proposed_end) c"
+PL/pgSQL function public.hold_venue(uuid,uuid,integer) line 40 at SQL statement
+SCHEMA NAME:  public
+TABLE NAME:  venue_slot_claims
+CONSTRAINT NAME:  venue_slot_claims_pkey
+LOCATION:  _bt_check_unique, nbtinsert.c:666
+NOTICE:  PASS: AC-047.2.13: concurrent overlapping holds have one winner, all 13 occupied cells and no partial losing booking
+DO
+INSERT 0 1
+UPDATE 1
+INSERT 0 7
+INSERT 0 5
+SET
+BEGIN
+SET
+47750000-0000-0000-0000-000000000500
+47750000-0000-0000-0000-000000000410
+
+COMMIT
+SET
+SET
+47750000-0000-0000-0000-000000000500
+ERROR:  23505: duplicate key value violates unique constraint "venue_slot_claims_pkey"
+DETAIL:  Key (venue_id, slot_date, slot)=(47750000-0000-0000-0000-000000000002, 2047-11-10, T0930) already exists.
+CONTEXT:  SQL statement "insert into public.venue_slot_claims(venue_id,slot_date,slot,kind,booking_id)
+ select b.venue_id,c.slot_date,c.slot,c.kind,b.id from public.venue_review_cells(b.venue_id,e.proposed_start,e.proposed_end) c
+ where not exists(select 1 from public.venue_slot_claims s where s.booking_id=b.id
+   and s.slot_date=c.slot_date and s.slot=c.slot and s.kind=c.kind)"
+PL/pgSQL function public.approve_venue_booking(uuid,text) line 38 at SQL statement
+SCHEMA NAME:  public
+TABLE NAME:  venue_slot_claims
+CONSTRAINT NAME:  venue_slot_claims_pkey
+LOCATION:  _bt_check_unique, nbtinsert.c:666
+SET
+BEGIN
+SET
+47750000-0000-0000-0000-000000000500
+47750000-0000-0000-0000-000000000412
+
+COMMIT
+SET
+SET
+47750000-0000-0000-0000-000000000001
+ERROR:  23505: duplicate key value violates unique constraint "venue_slot_claims_pkey"
+DETAIL:  Key (venue_id, slot_date, slot)=(47750000-0000-0000-0000-000000000002, 2047-11-11, T0930) already exists.
+CONTEXT:  SQL statement "insert into public.venue_slot_claims(venue_id,slot_date,slot,kind,booking_id)
+ select p_venue_id,c.slot_date,c.slot,c.kind,booking
+ from public.venue_review_cells(p_venue_id,e.proposed_start,e.proposed_end) c"
+PL/pgSQL function public.hold_venue(uuid,uuid,integer) line 40 at SQL statement
+SCHEMA NAME:  public
+TABLE NAME:  venue_slot_claims
+CONSTRAINT NAME:  venue_slot_claims_pkey
+LOCATION:  _bt_check_unique, nbtinsert.c:666
+SET
+BEGIN
+SET
+47750000-0000-0000-0000-000000000001
+2b93d4dd-513c-494a-a01b-28aa44b564dc
+
+COMMIT
+SET
+SET
+47750000-0000-0000-0000-000000000500
+ERROR:  23505: duplicate key value violates unique constraint "venue_slot_claims_pkey"
+DETAIL:  Key (venue_id, slot_date, slot)=(47750000-0000-0000-0000-000000000002, 2047-11-12, T0930) already exists.
+CONTEXT:  SQL statement "insert into public.venue_slot_claims(venue_id,slot_date,slot,kind,booking_id)
+ select b.venue_id,c.slot_date,c.slot,c.kind,b.id from public.venue_review_cells(b.venue_id,e.proposed_start,e.proposed_end) c
+ where not exists(select 1 from public.venue_slot_claims s where s.booking_id=b.id
+   and s.slot_date=c.slot_date and s.slot=c.slot and s.kind=c.kind)"
+PL/pgSQL function public.approve_venue_booking(uuid,text) line 38 at SQL statement
+SCHEMA NAME:  public
+TABLE NAME:  venue_slot_claims
+CONSTRAINT NAME:  venue_slot_claims_pkey
+LOCATION:  _bt_check_unique, nbtinsert.c:666
+SET
+BEGIN
+SET
+47750000-0000-0000-0000-000000000001
+RESET
+
+UPDATE 1
+
+COMMIT
+SET
+SET
+47750000-0000-0000-0000-000000000500
+ERROR:  40001: Request changed; reload before approving
+CONTEXT:  PL/pgSQL function public.approve_venue_booking(uuid,text) line 16 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3897
+NOTICE:  PASS: AC-047.2.18: overlapping approvals retain one confirmed winner and no partial loser
+NOTICE:  PASS: AC-047.2.19: approval and hold races preserve the winner in both orderings
+NOTICE:  PASS: AC-047.2.20: concurrent event edit invalidates approval without reserving cells
+DO

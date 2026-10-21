@@ -135,3 +135,22 @@ retains its separate failure/fix logs. No additional product defect found this t
 No live Supabase/manual browser pass or GitHub Actions pass is claimed for this branch.
 The evidence sheet was not edited in this completion pass. Deploy checklist:
 [deployment checklist](../../us47-booking-time-deployment.md).
+
+## Venue Staff settings — 21 October 2026
+
+- settings-frontend.log: full coverage run passed, 170 files / 1,500 tests.
+  Statements/lines 95.70%, branches 90.20%, functions 94.80%.
+- settings-build.log: production build passed; bundle-size warning remains.
+- TypeScript and lint both exited 0 in the final verification command.
+- settings-upgrade.log / settings-fresh.log: both isolated database runners exited 0,
+  including 0098 replay, settings/preservation/notification cases and hold/approval races.
+- settings-historical.log: historical database regression runner exited 0.
+  The three database files contain labelled excerpts; CI retains full run output.
+- AC-047.1.3-settings-save-failure.log: actual initial save-function defect; fixed
+  locally and restored save case passed in both database modes. Do not classify
+  the intentionally refused race requests as additional defects.
+- buffer-settings-checkpoint.log records the earlier, narrower draft checkpoint.
+
+No new forced-break run, shared deployment, manual settings pass or GitHub Actions
+pass is claimed. Existing frontend tests required fixture-source updates for the
+new occupancy view; those test-maintenance failures are not additional product defects.

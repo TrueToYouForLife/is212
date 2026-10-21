@@ -1,18 +1,20 @@
 # US47 — Configure venue setup and turnaround
 
-Owner: Jaydon. Story: SCRUM-242. Updated: 19 October 2026.
+Owner: Jaydon. Story: SCRUM-242. Updated: 21 October 2026.
 
 ## Current integration status
 
-The booking-time slice now includes migration 0075 in the normal migrations folder,
-atomic hold saves, quarter-hour search/suitability/timetables/blocks, venue-specific
-previews and quarter-hour operating-hour choices. Later sections are chronological
-checkpoints; their earlier pending items are superseded by this status and the final
-verification section below. No shared Supabase application or manual pass is claimed.
+Migration 0098 and the Venue Staff settings panel are implemented locally on
+`us47-buffer-settings-review`. Venue Staff can edit independent setup and turnaround
+durations under Manage venues → Edit venue. Zero means none; valid durations are
+non-negative multiples of 15 minutes. Settings apply per venue, including to new
+holds; they are not chosen by Coordinators or separately on every approval.
 
-The next slice still owns editable setup/turnaround settings, existing-arrangement
-reviews after a settings change, and Coordinator/Venue Staff notices. US47 as a whole
-is not complete. Deployment: [checklist](us47-booking-time-deployment.md).
+The user confirmed 0074/0075 deployment and the preceding readability fix's manual
+checks. 0098 is not applied to shared Supabase. This branch requires coordinated
+0098/frontend deployment, CI review and the manual checks below before US47 is Done.
+Historical checkpoints below describe earlier states and are superseded by this
+section and the 0098 implementation section.
 
 ## Agreed direction
 
@@ -320,3 +322,75 @@ The single-venue calendar retains date columns but groups quarter-hour occupancy
 The My bookings page also groups saved quarter-hour claims into reserved time ranges, separately by date and event/buffer role. It preserves gaps and uses saved occupancy rather than recalculating history from current venue settings. This is a display-only regression change; manual retest pending.
 
 Venue Staff booking review now uses the same compact saved/requested time-range display. Conflict warnings remain visible, with individual conflicting slots retained in an expandable list for investigation. Manual retest pending.
+
+### Venue Staff buffer settings — migration 0098
+
+- Staff-only RPCs validate durations and protect stale edits. Direct browser updates
+  remain blocked. Unchanged saves create no new history, reviews or notices.
+- Saves lock the venue and atomically record settings, venue history, open arrangement
+  reviews and notifications for overlapping live reservations. Existing booking and
+  claim rows are preserved. Decreasing settings does not silently clear open reviews.
+- A security-invoker occupancy view combines saved reservations with newly required
+  buffers calculated from saved event cells. It preserves original reserved periods
+  even when settings shrink, and preserves gaps. Search, suitability, availability,
+  timetable, hold conflict checks, staff review, maintenance and event revalidation
+  consume the effective occupancy where needed. History still reads saved claims.
+- A claim trigger prevents subsequent holds/approvals from taking another booking's
+  new buffer cells. Venue locking serialises these writes with settings changes.
+- Each distinct conflicting settings save sends fresh `venue_buffer_review` notices
+  through the existing notification helper to the assigned Coordinator and Venue
+  Staff. There is no per-venue staff assignment in the current model, so all Venue
+  Staff are recipients. In-app/email preferences are respected. Email is queued;
+  delivery is not proven by these tests.
+- Existing `venue_time_conflict` reviews and Coordinator resolution UI are reused.
+  No review-reason constraint or equipment rules are changed.
+
+A duplicate readability log was byte-identical to the original and removed.
+
+### Automated-test defect
+
+AC-047.1.3 initially failed because a PL/pgSQL message variable was incorrectly
+qualified as a table reference when refreshing an existing notice. Saving settings
+rolled back. The final implementation uses an unambiguous `v_detail` variable and
+fresh notices through `send_notification`; the same settings-save case now passes.
+Failure: `test-evidence/us47/AC-047.1.3-settings-save-failure.log`.
+Record under Defects (Automated Testing); no shared database was affected.
+
+### Deployment and manual verification
+
+After PR approval, coordinate applying `0098_venue_buffer_settings.sql` with deploying
+this frontend. It requires 0075 and the existing notification/venue review migrations.
+The frontend reads the new occupancy view, so do not deploy it against a database
+without 0098. Do not replay historical migrations after it.
+
+Manual results for this settings portion are **pending**:
+
+1. Venue Staff: Manage venues → Edit an active test venue. Check a new venue starts
+   at 0/0. Save 15 setup and 30 turnaround, reload and confirm persistence. Try -15,
+   16 and a blank value; each must be refused without losing saved settings.
+2. Assigned Coordinator: create a future 10:00–11:00 event hold at that venue.
+   Check the summary and calendar include 09:45–11:30 occupancy. Try another event
+   overlapping only its setup/turnaround; it must be refused. Existing history
+   must remain readable as ranges.
+3. Use a separate test venue at 0/0 with two future reservations, 10:00–11:00 and
+   11:30–12:30. Venue Staff save 15/30. Check both bookings remain and both show
+   Needs review. Check assigned Coordinator and Venue Staff notifications.
+4. Resolve one arrangement using the existing Coordinator flow. Change settings
+   again to produce a conflict; check a fresh notice appears. Saving unchanged
+   values must not produce another notice. Check notification preferences separately;
+   an email outbox row is not evidence of delivered email.
+5. Open settings in two tabs. Save one, then save stale values in the other: require
+   reload. A Coordinator must not have access to this settings page/RPC. A retired
+   venue must not offer timing edits.
+
+Shared-sheet overview, automated defect and manual results need updating after
+review. Automated runs remain recorded by GitHub Actions; do not duplicate those in
+its Automated Test Case Runs tab. Commits, pushes, PR and deployment remain manual.
+
+### Final local verification — 21 October 2026
+
+Full frontend coverage: 170 files / 1,500 tests passed; typecheck, lint and production
+build passed. Historical database regressions, populated upgrade and fresh install
+all exited 0. Conversion runners include 0098 replay, settings cases and hold/approval
+concurrency checks. These are local results; PR CI and manual settings checks remain
+pending. Logs are indexed in `docs/test-evidence/us47/README.md`.

@@ -75,7 +75,7 @@ async function findConflicts(venueId: string, cells: ClaimCell[]): Promise<Booki
   if (cells.length === 0) return []
   const dates = cells.map((cell) => cell.date).sort()
   const { data, error } = await supabase
-    .from('venue_slot_claims')
+    .from('venue_effective_slot_claims')
     .select('slot_date, slot, kind')
     .eq('venue_id', venueId)
     .gte('slot_date', dates[0])

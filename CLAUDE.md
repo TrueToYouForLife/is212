@@ -1,3 +1,13 @@
+# US47 settings — current checkpoint, 21 October 2026
+- Branch `us47-buffer-settings-review`; claimed 0098 is now in migrations.
+- Staff configure durations in Manage venues → Edit. Per-venue, independent multiples of 15; default zero. Preserve the direct-write guard; use authorised settings RPCs.
+- Effective occupancy adds required buffers to saved reservations without rewriting booking/claim history. Availability, later booking conflicts, maintenance and revalidation use it.
+- Settings conflicts create arrangement reviews and channel-aware notifications. Do not auto-clear reviews on decreases or claim queued emails were delivered.
+- CI conversion runners include 0098/replay/settings checks; historical runner skips 0075/0098 deliberately.
+- Deploy 0098 together with frontend. User confirmed earlier 0074/0075 applied; 0098 and settings manual verification remain pending.
+- Record the AC-047.1.3 SQL save defect in automated defects. See docs/us47-venue-buffers.md and test evidence. User owns commits, pushes, PR and shared deployment.
+- Older checkpoint sections below are historical and superseded where inconsistent.
+
 # US47 booking integration — current working checkpoint
 - Branch us47-booking-time-integration fast-forwarded to main d28e890; US47 changes remain uncommitted.
 - 0075 is now in migrations. Coordinate database and frontend deployment; see docs/us47-booking-time-deployment.md.

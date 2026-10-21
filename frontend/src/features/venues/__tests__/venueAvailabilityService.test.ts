@@ -32,20 +32,20 @@ describe('AC-019.1 — staff can view availability across dates', () => {
 
   test('AC-019.1.2: reads every venue except retired ones, by name, and every claim in the week only', async () => {
     fake.plan('venues', { data: [] })
-    fake.plan('venue_slot_claims', { data: [] })
+    fake.plan('venue_effective_slot_claims', { data: [] })
     await getVenueAvailability(SLOTS, '2026-10-12', 7)
 
     expect(fake.callsTo('venues', 'neq')).toEqual([['status', 'retired']])
     expect(fake.callsTo('venues', 'order')).toEqual([['name']])
-    expect(fake.callsTo('venue_slot_claims', 'gte')).toEqual([['slot_date', '2026-10-12']])
-    expect(fake.callsTo('venue_slot_claims', 'lte')).toEqual([['slot_date', '2026-10-18']])
+    expect(fake.callsTo('venue_effective_slot_claims', 'gte')).toEqual([['slot_date', '2026-10-12']])
+    expect(fake.callsTo('venue_effective_slot_claims', 'lte')).toEqual([['slot_date', '2026-10-18']])
     // Every venue in one read, not one query per venue.
-    expect(fake.callsTo('venue_slot_claims', 'eq')).toEqual([])
+    expect(fake.callsTo('venue_effective_slot_claims', 'eq')).toEqual([])
   })
 
   test('AC-019.1.3: bookings and blocks from the joined rows land on their own venue\'s cells', async () => {
     fake.plan('venues', { data: VENUE_ROWS })
-    fake.plan('venue_slot_claims', { data: [
+    fake.plan('venue_effective_slot_claims', { data: [
       { venue_id: 'v-hall', slot_date: '2026-10-12', slot: 'AM', kind: 'event', booking_id: 'b-1',
         venue_bookings: { status: 'confirmed', events: { reference: 'EVT-1' } }, venue_closures: null },
       { venue_id: 'v-room', slot_date: '2026-10-13', slot: 'PM', kind: 'maintenance', booking_id: null,
@@ -63,7 +63,7 @@ describe('AC-019.1 — staff can view availability across dates', () => {
 
   test('AC-019.1.4: a booking whose event cannot be read still blocks its slot', async () => {
     fake.plan('venues', { data: [VENUE_ROWS[0]] })
-    fake.plan('venue_slot_claims', { data: [
+    fake.plan('venue_effective_slot_claims', { data: [
       { venue_id: 'v-hall', slot_date: '2026-10-12', slot: 'AM', kind: 'event', booking_id: 'b-1',
         venue_bookings: { status: 'confirmed', events: null }, venue_closures: null },
       { venue_id: 'v-hall', slot_date: '2026-10-12', slot: 'PM', kind: 'event', booking_id: 'b-2',
@@ -79,14 +79,14 @@ describe('AC-019.1 — staff can view availability across dates', () => {
 
   test('AC-019.1.5: a failed venue read is reported, never drawn as an empty, free week, and is logged', async () => {
     fake.plan('venues', { error: { message: 'down' } })
-    fake.plan('venue_slot_claims', { data: [] })
+    fake.plan('venue_effective_slot_claims', { data: [] })
     expect(await getVenueAvailability(SLOTS, '2026-10-12')).toEqual({ ok: false, reason: messages.loadFailed })
     expect(console.error).toHaveBeenCalled()
   })
 
   test('AC-019.1.6: a failed claims read is reported, never drawn as a free week', async () => {
     fake.plan('venues', { data: VENUE_ROWS })
-    fake.plan('venue_slot_claims', { error: { message: 'down' } })
+    fake.plan('venue_effective_slot_claims', { error: { message: 'down' } })
     expect(await getVenueAvailability(SLOTS, '2026-10-12')).toEqual({ ok: false, reason: messages.loadFailed })
   })
 
@@ -97,7 +97,7 @@ describe('AC-019.1 — staff can view availability across dates', () => {
 
   test('AC-019.1.8: an empty payload is an empty calendar, not an error', async () => {
     fake.plan('venues', { data: null })
-    fake.plan('venue_slot_claims', { data: null })
+    fake.plan('venue_effective_slot_claims', { data: null })
     const result = await getVenueAvailability(SLOTS, '2026-10-12')
     expect(result).toMatchObject({ ok: true, availability: { rows: [] } })
   })
