@@ -1,6 +1,14 @@
 # US47 booking-time conversion — review and deployment
 
-## Scope
+## Deployment status — 21 October 2026
+
+Migrations 0074/0075/0098 are applied to shared Supabase and the implementation PRs
+are merged. Manual settings and readability checks passed. The original 0075
+conversion checklist below is retained as a deployment reference, not pending work.
+0098 completes the later settings/review/notification slice and requires its matching
+frontend. Use the current acceptance review in `us47-venue-buffers.md` for closeout.
+
+## Scope (0075 conversion release)
 
 Migration 0075 and the frontend changes are one coordinated release. They convert
 venue booking occupancy to 96 quarter-hour cells per Singapore calendar day and

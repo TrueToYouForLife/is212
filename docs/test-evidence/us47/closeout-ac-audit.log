@@ -1,0 +1,53 @@
+US47 acceptance closeout audit — 21 October 2026
+Observed isolated Docker runner exit: 0. Shared Supabase was not contacted.
+Method: existing quarter-hour conversion/settings/revalidation/race runner with temporary audit fixtures for confirmed bookings, midnight Coordinator reads and expiry.
+Confirmed bookings were administratively seeded for preservation checks; this does not claim a new end-to-end approval browser test.
+Output below is filtered to assertion results and expected race-refusal errors.
+Initial additional audit fixture reused an unresolved maintenance flag; existing guards correctly refused confirmation. The audit fixture was isolated before the successful run. No product change resulted.
+
+NOTICE:  PASS: AC-047.2.3: conversion preserves exact booking/buffer/maintenance occupancy and all booking metadata
+NOTICE:  PASS: AC-047.2.4: overlapping and removed block definitions retain their exact periods, gaps and metadata; triggers restored
+NOTICE:  PASS: AC-047.2.5: repeated conversion preserves catalogue, reservations and block definitions
+NOTICE:  PASS: AC-047.2.6: venue durations generate the exact customer-example and cross-midnight quarter-hour cells
+NOTICE:  PASS: AC-047.2.6: zero durations add no buffer; partial quarter-hours occupy every touched cell without changing event times
+NOTICE:  PASS: AC-047.2.7: invalid block inputs refused and internal/unauthenticated access remains restricted
+NOTICE:  PASS: AC-047.2.8: quarter-hour block normalises codes, includes lunch time and flags overlapping holds without removing their cells
+NOTICE:  PASS: AC-047.2.8: released quarter-hour reservation cells revert to their covering block
+NOTICE:  PASS: AC-047.2.8: removing a quarter-hour block preserves remaining booking cells
+NOTICE:  PASS: AC-047.2.9: assigned Coordinator creates a hold with venue-specific buffers and unchanged default expiry
+NOTICE:  PASS: AC-047.2.10: conflicts and invalid/unauthorised requests leave no partial booking or lost reservation
+NOTICE:  PASS: AC-047.2.11: expiry boundary releases the old cells atomically and preserves the expired booking
+NOTICE:  PASS: AC-047.2.12: a block covering only setup refuses the hold and rolls back expiry cleanup without losing reservations
+NOTICE:  PASS: AC-047.2.14: review returns venue-specific cells, structured requirements and review version
+NOTICE:  PASS: AC-047.2.14: approval reserves event and venue-specific buffer cells together
+NOTICE:  PASS: AC-047.2.15: venue edits invalidate open reviews; conflicting approval rolls back without partial cells
+NOTICE:  PASS: AC-047.2.16: mismatched converted reservation is refused without deleting or shortening its saved occupancy
+NOTICE:  PASS: AC-047.2.17: incomplete timing still allows staff to read booking details with conflict checking unavailable
+NOTICE:  PASS: AC-047.2.21: planning timing change checks each venue buffer; setup-only block flags only the buffered venue
+NOTICE:  PASS: AC-047.2.22: revalidation preserves saved reservations and records each flag and coordinator notification once
+NOTICE:  PASS: AC-047.2.44: quarter-hour opening hours accept full-day and partial-day bounds, rejecting misaligned and empty periods
+NOTICE:  PASS: AC-047.3.4: replaying settings migration preserves populated bookings and claims
+NOTICE:  PASS: AC-047.4.3: new venues expose independent zero defaults
+NOTICE:  PASS: AC-047.1.3: Venue Staff save independent durations and detect conflicts between extended buffers
+NOTICE:  PASS: AC-047.3.1: conflicting holds retain every saved row and notify the Coordinator and Venue Staff
+NOTICE:  PASS: AC-047.1.4: unchanged settings are a no-op; invalid, unauthorised and stale edits are refused
+NOTICE:  PASS: AC-047.2.45: effective availability includes new setup while preserving saved occupancy
+NOTICE:  PASS: AC-047.2.46: subsequent holds cannot occupy existing bookings new buffers; refused writes roll back
+NOTICE:  PASS: AC-047.3.2: repeated changes notify again, respect staff preferences and queue rather than claim email delivery
+NOTICE:  PASS: AC-047.2.47: maintenance flags a booking when only its newly required setup overlaps
+NOTICE:  PASS: AC-047.3.3: decreasing to zero preserves reservations and does not silently resolve outstanding reviews
+NOTICE:  PASS: AUDIT AC-047.3: confirmed bookings are also checked after settings changes
+NOTICE:  PASS: AUDIT AC-047.3: confirmed booking rows remain unchanged
+NOTICE:  PASS: AUDIT AC-047.2: Coordinator reads new buffers across midnight through RLS
+NOTICE:  PASS: AUDIT AC-047.2: expired hold does not retain projected occupancy
+NOTICE:  PASS: AC-047.2.21: planning timing change checks each venue buffer; setup-only block flags only the buffered venue
+NOTICE:  PASS: AC-047.2.22: revalidation preserves saved reservations and records each flag and coordinator notification once
+ERROR:  23505: Requested period overlaps an existing reservation or its buffers
+NOTICE:  PASS: AC-047.2.13: concurrent overlapping holds have one winner, all 13 occupied cells and no partial losing booking
+ERROR:  23505: Requested period overlaps an existing reservation or its buffers
+ERROR:  23505: Requested period overlaps an existing reservation or its buffers
+ERROR:  23505: Requested period overlaps an existing reservation or its buffers
+ERROR:  40001: Request changed; reload before approving
+NOTICE:  PASS: AC-047.2.18: overlapping approvals retain one confirmed winner and no partial loser
+NOTICE:  PASS: AC-047.2.19: approval and hold races preserve the winner in both orderings
+NOTICE:  PASS: AC-047.2.20: concurrent event edit invalidates approval without reserving cells

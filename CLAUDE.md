@@ -1,27 +1,13 @@
-# US47 settings — current checkpoint, 21 October 2026
-- Branch `us47-buffer-settings-review`; claimed 0098 is now in migrations.
-- Staff configure durations in Manage venues → Edit. Per-venue, independent multiples of 15; default zero. Preserve the direct-write guard; use authorised settings RPCs.
-- Effective occupancy adds required buffers to saved reservations without rewriting booking/claim history. Availability, later booking conflicts, maintenance and revalidation use it.
-- Settings conflicts create arrangement reviews and channel-aware notifications. Do not auto-clear reviews on decreases or claim queued emails were delivered.
-- CI conversion runners include 0098/replay/settings checks; historical runner skips 0075/0098 deliberately.
-- Deploy 0098 together with frontend. User confirmed earlier 0074/0075 applied; 0098 and settings manual verification remain pending.
-- Record the AC-047.1.3 SQL save defect in automated defects. See docs/us47-venue-buffers.md and test evidence. User owns commits, pushes, PR and shared deployment.
-- Older checkpoint sections below are historical and superseded where inconsistent.
-
-# US47 booking integration — current working checkpoint
-- Branch us47-booking-time-integration fast-forwarded to main d28e890; US47 changes remain uncommitted.
-- 0075 is now in migrations. Coordinate database and frontend deployment; see docs/us47-booking-time-deployment.md.
-- Production search, suitability, timetable previews, blocks and atomic hold RPC consume quarter-hour occupancy and venue-specific durations.
-- Existing DB runner is explicitly pre-conversion; CI also runs populated upgrade and fresh-order conversion suites with concurrency checks.
-- Preserve 0074 browser duration guard: editable settings/change flags/notifications are a subsequent slice, not completed here.
-- User owns commits, pushes, PR and deployment. Manual shared-environment results must not be inferred from component tests.
-
-# US47 foundation checkpoint — 19 October 2026
-- Branch `us47-venue-buffer-settings`; migration 0074 claimed. Duration fields default to zero and accept non-negative multiples of 15. Internal exact occupied-period helper; no cell allocation or active booking changes.
-- Browser writes to new fields are temporarily guarded until the final save/review path is integrated. Existing venue edits still work. Do not expose the settings UI yet.
-- Full disposable DB suite passed, including six foundation cases and regression/concurrency checks. Evidence: docs/test-evidence/us47/foundation-database.log. No frontend changes/tests this portion.
-- US47 includes supporting 15-minute booking work; preserve saved reservation occupancy during conversion. Next portions: booking consumers/UI, then settings-change flags and Coordinator/Venue Staff notifications.
-- No shared deployment, commits, pushes or PRs performed. Code-first, pause between logical portions. Docs: docs/us47-venue-buffers.md and docs/test-cases/US47_test_cases.md.
+# US47 — implementation merged; documentation closeout, 21 October 2026
+- Working branch `us47-docs-closeout`. Implementation PRs merged; 0074/0075/0098 applied to shared Supabase. Manual settings and readability checks passed; shared overview/manual/automated-defect evidence updated.
+- Staff configure per-venue setup/turnaround independently in Manage venues → Edit, as non-negative multiples of 15, default zero. Use authorised settings RPCs; preserve the direct-write guard.
+- New holds/approval and search/suitability/calendars include effective occupancy. Preserve saved reservations/history; settings conflicts create reviews rather than automatic cancellation or movement.
+- Coordinator/Venue Staff notices use existing channel preferences; all Venue Staff are recipients because there is no per-venue staff assignment. Email queuing is tested; delivered email is not claimed.
+- Recorded implementation verification: 170 frontend files / 1,500 tests; typecheck, lint, build and historical/upgrade/fresh DB suites passed. No new full-suite pass is claimed for docs-only changes.
+- Fixed SQL save defect AC-047.1.3 and earlier .2.17 defect retain failure evidence. Intentional forced breaks and expected concurrency refusals are not discovered defects.
+- Conversion runners include 0098/replay/settings checks. Historical runner deliberately skips 0075/0098. Do not edit/reapply deployed migrations to change behaviour; claim a new migration if a defect requires a follow-up.
+- AC mapping: docs/us47-venue-buffers.md. Cases/evidence: docs/test-cases/US47_test_cases.md and docs/test-evidence/us47/. Automated runs remain in GitHub Actions; do not populate the spreadsheet run tab.
+- User owns commits, pushes, PR, shared deployment and Jira transition.
 
 # US42 merged implementation (18 October 2026)
 - Venue PR #103 and equipment PR #106 merged; local main updated to dd07c40 and equipment branch deleted.
