@@ -1,7 +1,15 @@
 # US48 evidence
 
 Owner: Jaydon. Local verification: 21 October 2026. Code-first; no TDD claim.
-Current branch: `us48-replacement-ui`; PR1 merged in PR #127. Claimed migrations: 0099 and 0100 (0099 applied, 0100 local only).
+Current branch: `us48-docs-closeout`. Implementation merged in PRs #127/#128;
+PR #128 shows four checks passed. Jaydon confirmed all nine manual-checklist steps
+passed; no manual defect was reported. See [manual results](manual-results.md).
+0099 was explicitly confirmed applied; the reported continuous-block workflow uses
+0100. No separate deployment timestamp/operator is recorded.
+
+Earlier checkpoint sections retain their original scope. The current status and
+sheet handoff below supersede their pending/manual/local-only statements.
+This documentation-only closeout claims no new test run or email delivery.
 
 ## PR1 local results
 
@@ -30,13 +38,13 @@ PASS checks establish preservation. AC-048.6.6 deliberately injects a database
 review-write failure to prove complete transaction rollback. This is a negative
 integration test, not a discovered defect, forced product break or TDD red phase.
 
-## Outstanding evidence
+## Current closeout status
 
-PR1 is merged in #127; Jaydon subsequently confirmed 0099 applied. No 0100 shared deployment, manual pass, new GitHub Actions
-result, delivered email or PR2 commit/PR/merge is claimed. Shared evidence sheet updates remain pending until story
-closeout. PR2 UI/search/badge work is locally implemented; deployed manual checks remain.
-Manual steps and next test IDs: `docs/test-cases/US48_test_cases.md`.
-
+All six US48 acceptance criteria have implementation and passing automated/manual
+evidence. The manual results are Jaydon-reported, not a newly executed test run.
+Jaydon confirmed the evidence sheet is up to date. This documentation PR merge
+and Jira transition remain pending. Automated Test Case Runs stays with GitHub
+Actions. Sheet completion is recorded from Jaydon's confirmation.
 
 ## PR2 UI verification — earlier checkpoint, 21 October 2026
 
@@ -68,11 +76,11 @@ Discovered/fixed: Jaydon, 21 October 2026. Shared defect-sheet entry remains pen
 The raw run also includes a test expectation for Cancelled where existing UI says
 Released; that expectation and unsupported test API options were test-code mistakes.
 
-PR2 remains local/uncommitted. No shared deployment, manual result, PR2 CI result
-or delivered email is claimed. Manual checklist: `docs/test-cases/US48_test_cases.md`.
+At this earlier checkpoint PR2 was local/uncommitted and manual/CI results were
+pending. Current merged/manual status is recorded above; email delivery remains unclaimed.
 
-Migration 0099 deployment was subsequently confirmed by Jaydon. Manual UI results
-remain pending; this confirmation is not a manual workflow pass.
+Migration 0099 deployment was subsequently confirmed by Jaydon. At this earlier
+checkpoint manual UI results were still pending; final manual results are recorded above.
 
 
 ## Venue-block daily range refinement — superseded checkpoint
@@ -115,9 +123,11 @@ No deployed migration was edited and no existing booking/block coverage is rewri
 
 Four shared US12 frontend cases and eleven shared integration cases were added,
 including the real two-session mixed legacy/continuous block race. Existing US12/US47
-control tests retain their IDs and intent. AC-048.2.6 now checks the final continuous
-form contract rather than the superseded daily conversion. Test allocation and
-manual steps are in `docs/test-cases/US48_test_cases.md`.
+control tests retain their IDs and intent. AC-048.2.6 checks the final continuous
+form contract rather than the superseded daily conversion. Its earlier allocation
+to replacement-search coverage is corrected in this closeout: it is supporting
+blocking regression only, excluded from the US48 submission. Current allocation
+and manual steps are in `docs/test-cases/US48_test_cases.md`.
 
 The first continuous SQL attempt asserted settings-created reviews in
 `venue_booking_flags`; settings correctly use `arrangement_review_flags`.
@@ -127,9 +137,41 @@ PASS assertions. Earlier AC-048.2.3 remains the genuine product defect for the s
 
 Shared contract changes affect US12 blocking and US47 conflict readers. Apply 0100
 after 0099, before this frontend. Jaydon owns review, merge and shared deployment.
-Manual results, 0100 deployment, PR2 CI/review and evidence-sheet closeout remain pending.
+These were the remaining items at the implementation checkpoint. PR #128 is now
+merged with four checks passed and Jaydon reports all manual checks passed. Current
+remaining items are evidence-sheet entry, documentation merge and Jira transition.
 
 The upgrade/fresh logs precede final allocation of the two new AC-012.10 IDs:
 they show .10.8 for upgrade and .10.7 for replay. Final focused evidence and case
 notes use .10.7 for upgrade and .10.8 for replay, in execution order. Assertions are
 unchanged; raw historical logs retain their original labels.
+
+
+## US48-only evidence-sheet scope
+
+Provide evidence-sheet rows directly in chat for Jaydon to paste; do not add TSV
+files or other spreadsheet-paste files to the repository. The earlier TSV files
+were removed at Jaydon's request. Keep story notes, case descriptions and useful
+failure/manual evidence in the repository.
+
+The earlier read-only sheet inspection found no US48 rows. Jaydon subsequently
+confirmed the sheet is up to date. The US48 submission covers:
+
+- Test Case Overview: 31 cases (20 backend and 11 frontend), columns A–H.
+- Manual Testing: eight US48 reported pass groups, columns A–F; leave G–K blank.
+- Defects (Automated Testing): one fixed defect, AC-048.2.3, columns A–H.
+
+Every submitted overview code starts AC-048 and its story field is 48. Supporting
+regression tests keep their existing IDs in code and are excluded from this sheet
+submission. AC-048.2.6 was misallocated to replacement-search coverage; its source/log
+ID remains for history but it is excluded from the US48 AC mapping and submission.
+
+Use Jaydon in the required tester/discovered-by/fixed-by fields. No manual defect
+was reported, so manual defect/fix/date fields stay blank. The report date is not
+an invented execution timestamp; authenticated application audit identities must
+come from the application, not the sheet owner field.
+
+Do not populate Automated Test Case Runs. Fixture mistakes, expected refusals and
+injected rollback failures are not discovered defects. Email delivery is not claimed.
+Sheet completion is confirmed by Jaydon. Documentation merge and Jira transition
+remain pending; future sheet rows are provided directly in chat.

@@ -2,12 +2,21 @@
 
 Owner: Jaydon. Story: SCRUM-243. Code-first development.
 
-## Current checkpoint — PR2 UI, 21 October 2026
+## Current checkpoint — documentation closeout, 21 October 2026
 
-PR1 merged in **PR #127**. Current branch: `us48-replacement-ui`. The frontend
-portion is implemented locally and verified; commit/PR/merge remain with Jaydon.
-Jaydon confirmed migration 0099 has run. Do not infer a
-manual pass or mark US48 complete before the deployed workflow is checked.
+Implementation is merged in [PR #127](https://github.com/TrueToYouForLife/is212/pull/127)
+and [PR #128](https://github.com/TrueToYouForLife/is212/pull/128). PR #128 shows all
+four checks passed. Current documentation branch: `us48-docs-closeout`.
+Jaydon confirmed all nine manual-checklist steps passed; no manual defect was reported.
+See [manual results](test-evidence/us48/manual-results.md) for the grouped results.
+All six ACs have implementation and passing automated/manual evidence. Jaydon
+confirmed the evidence sheet is up to date. Documentation merge and Jira transition
+remain with Jaydon.
+
+0099 deployment was explicitly confirmed. The reported continuous-block workflow
+exercises 0100 functionality; no separate deployment timestamp/operator was supplied.
+No email delivery is claimed. This closeout changes documentation only and does not
+claim a new test run.
 
 - Your venue bookings shows each affected original with **Needs replacement** and
   its blocked/retired reasons. The badge stays through pending, rejected and
@@ -40,7 +49,8 @@ navigation retain their defaults. The service validates 0099's affectedBookings,
 source event IDs and reason records; an older database contract produces a load
 error rather than false empty eligibility. The shared blocking refinement below additionally requires migration 0100.
 
-**Verification:** 12 new grouped US48 frontend cases plus four shared US12 cases;
+**Verification:** 31 direct US48 cases (20 backend, 11 frontend), plus shared
+blocking/replacement/buffer regression coverage;
 1,516 tests passed across 173 files in the final full coverage run. Build (including
 typecheck) and lint passed. Configured coverage: 95.73% lines/statements,
 90.46% branches, 95.05% functions; scope unchanged. Existing Vite chunk warning remains.
@@ -72,8 +82,9 @@ receive review flags; email is queued in the existing outbox, not proof of deliv
 
 **Shared-owner/deployment dependency:** this changes US12 block storage/read contracts
 and touches US47 conflict readers. Notify their owners before shared deployment.
-Apply **0100 after 0099**, then deploy this frontend. 0099 is confirmed applied;
-0100 is local only and no shared deployment or manual pass is claimed. Older clients'
+Apply **0100 after 0099**, then deploy this frontend. 0099 is confirmed applied.
+The 0100-dependent manual workflow is now reported passed by Jaydon; a separate
+deployment timestamp/operator was not supplied. Older clients'
 date/slot writes remain supported, but this frontend selects the added timestamp
 columns and requires 0100. Do not reapply earlier migrations after 0100: they restore
 older function definitions. Jaydon handles review, merge and shared deployment.
@@ -82,8 +93,8 @@ older function definitions. Jaydon handles review, merge and shared deployment.
 
 Branch: `us48-replacement-integrity`. Claimed migration: **0099**.
 Historical PR1 checkpoint: subsequently merged in PR #127. The backend verification
-below describes that portion; see the current PR2 checkpoint above for UI progress.
-This was the PR1 checkpoint; 0099 deployment was subsequently confirmed by Jaydon. Manual verification remains pending.
+below describes that portion; see the current closeout checkpoint above for UI progress.
+This was the PR1 checkpoint; subsequent deployment/manual progress is recorded above.
 
 The existing US20 request table and three RPC signatures are retained. Blocked
 bookings use the same proposal, Venue Staff approval/rejection, withdrawal and
@@ -94,16 +105,16 @@ Sources: Week 7 Customer Changes, change 2; section clarification export dated
 historical AM/PM/Night model. AC-048.6 uses the supplied Jira acceptance criterion
 refined after the review of PR #109. No additional instructor requirement is inferred.
 
-## Acceptance criteria and remaining work
+## Acceptance criteria closeout
 
-| AC | Backend result | Remaining for the story |
+| AC | Implementation | Verification |
 |---|---|---|
-| 048.1 | Current assigned Coordinator receives affected booking IDs, event IDs and blocked/retired reasons from both review stores. | Implemented in PR2; manual confirmation pending. |
-| 048.2 | Existing event details remain in context; event ID is included for the search integration. | Implemented in PR2; manual confirmation pending. |
-| 048.3 | Reuses proposals and normal Venue Staff approval, including permission, version and conflict checks. | Selection/submission implemented in PR2; complete manual verification. |
-| 048.4 | No event row is written by replacement. Original reservation remains until the approval transaction commits. | Verify the complete browser workflow. |
-| 048.5 | `affectedBookings` includes `needsReplacement: true`, including while a proposal is pending and after rejection/withdrawal. | Implemented in PR2; manual confirmation pending. |
-| 048.6 | Approval releases the original and selectively resolves its open blocked/retired reviews, recording staff and replacement booking. Other reviews remain open. Unsuccessful outcomes roll back or preserve originals. | Verify the deployed workflow and history manually. |
+| 048.1 | Current assigned Coordinator receives affected booking IDs, event IDs and blocked/retired reasons from both review stores. | Pass — reason/status and replacement search checks reported by Jaydon. |
+| 048.2 | Existing event details remain in context; event ID is included for the search integration. | Pass — full event timing/requirements prefill reported by Jaydon; search/reset/stale results covered automatically. |
+| 048.3 | Reuses proposals and normal Venue Staff approval, including permission, version and conflict checks. | Pass — proposal, staff approval, access and stale-consent checks reported by Jaydon; races/permissions also covered automatically. |
+| 048.4 | No event row is written by replacement. Original reservation remains until the approval transaction commits. | Pass — event information/status and original reservations preserved through the reported workflow; full-row preservation covered automatically. |
+| 048.5 | `affectedBookings` includes `needsReplacement: true`, including while a proposal is pending and after rejection/withdrawal. | Pass — Needs replacement remains through pending/rejected/withdrawn outcomes and clears after approval, reported by Jaydon. |
+| 048.6 | Approval releases the original and selectively resolves its open blocked/retired reviews, recording staff and replacement booking. Other reviews remain open. Unsuccessful outcomes roll back or preserve originals. | Pass — approval/release, independent reason, staff/replacement audit, retirement, refusal/rejection/withdrawal checks reported by Jaydon. |
 
 ## Eligibility and shared contracts
 
@@ -190,7 +201,12 @@ failure are negative-path verification, not discovered defects or TDD evidence.
 
 ## Remaining closeout
 
-1. Jaydon reviews, commits and opens PR2; wait for CI/review and merge.
-2. Apply claimed migration 0100 after review/merge, then verify the deployed UI with the manual checklist.
-3. Record actual manual results and any manual defects, update the evidence sheet,
-   and audit all six ACs before marking US48 complete. Automated runs stay in CI.
+Jaydon confirmed the evidence sheet is up to date, covering the US48 overview,
+manual results and fixed automated defect. Shared regression tests remain in the
+repository; no other story's rows are part of this submission. Automated Test Case
+Runs stays with GitHub Actions. Future sheet rows are provided directly in chat.
+
+1. Review and merge the documentation-only `us48-docs-closeout` PR. No new migration,
+   deployment, product changes or repeat full-suite run is needed for this portion.
+2. Complete the Jira transition according to the team's review process. Jira Done
+   and documentation merge are not claimed complete until Jaydon confirms them.

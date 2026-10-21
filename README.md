@@ -1456,34 +1456,28 @@ See [acceptance review and scope](docs/us47-venue-buffers.md),
 GitHub Actions; the shared sheet's Automated Test Case Runs tab is unchanged.
 
 
-## US48 replacement venues — PR1 backend
+## US48 replacement venues (SCRUM-243)
 
-Claimed migration `0099_affected_venue_replacement.sql` extends the existing US20
-flow for blocked/retired bookings, including upcoming Confirmed events. Normal
-staff approval retains quarter-hour/buffer conflict checks. Successful replacement
-releases only the original and resolves only blocked/retired reviews with staff
-and replacement-booking attribution; unsuccessful outcomes preserve originals.
-Requires 0075/0098. Existing RPC signatures remain compatible; pre-0099 pending
-proposals may need withdrawal/rejection and resubmission because source versions
-now include review reasons. Jaydon confirmed 0099 applied; manual checks remain pending.
+Implementation is merged in PRs #127 and #128; PR #128 has four checks passed.
+Coordinators see blocked/retired reasons and Needs replacement, search using prefilled
+event timing/requirements, and submit through the existing staff approval flow.
+Approval atomically releases the original and resolves only its eligible blocked/retired
+reviews with staff/replacement attribution. Other reviews and all event details stay;
+failed, rejected and withdrawn outcomes preserve the original reservation.
 
-Twenty new SQL cases (including three races), historical/current upgrade/fresh
-regression gates and 22 existing frontend compatibility tests passed locally.
-PR1 merged in PR #127. PR2 locally adds affected reasons and Needs replacement on
-bookings, prefilled event search, alternative selection and existing proposal flow.
-Its frontend requires 0099 and claimed 0100. Final frontend verification: 173 files /
-1,516 tests passed; build/typecheck/lint passed. One UI loading-label product defect
-was fixed with failure evidence retained. Historical/current upgrade/fresh database
-gates passed, including continuous-block boundaries, buffers, migration preservation
-and concurrency. US48 remains pending manual verification, CI/review and closeout.
+0099 extends the US20 replacement flow; 0100 adds continuous venue-block start/end
+periods at quarter-hour boundaries in Singapore time. Existing daily-slot block gaps
+remain intact. Deploy 0100 after 0099 before this frontend; shared contracts affect
+US12 blocking and US47 conflict readers. Jaydon confirmed 0099 applied and all final
+manual-checklist steps passed, including the 0100-dependent block workflow.
+
+Final local verification: 1,516 frontend tests / 173 files, build/typecheck/lint and
+historical/current upgrade/fresh database gates passed. One automated search-label
+UI defect was fixed with failure evidence retained. No manual defect was reported.
+This documentation closeout claims no new test execution or email delivery.
+
+All six ACs have passing implementation/manual evidence. Jaydon confirmed the
+evidence sheet is up to date. Documentation merge and Jira transition remain.
 See [story notes](docs/us48-venue-replacement.md),
 [test cases](docs/test-cases/US48_test_cases.md) and
 [evidence](docs/test-evidence/us48/README.md).
-
-0100 adds continuous venue blocks using start/end date/time dropdowns at 15-minute
-intervals. For example, 21 October 21:00 → 22 October 08:00 blocks that whole period.
-End is exclusive; existing daily-slot blocks and gaps remain unchanged. Legacy RPCs
-remain supported; exact-period RPCs and all shared conflict readers agree on coverage.
-Deploy 0100 after 0099 before using this frontend. This affects US12/US47 contracts;
-notify their owners before shared deployment. Jaydon handles deployment; 0100 is not
-claimed applied. See the story notes for compatibility and manual checks.

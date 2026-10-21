@@ -1,6 +1,10 @@
-# US48 PR2 and continuous venue blocks — 21 October 2026
-- Branch `us48-replacement-ui`; PR1 merged in #127, 0099 applied (Jaydon confirmed).
-  Claimed 0100 adds continuous blocks. Local/uncommitted; Jaydon owns Git and shared deployment.
+# US48 documentation closeout — 21 October 2026
+- Branch `us48-docs-closeout`; implementation merged in #127/#128. PR #128 shows
+  four checks passed. 0099 applied (Jaydon confirmed); 0100-dependent workflow manually
+  passed per Jaydon. No separate deployment timestamp/operator supplied.
+- Jaydon confirmed all nine manual-checklist steps passed; no manual defect reported.
+  Source: docs/test-evidence/us48/manual-results.md. Exact fixture/account IDs omitted
+  because they were not provided. Email delivery is not claimed.
 - Replacement UI shows reasons/Needs replacement, prefills the complete event interval
   and requirements, then reuses US20 proposal/staff decisions. No event writes or target holds.
   Failed sends preserve the note and require reload; displayed consent versions are never refreshed silently.
@@ -14,14 +18,21 @@
   remain intact; overlapping bookings receive reviews. Emails are queued, not claimed delivered.
 - Final frontend: 173 files / 1,516 tests passed; build (includes typecheck) and lint passed.
   Coverage: 95.73% lines/statements, 90.46% branches, 95.05% functions; scope unchanged.
-  Twelve US48 frontend cases plus four shared US12 cases; eleven shared SQL cases including race/replays.
+  Direct US48 coverage: 20 backend and 11 frontend cases. Shared blocking/replacement/
+  buffer tests remain regression coverage, excluded from the US48-only sheet pack.
+  Misallocated AC-048.2.6 retains its source/log ID but is excluded from US48 AC mapping.
 - Historical, populated upgrade and fresh-order disposable Docker database gates passed.
   0100 and 0099 replay preservation, exact endpoints, derived buffers and concurrent blocks checked.
 - Genuine fixed product defect AC-048.2.3 retains failure evidence: failed option loading
   falsely kept Searching wording. Wrong review-store assertions, test API/label mistakes,
   and temporary-file lint race are test/tool issues, not product defects.
-- Manual checks, 0100 shared deployment, PR2 CI and evidence-sheet updates pending.
-  US48 not Done. See docs/us48-venue-replacement.md and docs/test-cases/US48_test_cases.md.
+- All six ACs have implementation and passing automated/manual evidence. Jaydon
+  confirmed the evidence sheet is up to date. US48 scope: 31 overview cases, eight
+  manual groups and one automated defect. Provide future sheet rows directly in
+  chat; never add TSV files to the repository.
+- Only documentation PR merge and Jira transition remain with Jaydon. Do not claim
+  those complete. Docs-only closeout: no new full-suite pass claimed.
+  See docs/us48-venue-replacement.md and docs/test-cases/US48_test_cases.md.
   Next US48 IDs: .1.5/.2.7/.3.10/.4.2/.5.3/.6.11.
 
 # US48 PR1 backend checkpoint — 21 October 2026
