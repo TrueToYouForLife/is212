@@ -17,7 +17,7 @@ if [ "$ready" != true ]; then echo 'Temporary database did not become ready.' >&
   # 0075 was claimed before migrations that have already been deployed.
   mode="${1:-upgrade}"
   for migration in "$repo_root"/supabase/migrations/*.sql; do
-    case "$migration" in */0098_*) continue ;;
+    case "$migration" in */0098_*|*/0099_*) continue ;;
     */0075_*)
       if [ "$mode" != fresh ]; then continue; fi
       cat "$repo_root/supabase/tests/venue_time_conversion_fixture.sql"
@@ -64,6 +64,17 @@ SQL
   cat "$repo_root/supabase/tests/venue_buffer_settings.sql"
   cat "$repo_root/supabase/tests/venue_time_revalidation.sql"
 
+  # US48 requires current occupancy and must follow historical 0075/0098 replays.
+  cat "$repo_root/supabase/migrations/0099_affected_venue_replacement.sql"
+  cat "$repo_root/supabase/tests/affected_venue_replacement.sql"
+  cat "$repo_root/supabase/migrations/0099_affected_venue_replacement.sql"
+  cat <<'SQL'
+select pg_temp.us48_assert((select value=pg_temp.us48_snapshot() from us48_replay_before),
+ 'AC-048.6.8: replaying 0099 preserves events, bookings, claims, reviews and replacement history');
+SQL
+
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_time_hold_races.sh" "$container"
 bash "$repo_root/supabase/tests/venue_time_approval_races.sh" "$container"
+
+bash "$repo_root/supabase/tests/affected_venue_replacement_races.sh" "$container"

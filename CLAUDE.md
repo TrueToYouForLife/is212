@@ -1,3 +1,24 @@
+# US48 PR1 backend checkpoint — 21 October 2026
+- Branch `us48-replacement-integrity`; Jaydon claimed migration 0099. Local only;
+  user handles commits, PRs, merges and shared deployment. Code-first, then tests.
+- Reuse US20 replacement RPCs/table for blocked and retired originals. Preserve
+  events and originals until approval commits; resolve only blocked/retired reviews
+  with authenticated staff and replacement-booking attribution. Other reasons stay open.
+- Shared contracts: both review stores, US12 cancellation trigger and normal approval.
+  Upcoming Confirmed events are allowed only through checked replacement approval;
+  event status/details stay unchanged and ordinary booking eligibility stays unchanged.
+- Requires 0075/0098. Source hashes include review reasons; pre-0099 pending proposals
+  may need a freshly loaded rejection/withdrawal and resubmission, never silent consent.
+- Twenty grouped SQL cases and three races passed; focused, historical, upgrade and
+  fresh-order DB runners exit 0. Existing frontend compatibility: 22 tests / 3 files.
+  No new full frontend/build/lint/coverage pass claimed; no frontend product edits.
+- No product defect demonstrated; fixture/RLS setup mistakes were corrected. Expected
+  refusals and injected review-write failure are not defects or TDD evidence.
+- PR2 must add reasons/search integration and Needs replacement UI. US48 remains
+  incomplete; deployment, manual checks, CI and shared evidence-sheet updates pending.
+- Story/docs: docs/us48-venue-replacement.md, docs/test-cases/US48_test_cases.md and
+  docs/test-evidence/us48/. Next IDs: .1.2, .2.1, .3.8, .4.2, .5.2, .6.11.
+
 # US47 — implementation merged; documentation closeout, 21 October 2026
 - Working branch `us47-docs-closeout`. Implementation PRs merged; 0074/0075/0098 applied to shared Supabase. Manual settings and readability checks passed; shared overview/manual/automated-defect evidence updated.
 - Staff configure per-venue setup/turnaround independently in Manage venues → Edit, as non-negative multiples of 15, default zero. Use authorised settings RPCs; preserve the direct-write guard.

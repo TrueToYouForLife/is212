@@ -1452,3 +1452,22 @@ See [acceptance review and scope](docs/us47-venue-buffers.md),
 [evidence](docs/test-evidence/us47/README.md), and the
 [deployment reference](docs/us47-booking-time-deployment.md). Automated runs stay in
 GitHub Actions; the shared sheet's Automated Test Case Runs tab is unchanged.
+
+
+## US48 replacement venues — PR1 backend
+
+Claimed migration `0099_affected_venue_replacement.sql` extends the existing US20
+flow for blocked/retired bookings, including upcoming Confirmed events. Normal
+staff approval retains quarter-hour/buffer conflict checks. Successful replacement
+releases only the original and resolves only blocked/retired reviews with staff
+and replacement-booking attribution; unsuccessful outcomes preserve originals.
+Requires 0075/0098. Existing RPC signatures remain compatible; pre-0099 pending
+proposals may need withdrawal/rejection and resubmission because source versions
+now include review reasons. No shared deployment or manual pass is claimed.
+
+Twenty new SQL cases (including three races), historical/current upgrade/fresh
+regression gates and 22 existing frontend compatibility tests passed locally.
+Prefilled search, reasons in the replacement UI and Needs replacement wording are
+pending PR2. US48 is not complete. See [story notes](docs/us48-venue-replacement.md),
+[test cases](docs/test-cases/US48_test_cases.md) and
+[evidence](docs/test-evidence/us48/README.md).
