@@ -126,7 +126,8 @@ export function MyVenueBookingsPage() {
                     )}
 
                     <div className="mt-4">
-                      <SlotClaimPreview cells={booking.cells} />
+                      <p className="mb-2 text-xs text-slate-500">Reserved time ranges (Singapore time)</p>
+                      <SlotClaimPreview cells={booking.cells} compact />
                     </div>
 
                     {(booking.status === 'held' || booking.status === 'pending_approval') && (

@@ -15,13 +15,13 @@ const claims: TimetableClaimRow[] = [
   { slot_date: date, slot: 'T2345', kind: 'event', booking_id: 'b2', booking_status: 'held', event_reference: 'EVT-2', closure_reason: null },
 ]
 
-test('AC-047.2.32: single-venue timetable renders all quarter hours with correct claims and selection', () => {
+test('AC-047.2.32: single-venue timetable groups consecutive occupancy without hiding status, buffers, gaps or selection', () => {
   const timetable = buildTimetable([...QUARTER_HOUR_SLOTS].reverse(), claims, date, 2)
   const { rerender } = render(<VenueTimetableGrid timetable={timetable} selectedKeys={new Set([`${date}|T0000`])} />)
-  expect(screen.getAllByRole('row')).toHaveLength(97)
-  expect(screen.getAllByRole('cell')).toHaveLength(192)
-  expect(screen.getAllByRole('rowheader')[0]).toHaveTextContent('00:00–00:15')
-  expect(screen.getAllByRole('rowheader')[95]).toHaveTextContent('23:45–24:00')
+  expect(screen.getAllByRole('row')).toHaveLength(4)
+  expect(screen.getAllByRole('cell')).toHaveLength(6)
+  expect(screen.getAllByRole('rowheader')[0]).toHaveTextContent('Morning00:00–12:00')
+  expect(screen.getAllByRole('rowheader')[2]).toHaveTextContent('Evening18:00–24:00')
   const cell = (slot: string) => screen.getByTestId(`cell-${date}|${slot}`)
   expect(cell('T0000')).toHaveTextContent('Confirmed booking (setup/turnaround)')
   expect(cell('T0000')).toHaveClass('ring-2')
@@ -31,6 +31,18 @@ test('AC-047.2.32: single-venue timetable renders all quarter hours with correct
   expect(cell('T2345')).toHaveTextContent('Tentatively held')
   expect(screen.getByTestId('cell-2026-10-20|T0000')).toHaveTextContent('Available')
   expect(screen.queryByRole('rowheader', { name: 'AM' })).not.toBeInTheDocument()
+  const groupedClaims = [
+    ...['T1100', 'T1115', 'T1130', 'T1145', 'T1200'].map(slot => ({ ...claims[1], slot, slot_date: date })),
+    { ...claims[1], slot: 'T1230', booking_id: 'different-booking' },
+  ] as TimetableClaimRow[]
+  rerender(<VenueTimetableGrid timetable={buildTimetable(QUARTER_HOUR_SLOTS, groupedClaims, date, 1)} selectedKeys={new Set([`${date}|T1115`])} />)
+  expect(cell('T1100')).toHaveTextContent('11:00–11:15')
+  expect(cell('T1115')).toHaveClass('ring-2')
+  expect(cell('T1130')).toHaveTextContent('11:30–12:00')
+  expect(screen.queryByTestId(`cell-${date}|T1145`)).not.toBeInTheDocument()
+  expect(cell('T1200')).toHaveTextContent('12:00–12:15')
+  expect(cell('T1215')).toHaveTextContent('Available')
+  expect(cell('T1230')).toHaveTextContent('Confirmed booking')
   rerender(<VenueTimetableGrid timetable={{ fromDate: date, days: [] }} />)
   expect(screen.queryAllByRole('cell')).toHaveLength(0)
 })

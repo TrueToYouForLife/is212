@@ -312,3 +312,11 @@ Venue Staff duration settings and settings-change flags/notices remain next-slic
 ### Booking preview readability
 
 The coordinator booking preview summarises event time, setup, turnaround and total venue occupancy in Singapore time. Individual quarter-hour cells are collapsed under “View occupied 15-minute slots”. When timing falls between quarter-hour boundaries, a separate reserved slot range shows the rounded occupancy. Zero buffers show “None”; dates remain explicit across midnight. Venue Staff own the duration settings; this preview does not edit them. AC-047.2.37–38 cover the summary, collapsed detail, zero buffers and partial-cell boundaries.
+
+### Coordinator timetable usability fix — 21 October 2026
+
+The single-venue calendar retains date columns but groups quarter-hour occupancy into readable ranges within three display sections (00:00–12:00, 12:00–18:00, 18:00–24:00). Different bookings, statuses, buffers, maintenance reasons, gaps and selected periods remain distinct. These are display sections, not legacy booking blocks. AC-047.2.32 covers grouping; manual retest is pending. No migration is required; 0098 remains reserved for Venue Staff settings.
+
+The My bookings page also groups saved quarter-hour claims into reserved time ranges, separately by date and event/buffer role. It preserves gaps and uses saved occupancy rather than recalculating history from current venue settings. This is a display-only regression change; manual retest pending.
+
+Venue Staff booking review now uses the same compact saved/requested time-range display. Conflict warnings remain visible, with individual conflicting slots retained in an expandable list for investigation. Manual retest pending.

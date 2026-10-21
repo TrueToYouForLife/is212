@@ -49,7 +49,7 @@ describe('VenueTimetableGrid — AC-011.5', () => {
       booking_status: 'held', event_reference: 'EVT-1', closure_reason: null },
   ], '2026-10-12', 2)
 
-  test('AC-011.5.14: draws one column per date and one row per slot', () => {
+  test('AC-011.5.14: draws one column per date and one row per display section', () => {
     render(<VenueTimetableGrid timetable={timetable} />)
     expect(screen.getByRole('columnheader', { name: '12 Oct 2026' })).toBeInTheDocument()
     expect(screen.getByRole('columnheader', { name: '13 Oct 2026' })).toBeInTheDocument()
@@ -77,4 +77,21 @@ describe('VenueTimetableGrid — AC-011.5', () => {
     expect(screen.getByTestId('cell-2026-10-13|AM').className).toContain('ring-2')
     expect(screen.getByTestId('cell-2026-10-13|PM').className).not.toContain('ring-2')
   })
+})
+
+ test('saved booking summary groups adjacent quarters but preserves gaps, roles and dates', () => {
+  render(<SlotClaimPreview compact cells={[
+    { date: '2026-10-12', slot: 'T1000', kind: 'event' },
+    { date: '2026-10-12', slot: 'T1015', kind: 'event' },
+    { date: '2026-10-12', slot: 'T1030', kind: 'buffer' },
+    { date: '2026-10-12', slot: 'T1100', kind: 'buffer' },
+    { date: '2026-10-12', slot: 'T2345', kind: 'event' },
+    { date: '2026-10-13', slot: 'T0000', kind: 'event' },
+  ]} />)
+  expect(screen.getAllByRole('listitem')).toHaveLength(5)
+  expect(screen.getByText('12 Oct 2026 (10:00–10:30)')).toBeInTheDocument()
+  expect(screen.getByText('12 Oct 2026 (10:30–10:45)')).toBeInTheDocument()
+  expect(screen.getByText('12 Oct 2026 (11:00–11:15)')).toBeInTheDocument()
+  expect(screen.getByText('12 Oct 2026 (23:45–24:00)')).toBeInTheDocument()
+  expect(screen.getByText('13 Oct 2026 (00:00–00:15)')).toBeInTheDocument()
 })
