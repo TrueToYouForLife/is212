@@ -1,8 +1,14 @@
-import { act, render, screen, waitFor } from '@testing-library/react'
+import { act, render as rtlRender, screen, waitFor } from '@testing-library/react'
+import type { ReactElement } from 'react'
+import { MemoryRouter } from 'react-router-dom'
+import { ReplacementProposalForm } from '../components/ReplacementProposalForm'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, expect, test, vi } from 'vitest'
 import { VenueReplacementPanel } from '../components/VenueReplacementPanel'
 import { replacementFixture, replacementIds as ids } from './venueReplacementFixtures'
+const render = (element: ReactElement) => rtlRender(<MemoryRouter>{element}</MemoryRouter>)
+const proposal = () => <ReplacementProposalForm source={replacementFixture.sources[0]}
+  target={{ ...replacementFixture.venues[0], status: 'active', layout: 'theatre', accessibility: [], facility: {} }} onBack={() => {}} />
 const mocks = vi.hoisted(() => ({ load: vi.fn(), propose: vi.fn(), decide: vi.fn() }))
 vi.mock('../venueReplacementService', () => ({ getVenueReplacements: mocks.load, proposeVenueReplacement: mocks.propose, decideVenueReplacement: mocks.decide }))
 beforeEach(() => {
@@ -11,9 +17,7 @@ beforeEach(() => {
   mocks.propose.mockResolvedValue({ ok: true }); mocks.decide.mockResolvedValue({ ok: true })
 })
 test('AC-020.3.50: coordinator proposes an alternative with a reason and sees the original-preservation message', async () => {
-  render(<VenueReplacementPanel role="coordinator" />)
-  await userEvent.selectOptions(await screen.findByLabelText('Original booking at a retired venue'), ids.source)
-  await userEvent.selectOptions(screen.getByLabelText('Alternative venue'), ids.target)
+  render(proposal())
   await userEvent.type(screen.getByLabelText('Reason and proposed arrangement'), 'Discussed alternative')
   await userEvent.click(screen.getByRole('button', { name: 'Propose replacement' }))
   expect(mocks.propose).toHaveBeenCalledWith(ids.source, ids.target, 'source-v1', 'Discussed alternative')
@@ -71,7 +75,7 @@ test('AC-020.3.55: a pending decision disables actions and sends only one reques
 })
 test('AC-020.3.56: failed proposal preserves selections and text for correction', async () => {
   mocks.propose.mockResolvedValue({ ok: false, reason: 'Choose a valid booking' })
-  render(<VenueReplacementPanel role="coordinator" />)
+  render(proposal())
   await userEvent.type(await screen.findByLabelText('Reason and proposed arrangement'), 'Keep proposal')
   await userEvent.click(screen.getByRole('button', { name: 'Propose replacement' }))
   expect(await screen.findByRole('alert')).toHaveTextContent('valid booking')
@@ -84,7 +88,7 @@ test('AC-020.3.57: load failure is distinct from an empty queue and reload recov
   expect(screen.queryByText('No replacement requests.')).not.toBeInTheDocument()
   await userEvent.click(screen.getByRole('button', { name: 'Reload replacements' }))
   expect(await screen.findByText('No replacement requests.')).toBeInTheDocument()
-  expect(screen.getByText(/No retired-venue bookings/)).toBeInTheDocument()
+  expect(screen.getByText(/No affected bookings/)).toBeInTheDocument()
 })
 test('AC-020.3.58: approved history retains staff attribution and the replacement booking link', async () => {
   const value = structuredClone(replacementFixture)
@@ -107,9 +111,10 @@ test('AC-020.3.59: late loads are ignored after unmount and a pending proposal p
   await act(async () => finishLoad({ ok: true, value: replacementFixture }))
   let finishProposal!: (value: { ok: true }) => void
   mocks.propose.mockImplementationOnce(() => new Promise(resolve => { finishProposal = resolve }))
-  render(<VenueReplacementPanel role="coordinator" />)
-  await userEvent.click(await screen.findByRole('button', { name: 'Propose replacement' }))
-  expect(screen.getByRole('button', { name: 'Reload replacements' })).toBeDisabled()
+  render(proposal())
+  await userEvent.type(screen.getByLabelText('Reason and proposed arrangement'), 'Agreed alternative')
+  await userEvent.click(screen.getByRole('button', { name: 'Propose replacement' }))
+  expect(screen.getByRole('button', { name: 'Choose another venue' })).toBeDisabled()
   await userEvent.click(screen.getByRole('button', { name: 'Sending…' }))
   expect(mocks.propose).toHaveBeenCalledOnce()
   await act(async () => finishProposal({ ok: true }))

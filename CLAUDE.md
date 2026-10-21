@@ -1,3 +1,29 @@
+# US48 PR2 and continuous venue blocks — 21 October 2026
+- Branch `us48-replacement-ui`; PR1 merged in #127, 0099 applied (Jaydon confirmed).
+  Claimed 0100 adds continuous blocks. Local/uncommitted; Jaydon owns Git and shared deployment.
+- Replacement UI shows reasons/Needs replacement, prefills the complete event interval
+  and requirements, then reuses US20 proposal/staff decisions. No event writes or target holds.
+  Failed sends preserve the note and require reload; displayed consent versions are never refreshed silently.
+- Jaydon explicitly chose one continuous start date/time → end date/time period, overriding
+  the older daily-slot interpretation. Endpoints are Singapore time, quarter-hour aligned,
+  half-open. Full day uses 00:00–24:00; end-date 00:00 is also available.
+- 0100 retains legacy daily slots/gaps without backfill; new period RPCs and exact closure
+  checks cover preview, holds, approval, review, buffer/event revalidation and release triggers.
+  Existing date/slot RPCs remain supported. Deploy 0100 before this frontend.
+- Shared US12/US47 contract change: notify owners before shared deployment. Bookings/events
+  remain intact; overlapping bookings receive reviews. Emails are queued, not claimed delivered.
+- Final frontend: 173 files / 1,516 tests passed; build (includes typecheck) and lint passed.
+  Coverage: 95.73% lines/statements, 90.46% branches, 95.05% functions; scope unchanged.
+  Twelve US48 frontend cases plus four shared US12 cases; eleven shared SQL cases including race/replays.
+- Historical, populated upgrade and fresh-order disposable Docker database gates passed.
+  0100 and 0099 replay preservation, exact endpoints, derived buffers and concurrent blocks checked.
+- Genuine fixed product defect AC-048.2.3 retains failure evidence: failed option loading
+  falsely kept Searching wording. Wrong review-store assertions, test API/label mistakes,
+  and temporary-file lint race are test/tool issues, not product defects.
+- Manual checks, 0100 shared deployment, PR2 CI and evidence-sheet updates pending.
+  US48 not Done. See docs/us48-venue-replacement.md and docs/test-cases/US48_test_cases.md.
+  Next US48 IDs: .1.5/.2.7/.3.10/.4.2/.5.3/.6.11.
+
 # US48 PR1 backend checkpoint — 21 October 2026
 - Branch `us48-replacement-integrity`; Jaydon claimed migration 0099. Local only;
   user handles commits, PRs, merges and shared deployment. Code-first, then tests.

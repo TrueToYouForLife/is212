@@ -28,7 +28,7 @@ test('AC-020.3.61: coordinator booking page includes replacement history and rem
   expect(replacementMocks.load).toHaveBeenCalledOnce()
   replacementMocks.role = 'organiser'
   view.rerender(<MemoryRouter><MyVenueBookingsPage /></MemoryRouter>)
-  expect(screen.queryByText('Retired venue replacements')).not.toBeInTheDocument()
+  expect(screen.queryByText('Venue replacements')).not.toBeInTheDocument()
   expect(replacementMocks.load).toHaveBeenCalledOnce()
   replacementMocks.role = 'coordinator'
 })

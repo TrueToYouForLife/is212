@@ -1,55 +1,44 @@
-import { Checkbox } from '../../../components/ui/FormControls'
-import { SLOT_LABELS } from '../slotFormat'
-import type { SlotCode } from '../slots'
-import { BLOCK_SLOTS } from '../venueBlockValidation'
+import { Checkbox, Field } from '../../../components/ui/FormControls'
+import { QUARTER_HOUR_OPTIONS } from '../quarterHourSlots'
 
 interface SlotPickerProps {
   id: string
-  value: SlotCode[]
-  onChange: (slots: SlotCode[]) => void
+  startTime: string
+  endTime: string
+  onChange: (start: string, end: string) => void
   disabled?: boolean
   error?: string
 }
 
-/**
- * AC-012.2: one or more quarter-hour slots. "Full day" selects all 96, so the value is only ever slot codes.
- */
-export function SlotPicker({ id, value, onChange, disabled, error }: SlotPickerProps) {
-  const fullDay = BLOCK_SLOTS.every((code) => value.includes(code))
-  const toggle = (code: SlotCode) =>
-    onChange(value.includes(code) ? value.filter((slot) => slot !== code) : [...value, code])
-
-  return (
-    <fieldset aria-describedby={error ? `${id}-error` : undefined}>
-      <legend className="text-sm font-medium text-slate-700">
-        Slots (Singapore time)
-        <span className="ml-1 text-red-600" aria-label="required">
-          *
-        </span>
-      </legend>
-      <div className="mt-2 flex flex-wrap gap-x-6 gap-y-2">
-        <label className="flex items-center gap-2 text-sm font-medium text-slate-900">
-          <Checkbox
-            checked={fullDay}
-            disabled={disabled}
-            onChange={() => onChange(fullDay ? [] : [...BLOCK_SLOTS])}
-          />
-          Full day
-        </label>
-      </div>
-      <div className="mt-3 grid max-h-64 grid-cols-2 gap-2 overflow-y-auto sm:grid-cols-3" role="group" aria-label="15-minute slots">
-        {BLOCK_SLOTS.map((code) => (
-          <label key={code} className="flex items-center gap-2 text-sm text-slate-700">
-            <Checkbox checked={value.includes(code)} disabled={disabled} onChange={() => toggle(code)} />
-            {SLOT_LABELS[code]}
-          </label>
-        ))}
-      </div>
-      {error && (
-        <p id={`${id}-error`} role="alert" className="mt-1.5 text-xs text-red-600">
-          {error}
-        </p>
-      )}
-    </fieldset>
-  )
+/** The start time belongs to the start date; the end time belongs to the end date. */
+export function SlotPicker({ id, startTime, endTime, onChange, disabled, error }: SlotPickerProps) {
+  const fullDay = startTime === '00:00' && endTime === '24:00'
+  const starts = QUARTER_HOUR_OPTIONS.map(option => option.label.split('–')[0])
+  const ends = ['00:00', ...QUARTER_HOUR_OPTIONS.map(option => option.label.split('–')[1])]
+  const selectClass = 'mt-1 w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm disabled:bg-slate-100'
+  return <fieldset disabled={disabled} aria-describedby={error ? `${id}-error` : `${id}-hint`}>
+    <legend className="text-sm font-medium text-slate-700">Block times (Singapore time)</legend>
+    <div className="mt-2 grid gap-4 sm:grid-cols-2">
+      <Field id={`${id}-start`} label="Start time" required>
+        <select id={`${id}-start`} className={selectClass} value={startTime} aria-invalid={Boolean(error)}
+          onChange={event => onChange(event.target.value, endTime)}>
+          <option value="">Choose start time</option>
+          {starts.map(time => <option key={time} value={time}>{time}</option>)}
+        </select>
+      </Field>
+      <Field id={`${id}-end`} label="End time" required>
+        <select id={`${id}-end`} className={selectClass} value={endTime} aria-invalid={Boolean(error)}
+          onChange={event => onChange(startTime, event.target.value)}>
+          <option value="">Choose end time</option>
+          {ends.map(time => <option key={time} value={time}>{time === '24:00' ? '24:00 (end of day)' : time}</option>)}
+        </select>
+      </Field>
+    </div>
+    <label className="mt-3 flex items-center gap-2 text-sm font-medium text-slate-900">
+      <Checkbox checked={fullDay} onChange={() => onChange(fullDay ? '' : '00:00', fullDay ? '' : '24:00')} />
+      Full day
+    </label>
+    <p id={`${id}-hint`} className="mt-2 text-xs text-slate-500">Choose times in 15-minute intervals. One continuous period is blocked, including overnight and every day between the start and end.</p>
+    {error && <p id={`${id}-error`} role="alert" className="mt-1.5 text-xs text-red-600">{error}</p>}
+  </fieldset>
 }

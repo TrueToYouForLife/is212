@@ -56,3 +56,11 @@ test('AC-047.2.36: saved blocks combine adjacent quarters but preserve legacy ga
   expect(screen.getByText('07:00–12:00, 13:00–18:00, 19:00–24:00')).toBeInTheDocument()
   expect(screen.queryByText('Full day')).not.toBeInTheDocument()
 })
+
+test('AC-012.9.29: continuous endpoints show both Singapore dates/times while legacy blocks retain daily ranges', () => {
+  render(<VenueBlockList blocks={[{ ...FULL_DAYS, startsAt: '2049-10-21T13:00:00Z', endsAt: '2049-10-22T00:00:00Z' }, ONE_DAY]} />)
+  expect(screen.getByText('Continuous block')).toBeInTheDocument()
+  expect(screen.getByText(/Singapore time/)).toHaveTextContent(/21.*Oct.*2049.*21:00.*22.*Oct.*2049.*08:00/)
+  expect(screen.getByText('09:00–09:15, 23:45–24:00')).toBeInTheDocument()
+  expect(screen.getByText('on each date')).toBeInTheDocument()
+})

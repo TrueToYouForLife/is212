@@ -53,3 +53,16 @@ test('AC-020.3.37: lost responses and malformed successes require reload without
   expect(await decideVenueReplacement(ids.request, 'v', 'withdrawn', 'note')).toEqual({ ok: false, reason: REPLACEMENT_MESSAGES.failed })
   expect(mocks.rpc).toHaveBeenCalledTimes(2)
 })
+
+test('AC-048.1.4: validates affected reasons and rejects a missing migration contract or malformed source instead of hiding affected bookings', async () => {
+  mocks.rpc.mockResolvedValue({ data: replacementFixture, error: null })
+  const result = await getVenueReplacements()
+  expect(result.ok && result.value.affectedBookings[0]).toEqual(replacementFixture.affectedBookings[0])
+  const oldContract: Partial<typeof replacementFixture> = { ...replacementFixture }
+  delete oldContract.affectedBookings
+  mocks.rpc.mockResolvedValue({ data: oldContract, error: null })
+  expect(await getVenueReplacements()).toEqual({ ok: false, reason: REPLACEMENT_MESSAGES.load })
+  const malformed = structuredClone(replacementFixture); malformed.sources[0].reasons = []
+  mocks.rpc.mockResolvedValue({ data: malformed, error: null })
+  expect(await getVenueReplacements()).toEqual({ ok: false, reason: REPLACEMENT_MESSAGES.load })
+})

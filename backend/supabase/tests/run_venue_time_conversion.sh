@@ -17,7 +17,7 @@ if [ "$ready" != true ]; then echo 'Temporary database did not become ready.' >&
   # 0075 was claimed before migrations that have already been deployed.
   mode="${1:-upgrade}"
   for migration in "$repo_root"/supabase/migrations/*.sql; do
-    case "$migration" in */0098_*|*/0099_*) continue ;;
+    case "$migration" in */0098_*|*/0099_*|*/0100_*) continue ;;
     */0075_*)
       if [ "$mode" != fresh ]; then continue; fi
       cat "$repo_root/supabase/tests/venue_time_conversion_fixture.sql"
@@ -73,8 +73,25 @@ select pg_temp.us48_assert((select value=pg_temp.us48_snapshot() from us48_repla
  'AC-048.6.8: replaying 0099 preserves events, bookings, claims, reviews and replacement history');
 SQL
 
+  cat <<'SQL'
+create temp table period_upgrade_before as select pg_temp.us48_snapshot() value,
+ (select jsonb_agg(to_jsonb(t)-'starts_at'-'ends_at' order by id) from public.venue_closures t) closures;
+SQL
+  cat "$repo_root/supabase/migrations/0100_continuous_venue_blocks.sql"
+  cat <<'SQL'
+select pg_temp.us48_assert((select value=pg_temp.us48_snapshot() and closures=(select jsonb_agg(to_jsonb(t)-'starts_at'-'ends_at' order by id) from public.venue_closures t) from period_upgrade_before),
+ 'AC-012.10.7: upgrading populated legacy data to 0100 preserves events, reservations, reviews, history and existing block coverage');
+SQL
+  cat "$repo_root/supabase/tests/continuous_venue_blocks.sql"
+  cat "$repo_root/supabase/migrations/0100_continuous_venue_blocks.sql"
+  cat <<'SQL'
+select pg_temp.period_assert((select value=pg_temp.period_snapshot() from period_before_replay),
+ 'AC-012.10.8: replaying 0100 preserves events, bookings, claims, reviews, block definitions and replacement history');
+SQL
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_time_hold_races.sh" "$container"
 bash "$repo_root/supabase/tests/venue_time_approval_races.sh" "$container"
 
 bash "$repo_root/supabase/tests/affected_venue_replacement_races.sh" "$container"
+
+bash "$repo_root/supabase/tests/continuous_venue_block_races.sh" "$container"
