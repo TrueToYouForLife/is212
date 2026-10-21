@@ -99,3 +99,18 @@ test('AC-047.2.35: legacy and malformed codes are refused even alongside valid q
   expect(validateVenueBlock({ ...valid, slots: ['T2345', 'T0000', 'T1200', 'T0000'] }))
     .toEqual({ ok: true, value: { ...valid, slots: ['T0000', 'T1200', 'T2345'] } })
 })
+
+test('AC-012.2.31: continuous periods validate quarter hours, overnight order, midnight and the occupied-day limit', () => {
+  const period = { ...valid, slots: [], startsOn: '2049-10-21', endsOn: '2049-10-22', startTime: '21:00', endTime: '08:00' }
+  expect(validateVenueBlock(period).ok).toBe(true)
+  expect(validateVenueBlock({ ...period, endsOn: period.startsOn }).ok).toBe(false)
+  expect(validateVenueBlock({ ...period, endTime: '21:00', endsOn: period.startsOn }).ok).toBe(false)
+  expect(validateVenueBlock({ ...period, startTime: '21:01' }).ok).toBe(false)
+  expect(validateVenueBlock({ ...period, startTime: '24:00' }).ok).toBe(false)
+  expect(validateVenueBlock({ ...period, endTime: '24:15' }).ok).toBe(false)
+  expect(validateVenueBlock({ ...period, startTime: undefined }).ok).toBe(false)
+  expect(validateVenueBlock({ ...period, startsOn: '2049-02-30' }).ok).toBe(false)
+  expect(validateVenueBlock({ ...period, startsOn: '2049-01-01', endsOn: '2050-01-02', startTime: '00:00', endTime: '00:00' }).ok).toBe(true)
+  expect(validateVenueBlock({ ...period, startsOn: '2049-01-01', endsOn: '2050-01-02', startTime: '00:00', endTime: '00:15' }).ok).toBe(false)
+  expect(validateVenueBlock({ ...period, endsOn: period.startsOn, startTime: '23:45', endTime: '24:00' }).ok).toBe(true)
+})

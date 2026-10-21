@@ -1126,16 +1126,18 @@ Test allocation (database checks in `backend/supabase/tests/venue_suitability.sq
 
 ## US12 Block Venue Availability (SCRUM-14)
 
-Venue Staff can block a venue for one or more slots (AM, PM, Night) on one date or a range
-of up to 366 days, with a reason. Before saving, they preview the bookings and existing
+Venue Staff can block a venue for one continuous date/time period, in 15-minute
+steps and Singapore time, with a reason (requires 0100). A block covers at most
+366 occupied calendar days. Legacy blocks retain their original daily slot coverage. Before saving, they preview the bookings and existing
 blocks it would overlap. Bookings inside a new block are **flagged for review, not
-cancelled** (Week 7 change 2): each one's coordinator is emailed and sees it under **Venue
+cancelled** (Week 7 change 2): an email is queued for each coordinator, who sees it under **Venue
 alerts**, and a flagged booking cannot be approved until the block is removed or the
 booking ends. Removing a block keeps it on record with who removed it and when. Screens
 (**Venue blocks** for Venue Staff, **Venue alerts** for coordinators) are behind
 `VITE_FEATURE_VENUE_BLOCKS`, which is off unless set to `true` in your own `frontend/.env`.
 
-Migrations, all safe to replay (the runner replays 0026–0034 and checks no data changed):
+Historical block migrations (0026–0034 replay is tested against the original schema;
+do not reapply them after later migrations):
 
 | File | Adds |
 | --- | --- |
@@ -1463,11 +1465,25 @@ releases only the original and resolves only blocked/retired reviews with staff
 and replacement-booking attribution; unsuccessful outcomes preserve originals.
 Requires 0075/0098. Existing RPC signatures remain compatible; pre-0099 pending
 proposals may need withdrawal/rejection and resubmission because source versions
-now include review reasons. No shared deployment or manual pass is claimed.
+now include review reasons. Jaydon confirmed 0099 applied; manual checks remain pending.
 
 Twenty new SQL cases (including three races), historical/current upgrade/fresh
 regression gates and 22 existing frontend compatibility tests passed locally.
-Prefilled search, reasons in the replacement UI and Needs replacement wording are
-pending PR2. US48 is not complete. See [story notes](docs/us48-venue-replacement.md),
+PR1 merged in PR #127. PR2 locally adds affected reasons and Needs replacement on
+bookings, prefilled event search, alternative selection and existing proposal flow.
+Its frontend requires 0099 and claimed 0100. Final frontend verification: 173 files /
+1,516 tests passed; build/typecheck/lint passed. One UI loading-label product defect
+was fixed with failure evidence retained. Historical/current upgrade/fresh database
+gates passed, including continuous-block boundaries, buffers, migration preservation
+and concurrency. US48 remains pending manual verification, CI/review and closeout.
+See [story notes](docs/us48-venue-replacement.md),
 [test cases](docs/test-cases/US48_test_cases.md) and
 [evidence](docs/test-evidence/us48/README.md).
+
+0100 adds continuous venue blocks using start/end date/time dropdowns at 15-minute
+intervals. For example, 21 October 21:00 → 22 October 08:00 blocks that whole period.
+End is exclusive; existing daily-slot blocks and gaps remain unchanged. Legacy RPCs
+remain supported; exact-period RPCs and all shared conflict readers agree on coverage.
+Deploy 0100 after 0099 before using this frontend. This affects US12/US47 contracts;
+notify their owners before shared deployment. Jaydon handles deployment; 0100 is not
+claimed applied. See the story notes for compatibility and manual checks.

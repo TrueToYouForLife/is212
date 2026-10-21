@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Button } from '../../../components/ui/Button'
+import { formatDateTime } from '../../events/formatters'
 import { formatPlainDate } from '../slotFormat'
 import type { SlotCode } from '../slots'
 import type { VenueBlockResult } from '../venueBlockService'
@@ -23,6 +24,7 @@ const CREATED_AT = new Intl.DateTimeFormat('en-SG', {
 })
 
 function formatDates(block: VenueBlock): string {
+  if (block.startsAt && block.endsAt) return `${formatDateTime(block.startsAt)} → ${formatDateTime(block.endsAt)} (Singapore time)`
   return block.startsOn === block.endsOn
     ? formatPlainDate(block.startsOn)
     : `${formatPlainDate(block.startsOn)} – ${formatPlainDate(block.endsOn)}`
@@ -78,7 +80,7 @@ export function VenueBlockList({ blocks, onRemove, onRemoved }: VenueBlockListPr
             <div className="space-y-1">
               <p className="flex flex-wrap items-baseline gap-x-3 text-sm">
                 <span className="font-medium text-slate-900">{formatDates(block)}</span>
-                <span className="text-slate-600">{formatSlots(block.slots)}</span>
+                <span className="text-slate-600">{block.startsAt ? 'Continuous block' : <><span>{formatSlots(block.slots)}</span> <span>on each date</span></>}</span>
               </p>
               <p className="text-sm text-slate-700">{block.reason}</p>
               <p className="text-xs text-slate-500">{formatCreated(block)}</p>

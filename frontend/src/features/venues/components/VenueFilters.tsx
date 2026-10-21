@@ -24,6 +24,8 @@ export function VenueFilters({
   assignedEvents,
   layoutTypes,
   disabled,
+  eventLocked = false,
+  searching = disabled,
 }: {
   filters: VenueSearchFilters
   onChange: (filters: VenueSearchFilters) => void
@@ -33,6 +35,8 @@ export function VenueFilters({
   /** From layout_types (0021); empty until loaded, which only costs the dropdown. */
   layoutTypes: LayoutType[]
   disabled: boolean
+  eventLocked?: boolean
+  searching?: boolean
 }) {
   const selectedEvent = assignedEvents.find((event) => event.id === filters.eventId)
 
@@ -73,7 +77,7 @@ export function VenueFilters({
           id="venue-search-event"
           className={selectClassName}
           value={filters.eventId}
-          disabled={disabled}
+          disabled={disabled || eventLocked}
           onChange={(e) => handleEventSelect(e.target.value)}
         >
           <option value="">— Manual search —</option>
@@ -231,7 +235,7 @@ export function VenueFilters({
       <div className="flex flex-wrap items-center justify-end gap-3 border-t border-slate-100 pt-4">
         <Button type="button" onClick={onClear} disabled={disabled}>Clear filters</Button>
         <Button type="button" onClick={onSearch} disabled={disabled}>
-          {disabled ? 'Searching…' : 'Search'}
+          {searching ? 'Searching…' : 'Search'}
         </Button>
       </div>
     </div>

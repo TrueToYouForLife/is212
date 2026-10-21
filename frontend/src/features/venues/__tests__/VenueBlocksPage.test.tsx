@@ -1,7 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
 import { VenueBlocksPage } from '../pages/VenueBlocksPage'
-import { SLOT_LABELS } from '../slotFormat'
 
 const mocks = vi.hoisted(() => ({
   role: 'venue_staff',
@@ -81,9 +80,10 @@ describe('AC-012.9 — current blocks can be viewed and removed', () => {
   test('AC-012.9.25: saving a new block on the chosen venue reloads the current blocks', async () => {
     await chooseVenue()
 
-    fireEvent.change(screen.getByLabelText(/First day/), { target: { value: '2040-04-01' } })
-    fireEvent.change(screen.getByLabelText(/Last day/), { target: { value: '2040-04-01' } })
-    fireEvent.click(screen.getByLabelText(SLOT_LABELS.T0900))
+    fireEvent.change(screen.getByLabelText(/Start date/), { target: { value: '2040-04-01' } })
+    fireEvent.change(screen.getByLabelText(/End date/), { target: { value: '2040-04-01' } })
+    fireEvent.change(screen.getByLabelText(/Start time/), { target: { value: '09:00' } })
+    fireEvent.change(screen.getByLabelText(/End time/), { target: { value: '09:15' } })
     fireEvent.change(screen.getByLabelText(/Reason/), { target: { value: 'Deep clean' } })
     fireEvent.click(screen.getByRole('button', { name: 'Preview' }))
     fireEvent.click(await screen.findByRole('button', { name: 'Confirm block' }))
