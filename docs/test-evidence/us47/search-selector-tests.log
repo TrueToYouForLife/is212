@@ -1,0 +1,16 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/venues/__tests__/VenueFilters.test.tsx src/features/venues/__tests__/venueSearchBuffers.test.ts src/features/venues/__tests__/venueSearchService.test.ts src/features/venues/__tests__/slots.test.ts --maxWorkers=1 --minWorkers=1
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+ ✓ src/features/venues/__tests__/venueSearchService.test.ts (9 tests) 8ms
+ ✓ src/features/venues/__tests__/VenueFilters.test.tsx (10 tests) 241ms
+ ✓ src/features/venues/__tests__/slots.test.ts (28 tests) 5ms
+ ✓ src/features/venues/__tests__/venueSearchBuffers.test.ts (3 tests) 5ms
+
+ Test Files  4 passed (4)
+      Tests  50 passed (50)
+   Start at  22:25:13
+   Duration  2.71s (transform 126ms, setup 233ms, collect 212ms, tests 258ms, environment 1.14s, prepare 165ms)

@@ -1,0 +1,13 @@
+
+> connectsphere@0.1.0 test
+> vitest run venueOccupiedSlots --maxWorkers=1 --minWorkers=1
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+ ✓ src/features/venues/__tests__/venueOccupiedSlots.test.ts (3 tests) 4ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  22:50:37
+   Duration  522ms (transform 30ms, setup 44ms, collect 18ms, tests 4ms, environment 246ms, prepare 37ms)

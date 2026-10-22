@@ -5,8 +5,9 @@ import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
 import { VenueDetailsPage } from '../pages/VenueDetailsPage'
 import { VenueTimetablePage } from '../pages/VenueTimetablePage'
 import { MyVenueBookingsPage } from '../pages/MyVenueBookingsPage'
+import { QUARTER_HOUR_SLOTS as SLOTS } from '../quarterHourSlots'
 import { buildTimetable } from '../venueTimetable'
-import { BOOKING_ID, EVENT_ID, SLOTS, VENUE_ID, sgt } from './fixtures/venueBooking'
+import { BOOKING_ID, EVENT_ID, VENUE_ID, sgt } from './fixtures/venueBooking'
 
 const mocks = vi.hoisted(() => ({
   role: 'coordinator' as string,
@@ -49,7 +50,7 @@ test('AC-010.9.6: the coordinator sees the suggested alternative on a rejected b
 const VENUE = {
   id: VENUE_ID, name: 'Alpha Hall', capacity: 200, layout: 'theatre',
   accessibility: ['wheelchair_access'], facility: { projector: true, microphone: 4 },
-  status: 'active' as const, location: 'Bras Basah',
+  setupMinutes: 15, turnaroundMinutes: 15, status: 'active' as const, location: 'Bras Basah',
 }
 
 const ASSIGNED_EVENT = {
@@ -142,9 +143,9 @@ describe('VenueTimetablePage — AC-009.2 / AC-011.1', () => {
     show()
     await screen.findByLabelText('Book for one of your events')
     await user().selectOptions(screen.getByLabelText('Book for one of your events'), EVENT_ID)
-    expect(await screen.findByText('12 Oct 2026 (AM)')).toBeInTheDocument()
-    expect(screen.getByText('11 Oct 2026 (Night)')).toBeInTheDocument()
-    expect(screen.getByText('12 Oct 2026 (PM)')).toBeInTheDocument()
+    expect(await screen.findByText('12 Oct 2026 (09:00–09:15)')).toBeInTheDocument()
+    expect(screen.getByText('12 Oct 2026 (08:45–09:00)')).toBeInTheDocument()
+    expect(screen.getByText('12 Oct 2026 (11:00–11:15)')).toBeInTheDocument()
     expect(screen.getAllByText('Setup / turnaround')).toHaveLength(2)
   })
   test('AC-011.1.1: holding sends the event and venue, and no slots, because the event decides them', async () => {
@@ -164,12 +165,12 @@ describe('VenueTimetablePage — AC-009.2 / AC-011.1', () => {
   test('AC-009.7.11: a refused hold shows which slot clashes and why', async () => {
     mocks.holdVenue.mockResolvedValue({
       ok: false,
-      reason: 'That venue is not available. Clashes: 12 Oct 2026 (PM) — already booked.',
+      reason: 'That venue is not available. Clashes: 12 Oct 2026 (11:00–11:15) — already booked.',
       conflicts: [{ date: '2026-10-12', slot: 'PM', kind: 'event' }],
     })
     show(`?eventId=${EVENT_ID}`)
     await user().click(await screen.findByRole('button', { name: 'Place tentative hold' }))
-    expect(await screen.findByRole('alert')).toHaveTextContent('12 Oct 2026 (PM) — already booked')
+    expect(await screen.findByRole('alert')).toHaveTextContent('12 Oct 2026 (11:00–11:15) — already booked')
   })
   test('AC-011.1.3: with no event chosen there is nothing to hold', async () => {
     show()
@@ -196,8 +197,8 @@ describe('MyVenueBookingsPage — AC-009.9 / AC-011.7 / AC-011.8', () => {
     eventReference: 'EVT-1', eventName: 'Gala', status: 'held' as const,
     holdExpiresAt: '2026-10-08T04:00:00.000Z', reviewNote: null, createdAt: '2026-10-05T04:00:00.000Z',
     cells: [
-      { date: '2026-10-11', slot: 'NIGHT' as const, kind: 'buffer' as const },
-      { date: '2026-10-12', slot: 'AM' as const, kind: 'event' as const },
+      { date: '2026-10-11', slot: 'T2345' as const, kind: 'buffer' as const },
+      { date: '2026-10-12', slot: 'T0900' as const, kind: 'event' as const },
     ],
   }
   const show = () => renderAt('/venues/bookings', '/venues/bookings', <MyVenueBookingsPage />)
@@ -208,7 +209,7 @@ describe('MyVenueBookingsPage — AC-009.9 / AC-011.7 / AC-011.8', () => {
     expect(await screen.findByRole('heading', { name: 'Alpha Hall' })).toBeInTheDocument()
     expect(screen.getByText('EVT-1')).toBeInTheDocument()
     expect(screen.getByText('Tentatively held')).toBeInTheDocument()
-    expect(screen.getByText('12 Oct 2026 (AM)')).toBeInTheDocument()
+    expect(screen.getByText('12 Oct 2026 (09:00–09:15)')).toBeInTheDocument()
   })
   test('AC-011.6.12: a live hold says how long is left before it expires', async () => {
     mocks.listMyVenueBookings.mockResolvedValue({ ok: true, bookings: [HELD] })

@@ -1,19 +1,20 @@
 # US46 Add and edit venue details (SCRUM-241): test cases
 
 Built code-first in slices (trunk-based development): each slice is its own branch and PR,
-merged when CI is green, with unfinished screens behind `VITE_FEATURE_VENUE_MANAGEMENT`.
+merged when CI is green, with unfinished screens behind `VITE_FEATURE_VENUE_MANAGEMENT`
+until the last slice, which removed the flag.
 Within a slice each acceptance criterion is coded and tested before the next, and code and
 tests are committed together.
 
 | Slice | ACs | Status |
 |---|---|---|
 | 1. Add a venue | AC-046.1, AC-046.3, AC-046.6 | merged (0064) |
-| 2. Edit a venue, flag affected bookings | AC-046.2, AC-046.4 (and AC-046.6 for editing) | implemented; automated cases pass |
-| 3. Retire a venue | AC-046.5 | not started |
+| 2. Edit a venue, flag affected bookings | AC-046.2, AC-046.4 (and AC-046.6 for editing) | in review (0067) |
+| 3. Retire a venue, remove the feature flag | AC-046.5 (and AC-046.6 for retiring) | implemented; automated cases pass |
 
 Test IDs follow `CLAUDE.md`: `AC-046.Y.Z`, Z unique across the story and increasing top to
 bottom within each test file. Next free IDs: AC-046.1.29, AC-046.2.30, AC-046.3.11,
-AC-046.4.18, AC-046.5.1, AC-046.6.20.
+AC-046.4.18, AC-046.5.26, AC-046.6.22.
 
 ## Acceptance criteria (Jira)
 
@@ -203,7 +204,62 @@ layout an event needs. If US20 moves that rule into a function, both should call
 
 0067 is replayed by the database runner before these tests, which also shows it is safe to replay.
 
-## Manual test cases (shared Supabase, after 0064 and 0067 are applied)
+## Design decisions (slice 3)
+
+| # | Decision | Why |
+|---|---|---|
+| D19 | Retiring needs a reason, which is stored on the venue (`retirement_note`), recorded in `venue_changes`, and passed to the affected Coordinators in their review. | A Coordinator told to find another venue should know why. |
+| D20 | Retiring is a second, explicit step on the edit page: a reason, then "Confirm retirement". | It takes the venue out of search and sends every upcoming booking's Coordinator to rearrange; it should not happen by a slip. |
+| D21 | Retirement reviews every live booking of an event that has not ended, with reason `venue_retired`, through the same arrangement review records as slice 2. No booking is cancelled. | AC-046.5: flagged for review rather than cancelled, Coordinators notified. |
+| D22 | A retired venue cannot take new holds (0049's insert policy, with a venue check added). Search (US8, active venues only), suitability (US18) and availability (US19) already leave retired venues out. | A saved link or an old page must not book a retired venue. |
+| D23 | A retired venue can still be opened and edited, shows that it is retired and why, and cannot be retired again. Reinstating is not in AC-046.5 and is not built. | Venue Staff may still need to correct its details; un-retiring is a separate decision for the customer. |
+| D24 | 0067 and 0070 only ever widen the list of review reasons: each replaces it only if its own reason is missing. | Replaying an older migration must never drop reasons a newer one added. |
+| D25 | In the database runner, US20's block (its tests and 0063's replay) now runs before US10's venue booking tests, followed by replays of 0067 and 0070. | 0063's replay restores a two-source check, which existing venue-change reviews would violate. US10's approval tests retire a venue, which now raises such reviews, so 0063 must be replayed before them. |
+| D26 | `VITE_FEATURE_VENUE_MANAGEMENT` is removed: the pages and the Manage venues nav item are always on for Venue Staff. | US46 is complete. |
+
+## Automated test cases (slice 3)
+
+### AC-046.5 Venue Staff can retire a venue; it leaves search, its bookings are flagged not cancelled, Coordinators notified
+
+| ID | Test | Type | Scenario | File |
+|---|---|---|---|---|
+| AC-046.5.1 | retiring needs a reason and an up-to-date copy; a refused retirement changes nothing | integration (SQL) | failure | venue_retire.sql |
+| AC-046.5.2 | Venue Staff retire a venue with a reason and are told how many bookings went for review | integration (SQL) | normal | venue_retire.sql |
+| AC-046.5.3 | a confirmed booking is flagged with the reason and its Coordinator notified | integration (SQL) | normal | venue_retire.sql |
+| AC-046.5.4 | a request for an event with no Coordinator is flagged, with no one yet to notify | integration (SQL) | boundary | venue_retire.sql |
+| AC-046.5.5 | past events, cancelled bookings and lapsed holds are not flagged | integration (SQL) | boundary | venue_retire.sql |
+| AC-046.5.6 | retiring cancels nothing: statuses, holds and slots unchanged | integration (SQL) | normal | venue_retire.sql |
+| AC-046.5.7 | the retirement is recorded with who, when and why | integration (SQL) | normal | venue_retire.sql |
+| AC-046.5.8 | a retired venue cannot be retired again, and opens showing it is retired and why | integration (SQL) | conflict | venue_retire.sql |
+| AC-046.5.9 | a retired venue cannot be held for a new event; an active one still can | integration (SQL) | conflict | venue_retire.sql |
+| AC-046.5.10 | a retired venue is no longer active, so venue search no longer offers it | integration (SQL) | normal | venue_retire.sql |
+| AC-046.5.11 | retiring needs a reason; spaces alone do not count | unit | failure | venueManagementValidation.test.ts |
+| AC-046.5.12 | the reason is sent trimmed | unit | boundary | venueManagementValidation.test.ts |
+| AC-046.5.13 | a venue opens with its retirement reason, or none | unit | boundary | venueManagementValidation.test.ts |
+| AC-046.5.14 | retiring sends the reason with the opened version and reports how many were flagged | unit (service) | normal | venueManagementService.test.ts |
+| AC-046.5.15 | retiring a venue someone just changed is reported as out of date | unit (service) | conflict | venueManagementService.test.ts |
+| AC-046.5.16 | a missing venue, database reasons and unexpected failures are explained | unit (service) | failure | venueManagementService.test.ts |
+| AC-046.5.17 | an answer without a count is nothing flagged; signed out sends nothing | unit (service) | boundary | venueManagementService.test.ts |
+| AC-046.5.18 | retiring asks for a reason first | unit | failure | RetireVenuePanel.test.tsx |
+| AC-046.5.19 | retiring needs an explicit confirmation; cancelling goes back | unit | normal | RetireVenuePanel.test.tsx |
+| AC-046.5.20 | confirming retires the venue with the reason, trimmed | unit | normal | RetireVenuePanel.test.tsx |
+| AC-046.5.21 | while retiring, neither confirming again nor cancelling is possible | unit | boundary | RetireVenuePanel.test.tsx |
+| AC-046.5.22 | after retiring, Venue Staff are told the venue left search and how many bookings went for review | unit | normal | EditVenuePage.test.tsx |
+| AC-046.5.23 | a retired venue opens saying so and why, with no way to retire it again | unit | conflict | EditVenuePage.test.tsx |
+| AC-046.5.24 | a retired venue with no reason recorded still says it is retired | unit | boundary | EditVenuePage.test.tsx |
+| AC-046.5.25 | a refused retirement is explained, with a reload when the venue changed | unit | failure | EditVenuePage.test.tsx |
+
+### AC-046.6 Only Venue Staff retire venues
+
+| ID | Test | Type | Scenario | File |
+|---|---|---|---|---|
+| AC-046.6.20 | only Venue Staff can retire a venue | integration (SQL) | conflict | venue_retire.sql |
+| AC-046.6.21 | a "not Venue Staff" refusal is explained | unit (service) | conflict | venueManagementService.test.ts |
+
+AC-046.6.11 and AC-046.6.12 (TopNav.test.tsx) now test the Manage venues item without the
+feature flag. 0070 is replayed by the database runner before these tests.
+
+## Manual test cases (shared Supabase, after 0064, 0067 and 0070 are applied)
 
 | ID | Steps | Expected |
 |---|---|---|
@@ -213,6 +269,9 @@ layout an event needs. If US20 moves that rule into a function, both should call
 | M4 | As Venue Staff, open **Manage venues**, edit a venue that has a confirmed booking, and lower its booked layout's capacity below that event's attendance. | "Venue updated" says 1 booking was sent for review; the booking is still confirmed. |
 | M5 | Sign in as that event's Coordinator and open the event. | The arrangement review panel shows the capacity reason; resolving it works as for any other review. |
 | M6 | Open the same venue in two tabs, save in one, then save in the other. | The second save is refused as changed by someone else; "Reload the venue" shows the first save. |
+| M7 | As Venue Staff, open a venue with a confirmed booking, enter a reason, click **Retire venue…**, then **Confirm retirement**. | "Venue retired"; the venue no longer appears in venue search or availability; the booking is still confirmed. |
+| M8 | Sign in as that event's Coordinator and open the event. | The arrangement review panel shows the retirement with its reason. |
+| M9 | As a Coordinator, open the retired venue's timetable from an old link and try to hold a slot. | The hold is refused. |
 
 ## Coverage and forced break
 
@@ -220,7 +279,10 @@ Slice 1: `venueManagementValidation.ts`, `venueManagementService.ts`, `VenueForm
 `AddVenuePage.tsx` are at 100% statements, branches, functions and lines.
 
 Slice 2: the same files plus `ManageVenuesPage.tsx` and `EditVenuePage.tsx` are at 100%.
-SQL has no coverage tool; 0064 and 0067 are covered case by case above.
+
+Slice 3: the same files plus `RetireVenuePanel.tsx` are at 100%.
+
+SQL has no coverage tool; 0064, 0067 and 0070 are covered case by case above.
 
 Forced break (the story's one, in slice 2, which carries the booking-review logic): in
 `0067_venue_edit_review.sql` the capacity check (`and b.expected_attendance > v_capacity`)

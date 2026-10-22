@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { Button } from '../../../components/ui/Button'
-import { SLOT_SHORT_LABELS, formatPlainDate } from '../slotFormat'
+import { formatDateTime } from '../../events/formatters'
+import { formatPlainDate } from '../slotFormat'
 import type { SlotCode } from '../slots'
 import type { VenueBlockResult } from '../venueBlockService'
 import type { VenueBlock } from '../venueBlockTypes'
 import { BLOCK_SLOTS } from '../venueBlockValidation'
+import { QUARTER_HOUR_OPTIONS } from '../quarterHourSlots'
 
 interface VenueBlockListProps {
   blocks: VenueBlock[]
@@ -22,15 +24,26 @@ const CREATED_AT = new Intl.DateTimeFormat('en-SG', {
 })
 
 function formatDates(block: VenueBlock): string {
+  if (block.startsAt && block.endsAt) return `${formatDateTime(block.startsAt)} → ${formatDateTime(block.endsAt)} (Singapore time)`
   return block.startsOn === block.endsOn
     ? formatPlainDate(block.startsOn)
     : `${formatPlainDate(block.startsOn)} – ${formatPlainDate(block.endsOn)}`
 }
 
-/** All three slots read as "Full day", which is how staff describe it. */
+/** Merge adjacent cells for readable ranges; preserve gaps in converted legacy blocks. */
 function formatSlots(slots: readonly SlotCode[]): string {
   if (BLOCK_SLOTS.every((code) => slots.includes(code))) return 'Full day'
-  return BLOCK_SLOTS.filter((code) => slots.includes(code)).map((code) => SLOT_SHORT_LABELS[code]).join(', ')
+  const ranges: string[] = []
+  let start: number | null = null
+  for (let index = 0; index <= BLOCK_SLOTS.length; index++) {
+    if (index < BLOCK_SLOTS.length && slots.includes(BLOCK_SLOTS[index])) {
+      start ??= index
+    } else if (start !== null) {
+      ranges.push(`${QUARTER_HOUR_OPTIONS[start].label.slice(0, 5)}–${QUARTER_HOUR_OPTIONS[index - 1].label.slice(-5)}`)
+      start = null
+    }
+  }
+  return ranges.join(', ')
 }
 
 function formatCreated(block: VenueBlock): string {
@@ -67,7 +80,7 @@ export function VenueBlockList({ blocks, onRemove, onRemoved }: VenueBlockListPr
             <div className="space-y-1">
               <p className="flex flex-wrap items-baseline gap-x-3 text-sm">
                 <span className="font-medium text-slate-900">{formatDates(block)}</span>
-                <span className="text-slate-600">{formatSlots(block.slots)}</span>
+                <span className="text-slate-600">{block.startsAt ? 'Continuous block' : <><span>{formatSlots(block.slots)}</span> <span>on each date</span></>}</span>
               </p>
               <p className="text-sm text-slate-700">{block.reason}</p>
               <p className="text-xs text-slate-500">{formatCreated(block)}</p>

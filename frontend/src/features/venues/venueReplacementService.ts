@@ -10,8 +10,16 @@ const request = z.object({ id: z.string().uuid(), originalBookingId: z.string().
   decidedBy: z.string().nullable(), decidedAt: z.string().nullable(), decisionNote: z.string().nullable(),
   replacementBookingId: z.string().uuid().nullable(), version: z.string(), sourceChanged: z.boolean(), details,
   targetCapacity: z.number(), targetLayout: z.string(), targetAccessibility: z.array(z.string()).nullable(), targetFacilities: z.record(z.unknown()).nullable() })
+const affectedBooking = z.object({
+  id: z.string().uuid(), eventId: z.string().uuid(), eventName: z.string(), venueName: z.string(),
+  version: z.string().min(1), details, needsReplacement: z.literal(true),
+  reasons: z.array(z.object({ id: z.string().uuid(), store: z.enum(['booking', 'arrangement', 'venue']),
+    code: z.enum(['venue_blocked', 'venue_retired']), detail: z.string().min(1) })).min(1),
+})
+export type AffectedVenueBooking = z.infer<typeof affectedBooking>
 const context = z.object({
-  sources: z.array(z.object({ id: z.string().uuid(), eventName: z.string(), venueName: z.string(), version: z.string(), details })),
+  sources: z.array(affectedBooking),
+  affectedBookings: z.array(affectedBooking),
   venues: z.array(z.object({ id: z.string().uuid(), name: z.string(), capacity: z.number(), location: z.string() })),
   requests: z.array(request),
 })

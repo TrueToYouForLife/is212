@@ -12,7 +12,7 @@ const STATUS_LABELS: Record<ManagedVenue['status'], string> = {
   retired: 'Retired',
 }
 
-/** US46: where Venue Staff find a venue to edit, or add a new one. Behind VITE_FEATURE_VENUE_MANAGEMENT. */
+/** US46: where Venue Staff find a venue to edit or retire, or add a new one. */
 export function ManageVenuesPage() {
   const { profile, loading: userLoading } = useCurrentUser()
   const isVenueStaff = profile?.role === 'venue_staff'

@@ -16,6 +16,7 @@ import { LandingPage } from './pages/LandingPage'
 import { NotFoundPage } from './pages/NotFoundPage'
 import { SubmitEventChangesPage } from './features/events/pages/SubmitEventChangesPage'
 import { OrganisationEventsPage } from './features/events/pages/OrganisationEventsPage'
+import { VenueReplacementSearchPage } from './features/venues/pages/VenueReplacementSearchPage'
 import { VenueSearchPage } from './features/venues/pages/VenueSearchPage'
 import { VenueSuitabilityPage } from './features/venues/pages/VenueSuitabilityPage'
 import { VenueDetailsPage } from './features/venues/pages/VenueDetailsPage'
@@ -35,6 +36,8 @@ import { ReserveEquipmentPage } from './features/equipment/pages/ReserveEquipmen
 import { FEATURES } from './lib/features'
 import { NotificationPreferencesPage } from './features/notifications/preferences/NotificationPreferencesPage'
 import { NotificationsPage } from './features/notifications/pages/NotificationsPage'
+import { EventRegistrationsPage } from './features/events/pages/EventRegistrationsPage'
+import { OrganisationEventDetailPage } from './features/events/pages/OrganisationEventDetailPage'
 
 /**
  * Routes are declared here rather than scattered across features, so the sitemap is one
@@ -67,13 +70,16 @@ export default function App() {
             <Route path="/organisation/events" element={<OrganisationEventsPage />} />
             <Route path="/venues/search" element={<VenueSearchPage />} />
             <Route path="/notifications" element={<NotificationsPage />} />
+            <Route path="/requests/:id/registrations" element={<EventRegistrationsPage />} />
+            <Route path="/organisation/events/:id" element={<OrganisationEventDetailPage />} />
             {FEATURES.notificationPreferences && <Route path="/notifications/settings" element={<NotificationPreferencesPage />} />}
             <Route path="/venues/availability" element={<VenueAvailabilityPage />} />
-            {FEATURES.venueManagement && <Route path="/venues/new" element={<AddVenuePage />} />}
-            {FEATURES.venueManagement && <Route path="/venues/manage" element={<ManageVenuesPage />} />}
-            {FEATURES.venueManagement && <Route path="/venues/:id/edit" element={<EditVenuePage />} />}
+            <Route path="/venues/new" element={<AddVenuePage />} />
+            <Route path="/venues/manage" element={<ManageVenuesPage />} />
+            <Route path="/venues/:id/edit" element={<EditVenuePage />} />
             {FEATURES.venueSuitability && <Route path="/venues/suitability" element={<VenueSuitabilityPage />} />}
             {FEATURES.venueBooking && <Route path="/venues/bookings" element={<MyVenueBookingsPage />} />}
+            {FEATURES.venueBooking && <Route path="/venues/bookings/:bookingId/replacement" element={<VenueReplacementSearchPage />} />}
             {FEATURES.venueBooking && <Route path="/venues/review" element={<VenueBookingQueuePage />} />}
             {FEATURES.venueBooking && <Route path="/venues/bookings/:bookingId/review" element={<VenueBookingReviewPage />} />}
             {FEATURES.venueBooking && <Route path="/venues/:id" element={<VenueDetailsPage />} />}

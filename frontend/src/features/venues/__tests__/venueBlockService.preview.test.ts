@@ -10,7 +10,7 @@ const valid: VenueBlockInput = {
   venueId: 'v1',
   startsOn: '2040-03-10',
   endsOn: '2040-03-11',
-  slots: ['AM', 'PM'],
+  slots: ['T0900', 'T1300'],
   reason: 'Repairs',
 }
 
@@ -21,7 +21,7 @@ const row = (overrides: Record<string, unknown>) => ({
   event_reference: null,
   event_name: null,
   slot_date: '2040-03-10',
-  slot: 'AM',
+  slot: 'T0900',
   claim_kind: 'event',
   block_reason: null,
   ...overrides,
@@ -37,9 +37,9 @@ describe('AC-012.7 — previewing a block before saving', () => {
     mocks.rpc.mockResolvedValue({
       data: [
         row({ booking_id: 'b1', booking_status: 'confirmed', event_reference: 'EVT-1', event_name: 'Gala' }),
-        row({ overlap_type: 'existing_block', slot: 'PM', claim_kind: 'maintenance', block_reason: 'Deep clean' }),
+        row({ overlap_type: 'existing_block', slot: 'T1300', claim_kind: 'maintenance', block_reason: 'Deep clean' }),
         row({ booking_id: 'b1', booking_status: 'confirmed', event_reference: 'EVT-1', event_name: 'Gala',
-              slot: 'PM', claim_kind: 'buffer' }),
+              slot: 'T1300', claim_kind: 'buffer' }),
       ],
       error: null,
     })
@@ -50,7 +50,7 @@ describe('AC-012.7 — previewing a block before saving', () => {
       p_venue_id: 'v1',
       p_starts_on: '2040-03-10',
       p_ends_on: '2040-03-11',
-      p_slots: ['AM', 'PM'],
+      p_slots: ['T0900', 'T1300'],
     })
     expect(result).toStrictEqual({
       ok: true,
@@ -58,11 +58,11 @@ describe('AC-012.7 — previewing a block before saving', () => {
         affectedBookings: [{
           bookingId: 'b1', status: 'confirmed', eventReference: 'EVT-1', eventName: 'Gala',
           cells: [
-            { date: '2040-03-10', slot: 'AM', kind: 'event' },
-            { date: '2040-03-10', slot: 'PM', kind: 'buffer' },
+            { date: '2040-03-10', slot: 'T0900', kind: 'event' },
+            { date: '2040-03-10', slot: 'T1300', kind: 'buffer' },
           ],
         }],
-        existingBlocks: [{ date: '2040-03-10', slot: 'PM', reason: 'Deep clean' }],
+        existingBlocks: [{ date: '2040-03-10', slot: 'T1300', reason: 'Deep clean' }],
       },
     })
   })

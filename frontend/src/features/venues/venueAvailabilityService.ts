@@ -34,9 +34,9 @@ interface ClaimJoinRow {
 
 /**
  * AC-019.1: every venue's week in two reads, venues and their claims, run side by side.
- * venue_slot_claims already carries every kind of occupancy (hold, request, confirmed
+ * venue_effective_slot_claims includes saved and newly required occupancy (hold, request, confirmed
  * booking, Venue Staff block), so one query covers all venues. RLS lets Coordinators and
- * Venue Staff read it (0018); anyone else gets no rows, and the page does not offer them
+ * Venue Staff read the underlying claims; the view preserves that RLS, and the page does not offer other roles
  * the calendar.
  */
 export async function getVenueAvailability(
@@ -59,11 +59,11 @@ export async function getVenueAvailability(
       .neq('status', 'retired')
       .order('name'),
     supabase
-      .from('venue_slot_claims')
+      .from('venue_effective_slot_claims')
       .select(`
         venue_id, slot_date, slot, kind, booking_id,
-        venue_bookings(status, events(reference)),
-        venue_closures(reason)
+        venue_bookings,
+        venue_closures
       `)
       .gte('slot_date', dates[0])
       .lte('slot_date', dates[dates.length - 1]),

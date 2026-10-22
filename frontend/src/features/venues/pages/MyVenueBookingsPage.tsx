@@ -4,6 +4,8 @@ import { Button } from '../../../components/ui/Button'
 import { Card } from '../../../components/ui/Card'
 import { PageContainer } from '../../../components/layout/PageContainer'
 import { useCurrentUser } from '../../auth/sessionContext'
+import { useVenueReplacements } from '../useVenueReplacements'
+import { ReplacementBookingNotice } from '../components/ReplacementBookingNotice'
 import { BookingStatusBadge } from '../components/BookingStatusBadge'
 import { SlotClaimPreview } from '../components/SlotClaimPreview'
 import { VenueDecisionNotifications } from '../components/VenueDecisionNotifications'
@@ -23,6 +25,7 @@ export function MyVenueBookingsPage() {
   const [busyId, setBusyId] = useState<string | null>(null)
 
   const isCoordinator = profile?.role === 'coordinator'
+  const replacements = useVenueReplacements(!userLoading && isCoordinator, profile?.id)
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -95,6 +98,8 @@ export function MyVenueBookingsPage() {
           <ul className="space-y-4">
             {bookings.map((booking) => {
               const live = isHoldLive(booking.holdExpiresAt, now)
+              const affected = replacements.data?.affectedBookings?.find(source => source.id === booking.id)
+              const pendingReplacement = replacements.data?.requests.some(request => request.originalBookingId === booking.id && request.status === 'pending') ?? false
               return (
                 <li key={booking.id}>
                   <Card title={booking.venueName || 'Venue'}>
@@ -104,6 +109,8 @@ export function MyVenueBookingsPage() {
                       </p>
                       <BookingStatusBadge status={booking.status} />
                     </div>
+
+                    {affected && <ReplacementBookingNotice booking={affected} pending={pendingReplacement} />}
 
                     {booking.status === 'held' && booking.holdExpiresAt && (
                       <p className="mt-2 text-xs text-slate-500">
@@ -126,7 +133,8 @@ export function MyVenueBookingsPage() {
                     )}
 
                     <div className="mt-4">
-                      <SlotClaimPreview cells={booking.cells} />
+                      <p className="mb-2 text-xs text-slate-500">Reserved time ranges (Singapore time)</p>
+                      <SlotClaimPreview cells={booking.cells} compact />
                     </div>
 
                     {(booking.status === 'held' || booking.status === 'pending_approval') && (
@@ -158,7 +166,7 @@ export function MyVenueBookingsPage() {
         </div>
       )}
       <VenueDecisionNotifications />
-      {!userLoading && isCoordinator && <VenueReplacementPanel key={profile.id} role="coordinator" onChanged={() => void load()} />}
+      {!userLoading && isCoordinator && <VenueReplacementPanel key={profile.id} state={replacements} role="coordinator" onChanged={() => void load()} />}
     </PageContainer>
   )
 }
