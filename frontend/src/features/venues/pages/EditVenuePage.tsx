@@ -3,8 +3,10 @@ import { Link, useParams } from 'react-router-dom'
 import { Card } from '../../../components/ui/Card'
 import { PageContainer } from '../../../components/layout/PageContainer'
 import { useCurrentUser } from '../../auth/sessionContext'
+import { VenueBufferSettings } from '../components/VenueBufferSettings'
+import { RetireVenuePanel } from '../components/RetireVenuePanel'
 import { VenueForm } from '../components/VenueForm'
-import { loadLayoutOptions, loadVenueForEdit, updateVenue } from '../venueManagementService'
+import { loadLayoutOptions, loadVenueForEdit, retireVenue, updateVenue } from '../venueManagementService'
 import { venueFormValuesFrom } from '../venueManagementValidation'
 import type { FeatureOption } from '../venueFeatureCatalogue'
 import type { LoadedVenue, NewVenue } from '../venueManagementValidation'
@@ -14,10 +16,12 @@ interface Loaded {
   layoutOptions: FeatureOption[]
 }
 
-function flaggedMessage(flagged: number): string {
+function flaggedMessage(flagged: number, retired: boolean): string {
   if (flagged === 0) return 'No existing bookings needed a review.'
   const bookings = flagged === 1 ? '1 booking' : `${flagged} bookings`
-  return `${bookings} may no longer suit this venue, so their Coordinators have been asked to review them. No booking was changed.`
+  return retired
+    ? `${bookings} at this venue have been sent to their Coordinators to find another venue. No booking was cancelled.`
+    : `${bookings} may no longer suit this venue, so their Coordinators have been asked to review them. No booking was changed.`
 }
 
 /**
@@ -34,7 +38,7 @@ export function EditVenuePage() {
   const [submitting, setSubmitting] = useState(false)
   const [serverError, setServerError] = useState<string | null>(null)
   const [stale, setStale] = useState(false)
-  const [saved, setSaved] = useState<{ name: string; flagged: number } | null>(null)
+  const [saved, setSaved] = useState<{ name: string; flagged: number; retired: boolean } | null>(null)
 
   const load = useCallback(async (isCancelled: () => boolean = () => false) => {
     setLoaded(null)
@@ -59,7 +63,20 @@ export function EditVenuePage() {
     const result = await updateVenue(opened.id, opened.version, venue)
     setSubmitting(false)
     if (result.ok) {
-      setSaved({ name: venue.name, flagged: result.flagged })
+      setSaved({ name: venue.name, flagged: result.flagged, retired: false })
+    } else {
+      setServerError(result.reason)
+      setStale(result.stale === true)
+    }
+  }
+
+  async function handleRetire(opened: LoadedVenue, note: string) {
+    setSubmitting(true)
+    setServerError(null)
+    const result = await retireVenue(opened.id, opened.version, note)
+    setSubmitting(false)
+    if (result.ok) {
+      setSaved({ name: opened.name, flagged: result.flagged, retired: true })
     } else {
       setServerError(result.reason)
       setStale(result.stale === true)
@@ -109,9 +126,11 @@ export function EditVenuePage() {
       </div>
 
       {saved ? (
-        <Card title="Venue updated">
-          <p className="text-sm text-slate-700"><strong>{saved.name}</strong> has been saved.</p>
-          <p className="mt-2 text-sm text-slate-700">{flaggedMessage(saved.flagged)}</p>
+        <Card title={saved.retired ? 'Venue retired' : 'Venue updated'}>
+          <p className="text-sm text-slate-700">
+            <strong>{saved.name}</strong>{saved.retired ? ' has been retired and no longer appears in venue search.' : ' has been saved.'}
+          </p>
+          <p className="mt-2 text-sm text-slate-700">{flaggedMessage(saved.flagged, saved.retired)}</p>
           <div className="mt-4 flex flex-wrap gap-4 text-sm">
             <button type="button" className="font-semibold text-indigo-700 hover:underline" onClick={reload}>
               Edit again
@@ -126,6 +145,13 @@ export function EditVenuePage() {
       ) : !loaded || !form ? (
         <p className="text-sm text-slate-500">Loading the venue…</p>
       ) : (
+        <div className="space-y-6">
+        {loaded.venue.status === 'retired' && (
+          <p className="rounded-lg bg-slate-100 p-3 text-sm text-slate-800">
+            {`This venue is retired${loaded.venue.retirementNote ? ` (${loaded.venue.retirementNote})` : ''}. It no longer appears in venue search and cannot take new bookings.`}
+          </p>
+        )}
+        {loaded.venue.status === 'active' && <VenueBufferSettings key={loaded.venue.version} venueId={id} />}
         <Card title="Venue details">
           {form.dropped.length > 0 && (
             <p className="mb-4 rounded-lg bg-amber-50 p-3 text-sm text-amber-900">
@@ -151,6 +177,14 @@ export function EditVenuePage() {
             submitLabel="Save changes"
           />
         </Card>
+        {loaded.venue.status !== 'retired' && (
+          <RetireVenuePanel
+            venueName={loaded.venue.name}
+            submitting={submitting}
+            onRetire={(note) => void handleRetire(loaded.venue, note)}
+          />
+        )}
+        </div>
       )}
     </PageContainer>
   )

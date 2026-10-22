@@ -8,10 +8,7 @@ import { addVenue, loadLayoutOptions } from '../venueManagementService'
 import type { FeatureOption } from '../venueFeatureCatalogue'
 import type { NewVenue } from '../venueManagementValidation'
 
-/**
- * US46 slice 1: Venue Staff add a venue (AC-046.1, AC-046.3). Behind
- * VITE_FEATURE_VENUE_MANAGEMENT until editing and retiring are built too.
- */
+/** US46: Venue Staff add a venue (AC-046.1, AC-046.3). */
 export function AddVenuePage() {
   const { profile, loading: userLoading } = useCurrentUser()
   const isVenueStaff = profile?.role === 'venue_staff'

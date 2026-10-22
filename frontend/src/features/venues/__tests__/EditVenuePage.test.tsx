@@ -1,3 +1,4 @@
+vi.mock('../components/VenueBufferSettings', () => ({ VenueBufferSettings: () => <div>Venue timing settings</div> }))
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { beforeEach, describe, expect, test, vi } from 'vitest'
@@ -9,6 +10,7 @@ const mocks = vi.hoisted(() => ({
   loadVenue: vi.fn(),
   loadLayouts: vi.fn(),
   update: vi.fn(),
+  retire: vi.fn(),
 }))
 vi.mock('../../auth/sessionContext', () => ({
   useCurrentUser: () => ({ loading: mocks.userLoading, profile: { id: 'user-1', role: mocks.role } }),
@@ -17,6 +19,7 @@ vi.mock('../venueManagementService', () => ({
   loadVenueForEdit: mocks.loadVenue,
   loadLayoutOptions: mocks.loadLayouts,
   updateVenue: mocks.update,
+  retireVenue: mocks.retire,
 }))
 
 const VENUE = {
@@ -43,6 +46,7 @@ beforeEach(() => {
   mocks.loadVenue.mockResolvedValue({ ok: true, venue: VENUE })
   mocks.loadLayouts.mockResolvedValue({ ok: true, layouts: [{ code: 'theatre', label: 'Theatre' }, { code: 'classroom', label: 'Classroom' }] })
   mocks.update.mockResolvedValue({ ok: true, flagged: 0 })
+  mocks.retire.mockResolvedValue({ ok: true, flagged: 0 })
 })
 
 describe('AC-046.2 — Venue Staff can edit any of a venue’s details', () => {
@@ -158,5 +162,50 @@ describe('AC-046.6 — only Venue Staff can edit venues', () => {
     renderPage()
     expect(screen.getByText('Checking your session…')).toBeInTheDocument()
     await waitFor(() => expect(mocks.loadVenue).not.toHaveBeenCalled())
+  })
+})
+
+describe('AC-046.5 — Venue Staff can retire a venue', () => {
+  async function retire(note = 'Building closes') {
+    await screen.findByLabelText(/^Venue name/)
+    fireEvent.change(screen.getByLabelText('Why is it being retired?'), { target: { value: note } })
+    fireEvent.click(screen.getByRole('button', { name: 'Retire venue…' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Confirm retirement' }))
+  }
+
+  test.each([
+    [0, 'No existing bookings needed a review.'],
+    [1, '1 booking at this venue have been sent to their Coordinators to find another venue. No booking was cancelled.'],
+    [4, '4 bookings at this venue have been sent to their Coordinators to find another venue. No booking was cancelled.'],
+  ])('AC-046.5.22: after retiring, Venue Staff are told the venue left search and %i booking(s) went for review', async (flagged, message) => {
+    mocks.retire.mockResolvedValue({ ok: true, flagged })
+    renderPage()
+    await retire()
+    expect(await screen.findByText('Venue retired')).toBeInTheDocument()
+    expect(screen.getByText(/has been retired and no longer appears in venue search/)).toBeInTheDocument()
+    expect(screen.getByText(message)).toBeInTheDocument()
+    expect(mocks.retire).toHaveBeenCalledWith('venue-1', 'v1', 'Building closes')
+  })
+
+  test('AC-046.5.23: a retired venue opens saying so and why, with no way to retire it again', async () => {
+    mocks.loadVenue.mockResolvedValue({ ok: true, venue: { ...VENUE, status: 'retired', retirementNote: 'Building closes' } })
+    renderPage()
+    expect(await screen.findByText(/This venue is retired \(Building closes\)\. It no longer appears in venue search/)).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Retire venue…' })).toBeNull()
+  })
+
+  test('AC-046.5.24: a retired venue with no reason recorded still says it is retired', async () => {
+    mocks.loadVenue.mockResolvedValue({ ok: true, venue: { ...VENUE, status: 'retired', retirementNote: null } })
+    renderPage()
+    expect(await screen.findByText('This venue is retired. It no longer appears in venue search and cannot take new bookings.')).toBeInTheDocument()
+  })
+
+  test('AC-046.5.25: a refused retirement is explained, with a reload when someone else changed the venue', async () => {
+    mocks.retire.mockResolvedValueOnce({ ok: false, reason: 'Someone else changed this venue while you were editing.', stale: true })
+    renderPage()
+    await retire()
+    expect(await screen.findByRole('alert')).toHaveTextContent('Someone else changed this venue')
+    expect(screen.getByRole('button', { name: 'Reload the venue' })).toBeInTheDocument()
+    expect(screen.queryByText('Venue retired')).toBeNull()
   })
 })

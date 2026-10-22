@@ -1,0 +1,18 @@
+
+> connectsphere@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 312 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.69 kB │ gzip:   0.39 kB
+dist/assets/index-DGFlJgda.css   33.62 kB │ gzip:   6.50 kB
+dist/assets/index-DwmUhs3t.js   851.87 kB │ gzip: 230.85 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 2.05s

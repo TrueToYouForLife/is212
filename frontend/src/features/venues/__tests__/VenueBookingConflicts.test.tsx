@@ -33,3 +33,18 @@ test('AC-010.3.16: a missing requested-cell list fails closed', () => {
   render(<VenueBookingConflicts booking={{ ...booking, requestedCells: undefined }} />)
   expect(screen.getByRole('alert')).toHaveTextContent('Conflicts cannot be checked')
 })
+
+test('staff review summarises consecutive booking slots while retaining buffers and conflict details', () => {
+  render(<VenueBookingConflicts booking={{ ...booking, requestedCells: [
+    { date: '2032-10-12', slot: 'T1000', kind: 'event' },
+    { date: '2032-10-12', slot: 'T1015', kind: 'event' },
+    { date: '2032-10-12', slot: 'T1030', kind: 'buffer' },
+  ], conflicts: [
+    { date: '2032-10-12', slot: 'T1000', kind: 'event', source: 'confirmed_booking', description: 'EVT-20' },
+  ] }} />)
+  expect(screen.getByText('12 Oct 2032 (10:00–10:30)')).toBeVisible()
+  expect(screen.getByText('12 Oct 2032 (10:30–10:45)')).toBeVisible()
+  expect(screen.getByText('Setup / turnaround')).toBeVisible()
+  expect(screen.getByRole('alert')).toBeVisible()
+  expect(screen.getByText('View conflicting 15-minute slots (1)').closest('details')).not.toHaveAttribute('open')
+})

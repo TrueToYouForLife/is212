@@ -3,13 +3,9 @@ import { Button } from '../../../components/ui/Button'
 import type { AssignedEventOption, VenueSearchFilters } from '../types'
 import type { LayoutType } from '../suitabilityTypes'
 import type { SlotCode } from '../slots'
+import { QUARTER_HOUR_OPTIONS } from '../quarterHourSlots'
 import { ACCESSIBILITY_OPTIONS, FACILITY_OPTIONS, featureLabel } from '../venueFeatureCatalogue'
 
-const SLOT_OPTIONS: { value: SlotCode; label: string }[] = [
-  { value: 'AM', label: 'AM (7am–12pm)' },
-  { value: 'PM', label: 'PM (1pm–6pm)' },
-  { value: 'NIGHT', label: 'Night (7pm–12am)' },
-]
 
 const selectClassName =
   'w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 ' +
@@ -28,6 +24,8 @@ export function VenueFilters({
   assignedEvents,
   layoutTypes,
   disabled,
+  eventLocked = false,
+  searching = disabled,
 }: {
   filters: VenueSearchFilters
   onChange: (filters: VenueSearchFilters) => void
@@ -37,6 +35,8 @@ export function VenueFilters({
   /** From layout_types (0021); empty until loaded, which only costs the dropdown. */
   layoutTypes: LayoutType[]
   disabled: boolean
+  eventLocked?: boolean
+  searching?: boolean
 }) {
   const selectedEvent = assignedEvents.find((event) => event.id === filters.eventId)
 
@@ -77,7 +77,7 @@ export function VenueFilters({
           id="venue-search-event"
           className={selectClassName}
           value={filters.eventId}
-          disabled={disabled}
+          disabled={disabled || eventLocked}
           onChange={(e) => handleEventSelect(e.target.value)}
         >
           <option value="">— Manual search —</option>
@@ -161,7 +161,7 @@ export function VenueFilters({
               />
             </Field>
 
-            <Field id="venue-search-slot" label="Slot">
+            <Field id="venue-search-slot" label="Slot (Singapore time)">
               <select
                 id="venue-search-slot"
                 className={selectClassName}
@@ -170,7 +170,7 @@ export function VenueFilters({
                 onChange={(e) => onChange({ ...filters, slot: e.target.value as SlotCode | '' })}
               >
                 <option value="">Any slot</option>
-                {SLOT_OPTIONS.map((slot) => (
+                {QUARTER_HOUR_OPTIONS.map((slot) => (
                   <option key={slot.value} value={slot.value}>{slot.label}</option>
                 ))}
               </select>
@@ -235,7 +235,7 @@ export function VenueFilters({
       <div className="flex flex-wrap items-center justify-end gap-3 border-t border-slate-100 pt-4">
         <Button type="button" onClick={onClear} disabled={disabled}>Clear filters</Button>
         <Button type="button" onClick={onSearch} disabled={disabled}>
-          {disabled ? 'Searching…' : 'Search'}
+          {searching ? 'Searching…' : 'Search'}
         </Button>
       </div>
     </div>

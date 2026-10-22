@@ -1,13 +1,21 @@
 import type { VenueReplacementContext } from '../venueReplacementService'
 export const replacementIds = {
+  event: '20652000-0000-4000-8000-000000000001',
   source: '20653000-0000-4000-8000-000000000001', target: '20651000-0000-4000-8000-000000000002',
   request: '20654000-0000-4000-8000-000000000001', replacement: '20655000-0000-4000-8000-000000000001',
 }
 const details = { purpose: 'Workshop', proposedStart: '2039-01-03T01:00:00Z', proposedEnd: '2039-01-03T03:00:00Z',
   expectedAttendance: 50, layoutPreference: 'theatre', accessibilityRequirements: ['wheelchair_access'],
   facilityRequirements: ['wifi'], specialArrangements: 'Early setup' }
+export const affectedFixture = {
+  id: replacementIds.source, eventId: replacementIds.event, eventName: 'Workshop', venueName: 'Retired Hall',
+  version: 'source-v1', details, needsReplacement: true as const,
+  reasons: [{ id: replacementIds.source, store: 'booking' as const, code: 'venue_blocked' as const, detail: 'Venue blocked: Ceiling unsafe' },
+    { id: replacementIds.request, store: 'arrangement' as const, code: 'venue_retired' as const, detail: 'Venue retired: Building closed' }],
+}
 export const replacementFixture: VenueReplacementContext = {
-  sources: [{ id: replacementIds.source, eventName: 'Workshop', venueName: 'Retired Hall', version: 'source-v1', details }],
+  sources: [affectedFixture],
+  affectedBookings: [affectedFixture],
   venues: [{ id: replacementIds.target, name: 'Alternative Hall', capacity: 120, location: 'Campus' }],
   requests: [{ id: replacementIds.request, originalBookingId: replacementIds.source, eventName: 'Workshop',
     originalVenue: 'Retired Hall', targetVenue: 'Alternative Hall', targetVenueId: replacementIds.target,

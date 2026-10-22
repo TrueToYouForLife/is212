@@ -12,6 +12,9 @@ const STATUS_DESCRIPTIONS: Record<EventStatus, string> = {
   completed: 'This event has been completed.',
   rejected: 'Your event request was rejected.',
   cancelled: 'This event has been cancelled.',
+  // AC-022.2: the organiser must be able to tell this apart from a rejection.
+  // It was closed before anyone decided on it, which is a different outcome.
+  withdrawn: 'Your event request was withdrawn before a decision was made.',
 }
 
 export function RequestStatusPanel({ request, organiserView = false }: { request: EventRequestDetail; organiserView?: boolean }) {

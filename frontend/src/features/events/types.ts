@@ -9,6 +9,10 @@ export const EVENT_STATUSES = [
   'completed',
   'cancelled',
   'rejected',
+  // US22: a request closed by a coordinator before a decision. Distinct from
+  // 'cancelled' (an event that was going ahead and then was not) and from
+  // 'rejected' (a decision against it), which AC-022.2 requires.
+  'withdrawn',
 ] as const
 
 export type EventStatus = (typeof EVENT_STATUSES)[number]
@@ -25,6 +29,7 @@ export const EVENT_STATUS_LABELS: Record<EventStatus, string> = {
   completed: 'Completed',
   cancelled: 'Cancelled',
   rejected: 'Rejected',
+  withdrawn: 'Withdrawn',
 }
 
 /**

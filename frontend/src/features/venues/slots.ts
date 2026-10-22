@@ -1,5 +1,8 @@
 // src/features/venues/slots.ts
-export type SlotCode = 'AM' | 'PM' | 'NIGHT'
+import type { QuarterHourCode } from './venueOccupiedSlots'
+
+// Legacy codes remain for consumers awaiting conversion; new selectors use quarters.
+export type SlotCode = 'AM' | 'PM' | 'NIGHT' | QuarterHourCode
 
 export interface TimeSlot {
   code: SlotCode

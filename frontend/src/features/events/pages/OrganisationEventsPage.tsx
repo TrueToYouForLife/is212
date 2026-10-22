@@ -85,14 +85,16 @@ function OrganisationEventRow({ event }: { event: OrganisationEvent }) {
 
   return <div className="flex items-start justify-between gap-4">
     <span>
-      {/* Only the owner gets a link: /requests/:id reads through the owner-scoped service,
-          so a colleague following it would reach "not found" and learn nothing useful. The
-          detail view for a colleague's event is a later increment. */}
-      {event.isMine
-        ? <Link to={`/requests/${event.id}`} className="block font-medium text-indigo-700 underline">
-            {title}
-          </Link>
-        : <span className="block font-medium text-slate-900">{title}</span>}
+      {/* Two destinations, each the right one for who is looking. The owner goes to
+          /requests/:id, which carries their actions; a colleague goes to the read-only
+          organisation view, because that page reads through the owner-scoped service and
+          would only tell them "not found". */}
+      <Link
+        to={event.isMine ? `/requests/${event.id}` : `/organisation/events/${event.id}`}
+        className="block font-medium text-indigo-700 underline"
+      >
+        {title}
+      </Link>
       <span className="block text-sm text-slate-500">
         {event.isMine ? 'Yours' : event.organiserName}
         {event.reference ? ` · ${event.reference}` : ''}

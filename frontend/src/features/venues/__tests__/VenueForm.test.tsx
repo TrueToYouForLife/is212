@@ -58,8 +58,9 @@ describe('AC-046.1 — Venue Staff can add a venue with its details', () => {
     renderForm()
     const optionsOf = (label: string) =>
       Array.from((screen.getByLabelText(label) as HTMLSelectElement).options).map((option) => option.value)
-    expect(optionsOf('Opens at')).toEqual(['', '07:00', '13:00', '19:00'])
-    expect(optionsOf('Closes at')).toEqual(['', '12:00', '18:00', '24:00'])
+    const clock = (minutes: number) => `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`
+    expect(optionsOf('Opens at')).toEqual(['', ...Array.from({ length: 96 }, (_, i) => clock(i * 15))])
+    expect(optionsOf('Closes at')).toEqual(['', ...Array.from({ length: 96 }, (_, i) => clock((i + 1) * 15))])
   })
 
   test('AC-046.1.22: problems are shown next to their fields, and nothing is submitted', () => {

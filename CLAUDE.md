@@ -1,9 +1,71 @@
-# US47 foundation checkpoint — 19 October 2026
-- Branch `us47-venue-buffer-settings`; migration 0074 claimed. Duration fields default to zero and accept non-negative multiples of 15. Internal exact occupied-period helper; no cell allocation or active booking changes.
-- Browser writes to new fields are temporarily guarded until the final save/review path is integrated. Existing venue edits still work. Do not expose the settings UI yet.
-- Full disposable DB suite passed, including six foundation cases and regression/concurrency checks. Evidence: docs/test-evidence/us47/foundation-database.log. No frontend changes/tests this portion.
-- US47 includes supporting 15-minute booking work; preserve saved reservation occupancy during conversion. Next portions: booking consumers/UI, then settings-change flags and Coordinator/Venue Staff notifications.
-- No shared deployment, commits, pushes or PRs performed. Code-first, pause between logical portions. Docs: docs/us47-venue-buffers.md and docs/test-cases/US47_test_cases.md.
+# US48 documentation closeout — 21 October 2026
+- Branch `us48-docs-closeout`; implementation merged in #127/#128. PR #128 shows
+  four checks passed. 0099 applied (Jaydon confirmed); 0100-dependent workflow manually
+  passed per Jaydon. No separate deployment timestamp/operator supplied.
+- Jaydon confirmed all nine manual-checklist steps passed; no manual defect reported.
+  Source: docs/test-evidence/us48/manual-results.md. Exact fixture/account IDs omitted
+  because they were not provided. Email delivery is not claimed.
+- Replacement UI shows reasons/Needs replacement, prefills the complete event interval
+  and requirements, then reuses US20 proposal/staff decisions. No event writes or target holds.
+  Failed sends preserve the note and require reload; displayed consent versions are never refreshed silently.
+- Jaydon explicitly chose one continuous start date/time → end date/time period, overriding
+  the older daily-slot interpretation. Endpoints are Singapore time, quarter-hour aligned,
+  half-open. Full day uses 00:00–24:00; end-date 00:00 is also available.
+- 0100 retains legacy daily slots/gaps without backfill; new period RPCs and exact closure
+  checks cover preview, holds, approval, review, buffer/event revalidation and release triggers.
+  Existing date/slot RPCs remain supported. Deploy 0100 before this frontend.
+- Shared US12/US47 contract change: notify owners before shared deployment. Bookings/events
+  remain intact; overlapping bookings receive reviews. Emails are queued, not claimed delivered.
+- Final frontend: 173 files / 1,516 tests passed; build (includes typecheck) and lint passed.
+  Coverage: 95.73% lines/statements, 90.46% branches, 95.05% functions; scope unchanged.
+  Direct US48 coverage: 20 backend and 11 frontend cases. Shared blocking/replacement/
+  buffer tests remain regression coverage, excluded from the US48-only sheet pack.
+  Misallocated AC-048.2.6 retains its source/log ID but is excluded from US48 AC mapping.
+- Historical, populated upgrade and fresh-order disposable Docker database gates passed.
+  0100 and 0099 replay preservation, exact endpoints, derived buffers and concurrent blocks checked.
+- Genuine fixed product defect AC-048.2.3 retains failure evidence: failed option loading
+  falsely kept Searching wording. Wrong review-store assertions, test API/label mistakes,
+  and temporary-file lint race are test/tool issues, not product defects.
+- All six ACs have implementation and passing automated/manual evidence. Jaydon
+  confirmed the evidence sheet is up to date. US48 scope: 31 overview cases, eight
+  manual groups and one automated defect. Provide future sheet rows directly in
+  chat; never add TSV files to the repository.
+- Only documentation PR merge and Jira transition remain with Jaydon. Do not claim
+  those complete. Docs-only closeout: no new full-suite pass claimed.
+  See docs/us48-venue-replacement.md and docs/test-cases/US48_test_cases.md.
+  Next US48 IDs: .1.5/.2.7/.3.10/.4.2/.5.3/.6.11.
+
+# US48 PR1 backend checkpoint — 21 October 2026
+- Branch `us48-replacement-integrity`; Jaydon claimed migration 0099. Local only;
+  user handles commits, PRs, merges and shared deployment. Code-first, then tests.
+- Reuse US20 replacement RPCs/table for blocked and retired originals. Preserve
+  events and originals until approval commits; resolve only blocked/retired reviews
+  with authenticated staff and replacement-booking attribution. Other reasons stay open.
+- Shared contracts: both review stores, US12 cancellation trigger and normal approval.
+  Upcoming Confirmed events are allowed only through checked replacement approval;
+  event status/details stay unchanged and ordinary booking eligibility stays unchanged.
+- Requires 0075/0098. Source hashes include review reasons; pre-0099 pending proposals
+  may need a freshly loaded rejection/withdrawal and resubmission, never silent consent.
+- Twenty grouped SQL cases and three races passed; focused, historical, upgrade and
+  fresh-order DB runners exit 0. Existing frontend compatibility: 22 tests / 3 files.
+  No new full frontend/build/lint/coverage pass claimed; no frontend product edits.
+- No product defect demonstrated; fixture/RLS setup mistakes were corrected. Expected
+  refusals and injected review-write failure are not defects or TDD evidence.
+- PR2 must add reasons/search integration and Needs replacement UI. US48 remains
+  incomplete; deployment, manual checks, CI and shared evidence-sheet updates pending.
+- Story/docs: docs/us48-venue-replacement.md, docs/test-cases/US48_test_cases.md and
+  docs/test-evidence/us48/. Next IDs: .1.2, .2.1, .3.8, .4.2, .5.2, .6.11.
+
+# US47 — implementation merged; documentation closeout, 21 October 2026
+- Working branch `us47-docs-closeout`. Implementation PRs merged; 0074/0075/0098 applied to shared Supabase. Manual settings and readability checks passed; shared overview/manual/automated-defect evidence updated.
+- Staff configure per-venue setup/turnaround independently in Manage venues → Edit, as non-negative multiples of 15, default zero. Use authorised settings RPCs; preserve the direct-write guard.
+- New holds/approval and search/suitability/calendars include effective occupancy. Preserve saved reservations/history; settings conflicts create reviews rather than automatic cancellation or movement.
+- Coordinator/Venue Staff notices use existing channel preferences; all Venue Staff are recipients because there is no per-venue staff assignment. Email queuing is tested; delivered email is not claimed.
+- Recorded implementation verification: 170 frontend files / 1,500 tests; typecheck, lint, build and historical/upgrade/fresh DB suites passed. No new full-suite pass is claimed for docs-only changes.
+- Fixed SQL save defect AC-047.1.3 and earlier .2.17 defect retain failure evidence. Intentional forced breaks and expected concurrency refusals are not discovered defects.
+- Conversion runners include 0098/replay/settings checks. Historical runner deliberately skips 0075/0098. Do not edit/reapply deployed migrations to change behaviour; claim a new migration if a defect requires a follow-up.
+- AC mapping: docs/us47-venue-buffers.md. Cases/evidence: docs/test-cases/US47_test_cases.md and docs/test-evidence/us47/. Automated runs remain in GitHub Actions; do not populate the spreadsheet run tab.
+- User owns commits, pushes, PR, shared deployment and Jira transition.
 
 # US42 merged implementation (18 October 2026)
 - Venue PR #103 and equipment PR #106 merged; local main updated to dd07c40 and equipment branch deleted.

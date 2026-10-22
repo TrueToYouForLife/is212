@@ -1,9 +1,9 @@
 // src/features/venues/venueBookingService.ts
 import { supabase } from '../../lib/supabase'
-import { claimsForEvent } from './slots'
+import { occupiedVenueCells } from './venueOccupiedSlots'
 import type { ClaimCell, SlotCode, TimeSlot } from './slots'
 import {
-  ACTIVE_HOLD_STATUSES, BOOKABLE_EVENT_STATUSES,  canBookForEventStatus, describeConflicts, holdExpiryFrom,
+  BOOKABLE_EVENT_STATUSES, canBookForEventStatus, describeConflicts,
 } from './holdRules'
 import type {
   BookingConflict, HoldVenueResult, VenueBookingActionResult, VenueBookingListResult,
@@ -28,6 +28,8 @@ export const VENUE_BOOKING_MESSAGES = {
   loadFailed: 'Your venue booking requests could not be loaded. Please try again.',
   rlsDenied: 'You are not permitted to book venues for this event.',
   unknownVenue: 'That venue could not be found.',
+  uncertain: 'We could not confirm whether the hold was saved. Check your venue bookings before trying again.',
+  invalidTiming: 'The event timing or venue setup/turnaround durations are invalid.',
   unexpected: 'Something went wrong booking the venue. Please try again.',
 } as const
 
@@ -47,20 +49,6 @@ export async function loadTimeSlots(): Promise<TimeSlot[]> {
   return ((data ?? []) as TimeSlotRow[]).map((row) => ({
     code: row.code, startsAt: row.starts_at, endsAt: row.ends_at, sortOrder: row.sort_order,
   }))
-}
-
-/** Holds that ran out still occupy cells until they are released, so free them first. */
-async function releaseExpiredHolds(venueId: string): Promise<void> {
-  const { data } = await supabase
-    .from('venue_bookings')
-    .select('id')
-    .eq('venue_id', venueId)
-    .eq('status', 'held')
-    .lt('hold_expires_at', new Date().toISOString())
-  const ids = (data ?? []).map((row: { id: string }) => row.id)
-  if (ids.length === 0) return
-  await supabase.from('venue_slot_claims').delete().in('booking_id', ids)
-  await supabase.from('venue_bookings').update({ status: 'expired' }).in('id', ids)
 }
 
 function describeError(error: { code?: string; message?: string } | null): string {
@@ -87,7 +75,7 @@ async function findConflicts(venueId: string, cells: ClaimCell[]): Promise<Booki
   if (cells.length === 0) return []
   const dates = cells.map((cell) => cell.date).sort()
   const { data, error } = await supabase
-    .from('venue_slot_claims')
+    .from('venue_effective_slot_claims')
     .select('slot_date, slot, kind')
     .eq('venue_id', venueId)
     .gte('slot_date', dates[0])
@@ -114,7 +102,7 @@ interface BookableEventRow {
 
 /**
  * Places a tentative hold on a venue for an approved event the coordinator manages. The
- * event's own start and end decide the slots; the caller never states them. The primary key
+ * event's times and venue durations decide the slots; the caller never states them. The primary key
  * on venue_slot_claims is what refuses a clash, so two coordinators racing cannot both win.
  */
 export async function holdVenue(
@@ -137,55 +125,49 @@ export async function holdVenue(
   if (!canBookForEventStatus(row.status)) return refused(VENUE_BOOKING_MESSAGES.eventNotBookable)
   if (!row.proposed_start || !row.proposed_end) return refused(VENUE_BOOKING_MESSAGES.noEventTimes)
 
-  // AC: an event can have at most one active tentative hold at a time. The database enforces
-  // this too; checking first turns a bare 23505 into something the coordinator can act on.
-  const { data: existing } = await supabase
-    .from('venue_bookings')
-    .select('id')
-    .eq('event_id', eventId)
-    .in('status', [...ACTIVE_HOLD_STATUSES])
-    .maybeSingle()
-  if (existing) return refused(VENUE_BOOKING_MESSAGES.alreadyHeld)
-
-  const slots = await loadTimeSlots()
-  const claims = claimsForEvent(new Date(row.proposed_start), new Date(row.proposed_end), slots)
-  if (claims.length === 0) return refused(VENUE_BOOKING_MESSAGES.outsideSlots)
-
-  await releaseExpiredHolds(venueId)
-
-  const { data: booking, error: bookingError } = await supabase
-    .from('venue_bookings')
-    .insert({
-      event_id: eventId,
-      venue_id: venueId,
-      requested_by: userId,
-      status: 'held',
-      hold_expires_at: holdExpiryFrom(new Date(), holdDays),
+  const { data: venue, error: venueError } = await supabase.from('venues')
+    .select('setup_minutes, turnaround_minutes').eq('id', venueId).maybeSingle()
+  if (venueError || !venue) return refused(VENUE_BOOKING_MESSAGES.unknownVenue)
+  let claims: ClaimCell[]
+  try {
+    claims = occupiedVenueCells(new Date(row.proposed_start), new Date(row.proposed_end), {
+      setupMinutes: venue.setup_minutes, turnaroundMinutes: venue.turnaround_minutes,
     })
-    .select('id')
-    .single()
-  if (bookingError || !booking) return refused(describeError(bookingError))
-
-  // One statement, so every cell is claimed or none is.
-  const { error: claimError } = await supabase.from('venue_slot_claims').insert(
-    claims.map((cell) => ({
-      venue_id: venueId, slot_date: cell.date, slot: cell.slot, kind: cell.kind, booking_id: booking.id,
-    })),
-  )
-  if (claimError) {
-    // The two inserts are not one transaction, so undo the booking row by hand.
-    await supabase.from('venue_bookings').delete().eq('id', booking.id)
-    const conflicts = claimError.code === POSTGRES_UNIQUE_VIOLATION
-      ? await findConflicts(venueId, claims)
-      : []
-    const detail = describeConflicts(conflicts)
-    const reason = detail
-      ? `${VENUE_BOOKING_MESSAGES.unavailable} Clashes: ${detail}.`
-      : describeError(claimError)
-    return refused(reason, conflicts)
+  } catch {
+    return refused(VENUE_BOOKING_MESSAGES.invalidTiming)
   }
 
-  return { ok: true, bookingId: booking.id }
+  // The server rereads assignment, times and durations under locks and atomically
+  // saves the booking and claims. Browser preview data is never authoritative.
+  let response
+  try {
+    response = await supabase.rpc('hold_venue', {
+      p_event_id: eventId, p_venue_id: venueId,
+      ...(holdDays === undefined ? {} : { p_hold_days: holdDays }),
+    })
+  } catch {
+    return refused(VENUE_BOOKING_MESSAGES.uncertain)
+  }
+  const { data, error } = response
+  if (error) {
+    if (error.code === '23505' && error.message?.includes('venue_bookings_one_active_hold_per_event')) {
+      return refused(VENUE_BOOKING_MESSAGES.alreadyHeld)
+    }
+    if (error.code === '23505') {
+      let conflicts: BookingConflict[] = []
+      try { conflicts = await findConflicts(venueId, claims) } catch { /* Best-effort detail only. */ }
+      const detail = describeConflicts(conflicts)
+      return refused(detail ? `${VENUE_BOOKING_MESSAGES.unavailable} Clashes: ${detail}.` : VENUE_BOOKING_MESSAGES.unavailable, conflicts)
+    }
+    if (error.code === '22023') {
+      if (error.message === 'Venue is not bookable') return refused(VENUE_BOOKING_MESSAGES.unavailable)
+      if (error.message === 'Event is not bookable') return refused(VENUE_BOOKING_MESSAGES.eventNotBookable)
+      return refused(VENUE_BOOKING_MESSAGES.invalidTiming)
+    }
+    return refused(describeError(error))
+  }
+  if (typeof data !== 'string' || !data) return refused(VENUE_BOOKING_MESSAGES.uncertain)
+  return { ok: true, bookingId: data }
 }
 
 /** AC: converts a live hold into a booking request for Venue Staff. The slots stay claimed,
