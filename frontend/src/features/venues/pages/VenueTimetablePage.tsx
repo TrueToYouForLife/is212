@@ -6,6 +6,8 @@ import { Field } from '../../../components/ui/FormControls'
 import { PageContainer } from '../../../components/layout/PageContainer'
 import { useCurrentUser } from '../../auth/sessionContext'
 import { BookingTimeSummary } from '../components/BookingTimeSummary'
+import { BookingSpaceFields } from '../components/BookingSpaceFields'
+import { spaceError } from '../bookingSpaceService'
 import { VenueTimetableGrid } from '../components/VenueTimetableGrid'
 import { occupiedVenueCells } from '../venueOccupiedSlots'
 import type { VenueWithBuffers } from '../venueTimetableService'
@@ -50,6 +52,7 @@ export function VenueTimetablePage() {
   const [holdError, setHoldError] = useState<string | null>(null)
   const [heldBookingId, setHeldBookingId] = useState<string | null>(null)
   const [holding, setHolding] = useState(false)
+  const [space, setSpace] = useState({ layout: '', attendance: 0 })
 
   const isCoordinator = profile?.role === 'coordinator'
   const selectedEvent = events.find((event) => event.id === eventId) ?? null
@@ -112,6 +115,7 @@ export function VenueTimetablePage() {
 
   /** Jumps the calendar to the week the chosen event falls in, so its slots are on screen. */
   const handleEventChange = async (nextEventId: string) => {
+    setSpace({ layout: '', attendance: 0 })
     setEventId(nextEventId)
     setHoldError(null)
     setHeldBookingId(null)
@@ -129,7 +133,7 @@ export function VenueTimetablePage() {
   const handleHold = async () => {
     setHolding(true)
     setHoldError(null)
-    const result = await holdVenue(eventId, venueId)
+    const result = await holdVenue(eventId, venueId, undefined, space)
     if (result.ok) {
       setHeldBookingId(result.bookingId)
       await refreshTimetable(slots, fromDate)
@@ -140,7 +144,7 @@ export function VenueTimetablePage() {
   }
 
   const eventIsBookable = canBookForEventStatus(selectedEvent ? 'approved' : null)
-  const canHold = Boolean(eventId) && plannedCells.length > 0 && !heldBookingId && eventIsBookable
+  const canHold = Boolean(eventId) && plannedCells.length > 0 && !heldBookingId && eventIsBookable && !spaceError(space)
 
   return (
     <PageContainer>
@@ -232,6 +236,8 @@ export function VenueTimetablePage() {
                   {holdError}
                 </div>
               )}
+
+              <BookingSpaceFields key={`${venueId}-${eventId}`} venueId={venueId} value={space} onChange={setSpace} disabled={holding || Boolean(heldBookingId)} />
 
               {heldBookingId ? (
                 <div role="status" className="mt-4 rounded-lg bg-emerald-50 p-3 text-sm text-emerald-800">

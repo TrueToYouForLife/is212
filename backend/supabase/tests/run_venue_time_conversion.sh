@@ -17,7 +17,7 @@ if [ "$ready" != true ]; then echo 'Temporary database did not become ready.' >&
   # 0075 was claimed before migrations that have already been deployed.
   mode="${1:-upgrade}"
   for migration in "$repo_root"/supabase/migrations/*.sql; do
-    case "$migration" in */0098_*|*/0099_*|*/0100_*) continue ;;
+    case "$migration" in */0098_*|*/0099_*|*/0100_*|*/0102_*) continue ;;
     */0075_*)
       if [ "$mode" != fresh ]; then continue; fi
       cat "$repo_root/supabase/tests/venue_time_conversion_fixture.sql"
@@ -87,6 +87,25 @@ SQL
   cat <<'SQL'
 select pg_temp.period_assert((select value=pg_temp.period_snapshot() from period_before_replay),
  'AC-012.10.8: replaying 0100 preserves events, bookings, claims, reviews, block definitions and replacement history');
+SQL
+  cat <<'SQL'
+create temp table us49_legacy_versions as select id,public.venue_replacement_source_version(original_booking_id) version
+ from public.venue_replacement_requests where status='pending';
+SQL
+  cat "$repo_root/supabase/migrations/0102_multi_venue_requirements.sql"
+  cat <<'SQL'
+select pg_temp.us47_assert(not exists(select 1 from us49_legacy_versions before
+ join public.venue_replacement_requests q using(id)
+ where before.version is distinct from public.venue_replacement_source_version(q.original_booking_id)),
+ 'AC-049.2.7: adding requirement columns preserves existing pending replacement consent versions');
+SQL
+  cat "$repo_root/supabase/tests/multi_venue_requirements.sql"
+  cat "$repo_root/supabase/migrations/0102_multi_venue_requirements.sql"
+  cat <<'SQL'
+select pg_temp.us47_assert(not exists(
+ (select * from public.venue_bookings except select * from us49_before_replay)
+ union all(select * from us49_before_replay except select * from public.venue_bookings)),
+ 'AC-049.2.5: replay preserves all legacy and new booking requirements');
 SQL
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_time_hold_races.sh" "$container"

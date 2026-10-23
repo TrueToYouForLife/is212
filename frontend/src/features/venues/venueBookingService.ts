@@ -1,5 +1,7 @@
 // src/features/venues/venueBookingService.ts
 import { supabase } from '../../lib/supabase'
+import { spaceError } from './bookingSpaceService'
+import type { BookingSpace } from './bookingSpaceService'
 import { occupiedVenueCells } from './venueOccupiedSlots'
 import type { ClaimCell, SlotCode, TimeSlot } from './slots'
 import {
@@ -109,7 +111,12 @@ export async function holdVenue(
   eventId: string,
   venueId: string,
   holdDays?: number,
+  space?: BookingSpace,
 ): Promise<HoldVenueResult> {
+  if (space) {
+    const invalid = spaceError(space)
+    if (invalid) return refused(invalid)
+  }
   const userId = await currentUserId()
   if (!userId) return refused(VENUE_BOOKING_MESSAGES.notSignedIn)
 
@@ -141,8 +148,9 @@ export async function holdVenue(
   // saves the booking and claims. Browser preview data is never authoritative.
   let response
   try {
-    response = await supabase.rpc('hold_venue', {
+    response = await supabase.rpc(space ? 'hold_venue_space' : 'hold_venue', {
       p_event_id: eventId, p_venue_id: venueId,
+      ...(space ? { p_layout: space.layout, p_attendance: space.attendance } : {}),
       ...(holdDays === undefined ? {} : { p_hold_days: holdDays }),
     })
   } catch {
@@ -160,6 +168,7 @@ export async function holdVenue(
       return refused(detail ? `${VENUE_BOOKING_MESSAGES.unavailable} Clashes: ${detail}.` : VENUE_BOOKING_MESSAGES.unavailable, conflicts)
     }
     if (error.code === '22023') {
+      if (space && (error.message?.startsWith('Choose an offered layout') || error.message?.startsWith('Venue lacks required'))) return refused(error.message)
       if (error.message === 'Venue is not bookable') return refused(VENUE_BOOKING_MESSAGES.unavailable)
       if (error.message === 'Event is not bookable') return refused(VENUE_BOOKING_MESSAGES.eventNotBookable)
       return refused(VENUE_BOOKING_MESSAGES.invalidTiming)
@@ -216,6 +225,8 @@ export async function releaseHold(bookingId: string): Promise<VenueBookingAction
 }
 
 interface BookingListRow {
+  space_layout?: string | null
+  space_attendance?: number | null
   id: string
   venue_id: string
   event_id: string
@@ -231,6 +242,7 @@ interface BookingListRow {
 
 function toSummary(row: BookingListRow): VenueBookingSummary {
   return {
+    ...(row.space_layout ? { spaceLayout: row.space_layout, spaceAttendance: row.space_attendance ?? undefined } : {}),
     id: row.id,
     venueId: row.venue_id,
     venueName: row.venues?.name ?? '',
@@ -260,7 +272,7 @@ export async function listMyVenueBookings(): Promise<VenueBookingListResult> {
   const { data, error } = await supabase
     .from('venue_bookings')
     .select(`
-      id, venue_id, event_id, status, hold_expires_at, review_note, review_alternative, created_at,
+      id, venue_id, event_id, status, hold_expires_at, review_note, review_alternative, created_at, space_layout, space_attendance,
       venues(name), events!inner(reference, name), venue_slot_claims(slot_date, slot, kind)
     `)
     .eq('events.coordinator_id', userId)
