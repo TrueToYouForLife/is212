@@ -26,7 +26,7 @@ if [ "$ready" != true ]; then echo 'Temporary database did not become ready.' >&
   # Historical suite exercises pre-conversion contracts and their migration replays.
   # Current quarter-hour upgrade/fresh-install coverage runs separately in CI.
   for migration in "$repo_root"/supabase/migrations/*.sql; do
-    case "$migration" in */0075_*|*/0098_*|*/0099_*|*/0100_*|*/0102_*) continue ;; esac
+    case "$migration" in */0075_*|*/0098_*|*/0099_*|*/0100_*|*/0102_*|*/0103_*) continue ;; esac
     cat "$migration"; printf '\n'; done
   cat "$repo_root/supabase/tests/change_request_review.sql"
   cat "$repo_root/supabase/migrations/0008_change_request_review.sql"
@@ -397,6 +397,12 @@ SQL
     cat "$repo_root/supabase/migrations/$(sed -n '1s/^-- Migration: //p' "$notice_test")"
     cat "$notice_test"
   done
+  # US27: protected catalogue reads, counts and role boundaries.
+  # Historical replays above restore older source constraints. Restore the additive status source.
+  cat "$repo_root/supabase/migrations/0105_equipment_status_changes.sql"
+  cat "$repo_root/supabase/tests/equipment_catalogue.sql"
+  cat "$repo_root/supabase/tests/equipment_status_fixture.sql"
+  cat "$repo_root/supabase/tests/equipment_status.sql"
   # US54: who can see an event's registrations, then replay 0094.
   cat "$repo_root/supabase/tests/event_registration_visibility.sql"
   cat "$repo_root/supabase/migrations/0094_event_registration_visibility.sql"
@@ -414,3 +420,4 @@ SQL
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"
 bash "$repo_root/supabase/tests/retired_venue_replacement_races.sh" "$container"
+bash "$repo_root/supabase/tests/equipment_status_races.sh" "$container"

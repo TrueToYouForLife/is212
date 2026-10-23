@@ -3,6 +3,26 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
+## US27 equipment catalogue and status
+
+Technical Support and Coordinators can browse **Equipment catalogue** at
+`/equipment/catalogue`: unit details, current locations, operational status,
+total/usable counts and combined filters. Usable stock is distinct from availability
+for an event. Technical Support can open **Manage status** to change status with a
+reason and view recorded history. Failed/stale saves keep the note and require reload;
+successful saves close the panel and refresh counts while preserving filters. Reopen
+a unit for fresh history. Coordinators remain
+read-only; no equipment creation/deletion controls are provided.
+Migrations `0104_equipment_catalogue.sql` and `0105_equipment_status_changes.sql`
+are applied, confirmed by Jaydon. Status changes record authenticated staff/time,
+exclude unusable stock and flag affected reservations through existing review and
+notification preferences, preserving reservations and unrelated reasons.
+Implementation PRs #142–144 are merged. Jaydon confirmed catalogue/status manual
+checks and the auto-close refinement passed. Evidence-sheet and Jira closeout remain
+administrative steps; delivered email is not claimed.
+See [scope and manual checks](docs/us27-equipment-catalogue.md) and
+[test cases](docs/test-cases/US27_test_cases.md).
+
 ## US41 arrangement review (completed within agreed scope)
 
 Migration 0052 adds per-arrangement review reasons after approved significant changes,

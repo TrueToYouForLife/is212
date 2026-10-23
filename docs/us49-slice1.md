@@ -78,4 +78,18 @@ release process before running this frontend against that database.
 For Scrum evidence, retain the forced-break failure, full passing summary,
 coverage report and eventual commit/PR links. Screenshots are optional when
 these logs are retained; label the forced break accurately as code-first test
-verification. This slice has not been pushed, merged or applied to shared Supabase.
+verification. This slice is pushed for review in PR #146, but has not been merged
+or applied to shared Supabase.
+
+## PR #146 conflict resolution (23 October 2026)
+
+Integrated main `dbc55c0`. The two conflicting database runners now preserve both
+0102 and 0103 exclusions from the historical migration loop, and run the US49
+requirements tests before the US33 notification and US27 equipment tests in the
+current-schema runner. No change to migration 0102 was needed.
+
+Validation after integration: 178 frontend files / 1,541 tests pass, typecheck
+and lint pass, and historical, upgrade and fresh database suites pass including
+concurrency checks. See `merge-main-frontend.log` and
+`merge-main-database-{historical,upgrade,fresh}.log` in the evidence directory.
+The earlier coverage report belongs to the original Slice 1 run.

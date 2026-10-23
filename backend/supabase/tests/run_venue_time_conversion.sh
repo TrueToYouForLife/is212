@@ -17,7 +17,7 @@ if [ "$ready" != true ]; then echo 'Temporary database did not become ready.' >&
   # 0075 was claimed before migrations that have already been deployed.
   mode="${1:-upgrade}"
   for migration in "$repo_root"/supabase/migrations/*.sql; do
-    case "$migration" in */0098_*|*/0099_*|*/0100_*|*/0102_*) continue ;;
+    case "$migration" in */0098_*|*/0099_*|*/0100_*|*/0102_*|*/0103_*) continue ;;
     */0075_*)
       if [ "$mode" != fresh ]; then continue; fi
       cat "$repo_root/supabase/tests/venue_time_conversion_fixture.sql"
@@ -107,6 +107,13 @@ select pg_temp.us47_assert(not exists(
  union all(select * from us49_before_replay except select * from public.venue_bookings)),
  'AC-049.2.5: replay preserves all legacy and new booking requirements');
 SQL
+  # US33 (0103): US12 closure alerts follow each person's channel choices; applies after 0100.
+  cat "$repo_root/supabase/migrations/0103_us12_venue_block_notice_channels.sql"
+  cat "$repo_root/supabase/tests/venue_block_notice_channels.sql"
+  # US27: catalogue reads remain valid with the current quarter-hour schema.
+  cat "$repo_root/supabase/tests/equipment_catalogue.sql"
+  cat "$repo_root/supabase/tests/equipment_status_fixture.sql"
+  cat "$repo_root/supabase/tests/equipment_status.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_time_hold_races.sh" "$container"
 bash "$repo_root/supabase/tests/venue_time_approval_races.sh" "$container"
@@ -114,3 +121,4 @@ bash "$repo_root/supabase/tests/venue_time_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/affected_venue_replacement_races.sh" "$container"
 
 bash "$repo_root/supabase/tests/continuous_venue_block_races.sh" "$container"
+bash "$repo_root/supabase/tests/equipment_status_races.sh" "$container"

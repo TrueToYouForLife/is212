@@ -33,6 +33,7 @@ import { FlaggedBookingsPage } from './features/venues/pages/FlaggedBookingsPage
 import { EventEquipmentPage } from './features/equipment/pages/EventEquipmentPage'
 import { TechSupportEquipmentPage } from './features/equipment/pages/TechSupportEquipmentPage'
 import { ReserveEquipmentPage } from './features/equipment/pages/ReserveEquipmentPage'
+import { EquipmentCataloguePage } from './features/equipment/pages/EquipmentCataloguePage'
 import { FEATURES } from './lib/features'
 import { NotificationPreferencesPage } from './features/notifications/preferences/NotificationPreferencesPage'
 import { NotificationsPage } from './features/notifications/pages/NotificationsPage'
@@ -88,6 +89,7 @@ export default function App() {
             {FEATURES.venueBlocks && <Route path="/venues/alerts" element={<FlaggedBookingsPage />} />}
             <Route path="/requests/:id/equipment" element={<EventEquipmentPage />} />
             <Route path="/equipment" element={<TechSupportEquipmentPage />} />
+            <Route path="/equipment/catalogue" element={<EquipmentCataloguePage />} />
             <Route path="/equipment/reservations" element={<ReserveEquipmentPage />} />
           </Route>
         </Routes>
