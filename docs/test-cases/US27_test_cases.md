@@ -32,7 +32,7 @@ regression coverage under their original story IDs, excluded from US27 case coun
 Manual checks: `docs/us27-equipment-catalogue.md`. Jaydon subsequently confirmed all
 seven PR1 chat groups passed. Shared evidence-sheet changes are not claimed.
 
-No product defect demonstrated so far. One unsupported Vitest matcher was corrected
+PR1 demonstrated no product defect. One unsupported Vitest matcher was corrected
 in test code. Docker daemon/sandbox startup is an environment issue. Neither is a
 product defect or a forced-break result.
 
@@ -67,7 +67,7 @@ Locations: `equipment_status_fixture.sql`, `equipment_status.sql`,
 `equipment_status_races.sh`, `run_equipment_status.sh` under `backend/supabase/tests/`.
 Status cases/races also run in the existing historical and conversion runners.
 These 18 cases bring the US27 automated case count to 29 (eight frontend, 21 SQL).
-PR3 component/service cases remain unallocated.
+PR3 component/service cases follow below.
 
 PR2 verification: focused status suite and populated replay passed; historical,
 upgrade and fresh-order database gates all exited 0, including new and existing
@@ -79,7 +79,54 @@ updates are not claimed. New status UI/manual checks remain pending PR3/deployme
 Initial status-race failure was a malformed UUID in the fixture, corrected without a
 product-code change. Do not record it as a product defect.
 
-Next unused IDs: AC-027.1.6, .2.3, .3.2, .4.4, .5.4, .6.5, .7.7, .8.6.
+## PR3 frontend cases
+
+Code-first. Unit tests exercise pure validation or mock the Supabase client. Component
+tests render real catalogue/panel UI with mocked services; they are not live database
+or browser end-to-end tests. Backend integration cases above enforce permissions,
+reservation exclusion, audit atomicity and notification delivery rules.
+
+| ID | Classification | Scenario and expected outcome |
+|---|---|---|
+| AC-027.1.6 | Component — Negative / Boundary | Failed status/history load is explicit, disables save and never invents empty history; reload restores the unit. |
+| AC-027.2.3 | Component — Happy path / Regression | Confirmed save closes the panel, refreshes stock and retains filters; another unit can be managed directly. Reopening loads fresh history/version; no-op also closes and reports no new audit/notices. |
+| AC-027.5.4 | Unit — Happy path / Negative / Boundary | Accept all four targets and version zero; trim notes; reject blank reasons, unsupported states, invalid IDs and negative/fractional/unsafe versions. |
+| AC-027.5.5 | Unit — Happy path / Regression | Read current version/history, including legacy status; submit only unit/target/note/displayed version; accept confirmed change and no-op receipts. |
+| AC-027.5.6 | Unit — Negative | Invalid inputs never send; malformed, wrong-unit, wrong-version or interrupted responses cannot report success or empty history. |
+| AC-027.5.7 | Component — Happy path / Negative | Explicit supported target and nonblank reason are required; save uses the displayed unit version. |
+| AC-027.5.8 | Component — Boundary | Pending save cannot duplicate, close, reload or change submitted values. |
+| AC-027.5.9 | Component — Negative / Regression | Stale/uncertain save keeps note/target and disables retry without automatic reload; explicit reload uses the fresh version. |
+| AC-027.8.6 | Unit — Negative | Permission, stale, validation and uncertain outcomes have safe distinct messages without internal database details. |
+| AC-027.8.7 | Component — Negative / Regression | Coordinator has no management; same-account role loss unmounts editor and ignores a late save response. |
+| AC-027.8.8 | Component — Happy path / Boundary | History displays stored actor/note and Singapore date/time across midnight, preserving legacy retired/missing meanings. |
+
+Locations: `equipmentStatusService.test.ts`, `EquipmentStatusPanel.test.tsx` under
+`frontend/src/features/equipment/__tests__/`. Pure rules live in
+`equipmentStatusValidation.ts`; Supabase calls stay in `equipmentStatusService.ts`.
+These 11 new cases bring US27 to 40 grouped automated cases (19 frontend, 21 SQL).
+PR3 targeted verification passed: all 11 new cases and six existing catalogue cases.
+Full regression results are recorded in `docs/test-evidence/us27/pr3/README.md`.
+Jaydon confirmed the chat status-flow checks and subsequent auto-close refinement
+passed on 23 October. Optional scenarios and email delivery were not separately
+confirmed. Shared sheet update remains pending.
+
+### PR3 product defect
+
+AC-027.2.3 found a genuine UI defect on 23 October 2026: a successful save refreshed
+catalogue counts/rows but could leave the open panel's old status, history and version.
+A fast async refresh can be React-batched without rendering the loading state, so
+relying on that state to unmount the panel was unsafe. The initial fix included the
+catalogue revision in the panel key to explicitly reload status/history/version.
+The same behavioural expectation passed after the fix. Jaydon subsequently requested
+automatic close on confirmed saves: this supersedes the revision key, with fresh
+status/history/version loaded when reopened. Failed saves remain open with the note.
+Failure evidence is retained at
+`docs/test-evidence/us27/pr3/AC-027.2.3-stale-status-after-save.log`.
+Owner/discovered/fixed fields: Jaydon. Record in Defects (Automated Testing); no manual
+defect is claimed. Early slow dependency reads and missing standard-library definitions
+that cleared on retry are environment issues with unconfirmed root cause, not product defects.
+
+Next unused IDs: AC-027.1.7, .2.4, .3.2, .4.4, .5.10, .6.5, .7.7, .8.9.
 
 Verification: all eight frontend cases passed in the full 1,524-test run (175 files);
 build/typecheck and lint passed. All three grouped SQL cases passed in the final

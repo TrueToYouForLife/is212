@@ -1,0 +1,15 @@
+
+> connectsphere@0.1.0 test
+> vitest run --run src/features/equipment/__tests__/equipmentStatusService.test.ts src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx src/features/equipment/__tests__/EquipmentCatalogue.test.tsx
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+ ✓ src/features/equipment/__tests__/equipmentStatusService.test.ts (4 tests) 13ms
+ ✓ src/features/equipment/__tests__/EquipmentCatalogue.test.tsx (6 tests) 373ms
+ ✓ src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx (7 tests) 928ms
+
+ Test Files  3 passed (3)
+      Tests  17 passed (17)
+   Start at  13:11:06
+   Duration  2.33s (transform 246ms, setup 309ms, collect 742ms, tests 1.31s, environment 1.39s, prepare 177ms)

@@ -77,12 +77,40 @@ constraint changes preserve existing reasons/sources. The historical runner rest
 0105 after older review-schema replays. Future US24 integration must call the checked
 status operation rather than update operational_status directly.
 
-## Remaining story scope
+## PR3: Technical Support status form and history
 
-PR3 must add the Technical Support status form and history using the displayed version,
-preserve notes on failure and require reload after uncertain/stale decisions. Coordinator
-catalogue access stays read-only. Manual verification of the new status flow follows
-deployment of 0105 and the later UI. No repair-return scheduling or automatic rebooking.
+Technical Support opens **Manage status** beside a unit in the existing catalogue.
+The panel loads the current status/version and recorded history. Four explicit targets
+are offered; no selection is inferred from legacy retired/missing statuses. Saving
+requires a reason, and sends the displayed version without actor/time fields.
+
+An in-flight save disables editing, reload and close; another unit cannot be opened
+until the panel closes. Failed saves retain the note and selected target, disable retry,
+and require **Reload unit**. Reload shows the latest status/history while keeping the
+note and target for review. No polling or silent consent refresh is added. Loading
+failure is an error, not a false empty history.
+
+Successful saves close the panel automatically and reload catalogue counts/rows,
+preserving filters and showing the success message. Another unit can then be managed
+without a separate close step. Reopening a unit loads fresh status/history/version.
+A confirmed no-op also closes and explicitly reports no new history/notices. History
+uses the stored staff name, reason and Singapore time. It is not exposed to Coordinators.
+Role/user changes unmount management and ignore late responses. Backend permissions
+remain the enforcement boundary; no equipment creation/deletion controls are added.
+
+No new migration is needed. Jaydon confirmed PR2 merged and 0105 applied before this
+portion. Jaydon reported status-flow manual checks passed, then separately confirmed
+the auto-close refinement passed on 23 October 2026. Exact fixture/account IDs and
+email delivery were not supplied. Shared evidence-sheet update remains pending.
+No repair-return scheduling, temporary catalogue seeding or automatic rebooking is added.
+
+Local PR3 verification: 11 new frontend cases and six catalogue regressions passed in
+the targeted retest; full suite passed 1,535 tests / 177 files. Coverage: 96.12% lines/
+statements, 90.60% branches, 95.22% functions. Typecheck, lint and production build passed.
+AC-027.2.3 found/fixed a stale open panel after a fast batched catalogue refresh; the
+panel was initially keyed by refresh revision; Jaydon's later usability refinement
+closes it after a confirmed save, with fresh status/history/version loaded on reopening. Failure and
+retest evidence: `docs/test-evidence/us27/pr3/`. No new database rerun is claimed.
 
 Architecture: the existing Equipment Booking module supplies catalogue/status to
 US13 requirements and US14 reservation planning. Changes can affect arrangement
@@ -107,10 +135,9 @@ Coordinator access, Organiser/Attendee refusal and existing equipment workflows.
 Exact fixture/account IDs were not supplied; offline recovery and zero-stock-specific
 manual scenarios were not separately confirmed. Evidence-sheet update is not claimed.
 
-PR2 is backend-only. Apply 0105 after the existing schema and 0104, before the later
-status UI. The PR1 frontend remains compatible. Deployment is Jaydon's responsibility;
-0105 has not been applied to shared Supabase. No additional frontend-suite pass is
-claimed for backend-only work; the previous PR1 frontend result is historical evidence.
+PR2 was backend-only and is merged; Jaydon confirmed 0105 applied. PR3 requires that
+migration before its frontend is deployed. Deployment is Jaydon's responsibility.
+The previous PR1 frontend result below is historical evidence, not a PR3 test run.
 
 Local PR2 verification passed: 18 grouped status integration cases, three races,
 populated migration replay, and historical/upgrade/fresh-order database gates (exit 0).
@@ -143,3 +170,58 @@ and Attendee accounts. Do not create or alter shared stock just for this PR.
 6. Temporarily simulate an offline browser while refreshing. An error appears;
    restoring connectivity and retrying reloads current stock. Record actual results
    and any defects in the evidence sheet; no manual pass has been recorded yet.
+
+## PR3 manual status checklist
+
+Jaydon reported the chat status-flow checks passed and separately confirmed auto-close
+passed after the refinement. The broader checklist below remains a reusable guide;
+do not infer separate execution of every optional scenario or delivered email.
+
+Use authenticated Technical Support and Coordinator accounts, disposable future events,
+and existing equipment units. Record the original unit status before changing it.
+Do not treat queued email as evidence of delivery.
+
+1. Technical Support: open a unit's **Manage status** panel. Check current status,
+   available four targets and history. Blank/whitespace-only reasons refuse saving.
+   Change an unreserved unit with a reason; verify the row/counts update and history
+   records your real account, note, old/new status and Singapore time. Where suitable,
+   verify Damaged, Under Maintenance, Unavailable and Operational transitions.
+2. Keep a type/status filter active while changing a matching unit. Global usable
+   counts update; filters stay selected, and a unit that no longer matches disappears
+   from rows and its panel closes automatically. Open another unit directly, then
+   reopen the saved unit to check fresh history. No add/delete controls exist.
+3. Coordinator records a requirement for a disposable upcoming event; Technical Support
+   reserves it. Identify the actual allocated unit (read-only lookup below if needed),
+   mark it non-operational, then Coordinator reloads event details and notifications.
+   The event/booking/quantity stay intact, a review identifies the unit and reason,
+   and unrelated review reasons remain. A new request cannot reserve that unit.
+4. Restore the unit to Operational. A conflict-free future request can use it again;
+   existing review reasons remain until the Coordinator explicitly resolves them.
+5. Open the same unit in two Technical Support tabs. Save from one, then attempt the
+   old version in the other: stale save is refused, note stays, retry is disabled.
+   Explicitly reload, review the new status and save with the retained note.
+6. Simulate a failed request/offline save on an unreserved test unit. The UI keeps the
+   note and requires reload before retry. Check actual history after reconnecting:
+   a lost response may have committed, so do not assume the operation failed.
+7. Coordinator can browse the catalogue but has no management/history controls.
+   Organiser and Attendee remain denied catalogue access. Existing requests,
+   reservations and Organiser arrangement summaries still work.
+8. Where notification preferences are enabled, verify in-app-only/email-only choices
+   for **Arrangements needing review**. Reviews must persist independently of channels.
+   Email outbox/queuing and actual email delivery are distinct results.
+
+Read-only administrative lookup to identify a test event's actual reserved units:
+
+```sql
+select e.reference, i.asset_tag, i.id as item_id, a.status
+from public.equipment_allocations a
+join public.equipment_items i on i.id = a.item_id
+join public.equipment_booking_lines l on l.id = a.line_id
+join public.equipment_bookings b on b.id = l.booking_id
+join public.events e on e.id = b.event_id
+where e.reference = 'YOUR-TEST-EVENT-REFERENCE'
+  and a.status in ('reserved', 'checked_out');
+```
+
+Use real signed-in accounts for UI actions. Manual results above are Jaydon-reported;
+individual execution timestamps, fixture IDs and delivery results were not supplied.

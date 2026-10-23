@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { loadEquipmentCatalogue, type EquipmentCatalogue } from '../equipmentCatalogueService'
 import { catalogueStatusGroup, catalogueStatusLabel, catalogueStatusOptions } from '../catalogueStatus'
+import { EquipmentStatusPanel } from './EquipmentStatusPanel'
 
-export function EquipmentCatalogueView() {
+export function EquipmentCatalogueView({ canManage = false }: { canManage?: boolean }) {
   const [data, setData] = useState<EquipmentCatalogue | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -10,6 +11,8 @@ export function EquipmentCatalogueView() {
   const [type, setType] = useState('')
   const [location, setLocation] = useState('')
   const [status, setStatus] = useState('')
+  const [selected, setSelected] = useState<string | null>(null)
+  const [notice, setNotice] = useState<string | null>(null)
   useEffect(() => {
     let active = true
     setLoading(true)
@@ -34,6 +37,16 @@ export function EquipmentCatalogueView() {
     && (!location || unit.locationId === location) && (!status || catalogueStatusGroup(unit.status) === status))
   const selectClass = 'mt-1 block rounded border border-slate-300 p-2'
   return <div className="space-y-6">
+    {notice && <p role="status" className="rounded bg-green-50 p-3 text-green-800">{notice}</p>}
+    {canManage && selected && <EquipmentStatusPanel key={selected} itemId={selected}
+      assetTag={data.units.find((unit) => unit.id === selected)?.assetTag ?? 'Selected unit'}
+      onClose={() => setSelected(null)} onSaved={(result) => {
+        setNotice(result.changed
+          ? `Status updated. ${result.reviewCount} ${result.reviewCount === 1 ? 'reservation was' : 'reservations were'} flagged for review.`
+          : 'Status unchanged. No new history or notifications were created.')
+        setSelected(null)
+        setRevision((value) => value + 1)
+      }} />}
     <section aria-label="Equipment stock totals">
       <h2 className="text-lg font-semibold">Stock by type</h2>
       <p className="text-sm text-slate-600">Totals cover all locations and statuses, regardless of filters. Usable means Operational; availability for an event also depends on reservations and transfer time.</p>
@@ -55,18 +68,21 @@ export function EquipmentCatalogueView() {
         <option value="">All statuses</option>{catalogueStatusOptions.map((item) => <option key={item}>{item}</option>)}
       </select></label>
       <button type="button" onClick={() => { setType(''); setLocation(''); setStatus('') }}>Reset filters</button>
-      <button type="button" onClick={() => setRevision((v) => v + 1)}>Refresh catalogue</button>
+      <button type="button" disabled={selected !== null} onClick={() => setRevision((v) => v + 1)}>Refresh catalogue</button>
     </div>
     <p role="status">{units.length} equipment {units.length === 1 ? 'unit' : 'units'} shown</p>
     {units.length === 0 ? <p>{data.units.length === 0 ? 'No equipment units in the catalogue.' : 'No equipment units match these filters.'}</p>
       : <div className="overflow-x-auto"><table className="w-full text-left text-sm">
         <caption className="sr-only">Equipment units</caption>
-        <thead><tr>{['Asset tag', 'Type', 'Description', 'Location', 'Operational status'].map((title) => <th key={title} scope="col" className="p-3">{title}</th>)}</tr></thead>
+        <thead><tr>{['Asset tag', 'Type', 'Description', 'Location', 'Operational status', ...(canManage ? ['Status management'] : [])].map((title) => <th key={title} scope="col" className="p-3">{title}</th>)}</tr></thead>
         <tbody>{units.map((unit) => <tr key={unit.id} className="border-t">
           <td className="p-3">{unit.assetTag}</td><td className="p-3">{types.get(unit.typeId)?.name}</td>
           <td className="p-3">{types.get(unit.typeId)?.description?.trim() || 'No description recorded'}</td>
           <td className="p-3">{unit.locationName} — {unit.locationDescription}</td>
           <td className="p-3">{catalogueStatusLabel(unit.status)}</td>
+          {canManage && <td className="p-3"><button type="button" disabled={selected !== null}
+            className="rounded border border-slate-300 px-3 py-2 disabled:opacity-50"
+            onClick={() => { setSelected(unit.id); setNotice(null) }} aria-label={`Manage status for ${unit.assetTag}`}>Manage status</button></td>}
         </tr>)}</tbody>
       </table></div>}
   </div>
