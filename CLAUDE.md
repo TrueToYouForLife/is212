@@ -1,3 +1,27 @@
+# US27 PR3 — status UI, 23 October 2026
+- Branch `us27-equipment-status-ui`; PR2 merged and 0105 applied (Jaydon confirmed).
+  No new migration. User owns Git, deployment and manual verification. Code-first.
+- Technical Support gets Manage status in the existing catalogue. Load current version
+  and history via 0105 RPC; four explicit targets and required reason. Coordinator read-only.
+- Pending saves disable edits/reload/close; selected panel blocks other management opens
+  and catalogue refresh. Failed saves keep note/target, lock retry, require explicit reload.
+  No silent consent refresh. Confirmed saves (including no-op) automatically close the
+  panel and refresh stock, retaining filters/success feedback; reopening loads fresh history.
+- History displays stored actor/note and Singapore time. Role/account changes unmount
+  management and ignore late responses. Backend remains permission enforcement.
+- Eleven new cases passed; full suite 1,535 tests / 177 files, coverage 96.12% lines/
+  statements, 90.60% branches, 95.22% functions. Typecheck/lint/build passed.
+- Genuine AC-027.2.3 defect fixed: fast batched catalogue refresh left the panel stale.
+  Initially fixed with a refresh revision key; later superseded by Jaydon's requested
+  auto-close after success. Reopening loads fresh status/history/version. Failure evidence
+  in docs/test-evidence/us27/pr3/. Same regression case extended for auto-close/unit switch.
+- Early slow dependency reads/missing Promise definitions cleared on retry; environment
+  cause unconfirmed, not a product defect. No lockfile/config/dependency edits for this PR.
+  Jaydon confirmed status-flow manual checks and the subsequent auto-close refinement
+  passed on 23 October. No exact account/fixture IDs or delivered-email result supplied.
+  Sheet update, PR merge and deployed frontend verification remain with Jaydon.
+  Evidence-sheet rows belong in chat, never TSV files. No temporary catalogue seed added.
+
 # US27 PR2 — status backend, 23 October 2026
 - Branch `us27-equipment-status-backend`; Jaydon claimed 0105. Code-first; user owns
   commits, PRs and deployment. No frontend edits or status UI in this portion.

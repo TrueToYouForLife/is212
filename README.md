@@ -3,18 +3,23 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
-## US27 equipment catalogue — PR1
+## US27 equipment catalogue and status
 
 Technical Support and Coordinators can browse **Equipment catalogue** at
 `/equipment/catalogue`: unit details, current locations, operational status,
 total/usable counts and combined filters. Usable stock is distinct from availability
-for an event. No add/delete or status-edit controls are included in this portion.
+for an event. Technical Support can open **Manage status** to change status with a
+reason and view recorded history. Failed/stale saves keep the note and require reload;
+successful saves close the panel and refresh counts while preserving filters. Reopen
+a unit for fresh history. Coordinators remain
+read-only; no equipment creation/deletion controls are provided.
 Migration `0104_equipment_catalogue.sql` is applied and Jaydon confirmed the PR1 manual
 checks passed. The next backend portion, `0105_equipment_status_changes.sql`, adds
 Technical Support-only versioned changes with notes/audit, immediate availability
 exclusion and affected-reservation reviews/notices. It shares existing reservation
 locking and notification preferences, preserving reservations and unrelated reasons.
-0105 deployment and the later status-editing UI remain pending; US27 is still In Progress.
+Jaydon confirmed 0105 applied. PR3 frontend deployment, status-flow manual checks and
+evidence-sheet closeout remain pending; US27 is still In Progress.
 See [scope and manual checks](docs/us27-equipment-catalogue.md) and
 [test cases](docs/test-cases/US27_test_cases.md).
 
