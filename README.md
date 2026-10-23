@@ -13,13 +13,13 @@ reason and view recorded history. Failed/stale saves keep the note and require r
 successful saves close the panel and refresh counts while preserving filters. Reopen
 a unit for fresh history. Coordinators remain
 read-only; no equipment creation/deletion controls are provided.
-Migration `0104_equipment_catalogue.sql` is applied and Jaydon confirmed the PR1 manual
-checks passed. The next backend portion, `0105_equipment_status_changes.sql`, adds
-Technical Support-only versioned changes with notes/audit, immediate availability
-exclusion and affected-reservation reviews/notices. It shares existing reservation
-locking and notification preferences, preserving reservations and unrelated reasons.
-Jaydon confirmed 0105 applied. PR3 frontend deployment, status-flow manual checks and
-evidence-sheet closeout remain pending; US27 is still In Progress.
+Migrations `0104_equipment_catalogue.sql` and `0105_equipment_status_changes.sql`
+are applied, confirmed by Jaydon. Status changes record authenticated staff/time,
+exclude unusable stock and flag affected reservations through existing review and
+notification preferences, preserving reservations and unrelated reasons.
+Implementation PRs #142–144 are merged. Jaydon confirmed catalogue/status manual
+checks and the auto-close refinement passed. Evidence-sheet and Jira closeout remain
+administrative steps; delivered email is not claimed.
 See [scope and manual checks](docs/us27-equipment-catalogue.md) and
 [test cases](docs/test-cases/US27_test_cases.md).
 

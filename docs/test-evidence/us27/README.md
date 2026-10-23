@@ -1,6 +1,24 @@
 # US27 test evidence
 
-Owner: Jaydon. PR1 verification: 23 October 2026.
+Owner: Jaydon. Updated: 23 October 2026.
+
+## Closeout status
+
+Implementation PRs #142/#143/#144 merged. Jaydon confirmed 0104/0105 applied and
+catalogue/status manual groups plus auto-close passed. See `manual-results.md` for
+reported scope; sheet update and Jira transition remain administrative work.
+
+US27 has 40 grouped automated cases: 19 frontend and 21 SQL. PR3's full frontend run
+passed 1,535 tests / 177 files (96.12% lines/statements, 90.60% branches, 95.22%
+functions). After the later auto-close refinement, 13 targeted tests / two files,
+typecheck/build and lint passed. PR2 database gates, races and replay passed.
+One genuine product defect, AC-027.2.3, was fixed/retested; failure evidence and final
+verification limits are in `pr3/README.md`. No new suite run is claimed for closeout.
+
+The sections below are historical PR1/PR2 checkpoints. Their pending deployment/manual
+statements are superseded by this closeout status. Logs themselves remain unchanged.
+
+## PR1 checkpoint
 
 Logs record actual local commands/results. Database runs use disposable local Docker
 PostgreSQL with simulated Auth interfaces. They do not demonstrate shared Supabase

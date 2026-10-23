@@ -2,8 +2,9 @@
 
 Owner: Jaydon. Updated: 23 October 2026. Code-first development.
 
-PR1 covers AC-027.1–4 with the 11 grouped cases below. Related assertions share
-one ID. PR2's 18 backend cases for AC-027.5–8 follow; status UI cases remain for PR3.
+Implementation merged in PRs #142–144. The 40 grouped cases below cover all eight
+ACs: 11 catalogue, 18 status backend and 11 status UI cases (19 frontend, 21 SQL).
+Related assertions share one ID. Portion-specific notes retain historical results.
 
 | ID | Classification | Scenario and expected outcome |
 |---|---|---|
@@ -75,7 +76,7 @@ concurrency checks. Logs: `docs/test-evidence/us27/pr2/`. No frontend code chang
 the previous PR1 frontend totals are not presented as a new PR2 run.
 
 PR1 manual groups in chat were confirmed passed by Jaydon on 23 October; shared sheet
-updates are not claimed. New status UI/manual checks remain pending PR3/deployment.
+updates are not claimed. Status UI and reported manual results appear under PR3 below.
 Initial status-race failure was a malformed UUID in the fixture, corrected without a
 product-code change. Do not record it as a product defect.
 
@@ -128,10 +129,11 @@ that cleared on retry are environment issues with unconfirmed root cause, not pr
 
 Next unused IDs: AC-027.1.7, .2.4, .3.2, .4.4, .5.10, .6.5, .7.7, .8.9.
 
-Verification: all eight frontend cases passed in the full 1,524-test run (175 files);
+Historical PR1 verification: all eight frontend cases passed in the full 1,524-test run (175 files);
 build/typecheck and lint passed. All three grouped SQL cases passed in the final
 focused, historical, quarter-hour upgrade and fresh migration-order runs, including
 the reserved-unit/snapshot extension. All database gates exited 0 and existing
 concurrency checks passed. Logs: `docs/test-evidence/us27/`. The initial approval
-interruption was resolved; no new product defect was found. CI and manual checks
-remain pending. Shared evidence-sheet rows are supplied through chat.
+interruption was resolved; no product defect was found in PR1. Later verification and
+the PR3 product defect are recorded above. Manual results: `docs/test-evidence/us27/manual-results.md`.
+Shared evidence-sheet rows are supplied through chat; sheet updates are not claimed.
