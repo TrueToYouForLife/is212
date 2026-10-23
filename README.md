@@ -9,10 +9,14 @@ Technical Support and Coordinators can browse **Equipment catalogue** at
 `/equipment/catalogue`: unit details, current locations, operational status,
 total/usable counts and combined filters. Usable stock is distinct from availability
 for an event. No add/delete or status-edit controls are included in this portion.
-Apply `0104_equipment_catalogue.sql` before deploying this frontend. Status changes,
-audit and affected-reservation reviews/notifications remain for later portions.
+Migration `0104_equipment_catalogue.sql` is applied and Jaydon confirmed the PR1 manual
+checks passed. The next backend portion, `0105_equipment_status_changes.sql`, adds
+Technical Support-only versioned changes with notes/audit, immediate availability
+exclusion and affected-reservation reviews/notices. It shares existing reservation
+locking and notification preferences, preserving reservations and unrelated reasons.
+0105 deployment and the later status-editing UI remain pending; US27 is still In Progress.
 See [scope and manual checks](docs/us27-equipment-catalogue.md) and
-[test cases](docs/test-cases/US27_test_cases.md). Deployment/manual checks are pending.
+[test cases](docs/test-cases/US27_test_cases.md).
 
 ## US41 arrangement review (completed within agreed scope)
 

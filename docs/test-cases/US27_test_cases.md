@@ -2,8 +2,8 @@
 
 Owner: Jaydon. Updated: 23 October 2026. Code-first development.
 
-PR1 covers AC-027.1–4. These 11 grouped cases are requirement-based; related
-assertions share one ID. AC-027.5–8 remain for later portions.
+PR1 covers AC-027.1–4 with the 11 grouped cases below. Related assertions share
+one ID. PR2's 18 backend cases for AC-027.5–8 follow; status UI cases remain for PR3.
 
 | ID | Classification | Scenario and expected outcome |
 |---|---|---|
@@ -29,14 +29,57 @@ Frontend: `frontend/src/features/equipment/__tests__/equipmentCatalogueService.t
 and `EquipmentCatalogue.test.tsx`. Existing navigation/equipment tests provide
 regression coverage under their original story IDs, excluded from US27 case counts.
 
-Manual checks: `docs/us27-equipment-catalogue.md`. All pending Jaydon verification.
-No shared evidence-sheet changes or manual results are claimed.
+Manual checks: `docs/us27-equipment-catalogue.md`. Jaydon subsequently confirmed all
+seven PR1 chat groups passed. Shared evidence-sheet changes are not claimed.
 
 No product defect demonstrated so far. One unsupported Vitest matcher was corrected
 in test code. Docker daemon/sandbox startup is an environment issue. Neither is a
 product defect or a forced-break result.
 
-Next unused IDs: AC-027.1.6, .2.3, .3.2, .4.4, .5.1, .6.1, .7.1, .8.1.
+## PR2 backend cases
+
+All are PostgreSQL integration tests with real database permissions and simulated Auth
+claims. Code was written first. Multiple assertions of one ID form one grouped case.
+Failure injections test rollback; they are deliberate refusals, not discovered defects.
+
+| ID | Classification | Scenario and expected outcome |
+|---|---|---|
+| AC-027.5.1 | Integration — Happy path / Regression | Both staff accounts can perform all four supported status transitions with notes; legacy retired/missing values remain readable without rewriting history. |
+| AC-027.5.2 | Integration — Negative / Boundary | Refuse blank note, unsupported target, missing/stale version and unknown unit; exact snapshots remain unchanged. |
+| AC-027.5.3 | Integration — Boundary | Same-status save is a no-op: no version, audit, flag or notice added. |
+| AC-027.6.1 | Integration — Happy path / Boundary | Immediately exclude Damaged, Under Maintenance and Unavailable from future availability; Operational starts available. |
+| AC-027.6.2 | Integration — Negative | Actual reservation operation refuses unusable stock without deciding the pending requirement. |
+| AC-027.6.3 | Integration — Happy path / Regression | Operational restoration makes stock eligible without clearing existing reviews or moving allocations. |
+| AC-027.6.4 | Integration — Boundary / Regression | Status transaction wins type lock; waiting reservation rechecks current status and fails without allocating. |
+| AC-027.7.1 | Integration — Happy path / Boundary | Flag upcoming reserved/checked-out bookings once each, including unassigned events. Exclude past/exact-start/closed events, cancelled bookings and returned/cancelled allocations. |
+| AC-027.7.2 | Integration — Regression | Compare exact event, booking, line and allocation snapshots; independent review reason stays open. |
+| AC-027.7.3 | Integration — Happy path / Negative | Notify assigned Coordinator once per affected booking via both default channels; no requester fallback for unassigned event; feed contains one in-app copy without email duplication. |
+| AC-027.7.4 | Integration — Boundary | Email-only, in-app-only and both-off preferences affect notices while every change still creates its own review/audit. |
+| AC-027.7.5 | Integration — Negative / Regression | Inject notice and review failures; complete status/version/audit/review/notice/reservation snapshots remain unchanged. |
+| AC-027.7.6 | Integration — Boundary / Regression | Reservation wins lock; waiting status change sees the allocation, retains it and creates its review. |
+| AC-027.8.1 | Integration — Happy path | Per-unit monotonic versions record actual staff IDs/names, trimmed note, old/new status and server time. |
+| AC-027.8.2 | Integration — Negative | Even Technical Support cannot directly update status/version, rewrite/delete audit or call private review helper. |
+| AC-027.8.3 | Integration — Negative | All other roles and signed-out claims cannot manage status/history; unrelated Coordinator cannot read affected reviews. |
+| AC-027.8.4 | Integration — Boundary / Regression | Simultaneous staff edits accept one version and preserve exactly one audit. |
+| AC-027.8.5 | Integration — Regression | Replay 0105 with populated status history/reservations/reviews/notices; saved snapshots remain identical. |
+
+Locations: `equipment_status_fixture.sql`, `equipment_status.sql`,
+`equipment_status_races.sh`, `run_equipment_status.sh` under `backend/supabase/tests/`.
+Status cases/races also run in the existing historical and conversion runners.
+These 18 cases bring the US27 automated case count to 29 (eight frontend, 21 SQL).
+PR3 component/service cases remain unallocated.
+
+PR2 verification: focused status suite and populated replay passed; historical,
+upgrade and fresh-order database gates all exited 0, including new and existing
+concurrency checks. Logs: `docs/test-evidence/us27/pr2/`. No frontend code changed;
+the previous PR1 frontend totals are not presented as a new PR2 run.
+
+PR1 manual groups in chat were confirmed passed by Jaydon on 23 October; shared sheet
+updates are not claimed. New status UI/manual checks remain pending PR3/deployment.
+Initial status-race failure was a malformed UUID in the fixture, corrected without a
+product-code change. Do not record it as a product defect.
+
+Next unused IDs: AC-027.1.6, .2.3, .3.2, .4.4, .5.4, .6.5, .7.7, .8.6.
 
 Verification: all eight frontend cases passed in the full 1,524-test run (175 files);
 build/typecheck and lint passed. All three grouped SQL cases passed in the final

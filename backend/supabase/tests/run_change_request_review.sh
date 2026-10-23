@@ -398,7 +398,11 @@ SQL
     cat "$notice_test"
   done
   # US27: protected catalogue reads, counts and role boundaries.
+  # Historical replays above restore older source constraints. Restore the additive status source.
+  cat "$repo_root/supabase/migrations/0105_equipment_status_changes.sql"
   cat "$repo_root/supabase/tests/equipment_catalogue.sql"
+  cat "$repo_root/supabase/tests/equipment_status_fixture.sql"
+  cat "$repo_root/supabase/tests/equipment_status.sql"
   # US54: who can see an event's registrations, then replay 0094.
   cat "$repo_root/supabase/tests/event_registration_visibility.sql"
   cat "$repo_root/supabase/migrations/0094_event_registration_visibility.sql"
@@ -416,3 +420,4 @@ SQL
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"
 bash "$repo_root/supabase/tests/retired_venue_replacement_races.sh" "$container"
+bash "$repo_root/supabase/tests/equipment_status_races.sh" "$container"
