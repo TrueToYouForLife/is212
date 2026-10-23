@@ -1,3 +1,25 @@
+# US27 PR2 — status backend, 23 October 2026
+- Branch `us27-equipment-status-backend`; Jaydon claimed 0105. Code-first; user owns
+  commits, PRs and deployment. No frontend edits or status UI in this portion.
+- 0105 adds versioned get/set_equipment_status RPCs, required notes and actual staff/time
+  audit. Preserve legacy retired/missing values; new target Unavailable stored unavailable.
+- Share US14 type lock before unit lock/re-read. Close direct browser status/version
+  updates while preserving unrelated unit edits. Audit has no browser write permissions.
+- New equipment_status_change_id review source and equipment_non_operational reason reuse
+  existing Coordinator indicators/resolution. Retain all reservations and independent reasons.
+  Upcoming Approved/Planning/Confirmed reserved/checked-out arrangements qualify; exact-start,
+  past/closed and returned/cancelled do not. Unassigned events flag without requester notices.
+- Existing arrangement_review preferences govern in-app copies and typed queued email via
+  US33 helpers. This producer adds default email; metadata records email support. No old
+  review/notification helper overrides. Flag this shared detail to Jeremiah for PR review.
+- Focused 18-case status suite, three races and populated 0105 replay passed. Final DB
+  historical/upgrade/fresh gates all exited 0. Malformed UUID in initial race fixture was corrected;
+  no product defect demonstrated. No new full frontend-suite result claimed for backend work.
+- PR1 merged #142; Jaydon confirmed 0104 applied and all seven chat manual groups passed.
+  Do not infer offline/zero-stock-specific checks or claim sheet updated. 0105 not deployed.
+- Next portion: Technical Support status form/history using loaded version; Coordinator
+  catalogue remains read-only. Do not implement PR3 until Jaydon reviews this portion.
+
 # US27 PR1 — equipment catalogue, 23 October 2026
 - Branch `us27-equipment-catalogue`; Jaydon claimed 0104. Code-first; user handles Git,
   PRs and shared deployment. AC-027.1–4 only; status writes/reviews/audit are later portions.

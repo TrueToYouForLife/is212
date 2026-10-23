@@ -30,3 +30,19 @@ was inaccessible/stopped; starting Docker Desktop allowed local database testing
   not product defects. The accidental approval rejection was resolved when Jaydon
   authorised resuming the checks. Frontend results above remain valid; no product
   code changed after that full run. CI, shared deployment and manual checks remain pending.
+
+## PR2 status backend checkpoint
+
+Jaydon confirmed PR1 merged (#142), 0104 applied, and all seven chat manual groups
+passed. Shared sheet updates and separate offline/zero-stock manual execution are
+not claimed. PR2 uses claimed 0105 and has not been deployed to shared Supabase.
+
+The focused status integration suite (18 grouped cases), all three status/reservation
+races and populated migration replay passed. The initial race script used malformed
+fixture UUIDs, corrected in test code; this is not a product defect. Deliberate
+review/notice failures and losing concurrency calls are expected refusals.
+Historical, upgrade and fresh-order final PR2 gates all exited 0, including the
+new status races and existing regressions. Logs are under `pr2/database-focused.log`,
+`pr2/database-historical.log`, `pr2/database-upgrade.log` and `pr2/database-fresh.log`.
+No new frontend full-suite result is claimed for this backend-only portion.
+Migration 0105, status UI and manual status-flow verification are not deployed/completed.

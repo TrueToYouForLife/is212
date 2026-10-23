@@ -93,6 +93,8 @@ SQL
   cat "$repo_root/supabase/tests/venue_block_notice_channels.sql"
   # US27: catalogue reads remain valid with the current quarter-hour schema.
   cat "$repo_root/supabase/tests/equipment_catalogue.sql"
+  cat "$repo_root/supabase/tests/equipment_status_fixture.sql"
+  cat "$repo_root/supabase/tests/equipment_status.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_time_hold_races.sh" "$container"
 bash "$repo_root/supabase/tests/venue_time_approval_races.sh" "$container"
@@ -100,3 +102,4 @@ bash "$repo_root/supabase/tests/venue_time_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/affected_venue_replacement_races.sh" "$container"
 
 bash "$repo_root/supabase/tests/continuous_venue_block_races.sh" "$container"
+bash "$repo_root/supabase/tests/equipment_status_races.sh" "$container"
