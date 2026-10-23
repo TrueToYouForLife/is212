@@ -91,6 +91,8 @@ SQL
   # US33 (0103): US12 closure alerts follow each person's channel choices; applies after 0100.
   cat "$repo_root/supabase/migrations/0103_us12_venue_block_notice_channels.sql"
   cat "$repo_root/supabase/tests/venue_block_notice_channels.sql"
+  # US27: catalogue reads remain valid with the current quarter-hour schema.
+  cat "$repo_root/supabase/tests/equipment_catalogue.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_time_hold_races.sh" "$container"
 bash "$repo_root/supabase/tests/venue_time_approval_races.sh" "$container"

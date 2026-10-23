@@ -1,3 +1,22 @@
+# US27 PR1 — equipment catalogue, 23 October 2026
+- Branch `us27-equipment-catalogue`; Jaydon claimed 0104. Code-first; user handles Git,
+  PRs and shared deployment. AC-027.1–4 only; status writes/reviews/audit are later portions.
+- Reuse 0019 types/units and type.notes description; catalogue RPC is restricted to
+  Technical Support/Coordinator. No new direct unit permissions or creation/deletion UI.
+- Global counts include zero-unit types; usable = Operational even if reserved for a date.
+  Three unit filters intersect; retired/missing retain reasons under Unavailable.
+- Preserve US13/14 routes, Organiser type choices and US42 summaries. Next status portion
+  must share the per-type reservation lock, close direct status-write bypasses, retain
+  allocations/independent reasons, and use current shared notification helpers/preferences.
+- Cases/manual steps: docs/us27-equipment-catalogue.md, docs/test-cases/US27_test_cases.md.
+  Sheet rows belong in chat, never repo TSV. No manual pass/deployment claimed.
+- Frontend final: 175 files / 1,524 tests passed, coverage 96.07% lines/statements,
+  90.53% branches, 95.13% functions; build/typecheck and lint passed. Final focused,
+  historical, quarter-hour upgrade and fresh-order DB gates exited 0, including
+  reserved-unit/snapshot assertions and existing concurrency regressions. Accidental
+  Docker approval interruption resolved; CI, shared deployment and manual checks pending.
+  No product defect demonstrated; unsupported test matcher corrected in test code.
+
 # US48 documentation closeout — 21 October 2026
 - Branch `us48-docs-closeout`; implementation merged in #127/#128. PR #128 shows
   four checks passed. 0099 applied (Jaydon confirmed); 0100-dependent workflow manually

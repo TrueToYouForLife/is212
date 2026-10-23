@@ -40,6 +40,7 @@ function navItemsFor(role: UserRole | null): NavItem[] {
         home,
         { label: 'Requests', to: '/requests' },
         { label: 'Venues', to: '/venues/search' },
+        { label: 'Equipment catalogue', to: '/equipment/catalogue' },
         { label: 'Availability', to: '/venues/availability' },
         ...(FEATURES.venueSuitability ? [{ label: 'Suitability', to: '/venues/suitability' }] : []),
         ...(FEATURES.venueBooking ? [{ label: 'My bookings', to: '/venues/bookings' }] : []),
@@ -53,6 +54,7 @@ function navItemsFor(role: UserRole | null): NavItem[] {
       return [
         home,
         { label: 'Equipment', to: '/equipment' },
+        { label: 'Equipment catalogue', to: '/equipment/catalogue' },
         { label: 'Reserve equipment', to: '/equipment/reservations' },
       ]
     case 'attendee':
