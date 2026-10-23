@@ -3,6 +3,17 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
+## US27 equipment catalogue — PR1
+
+Technical Support and Coordinators can browse **Equipment catalogue** at
+`/equipment/catalogue`: unit details, current locations, operational status,
+total/usable counts and combined filters. Usable stock is distinct from availability
+for an event. No add/delete or status-edit controls are included in this portion.
+Apply `0104_equipment_catalogue.sql` before deploying this frontend. Status changes,
+audit and affected-reservation reviews/notifications remain for later portions.
+See [scope and manual checks](docs/us27-equipment-catalogue.md) and
+[test cases](docs/test-cases/US27_test_cases.md). Deployment/manual checks are pending.
+
 ## US41 arrangement review (completed within agreed scope)
 
 Migration 0052 adds per-arrangement review reasons after approved significant changes,

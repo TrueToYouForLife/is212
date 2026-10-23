@@ -397,6 +397,8 @@ SQL
     cat "$repo_root/supabase/migrations/$(sed -n '1s/^-- Migration: //p' "$notice_test")"
     cat "$notice_test"
   done
+  # US27: protected catalogue reads, counts and role boundaries.
+  cat "$repo_root/supabase/tests/equipment_catalogue.sql"
   # US54: who can see an event's registrations, then replay 0094.
   cat "$repo_root/supabase/tests/event_registration_visibility.sql"
   cat "$repo_root/supabase/migrations/0094_event_registration_visibility.sql"
