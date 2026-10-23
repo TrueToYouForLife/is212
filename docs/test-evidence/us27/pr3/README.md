@@ -1,6 +1,11 @@
 # US27 PR3 — frontend evidence
 
-Owner: Jaydon. Verification date: 23 October 2026. Code-first development.
+Owner: Jaydon. Verification date: 23 October 2026.
+
+PR3 merged in #144. Jaydon reported the chat status-flow and subsequent auto-close
+manual checks passed; see `../manual-results.md`. Shared evidence-sheet update remains
+pending. The verification section below describes the pre-refinement checkpoint;
+final auto-close checks are recorded at the end. No full-suite rerun is claimed. Code-first development.
 
 Eleven new cases cover status validation/service handling and real panel/catalogue
 components with mocked services. They do not establish live Supabase Auth/API access,
@@ -35,7 +40,8 @@ No simulated break is presented as a discovered defect.
 - `targeted-retest.log` and `typecheck.log` retain the successful targeted/final checks.
 - No database test rerun is claimed for this frontend-only portion. PR2's real PostgreSQL,
   rollback, permission and concurrency evidence remains under `../pr2/`.
-- Status-flow manual checks and evidence-sheet updates remain pending. Sheet rows are
+- At this checkpoint, status-flow manual checks and sheet updates were pending; later
+  manual feedback is recorded below. Sheet rows are
   supplied through chat; do not create TSV files or populate Automated Test Case Runs.
 
 ## Manual feedback refinement

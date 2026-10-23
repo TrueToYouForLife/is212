@@ -1,3 +1,20 @@
+# US27 documentation closeout — 23 October 2026
+- Branch `us27-docs-closeout`; implementation merged in #142/#143/#144.
+  Jaydon confirmed 0104 and 0105 applied, PR1 manual groups, status-flow checks and
+  subsequent auto-close check passed. Manual results: docs/test-evidence/us27/manual-results.md.
+- All eight ACs implemented; 40 grouped automated cases (19 frontend, 21 SQL).
+  Latest full frontend run: 1,535 tests / 177 files; coverage 96.12% lines/statements,
+  90.60% branches, 95.22% functions. This run preceded the auto-close refinement;
+  afterward 13 targeted tests / two files, typecheck/build and lint passed.
+  PR2 focused, historical, upgrade/fresh database gates, races and replay passed.
+- One genuine product defect, AC-027.2.3, fixed and retested; failure log retained.
+  Fixture/matcher mistakes and slow dependency reads are not product defects.
+- Shared evidence-sheet update and Jira transition remain with Jaydon. Sheet rows
+  belong in chat, never TSV files. No new migration or application changes for closeout;
+  no full-suite rerun claimed. Deployment timestamp/account IDs and delivered email
+  were not supplied; optional manual scenarios are not inferred.
+- Earlier US27 sections below are historical checkpoints, superseded by this status.
+
 # US27 PR3 — status UI, 23 October 2026
 - Branch `us27-equipment-status-ui`; PR2 merged and 0105 applied (Jaydon confirmed).
   No new migration. User owns Git, deployment and manual verification. Code-first.

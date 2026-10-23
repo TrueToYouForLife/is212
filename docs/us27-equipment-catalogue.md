@@ -3,6 +3,19 @@
 Owner: Jaydon. Jira: SCRUM-225. Updated: 23 October 2026.
 Code-first development, delivered in separate PR portions.
 
+## Current closeout
+
+Implementation PRs #142 (catalogue), #143 (status backend) and #144 (status UI) are
+merged. Jaydon confirmed migrations 0104/0105 applied and the chat catalogue/status
+manual groups, including the subsequent auto-close refinement, passed on 23 October
+2026. All eight ACs have implementation and passing automated coverage: 40 grouped
+cases (19 frontend, 21 PostgreSQL integration). Manual scope and limits are recorded
+in `docs/test-evidence/us27/manual-results.md`.
+
+Shared evidence-sheet update, this documentation PR and the Jira transition remain
+with Jaydon. No new migration or product change is included in closeout. Earlier
+portion-specific statements below describe scope at that stage.
+
 ## PR1: catalogue (AC-027.1–4)
 
 Migration `0104_equipment_catalogue.sql` adds the role-checked, read-only
@@ -110,7 +123,9 @@ statements, 90.60% branches, 95.22% functions. Typecheck, lint and production bu
 AC-027.2.3 found/fixed a stale open panel after a fast batched catalogue refresh; the
 panel was initially keyed by refresh revision; Jaydon's later usability refinement
 closes it after a confirmed save, with fresh status/history/version loaded on reopening. Failure and
-retest evidence: `docs/test-evidence/us27/pr3/`. No new database rerun is claimed.
+retest evidence: `docs/test-evidence/us27/pr3/`. The full suite preceded auto-close;
+afterward 13 targeted tests / two files, typecheck/build and lint passed. No new
+database rerun is claimed.
 
 Architecture: the existing Equipment Booking module supplies catalogue/status to
 US13 requirements and US14 reservation planning. Changes can affect arrangement
@@ -126,7 +141,7 @@ reservation rewrite or existing-function override. Jaydon handles deployment.
 Cases: `docs/test-cases/US27_test_cases.md`. Local evidence lives under
 `docs/test-evidence/us27/`. SQL uses disposable PostgreSQL, simulated Auth claims
 and real permissions; frontend tests mock services/the Supabase client.
-New status-flow manual Supabase/UI checks and shared evidence-sheet updates remain pending.
+Jaydon reported the chat status-flow checks passed; shared evidence-sheet updates remain pending.
 No live email delivery is claimed. Provide sheet rows directly in chat.
 
 PR1 merged in #142. Jaydon confirmed 0104 applied and all seven chat manual groups
@@ -135,7 +150,7 @@ Coordinator access, Organiser/Attendee refusal and existing equipment workflows.
 Exact fixture/account IDs were not supplied; offline recovery and zero-stock-specific
 manual scenarios were not separately confirmed. Evidence-sheet update is not claimed.
 
-PR2 was backend-only and is merged; Jaydon confirmed 0105 applied. PR3 requires that
+PR2 was backend-only and merged in #143; Jaydon confirmed 0105 applied. PR3 (#144) requires that
 migration before its frontend is deployed. Deployment is Jaydon's responsibility.
 The previous PR1 frontend result below is historical evidence, not a PR3 test run.
 
@@ -149,7 +164,8 @@ Full frontend run: 1,524 tests across 175 files; build/typecheck and lint passed
 Focused, historical, quarter-hour upgrade and fresh-order database gates all exited 0,
 including existing concurrency regressions. No product defect was demonstrated.
 The unsupported Vitest matcher and Docker approval/startup interruption were test/tool
-issues. These local results do not claim GitHub CI or manual acceptance.
+issues. Local automated logs do not establish GitHub CI or manual acceptance; manual
+results are separately reported above.
 
 ## Manual checklist after deployment
 
@@ -169,7 +185,7 @@ and Attendee accounts. Do not create or alter shared stock just for this PR.
    access. Organiser equipment choices and confirmed equipment summaries still work.
 6. Temporarily simulate an offline browser while refreshing. An error appears;
    restoring connectivity and retrying reloads current stock. Record actual results
-   and any defects in the evidence sheet; no manual pass has been recorded yet.
+   and any defects in the evidence sheet; this offline scenario was not separately confirmed.
 
 ## PR3 manual status checklist
 
