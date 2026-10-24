@@ -8,7 +8,7 @@ vi.mock('../../../../lib/supabase', () => ({ supabase: { rpc: mocks.rpc } }))
 
 const ROW = {
   type_code: 'change_request', label: 'Change requests to review', description: 'When an Organiser asks to change one of your events.',
-  in_app: true, email: false, customised: true,
+  in_app: true, email: false, customised: true, in_app_off_for_everyone: false, email_off_for_everyone: true,
 }
 
 beforeEach(() => {
@@ -22,7 +22,7 @@ describe('AC-033.1 — a user sees the notification types that apply to their ro
     mocks.rpc.mockResolvedValue({ data: [ROW], error: null })
     expect(await getMyNotificationPreferences()).toEqual({ ok: true, preferences: [{
       typeCode: 'change_request', label: 'Change requests to review', description: 'When an Organiser asks to change one of your events.',
-      inApp: true, email: false, customised: true,
+      inApp: true, email: false, customised: true, inAppOffForEveryone: false, emailOffForEveryone: true,
     }] })
     expect(mocks.rpc).toHaveBeenCalledWith('get_my_notification_preferences')
   })
