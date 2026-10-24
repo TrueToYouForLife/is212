@@ -73,7 +73,7 @@ export default function App() {
             <Route path="/notifications" element={<NotificationsPage />} />
             <Route path="/requests/:id/registrations" element={<EventRegistrationsPage />} />
             <Route path="/organisation/events/:id" element={<OrganisationEventDetailPage />} />
-            {FEATURES.notificationPreferences && <Route path="/notifications/settings" element={<NotificationPreferencesPage />} />}
+            <Route path="/notifications/settings" element={<NotificationPreferencesPage />} />
             <Route path="/venues/availability" element={<VenueAvailabilityPage />} />
             <Route path="/venues/new" element={<AddVenuePage />} />
             <Route path="/venues/manage" element={<ManageVenuesPage />} />

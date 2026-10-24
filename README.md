@@ -1266,14 +1266,19 @@ Test cases: `docs/test-cases/US5_test_cases.md`.
 
 ## US33 Choose notification channels by type (SCRUM-230)
 
-**Slice 1 (the choices):** **Notification settings** (`/notifications/settings`, linked from
-Notifications) lists the notification types for the user's role, each with In-app and Email
-switches; anything not yet changed is on for both. Behind `VITE_FEATURE_NOTIFICATION_PREFERENCES`
-until slice 2 (Sprint 4) makes delivery follow the choices through one shared sending helper.
+**Notification settings** (`/notifications/settings`, linked from Notifications) lists the
+notification types for the user's role, each with In-app and Email switches; anything not yet
+changed is on for both. Every notice goes through one shared sending helper (0079), which follows
+each person's choices and the three system-wide switches (kept as an admin kill switch); the page
+says when a type is switched off for everyone. Each feature's notices were moved onto the helper
+one PR at a time (0080 to 0088, 0090 to 0092, 0103; 0095 fixed 0080), and 0093 added email for the
+four types that were in-app only.
 
 | File | Adds |
 | --- | --- |
 | `0077_notification_preferences.sql` | `notification_types`, `notification_preferences`, `get_my_notification_preferences()`, `set_my_notification_preference()` |
+| `0093_us33_email_for_in_app_only_types.sql` | email for the four types that were in-app only |
+| `0106_us33_notification_settings_switched_off.sql` | the settings say when a type is switched off for everyone |
 | `0079_notification_delivery.sql` | slice 2a: `notification_channels()`, `queue_notification_email()`, `record_in_app_notice()`, `send_notification()`, `user_notifications`; the feed shows in-app copies and leaves out emails sent through the helper |
 
 Test cases: `docs/test-cases/US33_test_cases.md`.

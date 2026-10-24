@@ -13,9 +13,9 @@ vi.mock('../preferencesService', () => ({ getMyNotificationPreferences: mocks.lo
 
 const PREFERENCES = [
   { typeCode: 'change_request', label: 'Change requests to review', description: 'When an Organiser asks to change one of your events.',
-    inApp: true, email: true, customised: false },
+    inApp: true, email: true, customised: false, inAppOffForEveryone: false, emailOffForEveryone: true },
   { typeCode: 'venue_booking_decision', label: 'Venue booking decisions', description: 'When Venue Staff decide.',
-    inApp: false, email: true, customised: true },
+    inApp: false, email: true, customised: true, inAppOffForEveryone: false, emailOffForEveryone: false },
 ]
 
 function renderPage() {
@@ -99,3 +99,23 @@ describe('AC-033.2 — each channel turns on or off independently', () => {
     expect(inApp).not.toBeDisabled()
   })
 })
+
+describe('AC-033.2 — a type switched off for everyone says so', () => {
+  test('AC-033.2.10: a type an administrator switched off for everyone says which channel, and other types say nothing', async () => {
+    renderPage()
+    const items = within(await screen.findByRole('list', { name: 'Notification types' })).getAllByRole('listitem')
+    expect(within(items[0]).getByText('Email for this type is turned off for everyone by an administrator.')).toBeInTheDocument()
+    expect(within(items[1]).queryByText(/turned off for everyone/)).toBeNull()
+  })
+
+  test('AC-033.2.11: the note names in-app, or both channels, when those are the ones switched off', async () => {
+    mocks.load.mockResolvedValueOnce({ ok: true, preferences: [
+      { ...PREFERENCES[0], inAppOffForEveryone: true, emailOffForEveryone: false },
+      { ...PREFERENCES[1], inAppOffForEveryone: true, emailOffForEveryone: true },
+    ] })
+    renderPage()
+    expect(await screen.findByText('In-app notices of this type are turned off for everyone by an administrator.')).toBeInTheDocument()
+    expect(screen.getByText('Turned off for everyone by an administrator, in the app and by email.')).toBeInTheDocument()
+  })
+})
+
