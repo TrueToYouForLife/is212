@@ -57,6 +57,8 @@ function navItemsFor(role: UserRole | null): NavItem[] {
         { label: 'Equipment catalogue', to: '/equipment/catalogue' },
         { label: 'Reserve equipment', to: '/equipment/reservations' },
       ]
+    case 'safety_officer':
+      return [home, { label: 'Safety reviews', to: '/safety-reviews' }]
     case 'attendee':
       return [
         home,

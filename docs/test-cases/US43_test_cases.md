@@ -5,10 +5,10 @@ Week 7 change 6, built in slices.
 | Slice | ACs | Status |
 |---|---|---|
 | 1. Sending an event for its safety review (0108) | AC-043.1, AC-043.2, AC-043.3 | implemented; automated cases pass |
-| 2. The Safety Officer's review queue | AC-043.4 | not started |
+| 2. The Safety Officer's review queue (0109) | AC-043.4 | implemented; automated cases pass |
 
 Test IDs follow `CLAUDE.md`: `AC-043.Y.Z`, Z unique across the story and increasing top to bottom
-within each test file. Next free IDs: AC-043.1.17, AC-043.2.8, AC-043.3.8, AC-043.4.1.
+within each test file. Next free IDs: AC-043.1.17, AC-043.2.8, AC-043.3.8, AC-043.4.16.
 
 ## Acceptance criteria
 
@@ -115,6 +115,38 @@ Four frontend tests that confirmed an event straight from Planning or listed the
 to the new flow (IDs unchanged): AC-LIFECYCLE.1, AC-LIFECYCLE.3, AC-LIFECYCLE.5 and the role
 vocabulary test.
 
+## Slice 2: the Safety Officer's review queue (0109)
+
+| # | Decision | Why |
+|---|---|---|
+| D10 | `get_safety_review_queue()`: Safety Officers only; events in Awaiting Safety Review, ordered by when the Coordinator sent them (`safety_review_requested_at`, slice 1), oldest first. Read-only. | AC-043.4. The decision itself is US44. |
+| D11 | For each event: expected attendance; accessibility requirements by name; each approved venue booking with its layout and attendance (the booking's own, US49, else the event's) against the venue's capacity for that layout, the venue's accessibility, and its restrictions; each equipment request with quantity, essential or not, status and how many items are actually reserved. Over-capacity spaces are flagged on the page. | AC-043.4's list, from data the system already holds. |
+| D12 | "Known venue restrictions" are the ones the system records: retired (with the note) or under maintenance, opening hours unless open all day, and any active venue block (US12, slot or continuous) on the event's dates. | No separate restrictions field exists; these are the ones a Safety Officer must know. |
+| D13 | 0109 reads continuous venue blocks, so like 0102 and 0103 it is skipped in both runners' first pass and applied and tested in `run_venue_time_conversion.sh` after 0100, in both CI modes. | It depends on 0100. |
+| D14 | A "Safety reviews" page at `/safety-reviews`, in the Safety Officer's menu. | Where the Safety Officer starts. |
+
+| ID | Test | Type | Scenario | File |
+|---|---|---|---|---|
+| AC-043.4.1 | the queue lists only events awaiting review, the one sent first at the top | integration (SQL) | normal | safety_review_queue.sql |
+| AC-043.4.2 | each event shows its expected attendance, its accessibility requirements by name, and when it was sent | integration (SQL) | normal | safety_review_queue.sql |
+| AC-043.4.3 | each approved venue shows its booking's layout and attendance against the venue's capacity for that layout, and its accessibility | integration (SQL) | normal | safety_review_queue.sql |
+| AC-043.4.4 | each venue lists its known restrictions: maintenance, opening hours, and blocks on the event's dates only | integration (SQL) | boundary | safety_review_queue.sql |
+| AC-043.4.5 | the equipment shows each request, essential first, with how many items are actually reserved | integration (SQL) | normal | safety_review_queue.sql |
+| AC-043.4.6 | only a Safety Officer can see the queue | integration (SQL) | conflict | safety_review_queue.sql |
+| AC-043.4.7 | once the Safety Officer has decided an event, it leaves the queue | integration (SQL) | boundary | safety_review_queue.sql |
+| AC-043.4.8 | the queue is read once, kept in the database's order, and named for the app | unit (service) | normal | safetyReviewQueueService.test.ts |
+| AC-043.4.9 | a non-Safety Officer is told it is not theirs; any other failure or unexpected answer says to try again | unit (service) | failure | safetyReviewQueueService.test.ts |
+| AC-043.4.10 | events listed oldest first, with when sent, attendance and accessibility needs | unit | normal | SafetyReviewQueuePage.test.tsx |
+| AC-043.4.11 | each venue shows layout, attendance against capacity (flagging over capacity), accessibility and restrictions | unit | boundary | SafetyReviewQueuePage.test.tsx |
+| AC-043.4.12 | the equipment shows each request, whether essential, and how many items are reserved | unit | normal | SafetyReviewQueuePage.test.tsx |
+| AC-043.4.13 | with nothing waiting it says so; a failed load shows why; an event without a reference uses its name | unit | failure | SafetyReviewQueuePage.test.tsx |
+| AC-043.4.14 | an answer arriving after the Safety Officer left the page is ignored | unit | boundary | SafetyReviewQueuePage.test.tsx |
+| AC-043.4.15 | a Safety Officer is offered Safety reviews in the menu; a Coordinator is not | unit | normal | SafetyReviewQueuePage.test.tsx |
+
+Forced break (slice 2): `get_safety_review_queue()` made to list the newest first; AC-043.4.1
+failed. Log: `docs/test-evidence/us43/AC-043.4.1-forced-break.log`. `SafetyReviewQueuePage.tsx` and
+`safetyReviewQueueService.ts` are at 100% statements and branches.
+
 ## Manual test cases (shared Supabase, after 0108 is applied)
 
 | ID | Steps | Expected |
@@ -123,6 +155,7 @@ vocabulary test.
 | M2 | Add the programme; open the event again. | "Send for safety review" appears; pressing it moves the event to "Awaiting safety review". |
 | M3 | Sign in as the Safety Officer and open Notifications. | "Safety review needed: …" is listed. |
 | M4 | As the Coordinator, open the event. | Only "Cancel event" is offered; Readiness shows "With the Safety Officer for review." |
+| M5 | After 0109: as the Safety Officer, open Safety reviews. | The event is listed with its attendance, venues and capacity, accessibility, equipment and restrictions; the oldest sent is first. |
 
 ## Coverage and forced break
 

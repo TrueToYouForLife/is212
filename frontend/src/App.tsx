@@ -36,6 +36,7 @@ import { ReserveEquipmentPage } from './features/equipment/pages/ReserveEquipmen
 import { EquipmentCataloguePage } from './features/equipment/pages/EquipmentCataloguePage'
 import { FEATURES } from './lib/features'
 import { NotificationPreferencesPage } from './features/notifications/preferences/NotificationPreferencesPage'
+import { SafetyReviewQueuePage } from './features/safety/SafetyReviewQueuePage'
 import { NotificationsPage } from './features/notifications/pages/NotificationsPage'
 import { EventRegistrationsPage } from './features/events/pages/EventRegistrationsPage'
 import { OrganisationEventDetailPage } from './features/events/pages/OrganisationEventDetailPage'
@@ -74,6 +75,7 @@ export default function App() {
             <Route path="/requests/:id/registrations" element={<EventRegistrationsPage />} />
             <Route path="/organisation/events/:id" element={<OrganisationEventDetailPage />} />
             <Route path="/notifications/settings" element={<NotificationPreferencesPage />} />
+            <Route path="/safety-reviews" element={<SafetyReviewQueuePage />} />
             <Route path="/venues/availability" element={<VenueAvailabilityPage />} />
             <Route path="/venues/new" element={<AddVenuePage />} />
             <Route path="/venues/manage" element={<ManageVenuesPage />} />
