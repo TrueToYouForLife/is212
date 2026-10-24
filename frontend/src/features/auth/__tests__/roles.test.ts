@@ -31,6 +31,7 @@ describe('role vocabulary', () => {
       'operations_manager',
       'venue_staff',
       'tech_support',
+      'safety_officer',
       'attendee',
     ])
   })

@@ -1283,6 +1283,26 @@ four types that were in-app only.
 
 Test cases: `docs/test-cases/US33_test_cases.md`.
 
+## US43 Operational safety review (SCRUM-239)
+
+Week 7 change 6, built in slices. **Slice 1 (sending an event for review):** a new **Safety
+Officer** role (`safety_officer`) and three statuses between Planning and Confirmed: **Awaiting
+safety review**, **Safety changes requested** and **In preparation**. The team decided an event is
+confirmed only after safety approval, so Planning can no longer go straight to Confirmed.
+
+The Coordinator sends an event for review with **Send for safety review** on its Readiness card
+(US5), which is only allowed once every arrangement on the card is complete (registration setup
+aside, as it only opens on confirmation); readiness is one rule shared by the card and the review.
+Each Safety Officer is then notified through the US33 helper. While the event awaits review only a
+Safety Officer's decision moves it on; its Coordinator can only cancel. Slice 2 (the Safety
+Officer's queue) follows; US44 (deciding), US45 (revising) and US26 (confirming) build on this.
+
+| File | Adds |
+| --- | --- |
+| `0108_us43_safety_review.sql` | `safety_officer` role, the safety statuses and rules, `event_readiness_lines()` (shared readiness rule, plus a Safety review line), `send_for_safety_review()`, Safety Officer notices |
+
+Test cases: `docs/test-cases/US43_test_cases.md`.
+
 ## US32 View in-app notifications (SCRUM-229)
 
 Built in slices (trunk-based). **Slice 1 (the feed):** **Notifications** (`/notifications`, in
