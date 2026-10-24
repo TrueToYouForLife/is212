@@ -17,7 +17,7 @@ if [ "$ready" != true ]; then echo 'Temporary database did not become ready.' >&
   # 0075 was claimed before migrations that have already been deployed.
   mode="${1:-upgrade}"
   for migration in "$repo_root"/supabase/migrations/*.sql; do
-    case "$migration" in */0098_*|*/0099_*|*/0100_*|*/0102_*|*/0103_*) continue ;;
+    case "$migration" in */0098_*|*/0099_*|*/0100_*|*/0102_*|*/0103_*|*/0109_*) continue ;;
     */0075_*)
       if [ "$mode" != fresh ]; then continue; fi
       cat "$repo_root/supabase/tests/venue_time_conversion_fixture.sql"
@@ -110,6 +110,10 @@ SQL
   # US33 (0103): US12 closure alerts follow each person's channel choices; applies after 0100.
   cat "$repo_root/supabase/migrations/0103_us12_venue_block_notice_channels.sql"
   cat "$repo_root/supabase/tests/venue_block_notice_channels.sql"
+  # US43 slice 2 (0109): the Safety Officer's review queue; it reads continuous venue blocks, so it
+  # applies after 0100.
+  cat "$repo_root/supabase/migrations/0109_us43_safety_review_queue.sql"
+  cat "$repo_root/supabase/tests/safety_review_queue.sql"
   # US27: catalogue reads remain valid with the current quarter-hour schema.
   cat "$repo_root/supabase/tests/equipment_catalogue.sql"
   cat "$repo_root/supabase/tests/equipment_status_fixture.sql"
