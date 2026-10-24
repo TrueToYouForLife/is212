@@ -15,6 +15,21 @@ beforeEach(() => {
   mocks.getUser.mockResolvedValue({ data: { user: { id: COORDINATOR_ID } }, error: null })
   mocks.rpc.mockResolvedValue({ data: BOOKING_ID, error: null })
 })
+
+test('AC-049.2.32: explicit space requirements reach the checked booking RPC', async () => {
+  plan()
+  expect(await holdVenue(EVENT_ID, VENUE_ID, undefined, { layout: 'theatre', attendance: 25 })).toEqual({ ok: true, bookingId: BOOKING_ID })
+  expect(mocks.rpc).toHaveBeenCalledWith('hold_venue_space', { p_event_id: EVENT_ID, p_venue_id: VENUE_ID, p_layout: 'theatre', p_attendance: 25 })
+})
+test('AC-049.3.31: unsuitable spaces return the server explanation without claiming success', async () => {
+  plan()
+  mocks.rpc.mockResolvedValue({ data: null, error: { code: '22023', message: 'Venue lacks required facility: projector' } })
+  expect(await holdVenue(EVENT_ID, VENUE_ID, undefined, { layout: 'theatre', attendance: 25 })).toEqual({ ok: false, reason: 'Venue lacks required facility: projector', conflicts: [] })
+})
+test('AC-049.2.33: invalid space requirements do not send a booking request', async () => {
+  expect((await holdVenue(EVENT_ID, VENUE_ID, undefined, { layout: 'theatre', attendance: 0 })).ok).toBe(false)
+  expect(mocks.rpc).not.toHaveBeenCalled()
+})
 test('AC-047.2.39: hold saves only through the atomic RPC, with server default or explicit duration', async () => {
   plan()
   expect(await holdVenue(EVENT_ID, VENUE_ID)).toEqual({ ok: true, bookingId: BOOKING_ID })

@@ -3,6 +3,8 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { beforeEach, expect, test, vi } from 'vitest'
 import { VenueTimetablePage } from '../pages/VenueTimetablePage'
 import { QUARTER_HOUR_SLOTS } from '../quarterHourSlots'
+vi.mock('../bookingSpaceService', async original => ({ ...await original<typeof import('../bookingSpaceService')>(),
+  loadSpaceLayouts: async () => [{ layout: 'theatre', capacity: 100 }] }))
 
 const mocks = vi.hoisted(() => ({ venue: vi.fn(), timetable: vi.fn(), events: vi.fn(), hold: vi.fn() }))
 vi.mock('../../auth/sessionContext', () => ({ useCurrentUser: () => ({ loading: false, profile: { role: 'coordinator' } }) }))
@@ -41,6 +43,9 @@ test('AC-047.2.37: booking preview uses venue durations, shows midnight buffers 
   expect(screen.getAllByText('Event')).toHaveLength(3)
   expect(screen.getByText('20 Oct 2026 (00:30–00:45)')).toBeInTheDocument()
   expect(screen.queryByText('20 Oct 2026 (00:45–01:00)')).not.toBeInTheDocument()
+  await screen.findByText('theatre (capacity 100)')
+  fireEvent.change(screen.getByLabelText('Layout for this booking'), { target: { value: 'theatre' } })
+  fireEvent.change(screen.getByLabelText('People in this space'), { target: { value: '25' } })
   expect(screen.getByRole('button', { name: 'Place tentative hold' })).toBeEnabled()
   await waitFor(() => expect(mocks.timetable).toHaveBeenLastCalledWith('v1', QUARTER_HOUR_SLOTS, '2026-10-19', 7))
 })
