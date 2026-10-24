@@ -67,6 +67,11 @@ export function ReviewActions({ eventId, status, onReviewed }: ReviewActionsProp
     <div className="space-y-4">
       {status === 'planning' && (
         <p className="text-sm text-slate-600">
+          Send this event for safety review from its Readiness card once every arrangement is complete.
+        </p>
+      )}
+      {status === 'in_preparation' && (
+        <p className="text-sm text-slate-600">
           Confirm only after you have checked that all essential event arrangements are complete.
         </p>
       )}

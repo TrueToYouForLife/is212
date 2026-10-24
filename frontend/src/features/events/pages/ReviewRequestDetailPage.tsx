@@ -112,7 +112,7 @@ export function ReviewRequestDetailPage() {
             <p className="text-xs text-slate-500">Status updates automatically every 30 seconds.</p>
 
             {profile?.role === 'coordinator' && request.coordinatorId === profile.id && (
-              <EventReadinessCard key={request.id} eventId={request.id} refreshVersion={reviewRefreshVersion} />
+              <EventReadinessCard key={request.id} eventId={request.id} refreshVersion={reviewRefreshVersion} status={request.status} onSent={refreshAll} />
             )}
 
             <Card title="Request details">
