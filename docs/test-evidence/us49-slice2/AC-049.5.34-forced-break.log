@@ -1,0 +1,48 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/events/__tests__/eventVenueBookingsService.test.ts -t AC-049.5.34 --maxWorkers=1 --minWorkers=1
+
+
+ RUN  v2.1.9 C:/dev/spm/is212/frontend
+
+ ❯ src/features/events/__tests__/eventVenueBookingsService.test.ts (2 tests | 1 failed | 1 skipped) 25ms
+   × AC-049.5.34: denied, malformed, null and network responses never become an empty success 22ms
+     → expected { ok: true, value: [] } to deeply equal { ok: false, …(1) }
+
+npm.cmd : ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+At line:2 char:417
++ ... ($false))); npm.cmd test -- src/features/events/__tests__/eventVenueB ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+ FAIL  src/features/events/__tests__/eventVenueBookingsService.test.ts > AC-049.5.34: denied, malformed, null and 
+network responses never become an empty success
+AssertionError: expected { ok: true, value: [] } to deeply equal { ok: false, …(1) }
+
+- Expected
++ Received
+
+  Object {
+-   "ok": false,
+-   "reason": "Venue bookings could not be loaded. Please try again.",
++   "ok": true,
++   "value": Array [],
+  }
+
+ ❯ src/features/events/__tests__/eventVenueBookingsService.test.ts:13:48
+     11|   for (const response of [{ error: { code:'42501' } }, { data: [{}] },…
+     12|     rpc.mockResolvedValue(response)
+     13|     expect(await loadEventVenueBookings('e1')).toEqual({ ok:false, rea…
+       |                                                ^
+     14|   }
+     15|   rpc.mockRejectedValue(new Error('offline'))
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 skipped (2)
+   Start at  22:29:28
+   Duration  3.12s (transform 136ms, setup 225ms, collect 111ms, tests 25ms, environment 1.31s, prepare 242ms)
+

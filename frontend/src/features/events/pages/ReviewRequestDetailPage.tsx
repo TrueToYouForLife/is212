@@ -23,6 +23,7 @@ import { EventWaitlistPanel } from '../../registrations/components/EventWaitlist
 import { canChangeRegistration } from '../statusRules'
 import { PlanningUpdatePanel } from '../components/PlanningUpdatePanel'
 import { EventReadinessCard } from '../readiness/EventReadinessCard'
+import { EventVenueBookings } from '../components/EventVenueBookings'
 
 export function ReviewRequestDetailPage() {
   const { id = '' } = useParams()
@@ -112,7 +113,10 @@ export function ReviewRequestDetailPage() {
             <p className="text-xs text-slate-500">Status updates automatically every 30 seconds.</p>
 
             {profile?.role === 'coordinator' && request.coordinatorId === profile.id && (
-              <EventReadinessCard key={request.id} eventId={request.id} refreshVersion={reviewRefreshVersion} />
+              <>
+                <EventReadinessCard key={request.id} eventId={request.id} refreshVersion={reviewRefreshVersion} />
+                <EventVenueBookings key={`bookings:${request.id}:${profile.id}`} eventId={request.id} refreshVersion={reviewRefreshVersion} />
+              </>
             )}
 
             <Card title="Request details">
