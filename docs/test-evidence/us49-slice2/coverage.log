@@ -1,0 +1,1167 @@
+
+> connectsphere@0.1.0 coverage
+> vitest run --coverage --maxWorkers=2 --minWorkers=1
+
+
+ RUN  v2.1.9 C:/dev/spm/is212/frontend
+      Coverage enabled with v8
+
+npm.cmd : stderr | src/features/events/__tests__/eventChangeRequestService.test.ts > AC-006.6 — the request is 
+submitted to the coordinator for review > AC-006.6.3: an unrecognised database error gives advice, not raw Postgres 
+text
+At line:2 char:127
++ ... aceholder'; npm.cmd run coverage -- --maxWorkers=2 --minWorkers=1 *>  ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (stderr | src/fe...w Postgres text:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+[change-requests] { code: '08006', message: 'connection failure' }
+
+ ✓ src/features/events/__tests__/eventChangeRequestService.test.ts (32 tests) 45ms
+ ✓ src/features/venues/__tests__/suitabilityService.test.ts (19 tests) 47ms
+ ✓ src/features/events/__tests__/eventReviewService.test.ts (23 tests) 46ms
+ ✓ src/features/venues/__tests__/venueManagementService.test.ts (26 tests) 37ms
+ ✓ src/features/venues/__tests__/VenueBookingPages.test.tsx (25 tests) 3175ms
+   ✓ VenueTimetablePage — AC-009.2 / AC-011.1 > AC-011.1.1: holding sends the event and venue, and no slots, because the event decides them 510ms
+   ✓ VenueTimetablePage — AC-009.2 / AC-011.1 > AC-011.1.2: a successful hold confirms, says when it expires, and reloads the calendar 528ms
+   ✓ VenueTimetablePage — AC-009.2 / AC-011.1 > AC-009.7.11: a refused hold shows which slot clashes and why 439ms
+ ✓ src/features/events/__tests__/EventRequestForm.test.tsx (14 tests) 2584ms
+   ✓ AC-001.1 > AC-001.1.11: shows save errors and preserves entered values 420ms
+ ✓ src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx (7 tests) 5228ms
+   ✓ AC-027.5.7: requires an explicit supported target and nonblank reason, then submits the loaded version 1099ms
+   ✓ AC-027.5.8: pending save cannot be duplicated, closed or reloaded and retains its submitted values 432ms
+   ✓ AC-027.5.9: failed or stale save retains the note, blocks retry and never silently reloads consent; explicit reload uses the fresh version 1429ms
+   ✓ AC-027.8.7: only Technical Support can open management; role loss unmounts it and ignores a late save response 581ms
+   ✓ AC-027.2.3: confirmed save closes management, refreshes stock and retains filters; reopening loads fresh history and no-op also closes 1554ms
+ ✓ src/features/venues/__tests__/venueBookingService.test.ts (20 tests) 98ms
+ ✓ src/features/events/__tests__/CoordinatorActiveEvents.test.tsx (5 tests) 3275ms
+   ✓ AC-036.1.1: overview shows all active events once with coordinator status and Singapore dates, excluding inactive events 828ms
+   ✓ AC-036.2.1: filters combine coordinator and status, handle unassigned and no matches, reset and refresh without changing workloads 1772ms
+ ✓ src/features/equipment/__tests__/EquipmentRequirementsEditor.test.tsx (14 tests) 2078ms
+   ✓ AC-013.3: each line shows its status > AC-013.3.11: the coordinator can mark a line non-essential 315ms
+   ✓ AC-013.6: changing or removing a reserved line > AC-013.6.9: after saving, the changed line shows pending review 335ms
+stderr | src/features/venues/__tests__/EditVenuePage.test.tsx > AC-046.5 — Venue Staff can retire a venue > 
+AC-046.5.22: after retiring, Venue Staff are told the venue left search and 0 booking(s) went for review
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (C:\dev\spm\is212\frontend\src\features\venues\pages\EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (C:\dev\spm\is212\frontend\src\features\venues\pages\EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+stderr | src/features/venues/__tests__/EditVenuePage.test.tsx > AC-046.5 — Venue Staff can retire a venue > 
+AC-046.5.22: after retiring, Venue Staff are told the venue left search and 1 booking(s) went for review
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (C:\dev\spm\is212\frontend\src\features\venues\pages\EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (C:\dev\spm\is212\frontend\src\features\venues\pages\EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+ ✓ src/features/events/__tests__/changeRequestReviewService.test.ts (23 tests) 35ms
+stderr | src/features/venues/__tests__/EditVenuePage.test.tsx > AC-046.5 — Venue Staff can retire a venue > 
+AC-046.5.22: after retiring, Venue Staff are told the venue left search and 4 booking(s) went for review
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (C:\dev\spm\is212\frontend\src\features\venues\pages\EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (C:\dev\spm\is212\frontend\src\features\venues\pages\EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+stderr | src/features/venues/__tests__/EditVenuePage.test.tsx > AC-046.5 — Venue Staff can retire a venue > 
+AC-046.5.25: a refused retirement is explained, with a reload when someone else changed the venue
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (C:\dev\spm\is212\frontend\src\features\venues\pages\EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (C:\dev\spm\is212\frontend\src\features\venues\pages\EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (C:\dev\spm\is212\frontend\src\features\venues\pages\EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+ ✓ src/features/venues/__tests__/EditVenuePage.test.tsx (22 tests) 3099ms
+   ✓ AC-046.2 — Venue Staff can edit any of a venue’s details > AC-046.2.23: the venue opens with its current details filled in 400ms
+   ✓ AC-046.2 — Venue Staff can edit any of a venue’s details > AC-046.2.29: "Edit again" reopens the venue as saved; leaving before it loads does not update the page 328ms
+ ✓ src/features/events/__tests__/eventService.test.ts (19 tests) 51ms
+ ✓ src/features/events/__tests__/SubmitEventChangesPage.test.tsx (17 tests) 487ms
+ ✓ src/features/venues/__tests__/VenueReplacementSearchPage.test.tsx (7 tests) 2935ms
+   ✓ AC-048.2.1: affected booking prefills the full event interval, attendance, layout and requirements without editing the event 315ms
+   ✓ AC-048.2.2: adjusted filters and reset keep the original event; a missing layout catalogue entry is retained 468ms
+   ✓ AC-048.3.8: selection submits the original booking and displayed consent once, requires a note, and preserves the original until approval 796ms
+   ✓ AC-048.3.9: failed submission keeps the note and source version, prevents retries, and needs an explicit reload 971ms
+ ✓ src/features/events/__tests__/validation.test.ts (22 tests) 31ms
+ ✓ src/features/events/__tests__/CoordinatorAssignmentQueue.test.tsx (3 tests) 1143ms
+   ✓ AC-017.1.10: Lead filters submitted unassigned requests and sees their basic details 419ms
+   ✓ AC-017.2.9: Lead selects a coordinator with workload shown and retries a failed assignment 382ms
+   ✓ AC-017.3.2: Lead reassigns an active event with retry feedback and no controls for closed events 339ms
+ ✓ src/features/events/__tests__/DraftPages.test.tsx (12 tests) 1399ms
+   ✓ AC-001.4 > AC-001.4.24: opens a listed draft, restores fields and saves edits to the same ID (also AC-001.3, AC-001.5) 368ms
+ ✓ src/features/equipment/__tests__/equipmentRequirementService.test.ts (13 tests) 32ms
+ ✓ src/features/notifications/__tests__/NotificationsPage.test.tsx (15 tests) 863ms
+ ✓ src/features/events/__tests__/withdrawRequest.test.ts (17 tests) 18ms
+ ✓ src/features/events/__tests__/EventChangeRequestForm.test.tsx (10 tests) 5058ms
+   ✓ AC-006.4 — the form proposes new values without applying them > AC-006.4.5: a reason with no proposed field changes is refused before calling the service 607ms
+   ✓ AC-006.4 — the form proposes new values without applying them > AC-006.4.6: only the fields the organiser actually filled in are sent, alongside the reason 664ms
+   ✓ AC-006.4 — the form proposes new values without applying them > AC-006.4.7: ticking a requirement proposes it as a code list, not as text 590ms
+   ✓ AC-006.4 — the form proposes new values without applying them > AC-006.4.8: an untouched prefilled control proposes nothing even once another field changes 528ms
+   ✓ AC-006.5 — the organiser must give a reason > AC-006.5.6: a proposed field with no reason is blocked by the reason requirement, not treated as valid 324ms
+   ✓ AC-006.6 — the request is submitted for review > AC-006.6.4: a successful submission confirms and clears the form for another request 722ms
+   ✓ AC-006.6 — the request is submitted for review > AC-006.6.5: a refused submission shows the service reason and keeps what was typed 709ms
+   ✓ AC-006.6 — the request is submitted for review > AC-006.6.6: a thrown error is reported rather than leaving the organiser waiting 765ms
+ ✓ src/features/venues/__tests__/VenueReplacementPanel.test.tsx (10 tests) 3185ms
+   ✓ AC-020.3.50: coordinator proposes an alternative with a reason and sees the original-preservation message 635ms
+   ✓ AC-020.3.51: Venue Staff see current requirements and approve with a recorded note 430ms
+   ✓ AC-020.3.52: rejection and coordinator withdrawal use their distinct decision actions 666ms
+   ✓ AC-020.3.54: conflicts keep the decision note and do not report success 366ms
+   ✓ AC-020.3.59: late loads are ignored after unmount and a pending proposal prevents duplicate submissions 450ms
+ ✓ src/features/venues/__tests__/suitabilityValidation.test.ts (18 tests) 28ms
+ ✓ src/features/registrations/__tests__/MyRegistrationsPage.test.tsx (9 tests) 470ms
+ ✓ src/features/events/__tests__/changeRequestReplyValidation.test.ts (27 tests) 21ms
+stderr | src/features/venues/__tests__/VenueBlockForm.test.tsx > AC-012.7 — overlaps are previewed before saving > 
+AC-012.7.12: Confirm block appears only after a preview, and confirms what was previewed
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\dev\spm\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\dev\spm\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\dev\spm\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\dev\spm\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\dev\spm\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\dev\spm\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\dev\spm\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\dev\spm\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+
+ ✓ src/features/venues/__tests__/VenueBlockForm.test.tsx (8 tests) 2365ms
+   ✓ AC-012.3 — a reason is required > AC-012.3.7: a blank reason shows its message beside the field, and nothing is previewed 397ms
+   ✓ AC-048.2.6: continuous block uses start/end dates and times, allows overnight, refuses reversed instants and invalidates changed previews 658ms
+ ✓ src/features/events/__tests__/changeRequestReviewValidation.test.ts (27 tests) 26ms
+ ✓ src/features/venues/__tests__/venueSearchService.test.ts (9 tests) 18ms
+ ✓ src/features/events/__tests__/ChangeRequestList.test.tsx (14 tests) 1228ms
+   ✓ AC-007.7.77: focus preserves answers and manual reload replaces the displayed questions 365ms
+ ✓ src/features/venues/__tests__/venueManagementValidation.test.ts (26 tests) 23ms
+ ✓ src/features/events/__tests__/ChangeRequestReviewForm.test.tsx (11 tests) 3646ms
+   ✓ AC-007.5 — explicit finalisation > AC-007.5.29: mixed final decisions send the rejected field reason and report partial approval 494ms
+   ✓ AC-007.7 — field questions > AC-007.7.32: provisional approval and a separate question save together without claiming final approval 645ms
+   ✓ AC-007.10.3: rejecting every field sends both reasons and reports a rejected outcome 899ms
+ ✓ src/features/equipment/__tests__/validation.test.ts (28 tests) 20ms
+ ✓ src/features/events/__tests__/PlanningUpdatePanel.test.tsx (9 tests) 2258ms
+   ✓ AC-020.1.50: assigned coordinator edits existing values and refreshes after a successful save 745ms
+   ✓ AC-020.1.52: a stale save preserves entered text until the user explicitly reloads 492ms
+   ✓ AC-020.1.53: pending save disables inputs and prevents duplicate requests 313ms
+ ✓ src/features/registrations/__tests__/waitlistService.test.ts (11 tests) 19ms
+ ✓ src/features/venues/__tests__/VenueAvailabilityPage.test.tsx (15 tests) 1046ms
+ ✓ src/features/events/__tests__/eventDraftQueryService.test.ts (18 tests) 21ms
+ ✓ src/features/registrations/__tests__/registrationService.test.ts (16 tests) 30ms
+ ✓ src/components/layout/__tests__/TopNav.test.tsx (34 tests) 1131ms
+ ✓ src/features/equipment/__tests__/EquipmentCatalogue.test.tsx (6 tests) 1341ms
+   ✓ AC-027.3.1: type, location and status filters intersect; unavailable includes retired/missing; reset restores all units 615ms
+ ✓ src/features/events/__tests__/eventDraftService.test.ts (16 tests) 42ms
+ ✓ src/features/notifications/__tests__/notificationService.test.ts (10 tests) 24ms
+ ✓ src/features/venues/__tests__/VenueFilters.test.tsx (10 tests) 1061ms
+   ✓ AC-008.3 — layout is chosen from the catalogue, not typed > AC-008.3.7: every layout in the catalogue is offered, plus "any layout" 430ms
+ ✓ src/features/notifications/preferences/__tests__/NotificationPreferencesPage.test.tsx (7 tests) 467ms
+ ✓ src/features/venues/__tests__/VenueAvailabilityGrid.test.tsx (9 tests) 516ms
+stderr | src/features/events/__tests__/eventRegistrationsService.test.ts > AC-054.1 — the Organiser sees each 
+registration with the attendee’s details > AC-054.1.7: a read error is reported, not flattened into an empty roll call
+[events] loadEventRegistrations { message: 'boom' }
+
+stderr | src/features/events/__tests__/eventRegistrationsService.test.ts > AC-054.4 — an empty answer is resolved, not 
+guessed > AC-054.4.10: a failed permission check is a load failure, not a refusal
+[events] canViewEventRegistrations { message: 'boom' }
+
+ ✓ src/features/events/__tests__/eventRegistrationsService.test.ts (10 tests) 20ms
+stderr | src/features/events/__tests__/organisationEventService.test.ts > AC-031.1 — an Organiser can view and act on 
+their own events > AC-031.1.5: a read error is reported, not flattened into an empty list
+[events] loadOrganisationEvents { message: 'boom' }
+
+stderr | src/features/events/__tests__/organisationEventService.test.ts > AC-031.3 — nothing from another client 
+organisation > AC-031.3.11: a failed single-event read is reported as a failure, not as not-found
+[events] loadOrganisationEvent { message: 'boom' }
+
+ ✓ src/features/events/__tests__/organisationEventService.test.ts (10 tests) 17ms
+ ✓ src/features/events/__tests__/OrganisationEventDetailPage.test.tsx (8 tests) 669ms
+ ✓ src/features/venues/__tests__/slots.test.ts (28 tests) 21ms
+ ✓ src/features/registrations/__tests__/EventWaitlistPanel.test.tsx (9 tests) 966ms
+ ✓ src/features/auth/__tests__/SignUpPage.test.tsx (8 tests) 632ms
+stderr | src/features/events/__tests__/OpenEventsPage.test.tsx > AC-029.4: after signing up, the Attendee is signed in 
+and sees open events > AC-029.4.8: while the session is loading, nothing redirects (boundary)
+Warning: An update to OpenEventsPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at OpenEventsPage (C:\dev\spm\is212\frontend\src\features\events\pages\OpenEventsPage.tsx:22:54)
+    at RenderedRoute (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+ ✓ src/features/events/__tests__/OpenEventsPage.test.tsx (8 tests) 367ms
+ ✓ src/features/venues/__tests__/VenueBookingReviewPage.test.tsx (7 tests) 1255ms
+   ✓ AC-010.5.20: routed approval reloads the persisted decision and removes both decision actions 348ms
+   ✓ AC-010.8.17: the routed page rejects a pending booking and reloads the saved record 330ms
+   ✓ AC-010.12.16: reload after a refused decision reads the final status and removes the form 444ms
+ ✓ src/features/events/__tests__/EventRegistrationsPage.test.tsx (8 tests) 461ms
+ ✓ src/features/registrations/__tests__/RegisterOrWaitlist.test.tsx (9 tests) 561ms
+ ✓ src/features/events/status/__tests__/RequestStatusPanel.test.tsx (19 tests) 693ms
+ ✓ src/features/venues/__tests__/venueHoldAtomic.test.ts (8 tests) 41ms
+ ✓ src/features/events/__tests__/changeRequestDiff.test.ts (11 tests) 8ms
+ ✓ src/features/venues/__tests__/venueAvailabilityService.test.ts (8 tests) 35ms
+ ✓ src/features/events/__tests__/ChangeRequestReviewPanel.test.tsx (12 tests) 846ms
+ ✓ src/features/venues/__tests__/VenueBookingRejectionForm.test.tsx (18 tests) 2046ms
+   ✓ AC-010.8.16: a valid rejection reports success and closes the action 389ms
+   ✓ AC-010.9.4: Venue Staff can suggest an alternative arrangement when rejecting 480ms
+ ✓ src/features/events/__tests__/arrangementReviewService.test.ts (4 tests) 23ms
+ ✓ src/features/events/__tests__/OrganisationEventsPage.test.tsx (6 tests) 456ms
+ ✓ src/features/venues/__tests__/venueBlockValidation.test.ts (13 tests) 13ms
+ ✓ src/features/events/__tests__/changeRequestReviewQueryService.test.ts (9 tests) 30ms
+ ✓ src/features/venues/__tests__/AddVenuePage.test.tsx (12 tests) 1170ms
+   ✓ AC-046.1 — Venue Staff can add a venue with its details > AC-046.1.24: Venue Staff add a venue and are told it is in the catalogue 495ms
+   ✓ AC-046.1 — Venue Staff can add a venue with its details > AC-046.1.25: "Add another venue" opens an empty form 350ms
+ ✓ src/features/events/__tests__/ArrangementResolution.test.tsx (2 tests) 2771ms
+   ✓ AC-041.6.3: resolves individual reasons using both methods, keeps other reasons open and displays retained history 1942ms
+   ✓ AC-041.6.4: requires explanation, blocks duplicate submits and preserves input on errors without claiming success 825ms
+ ✓ src/features/venues/__tests__/venueReplacementService.test.ts (9 tests) 19ms
+ ✓ src/features/equipment/__tests__/reservationService.test.ts (6 tests) 26ms
+ ✓ src/features/venues/__tests__/VenueForm.test.tsx (6 tests) 1469ms
+   ✓ AC-046.1 — Venue Staff can add a venue with its details > AC-046.1.20: filling in every detail submits the venue 725ms
+ ✓ src/features/venues/__tests__/venueTimetableService.test.ts (8 tests) 15ms
+ ✓ src/features/venues/__tests__/VenueBookingComponents.test.tsx (15 tests) 320ms
+ ✓ src/features/events/__tests__/ReviewActions.test.tsx (8 tests) 1383ms
+   ✓ AC-004.3 — reasons entered through an input box > AC-004.3.3: the reason typed in the box is sent with a rejection 560ms
+   ✓ AC-004.3 — reasons entered through an input box > AC-004.3.5: the reason box clears after a successful decision 412ms
+ ✓ src/features/events/__tests__/ChangeRequestReplyForm.test.tsx (8 tests) 1854ms
+   ✓ AC-007.7.68: blank answers prevent saving and can be corrected 637ms
+   ✓ AC-007.7.69: every field question needs its own answer 362ms
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.23: the assigned coordinator sees 
+the switch on a Confirmed event
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\dev\\spm\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness 
+(C:\\dev\\spm\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+
+ ✓ src/features/events/__tests__/RegistrationSettingPanel.test.tsx (7 tests) 620ms
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.24: nobody else sees it, and nobody 
+sees it once the event is not Confirmed
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\dev\\spm\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness 
+(C:\\dev\\spm\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.24: nobody else sees it, and nobody 
+sees it once the event is not Confirmed
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\dev\\spm\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness 
+(C:\\dev\\spm\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.24: nobody else sees it, and nobody 
+sees it once the event is not Confirmed
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\dev\\spm\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness 
+(C:\\dev\\spm\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.24: nobody else sees it, and nobody 
+sees it once the event is not Confirmed
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\dev\\spm\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness 
+(C:\\dev\\spm\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.25: after a successful change the 
+page reloads the event so it shows the new setting
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\dev\\spm\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness 
+(C:\\dev\\spm\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.25: after a successful change the 
+page reloads the event so it shows the new setting
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\dev\\spm\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness 
+(C:\\dev\\spm\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-016.2.44: the assigned coordinator sees 
+the waiting list on a Confirmed event
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\dev\\spm\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness 
+(C:\\dev\\spm\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-016.2.45: nobody else sees it, and nobody 
+sees it once the event is not Confirmed
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\dev\\spm\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness 
+(C:\\dev\\spm\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\dev\\spm\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at runNextTicks (node:internal/process/task_queues:65:5)\n' +
+    '    at listOnTimeout (node:internal/timers:549:9)\n' +
+    '    at processTimers (node:internal/timers:523:7)\n' +
+    '    at fetchWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness 
+(C:\\dev\\spm\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\dev\\spm\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at runNextTicks (node:internal/process/task_queues:65:5)\n' +
+    '    at listOnTimeout (node:internal/timers:549:9)\n' +
+    '    at processTimers (node:internal/timers:523:7)\n' +
+    '    at fetchWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness 
+(C:\\dev\\spm\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\dev\\spm\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at runNextTicks (node:internal/process/task_queues:65:5)\n' +
+    '    at listOnTimeout (node:internal/timers:549:9)\n' +
+    '    at processTimers (node:internal/timers:523:7)\n' +
+    '    at fetchWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness 
+(C:\\dev\\spm\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+
+ ✓ src/features/events/__tests__/RegistrationSettingPage.test.tsx (5 tests) 1329ms
+   ✓ AC-052.1.23: the assigned coordinator sees the switch on a Confirmed event 308ms
+   ✓ AC-052.1.24: nobody else sees it, and nobody sees it once the event is not Confirmed 436ms
+   ✓ AC-016.2.45: nobody else sees it, and nobody sees it once the event is not Confirmed 375ms
+ ✓ src/features/venues/__tests__/venueBookingReviewService.test.ts (12 tests) 17ms
+ ✓ src/features/registrations/__tests__/validation.test.ts (11 tests) 15ms
+ ✓ src/features/events/__tests__/statusRules.test.ts (26 tests) 14ms
+stderr | src/features/venues/__tests__/VenueTimetablePreview.test.tsx > AC-047.2.38: zero buffers show only event 
+cells; invalid durations disable holding with an explanation
+Warning: An update to BookingSpaceFields inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at BookingSpaceFields (C:\dev\spm\is212\frontend\src\features\venues\components\BookingSpaceFields.tsx:7:31)
+    at div
+    at section
+    at Card (C:\dev\spm\is212\frontend\src\components\ui\Card.tsx:3:17)
+    at div
+    at div
+    at PageContainer (C:\dev\spm\is212\frontend\src\components\layout\PageContainer.tsx:3:26)
+    at VenueTimetablePage (C:\dev\spm\is212\frontend\src\features\venues\pages\VenueTimetablePage.tsx:41:54)
+    at RenderedRoute (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+ ✓ src/features/venues/__tests__/VenueTimetablePreview.test.tsx (2 tests) 691ms
+   ✓ AC-047.2.37: booking preview uses venue durations, shows midnight buffers and navigates to their first date 435ms
+ ✓ src/features/venues/__tests__/venueAvailability.test.ts (10 tests) 25ms
+ ✓ src/features/equipment/__tests__/equipmentStatusService.test.ts (4 tests) 18ms
+ ✓ src/features/venues/__tests__/VenueSuitabilityPage.test.tsx (4 tests) 454ms
+ ✓ src/features/registrations/__tests__/MyWaitlist.test.tsx (6 tests) 399ms
+ ✓ src/features/registrations/__tests__/OpenEventDetailsPage.test.tsx (4 tests) 369ms
+ ✓ src/features/venues/__tests__/MyVenueBookingsReplacement.test.tsx (3 tests) 653ms
+   ✓ AC-048.5.2: original remains Needs replacement through pending, rejected and withdrawn requests; approval refresh removes it 330ms
+ ✓ src/features/venues/__tests__/quarterHourTimetables.test.tsx (2 tests) 746ms
+   ✓ AC-047.2.33: all-venue timetable preserves quarter-hour states, buffer labels and venue separation 493ms
+ ✓ src/features/venues/__tests__/venueBookingAssignment.test.ts (1 test) 8ms
+ ✓ src/features/venues/__tests__/venueBlockService.create.test.ts (10 tests) 13ms
+ ✓ src/features/events/__tests__/draftValidation.test.ts (20 tests) 35ms
+ ✓ src/features/venues/__tests__/VenueDecisionNotifications.test.tsx (8 tests) 380ms
+ ✓ src/features/venues/__tests__/venueTimetable.test.ts (14 tests) 13ms
+ ✓ src/features/equipment/__tests__/ReserveForm.test.tsx (6 tests) 1415ms
+   ✓ AC-014.4: the return date > AC-014.4.10: a return date before the last day shows an error and is not saved 445ms
+   ✓ AC-014.8: full or partial reservation > AC-014.8.9: quantity must be a whole number from 0 to the requested quantity 510ms
+ ✓ src/features/events/__tests__/OrganiserEquipmentArrangements.test.tsx (2 tests) 459ms
+stderr | src/features/events/__tests__/ChangeRequestReviewPage.test.tsx > AC-007.2.31: the coordinator detail page 
+connects the event ID and refresh callback to the review panel
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\dev\\spm\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness 
+(C:\\dev\\spm\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/ChangeRequestReviewPage.test.tsx > AC-041.1.9: only the assigned coordinator 
+sees arrangement reviews and page refresh reloads them
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\dev\\spm\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness 
+(C:\\dev\\spm\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\dev\\spm\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/dev/spm/is212/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry 
+(file:///C:/dev/spm/is212/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness 
+(C:\\dev\\spm\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+
+ ✓ src/features/events/__tests__/ChangeRequestReviewPage.test.tsx (3 tests) 562ms
+   ✓ AC-041.1.9: only the assigned coordinator sees arrangement reviews and page refresh reloads them 382ms
+ ✓ src/features/events/__tests__/planningUpdateService.test.ts (7 tests) 24ms
+ ✓ src/features/events/readiness/__tests__/ReadinessSummary.test.tsx (6 tests) 269ms
+ ✓ src/features/registrations/__tests__/RegistrationForm.test.tsx (5 tests) 474ms
+ ✓ src/features/events/__tests__/RequestDetails.test.tsx (3 tests) 158ms
+ ✓ src/features/venues/__tests__/holdRules.test.ts (27 tests) 12ms
+ ✓ src/features/equipment/__tests__/ReservationQueue.test.tsx (6 tests) 507ms
+   ✓ AC-014.8: full or partial reservation > AC-014.8.11: after reserving, the row leaves the queue with its outcome shown 357ms
+ ✓ src/features/events/__tests__/CoordinatorRequestSections.test.tsx (1 test) 507ms
+   ✓ AC-017.4.6: coordinator sees assigned requests first and refresh moves reassigned requests between sections 505ms
+ ✓ src/features/venues/__tests__/VenueBookingApprovalAction.test.tsx (8 tests) 424ms
+ ✓ src/features/venues/__tests__/VenueBookingQueuePage.test.tsx (7 tests) 430ms
+ ✓ src/features/venues/__tests__/searchTextMatch.test.ts (16 tests) 11ms
+ ✓ src/features/registrations/__tests__/WithdrawRegistrationButton.test.tsx (5 tests) 387ms
+ ✓ src/features/notifications/preferences/__tests__/preferencesService.test.ts (4 tests) 16ms
+ ✓ src/features/venues/__tests__/VenueBlocksPage.test.tsx (4 tests) 965ms
+   ✓ AC-012.9 — current blocks can be viewed and removed > AC-012.9.23: choosing a venue shows its current blocks 315ms
+   ✓ AC-012.9 — current blocks can be viewed and removed > AC-012.9.25: saving a new block on the chosen venue reloads the current blocks 389ms
+ ✓ src/features/events/__tests__/requirementCatalogue.test.ts (8 tests) 10ms
+ ✓ src/features/auth/__tests__/signUpService.test.ts (7 tests) 15ms
+ ✓ src/features/events/__tests__/RequestCoordinatorNames.test.tsx (5 tests) 296ms
+ ✓ src/features/events/__tests__/ArrangementReviewPanel.test.tsx (2 tests) 386ms
+ ✓ src/features/registrations/__tests__/registrationServiceWaitlist.test.ts (5 tests) 20ms
+ ✓ src/features/venues/__tests__/ManageVenuesPage.test.tsx (10 tests) 327ms
+ ✓ src/features/events/status/__tests__/useRequestResource.test.ts (5 tests) 276ms
+ ✓ src/features/events/__tests__/OrganiserVenueArrangements.test.tsx (2 tests) 391ms
+ ✓ src/features/events/__tests__/registrationSettingService.test.ts (7 tests) 12ms
+ ✓ src/features/venues/__tests__/SuitabilityResultList.test.tsx (4 tests) 202ms
+ ✓ src/features/registrations/__tests__/waitlistManagementService.test.ts (5 tests) 10ms
+ ✓ src/features/events/readiness/__tests__/EventReadinessCard.test.tsx (4 tests) 193ms
+ ✓ src/features/events/__tests__/changeRequestReplyService.test.ts (9 tests) 19ms
+ ✓ src/features/auth/__tests__/SignInPage.test.tsx (3 tests) 355ms
+ ✓ src/features/venues/__tests__/VenueBufferSettings.test.tsx (3 tests) 460ms
+ ✓ src/features/events/__tests__/OrganiserVenueArrangementsPage.test.tsx (1 test) 466ms
+   ✓ AC-042.3.4: the shared request page mounts venue and equipment arrangements only for the owning organiser 463ms
+ ✓ src/features/events/__tests__/organiserEquipmentArrangementService.test.ts (3 tests) 16ms
+ ✓ src/features/venues/__tests__/VenueSearchPage.suitability.test.tsx (2 tests) 276ms
+ ✓ src/features/venues/__tests__/VenueBookingConflicts.test.tsx (6 tests) 189ms
+ ✓ src/features/equipment/__tests__/TechSupportEquipmentView.test.tsx (2 tests) 237ms
+ ✓ src/features/notifications/__tests__/notificationFormat.test.ts (9 tests) 8ms
+ ✓ src/features/events/__tests__/EventVenueBookings.test.tsx (3 tests) 458ms
+ ✓ src/features/events/__tests__/coordinatorNames.test.ts (8 tests) 10ms
+ ✓ src/features/auth/__tests__/roles.test.ts (8 tests) 10ms
+ ✓ src/features/venues/__tests__/venueBlockService.preview.test.ts (3 tests) 12ms
+ ✓ src/features/auth/__tests__/validation.test.ts (8 tests) 11ms
+ ✓ src/features/events/__tests__/organiserVenueArrangementService.test.ts (3 tests) 18ms
+ ✓ src/features/venues/__tests__/VenueBlockList.test.tsx (5 tests) 83ms
+ ✓ src/features/venues/__tests__/venueSearchBuffers.test.ts (3 tests) 12ms
+ ✓ src/features/venues/__tests__/FlaggedBookingsPage.test.tsx (4 tests) 224ms
+ ✓ src/features/venues/__tests__/SlotPicker.test.tsx (3 tests) 739ms
+   ✓ AC-047.2.34: range controls cover midnight, lunch and end of day in quarter-hour increments and support disabled/error states 508ms
+ ✓ src/features/venues/__tests__/UnsuitableVenueAlert.test.tsx (4 tests) 201ms
+ ✓ src/features/venues/__tests__/venueBlockService.currentBlocks.test.ts (5 tests) 9ms
+ ✓ src/features/registrations/__tests__/RegistrationFormWaitlist.test.tsx (3 tests) 298ms
+ ✓ src/features/venues/__tests__/venueOccupiedSlots.test.ts (3 tests) 11ms
+ ✓ src/features/auth/__tests__/signUpValidation.test.ts (9 tests) 10ms
+ ✓ src/features/notifications/__tests__/useUnreadNotificationCount.test.tsx (4 tests) 91ms
+ ✓ src/features/events/readiness/__tests__/readinessService.test.ts (3 tests) 13ms
+ ✓ src/features/venues/__tests__/venueBlockService.period.test.ts (2 tests) 10ms
+ ✓ src/features/venues/__tests__/RetireVenuePanel.test.tsx (4 tests) 224ms
+stderr | src/pages/__tests__/SignedInHome.test.tsx > AC-029.4: after signing up, the Attendee is signed in and sees 
+open events > AC-029.4.11: a signed-in Attendee's Home points them to events, not to a coordinator
+Warning: An update to SignedInHome inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at SignedInHome (C:\dev\spm\is212\frontend\src\pages\SignedInHome.tsx:18:25)
+    at Router (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+stderr | src/pages/__tests__/SignedInHome.test.tsx > AC-029.4: after signing up, the Attendee is signed in and sees 
+open events > AC-029.4.12: other roles keep their Home (regression guard)
+Warning: An update to SignedInHome inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at SignedInHome (C:\dev\spm\is212\frontend\src\pages\SignedInHome.tsx:18:25)
+    at Router (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+stderr | src/pages/__tests__/SignedInHome.test.tsx > AC-015.7: the Attendee sees their registrations > AC-015.7.11: an 
+Attendee's Home also links to My registrations
+Warning: An update to SignedInHome inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at 
+https://reactjs.org/link/wrap-tests-with-act
+    at SignedInHome (C:\dev\spm\is212\frontend\src\pages\SignedInHome.tsx:18:25)
+    at Router (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/dev/spm/is212/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+ ✓ src/pages/__tests__/SignedInHome.test.tsx (3 tests) 189ms
+ ✓ src/features/events/__tests__/ArrangementReviewIndicators.test.tsx (1 test) 521ms
+   ✓ AC-041.1.12: request badges are assigned-only, preserve status, refresh and report failed counts 519ms
+ ✓ src/features/venues/__tests__/VenueBlockList.remove.test.tsx (3 tests) 248ms
+ ✓ src/features/events/__tests__/changeRequestSignificance.test.ts (10 tests) 6ms
+ ✓ src/features/venues/__tests__/MyVenueBookingsNotifications.test.tsx (2 tests) 147ms
+ ✓ src/features/venues/__tests__/venueBookingQueueService.test.ts (6 tests) 9ms
+ ✓ src/features/venues/__tests__/venueBlockPreviewHelpers.test.ts (3 tests) 6ms
+ ✓ src/features/venues/__tests__/VenueResultCard.test.tsx (3 tests) 75ms
+ ✓ src/features/venues/__tests__/VenueRequirementsForm.test.tsx (3 tests) 278ms
+ ✓ src/features/events/__tests__/ChangeRequestReviewHistory.test.tsx (4 tests) 81ms
+ ✓ src/features/registrations/__tests__/availableMoves.test.ts (6 tests) 5ms
+ ✓ src/features/venues/__tests__/venueAlertService.test.ts (2 tests) 8ms
+ ✓ src/features/events/__tests__/DecisionHistory.test.tsx (3 tests) 138ms
+ ✓ src/features/venues/__tests__/VenueBookingRequestDetails.test.tsx (3 tests) 98ms
+ ✓ src/features/equipment/__tests__/EquipmentOutcomeNotices.test.tsx (2 tests) 94ms
+ ✓ src/features/venues/__tests__/venueDecisionNotificationService.test.ts (4 tests) 10ms
+ ✓ src/features/venues/__tests__/BookingSpaceFields.test.tsx (3 tests) 213ms
+ ✓ src/features/events/__tests__/directEventReview.test.ts (6 tests) 10ms
+ ✓ src/features/venues/__tests__/venueBookingApprovalService.test.ts (5 tests) 9ms
+ ✓ src/features/notifications/__tests__/noticeSource.test.ts (2 tests) 9ms
+ ✓ src/features/registrations/__tests__/canAcceptOffer.test.ts (5 tests) 4ms
+ ✓ src/features/events/__tests__/ChangeRequestReplyHistory.test.tsx (2 tests) 161ms
+ ✓ src/features/venues/__tests__/venueBlockService.venues.test.ts (2 tests) 7ms
+ ✓ src/features/events/__tests__/ChangeRequestSignificance.test.tsx (3 tests) 75ms
+ ✓ src/features/equipment/__tests__/equipmentCatalogueService.test.ts (2 tests) 17ms
+ ✓ src/features/events/readiness/__tests__/readinessLinks.test.ts (2 tests) 6ms
+ ✓ src/features/venues/__tests__/availabilityDates.test.ts (3 tests) 6ms
+ ✓ src/features/notifications/preferences/__tests__/NotificationsSettingsLink.test.tsx (1 test) 129ms
+ ✓ src/features/events/__tests__/eventVenueBookingsService.test.ts (2 tests) 11ms
+ ✓ src/features/equipment/__tests__/reservationRules.test.ts (2 tests) 5ms
+ ✓ src/features/auth/__tests__/coordinatorLeadProfile.test.ts (1 test) 6ms
+ ✓ src/features/events/__tests__/draftFormValues.test.ts (3 tests) 6ms
+
+ Test Files  180 passed (180)
+      Tests  1548 passed (1548)
+   Start at  22:29:48
+   Duration  264.79s (transform 5.66s, setup 36.93s, collect 43.57s, tests 90.55s, environment 220.97s, prepare 37.64s)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   96.11 |    90.68 |   95.13 |   96.11 |                   
+ auth              |   62.56 |    78.37 |      50 |   62.56 |                   
+  ...nProvider.tsx |       0 |        0 |       0 |       0 | 1-30              
+  authService.ts   |   68.96 |    92.85 |   33.33 |   68.96 | 18-22,26-38,77-79 
+  ...ionContext.ts |     100 |    66.66 |     100 |     100 | 17                
+  types.ts         |     100 |      100 |     100 |     100 |                   
+  useProfile.ts    |       0 |        0 |       0 |       0 | 1-34              
+  useSession.ts    |       0 |        0 |       0 |       0 | 1-36              
+  validation.ts    |     100 |       80 |     100 |     100 | 102-104           
+ auth/components   |    91.8 |       50 |      75 |    91.8 |                   
+  ...PageShell.tsx |     100 |      100 |     100 |     100 |                   
+  SessionBadge.tsx |   87.17 |       20 |      50 |   87.17 | 15-16,43-45       
+ auth/pages        |   97.87 |    80.64 |     100 |   97.87 |                   
+  SignInPage.tsx   |   95.89 |    69.23 |     100 |   95.89 | 40-42             
+  SignUpPage.tsx   |     100 |    88.88 |     100 |     100 | 30,82             
+ equipment         |   94.27 |     85.4 |    97.5 |   94.27 |                   
+  ...ogueStatus.ts |     100 |      100 |     100 |     100 |                   
+  ...gueService.ts |     100 |      100 |     100 |     100 |                   
+  ...entService.ts |   85.41 |    86.11 |      90 |   85.41 | ...01-102,120-130 
+  equipmentRows.ts |     100 |    35.71 |     100 |     100 | ...71-73,81-84,93 
+  ...tusService.ts |     100 |      100 |     100 |     100 |                   
+  ...Validation.ts |     100 |      100 |     100 |     100 |                   
+  ...ationRules.ts |     100 |      100 |     100 |     100 |                   
+  ...ionService.ts |   90.19 |    57.69 |     100 |   90.19 | ...14-117,141-142 
+  ...ationTypes.ts |       0 |        0 |       0 |       0 |                   
+  types.ts         |       0 |      100 |     100 |       0 | 6                 
+  validation.ts    |   97.01 |    94.44 |     100 |   97.01 | 46-47             
+ ...ent/components |   98.93 |    85.14 |   91.83 |   98.93 |                   
+  ...logueView.tsx |     100 |    95.23 |     100 |     100 | 32,42,45          
+  ...meNotices.tsx |   96.77 |     92.3 |     100 |   96.77 | 13                
+  ...ntsEditor.tsx |   98.48 |    72.97 |      80 |   98.48 | 30                
+  ...usHistory.tsx |     100 |       80 |     100 |     100 | 13                
+  ...atusPanel.tsx |     100 |    94.28 |     100 |     100 | 31,41             
+  ...ntRequest.tsx |     100 |      100 |     100 |     100 |                   
+  ...ementForm.tsx |     100 |      100 |    87.5 |     100 |                   
+  ...ementList.tsx |     100 |    76.92 |   83.33 |     100 | 13,35,39          
+  ...atusBadge.tsx |     100 |      100 |     100 |     100 |                   
+  ...tionQueue.tsx |   98.27 |    74.19 |      80 |   98.27 | 28                
+  ReserveForm.tsx  |   97.95 |    57.14 |     100 |   97.95 | 47                
+  ...allFields.tsx |     100 |      100 |     100 |     100 |                   
+  ...pmentView.tsx |   96.36 |       65 |     100 |   96.36 | 21,26             
+ equipment/pages   |   20.37 |    66.66 |      25 |   20.37 |                   
+  ...loguePage.tsx |     100 |      100 |     100 |     100 |                   
+  ...pmentPage.tsx |       0 |        0 |       0 |       0 | 1-29              
+  ...pmentPage.tsx |       0 |        0 |       0 |       0 | 1-17              
+  ...pmentPage.tsx |       0 |        0 |       0 |       0 | 1-16              
+ events            |   97.23 |    91.72 |   98.73 |   97.23 |                   
+  ...iewService.ts |   97.29 |    97.05 |     100 |   97.29 | 57-58             
+  ...Validation.ts |     100 |      100 |     100 |     100 |                   
+  ...estDisplay.ts |   76.08 |       75 |     100 |   76.08 | 43-49,54-57       
+  ...plyService.ts |     100 |    94.11 |     100 |     100 | 31                
+  ...ReplyTypes.ts |       0 |        0 |       0 |       0 |                   
+  ...Validation.ts |    91.3 |       75 |     100 |    91.3 | 26-27,41-42       
+  ...eryService.ts |     100 |    58.62 |     100 |     100 | 35-43,45-46       
+  ...iewService.ts |     100 |    92.85 |     100 |     100 | 24-25             
+  ...Validation.ts |     100 |      100 |     100 |     100 |                   
+  ...gnificance.ts |     100 |      100 |     100 |     100 |                   
+  ...entService.ts |   84.21 |    53.84 |     100 |   84.21 | 34-35,42,44,49-50 
+  ...natorLabel.ts |     100 |      100 |     100 |     100 |                   
+  ...FormValues.ts |     100 |    93.33 |     100 |     100 | 8                 
+  ...Validation.ts |     100 |    96.96 |     100 |     100 | 82                
+  ...estService.ts |   92.14 |      100 |   83.33 |   92.14 | 186-197           
+  ...torService.ts |     100 |    91.66 |     100 |     100 | 26                
+  ...eryService.ts |     100 |    97.67 |     100 |     100 | 86                
+  ...aftService.ts |     100 |      100 |     100 |     100 |                   
+  ...onsService.ts |     100 |     92.3 |     100 |     100 | 86                
+  ...iewService.ts |   99.27 |    88.88 |     100 |   99.27 | 207               
+  eventService.ts  |     100 |    96.66 |     100 |     100 | 143               
+  ...ngsService.ts |     100 |      100 |     100 |     100 |                   
+  formatters.ts    |     100 |    81.81 |     100 |     100 | 12,19             
+  ...entService.ts |     100 |    84.61 |     100 |     100 | 98,120            
+  ...entService.ts |     100 |      100 |     100 |     100 |                   
+  ...entService.ts |     100 |      100 |     100 |     100 |                   
+  ...ateService.ts |     100 |      100 |     100 |     100 |                   
+  ...ingService.ts |     100 |      100 |     100 |     100 |                   
+  ...tCatalogue.ts |     100 |      100 |     100 |     100 |                   
+  ...gueService.ts |   67.56 |       25 |     100 |   67.56 | 50-59,62-63       
+  statusRules.ts   |     100 |      100 |     100 |     100 |                   
+  types.ts         |     100 |      100 |     100 |     100 |                   
+  ...equestForm.ts |     100 |    93.54 |     100 |     100 | 154,162           
+  ...equestForm.ts |     100 |    84.84 |     100 |     100 | 79-81,93,112,124  
+  validation.ts    |   96.17 |    93.44 |     100 |   96.17 | 106-108,127-129   
+ events/components |   96.23 |    93.16 |   96.42 |   96.23 |                   
+  ...utionForm.tsx |     100 |      100 |     100 |     100 |                   
+  ...viewPanel.tsx |     100 |    83.72 |     100 |     100 | 18,46-47,51       
+  ...questList.tsx |   98.46 |    92.59 |     100 |   98.46 | 43                
+  ...ReplyForm.tsx |     100 |    96.96 |     100 |     100 | 51                
+  ...lyHistory.tsx |     100 |    88.88 |     100 |     100 | 12                
+  ...viewField.tsx |     100 |     90.9 |     100 |     100 | 17                
+  ...eviewForm.tsx |   96.96 |    93.54 |     100 |   96.96 | 49-50             
+  ...ewHistory.tsx |     100 |      100 |     100 |     100 |                   
+  ...viewPanel.tsx |   97.95 |     90.9 |     100 |   97.95 | 29                
+  ...nificance.tsx |     100 |      100 |     100 |     100 |                   
+  ...atusBadge.tsx |     100 |      100 |     100 |     100 |                   
+  ...stSummary.tsx |   93.93 |    86.36 |     100 |   93.93 | 34-35             
+  ...nmentCard.tsx |     100 |    85.71 |     100 |     100 | 33                
+  ...nmentForm.tsx |     100 |       95 |     100 |     100 | 23                
+  ...mentQueue.tsx |   98.75 |    97.56 |     100 |   98.75 | 45                
+  ...onHistory.tsx |     100 |      100 |     100 |     100 |                   
+  DraftAccess.tsx  |     100 |      100 |     100 |     100 |                   
+  ...aveResult.tsx |     100 |      100 |     100 |     100 |                   
+  ...questForm.tsx |     100 |       80 |     100 |     100 | 151-176           
+  ...questForm.tsx |     100 |      100 |     100 |     100 |                   
+  ...eBookings.tsx |     100 |      100 |     100 |     100 |                   
+  ...ntsFields.tsx |   96.55 |    54.54 |     100 |   96.55 | 47-49             
+  ...angements.tsx |     100 |      100 |     100 |     100 |                   
+  ...angements.tsx |     100 |      100 |     100 |     100 |                   
+  ...datePanel.tsx |     100 |     97.1 |     100 |     100 | 37,41             
+  ...tingPanel.tsx |     100 |    93.33 |     100 |     100 | 18                
+  ...stDetails.tsx |     100 |      100 |     100 |     100 |                   
+  ...tListItem.tsx |     100 |    85.71 |     100 |     100 | 29                
+  ...tControls.tsx |     100 |    94.44 |      60 |     100 | 115               
+  ...ewActions.tsx |   98.76 |       95 |     100 |   98.76 | 34                
+  StatusBadge.tsx  |     100 |      100 |     100 |     100 |                   
+  ...nGuidance.tsx |       0 |        0 |       0 |       0 | 1-56              
+  ...ionResult.tsx |     100 |      100 |     100 |     100 |                   
+ events/pages      |   87.36 |    87.45 |   96.55 |   87.36 |                   
+  ...tionsPage.tsx |   98.63 |    84.61 |     100 |   98.63 | 47                
+  MyDraftsPage.tsx |   97.36 |    94.11 |     100 |   97.36 | 26                
+  ...ventsPage.tsx |     100 |      100 |     100 |     100 |                   
+  ...etailPage.tsx |   98.79 |    73.91 |     100 |   98.79 | 51                
+  ...ventsPage.tsx |   95.65 |       80 |     100 |   95.65 | 37-38,56          
+  ...DraftPage.tsx |   96.66 |      100 |     100 |   96.66 | 28                
+  ...etailPage.tsx |   94.21 |    83.63 |     100 |   94.21 | 87-95,228,230     
+  ...uestsPage.tsx |   86.66 |    92.59 |     100 |   86.66 | 72-77,104-110     
+  ...angesPage.tsx |   95.65 |    91.66 |     100 |   95.65 | 55-60             
+  ...questPage.tsx |       0 |        0 |       0 |       0 | 1-104             
+ events/readiness  |     100 |      100 |     100 |     100 |                   
+  ...inessCard.tsx |     100 |      100 |     100 |     100 |                   
+  ...ssSummary.tsx |     100 |      100 |     100 |     100 |                   
+  ...inessLinks.ts |     100 |      100 |     100 |     100 |                   
+  ...essService.ts |     100 |      100 |     100 |     100 |                   
+  types.ts         |       0 |        0 |       0 |       0 |                   
+ events/status     |     100 |    97.67 |     100 |     100 |                   
+  ...atusPanel.tsx |     100 |      100 |     100 |     100 |                   
+  ...tatusLabel.ts |     100 |      100 |     100 |     100 |                   
+  ...stResource.ts |     100 |    95.83 |     100 |     100 | 19                
+ notifications     |     100 |      100 |     100 |     100 |                   
+  ...tionFormat.ts |     100 |      100 |     100 |     100 |                   
+  ...ionService.ts |     100 |      100 |     100 |     100 |                   
+  types.ts         |       0 |        0 |       0 |       0 |                   
+  ...ationCount.ts |     100 |      100 |     100 |     100 |                   
+ ...ications/pages |     100 |      100 |     100 |     100 |                   
+  ...tionsPage.tsx |     100 |      100 |     100 |     100 |                   
+ ...ns/preferences |     100 |      100 |     100 |     100 |                   
+  ...encesPage.tsx |     100 |      100 |     100 |     100 |                   
+  ...cesService.ts |     100 |      100 |     100 |     100 |                   
+ registrations     |   99.68 |    88.42 |     100 |   99.68 |                   
+  ...ionService.ts |   99.15 |    70.58 |     100 |   99.15 | 156               
+  types.ts         |     100 |      100 |     100 |     100 |                   
+  validation.ts    |     100 |    96.96 |     100 |     100 | 76                
+  ...entService.ts |     100 |    93.33 |     100 |     100 | 39                
+  ...istService.ts |     100 |    94.87 |     100 |     100 | 63,113            
+ ...ons/components |   99.34 |    93.87 |     100 |   99.34 |                   
+  ...listPanel.tsx |     100 |    95.65 |     100 |     100 | 35                
+  ...WhenWhere.tsx |     100 |      100 |     100 |     100 |                   
+  ...rWaitlist.tsx |     100 |      100 |     100 |     100 |                   
+  ...ationForm.tsx |     100 |    94.11 |     100 |     100 | 41                
+  ...nListItem.tsx |     100 |      100 |     100 |     100 |                   
+  ...istButton.tsx |    92.3 |    72.72 |     100 |    92.3 | 36-37             
+  ...tListItem.tsx |     100 |      100 |     100 |     100 |                   
+  ...ionButton.tsx |     100 |    93.33 |     100 |     100 | 28                
+ ...trations/pages |   97.88 |    77.27 |   57.14 |   97.88 |                   
+  ...tionsPage.tsx |   95.94 |    79.16 |      60 |   95.94 | 38-40             
+  ...tailsPage.tsx |     100 |       75 |      50 |     100 | 30,36-37,68,91    
+ venues            |   97.47 |    89.69 |   99.19 |   97.47 |                   
+  ...ilityDates.ts |     100 |      100 |     100 |     100 |                   
+  ...aceService.ts |      50 |      100 |      50 |      50 | 9-13              
+  bookingTypes.ts  |       0 |        0 |       0 |       0 |                   
+  holdRules.ts     |     100 |      100 |     100 |     100 |                   
+  ...rHourSlots.ts |     100 |      100 |     100 |     100 |                   
+  ...hTextMatch.ts |     100 |       90 |     100 |     100 | 46                
+  slotFormat.ts    |     100 |       50 |     100 |     100 | 24-26             
+  slots.ts         |     100 |      100 |     100 |     100 |                   
+  ...ityService.ts |    95.1 |    74.35 |     100 |    95.1 | ...50-152,222-224 
+  ...ilityTypes.ts |       0 |        0 |       0 |       0 |                   
+  ...Validation.ts |     100 |      100 |     100 |     100 |                   
+  ...ableStyles.ts |     100 |      100 |     100 |     100 |                   
+  types.ts         |       0 |        0 |       0 |       0 |                   
+  ...placements.ts |   89.28 |    92.85 |     100 |   89.28 | 20-22             
+  ...ertService.ts |     100 |     37.5 |     100 |     100 | 35-43             
+  ...ailability.ts |     100 |      100 |     100 |     100 |                   
+  ...ityService.ts |     100 |      100 |     100 |     100 |                   
+  ...ockService.ts |     100 |     86.2 |     100 |     100 | ...34,143,151,181 
+  ...BlockTypes.ts |       0 |        0 |       0 |       0 |                   
+  ...Validation.ts |     100 |    97.01 |     100 |     100 | 45,63             
+  ...valService.ts |     100 |      100 |     100 |     100 |                   
+  ...eueService.ts |     100 |      100 |     100 |     100 |                   
+  ...iewService.ts |     100 |      100 |     100 |     100 |                   
+  ...eviewTypes.ts |       0 |        0 |       0 |       0 |                   
+  ...Validation.ts |     100 |      100 |     100 |     100 |                   
+  ...ingService.ts |   94.55 |    81.18 |     100 |   94.55 | ...62-163,172-175 
+  ...ngsService.ts |   87.09 |    61.53 |     100 |   87.09 | 12-15             
+  ...ionService.ts |     100 |      100 |     100 |     100 |                   
+  ...eCatalogue.ts |     100 |      100 |     100 |     100 |                   
+  ...entService.ts |     100 |      100 |     100 |     100 |                   
+  ...Validation.ts |     100 |      100 |     100 |     100 |                   
+  ...upiedSlots.ts |   94.59 |    94.44 |     100 |   94.59 | 42-43             
+  ...entService.ts |     100 |      100 |     100 |     100 |                   
+  ...rchService.ts |   92.64 |    77.46 |     100 |   92.64 | ...46-149,199-201 
+  ...eTimetable.ts |     100 |    95.23 |     100 |     100 | 37                
+  ...bleService.ts |     100 |       95 |     100 |     100 | 111               
+ venues/components |   99.27 |    93.71 |   94.95 |   99.27 |                   
+  ...aceFields.tsx |     100 |      100 |     100 |     100 |                   
+  ...atusBadge.tsx |     100 |      100 |     100 |     100 |                   
+  ...meSummary.tsx |     100 |      100 |     100 |     100 |                   
+  ...ingNotice.tsx |     100 |      100 |     100 |     100 |                   
+  ...posalForm.tsx |     100 |       95 |     100 |     100 | 20                
+  ...nueSearch.tsx |   93.65 |     87.5 |   83.33 |   93.65 | 37-39,55          
+  ...enuePanel.tsx |     100 |      100 |     100 |     100 |                   
+  ...imPreview.tsx |     100 |      100 |     100 |     100 |                   
+  SlotPicker.tsx   |     100 |      100 |     100 |     100 |                   
+  ...lityBadge.tsx |     100 |      100 |     100 |     100 |                   
+  ...esultList.tsx |     100 |      100 |     100 |     100 |                   
+  ...enueAlert.tsx |     100 |      100 |     100 |     100 |                   
+  ...ilityGrid.tsx |     100 |    95.83 |     100 |     100 | 89                
+  ...BlockForm.tsx |   97.52 |    89.74 |     100 |   97.52 | 78-80             
+  ...BlockList.tsx |     100 |    94.44 |     100 |     100 | 50,61             
+  ...ckPreview.tsx |     100 |       75 |     100 |     100 | 15,43-45          
+  ...valAction.tsx |     100 |    95.65 |     100 |     100 | 25                
+  ...Conflicts.tsx |     100 |      100 |     100 |     100 |                   
+  ...ctionForm.tsx |     100 |    96.77 |     100 |     100 | 40                
+  ...stDetails.tsx |     100 |      100 |     100 |     100 |                   
+  ...rSettings.tsx |     100 |    93.75 |     100 |     100 | 18,26             
+  ...fications.tsx |     100 |      100 |     100 |     100 |                   
+  VenueFilters.tsx |    97.2 |    78.37 |   54.54 |    97.2 | 15-17,193,213     
+  VenueForm.tsx    |     100 |      100 |     100 |     100 |                   
+  ...mentPanel.tsx |     100 |    83.72 |     100 |     100 | 18,68-69          
+  ...mentsForm.tsx |     100 |    85.71 |     100 |     100 | 17,63             
+  ...esultCard.tsx |     100 |    85.71 |     100 |     100 | 27,48             
+  ...tableGrid.tsx |     100 |      100 |     100 |     100 |                   
+ venues/pages      |   97.65 |    89.58 |   95.16 |   97.65 |                   
+  AddVenuePage.tsx |     100 |      100 |     100 |     100 |                   
+  ...VenuePage.tsx |     100 |      100 |     100 |     100 |                   
+  ...kingsPage.tsx |     100 |    84.21 |     100 |     100 | 48,81-82          
+  ...enuesPage.tsx |     100 |      100 |     100 |     100 |                   
+  ...kingsPage.tsx |   99.22 |       94 |     100 |   99.22 | 72                
+  ...ilityPage.tsx |     100 |      100 |     100 |     100 |                   
+  ...locksPage.tsx |   91.66 |    73.68 |     100 |   91.66 | 30,40-42,81-83    
+  ...QueuePage.tsx |     100 |      100 |   66.66 |     100 |                   
+  ...eviewPage.tsx |     100 |       92 |     100 |     100 | 33,46             
+  ...tailsPage.tsx |   97.93 |    81.81 |     100 |   97.93 | 59,110            
+  ...earchPage.tsx |     100 |     82.6 |     100 |     100 | 22,31,43          
+  ...earchPage.tsx |   87.85 |    73.91 |      75 |   87.85 | ...01-105,121-123 
+  ...ilityPage.tsx |   95.48 |    67.64 |     100 |   95.48 | 62-66,139         
+  ...tablePage.tsx |   98.48 |    88.23 |    87.5 |   98.48 | 81,172,219        
+-------------------|---------|----------|---------|---------|-------------------
