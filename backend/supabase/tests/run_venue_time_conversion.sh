@@ -111,6 +111,10 @@ SQL
   cat "$repo_root/supabase/tests/multi_venue_readiness.sql"
   cat "$repo_root/supabase/migrations/0107_event_venue_readiness.sql"
   cat "$repo_root/supabase/tests/multi_venue_readiness.sql"
+  # US43 (0108): 0107 replaces readiness with its own full version, so 0108 is applied again to
+  # put the shared helper back (with 0107's rule), then checked here.
+  cat "$repo_root/supabase/migrations/0108_us43_safety_review.sql"
+  cat "$repo_root/supabase/tests/safety_review_readiness.sql"
   # US33 (0103): US12 closure alerts follow each person's channel choices; applies after 0100.
   cat "$repo_root/supabase/migrations/0103_us12_venue_block_notice_channels.sql"
   cat "$repo_root/supabase/tests/venue_block_notice_channels.sql"

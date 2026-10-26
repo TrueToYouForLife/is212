@@ -5,7 +5,13 @@
 -- system refuses until then. AC-043.2 that moves it to Awaiting Safety Review and notifies the
 -- Safety Officers (US33 helper). AC-043.3 while awaiting review it cannot move to In Preparation
 -- or Confirmed; only a Safety Officer decides the review (US44).
--- Apply after 0106. Safe to replay.
+-- Switched off by default (safety_review_settings): while off, Planning -> Confirmed works exactly
+-- as before, nothing can be sent for review and readiness shows no safety line. Switch it on only
+-- once Coordinators can clear rejected bookings (US49 slice 3, 0110), the Safety Officer can decide
+-- (US44) and an event in preparation can be confirmed (US26):
+--   update public.safety_review_settings set enabled = true, updated_at = now();
+-- Readiness keeps US49's venue rule (0107). Apply after 0107. Safe to replay: a replay never
+-- switches the safety review back off.
 --
 -- approved -> planning -> awaiting_safety_review -> in_preparation -> confirmed -> completed
 --                                |        ^
@@ -14,6 +20,25 @@
 -- Any status before completed can still be cancelled; submitted and under_review can still be
 -- withdrawn (US22). Planning -> Confirmed is no longer possible.
 begin;
+
+-- ---------------------------------------------------------------------------
+-- The switch: the safety review is off until the team turns it on
+-- ---------------------------------------------------------------------------
+create table if not exists public.safety_review_settings (
+  id boolean primary key default true check (id),
+  enabled boolean not null default false,
+  updated_at timestamptz not null default now()
+);
+insert into public.safety_review_settings (id, enabled) values (true, false) on conflict (id) do nothing;
+alter table public.safety_review_settings enable row level security;
+revoke all on public.safety_review_settings from public, anon, authenticated;
+
+create or replace function public.safety_review_enabled()
+returns boolean language sql stable security definer set search_path = '' as $$
+  select coalesce((select enabled from public.safety_review_settings where id), false);
+$$;
+revoke all on function public.safety_review_enabled() from public, anon;
+grant execute on function public.safety_review_enabled() to authenticated;
 
 -- ---------------------------------------------------------------------------
 -- The Safety Officer role (Week 7 change 6)
@@ -39,7 +64,7 @@ alter table public.events add constraint events_status_valid check (
 create or replace function public.is_valid_status_transition(old_status text, new_status text)
 returns boolean
 language sql
-immutable
+stable
 as $$
   select case old_status
     when 'draft'      then new_status in ('submitted', 'cancelled')
@@ -49,7 +74,10 @@ as $$
     when 'under_review' then new_status in ('approved', 'rejected', 'submitted',
                                             'cancelled', 'withdrawn')
     when 'approved'   then new_status in ('planning', 'cancelled')
-    when 'planning'   then new_status in ('awaiting_safety_review', 'cancelled')
+    -- Switched off: Confirmed straight from Planning, as before. Switched on: review first.
+    when 'planning'   then new_status in (case when public.safety_review_enabled()
+                                               then 'awaiting_safety_review' else 'confirmed' end,
+                                          'cancelled')
     when 'awaiting_safety_review' then new_status in ('in_preparation', 'safety_changes_requested', 'cancelled')
     when 'safety_changes_requested' then new_status in ('awaiting_safety_review', 'cancelled')
     when 'in_preparation' then new_status in ('confirmed', 'cancelled')
@@ -61,13 +89,15 @@ $$;
 -- ---------------------------------------------------------------------------
 -- AC-043.1: one readiness rule for the card (US5) and for the safety review
 -- ---------------------------------------------------------------------------
--- 0076's readiness lines, readable by the database itself, plus the safety review's own line.
+-- 0107's readiness lines (0076 with US49's venue rule, kept exactly), readable by the database
+-- itself, plus the safety review's own line once switched on.
 create or replace function public.event_readiness_lines(p_event_id uuid)
 returns table (arrangement text, label text, complete boolean, detail text, sort_order integer)
 language plpgsql stable security definer set search_path = '' as $$
 declare
   e                  public.events;
   v_confirmed        integer;
+  v_rejected         integer;
   v_waiting          integer;
   v_held             integer;
   v_requirements     integer;
@@ -81,21 +111,23 @@ begin
     return;
   end if;
 
-  -- Venue booking: every live booking approved, and at least one. Rejected, cancelled and
-  -- expired bookings no longer count either way.
-  select count(*) filter (where b.status = 'confirmed'),
+  -- Every live booking is required. Rejected requirements remain outstanding.
+  -- Cancelled/expired attempts remain visible history but do not count as live requirements.
+  select count(*) filter (where b.status = 'rejected'),
+         count(*) filter (where b.status = 'confirmed'),
          count(*) filter (where b.status = 'pending_approval'),
          count(*) filter (where b.status = 'held' and b.hold_expires_at > now())
-    into v_confirmed, v_waiting, v_held
+    into v_rejected, v_confirmed, v_waiting, v_held
   from public.venue_bookings b where b.event_id = e.id;
 
   arrangement := 'venue_booking';
   label := 'Venue booking';
-  complete := v_confirmed > 0 and v_waiting = 0 and v_held = 0;
+  complete := v_confirmed > 0 and v_waiting = 0 and v_held = 0 and v_rejected = 0;
   detail := case
-    when v_confirmed + v_waiting + v_held = 0 then 'No venue booked yet.'
+    when v_confirmed + v_waiting + v_held + v_rejected = 0 then 'No venue booked yet.'
     when complete then format('%s approved.', case when v_confirmed = 1 then '1 venue booking' else v_confirmed || ' venue bookings' end)
     else concat_ws(' ',
+      case when v_rejected > 0 then format('%s rejected; venue requirements remain outstanding.', v_rejected) end,
       case when v_waiting > 0 then format('%s awaiting Venue Staff.', case when v_waiting = 1 then '1 booking' else v_waiting || ' bookings' end) end,
       case when v_held > 0 then format('%s held, not yet requested.', case when v_held = 1 then '1 booking' else v_held || ' bookings' end) end,
       case when v_confirmed > 0 then format('%s approved.', v_confirmed) end)
@@ -160,9 +192,10 @@ begin
     return next;
   end if;
 
-  -- US43: the safety review, the last step before the event can be confirmed.
-  if e.status in ('planning', 'awaiting_safety_review', 'safety_changes_requested', 'in_preparation',
-                  'confirmed', 'completed') then
+  -- US43: the safety review, the last step before the event can be confirmed (once switched on).
+  if public.safety_review_enabled()
+     and e.status in ('planning', 'awaiting_safety_review', 'safety_changes_requested', 'in_preparation',
+                      'confirmed', 'completed') then
     arrangement := 'safety_review';
     label := 'Safety review';
     complete := e.status in ('in_preparation', 'confirmed', 'completed');
@@ -178,7 +211,8 @@ begin
 end $$;
 revoke all on function public.event_readiness_lines(uuid) from public, anon, authenticated;
 
--- 0076's function, now a thin wrapper: the event's assigned Coordinator only (AC-005.4).
+-- 0107's function, now a thin wrapper: the event's assigned Coordinator only (AC-005.4). Later
+-- readiness changes go in event_readiness_lines(), so the card and the safety review agree.
 create or replace function public.get_event_readiness(p_event_id uuid)
 returns table (arrangement text, label text, complete boolean, detail text, sort_order integer)
 language plpgsql stable security definer set search_path = '' as $$
@@ -232,6 +266,9 @@ begin
   end if;
   if public.current_user_role() is distinct from 'coordinator' or e.coordinator_id is distinct from auth.uid() then
     raise exception 'Only the event''s assigned Coordinator can send it for safety review' using errcode = '42501';
+  end if;
+  if not public.safety_review_enabled() then
+    raise exception 'The safety review is not switched on yet' using errcode = '0A000';
   end if;
   if e.status <> 'planning' then
     raise exception 'Only an event in Planning can be sent for safety review' using errcode = '22000';

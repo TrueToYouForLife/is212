@@ -99,7 +99,7 @@ describe('AC-004.2 — actions offered to a coordinator', () => {
 describe('remaining lifecycle actions', () => {
   test.each([
     ['approved', ['planning', 'cancelled']],
-    ['planning', ['cancelled']],
+    ['planning', ['confirmed', 'cancelled']],
     ['awaiting_safety_review', ['cancelled']],
     ['safety_changes_requested', ['cancelled']],
     ['in_preparation', ['confirmed', 'cancelled']],

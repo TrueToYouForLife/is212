@@ -51,6 +51,27 @@ insert into public.event_equipment_requirements (id, event_id, type_id, quantity
 update public.event_equipment_requirements set status = 'reserved' where id = '43b40000-0000-0000-0000-000000000001';
 update public.event_equipment_requirements set status = 'unavailable' where id = '43b40000-0000-0000-0000-000000000003';
 
+-- E9 one approved and one rejected venue; E10 one approved and one still held; E11 two approved
+-- (US49's rule, 0107, carried into 0108's shared readiness helper).
+insert into public.events (id, organiser_id, coordinator_id, name, purpose, proposed_start, proposed_end,
+  expected_attendance, status, reference, programme, registration_required) values
+  ('43b30000-0000-0000-0000-000000000009', '43b00000-0000-0000-0000-000000000001', '43b00000-0000-0000-0000-000000000002', 'US43 Event 9', 'Fixture', '2041-09-19 09:00+08', '2041-09-19 11:00+08', 40, 'planning', 'EVT-43B-9', 'Talks', false),
+  ('43b30000-0000-0000-0000-000000000010', '43b00000-0000-0000-0000-000000000001', '43b00000-0000-0000-0000-000000000002', 'US43 Event 10', 'Fixture', '2041-09-20 09:00+08', '2041-09-20 11:00+08', 40, 'planning', 'EVT-43B-10', 'Talks', false),
+  ('43b30000-0000-0000-0000-000000000011', '43b00000-0000-0000-0000-000000000001', '43b00000-0000-0000-0000-000000000002', 'US43 Event 11', 'Fixture', '2041-09-21 09:00+08', '2041-09-21 11:00+08', 40, 'planning', 'EVT-43B-11', 'Talks', false),
+  ('43b30000-0000-0000-0000-000000000012', '43b00000-0000-0000-0000-000000000001', '43b00000-0000-0000-0000-000000000002', 'US43 Event 12', 'Fixture', '2041-09-22 09:00+08', '2041-09-22 11:00+08', 40, 'planning', 'EVT-43B-12', 'Talks', false);
+insert into public.venue_bookings (id, event_id, venue_id, requested_by, status, hold_expires_at, review_note) values
+  ('43b50000-0000-0000-0000-000000000009', '43b30000-0000-0000-0000-000000000009', '43b10000-0000-0000-0000-000000000001', '43b00000-0000-0000-0000-000000000002', 'confirmed', null, null),
+  ('43b50000-0000-0000-0000-000000000010', '43b30000-0000-0000-0000-000000000009', '43b10000-0000-0000-0000-000000000001', '43b00000-0000-0000-0000-000000000002', 'rejected', null, 'Fixture rejection'),
+  ('43b50000-0000-0000-0000-000000000011', '43b30000-0000-0000-0000-000000000010', '43b10000-0000-0000-0000-000000000001', '43b00000-0000-0000-0000-000000000002', 'confirmed', null, null),
+  ('43b50000-0000-0000-0000-000000000012', '43b30000-0000-0000-0000-000000000010', '43b10000-0000-0000-0000-000000000001', '43b00000-0000-0000-0000-000000000002', 'held', now() + interval '1 day', null),
+  ('43b50000-0000-0000-0000-000000000013', '43b30000-0000-0000-0000-000000000011', '43b10000-0000-0000-0000-000000000001', '43b00000-0000-0000-0000-000000000002', 'confirmed', null, null),
+  ('43b50000-0000-0000-0000-000000000014', '43b30000-0000-0000-0000-000000000011', '43b10000-0000-0000-0000-000000000001', '43b00000-0000-0000-0000-000000000002', 'confirmed', null, null),
+  ('43b50000-0000-0000-0000-000000000015', '43b30000-0000-0000-0000-000000000012', '43b10000-0000-0000-0000-000000000001', '43b00000-0000-0000-0000-000000000002', 'confirmed', null, null);
+
+-- The safety review is switched off by default; these tests switch it on (AC-043.1.17 below
+-- checks it switched off again). Everything rolls back.
+update public.safety_review_settings set enabled = true;
+
 create function pg_temp.us43_status(event uuid) returns text language sql as $$ select status from public.events where id = event $$;
 
 -- Calls send_for_safety_review as a signed-in user: 'ok' or the SQLSTATE of the refusal.
@@ -123,6 +144,19 @@ select pg_temp.assert_true(
   and pg_temp.us43_status('43b30000-0000-0000-0000-000000000002') = 'planning' and pg_temp.us43_status('43b30000-0000-0000-0000-000000000008') = 'planning',
   'AC-043.1.7: a direct status change cannot skip the check: an unready event or a non-Coordinator is refused');
 
+set local role authenticated;
+select set_config('request.jwt.claim.sub', '43b00000-0000-0000-0000-000000000002', true);
+select (select complete from public.get_event_readiness('43b30000-0000-0000-0000-000000000009') where arrangement = 'venue_booking') as us43_e9_card,
+       (select complete from public.get_event_readiness('43b30000-0000-0000-0000-000000000010') where arrangement = 'venue_booking') as us43_e10_card,
+       (select complete from public.get_event_readiness('43b30000-0000-0000-0000-000000000011') where arrangement = 'venue_booking') as us43_e11_card \gset
+select set_config('request.jwt.claim.sub', '', true);
+reset role;
+select pg_temp.assert_true(
+  not :'us43_e9_card' and pg_temp.us43_send('43b00000-0000-0000-0000-000000000002', '43b30000-0000-0000-0000-000000000009') = '55000' and pg_temp.us43_status('43b30000-0000-0000-0000-000000000009') = 'planning'
+  and not :'us43_e10_card' and pg_temp.us43_send('43b00000-0000-0000-0000-000000000002', '43b30000-0000-0000-0000-000000000010') = '55000' and pg_temp.us43_status('43b30000-0000-0000-0000-000000000010') = 'planning'
+  and :'us43_e11_card' and pg_temp.us43_send('43b00000-0000-0000-0000-000000000002', '43b30000-0000-0000-0000-000000000011') = 'ok' and pg_temp.us43_status('43b30000-0000-0000-0000-000000000011') = 'awaiting_safety_review',
+  'AC-043.1.8: with several venues the card and the send check agree: one approved and one rejected, or one approved and one held, is not ready; all approved is');
+
 -- ---------------------------------------------------------------------------
 -- AC-043.2: the event shows as Awaiting Safety Review and the Safety Officers are notified
 -- ---------------------------------------------------------------------------
@@ -188,12 +222,29 @@ select set_config('request.jwt.claim.sub', '43b00000-0000-0000-0000-000000000008
 select active_event_count as us43_active from public.list_assignment_coordinators() where coordinator_id = '43b00000-0000-0000-0000-000000000002' \gset
 select set_config('request.jwt.claim.sub', '', true);
 reset role;
-select pg_temp.assert_true(:'us43_active' = 7,
+select pg_temp.assert_true(:'us43_active' = 11,
   'AC-043.3.4: events in the safety stages still count as the Coordinator''s active events for the Lead');
 
 select pg_temp.assert_true(
   public.is_valid_status_transition('submitted', 'withdrawn') and public.is_valid_status_transition('under_review', 'withdrawn')
   and not public.is_valid_status_transition('awaiting_safety_review', 'withdrawn'),
   'AC-043.3.5: a submitted or under-review request can still be withdrawn (US22), alongside the safety stages');
+
+-- ---------------------------------------------------------------------------
+-- AC-043.1: until the team switches the safety review on, nothing changes for anyone
+-- ---------------------------------------------------------------------------
+update public.safety_review_settings set enabled = false;
+set local role authenticated;
+select set_config('request.jwt.claim.sub', '43b00000-0000-0000-0000-000000000002', true);
+select count(*) as us43_off_lines from public.get_event_readiness('43b30000-0000-0000-0000-000000000012') where arrangement = 'safety_review' \gset
+select set_config('request.jwt.claim.sub', '', true);
+reset role;
+select pg_temp.assert_true(
+  :'us43_off_lines' = 0
+  and pg_temp.us43_send('43b00000-0000-0000-0000-000000000002', '43b30000-0000-0000-0000-000000000012') = '0A000'
+  and pg_temp.us43_by('43b00000-0000-0000-0000-000000000002', pg_temp.us43_set('43b30000-0000-0000-0000-000000000012', 'awaiting_safety_review')) = '22000'
+  and pg_temp.us43_by('43b00000-0000-0000-0000-000000000002', pg_temp.us43_set('43b30000-0000-0000-0000-000000000012', 'confirmed')) = 'ok'
+  and pg_temp.us43_status('43b30000-0000-0000-0000-000000000012') = 'confirmed',
+  'AC-043.1.17: while the safety review is switched off, Planning is confirmed as before, nothing can be sent for review and readiness shows no safety line');
 
 rollback;

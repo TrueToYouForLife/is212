@@ -15,7 +15,7 @@ describe('AC-043.1 — the Coordinator sends an event for review once its arrang
     mocks.rpc.mockResolvedValueOnce({ data: 'awaiting_safety_review', error: null })
     expect(await sendForSafetyReview('e-1')).toEqual({ ok: true })
     expect(mocks.rpc).toHaveBeenCalledWith('send_for_safety_review', { p_event_id: 'e-1' })
-    for (const [code, reason] of [['55000', messages.notReady], ['22000', messages.notPlanning], ['42501', messages.notAssigned], ['08006', messages.failed]] as const) {
+    for (const [code, reason] of [['55000', messages.notReady], ['22000', messages.notPlanning], ['42501', messages.notAssigned], ['0A000', messages.notSwitchedOn], ['08006', messages.failed]] as const) {
       mocks.rpc.mockResolvedValueOnce({ data: null, error: { code, message: 'x' } })
       expect(await sendForSafetyReview('e-1')).toEqual({ ok: false, reason })
     }

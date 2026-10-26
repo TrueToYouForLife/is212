@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import { USER_ROLE_LABELS, isUserRole } from '../../auth/types'
 import { ReviewActions } from '../components/ReviewActions'
 import { StatusBadge } from '../components/StatusBadge'
@@ -10,6 +10,12 @@ import type { EventRequestDetail } from '../types'
 
 const COORDINATOR = { role: 'coordinator', isOwner: false } as const
 const SAFETY_OFFICER = { role: 'safety_officer', isOwner: false } as const
+
+
+// US43 tests run with the safety review switched on.
+vi.mock('../../../lib/features', async (importOriginal) => ({
+  FEATURES: { ...(await importOriginal<typeof import('../../../lib/features')>()).FEATURES, safetyReview: true },
+}))
 
 describe('AC-043.1 — the Coordinator sends an event for review once its arrangements are complete', () => {
   test('AC-043.1.9: the rules mirror 0108: Planning leads only to safety review, and Confirmed only follows In Preparation', () => {

@@ -7,6 +7,10 @@ import { readyForSafetyReview } from '../safetyReviewReadiness'
 import type { ReadinessLine } from '../types'
 
 const mocks = vi.hoisted(() => ({ load: vi.fn(), send: vi.fn() }))
+// US43 tests run with the safety review switched on.
+vi.mock('../../../../lib/features', async (importOriginal) => ({
+  FEATURES: { ...(await importOriginal<typeof import('../../../../lib/features')>()).FEATURES, safetyReview: true },
+}))
 vi.mock('../readinessService', async (importOriginal) => ({
   ...(await importOriginal<typeof import('../readinessService')>()),
   getEventReadiness: mocks.load,

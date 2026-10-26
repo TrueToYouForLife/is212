@@ -933,7 +933,7 @@ NOTICE:  PASS: AC-031.3.6: a Coordinator with no client organisation sees nothin
 NOTICE:  PASS: AC-031.3.7: with no signed-in user there is no organisation, so the list is empty
 NOTICE:  PASS: AC-031.3.8: replaying 0078 leaves the projections answering exactly as before
 NOTICE:  PASS: AC-005.1.1: the assigned Coordinator sees one line per arrangement the event needs, in a fixed order
-NOTICE:  PASS: AC-005.2.1: the venue booking is complete only when every live booking is approved; expired holds and rejections do not count
+NOTICE:  PASS: AC-005.2.1: the venue booking is complete only when every live booking is approved; expired holds do not count, and a rejection stays outstanding
 NOTICE:  PASS: AC-005.2.2: equipment is complete when every essential item is reserved; non-essential items do not hold it back
 NOTICE:  PASS: AC-005.2.3: technical support is complete once Technical Support has reviewed every equipment request
 NOTICE:  PASS: AC-005.2.4: the programme is complete once it is written; a blank one is still outstanding

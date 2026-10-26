@@ -94,9 +94,9 @@ reset role;
 -- ---------------------------------------------------------------------------
 select pg_temp.assert_true(
   (select array_agg(x ->> 'arrangement' order by (x ->> 'sort_order')::int) from jsonb_array_elements(:'us5_e1'::jsonb) x)
-    = array['venue_booking', 'equipment_reservation', 'technical_support', 'programme', 'safety_review']
+    = array['venue_booking', 'equipment_reservation', 'technical_support', 'programme']
   and (select array_agg(x ->> 'label' order by (x ->> 'sort_order')::int) from jsonb_array_elements(:'us5_e1'::jsonb) x)
-    = array['Venue booking', 'Equipment reservation', 'Technical support', 'Programme', 'Safety review'],
+    = array['Venue booking', 'Equipment reservation', 'Technical support', 'Programme'],
   'AC-005.1.1: the assigned Coordinator sees one line per arrangement the event needs, in a fixed order');
 
 -- ---------------------------------------------------------------------------
@@ -106,8 +106,9 @@ select pg_temp.assert_true(
   pg_temp.us5_line(:'us5_e1', 'venue_booking') @> '{"complete": false, "detail": "1 booking awaiting Venue Staff. 1 approved."}'
   and pg_temp.us5_line(:'us5_e2', 'venue_booking') @> '{"complete": true, "detail": "1 venue booking approved."}'
   and pg_temp.us5_line(:'us5_e3', 'venue_booking') @> '{"complete": false, "detail": "No venue booked yet."}'
-  and pg_temp.us5_line(:'us5_e4', 'venue_booking') @> '{"complete": false, "detail": "1 booking held, not yet requested."}',
-  'AC-005.2.1: the venue booking is complete only when every live booking is approved; expired holds and rejections do not count');
+  -- US49 (0107, carried into 0108's shared readiness helper): a rejection stays outstanding.
+  and pg_temp.us5_line(:'us5_e4', 'venue_booking') @> '{"complete": false, "detail": "1 rejected; venue requirements remain outstanding. 1 booking held, not yet requested."}',
+  'AC-005.2.1: the venue booking is complete only when every live booking is approved; expired holds do not count, and a rejection stays outstanding');
 
 select pg_temp.assert_true(
   pg_temp.us5_line(:'us5_e1', 'equipment_reservation') @> '{"complete": false, "detail": "1 of 2 essential items reserved. 1 unavailable."}'
@@ -173,8 +174,7 @@ select pg_temp.assert_true(
   pg_temp.us5_line(:'us5_e1', 'registration_setup') is null
   and pg_temp.us5_line(:'us5_e2', 'equipment_reservation') is null
   and pg_temp.us5_line(:'us5_e2', 'technical_support') is null
-  -- US43 (0108): every event from Planning on also shows its safety review.
-  and jsonb_array_length(:'us5_e2'::jsonb) = 4,
+  and jsonb_array_length(:'us5_e2'::jsonb) = 3,
   'AC-005.8.1: an event with no equipment or no registration does not show those as outstanding');
 
 rollback;

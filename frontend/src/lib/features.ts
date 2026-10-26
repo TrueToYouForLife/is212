@@ -5,4 +5,6 @@ export const FEATURES = {
   venueSuitability: import.meta.env.VITE_FEATURE_VENUE_SUITABILITY === 'true',
   venueBooking: import.meta.env.VITE_FEATURE_VENUE_BOOKING === 'true',
   venueManagement: import.meta.env.VITE_FEATURE_VENUE_MANAGEMENT === 'true',
+  /** US43: on only once 0108's safety_review_settings is switched on too. */
+  safetyReview: import.meta.env.VITE_FEATURE_SAFETY_REVIEW === 'true',
 } as const
