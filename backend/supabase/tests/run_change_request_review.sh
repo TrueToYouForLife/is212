@@ -265,6 +265,8 @@ select pg_temp.assert_true(
  and (select count(*) = 2 from public.event_review_decisions where decision = 'withdrawn'),
  'AC-022.2.18: replaying 0066 changes no withdrawn event and logs no extra decision');
 SQL
+  # US43: 0066's replay restores its own status list; put the safety stages back (0108).
+  cat "$repo_root/supabase/migrations/0108_us43_safety_review.sql"
   cat "$repo_root/supabase/tests/venue_booking_approval.sql"
   cat "$repo_root/supabase/migrations/0045_venue_booking_approval.sql"
   cat <<'SQL'
@@ -416,6 +418,10 @@ select pg_temp.assert_true(
 reset role;
 select set_config('request.jwt.claim.sub', '', false);
 SQL
+  # US43 slice 1: sending an event for its safety review (0108; the 0038 replay above restores
+  # its own role list, so 0108 is applied again first).
+  cat "$repo_root/supabase/migrations/0108_us43_safety_review.sql"
+  cat "$repo_root/supabase/tests/safety_review.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"

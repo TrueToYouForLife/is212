@@ -94,9 +94,9 @@ reset role;
 -- ---------------------------------------------------------------------------
 select pg_temp.assert_true(
   (select array_agg(x ->> 'arrangement' order by (x ->> 'sort_order')::int) from jsonb_array_elements(:'us5_e1'::jsonb) x)
-    = array['venue_booking', 'equipment_reservation', 'technical_support', 'programme']
+    = array['venue_booking', 'equipment_reservation', 'technical_support', 'programme', 'safety_review']
   and (select array_agg(x ->> 'label' order by (x ->> 'sort_order')::int) from jsonb_array_elements(:'us5_e1'::jsonb) x)
-    = array['Venue booking', 'Equipment reservation', 'Technical support', 'Programme'],
+    = array['Venue booking', 'Equipment reservation', 'Technical support', 'Programme', 'Safety review'],
   'AC-005.1.1: the assigned Coordinator sees one line per arrangement the event needs, in a fixed order');
 
 -- ---------------------------------------------------------------------------
@@ -173,7 +173,8 @@ select pg_temp.assert_true(
   pg_temp.us5_line(:'us5_e1', 'registration_setup') is null
   and pg_temp.us5_line(:'us5_e2', 'equipment_reservation') is null
   and pg_temp.us5_line(:'us5_e2', 'technical_support') is null
-  and jsonb_array_length(:'us5_e2'::jsonb) = 3,
+  -- US43 (0108): every event from Planning on also shows its safety review.
+  and jsonb_array_length(:'us5_e2'::jsonb) = 4,
   'AC-005.8.1: an event with no equipment or no registration does not show those as outstanding');
 
 rollback;

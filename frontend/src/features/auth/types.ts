@@ -5,6 +5,7 @@ export const USER_ROLES = [
   'operations_manager',
   'venue_staff',
   'tech_support',
+  'safety_officer',
   'attendee',
 ] as const
 
@@ -18,6 +19,7 @@ export const USER_ROLE_LABELS: Record<UserRole, string> = {
   operations_manager: 'Event Operations Manager',
   venue_staff: 'Venue Staff',
   tech_support: 'Technical Support',
+  safety_officer: 'Safety Officer',
   attendee: 'Attendee',
 }
 

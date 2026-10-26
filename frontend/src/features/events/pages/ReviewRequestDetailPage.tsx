@@ -114,7 +114,7 @@ export function ReviewRequestDetailPage() {
 
             {profile?.role === 'coordinator' && request.coordinatorId === profile.id && (
               <>
-                <EventReadinessCard key={request.id} eventId={request.id} refreshVersion={reviewRefreshVersion} />
+                <EventReadinessCard key={request.id} eventId={request.id} refreshVersion={reviewRefreshVersion} status={request.status} onSent={refreshAll} />
                 <EventVenueBookings key={`bookings:${request.id}:${profile.id}`} eventId={request.id} refreshVersion={reviewRefreshVersion} />
               </>
             )}
