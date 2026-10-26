@@ -1299,11 +1299,17 @@ Once on, the Coordinator sends an event for review with **Send for safety review
 aside, as it only opens on confirmation); readiness is one rule shared by the card and the review,
 including US49's rule that a rejected booking stays outstanding (0107).
 Each Safety Officer is then notified through the US33 helper. While the event awaits review only a
-Safety Officer's decision moves it on; its Coordinator can only cancel. Slice 2 (the Safety
-Officer's queue) follows; US44 (deciding), US45 (revising) and US26 (confirming) build on this.
+Safety Officer's decision moves it on; its Coordinator can only cancel.
+
+**Slice 2 (the review queue):** **Safety reviews** (`/safety-reviews`, Safety Officers) lists the
+events awaiting review, oldest first, each with its attendance, accessibility needs, approved
+venues (layout and attendance against capacity, accessibility, restrictions such as maintenance,
+opening hours or blocks on the event's dates) and equipment with how much is reserved. US44
+(deciding), US45 (revising) and US26 (confirming) build on this.
 
 | File | Adds |
 | --- | --- |
+| `0109_us43_safety_review_queue.sql` | `get_safety_review_queue()` for the Safety Officer (tested after 0100) |
 | `0108_us43_safety_review.sql` | `safety_officer` role, the safety statuses and rules, `event_readiness_lines()` (shared readiness rule, plus a Safety review line), `send_for_safety_review()`, Safety Officer notices |
 
 Test cases: `docs/test-cases/US43_test_cases.md`.
