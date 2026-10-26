@@ -325,7 +325,7 @@ describe('AC-003 — view event request status (SCRUM-24)', () => {
 
 describe('remaining lifecycle persistence', () => {
   test.each([
-    ['approved', 'planning'], ['in_preparation', 'confirmed'],
+    ['approved', 'planning'], ['planning', 'confirmed'],
     ['confirmed', 'completed'], ['approved', 'cancelled'],
   ] as const)('AC-LIFECYCLE.5-%s-%s: persists the coordinator transition', async (from, to) => {
     const { update, eqStatus } = mockUpdate({ data: { id: EVENT_ID, status: to }, error: null })

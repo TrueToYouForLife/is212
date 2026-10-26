@@ -67,7 +67,7 @@ describe('AC-003 — view event request status (SCRUM-24)', () => {
 describe('coordinator lifecycle controls', () => {
   test.each([
     ['approved', 'Start planning', 'planning'],
-    ['in_preparation', 'Confirm event', 'confirmed'],
+    ['planning', 'Confirm event', 'confirmed'],
     ['confirmed', 'Mark completed', 'completed'],
   ] as const)('AC-LIFECYCLE.3-%s: invokes the guarded service and refreshes after success', async (status, label, to) => {
     lifecycle.transition.mockResolvedValue({ ok: true, status: to })

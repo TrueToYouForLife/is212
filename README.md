@@ -1290,9 +1290,14 @@ Officer** role (`safety_officer`) and three statuses between Planning and Confir
 safety review**, **Safety changes requested** and **In preparation**. The team decided an event is
 confirmed only after safety approval, so Planning can no longer go straight to Confirmed.
 
-The Coordinator sends an event for review with **Send for safety review** on its Readiness card
+**Switched off until the team turns it on** (`safety_review_settings` in the database and
+`VITE_FEATURE_SAFETY_REVIEW` in the app, both off by default): while off, Planning -> Confirmed works
+as before. The checklist for switching it on (US49's 0110, US44, US26) is in the US43 test cases.
+
+Once on, the Coordinator sends an event for review with **Send for safety review** on its Readiness card
 (US5), which is only allowed once every arrangement on the card is complete (registration setup
-aside, as it only opens on confirmation); readiness is one rule shared by the card and the review.
+aside, as it only opens on confirmation); readiness is one rule shared by the card and the review,
+including US49's rule that a rejected booking stays outstanding (0107).
 Each Safety Officer is then notified through the US33 helper. While the event awaits review only a
 Safety Officer's decision moves it on; its Coordinator can only cancel. Slice 2 (the Safety
 Officer's queue) follows; US44 (deciding), US45 (revising) and US26 (confirming) build on this.

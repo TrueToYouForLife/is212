@@ -4,11 +4,11 @@ Week 7 change 6, built in slices.
 
 | Slice | ACs | Status |
 |---|---|---|
-| 1. Sending an event for its safety review (0108) | AC-043.1, AC-043.2, AC-043.3 | implemented; automated cases pass |
+| 1. Sending an event for its safety review (0108) | AC-043.1, AC-043.2, AC-043.3 | implemented; automated cases pass; **switched off** until the checklist below is met |
 | 2. The Safety Officer's review queue | AC-043.4 | not started |
 
 Test IDs follow `CLAUDE.md`: `AC-043.Y.Z`, Z unique across the story and increasing top to bottom
-within each test file. Next free IDs: AC-043.1.17, AC-043.2.8, AC-043.3.8, AC-043.4.1.
+within each test file. Next free IDs: AC-043.1.20, AC-043.2.8, AC-043.3.8, AC-043.4.1.
 
 ## Acceptance criteria
 
@@ -41,6 +41,23 @@ readiness rule as the readiness card (US5) before allowing it. This matches the 
 ("after the venue and technical arrangements have been confirmed, the Safety Officer must
 conduct an Operational Safety Check") and changes no other story's behaviour.
 
+## Switching the safety review on
+
+0108 ships **switched off** (`safety_review_settings.enabled = false`, and the frontend flag
+`VITE_FEATURE_SAFETY_REVIEW` unset). While off, Planning -> Confirmed works exactly as before,
+nothing can be sent for review, readiness shows no safety line and no Safety reviews link appears.
+Agreed with Justas (US49): migrations are applied in number order (0107, 0108, then 0110), and the
+safety review is switched on only when all of these are deployed and checked:
+
+1. US49 slice 3 (0110): Coordinators can cancel a rejected booking, since 0107 keeps a rejected
+   booking outstanding and nothing else can clear it.
+2. US44: the Safety Officer can decide a review, so events can leave Awaiting Safety Review.
+3. US26: an event In Preparation can be confirmed.
+
+Then, together: `update public.safety_review_settings set enabled = true, updated_at = now();` on
+Supabase, and `VITE_FEATURE_SAFETY_REVIEW=true` for the frontend. Switching back off is the same
+update with `false`.
+
 ## The lifecycle
 
 ```
@@ -72,7 +89,9 @@ Any status before completed can be cancelled; submitted and under_review can sti
 | D6 | Each Safety Officer is notified through the US33 helper under a new type, "Events awaiting safety review", so they choose in-app and/or email like everyone else. | AC-043.2, consistent with US33. |
 | D7 | The readiness card gains a "Safety review" line (waiting to be sent, with the Safety Officer, changes requested, approved), and in Planning a "Send for safety review" button that only appears once everything else is complete. | The card the Coordinator already uses shows the whole path to confirmation. |
 | D8 | Events in the safety stages count as active in the Lead's workload (0041). | Week 7 change 5. |
-| D9 | No event leaves Planning by itself, so no other story's behaviour or tests change; only US5's own tests gain the new line. | The automatic version broke US48 and others. |
+| D9 | No event leaves Planning by itself, so no other story's behaviour or tests change. | The automatic version broke US48 and others. |
+| D10 | A switch, off by default: `safety_review_settings` and `safety_review_enabled()` in the database (Planning -> Confirmed while off; review first while on), matched by `VITE_FEATURE_SAFETY_REVIEW` in the app. `is_valid_status_transition()` becomes `stable` since it reads the switch; only the status trigger uses it. A replay never switches it back off. | 0108 can be merged and applied now without blocking confirmations, before US49's cancellation (0110), US44 and US26 exist. |
+| D11 | The shared readiness rule is 0107's (US49): every live booking approved, at least one approved, a rejected booking outstanding, cancelled and expired ones not counted. `event_readiness_lines()` carries 0107's lines exactly; `get_event_readiness()` wraps it. 0107 replaces readiness with its own full version, so `run_venue_time_conversion.sh` applies 0108 again straight after 0107. | Agreed with Justas: the card and the send check must use the same rule. Later readiness changes go in `event_readiness_lines()`. |
 
 Open question for US45/US48 (Jaydon): if a venue becomes unavailable while an event is in safety
 review or in preparation, replacement and a return to review belong to US45.
@@ -88,6 +107,7 @@ review or in preparation, replacement and a return to review belong to US45.
 | AC-043.1.5 | only an event in Planning can be sent; Approved or already sent is refused | integration (SQL) | failure | safety_review.sql |
 | AC-043.1.6 | an event never leaves Planning by itself, even once ready | integration (SQL) | boundary | safety_review.sql |
 | AC-043.1.7 | a direct status change cannot skip the check | integration (SQL) | conflict | safety_review.sql |
+| AC-043.1.8 | with several venues the card and the send check agree: approved and rejected, or approved and held, is not ready; all approved is | integration (SQL) | boundary | safety_review.sql |
 | AC-043.2.1 | each Safety Officer is told once, naming the event and its attendance, through their chosen channels | integration (SQL) | normal | safety_review.sql |
 | AC-043.2.2 | the notice appears once for each Safety Officer and nobody else; they can choose its channels | integration (SQL) | normal | safety_review.sql |
 | AC-043.2.3 | Safety Officer is a role an account can hold; an unknown role is refused | integration (SQL) | failure | safety_review.sql |
@@ -97,6 +117,8 @@ review or in preparation, replacement and a return to review belong to US45.
 | AC-043.3.3 | only a Safety Officer's decision moves it on; its Coordinator can still cancel | integration (SQL) | normal | safety_review.sql |
 | AC-043.3.4 | safety stages still count as active for the Lead | integration (SQL) | boundary | safety_review.sql |
 | AC-043.3.5 | a submitted or under-review request can still be withdrawn (US22) | integration (SQL) | boundary | safety_review.sql |
+| AC-043.1.17 | while switched off, Planning is confirmed as before, nothing can be sent and readiness shows no safety line | integration (SQL) | normal | safety_review.sql |
+| AC-043.1.18 | after 0107, readiness is still the shared rule: approved and rejected is outstanding on the card and not ready for review | integration (SQL) | conflict | safety_review_readiness.sql |
 | AC-043.1.9 | the rules mirror 0108: Planning leads only to review; Confirmed only follows In Preparation | unit | normal | safetyReviewStatuses.test.tsx |
 | AC-043.1.10 | no status button sends an event for review; that is done from the readiness card | unit | conflict | safetyReviewStatuses.test.tsx |
 | AC-043.2.5 | every safety stage has a label and a badge | unit | normal | safetyReviewStatuses.test.tsx |
@@ -108,18 +130,20 @@ review or in preparation, replacement and a return to review belong to US45.
 | AC-043.1.12 | in Planning and ready, "Send for safety review" sends it and the page refreshes | unit | normal | safetyReviewSend.test.tsx |
 | AC-043.1.13 | until ready the card says so instead; outside Planning it offers nothing | unit | boundary | safetyReviewSend.test.tsx |
 | AC-043.1.14 | a refused send says why, the page is not refreshed, and the button works again | unit | failure | safetyReviewSend.test.tsx |
-| AC-043.1.16 | sending calls the database once for the event, and each refusal says why | unit (service) | failure | safetyReviewService.test.ts |
+| AC-043.1.16 | sending calls the database once for the event, and each refusal says why (including "not switched on yet") | unit (service) | failure | safetyReviewService.test.ts |
+| AC-043.1.19 | while switched off, Planning still offers Confirm with today's hint and the readiness card offers no safety review | unit | normal | safetyReviewSwitchedOff.test.tsx |
 
-US5's own database tests AC-005.1.1 and AC-005.8.1 gain the new "Safety review" line (same IDs).
-Four frontend tests that confirmed an event straight from Planning or listed the roles were updated
-to the new flow (IDs unchanged): AC-LIFECYCLE.1, AC-LIFECYCLE.3, AC-LIFECYCLE.5 and the role
-vocabulary test.
+US43's own tests switch the safety review on (database: inside their rolled-back transaction;
+frontend: by mocking the flag). Existing tests run with it off, so they keep testing today's
+behaviour: only the role vocabulary test and the lifecycle table (new rows for the three statuses)
+changed. US5's AC-005.2.1 now expects 0107's rule (a rejection stays outstanding), same ID.
 
 ## Manual test cases (shared Supabase, after 0108 is applied)
 
 | ID | Steps | Expected |
 |---|---|---|
-| M1 | Give a test account the role `safety_officer`. As a Coordinator, open an event in Planning with an approved venue and reserved essential equipment but no programme. | Readiness shows Programme outstanding; "Send for safety review" is not offered. |
+| M0 | With the switch off, open an event in Planning as its Coordinator. | Confirm is offered as before; no Safety review line or button. |
+| M1 | Switch the safety review on (checklist above). Give a test account the role `safety_officer`. As a Coordinator, open an event in Planning with an approved venue and reserved essential equipment but no programme. | Readiness shows Programme outstanding; "Send for safety review" is not offered. |
 | M2 | Add the programme; open the event again. | "Send for safety review" appears; pressing it moves the event to "Awaiting safety review". |
 | M3 | Sign in as the Safety Officer and open Notifications. | "Safety review needed: …" is listed. |
 | M4 | As the Coordinator, open the event. | Only "Cancel event" is offered; Readiness shows "With the Safety Officer for review." |
@@ -130,6 +154,9 @@ vocabulary test.
 `StatusBadge.tsx`, `RequestStatusPanel.tsx` and `auth/types.ts` are at 100%. Every line US43 adds to
 `ReviewActions.tsx` and `CoordinatorAssignmentQueue.tsx` is covered; each keeps one branch that was
 uncovered before this change. SQL has no coverage tool; 0108 is covered case by case above.
+
+Both flag states are covered: `statusRules.ts`, `ReviewActions.tsx` and `EventReadinessCard.tsx` are
+tested with the flag on and off.
 
 Forced break: in `0108_us43_safety_review.sql`, `event_ready_for_safety_review()` was made to ignore
 the programme (`'programme'` added to the lines it skips). AC-043.1.1 failed; the file was then

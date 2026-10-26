@@ -47,6 +47,7 @@ export const SAFETY_SEND_MESSAGES = {
   notReady: 'Every arrangement on the Readiness card must be complete before the event can go to the Safety Officer.',
   notPlanning: 'Only an event in Planning can be sent for safety review.',
   notAssigned: 'Only the event\'s assigned Coordinator can send it for safety review.',
+  notSwitchedOn: 'The safety review is not switched on yet.',
   failed: 'The event could not be sent for safety review. Please try again.',
 } as const
 
@@ -59,6 +60,7 @@ export async function sendForSafetyReview(eventId: string): Promise<SendForSafet
   if (error.code === '55000') return { ok: false, reason: SAFETY_SEND_MESSAGES.notReady }
   if (error.code === '22000') return { ok: false, reason: SAFETY_SEND_MESSAGES.notPlanning }
   if (error.code === '42501') return { ok: false, reason: SAFETY_SEND_MESSAGES.notAssigned }
+  if (error.code === '0A000') return { ok: false, reason: SAFETY_SEND_MESSAGES.notSwitchedOn }
   console.error('[readiness] sendForSafetyReview', error)
   return { ok: false, reason: SAFETY_SEND_MESSAGES.failed }
 }
