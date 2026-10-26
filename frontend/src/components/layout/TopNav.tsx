@@ -57,6 +57,9 @@ function navItemsFor(role: UserRole | null): NavItem[] {
         { label: 'Equipment catalogue', to: '/equipment/catalogue' },
         { label: 'Reserve equipment', to: '/equipment/reservations' },
       ]
+    case 'safety_officer':
+      // US43: the review queue appears once the safety review is switched on.
+      return FEATURES.safetyReview ? [home, { label: 'Safety reviews', to: '/safety-reviews' }] : [home]
     case 'attendee':
       return [
         home,
