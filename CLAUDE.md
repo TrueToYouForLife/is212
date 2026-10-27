@@ -1,3 +1,26 @@
+# US24 PR1 — return inspection backend, 27 October 2026
+- Branch `us24-return-inspection-backend`; Jaydon claimed 0112. Code-first; no frontend
+  edits, shared deployment or manual passes. Jaydon owns commits, PRs and merges.
+- Out is the saved collection-to-return window inclusive in Singapore time. Pending
+  checks starts the following day. No physical checkout/return timestamp or location
+  writes, early reservation release, scheduler or automatic rebooking. Pending checks
+  alone does not block future reservations; preserve US14's windows/US27 status rules.
+- Inspect actual allocation/unit, record findings and reuse set_equipment_status in one
+  transaction, with type-first locks and displayed source consent. Missing -> Unavailable
+  stays pending; follow-up is append-only. Good retains status by default, including legacy
+  values; explicit changes require a reason. Retain findings even if status is unchanged.
+- Existing defect reports retained; browser report writes closed. New inspection history
+  and RPCs are Technical Support-only. Stale/date/status/allocation changes require reload.
+- Cases/contracts/manual guide: docs/us24-return-inspections.md and docs/test-cases/US24_test_cases.md.
+  Final focused run: 23 grouped SQL cases passed, including four races and populated replay.
+  Historical/upgrade/fresh gates passed (upgrade/fresh preceded the last two test additions;
+  final focused run verifies those). No product defect found. A test-assembly/count mismatch
+  was corrected; not a product defect. Logs: docs/test-evidence/us24/pr1/. Sheet rows belong in chat.
+- Shared review: Yuan Long for allocation/report contracts; Jeremiah for the previously
+  identified US27 safety-stage notification eligibility gap, not expanded by this portion.
+- PR2 will add Out/Pending checks/History UI only after Jaydon reviews/merges this portion
+  and applies 0112. No new frontend/coverage run claimed for backend-only changes.
+
 # US27 documentation closeout — 23 October 2026
 - Branch `us27-docs-closeout`; implementation merged in #142/#143/#144.
   Jaydon confirmed 0104 and 0105 applied, PR1 manual groups, status-flow checks and
