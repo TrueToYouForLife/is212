@@ -63,8 +63,9 @@ reset role;
 -- AC-033.1: a user sees the notification types that apply to their role
 -- ---------------------------------------------------------------------------
 select pg_temp.assert_true(
+  -- US44 (0111) adds safety review decisions for Coordinators.
   pg_temp.us33_codes(:'us33_coordinator') = array['coordinator_assignment', 'change_request', 'arrangement_review',
-    'venue_booking_decision', 'venue_block_alert', 'equipment_reservation_outcome']
+    'venue_booking_decision', 'venue_block_alert', 'equipment_reservation_outcome', 'safety_review_decision']
   and pg_temp.us33_codes(:'us33_organiser') = array['event_request_decision', 'coordinator_assignment']
   and pg_temp.us33_codes(:'us33_venue_staff') = array['venue_booking_request']
   and pg_temp.us33_codes(:'us33_tech') = array['equipment_requirement_change']

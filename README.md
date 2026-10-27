@@ -1325,6 +1325,24 @@ opening hours or blocks on the event's dates) and equipment with how much is res
 
 Test cases: `docs/test-cases/US43_test_cases.md`.
 
+## US44 Approve / reject / request changes for safety review (SCRUM-249)
+
+Week 7 change 6, part of the safety review (US43), so hidden until it is switched on. From
+**Safety reviews**, the Safety Officer presses **Review** on an event awaiting review, assesses
+seven factors (attendance, venue capacity and layout, emergency access, accessibility, equipment
+placement, crowd movement, venue restrictions; a note for every concern) and records one decision.
+**Approve** moves the event to In Preparation; **Request changes** or **Reject** (with a comment and
+what to revisit: venue, equipment or both) moves it to Safety Changes Requested. The assigned
+Coordinator is notified through the US33 helper ("Safety review decisions") and sees a **Safety
+review** panel on the event with the decision, comment, what to revisit and each concern, plus
+earlier decisions. Each decision records who made it and when.
+
+| File | Adds |
+| --- | --- |
+| `0111_us44_safety_review_decisions.sql` | `safety_review_decisions` and `safety_review_assessments`, `record_safety_review_decision()`, `get_safety_review_decisions()`, the "Safety review decisions" notification type |
+
+Test cases: `docs/test-cases/US44_test_cases.md`.
+
 ## US32 View in-app notifications (SCRUM-229)
 
 Built in slices (trunk-based). **Slice 1 (the feed):** **Notifications** (`/notifications`, in

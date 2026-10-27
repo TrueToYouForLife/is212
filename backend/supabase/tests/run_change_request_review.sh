@@ -422,6 +422,9 @@ SQL
   # its own role list, so 0108 is applied again first).
   cat "$repo_root/supabase/migrations/0108_us43_safety_review.sql"
   cat "$repo_root/supabase/tests/safety_review.sql"
+  # US44: the Safety Officer's decision (0111).
+  cat "$repo_root/supabase/migrations/0111_us44_safety_review_decisions.sql"
+  cat "$repo_root/supabase/tests/safety_review_decisions.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"
