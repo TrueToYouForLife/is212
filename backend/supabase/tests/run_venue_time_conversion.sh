@@ -134,3 +134,6 @@ bash "$repo_root/supabase/tests/affected_venue_replacement_races.sh" "$container
 
 bash "$repo_root/supabase/tests/continuous_venue_block_races.sh" "$container"
 bash "$repo_root/supabase/tests/equipment_status_races.sh" "$container"
+
+# US24: restore checked return contracts after historical replays; test real transactions/races/replay.
+bash "$repo_root/supabase/tests/run_equipment_returns.sh" "$container"

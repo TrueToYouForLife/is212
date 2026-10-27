@@ -3,6 +3,17 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
+## US24 equipment return inspections (backend portion)
+
+Claimed migration `0112_equipment_return_inspections.sql` adds Technical Support-only
+inspection records for event allocations. Out/Pending checks are calculated from saved
+Singapore collection/return dates; there is no separate checkout action. Findings and
+US27 status changes save atomically, retaining reports/history, reservation windows
+and unrelated reviews. Pending checks alone does not add an availability block.
+The inspection UI, deployment and manual acceptance are pending the next portion.
+See [scope and contracts](docs/us24-return-inspections.md) and
+[test cases](docs/test-cases/US24_test_cases.md).
+
 ## US27 equipment catalogue and status
 
 Technical Support and Coordinators can browse **Equipment catalogue** at

@@ -427,3 +427,6 @@ bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"
 bash "$repo_root/supabase/tests/retired_venue_replacement_races.sh" "$container"
 bash "$repo_root/supabase/tests/equipment_status_races.sh" "$container"
+
+# US24: restore checked return contracts after historical replays; test real transactions/races/replay.
+bash "$repo_root/supabase/tests/run_equipment_returns.sh" "$container"
