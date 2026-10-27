@@ -1,3 +1,4 @@
+import { FEATURES } from '../../lib/features'
 import type { UserRole } from '../auth/types'
 import type { EventStatus } from './types'
 
@@ -5,7 +6,8 @@ import type { EventStatus } from './types'
  * PURE MODULE — no React, no Supabase, no I/O.
  *
  * Mirrors is_valid_status_transition and enforce_event_status_transition in
- * 0004_review.sql. The database is the control; this exists so the UI can offer only the
+ * 0004_review.sql, as extended by 0108 (US43's safety review stages). The database is the
+ * control; this exists so the UI can offer only the
  * buttons that will actually work, instead of showing an action and reporting a failure
  * after the round trip. Same defence-in-depth split as validation.ts.
  *
@@ -13,16 +15,22 @@ import type { EventStatus } from './types'
  */
 export const STATUS_TRANSITIONS: Record<EventStatus, readonly EventStatus[]> = {
   draft: ['submitted', 'cancelled'],
-  submitted: ['under_review', 'cancelled'],
+  submitted: ['under_review', 'cancelled', 'withdrawn'],
   // Back to submitted is a coordinator asking for more detail — a normal review outcome.
-  under_review: ['approved', 'rejected', 'submitted', 'cancelled'],
+  under_review: ['approved', 'rejected', 'submitted', 'cancelled', 'withdrawn'],
   approved: ['planning', 'cancelled'],
-  planning: ['confirmed', 'cancelled'],
+  // US43: once the safety review is switched on, an event leaves Planning only by being sent
+  // for it; until then Planning is confirmed as before (0108's safety_review_settings).
+  planning: FEATURES.safetyReview ? ['awaiting_safety_review', 'cancelled'] : ['confirmed', 'cancelled'],
+  awaiting_safety_review: ['in_preparation', 'safety_changes_requested', 'cancelled'],
+  safety_changes_requested: ['awaiting_safety_review', 'cancelled'],
+  in_preparation: ['confirmed', 'cancelled'],
   confirmed: ['completed', 'cancelled'],
   // Terminal. Coming back from one of these is a new request, which keeps the trail honest.
   completed: [],
   cancelled: [],
   rejected: [],
+  withdrawn: [],
 }
 
 export function canTransition(from: EventStatus, to: EventStatus): boolean {
@@ -44,6 +52,11 @@ export function canActorTransition(
   if (actor.role === 'coordinator' && from === 'submitted'
     && ['approved', 'rejected', 'submitted'].includes(to)) return true
   if (!canTransition(from, to)) return false
+
+  // US43: the Coordinator sends an event for review from its Readiness card, not with a status button.
+  if (from === 'planning' && to === 'awaiting_safety_review') return false
+  // Deciding a safety review is the Safety Officer's alone (US44).
+  if (from === 'awaiting_safety_review' && to !== 'cancelled') return actor.role === 'safety_officer'
 
   if (actor.role === 'coordinator') {
     // Reviewing is theirs; filing a request on an organiser's behalf is not.
@@ -70,6 +83,7 @@ const REVIEW_ACTIONS: readonly ReviewAction[] = [
   { to: 'approved', label: 'Approve', tone: 'primary' },
   { to: 'submitted', label: 'Return for more detail', tone: 'neutral' },
   { to: 'rejected', label: 'Reject', tone: 'danger' },
+  { to: 'withdrawn', label: 'Withdraw request', tone: 'danger' },
   { to: 'planning', label: 'Start planning', tone: 'primary' },
   { to: 'confirmed', label: 'Confirm event', tone: 'primary' },
   { to: 'completed', label: 'Mark completed', tone: 'primary' },

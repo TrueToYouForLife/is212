@@ -8,11 +8,21 @@ import type { NotificationPreference } from './preferencesService'
 
 type Channel = 'inApp' | 'email'
 
+/** Says which channels an administrator has switched off for everyone, if any. */
+function offForEveryone(preference: NotificationPreference): string | null {
+  if (preference.inAppOffForEveryone && preference.emailOffForEveryone) {
+    return 'Turned off for everyone by an administrator, in the app and by email.'
+  }
+  if (preference.emailOffForEveryone) return 'Email for this type is turned off for everyone by an administrator.'
+  if (preference.inAppOffForEveryone) return 'In-app notices of this type are turned off for everyone by an administrator.'
+  return null
+}
+
 /**
  * US33 slice 1: for each notification type the user receives (AC-033.1), switch in-app and
  * email on or off independently (AC-033.2); anything never changed is on for both (AC-033.3).
- * Each switch saves straight away and goes back if the save fails. Behind
- * VITE_FEATURE_NOTIFICATION_PREFERENCES until Sprint 4 makes delivery follow these choices.
+ * Each switch saves straight away and goes back if the save fails. Where an administrator has
+ * switched a channel off for everyone, the page says so, so nobody wonders why a switch has no effect.
  */
 export function NotificationPreferencesPage() {
   const { profile, loading: userLoading } = useCurrentUser()
@@ -102,6 +112,9 @@ export function NotificationPreferencesPage() {
               <div className="min-w-0 flex-1">
                 <p className="text-sm font-semibold text-slate-900">{preference.label}</p>
                 <p className="mt-1 text-sm text-slate-600">{preference.description}</p>
+                {offForEveryone(preference) && (
+                  <p className="mt-1 text-xs font-medium text-amber-800">{offForEveryone(preference)}</p>
+                )}
               </div>
               <div className="flex shrink-0 gap-5">
                 {(['inApp', 'email'] as const).map((channel) => (

@@ -61,6 +61,6 @@ test('AC-020.3.60: replacement review loads on the staff queue and is absent for
   expect(mocks.replacements).toHaveBeenCalledOnce()
   mocks.role = 'organiser'
   view.rerender(<MemoryRouter><VenueBookingQueuePage /></MemoryRouter>)
-  expect(screen.queryByText('Retired venue replacements')).not.toBeInTheDocument()
+  expect(screen.queryByText('Venue replacements')).not.toBeInTheDocument()
   expect(mocks.replacements).toHaveBeenCalledOnce()
 })

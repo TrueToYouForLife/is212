@@ -87,8 +87,8 @@ export function VenueAvailabilityPage() {
       <div className="mb-8 max-w-3xl">
         <h1 className="text-3xl font-bold tracking-tight text-slate-900">Venue availability</h1>
         <p className="mt-3 text-sm leading-relaxed text-slate-600">
-          Every venue for the week, in three slots a day: AM (7am to 12pm), PM (1pm to 6pm) and
-          Night (7pm to 12am). Retired venues are not shown.
+          Every venue for the week, in 15-minute slots shown in Singapore time.
+          Bookings include their setup and turnaround time. Retired venues are not shown.
         </p>
       </div>
 

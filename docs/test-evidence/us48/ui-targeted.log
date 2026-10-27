@@ -1,0 +1,18 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/venues/__tests__/VenueReplacementSearchPage.test.tsx src/features/venues/__tests__/MyVenueBookingsReplacement.test.tsx src/features/venues/__tests__/VenueReplacementPanel.test.tsx src/features/venues/__tests__/venueReplacementService.test.ts src/features/venues/__tests__/VenueResultCard.test.tsx src/features/venues/__tests__/venueSearchBuffers.test.ts
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+ ✓ src/features/venues/__tests__/venueReplacementService.test.ts (9 tests) 10ms
+ ✓ src/features/venues/__tests__/venueSearchBuffers.test.ts (3 tests) 10ms
+ ✓ src/features/venues/__tests__/VenueResultCard.test.tsx (3 tests) 45ms
+ ✓ src/features/venues/__tests__/MyVenueBookingsReplacement.test.tsx (3 tests) 203ms
+ ✓ src/features/venues/__tests__/VenueReplacementPanel.test.tsx (10 tests) 604ms
+ ✓ src/features/venues/__tests__/VenueReplacementSearchPage.test.tsx (7 tests) 592ms
+
+ Test Files  6 passed (6)
+      Tests  35 passed (35)
+   Start at  11:08:49
+   Duration  2.57s (transform 590ms, setup 560ms, collect 1.79s, tests 1.46s, environment 4.92s, prepare 518ms)

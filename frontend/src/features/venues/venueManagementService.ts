@@ -16,6 +16,7 @@ export const VENUE_MANAGEMENT_MESSAGES = {
   venueUnavailable: 'The venue could not be loaded. Please try again.',
   venuesUnavailable: 'The venues could not be loaded. Please try again.',
   stale: 'Someone else changed this venue while you were editing. Reload it to see their changes, then make yours again.',
+  notVenueStaffRetire: 'Only Venue Staff can retire venues.',
 } as const
 
 export type LayoutOptionsResult =
@@ -172,6 +173,36 @@ export async function updateVenue(venueId: string, version: string, venue: NewVe
         return { ok: false, reason: error.message }
       default:
         console.error('[venues] updateVenue', error)
+        return { ok: false, reason: VENUE_MANAGEMENT_MESSAGES.failed }
+    }
+  }
+  return { ok: true, flagged: typeof data === 'number' ? data : 0 }
+}
+
+/**
+ * AC-046.5: retires the venue with a reason (0070's retire_venue), only if nobody has changed it
+ * since it was opened. Its live bookings are flagged for their Coordinators, never cancelled;
+ * returns how many were flagged.
+ */
+export async function retireVenue(venueId: string, version: string, note: string): Promise<UpdateVenueResult> {
+  const { data: sessionData, error: sessionError } = await supabase.auth.getUser()
+  if (sessionError || !sessionData?.user) {
+    return { ok: false, reason: VENUE_MANAGEMENT_MESSAGES.notSignedIn }
+  }
+
+  const { data, error } = await supabase.rpc('retire_venue', { p_venue_id: venueId, p_version: version, p_note: note })
+  if (error) {
+    switch (error.code) {
+      case '40001':
+        return { ok: false, reason: VENUE_MANAGEMENT_MESSAGES.stale, stale: true }
+      case '42501':
+        return { ok: false, reason: VENUE_MANAGEMENT_MESSAGES.notVenueStaffRetire }
+      case 'P0002':
+        return { ok: false, reason: VENUE_MANAGEMENT_MESSAGES.venueNotFound }
+      case '22023':
+        return { ok: false, reason: error.message }
+      default:
+        console.error('[venues] retireVenue', error)
         return { ok: false, reason: VENUE_MANAGEMENT_MESSAGES.failed }
     }
   }

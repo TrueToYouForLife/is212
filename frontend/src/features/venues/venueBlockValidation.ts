@@ -1,10 +1,11 @@
 /**
  * PURE MODULE — US12 block rules for the form. No React, no Supabase, no I/O.
  *
- * Each rule is also enforced by venue_block_request_slots() and block_venue() in the
+ * Each rule is also enforced by venue_block_request_slots() and the block RPCs in the
  * database. This copy puts a message beside the field; the database is the control.
  */
 import type { SlotCode } from './slots'
+import { QUARTER_HOUR_OPTIONS } from './quarterHourSlots'
 import type {
   AffectedBooking,
   PreviewCell,
@@ -17,7 +18,7 @@ import type {
 export const MAX_BLOCK_DAYS = 366
 
 /** The slots in time order, as the database stores them. */
-export const BLOCK_SLOTS: readonly SlotCode[] = ['AM', 'PM', 'NIGHT']
+export const BLOCK_SLOTS: readonly SlotCode[] = QUARTER_HOUR_OPTIONS.map((option) => option.value)
 
 export const BLOCK_VALIDATION_MESSAGES = {
   startRequired: 'Enter the first day of the block.',
@@ -25,7 +26,8 @@ export const BLOCK_VALIDATION_MESSAGES = {
   invalidDate: 'Enter a date that exists.',
   endBeforeStart: 'The block must end on or after the day it starts.',
   tooLong: `A single block can cover at most ${MAX_BLOCK_DAYS} days. Enter a longer closure as more than one block.`,
-  slotsRequired: 'Choose at least one slot, or Full day.',
+  invalidSlots: 'Choose valid 15-minute slots.',
+  slotsRequired: 'Choose a start and end time, or Full day.',
   reasonRequired: 'Give a reason, for example maintenance, renovation or a safety concern.',
 } as const
 
@@ -67,9 +69,25 @@ function dateErrors(startsOn: string, endsOn: string): BlockErrors {
   return errors
 }
 
-/** Each slot once, in time order: NIGHT, AM, AM becomes AM, NIGHT. */
+/** Each quarter-hour slot once, in time order. */
 export function normaliseSlots(slots: readonly string[]): SlotCode[] {
   return BLOCK_SLOTS.filter((code) => slots.includes(code))
+}
+
+/** Singapore has no DST; explicit offset keeps the period independent of browser timezone. */
+export function venueBlockPeriod(input: VenueBlockInput): { startsAt: string; endsAt: string } | null {
+  const first = dayNumber(input.startsOn.trim())
+  const last = dayNumber(input.endsOn.trim())
+  const timeMinutes = (value: string | undefined, end: boolean): number | null => {
+    if (end && value === '24:00') return 1440
+    if (!value || !/^([01][0-9]|2[0-3]):(00|15|30|45)$/.test(value)) return null
+    return Number(value.slice(0, 2)) * 60 + Number(value.slice(3))
+  }
+  const start = timeMinutes(input.startTime, false)
+  const end = timeMinutes(input.endTime, true)
+  if (first === null || last === null || start === null || end === null) return null
+  return { startsAt: new Date(first * MS_PER_DAY + (start - 480) * 60_000).toISOString(),
+    endsAt: new Date(last * MS_PER_DAY + (end - 480) * 60_000).toISOString() }
 }
 
 export function validateVenueBlock(input: VenueBlockInput): VenueBlockValidation {
@@ -79,7 +97,21 @@ export function validateVenueBlock(input: VenueBlockInput): VenueBlockValidation
   const reason = input.reason.trim()
   const errors = dateErrors(startsOn, endsOn)
 
-  if (slots.length === 0) errors.slots = BLOCK_VALIDATION_MESSAGES.slotsRequired
+  const continuous = input.startTime !== undefined || input.endTime !== undefined
+  if (continuous) {
+    if (errors.endsOn === BLOCK_VALIDATION_MESSAGES.tooLong) delete errors.endsOn
+    const period = venueBlockPeriod(input)
+    if (!input.startTime || !/^([01][0-9]|2[0-3]):(00|15|30|45)$/.test(input.startTime)) errors.startTime = 'Choose a start time in 15-minute intervals.'
+    if (!input.endTime || !/^(([01][0-9]|2[0-3]):(00|15|30|45)|24:00)$/.test(input.endTime)) errors.endTime = 'Choose an end time in 15-minute intervals.'
+    if (period) {
+      const start = new Date(period.startsAt).getTime()
+      const end = new Date(period.endsAt).getTime()
+      if (end <= start) errors.endTime = 'End date and time must be after start date and time.'
+      else if (Math.floor((end + 8 * 3_600_000 - 1) / MS_PER_DAY) - Math.floor((start + 8 * 3_600_000) / MS_PER_DAY) + 1 > MAX_BLOCK_DAYS) errors.endsOn = BLOCK_VALIDATION_MESSAGES.tooLong
+    }
+  }
+  if (!continuous && slots.length === 0) errors.slots = BLOCK_VALIDATION_MESSAGES.slotsRequired
+  if (input.slots.some((slot) => !BLOCK_SLOTS.includes(slot))) errors.slots = BLOCK_VALIDATION_MESSAGES.invalidSlots
   if (!reason) errors.reason = BLOCK_VALIDATION_MESSAGES.reasonRequired
 
   if (Object.keys(errors).length > 0) return { ok: false, errors }
@@ -88,12 +120,13 @@ export function validateVenueBlock(input: VenueBlockInput): VenueBlockValidation
 
 /**
  * Whether a preview taken for one form value still describes another. The reason doesn't
- * change what a block overlaps, and slot order doesn't matter; venue, dates and slots do.
+ * change what a block overlaps, and slot order doesn't matter; venue, dates, endpoint times and legacy slots do.
  */
 export function sameBlock(a: VenueBlockInput, b: VenueBlockInput): boolean {
   return a.venueId === b.venueId
     && a.startsOn.trim() === b.startsOn.trim()
     && a.endsOn.trim() === b.endsOn.trim()
+    && a.startTime === b.startTime && a.endTime === b.endTime
     && normaliseSlots(a.slots).join() === normaliseSlots(b.slots).join()
 }
 

@@ -8,10 +8,16 @@ const STATUS_DESCRIPTIONS: Record<EventStatus, string> = {
   under_review: 'Your event request is currently being reviewed.',
   approved: 'Your event request has been approved. Event arrangements are being prepared; the event is not yet confirmed.',
   planning: 'Your event arrangements are being prepared; the event is not yet confirmed.',
+  awaiting_safety_review: 'Your event arrangements are confirmed and are with the Safety Officer for an operational safety check; the event is not yet confirmed.',
+  safety_changes_requested: 'The Safety Officer has asked for changes to your event arrangements; the event is not yet confirmed.',
+  in_preparation: 'Your event has passed its safety check and is being prepared; the event is not yet confirmed.',
   confirmed: 'Your event has been confirmed and is ready to proceed.',
   completed: 'This event has been completed.',
   rejected: 'Your event request was rejected.',
   cancelled: 'This event has been cancelled.',
+  // AC-022.2: the organiser must be able to tell this apart from a rejection.
+  // It was closed before anyone decided on it, which is a different outcome.
+  withdrawn: 'Your event request was withdrawn before a decision was made.',
 }
 
 export function RequestStatusPanel({ request, organiserView = false }: { request: EventRequestDetail; organiserView?: boolean }) {

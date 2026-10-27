@@ -55,7 +55,7 @@ export function AvailabilityLegend() {
 }
 
 /**
- * US19: every venue for one week. Each venue is a group of three rows, AM, PM and Night,
+ * US19: every venue for one week. Each venue has one row per catalogue slot,
  * with one column per day, so staff can scan down a day for a free venue or along a row
  * for one venue's week. Coordinators can open a venue's own timetable to book it.
  */
@@ -67,13 +67,13 @@ export function VenueAvailabilityGrid({
   linkVenues?: boolean
 }) {
   return (
-    <div className="overflow-x-auto">
+    <div className="max-h-[36rem] overflow-auto" role="region" aria-label="All venues availability timetable" tabIndex={0}>
       <table className="w-full min-w-[48rem] table-fixed border-separate border-spacing-x-1 border-spacing-y-0.5 text-xs">
         <caption className="sr-only">Availability of every venue by date and slot</caption>
-        <thead>
+        <thead className="sticky top-0 z-10 bg-white">
           <tr>
             <th scope="col" className="w-44 pb-2 text-left font-medium text-slate-500">Venue</th>
-            <th scope="col" className="w-12 pb-2 text-left font-medium text-slate-500">Slot</th>
+            <th scope="col" className="w-24 pb-2 text-left font-medium text-slate-500">Slot (SGT)</th>
             {availability.dates.map((date) => {
               const heading = formatDayHeading(date)
               return (
@@ -86,7 +86,7 @@ export function VenueAvailabilityGrid({
           </tr>
         </thead>
         {availability.rows.map(({ venue, timetable }) => {
-          const slotCount = timetable.days[0].length
+          const slotCount = timetable.days[0]?.length ?? 0
           return (
             <tbody key={venue.id} data-testid={`venue-${venue.id}`}>
               {Array.from({ length: slotCount }, (_, slotIndex) => {

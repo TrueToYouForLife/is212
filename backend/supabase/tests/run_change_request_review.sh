@@ -23,7 +23,11 @@ if [ "$ready" != true ]; then echo 'Temporary database did not become ready.' >&
 
 {
   cat "$repo_root/supabase/tests/bootstrap.sql"
-  for migration in "$repo_root"/supabase/migrations/*.sql; do cat "$migration"; printf '\n'; done
+  # Historical suite exercises pre-conversion contracts and their migration replays.
+  # Current quarter-hour upgrade/fresh-install coverage runs separately in CI.
+  for migration in "$repo_root"/supabase/migrations/*.sql; do
+    case "$migration" in */0075_*|*/0098_*|*/0099_*|*/0100_*|*/0102_*|*/0103_*|*/0107_*|*/0109_*) continue ;; esac
+    cat "$migration"; printf '\n'; done
   cat "$repo_root/supabase/tests/change_request_review.sql"
   cat "$repo_root/supabase/migrations/0008_change_request_review.sql"
   # Restore the current assignment rules after the historical migration replay.
@@ -225,11 +229,44 @@ select pg_temp.assert_true(
     union all (select * from profiles_before_us29_replay except select * from public.profiles)),
   'AC-029.3.13: replaying 0042 changes no existing profile');
 SQL
+  # US20 before the venue booking tests: 0063's replay resets arrangement_review_flags'
+  # source check to two sources, so it must run before US10's approval tests retire a venue
+  # and 0070 records venue-change reviews (a third source, from 0067).
+  cat "$repo_root/supabase/tests/event_planning_updates.sql"
+  cat "$repo_root/supabase/migrations/0063_event_planning_updates.sql"
+  cat <<'SQL'
+select pg_temp.assert_true(not exists(
+ (select * from public.event_planning_updates except select * from us20_history_before_replay)
+ union all (select * from us20_history_before_replay except select * from public.event_planning_updates)),
+ 'AC-020.2.4: replaying 0063 preserves history without backfilling');
+SQL
+  # 0063's replay also restores its two-source check and nine reasons, so put back the venue
+  # reviews of 0067 and 0070 (same reason as the 0038/0039 and 0055 restores above).
+  cat "$repo_root/supabase/migrations/0067_venue_edit_review.sql"
+  cat "$repo_root/supabase/migrations/0070_venue_retirement.sql"
   cat "$repo_root/supabase/tests/venue_booking_review.sql"
   cat "$repo_root/supabase/tests/venue_booking_review_details.sql"
   cat "$repo_root/supabase/tests/venue_booking_conflicts.sql"
   # US9 AC8: the trigger from 0035 that notifies Venue Staff of a new request.
   cat "$repo_root/supabase/tests/venue_booking_request_notifications.sql"
+    # US22: withdrawing a submitted request (0066).
+  cat "$repo_root/supabase/tests/withdraw_submitted_request.sql"
+  cat <<'SQL'
+create temporary table w22_before_replay as
+ select id, status, reviewed_by from public.events where id::text like 'b2200000-%';
+SQL
+  cat "$repo_root/supabase/migrations/0066_withdraw_submitted_request.sql"
+  cat <<'SQL'
+select pg_temp.assert_true(
+ not exists (
+   select 1 from w22_before_replay b join public.events e on e.id = b.id
+    where e.status is distinct from b.status
+       or e.reviewed_by is distinct from b.reviewed_by)
+ and (select count(*) = 2 from public.event_review_decisions where decision = 'withdrawn'),
+ 'AC-022.2.18: replaying 0066 changes no withdrawn event and logs no extra decision');
+SQL
+  # US43: 0066's replay restores its own status list; put the safety stages back (0108).
+  cat "$repo_root/supabase/migrations/0108_us43_safety_review.sql"
   cat "$repo_root/supabase/tests/venue_booking_approval.sql"
   cat "$repo_root/supabase/migrations/0045_venue_booking_approval.sql"
   cat <<'SQL'
@@ -282,14 +319,10 @@ SQL
   # review, so 0067 is replayed before its tests, which also shows it is safe to replay.
   cat "$repo_root/supabase/migrations/0067_venue_edit_review.sql"
   cat "$repo_root/supabase/tests/venue_edit.sql"
-  cat "$repo_root/supabase/tests/event_planning_updates.sql"
-  cat "$repo_root/supabase/migrations/0063_event_planning_updates.sql"
-  cat <<'SQL'
-select pg_temp.assert_true(not exists(
- (select * from public.event_planning_updates except select * from us20_history_before_replay)
- union all (select * from us20_history_before_replay except select * from public.event_planning_updates)),
- 'AC-020.2.4: replaying 0063 preserves history without backfilling');
-SQL
+  # US46 slice 3: the 0067 replay above restores its versions of the review functions, so
+  # 0070 is replayed before its tests, which also shows it is safe to replay.
+  cat "$repo_root/supabase/migrations/0070_venue_retirement.sql"
+  cat "$repo_root/supabase/tests/venue_retire.sql"
   cat "$repo_root/supabase/tests/organiser_venue_arrangements.sql"
   cat "$repo_root/supabase/tests/organiser_equipment_arrangements.sql"
   cat "$repo_root/supabase/tests/retired_venue_replacement.sql"
@@ -365,7 +398,14 @@ SQL
     [ -e "$notice_test" ] || continue
     cat "$repo_root/supabase/migrations/$(sed -n '1s/^-- Migration: //p' "$notice_test")"
     cat "$notice_test"
-    # US54: who can see an event's registrations, then replay 0094.
+  done
+  # US27: protected catalogue reads, counts and role boundaries.
+  # Historical replays above restore older source constraints. Restore the additive status source.
+  cat "$repo_root/supabase/migrations/0105_equipment_status_changes.sql"
+  cat "$repo_root/supabase/tests/equipment_catalogue.sql"
+  cat "$repo_root/supabase/tests/equipment_status_fixture.sql"
+  cat "$repo_root/supabase/tests/equipment_status.sql"
+  # US54: who can see an event's registrations, then replay 0094.
   cat "$repo_root/supabase/tests/event_registration_visibility.sql"
   cat "$repo_root/supabase/migrations/0094_event_registration_visibility.sql"
   cat <<'SQL'
@@ -378,8 +418,18 @@ select pg_temp.assert_true(
 reset role;
 select set_config('request.jwt.claim.sub', '', false);
 SQL
-  done
+  # US43 slice 1: sending an event for its safety review (0108; the 0038 replay above restores
+  # its own role list, so 0108 is applied again first).
+  cat "$repo_root/supabase/migrations/0108_us43_safety_review.sql"
+  cat "$repo_root/supabase/tests/safety_review.sql"
+  # US44: the Safety Officer's decision (0111).
+  cat "$repo_root/supabase/migrations/0111_us44_safety_review_decisions.sql"
+  cat "$repo_root/supabase/tests/safety_review_decisions.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"
 bash "$repo_root/supabase/tests/retired_venue_replacement_races.sh" "$container"
+bash "$repo_root/supabase/tests/equipment_status_races.sh" "$container"
+
+# US24: restore checked return contracts after historical replays; test real transactions/races/replay.
+bash "$repo_root/supabase/tests/run_equipment_returns.sh" "$container"

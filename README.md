@@ -3,6 +3,37 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
+## US24 equipment return inspections (backend portion)
+
+Claimed migration `0112_equipment_return_inspections.sql` adds Technical Support-only
+inspection records for event allocations. Out/Pending checks are calculated from saved
+Singapore collection/return dates; there is no separate checkout action. Findings and
+US27 status changes save atomically, retaining reports/history, reservation windows
+and unrelated reviews. Pending checks alone does not add an availability block.
+The inspection UI, deployment and manual acceptance are pending the next portion.
+See [scope and contracts](docs/us24-return-inspections.md) and
+[test cases](docs/test-cases/US24_test_cases.md).
+
+## US27 equipment catalogue and status
+
+Technical Support and Coordinators can browse **Equipment catalogue** at
+`/equipment/catalogue`: unit details, current locations, operational status,
+total/usable counts and combined filters. Usable stock is distinct from availability
+for an event. Technical Support can open **Manage status** to change status with a
+reason and view recorded history. Failed/stale saves keep the note and require reload;
+successful saves close the panel and refresh counts while preserving filters. Reopen
+a unit for fresh history. Coordinators remain
+read-only; no equipment creation/deletion controls are provided.
+Migrations `0104_equipment_catalogue.sql` and `0105_equipment_status_changes.sql`
+are applied, confirmed by Jaydon. Status changes record authenticated staff/time,
+exclude unusable stock and flag affected reservations through existing review and
+notification preferences, preserving reservations and unrelated reasons.
+Implementation PRs #142–144 are merged. Jaydon confirmed catalogue/status manual
+checks and the auto-close refinement passed. Evidence-sheet and Jira closeout remain
+administrative steps; delivered email is not claimed.
+See [scope and manual checks](docs/us27-equipment-catalogue.md) and
+[test cases](docs/test-cases/US27_test_cases.md).
+
 ## US41 arrangement review (completed within agreed scope)
 
 Migration 0052 adds per-arrangement review reasons after approved significant changes,
@@ -143,7 +174,7 @@ supabase link --project-ref <your-project-ref>
 supabase db push
 ```
 
-Apply migrations **in order**, `0001` through `0054`, including both `0005` files
+Apply migrations **in order**, `0001` through `0066`, including both `0005` files
 before `0006` and `0019a` straight after `0019`. All are safe to replay; see
 [Shared Supabase state](#shared-supabase-state-5-october-2026). The two files currently share a version prefix, so the CLI path above
 needs that version collision resolved before it can be relied on; use the SQL Editor
@@ -429,6 +460,47 @@ and .13.1–3. Four `REGRESSION-US1/US4/US6` checks protect other stories rather
 claiming additional US7 ACs. Coverage includes access, reassignment, partial decisions,
 invalid/stale reviews, a forced final-save failure with rollback, and rerun preservation.
 Concurrent sessions have not yet been exercised by this suite.
+
+## US22 withdraw a submitted request (SCRUM-67)
+
+A Coordinator closes a request that is awaiting a decision, without rejecting it.
+`0065_withdraw_submitted_request.sql` adds `withdrawn` to `events_status_valid`, makes it
+reachable from `submitted` and `under_review` only, and leaves it terminal like
+completed, cancelled and rejected.
+
+**Why a new status rather than reusing `cancelled`.** Cancelling a confirmed event and
+closing a request nobody has decided on are different facts. AC-022.2 asks for a
+withdrawn event to stay distinguishable from draft, submitted, approved and rejected, and
+the organiser's panel has to say which happened — `cancelled` already means an event that
+was going ahead and then was not.
+
+**Who may do it is unchanged code.** Two existing guards already settle it, so the
+migration adds no new authorisation:
+
+- `enforce_event_status_transition` (`0006`) lets a coordinator make any valid transition
+  and restricts an organiser to `submitted` or `cancelled`, so an organiser cannot
+  withdraw their own request. Their close is Cancel.
+- `guard_assigned_coordinator_event_update` (`0039`) refuses any coordinator who is not
+  `events.coordinator_id`, so only the assigned coordinator can withdraw.
+
+**A reason is required**, which AC-022 does not ask for. It is not a new rule either:
+`event_review_decisions_reason_required` (`0009`) already says every decision except
+`approved` carries a reason, so the service refuses a blank note rather than letting the
+insert fail. `withdrawn` also joins `event_review_decisions_decision_valid` and the
+`record_event_review_decision` trigger, so a withdrawal is logged with who closed it, the
+state it was closed from, and why.
+
+**No email is sent.** `0009` queues mail for approved and rejected only; a return is
+logged and not emailed, and withdrawal follows the return. Widening the sender is a team
+decision rather than a side effect of this change.
+
+Tests: 34 numbered cases. `withdrawRequest.test.ts` holds AC-022.1.1–.1.10 and
+AC-022.2.1–.2.7 (the transition table, the actions a reviewer is offered, the service's
+note requirement and conflict handling). `withdraw_submitted_request.sql` holds
+AC-022.1.11–.1.16 and AC-022.2.8–.2.18 (the constraint, both refusal paths, the decision
+record and a `0065` replay check). `AC-004.2.14` in `statusRules.test.ts` was updated:
+its closed list of a reviewer's actions now includes `withdrawn`, which is what caught
+the addition.
 
 ## US4 review decisions and notifications (AC-004.4, AC-004.5)
 
@@ -1085,16 +1157,18 @@ Test allocation (database checks in `backend/supabase/tests/venue_suitability.sq
 
 ## US12 Block Venue Availability (SCRUM-14)
 
-Venue Staff can block a venue for one or more slots (AM, PM, Night) on one date or a range
-of up to 366 days, with a reason. Before saving, they preview the bookings and existing
+Venue Staff can block a venue for one continuous date/time period, in 15-minute
+steps and Singapore time, with a reason (requires 0100). A block covers at most
+366 occupied calendar days. Legacy blocks retain their original daily slot coverage. Before saving, they preview the bookings and existing
 blocks it would overlap. Bookings inside a new block are **flagged for review, not
-cancelled** (Week 7 change 2): each one's coordinator is emailed and sees it under **Venue
+cancelled** (Week 7 change 2): an email is queued for each coordinator, who sees it under **Venue
 alerts**, and a flagged booking cannot be approved until the block is removed or the
 booking ends. Removing a block keeps it on record with who removed it and when. Screens
 (**Venue blocks** for Venue Staff, **Venue alerts** for coordinators) are behind
 `VITE_FEATURE_VENUE_BLOCKS`, which is off unless set to `true` in your own `frontend/.env`.
 
-Migrations, all safe to replay (the runner replays 0026–0034 and checks no data changed):
+Historical block migrations (0026–0034 replay is tested against the original schema;
+do not reapply them after later migrations):
 
 | File | Adds |
 | --- | --- |
@@ -1164,20 +1238,24 @@ location, facilities, accessibility features, operating hours and each supported
 its capacity (at least 1). Operating hours open and close on slot boundaries (7am, 1pm or 7pm
 to 12pm, 6pm or midnight). Only Venue Staff can change venues and layouts; the Operations
 Manager keeps read access only. Every change to a venue or its layouts is recorded in
-`venue_changes` with who made it and when. The **Add venue** page (`/venues/new`) is behind
-`VITE_FEATURE_VENUE_MANAGEMENT`, which is off unless set to `true` in your own `frontend/.env`.
+`venue_changes` with who made it and when. The **Add venue** page is at `/venues/new`.
 **Slice 2 (edit a venue):** Venue Staff open **Manage venues** (`/venues/manage`), which lists
 every venue, and edit any detail (`/venues/:id/edit`). Saving checks nobody changed the venue
 meanwhile. An edit never changes a booking; a live booking it may have made unsuitable (a
 requested layout's capacity below the attendance, a requested layout removed, a required
 accessibility feature or facility removed, or hours that no longer cover a booked slot) is
 flagged as an arrangement review, the same records US41 and US20 use, and its Coordinator is
-notified. Slice 3 (retire) follows.
+notified. **Slice 3 (retire a venue):** from the edit page, Venue Staff retire a venue with a
+reason, after confirming. A retired venue leaves venue search, suitability and availability and
+cannot take new holds. Its live bookings are not cancelled: each is flagged as an arrangement
+review (`venue_retired`, with the reason) and its Coordinator notified. US46 is complete, so
+the pages are no longer behind a feature flag.
 
 | File | Adds |
 | --- | --- |
 | `0064_venue_management.sql` | `venues.opens_at`/`closes_at`, Venue Staff-only venue and layout writes, `venue_changes` and its triggers, `add_venue()` |
 | `0067_venue_edit_review.sql` | `update_venue()`, `get_venue_for_edit()`, venue changes as a source of arrangement reviews (`arrangement_review_flags.venue_change_id`, reason `venue_hours_review`), shared `check_venue_input()` |
+| `0070_venue_retirement.sql` | `retire_venue()`, `venues.retirement_note`, reason `venue_retired`, no new holds on a retired venue |
 
 Test cases: `docs/test-cases/US46_test_cases.md`.
 
@@ -1199,17 +1277,71 @@ Test cases: `docs/test-cases/US5_test_cases.md`.
 
 ## US33 Choose notification channels by type (SCRUM-230)
 
-**Slice 1 (the choices):** **Notification settings** (`/notifications/settings`, linked from
-Notifications) lists the notification types for the user's role, each with In-app and Email
-switches; anything not yet changed is on for both. Behind `VITE_FEATURE_NOTIFICATION_PREFERENCES`
-until slice 2 (Sprint 4) makes delivery follow the choices through one shared sending helper.
+**Notification settings** (`/notifications/settings`, linked from Notifications) lists the
+notification types for the user's role, each with In-app and Email switches; anything not yet
+changed is on for both. Every notice goes through one shared sending helper (0079), which follows
+each person's choices and the three system-wide switches (kept as an admin kill switch); the page
+says when a type is switched off for everyone. Each feature's notices were moved onto the helper
+one PR at a time (0080 to 0088, 0090 to 0092, 0103; 0095 fixed 0080), and 0093 added email for the
+four types that were in-app only.
 
 | File | Adds |
 | --- | --- |
 | `0077_notification_preferences.sql` | `notification_types`, `notification_preferences`, `get_my_notification_preferences()`, `set_my_notification_preference()` |
+| `0093_us33_email_for_in_app_only_types.sql` | email for the four types that were in-app only |
+| `0106_us33_notification_settings_switched_off.sql` | the settings say when a type is switched off for everyone |
 | `0079_notification_delivery.sql` | slice 2a: `notification_channels()`, `queue_notification_email()`, `record_in_app_notice()`, `send_notification()`, `user_notifications`; the feed shows in-app copies and leaves out emails sent through the helper |
 
 Test cases: `docs/test-cases/US33_test_cases.md`.
+
+## US43 Operational safety review (SCRUM-239)
+
+Week 7 change 6, built in slices. **Slice 1 (sending an event for review):** a new **Safety
+Officer** role (`safety_officer`) and three statuses between Planning and Confirmed: **Awaiting
+safety review**, **Safety changes requested** and **In preparation**. The team decided an event is
+confirmed only after safety approval, so Planning can no longer go straight to Confirmed.
+
+**Switched off until the team turns it on** (`safety_review_settings` in the database and
+`VITE_FEATURE_SAFETY_REVIEW` in the app, both off by default): while off, Planning -> Confirmed works
+as before. The checklist for switching it on (US49's 0110, US44, US26) is in the US43 test cases.
+
+Once on, the Coordinator sends an event for review with **Send for safety review** on its Readiness card
+(US5), which is only allowed once every arrangement on the card is complete (registration setup
+aside, as it only opens on confirmation); readiness is one rule shared by the card and the review,
+including US49's rule that a rejected booking stays outstanding (0107).
+Each Safety Officer is then notified through the US33 helper. While the event awaits review only a
+Safety Officer's decision moves it on; its Coordinator can only cancel.
+
+**Slice 2 (the review queue):** **Safety reviews** (`/safety-reviews`, Safety Officers) lists the
+events awaiting review, oldest first, each with its attendance, accessibility needs, approved
+venues (layout and attendance against capacity, accessibility, restrictions such as maintenance,
+opening hours or blocks on the event's dates) and equipment with how much is reserved. US44
+(deciding), US45 (revising) and US26 (confirming) build on this.
+
+| File | Adds |
+| --- | --- |
+| `0109_us43_safety_review_queue.sql` | `get_safety_review_queue()` for the Safety Officer (tested after 0100) |
+| `0108_us43_safety_review.sql` | `safety_officer` role, the safety statuses and rules, `event_readiness_lines()` (shared readiness rule, plus a Safety review line), `send_for_safety_review()`, Safety Officer notices |
+
+Test cases: `docs/test-cases/US43_test_cases.md`.
+
+## US44 Approve / reject / request changes for safety review (SCRUM-249)
+
+Week 7 change 6, part of the safety review (US43), so hidden until it is switched on. From
+**Safety reviews**, the Safety Officer presses **Review** on an event awaiting review, assesses
+seven factors (attendance, venue capacity and layout, emergency access, accessibility, equipment
+placement, crowd movement, venue restrictions; a note for every concern) and records one decision.
+**Approve** moves the event to In Preparation; **Request changes** or **Reject** (with a comment and
+what to revisit: venue, equipment or both) moves it to Safety Changes Requested. The assigned
+Coordinator is notified through the US33 helper ("Safety review decisions") and sees a **Safety
+review** panel on the event with the decision, comment, what to revisit and each concern, plus
+earlier decisions. Each decision records who made it and when.
+
+| File | Adds |
+| --- | --- |
+| `0111_us44_safety_review_decisions.sql` | `safety_review_decisions` and `safety_review_assessments`, `record_safety_review_decision()`, `get_safety_review_decisions()`, the "Safety review decisions" notification type |
+
+Test cases: `docs/test-cases/US44_test_cases.md`.
 
 ## US32 View in-app notifications (SCRUM-229)
 
@@ -1383,15 +1515,54 @@ terminal commands for capturing Scrum evidence. Slice 2 cases use AC-020.3.1–2
 .30–37 and .50–61; next ID is **AC-020.3.62**. Keep migrations 0063 and 0065 in the
 normal ordered deployment process; no shared Supabase deployment is implied here.
 
-## US47 venue setup and turnaround — foundation
+## US47 venue setup and turnaround
 
-Claimed migration `0074_venue_buffer_foundation.sql` adds zero-default duration
-fields (non-negative multiples of 15 minutes) and an internal occupied-period
-calculation. It does not switch existing booking rules or modify reservations.
-Browser configuration remains disabled until booking/review integration is ready.
-The full disposable database suite passed with six foundation cases. No frontend
-changed; shared Supabase deployment and PR/CI remain pending.
+Venue Staff configure independent setup/turnaround durations under **Manage venues →
+Edit**. Durations are non-negative multiples of 15 minutes and default to zero.
+New holds and booking checks include setup before and turnaround after the event.
+Search, suitability and calendars account for occupied time; calendar and saved
+booking history show readable time ranges.
 
-See [US47 scope and remaining work](docs/us47-venue-buffers.md),
-[test cases](docs/test-cases/US47_test_cases.md) and
-[evidence](docs/test-evidence/us47/README.md).
+Settings changes preserve existing reservations and flag conflicting arrangements
+for review. Assigned Coordinators and Venue Staff receive notices through the
+existing notification system, respecting their channel preferences. Email is queued;
+email receipt is not claimed by the database tests.
+
+Implementation PRs are merged and migrations 0074, 0075 and 0098 applied to shared
+Supabase. Manual UI checks passed and the evidence sheet is updated. The recorded
+implementation verification passed 1,500 frontend tests, typecheck, lint, build and
+historical/upgrade/fresh-install database suites, including migration replay and
+hold/approval concurrency checks.
+
+See [acceptance review and scope](docs/us47-venue-buffers.md),
+[test cases](docs/test-cases/US47_test_cases.md),
+[evidence](docs/test-evidence/us47/README.md), and the
+[deployment reference](docs/us47-booking-time-deployment.md). Automated runs stay in
+GitHub Actions; the shared sheet's Automated Test Case Runs tab is unchanged.
+
+
+## US48 replacement venues (SCRUM-243)
+
+Implementation is merged in PRs #127 and #128; PR #128 has four checks passed.
+Coordinators see blocked/retired reasons and Needs replacement, search using prefilled
+event timing/requirements, and submit through the existing staff approval flow.
+Approval atomically releases the original and resolves only its eligible blocked/retired
+reviews with staff/replacement attribution. Other reviews and all event details stay;
+failed, rejected and withdrawn outcomes preserve the original reservation.
+
+0099 extends the US20 replacement flow; 0100 adds continuous venue-block start/end
+periods at quarter-hour boundaries in Singapore time. Existing daily-slot block gaps
+remain intact. Deploy 0100 after 0099 before this frontend; shared contracts affect
+US12 blocking and US47 conflict readers. Jaydon confirmed 0099 applied and all final
+manual-checklist steps passed, including the 0100-dependent block workflow.
+
+Final local verification: 1,516 frontend tests / 173 files, build/typecheck/lint and
+historical/current upgrade/fresh database gates passed. One automated search-label
+UI defect was fixed with failure evidence retained. No manual defect was reported.
+This documentation closeout claims no new test execution or email delivery.
+
+All six ACs have passing implementation/manual evidence. Jaydon confirmed the
+evidence sheet is up to date. Documentation merge and Jira transition remain.
+See [story notes](docs/us48-venue-replacement.md),
+[test cases](docs/test-cases/US48_test_cases.md) and
+[evidence](docs/test-evidence/us48/README.md).

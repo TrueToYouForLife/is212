@@ -1,0 +1,100 @@
+
+> connectsphere@0.1.0 test
+> vitest run venueOccupiedSlots --maxWorkers=1 --minWorkers=1
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+ ❯ src/features/venues/__tests__/venueOccupiedSlots.test.ts (3 tests | 2 failed) 9ms
+   × AC-047.2.23: frontend matches the database customer example and venue-specific zero buffers 6ms
+     → expected [ 'T1030', 'T1045', 'T1100', …(6) ] to deeply equal [ 'T0930', 'T0945', 'T1000', …(10) ]
+   × AC-047.2.24: midnight, lunch, partial cells and adjacent boundaries match the quarter-hour model 1ms
+     → expected [ { date: '2047-10-25', …(2) }, …(1) ] to deeply equal [ { date: '2047-10-24', …(2) }, …(5) ]
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/venues/__tests__/venueOccupiedSlots.test.ts > AC-047.2.23: frontend matches the database customer example and venue-specific zero buffers
+AssertionError: expected [ 'T1030', 'T1045', 'T1100', …(6) ] to deeply equal [ 'T0930', 'T0945', 'T1000', …(10) ]
+
+- Expected
++ Received
+
+  Array [
+-   "T0930",
+-   "T0945",
+-   "T1000",
+-   "T1015",
+    "T1030",
+    "T1045",
+    "T1100",
+    "T1115",
+    "T1130",
+    "T1145",
+    "T1200",
+    "T1215",
+    "T1230",
+  ]
+
+ ❯ src/features/venues/__tests__/venueOccupiedSlots.test.ts:11:34
+      9|   const end = at('12:00')
+     10|   const cells = occupiedVenueCells(start, end, { setupMinutes: 30, tur…
+     11|   expect(cells.map(c => c.slot)).toEqual([
+       |                                  ^
+     12|     'T0930', 'T0945', 'T1000', 'T1015', 'T1030', 'T1045', 'T1100',
+     13|     'T1115', 'T1130', 'T1145', 'T1200', 'T1215', 'T1230',
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/features/venues/__tests__/venueOccupiedSlots.test.ts > AC-047.2.24: midnight, lunch, partial cells and adjacent boundaries match the quarter-hour model
+AssertionError: expected [ { date: '2047-10-25', …(2) }, …(1) ] to deeply equal [ { date: '2047-10-24', …(2) }, …(5) ]
+
+- Expected
++ Received
+
+  Array [
+    Object {
+-     "date": "2047-10-24",
+-     "kind": "buffer",
+-     "slot": "T2330",
+-   },
+-   Object {
+-     "date": "2047-10-24",
+-     "kind": "buffer",
+-     "slot": "T2345",
+-   },
+-   Object {
+-     "date": "2047-10-25",
+-     "kind": "event",
+-     "slot": "T0000",
+-   },
+-   Object {
+-     "date": "2047-10-25",
+-     "kind": "buffer",
+-     "slot": "T0015",
+-   },
+-   Object {
+      "date": "2047-10-25",
+      "kind": "buffer",
+      "slot": "T0030",
+    },
+    Object {
+      "date": "2047-10-25",
+      "kind": "buffer",
+      "slot": "T0045",
+    },
+  ]
+
+ ❯ src/features/venues/__tests__/venueOccupiedSlots.test.ts:30:20
+     28| test('AC-047.2.24: midnight, lunch, partial cells and adjacent boundar…
+     29|   const midnight = occupiedVenueCells(at('00:00'), at('00:15'), { setu…
+     30|   expect(midnight).toEqual([
+       |                    ^
+     31|     { date: '2047-10-24', slot: 'T2330', kind: 'buffer' },
+     32|     { date: '2047-10-24', slot: 'T2345', kind: 'buffer' },
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  22:50:36
+   Duration  1.24s (transform 51ms, setup 83ms, collect 19ms, tests 9ms, environment 587ms, prepare 78ms)

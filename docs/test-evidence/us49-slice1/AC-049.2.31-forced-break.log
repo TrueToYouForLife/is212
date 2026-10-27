@@ -1,0 +1,37 @@
+
+> connectsphere@0.1.0 test
+> vitest run --maxWorkers=2 --minWorkers=1 src/features/venues/__tests__/BookingSpaceFields.test.tsx -t AC-049.2.31
+
+
+ RUN  v2.1.9 C:/dev/spm/is212/frontend
+
+ ❯ src/features/venues/__tests__/BookingSpaceFields.test.tsx (3 tests | 1 failed | 2 skipped) 9ms
+   × AC-049.2.31: blank layout and nonpositive or fractional attendance are invalid 8ms
+     → expected null not to be null
+
+npm.cmd : ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+At line:2 char:401
++ ... aceholder'; npm.cmd test -- --maxWorkers=2 --minWorkers=1 src/feature ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+ FAIL  src/features/venues/__tests__/BookingSpaceFields.test.tsx > AC-049.2.31: blank layout and nonpositive or 
+fractional attendance are invalid
+AssertionError: expected null not to be null
+ ❯ src/features/venues/__tests__/BookingSpaceFields.test.tsx:25:96
+     23| })
+     24| test('AC-049.2.31: blank layout and nonpositive or fractional attendan…
+     25|  for(const attendance of [0,-1,1.5,NaN]) expect(spaceError({layout:'th…
+       |                                                                                                ^
+     26|  expect(spaceError({layout:'',attendance:1})).not.toBeNull()
+     27|  expect(spaceError({layout:'theatre',attendance:1})).toBeNull()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 skipped (3)
+   Start at  20:34:11
+   Duration  3.73s (transform 118ms, setup 180ms, collect 338ms, tests 9ms, environment 901ms, prepare 145ms)
+

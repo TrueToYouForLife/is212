@@ -1,0 +1,3817 @@
+CREATE ROLE
+CREATE ROLE
+CREATE SCHEMA
+CREATE TABLE
+CREATE FUNCTION
+GRANT
+GRANT
+ALTER DEFAULT PRIVILEGES
+ALTER DEFAULT PRIVILEGES
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE FUNCTION
+DROP TRIGGER
+bash.exe : NOTICE:  trigger "profiles_set_updated_at" for relation "public.profiles" does not exist, skipping
+At line:2 char:1
++ & 'C:\Program Files\Git\bin\bash.exe' backend/supabase/tests/run_venu ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (NOTICE:  trigge...exist, skipping:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+CREATE TRIGGER
+DROP TRIGGER
+NOTICE:  trigger "events_set_updated_at" for relation "public.events" does not exist, skipping
+CREATE TRIGGER
+CREATE SEQUENCE
+CREATE FUNCTION
+NOTICE:  trigger "events_assign_reference" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+ALTER TABLE
+ALTER TABLE
+DROP POLICY
+NOTICE:  policy "profiles_select_own" for relation "public.profiles" does not exist, skipping
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "profiles_insert_own" for relation "public.profiles" does not exist, skipping
+CREATE POLICY
+NOTICE:  policy "profiles_update_own" for relation "public.profiles" does not exist, skipping
+DROP POLICY
+NOTICE:  policy "events_select_own" for relation "public.events" does not exist, skipping
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "events_insert_own" for relation "public.events" does not exist, skipping
+CREATE POLICY
+NOTICE:  policy "events_update_own" for relation "public.events" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+ALTER TABLE
+ALTER TABLE
+CREATE FUNCTION
+GRANT
+CREATE FUNCTION
+DROP TRIGGER
+NOTICE:  trigger "profiles_prevent_role_self_assignment" for relation "public.profiles" does not exist, skipping
+CREATE TRIGGER
+DROP POLICY
+NOTICE:  policy "events_select_for_coordinators" for relation "public.events" does not exist, skipping
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "profiles_select_for_coordinators" for relation "public.profiles" does not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+GRANT
+REVOKE
+REVOKE
+GRANT
+GRANT
+CREATE FUNCTION
+CREATE FUNCTION
+NOTICE:  trigger "events_enforce_status_transition" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+DROP POLICY
+NOTICE:  policy "events_update_for_coordinators" for relation "public.events" does not exist, skipping
+CREATE POLICY
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE FUNCTION
+NOTICE:  trigger "events_stamp_review" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "on_auth_user_created" for relation "auth.users" does not exist, skipping
+REVOKE
+DROP TRIGGER
+CREATE TRIGGER
+INSERT 0 0
+DROP POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+REVOKE
+REVOKE
+GRANT
+CREATE FUNCTION
+NOTICE:  trigger "events_require_review_reason" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+NOTICE:  policy "events_select_for_operations_managers" for relation "public.events" does not exist, skipping
+CREATE TRIGGER
+BEGIN
+ALTER TABLE
+ALTER TABLE
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+COMMIT
+BEGIN
+CREATE TABLE
+DROP TRIGGER
+CREATE TRIGGER
+NOTICE:  trigger "event_change_requests_set_updated_at" for relation "public.event_change_requests" does not exist, 
+skipping
+ALTER TABLE
+GRANT
+NOTICE:  policy "organisers_select_own_change_requests" for relation "public.event_change_requests" does not exist, 
+skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "coordinators_select_all_change_requests" for relation "public.event_change_requests" does not exist, 
+skipping
+CREATE POLICY
+NOTICE:  policy "organisers_insert_own_change_requests" for relation "public.event_change_requests" does not exist, 
+skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "organisers_withdraw_own_change_requests" for relation "public.event_change_requests" does not exist, 
+skipping
+DROP POLICY
+CREATE POLICY
+COMMIT
+BEGIN
+ALTER TABLE
+GRANT
+CREATE FUNCTION
+DROP TRIGGER
+NOTICE:  trigger "events_guard_coordinator_assignment" for relation "public.events" does not exist, skipping
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+NOTICE:  trigger "events_guard_submitted_details" for relation "public.events" does not exist, skipping
+NOTICE:  policy "coordinators_select_assigned_change_requests" for relation "public.event_change_requests" does not 
+exist, skipping
+NOTICE:  policy "review_decisions_select_for_staff" for relation "public.event_review_decisions" does not exist, 
+skipping
+NOTICE:  trigger "events_record_review_decision" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+REVOKE
+GRANT
+GRANT
+DROP POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+DROP POLICY
+CREATE POLICY
+REVOKE
+GRANT
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+NOTICE:  constraint "event_change_requests_status_valid" of relation "event_change_requests" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+GRANT
+CREATE FUNCTION
+DROP TRIGGER
+NOTICE:  trigger "event_change_requests_bump_version" for relation "public.event_change_requests" does not exist, 
+skipping
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+DROP FUNCTION
+BEGIN
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "staff_read_change_revalidations" for relation "public.event_change_revalidations" does not exist, 
+skipping
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "event_change_requests_queue_revalidation" for relation "public.event_change_requests" does not 
+exist, skipping
+CREATE TRIGGER
+COMMIT
+BEGIN
+CREATE TABLE
+INSERT 0 1
+ALTER TABLE
+REVOKE
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+NOTICE:  policy "coordinator_read_own_change_notifications" for relation "public.change_request_notifications" does 
+not exist, skipping
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+CREATE TRIGGER
+NOTICE:  trigger "event_change_requests_notify_submission" for relation "public.event_change_requests" does not exist, 
+skipping
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "staff_read_change_review_history" for relation "public.event_change_review_history" does not exist, 
+skipping
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "event_change_requests_record_review" for relation "public.event_change_requests" does not exist, 
+skipping
+CREATE TRIGGER
+COMMIT
+BEGIN
+CREATE EXTENSION
+CREATE TABLE
+INSERT 0 3
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+DROP TRIGGER
+NOTICE:  trigger "venues_set_updated_at" for relation "public.venues" does not exist, skipping
+CREATE TRIGGER
+DROP TRIGGER
+NOTICE:  trigger "venue_bookings_set_updated_at" for relation "public.venue_bookings" does not exist, skipping
+CREATE TRIGGER
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+GRANT
+GRANT
+NOTICE:  policy "time_slots_select_all" for relation "public.time_slots" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "venues_select_all" for relation "public.venues" does not exist, skipping
+DROP POLICY
+NOTICE:  policy "venues_manage_insert" for relation "public.venues" does not exist, skipping
+CREATE POLICY
+NOTICE:  policy "venues_manage_update" for relation "public.venues" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "closures_select_staff" for relation "public.venue_closures" does not exist, skipping
+NOTICE:  policy "closures_insert_manage" for relation "public.venue_closures" does not exist, skipping
+CREATE POLICY
+NOTICE:  policy "closures_update_manage" for relation "public.venue_closures" does not exist, skipping
+NOTICE:  policy "closures_delete_manage" for relation "public.venue_closures" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "bookings_select_staff" for relation "public.venue_bookings" does not exist, skipping
+DROP POLICY
+NOTICE:  policy "bookings_insert_coordinator" for relation "public.venue_bookings" does not exist, skipping
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "bookings_update_own_coordinator" for relation "public.venue_bookings" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "bookings_expire_lapsed_holds" for relation "public.venue_bookings" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "bookings_review_venue_staff" for relation "public.venue_bookings" does not exist, skipping
+CREATE POLICY
+NOTICE:  policy "claims_select_staff" for relation "public.venue_slot_claims" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "claims_insert_coordinator" for relation "public.venue_slot_claims" does not exist, skipping
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "claims_insert_maintenance" for relation "public.venue_slot_claims" does not exist, skipping
+CREATE POLICY
+NOTICE:  policy "claims_delete_coordinator" for relation "public.venue_slot_claims" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "claims_delete_venue_staff" for relation "public.venue_slot_claims" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+COMMIT
+BEGIN
+NOTICE:  extension "btree_gist" already exists, skipping
+CREATE EXTENSION
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "equipment_allocations_sync_line" for relation "public.equipment_allocations" does not exist, skipping
+CREATE TRIGGER
+CREATE VIEW
+NOTICE:  trigger "equipment_items_set_updated_at" for relation "public.equipment_items" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+DROP TRIGGER
+NOTICE:  trigger "equipment_bookings_set_updated_at" for relation "public.equipment_bookings" does not exist, skipping
+CREATE TRIGGER
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+GRANT
+GRANT
+NOTICE:  policy "distances_select_staff" for relation "public.venue_distances" does not exist, skipping
+NOTICE:  policy "distances_manage_insert" for relation "public.venue_distances" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "distances_manage_update" for relation "public.venue_distances" does not exist, skipping
+CREATE POLICY
+NOTICE:  policy "types_select_staff" for relation "public.equipment_types" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "types_manage_insert" for relation "public.equipment_types" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "types_manage_update" for relation "public.equipment_types" does not exist, skipping
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "items_tech_support" for relation "public.equipment_items" does not exist, skipping
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "allocations_tech_support" for relation "public.equipment_allocations" does not exist, skipping
+CREATE POLICY
+NOTICE:  policy "defects_tech_support" for relation "public.equipment_defect_reports" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "eq_bookings_select" for relation "public.equipment_bookings" does not exist, skipping
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "eq_bookings_insert_coordinator" for relation "public.equipment_bookings" does not exist, skipping
+CREATE POLICY
+NOTICE:  policy "eq_bookings_cancel_coordinator" for relation "public.equipment_bookings" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "eq_bookings_review_tech_support" for relation "public.equipment_bookings" does not exist, skipping
+CREATE POLICY
+NOTICE:  policy "eq_lines_select" for relation "public.equipment_booking_lines" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "eq_lines_insert_coordinator" for relation "public.equipment_booking_lines" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "eq_lines_respond_coordinator" for relation "public.equipment_booking_lines" does not exist, skipping
+CREATE POLICY
+NOTICE:  policy "eq_lines_tech_support" for relation "public.equipment_booking_lines" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+COMMIT
+BEGIN
+CREATE FUNCTION
+DO
+DROP FUNCTION
+COMMIT
+BEGIN
+DO
+UPDATE 0
+ALTER TABLE
+ALTER TABLE
+COMMIT
+BEGIN
+CREATE TABLE
+INSERT 0 7
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "layout_types_select_all" for relation "public.layout_types" does not exist, skipping
+CREATE POLICY
+COMMIT
+BEGIN
+CREATE FUNCTION
+CREATE TABLE
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "venue_layouts_select_all" for relation "public.venue_layouts" does not exist, skipping
+CREATE POLICY
+NOTICE:  policy "venue_layouts_manage" for relation "public.venue_layouts" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "venues_sync_primary_layout" for relation "public.venues" does not exist, skipping
+CREATE TRIGGER
+INSERT 0 0
+INSERT 0 0
+COMMIT
+BEGIN
+CREATE TABLE
+DROP TRIGGER
+NOTICE:  trigger "event_venue_requirements_set_updated_at" for relation "public.event_venue_requirements" does not 
+exist, skipping
+CREATE TRIGGER
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "event_venue_requirements_select" for relation "public.event_venue_requirements" does not exist, 
+skipping
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "event_venue_requirements_insert" for relation "public.event_venue_requirements" does not exist, 
+skipping
+CREATE POLICY
+NOTICE:  policy "event_venue_requirements_update" for relation "public.event_venue_requirements" does not exist, 
+skipping
+DROP POLICY
+CREATE POLICY
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE TABLE
+CREATE INDEX
+REVOKE
+GRANT
+GRANT
+GRANT
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+ALTER TABLE
+ALTER TABLE
+NOTICE:  policy "equipment_requirements_select" for relation "public.event_equipment_requirements" does not exist, 
+skipping
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "equipment_requirements_insert" for relation "public.event_equipment_requirements" does not exist, 
+skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "equipment_requirements_update" for relation "public.event_equipment_requirements" does not exist, 
+skipping
+CREATE POLICY
+NOTICE:  policy "equipment_requirements_delete" for relation "public.event_equipment_requirements" does not exist, 
+skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "equipment_notifications_select_own" for relation "public.equipment_requirement_notifications" does 
+not exist, skipping
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "events_select_for_tech_support" for relation "public.events" does not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "event_equipment_requirements_guard" for relation "public.event_equipment_requirements" does not 
+exist, skipping
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "event_equipment_requirements_release" for relation "public.event_equipment_requirements" does not 
+exist, skipping
+CREATE TRIGGER
+DROP TRIGGER
+NOTICE:  trigger "event_equipment_requirements_set_updated_at" for relation "public.event_equipment_requirements" does 
+not exist, skipping
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "event_equipment_requirements_notify" for relation "public.event_equipment_requirements" does not 
+exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+NOTICE:  constraint "equipment_requirement_notifications_action_valid" of relation 
+"equipment_requirement_notifications" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+NOTICE:  policy "equipment_outcome_notices_select_coordinator" for relation 
+"public.equipment_requirement_notifications" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+CREATE TABLE
+INSERT 0 1
+ALTER TABLE
+REVOKE
+DROP POLICY
+NOTICE:  policy "allocations_select_staff" for relation "public.equipment_allocations" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+DROP POLICY
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+DROP POLICY
+REVOKE
+DROP POLICY
+REVOKE
+DROP POLICY
+REVOKE
+DROP POLICY
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE TABLE
+ALTER TABLE
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+GRANT
+NOTICE:  policy "venue_booking_flags_select_staff" for relation "public.venue_booking_flags" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+NOTICE:  policy "venue_booking_flags_select_coordinator" for relation "public.venue_booking_flags" does not exist, 
+skipping
+CREATE POLICY
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "venue_bookings_refuse_blocked_confirm" for relation "public.venue_bookings" does not exist, skipping
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "venue_slot_claims_reblock" for relation "public.venue_slot_claims" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+ALTER TABLE
+ALTER TABLE
+NOTICE:  constraint "venue_booking_flags_resolution_recorded" of relation "venue_booking_flags" does not exist, 
+skipping
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "venue_bookings_resolve_flags" for relation "public.venue_bookings" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+NOTICE:  constraint "venue_closures_removal_recorded" of relation "venue_closures" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+COMMIT
+BEGIN
+CREATE INDEX
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "events_release_venue_holds" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "venue_staff_read_own_booking_notifications" for relation "public.venue_booking_notifications" does 
+not exist, skipping
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+NOTICE:  policy "venue_staff_mark_own_booking_notifications" for relation "public.venue_booking_notifications" does 
+not exist, skipping
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "venue_bookings_notify_staff" for relation "public.venue_bookings" does not exist, skipping
+CREATE TRIGGER
+COMMIT
+BEGIN
+DROP INDEX
+CREATE INDEX
+DROP POLICY
+CREATE POLICY
+COMMIT
+BEGIN
+ALTER TABLE
+NOTICE:  constraint "venue_bookings_rejection_reason_required" of relation "venue_bookings" does not exist, skipping
+ALTER TABLE
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+DROP POLICY
+NOTICE:  policy "events_select_for_coordinator_leads" for relation "public.events" does not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+CREATE FUNCTION
+NOTICE:  trigger "events_guard_assigned_coordinator_update" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "coordinator_leads_read_assignment_history" for relation "public.event_coordinator_assignment_history" 
+does not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "events_record_coordinator_assignment" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+ALTER TABLE
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "venue_bookings_stamp_rejection" for relation "public.venue_bookings" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "venue_bookings_release_rejected_claims" for relation "public.venue_bookings" does not exist, skipping
+CREATE TRIGGER
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+CREATE FUNCTION
+REVOKE
+ALTER TABLE
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "event_registrations_select_own" for relation "public.event_registrations" does not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+REVOKE
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+REVOKE
+REVOKE
+GRANT
+GRANT
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "event_registrations_queue_confirmation" for relation "public.event_registrations" does not exist, 
+skipping
+CREATE TRIGGER
+BEGIN
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "event_venue_requirements_lock_event" for relation "public.event_venue_requirements" does not exist, 
+skipping
+CREATE TRIGGER
+DROP POLICY
+NOTICE:  policy "bookings_confirm_through_rpc" for relation "public.venue_bookings" does not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "venue_claims_protect_confirmed" for relation "public.venue_slot_claims" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE TABLE
+INSERT 0 1
+ALTER TABLE
+REVOKE
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+NOTICE:  policy "recipients_read_assignment_notifications" for relation "public.coordinator_assignment_notifications" 
+does not exist, skipping
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+NOTICE:  trigger "assignment_history_notify_recipients" for relation "public.event_coordinator_assignment_history" 
+does not exist, skipping
+REVOKE
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "venue_bookings_guard_coordinator_identity" for relation "public.venue_bookings" does not exist, 
+skipping
+CREATE TRIGGER
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+COMMIT
+BEGIN
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "equipment_bookings_guard_coordinator_update" for relation "public.equipment_bookings" does not 
+exist, skipping
+CREATE TRIGGER
+NOTICE:  trigger "equipment_lines_guard_coordinator_update" for relation "public.equipment_booking_lines" does not 
+exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+DROP POLICY
+CREATE POLICY
+COMMIT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "event_registrations_queue_withdrawal" for relation "public.event_registrations" does not exist, 
+skipping
+CREATE TRIGGER
+BEGIN
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "coordinator_read_own_venue_decisions" for relation "public.venue_booking_decision_notifications" does 
+not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "venue_bookings_notify_decision" for relation "public.venue_bookings" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "arrangement_review_current_coordinator" for relation "public.arrangement_review_flags" does not 
+exist, skipping
+CREATE POLICY
+CREATE TABLE
+ALTER TABLE
+REVOKE
+GRANT
+NOTICE:  policy "arrangement_notice_recipient" for relation "public.arrangement_review_notifications" does not exist, 
+skipping
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "revalidate_approved_arrangements" for relation "public.event_change_revalidations" does not exist, 
+skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+COMMIT
+BEGIN
+CREATE TABLE
+INSERT 0 4
+CREATE TABLE
+INSERT 0 4
+ALTER TABLE
+ALTER TABLE
+REVOKE
+REVOKE
+NOTICE:  policy "accessibility_types_select_all" for relation "public.accessibility_types" does not exist, skipping
+NOTICE:  policy "facility_types_select_all" for relation "public.facility_types" does not exist, skipping
+GRANT
+GRANT
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+ALTER TABLE
+UPDATE 0
+UPDATE 0
+NOTICE:  trigger "equipment_types_set_code" for relation "public.equipment_types" does not exist, skipping
+NOTICE:  constraint "equipment_types_code_format" of relation "equipment_types" does not exist, skipping
+CREATE INDEX
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+CREATE TRIGGER
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+REVOKE
+DROP POLICY
+CREATE POLICY
+CREATE TABLE
+DO
+ALTER TABLE
+REVOKE
+GRANT
+NOTICE:  policy "event_requirement_notes_select_staff" for relation "public.event_requirement_migration_notes" does 
+not exist, skipping
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+DO
+UPDATE 0
+ALTER TABLE
+ALTER TABLE
+DO
+UPDATE 0
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+UPDATE 0
+ALTER TABLE
+ALTER TABLE
+UPDATE 0
+UPDATE 0
+ALTER TABLE
+NOTICE:  constraint "events_layout_preference_fkey" of relation "events" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+NOTICE:  constraint "events_requirement_codes_not_blank" of relation "events" does not exist, skipping
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "events_validate_requirement_codes" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+GRANT
+DROP FUNCTION
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+NOTICE:  policy "event_waitlist_select_own" for relation "public.event_waitlist_entries" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+REVOKE
+REVOKE
+REVOKE
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+REVOKE
+REVOKE
+GRANT
+GRANT
+GRANT
+DROP FUNCTION
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+DROP TRIGGER
+NOTICE:  trigger "event_registrations_process_waitlist" for relation "public.event_registrations" does not exist, 
+skipping
+CREATE TRIGGER
+CREATE FUNCTION
+NOTICE:  trigger "events_process_waitlist" for relation "public.events" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+REVOKE
+REVOKE
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "event_waitlist_queue_notification" for relation "public.event_waitlist_entries" does not exist, 
+skipping
+CREATE TRIGGER
+COMMIT
+BEGIN
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+REVOKE
+REVOKE
+GRANT
+GRANT
+GRANT
+COMMIT
+BEGIN
+ALTER TABLE
+UPDATE 0
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+NOTICE:  constraint "event_waitlist_override_paired" of relation "event_waitlist_entries" does not exist, skipping
+DROP INDEX
+CREATE INDEX
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+REVOKE
+GRANT
+GRANT
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+REVOKE
+GRANT
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+DO
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+NOTICE:  policy "planning_updates_assigned" for relation "public.event_planning_updates" does not exist, skipping
+GRANT
+DROP POLICY
+CREATE POLICY
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+NOTICE:  constraint "arrangement_review_source" of relation "arrangement_review_flags" does not exist, skipping
+ALTER TABLE
+CREATE INDEX
+CREATE INDEX
+ALTER TABLE
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+NOTICE:  constraint "venues_operating_hours_valid" of relation "venues" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+DROP POLICY
+CREATE POLICY
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "venue_changes_select_venue_staff" for relation "public.venue_changes" does not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "venues_record_change" for relation "public.venues" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "venue_layouts_record_change" for relation "public.venue_layouts" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "venue_replacement_read" for relation "public.venue_replacement_requests" does not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+CREATE FUNCTION
+CREATE FUNCTION
+ALTER TABLE
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE INDEX
+DO
+NOTICE:  function public.record_venue_change_review(uuid,uuid,uuid,text,text) does not exist, skipping
+DROP FUNCTION
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE TABLE
+INSERT 0 2
+UPDATE 0
+ALTER TABLE
+NOTICE:  constraint "profiles_client_org_fk" of relation "profiles" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+NOTICE:  constraint "profiles_client_org_required" of relation "profiles" does not exist, skipping
+CREATE INDEX
+CREATE FUNCTION
+NOTICE:  trigger "profiles_prevent_client_org_self_assignment" for relation "public.profiles" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+REVOKE
+GRANT
+ALTER TABLE
+DROP POLICY
+NOTICE:  policy "client_organisations_select_own" for relation "public.client_organisations" does not exist, skipping
+CREATE POLICY
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+NOTICE:  constraint "venues_retirement_note_valid" of relation "venues" does not exist, skipping
+ALTER TABLE
+DO
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+DROP POLICY
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE TABLE
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "notification_reads_own" for relation "public.notification_reads" does not exist, skipping
+CREATE POLICY
+NOTICE:  policy "notification_reads_insert_own" for relation "public.notification_reads" does not exist, skipping
+DROP POLICY
+CREATE POLICY
+DROP FUNCTION
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+ALTER TABLE
+NOTICE:  constraint "venues_buffer_minutes_valid" of relation "venues" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+NOTICE:  trigger "venues_guard_buffer_foundation" for relation "public.venues" does not exist, skipping
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE TABLE
+INSERT 0 11
+ALTER TABLE
+REVOKE
+NOTICE:  policy "notification_types_read" for relation "public.notification_types" does not exist, skipping
+GRANT
+DROP POLICY
+CREATE POLICY
+CREATE TABLE
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "notification_preferences_own" for relation "public.notification_preferences" does not exist, skipping
+CREATE POLICY
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+ALTER TABLE
+CREATE TABLE
+CREATE INDEX
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "user_notifications_own" for relation "public.user_notifications" does not exist, skipping
+CREATE POLICY
+UPDATE 4
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+REVOKE
+REVOKE
+REVOKE
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+ALTER TABLE
+ALTER TABLE
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMIT
+BEGIN
+CREATE FUNCTION
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+COMMIT
+BEGIN
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+BEGIN
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+CREATE TABLE
+ALTER TABLE
+REVOKE
+GRANT
+DROP POLICY
+NOTICE:  policy "equipment_status_history_staff" for relation "public.equipment_status_changes" does not exist, 
+skipping
+CREATE POLICY
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+NOTICE:  trigger "equipment_status_write_guard" for relation "public.equipment_items" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+ALTER TABLE
+DO
+CREATE INDEX
+ALTER TABLE
+NOTICE:  constraint "equipment_status_review_source_kind" of relation "arrangement_review_flags" does not exist, 
+skipping
+ALTER TABLE
+UPDATE 1
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+CREATE FUNCTION
+INSERT 0 1
+INSERT 0 1
+INSERT 0 3
+INSERT 0 3
+INSERT 0 2
+INSERT 0 4
+INSERT 0 1
+SELECT 3
+SELECT 2
+SELECT 100
+SELECT 60
+BEGIN
+LOCK TABLE
+SELECT 3
+DO
+SELECT 5
+ALTER TABLE
+UPDATE 3
+INSERT 0 96
+DO
+ALTER TABLE
+ALTER TABLE
+INSERT 0 100
+DELETE 5
+ALTER TABLE
+ALTER TABLE
+UPDATE 2
+DELETE 3
+ALTER TABLE
+DO
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+ALTER TABLE
+ALTER TABLE
+COMMIT
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-047.2.3: conversion preserves exact booking/buffer/maintenance occupancy and all booking metadata
+NOTICE:  PASS: AC-047.2.4: overlapping and removed block definitions retain their exact periods, gaps and metadata; 
+triggers restored
+ us47_assert 
+-------------
+ 
+(1 row)
+
+SELECT 96
+SELECT 100
+SELECT 2
+BEGIN
+LOCK TABLE
+SELECT 0
+DO
+SELECT 0
+ALTER TABLE
+UPDATE 0
+INSERT 0 0
+DO
+ALTER TABLE
+ALTER TABLE
+INSERT 0 0
+DELETE 0
+ALTER TABLE
+ALTER TABLE
+UPDATE 0
+DELETE 0
+ALTER TABLE
+DO
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+ALTER TABLE
+ALTER TABLE
+COMMIT
+ us47_assert 
+-------------
+ 
+(1 row)
+
+BEGIN
+RESET
+NOTICE:  PASS: AC-047.2.5: repeated conversion preserves catalogue, reservations and block definitions
+ set_config 
+------------
+ 
+(1 row)
+
+UPDATE 1
+UPDATE 1
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-047.2.6: venue durations generate the exact customer-example and cross-midnight quarter-hour cells
+UPDATE 1
+NOTICE:  PASS: AC-047.2.6: zero durations add no buffer; partial quarter-hours occupy every touched cell without 
+changing event times
+ us47_assert 
+-------------
+ 
+(1 row)
+
+SET
+              set_config              
+--------------------------------------
+ 47750000-0000-0000-0000-000000000001
+(1 row)
+
+DO
+NOTICE:  PASS: AC-047.2.7: invalid block inputs refused and internal/unauthenticated access remains restricted
+              set_config              
+--------------------------------------
+ 47750000-0000-0000-0000-000000000001
+(1 row)
+
+SELECT 1
+NOTICE:  PASS: AC-047.2.8: quarter-hour block normalises codes, includes lunch time and flags overlapping holds 
+without removing their cells
+ us47_assert 
+-------------
+ 
+(1 row)
+
+RESET
+ set_config 
+------------
+ 
+(1 row)
+
+DELETE 1
+NOTICE:  PASS: AC-047.2.8: released quarter-hour reservation cells revert to their covering block
+ us47_assert 
+-------------
+ 
+(1 row)
+
+SET
+              set_config              
+--------------------------------------
+ 47750000-0000-0000-0000-000000000001
+(1 row)
+
+ remove_venue_block 
+--------------------
+ 
+(1 row)
+
+ us47_assert 
+-------------
+ 
+(1 row)
+
+RESET
+NOTICE:  PASS: AC-047.2.8: removing a quarter-hour block preserves remaining booking cells
+ROLLBACK
+BEGIN
+UPDATE 1
+UPDATE 1
+INSERT 0 3
+UPDATE 1
+SET
+              set_config              
+--------------------------------------
+ 47750000-0000-0000-0000-000000000001
+(1 row)
+
+SELECT 1
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-047.2.9: assigned Coordinator creates a hold with venue-specific buffers and unchanged default expiry
+DO
+RESET
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-047.2.10: conflicts and invalid/unauthorised requests leave no partial booking or lost reservation
+UPDATE 1
+SET
+SELECT 1
+RESET
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-047.2.11: expiry boundary releases the old cells atomically and preserves the expired booking
+UPDATE 1
+INSERT 0 1
+SET
+DO
+RESET
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-047.2.12: a block covering only setup refuses the hold and rolls back expiry cleanup without losing 
+reservations
+ROLLBACK
+BEGIN
+UPDATE 1
+UPDATE 1
+INSERT 0 2
+INSERT 0 2
+SET
+              set_config              
+--------------------------------------
+ 47750000-0000-0000-0000-000000000001
+(1 row)
+
+SELECT 1
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-047.2.14: review returns venue-specific cells, structured requirements and review version
+        approve_venue_booking         
+--------------------------------------
+ 47750000-0000-0000-0000-000000000310
+(1 row)
+
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-047.2.14: approval reserves event and venue-specific buffer cells together
+SELECT 1
+RESET
+UPDATE 1
+SET
+DO
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-047.2.15: venue edits invalidate open reviews; conflicting approval rolls back without partial cells
+SELECT 20
+DO
+ us47_assert 
+-------------
+ 
+(1 row)
+
+RESET
+NOTICE:  PASS: AC-047.2.16: mismatched converted reservation is refused without deleting or shortening its saved 
+occupancy
+INSERT 0 1
+INSERT 0 1
+SET
+ us47_assert 
+-------------
+ 
+(1 row)
+
+RESET
+NOTICE:  PASS: AC-047.2.17: incomplete timing still allows staff to read booking details with conflict checking 
+unavailable
+ROLLBACK
+BEGIN
+ set_config 
+------------
+ 
+(1 row)
+
+UPDATE 1
+INSERT 0 2
+INSERT 0 1
+INSERT 0 2
+INSERT 0 10
+INSERT 0 2
+SELECT 10
+SET
+              set_config              
+--------------------------------------
+ 47750000-0000-0000-0000-000000000001
+(1 row)
+
+SELECT 1
+RESET
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-047.2.21: planning timing change checks each venue buffer; setup-only block flags only the buffered 
+venue
+ revalidate_event_arrangements 
+-------------------------------
+ 
+(1 row)
+
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-047.2.22: revalidation preserves saved reservations and records each flag and coordinator 
+notification once
+ROLLBACK
+BEGIN
+UPDATE 1
+UPDATE 1
+DO
+ us47_assert 
+-------------
+ 
+(1 row)
+
+ROLLBACK
+NOTICE:  PASS: AC-047.2.44: quarter-hour opening hours accept full-day and partial-day bounds, rejecting misaligned 
+and empty periods
+BEGIN
+CREATE VIEW
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+NOTICE:  trigger "venue_claims_effective_occupancy" for relation "public.venue_slot_claims" does not exist, skipping
+CREATE TRIGGER
+INSERT 0 1
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+COMMIT
+SELECT 100
+SELECT 3
+BEGIN
+CREATE VIEW
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+DROP TRIGGER
+CREATE TRIGGER
+INSERT 0 0
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+COMMIT
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-047.3.4: replaying settings migration preserves populated bookings and claims
+BEGIN
+INSERT 0 2
+UPDATE 1
+UPDATE 1
+INSERT 0 1
+INSERT 0 2
+SET
+              set_config              
+--------------------------------------
+ 47980000-0000-0000-0000-000000000002
+(1 row)
+
+              hold_venue              
+--------------------------------------
+ f07155b7-54da-4fad-ad06-bf4c474a5c58
+(1 row)
+
+              hold_venue              
+--------------------------------------
+ ac8069a6-3d50-4c60-8e84-2e261b6fb768
+(1 row)
+
+DO
+RESET
+SELECT 108
+SELECT 5
+SET
+              set_config              
+--------------------------------------
+ 47980000-0000-0000-0000-000000000001
+(1 row)
+
+SELECT 1
+NOTICE:  PASS: AC-047.4.3: new venues expose independent zero defaults
+ us47_assert 
+-------------
+ 
+(1 row)
+
+DO
+SELECT 1
+NOTICE:  PASS: AC-047.1.3: Venue Staff save independent durations and detect conflicts between extended buffers
+ us47_assert 
+-------------
+ 
+(1 row)
+
+DO
+RESET
+ us47_assert 
+-------------
+ 
+(1 row)
+NOTICE:  PASS: AC-047.3.1: conflicting holds retain every saved row and notify the Coordinator and Venue Staff
+
+SET
+NOTICE:  PASS: AC-047.1.4: unchanged settings are a no-op; invalid, unauthorised and stale edits are refused
+ us47_assert 
+-------------
+ 
+(1 row)
+
+ us47_assert 
+-------------
+ 
+(1 row)
+
+RESET
+NOTICE:  PASS: AC-047.2.45: effective availability includes new setup while preserving saved occupancy
+ set_config 
+------------
+ 
+(1 row)
+
+INSERT 0 1
+SET
+              set_config              
+--------------------------------------
+ 47980000-0000-0000-0000-000000000002
+(1 row)
+
+DO
+RESET
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-047.2.46: subsequent holds cannot occupy existing bookings new buffers; refused writes roll back
+INSERT 0 1
+SET
+              set_config              
+--------------------------------------
+ 47980000-0000-0000-0000-000000000001
+(1 row)
+
+                                          update_venue_buffer_settings                                          
+----------------------------------------------------------------------------------------------------------------
+ {"version": "465018159e0d432e3ace67eb99c9ffdf", "reviewCount": 2, "setupMinutes": 30, "turnaroundMinutes": 45}
+(1 row)
+
+RESET
+NOTICE:  PASS: AC-047.3.2: repeated changes notify again, respect staff preferences and queue rather than claim email 
+delivery
+ us47_assert 
+-------------
+ 
+(1 row)
+
+SET
+             block_venue              
+--------------------------------------
+ 26ac517e-721f-4e94-999e-f98ae586797f
+(1 row)
+
+RESET
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-047.2.47: maintenance flags a booking when only its newly required setup overlaps
+SET
+                                         update_venue_buffer_settings                                         
+--------------------------------------------------------------------------------------------------------------
+ {"version": "a2da8b6a9189486de0988fe05e348829", "reviewCount": 0, "setupMinutes": 0, "turnaroundMinutes": 0}
+(1 row)
+
+RESET
+NOTICE:  PASS: AC-047.3.3: decreasing to zero preserves reservations and does not silently resolve outstanding reviews
+ us47_assert 
+-------------
+ 
+(1 row)
+
+ROLLBACK
+BEGIN
+ set_config 
+------------
+ 
+(1 row)
+
+UPDATE 1
+INSERT 0 2
+INSERT 0 1
+INSERT 0 2
+INSERT 0 10
+INSERT 0 2
+SELECT 10
+SET
+              set_config              
+--------------------------------------
+ 47750000-0000-0000-0000-000000000001
+(1 row)
+
+SELECT 1
+RESET
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-047.2.21: planning timing change checks each venue buffer; setup-only block flags only the buffered 
+venue
+ revalidate_event_arrangements 
+-------------------------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-047.2.22: revalidation preserves saved reservations and records each flag and coordinator 
+notification once
+ us47_assert 
+-------------
+ 
+(1 row)
+
+ROLLBACK
+BEGIN
+ALTER TABLE
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+RESET
+ set_config 
+------------
+ 
+(1 row)
+
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+INSERT 0 4
+UPDATE 4
+              set_config              
+--------------------------------------
+ 48000000-0000-0000-0001-000000000003
+(1 row)
+
+INSERT 0 4
+ set_config 
+------------
+ 
+(1 row)
+
+INSERT 0 24
+INSERT 0 24
+ set_config 
+------------
+ 
+(1 row)
+
+INSERT 0 189
+              set_config              
+--------------------------------------
+ 48000000-0000-0000-0001-000000000003
+(1 row)
+
+SET
+             block_venue              
+--------------------------------------
+ b272fab0-ebbc-4f21-966b-e5997a67e387
+ facde60c-df81-480f-89f2-aefd5048a9df
+ faa30deb-fd0e-4e19-889b-70eedde1d5c2
+ 04218c6d-4f37-4df1-a18e-2964ba306c0a
+ 8a705e5a-f296-4317-b360-83e6c238c2a3
+ 131027dd-a7ba-4f3b-a3da-6ca018bcd444
+ a654816f-e652-4a1f-a0a7-94db6880ddd3
+ f7eb3f6c-c2cb-4f07-9a3b-2ef2219a07de
+ f450fc8a-237d-4e3d-a7a8-623d0b353446
+ e662aa1f-73b9-44e9-ad60-58851f1e3604
+ b5139d70-3fa6-4290-a961-94ffdbcd2c13
+ 97c7b0f2-0634-4b70-a73f-5a33984a4b20
+ ac8fcaf0-e325-4a40-ba92-6c6913e1c141
+ e90251c5-4454-42b3-9808-604e4ea7cd8e
+ b1a47edf-2a53-4344-b96e-0be3cc5498b2
+ 7bfbdc10-4008-43e9-96d4-e60b6eac283d
+ 5c56ee91-88a8-4ec9-9a99-c005d3b2378b
+ a7308286-12d3-4002-b496-f54505bd9ab8
+ 090b84dc-4117-4a01-98a5-a431cc356e6d
+ 07fc9479-3ce1-42cf-83fd-7dfbf3551a57
+ 872fba42-ce29-4372-9fa0-4a66eafe82ed
+(21 rows)
+
+RESET
+ retire_venue 
+--------------
+            1
+(1 row)
+
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+SELECT 24
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+SET
+              set_config              
+--------------------------------------
+ 48000000-0000-0000-0001-000000000002
+(1 row)
+
+NOTICE:  PASS: AC-048.1.1: assigned Coordinator sees blocked/retired reasons and excludes unaffected, expired, closed 
+and past bookings
+ us48_assert 
+-------------
+ 
+(1 row)
+
+             us48_propose             
+--------------------------------------
+ b101ce4e-bc31-4799-bcc0-bc9cdea88c76
+(1 row)
+
+ us48_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-048.5.1: pending proposal still needs replacement, preserves the original and reserves no target
+NOTICE:  PASS: AC-048.3.1: duplicate/blank proposals, self-approval and direct audit/helper writes are refused
+ us48_assert 
+-------------
+ 
+(1 row)
+
+              set_config              
+--------------------------------------
+ 48000000-0000-0000-0001-000000000004
+(1 row)
+
+NOTICE:  PASS: AC-048.3.2: unassigned Coordinator cannot see or propose another event replacement
+ us48_assert 
+-------------
+ 
+(1 row)
+
+              set_config              
+--------------------------------------
+ 48000000-0000-0000-0001-000000000001
+(1 row)
+
+NOTICE:  PASS: AC-048.3.2: organiser cannot use the internal replacement workflow
+ us48_assert 
+-------------
+ 
+(1 row)
+
+              set_config              
+--------------------------------------
+ 48000000-0000-0000-0001-000000000002
+(1 row)
+
+NOTICE:  PASS: AC-048.3.3: expired holds, unaffected/closed/past events and same/retired targets are ineligible
+ us48_assert 
+-------------
+ 
+(1 row)
+
+             us48_propose             
+--------------------------------------
+ 8e8827cb-bfd7-42ad-a689-724292979b98
+ b1e54976-48e5-46ea-ada0-52e29418ca4a
+ 3951d65c-c223-40d9-a151-7967135eca15
+ 04fc493b-3720-41c8-b5fd-418132aa0d34
+(4 rows)
+
+             us48_propose             
+--------------------------------------
+ a7dc5198-4a5f-42f3-9cff-d7af260d2150
+ 8141df2f-e2a7-47d8-8fb7-c708d215a993
+ 1ec1c0d3-b7b0-4adb-9f14-8b299374ed10
+ e93f8d05-981e-46d4-92ac-f295e306ccc3
+ 51a37f68-0a80-4437-ae3a-18e2a635e852
+ dd1e6dea-e6d8-4950-b6ee-574880869ede
+ d7a20879-c522-4d96-b2c6-f294241bddd1
+ 5cfc0653-f82f-42eb-96da-6dc700c1df3e
+ 1006edb4-da32-4ff4-b113-c5f6798ce99d
+ 5ad8b486-92ec-418a-a521-6904d4849288
+ ca35a07e-c720-44a4-9e86-21aa57b4cd6e
+(11 rows)
+
+              set_config              
+--------------------------------------
+ 48000000-0000-0000-0001-000000000003
+(1 row)
+
+             us48_decide              
+--------------------------------------
+ b101ce4e-bc31-4799-bcc0-bc9cdea88c76
+(1 row)
+
+RESET
+NOTICE:  PASS: AC-048.6.1: blocked approval reserves target-specific buffers, reblocks old cells and resolves only 
+eligible open reviews with staff/link audit
+ us48_assert 
+-------------
+ 
+(1 row)
+
+SET
+             us48_decide              
+--------------------------------------
+ 8e8827cb-bfd7-42ad-a689-724292979b98
+ b1e54976-48e5-46ea-ada0-52e29418ca4a
+ 3951d65c-c223-40d9-a151-7967135eca15
+ 04fc493b-3720-41c8-b5fd-418132aa0d34
+(4 rows)
+
+RESET
+NOTICE:  PASS: AC-048.6.2: retired reviews resolve; upcoming Confirmed events, pending requests and live holds can be 
+replaced
+ us48_assert 
+-------------
+ 
+(1 row)
+
+ us48_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-048.4.1: successful replacements keep every original event field and status unchanged
+SELECT 11
+SELECT 44
+SELECT 11
+SET
+             us48_decide              
+--------------------------------------
+ 1ec1c0d3-b7b0-4adb-9f14-8b299374ed10
+(1 row)
+
+              set_config              
+--------------------------------------
+ 48000000-0000-0000-0001-000000000002
+(1 row)
+
+             us48_decide              
+--------------------------------------
+ e93f8d05-981e-46d4-92ac-f295e306ccc3
+(1 row)
+
+ us48_assert 
+-------------
+ 
+(1 row)
+
+RESET
+NOTICE:  PASS: AC-048.6.3: rejection and withdrawal retain affected status and recorded decisions
+SELECT 2
+GRANT
+ set_config 
+------------
+ 
+(1 row)
+
+UPDATE 1
+SET
+              set_config              
+--------------------------------------
+ 48000000-0000-0000-0001-000000000003
+(1 row)
+
+ remove_venue_block 
+--------------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-048.3.4: changed event consent or removed block invalidates approval even after reloading staff 
+review
+ us48_assert 
+-------------
+ 
+(1 row)
+
+             block_venue              
+--------------------------------------
+ 8ef995cc-9a7b-46f9-9e87-2a904255e4dd
+(1 row)
+
+NOTICE:  PASS: AC-048.6.4: target block covering only setup rejects approval and rolls back the switch
+ us48_assert 
+-------------
+ 
+(1 row)
+
+RESET
+ set_config 
+------------
+ 
+(1 row)
+
+INSERT 0 1
+INSERT 0 1
+ set_config 
+------------
+ 
+(1 row)
+
+INSERT 0 2
+SET
+              set_config              
+--------------------------------------
+ 48000000-0000-0000-0001-000000000003
+(1 row)
+
+NOTICE:  PASS: AC-048.6.5: derived neighbour turnaround conflicts with target setup without losing original rows
+ us48_assert 
+-------------
+ 
+(1 row)
+
+RESET
+CREATE FUNCTION
+CREATE TRIGGER
+SET
+NOTICE:  PASS: AC-048.6.6: a review-write failure rolls back booking, claims, proposal decision and audit together
+ us48_assert 
+-------------
+ 
+(1 row)
+
+RESET
+DROP TRIGGER
+NOTICE:  PASS: AC-048.6.6: unsuccessful outcomes leave exact original booking, claim and review snapshots intact
+ us48_assert 
+-------------
+ 
+(1 row)
+
+SELECT 1
+GRANT
+              set_config              
+--------------------------------------
+ 48000000-0000-0000-0001-000000000003
+(1 row)
+
+UPDATE 1
+SET
+NOTICE:  PASS: AC-048.3.4: changed target details invalidate the loaded staff decision
+ us48_assert 
+-------------
+ 
+(1 row)
+
+RESET
+ set_config 
+------------
+ 
+(1 row)
+
+UPDATE 1
+SET
+              set_config              
+--------------------------------------
+ 48000000-0000-0000-0001-000000000002
+(1 row)
+
+NOTICE:  PASS: AC-048.3.5: previous Coordinator loses replacement management after reassignment
+ us48_assert 
+-------------
+ 
+(1 row)
+
+              set_config              
+--------------------------------------
+ 48000000-0000-0000-0001-000000000004
+(1 row)
+
+             us48_decide              
+--------------------------------------
+ d7a20879-c522-4d96-b2c6-f294241bddd1
+(1 row)
+
+             us48_propose             
+--------------------------------------
+ bf212973-489d-48c6-ae44-b81dc9f0cc7d
+(1 row)
+
+NOTICE:  PASS: AC-048.3.5: current Coordinator can withdraw stale history and submit a fresh proposal
+ us48_assert 
+-------------
+ 
+(1 row)
+
+RESET
+              set_config              
+--------------------------------------
+ 48000000-0000-0000-0001-000000000003
+(1 row)
+
+UPDATE 1
+NOTICE:  PASS: AC-048.6.7: ordinary cancellation retains existing flag cleanup without inventing replacement audit
+ us48_assert 
+-------------
+ 
+(1 row)
+
+INSERT 0 1
+CREATE FUNCTION
+SET
+NOTICE:  PASS: AC-048.3.6: Confirmed-event exception does not permit ordinary unrelated booking approvals
+ us48_assert 
+-------------
+ 
+(1 row)
+
+RESET
+              set_config              
+--------------------------------------
+ 48000000-0000-0000-0001-000000000002
+(1 row)
+
+             us48_decide              
+--------------------------------------
+ 5cfc0653-f82f-42eb-96da-6dc700c1df3e
+(1 row)
+
+RESET
+ set_config 
+------------
+ 
+(1 row)
+
+UPDATE 1
+SET
+              set_config              
+--------------------------------------
+ 48000000-0000-0000-0001-000000000002
+(1 row)
+
+             us48_propose             
+--------------------------------------
+ 8b1d256a-fa09-4e2b-ad47-1825fcf254d5
+(1 row)
+
+RESET
+CREATE FUNCTION
+SELECT 1
+NOTICE:  column "resolved_by" of relation "venue_booking_flags" already exists, skipping
+NOTICE:  column "replacement_booking_id" of relation "venue_booking_flags" already exists, skipping
+BEGIN
+ALTER TABLE
+NOTICE:  column "replacement_booking_id" of relation "arrangement_review_flags" already exists, skipping
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+COMMIT
+ us48_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-048.6.8: replaying 0099 preserves events, bookings, claims, reviews and replacement history
+SELECT 1
+BEGIN
+ALTER TABLE
+ALTER TABLE
+NOTICE:  constraint "venue_closures_period_valid" of relation "venue_closures" does not exist, skipping
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMIT
+ us48_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-012.10.7: upgrading populated legacy data to 0100 preserves events, reservations, reviews, history 
+and existing block coverage
+RESET
+ set_config 
+------------
+ 
+(1 row)
+
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+INSERT 0 3
+UPDATE 3
+              set_config              
+--------------------------------------
+ 10000000-0000-0000-0001-000000000003
+(1 row)
+
+INSERT 0 4
+ set_config 
+------------
+ 
+(1 row)
+
+INSERT 0 8
+INSERT 0 4
+INSERT 0 4
+SELECT 8
+SELECT 4
+SET
+              set_config              
+--------------------------------------
+ 10000000-0000-0000-0001-000000000002
+(1 row)
+
+NOTICE:  PASS: AC-012.1.13: non-staff preview/save and private block helpers are denied
+ period_assert 
+---------------
+ 
+(1 row)
+
+              set_config              
+--------------------------------------
+ 10000000-0000-0000-0001-000000000003
+(1 row)
+
+NOTICE:  PASS: AC-012.2.33: null/infinite/misaligned/nonpositive/overlong periods and blank reasons are refused
+ period_assert 
+---------------
+ 
+(1 row)
+
+CREATE TABLE
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+NOTICE:  PASS: AC-012.2.34: overnight/interior days cover exact half-open cells; legacy gaps remain and mixed overlap 
+is refused
+ period_assert 
+---------------
+ 
+(1 row)
+
+INSERT 0 1
+INSERT 0 1
+ period_assert 
+---------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-012.2.34: an exclusive midnight endpoint does not occupy the following date
+NOTICE:  PASS: AC-012.7.15: preview identifies exact endpoint bookings and overlapping blocks without including 
+adjacent cells
+ period_assert 
+---------------
+ 
+(1 row)
+
+INSERT 0 1
+RESET
+GRANT
+NOTICE:  PASS: AC-012.8.26: exact affected bookings get review flags while all original reservations and event details 
+remain
+ period_assert 
+---------------
+ 
+(1 row)
+
+CREATE FUNCTION
+CREATE FUNCTION
+SET
+            period_approve            
+--------------------------------------
+ 10000000-0000-0000-0004-000000000001
+(1 row)
+
+            period_approve            
+--------------------------------------
+ 10000000-0000-0000-0004-000000000004
+(1 row)
+
+NOTICE:  PASS: AC-012.5.6: staff approve bookings touching either endpoint but refuse bookings inside the block
+ period_assert 
+---------------
+ 
+(1 row)
+
+              set_config              
+--------------------------------------
+ 10000000-0000-0000-0001-000000000002
+(1 row)
+
+              hold_venue              
+--------------------------------------
+ a00af93f-66c8-4c21-881a-548c7cff1688
+(1 row)
+
+              hold_venue              
+--------------------------------------
+ eae15d8c-98e0-4d33-ac99-2f37f169dd32
+(1 row)
+
+NOTICE:  PASS: AC-012.5.6: holds outside the period remain available and an inside hold is refused
+ period_assert 
+---------------
+ 
+(1 row)
+
+RESET
+CREATE FUNCTION
+CREATE FUNCTION
+SET
+SELECT 1
+              set_config              
+--------------------------------------
+ 10000000-0000-0000-0001-000000000003
+(1 row)
+
+       decide_venue_replacement       
+--------------------------------------
+ 5a6bfb6f-ac25-4a35-bf35-96bca69554d7
+(1 row)
+
+RESET
+NOTICE:  PASS: AC-012.8.26: replacement approval reblocks the released exact cell and resolves only the replaced 
+booking
+ period_assert 
+---------------
+ 
+(1 row)
+
+SET
+              set_config              
+--------------------------------------
+ 10000000-0000-0000-0001-000000000002
+(1 row)
+
+SELECT 1
+              set_config              
+--------------------------------------
+ 10000000-0000-0000-0001-000000000003
+(1 row)
+
+          block_venue_period          
+--------------------------------------
+ f0c9cee7-2e05-49e6-8125-f6bb3b333286
+(1 row)
+
+                                         update_venue_buffer_settings                                          
+---------------------------------------------------------------------------------------------------------------
+ {"version": "fa086705250a56fe623308f95ad55a20", "reviewCount": 0, "setupMinutes": 15, "turnaroundMinutes": 0}
+(1 row)
+
+RESET
+NOTICE:  PASS: AC-012.7.16: buffer ending exactly at the block end is adjacent, not overlapping
+ period_assert 
+---------------
+ 
+(1 row)
+
+SET
+                                         update_venue_buffer_settings                                          
+---------------------------------------------------------------------------------------------------------------
+ {"version": "7849e9a7457c8996d27055b18f0e0b43", "reviewCount": 1, "setupMinutes": 30, "turnaroundMinutes": 0}
+(1 row)
+
+RESET
+NOTICE:  PASS: AC-012.7.16: settings and preview detect derived setup inside the exact block without rewriting the hold
+ period_assert 
+---------------
+ 
+(1 row)
+
+RESET
+ period_assert 
+---------------
+ 
+(1 row)
+
+SET
+NOTICE:  PASS: AC-012.7.16: settings preserve saved occupancy while effective occupancy includes newly required buffers
+ remove_venue_block 
+--------------------
+ 
+(1 row)
+
+ period_assert 
+---------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-012.9.27: removing one continuous block releases only its maintenance cells/reviews and preserves 
+other blocks and bookings
+RESET
+CREATE FUNCTION
+SELECT 1
+BEGIN
+ALTER TABLE
+NOTICE:  column "starts_at" of relation "venue_closures" already exists, skipping
+NOTICE:  column "ends_at" of relation "venue_closures" already exists, skipping
+ALTER TABLE
+ALTER TABLE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMIT
+ period_assert 
+---------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-012.10.8: replaying 0100 preserves events, bookings, claims, reviews, block definitions and 
+replacement history
+SELECT 9
+BEGIN
+ALTER TABLE
+ALTER TABLE
+NOTICE:  constraint "venue_booking_space_requirements" of relation "venue_bookings" does not exist, skipping
+ALTER TABLE
+ALTER TABLE
+DROP INDEX
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+NOTICE:  trigger "guard_booking_space_fields" for relation "public.venue_bookings" does not exist, skipping
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMIT
+NOTICE:  PASS: AC-049.2.7: adding requirement columns preserves existing pending replacement consent versions
+ us47_assert 
+-------------
+ 
+(1 row)
+
+RESET
+ set_config 
+------------
+ 
+(1 row)
+
+CREATE FUNCTION
+CREATE FUNCTION
+INSERT 0 3
+UPDATE 3
+INSERT 0 4
+INSERT 0 2
+SET
+              set_config              
+--------------------------------------
+ 49020000-0000-0000-0001-000000000002
+(1 row)
+
+NOTICE:  PASS: AC-049.1.1: one event can hold two different venues simultaneously
+ us47_assert 
+-------------
+ 
+(1 row)
+
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-049.2.1: each space retains its own layout and attendance instead of whole-event attendance
+NOTICE:  PASS: AC-049.3.1: capacity is checked independently and one person above capacity is refused
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-049.2.2: unavailable layouts and nonpositive attendance cannot create bookings
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-049.3.2: another event cannot occupy an existing space reservation
+ us47_assert 
+-------------
+ 
+(1 row)
+
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-049.1.2: refused third bookings preserve the two existing bookings
+NOTICE:  PASS: AC-049.2.3: browser writes cannot rewrite the checked requirements
+ us47_assert 
+-------------
+ 
+(1 row)
+
+UPDATE 2
+              set_config              
+--------------------------------------
+ 49020000-0000-0000-0001-000000000003
+(1 row)
+
+NOTICE:  PASS: AC-049.2.4: Venue Staff review the attendance for this booking
+NOTICE:  PASS: AC-049.1.3: Venue Staff cannot create coordinator holds
+ us47_assert 
+-------------
+ 
+(1 row)
+
+ us47_assert 
+-------------
+ 
+(1 row)
+
+RESET
+ set_config 
+------------
+ 
+(1 row)
+
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-049.3.3: each booking reserves its own setup and turnaround
+UPDATE 1
+UPDATE 1
+SET
+              set_config              
+--------------------------------------
+ 49020000-0000-0000-0001-000000000002
+(1 row)
+
+NOTICE:  PASS: AC-049.3.4: missing event facilities refuse a space before reservation
+ us47_assert 
+-------------
+ 
+(1 row)
+
+RESET
+ set_config 
+------------
+ 
+(1 row)
+
+SET
+              set_config              
+--------------------------------------
+ 49020000-0000-0000-0001-000000000003
+(1 row)
+
+        approve_venue_booking         
+--------------------------------------
+ de8a9325-b799-446c-ac19-403d000855b3
+(1 row)
+
+NOTICE:  PASS: AC-049.3.5: approving a suitable space does not use event-wide attendance or decide another booking
+ us47_assert 
+-------------
+ 
+(1 row)
+
+UPDATE 1
+NOTICE:  PASS: AC-049.3.6: reduced layout capacity is checked again at approval
+ us47_assert 
+-------------
+ 
+(1 row)
+
+RESET
+ set_config 
+------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-049.3.7: venue edit review uses the affected booking attendance
+ us47_assert 
+-------------
+ 
+(1 row)
+
+SET
+              set_config              
+--------------------------------------
+ 49020000-0000-0000-0001-000000000002
+(1 row)
+
+NOTICE:  PASS: AC-049.3.8: legacy hold API cannot bypass suitability checks
+ us47_assert 
+-------------
+ 
+(1 row)
+
+ us47_assert 
+-------------
+ 
+(1 row)
+
+RESET
+NOTICE:  PASS: AC-049.2.6: direct browser inserts cannot bypass checked requirements
+ set_config 
+------------
+ 
+(1 row)
+
+SELECT 44
+BEGIN
+ALTER TABLE
+ALTER TABLE
+NOTICE:  column "space_layout" of relation "venue_bookings" already exists, skipping
+NOTICE:  column "space_attendance" of relation "venue_bookings" already exists, skipping
+ALTER TABLE
+ALTER TABLE
+DROP INDEX
+NOTICE:  index "venue_bookings_one_active_hold_per_event" does not exist, skipping
+CREATE FUNCTION
+CREATE FUNCTION
+REVOKE
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+CREATE FUNCTION
+REVOKE
+GRANT
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+COMMIT
+ us47_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-049.2.5: replay preserves all legacy and new booking requirements
+BEGIN
+CREATE FUNCTION
+REVOKE
+COMMIT
+BEGIN
+RESET
+ set_config 
+------------
+ 
+(1 row)
+
+CREATE FUNCTION
+INSERT 0 3
+UPDATE 1
+UPDATE 1
+UPDATE 1
+              set_config              
+--------------------------------------
+ a1010000-0000-0000-0000-000000000003
+(1 row)
+
+INSERT 0 2
+ set_config 
+------------
+ 
+(1 row)
+
+INSERT 0 2
+INSERT 0 2
+INSERT 0 8
+              set_config              
+--------------------------------------
+ a1010000-0000-0000-0000-000000000003
+(1 row)
+
+          block_venue_period          
+--------------------------------------
+ 67a97968-f5f5-460a-a0af-00e1ed2007ff
+(1 row)
+
+ set_config 
+------------
+ 
+(1 row)
+
+ us33_assert 
+-------------
+ 
+(1 row)
+
+INSERT 0 1
+NOTICE:  PASS: AC-033.4.25: a venue closure still flags the booking and reaches its Coordinator by email as before, 
+and in the app
+              set_config              
+--------------------------------------
+ a1010000-0000-0000-0000-000000000003
+(1 row)
+
+             block_venue              
+--------------------------------------
+ 45655cb7-b0a5-4e26-bf20-519bc1bf2965
+(1 row)
+
+ set_config 
+------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-033.4.26: a Coordinator who turns closure emails off still gets the alert in the app, and the 
+booking is still flagged
+ us33_assert 
+-------------
+ 
+(1 row)
+
+ROLLBACK
+BEGIN
+RESET
+ set_config 
+------------
+ 
+(1 row)
+
+CREATE FUNCTION
+INSERT 0 7
+UPDATE 7
+INSERT 0 2
+INSERT 0 2
+INSERT 0 5
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+SELECT 1
+SET
+              set_config              
+--------------------------------------
+ a1040000-0000-0000-0000-000000000001
+(1 row)
+
+ us27_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-027.1.1: Technical Support sees every unit, type description, current rather than home location and 
+bounded fields
+ us27_assert 
+-------------
+ 
+(1 row)
+
+              set_config              
+--------------------------------------
+ a1040000-0000-0000-0000-000000000002
+(1 row)
+
+ us27_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-027.2.1: only Operational is usable; damaged, maintenance, retired and missing units remain in 
+totals; zero stock stays visible
+NOTICE:  PASS: AC-027.4.1: Coordinator sees the catalogue, anonymous access and all other roles are refused without 
+widening unit writes
+DO
+RESET
+ us27_assert 
+-------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-027.4.1: denied reads and writes leave the original units intact
+ROLLBACK
+RESET
+ set_config 
+------------
+ 
+(1 row)
+
+CREATE FUNCTION
+INSERT 0 9
+UPDATE 9
+INSERT 0 1
+INSERT 0 4
+INSERT 0 6
+INSERT 0 13
+INSERT 0 10
+INSERT 0 10
+INSERT 0 10
+INSERT 0 3
+ set_config 
+------------
+ 
+(1 row)
+
+BEGIN
+RESET
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+SET
+              set_config              
+--------------------------------------
+ a1050000-0000-0000-0001-000000000001
+(1 row)
+
+                                      set_equipment_status                                       
+-------------------------------------------------------------------------------------------------
+ {"id": "a1050000-0000-0000-0004-000000000002", "changed": true, "version": 1, "reviewCount": 0}
+(1 row)
+
+                                      set_equipment_status                                       
+-------------------------------------------------------------------------------------------------
+ {"id": "a1050000-0000-0000-0004-000000000002", "changed": true, "version": 2, "reviewCount": 0}
+(1 row)
+
+              set_config              
+--------------------------------------
+ a1050000-0000-0000-0001-000000000002
+(1 row)
+
+                                      set_equipment_status                                       
+-------------------------------------------------------------------------------------------------
+ {"id": "a1050000-0000-0000-0004-000000000002", "changed": true, "version": 3, "reviewCount": 0}
+(1 row)
+
+                                      set_equipment_status                                       
+-------------------------------------------------------------------------------------------------
+ {"id": "a1050000-0000-0000-0004-000000000002", "changed": true, "version": 4, "reviewCount": 0}
+(1 row)
+
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+RESET
+NOTICE:  PASS: AC-027.5.1: all four supported statuses work with notes and retain legacy status meanings
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-027.8.1: immutable per-unit versions record actual staff identity, trimmed note, old/new status and 
+server time
+SELECT 1
+SET
+              set_config              
+--------------------------------------
+ a1050000-0000-0000-0001-000000000001
+(1 row)
+
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-027.5.2: blank note, unsupported status, absent/stale version and unknown units are refused
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-027.5.3: unchanged status is a no-op without another audit, review or notification
+RESET
+NOTICE:  PASS: AC-027.5.2: refused and no-op changes preserve exact snapshots
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+INSERT 0 1
+INSERT 0 1
+UPDATE 1
+SELECT 1
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-027.6.1: unoccupied Operational unit starts available
+SET
+              set_config              
+--------------------------------------
+ a1050000-0000-0000-0001-000000000001
+(1 row)
+
+RESET
+NOTICE:  PASS: AC-027.7.1: upcoming reserved/checked-out arrangements flagged once per booking, including unassigned; 
+past, start boundary, closed and returned/cancelled excluded
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-027.7.2: status change preserves exact reservations, quantities, allocations, events and independent 
+review reasons
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-027.7.3: current Coordinator receives one in-app notice/email per affected booking; unassigned event 
+has review without requester fallback
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-027.6.1: status exclusion is immediate for all future windows
+SET
+              set_config              
+--------------------------------------
+ a1050000-0000-0000-0001-000000000001
+(1 row)
+
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-027.6.2: actual reservation refuses a non-operational unit and leaves the requirement undecided
+                                      set_equipment_status                                       
+-------------------------------------------------------------------------------------------------
+ {"id": "a1050000-0000-0000-0004-000000000001", "changed": true, "version": 2, "reviewCount": 0}
+(1 row)
+
+RESET
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+INSERT 0 1
+NOTICE:  PASS: AC-027.6.3: restoring Operational makes future stock eligible without resolving or cancelling any 
+existing review
+SET
+              set_config              
+--------------------------------------
+ a1050000-0000-0000-0001-000000000001
+(1 row)
+
+                                      set_equipment_status                                       
+-------------------------------------------------------------------------------------------------
+ {"id": "a1050000-0000-0000-0004-000000000001", "changed": true, "version": 3, "reviewCount": 3}
+(1 row)
+
+RESET
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-027.7.4: email-only preference preserves reviews without creating another in-app copy
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-027.6.1: Under Maintenance units are immediately excluded
+UPDATE 1
+SET
+              set_config              
+--------------------------------------
+ a1050000-0000-0000-0001-000000000001
+(1 row)
+
+                                      set_equipment_status                                       
+-------------------------------------------------------------------------------------------------
+ {"id": "a1050000-0000-0000-0004-000000000001", "changed": true, "version": 4, "reviewCount": 3}
+(1 row)
+
+RESET
+NOTICE:  PASS: AC-027.7.4: in-app-only preference queues no email; different non-operational changes retain their own 
+history
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-027.6.1: Unavailable units are immediately excluded
+UPDATE 1
+SET
+              set_config              
+--------------------------------------
+ a1050000-0000-0000-0001-000000000001
+(1 row)
+
+                                      set_equipment_status                                       
+-------------------------------------------------------------------------------------------------
+ {"id": "a1050000-0000-0000-0004-000000000001", "changed": true, "version": 5, "reviewCount": 3}
+(1 row)
+
+RESET
+ us27_status_assert 
+--------------------
+NOTICE:  PASS: AC-027.7.4: both channels off still records affected reservation reviews
+ 
+(1 row)
+
+CREATE FUNCTION
+CREATE TRIGGER
+UPDATE 1
+SELECT 1
+SET
+              set_config              
+--------------------------------------
+ a1050000-0000-0000-0001-000000000001
+(1 row)
+
+NOTICE:  PASS: AC-027.7.5: a notice-write failure refuses the whole status change
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+RESET
+DROP TRIGGER
+CREATE TRIGGER
+SET
+              set_config              
+--------------------------------------
+ a1050000-0000-0000-0001-000000000001
+(1 row)
+
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+RESET
+NOTICE:  PASS: AC-027.7.5: a review-write failure refuses the whole status change
+DROP TRIGGER
+NOTICE:  PASS: AC-027.7.5: failures preserve exact unit versions, audits, bookings, allocations, reviews and notices
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+SET
+              set_config              
+--------------------------------------
+ a1050000-0000-0000-0001-000000000001
+(1 row)
+
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-027.8.2: even Technical Support cannot bypass status validation, rewrite/delete audit or call the 
+private review helper
+NOTICE:  PASS: AC-027.8.3: other roles and signed-out claims cannot manage status or read internal history
+NOTICE:  PASS: AC-027.8.3: other roles and signed-out claims cannot manage status or read internal history
+NOTICE:  PASS: AC-027.8.3: other roles and signed-out claims cannot manage status or read internal history
+NOTICE:  PASS: AC-027.8.3: other roles and signed-out claims cannot manage status or read internal history
+NOTICE:  PASS: AC-027.8.3: other roles and signed-out claims cannot manage status or read internal history
+NOTICE:  PASS: AC-027.8.3: other roles and signed-out claims cannot manage status or read internal history
+NOTICE:  PASS: AC-027.8.3: other roles and signed-out claims cannot manage status or read internal history
+DO
+NOTICE:  PASS: AC-027.8.3: other roles and signed-out claims cannot manage status or read internal history
+              set_config              
+--------------------------------------
+ a1050000-0000-0000-0001-000000000005
+(1 row)
+
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+NOTICE:  PASS: AC-027.8.3: unrelated Coordinator cannot read the reviews or Technical Support history
+              set_config              
+--------------------------------------
+ a1050000-0000-0000-0001-000000000004
+(1 row)
+
+ us27_status_assert 
+--------------------
+ 
+(1 row)
+
+RESET
+NOTICE:  PASS: AC-027.7.3: assigned Coordinator sees every independent reason and each permitted notice once, without 
+duplicated email feed copies
+ROLLBACK
+UPDATE 1
+UPDATE 1
+INSERT 0 2
+SET
+BEGIN
+SET
+47750000-0000-0000-0000-000000000001
+b7a2af49-1627-472f-a03c-d6bc019be076
+
+COMMIT
+SET
+SET
+47750000-0000-0000-0000-000000000001
+ERROR:  23505: Requested period overlaps an existing reservation or its buffers
+CONTEXT:  PL/pgSQL function public.guard_venue_effective_occupancy() line 8 at RAISE
+SQL statement "insert into public.venue_slot_claims(venue_id,slot_date,slot,kind,booking_id)
+ select p_venue_id,c.slot_date,c.slot,c.kind,booking
+ from public.venue_review_cells(p_venue_id,e.proposed_start,e.proposed_end) c"
+PL/pgSQL function public.hold_venue_space(uuid,uuid,text,integer,integer) line 41 at SQL statement
+PL/pgSQL function public.hold_venue(uuid,uuid,integer) line 8 at RETURN
+LOCATION:  exec_stmt_raise, pl_exec.c:3897
+NOTICE:  PASS: AC-047.2.13: concurrent overlapping holds have one winner, all 13 occupied cells and no partial losing 
+booking
+DO
+INSERT 0 1
+UPDATE 1
+INSERT 0 7
+INSERT 0 5
+SET
+BEGIN
+SET
+47750000-0000-0000-0000-000000000500
+47750000-0000-0000-0000-000000000410
+
+COMMIT
+SET
+SET
+47750000-0000-0000-0000-000000000500
+ERROR:  23505: Requested period overlaps an existing reservation or its buffers
+CONTEXT:  PL/pgSQL function public.guard_venue_effective_occupancy() line 8 at RAISE
+SQL statement "insert into public.venue_slot_claims(venue_id,slot_date,slot,kind,booking_id)
+ select b.venue_id,c.slot_date,c.slot,c.kind,b.id from public.venue_review_cells(b.venue_id,e.proposed_start,e.proposed_end) c
+ where not exists(select 1 from public.venue_slot_claims s where s.booking_id=b.id
+   and s.slot_date=c.slot_date and s.slot=c.slot and s.kind=c.kind)"
+PL/pgSQL function public.approve_venue_booking(uuid,text) line 47 at SQL statement
+LOCATION:  exec_stmt_raise, pl_exec.c:3897
+SET
+BEGIN
+SET
+47750000-0000-0000-0000-000000000500
+47750000-0000-0000-0000-000000000412
+
+COMMIT
+SET
+SET
+47750000-0000-0000-0000-000000000001
+ERROR:  23505: Requested period overlaps an existing reservation or its buffers
+CONTEXT:  PL/pgSQL function public.guard_venue_effective_occupancy() line 8 at RAISE
+SQL statement "insert into public.venue_slot_claims(venue_id,slot_date,slot,kind,booking_id)
+ select p_venue_id,c.slot_date,c.slot,c.kind,booking
+ from public.venue_review_cells(p_venue_id,e.proposed_start,e.proposed_end) c"
+PL/pgSQL function public.hold_venue_space(uuid,uuid,text,integer,integer) line 41 at SQL statement
+PL/pgSQL function public.hold_venue(uuid,uuid,integer) line 8 at RETURN
+LOCATION:  exec_stmt_raise, pl_exec.c:3897
+SET
+BEGIN
+SET
+47750000-0000-0000-0000-000000000001
+afa80554-b23b-4392-9e0f-a10d69770584
+
+COMMIT
+SET
+SET
+47750000-0000-0000-0000-000000000500
+ERROR:  23505: Requested period overlaps an existing reservation or its buffers
+CONTEXT:  PL/pgSQL function public.guard_venue_effective_occupancy() line 8 at RAISE
+SQL statement "insert into public.venue_slot_claims(venue_id,slot_date,slot,kind,booking_id)
+ select b.venue_id,c.slot_date,c.slot,c.kind,b.id from public.venue_review_cells(b.venue_id,e.proposed_start,e.proposed_end) c
+ where not exists(select 1 from public.venue_slot_claims s where s.booking_id=b.id
+   and s.slot_date=c.slot_date and s.slot=c.slot and s.kind=c.kind)"
+PL/pgSQL function public.approve_venue_booking(uuid,text) line 47 at SQL statement
+LOCATION:  exec_stmt_raise, pl_exec.c:3897
+SET
+BEGIN
+SET
+47750000-0000-0000-0000-000000000001
+RESET
+
+UPDATE 1
+
+COMMIT
+SET
+SET
+47750000-0000-0000-0000-000000000500
+ERROR:  40001: Request changed; reload before approving
+CONTEXT:  PL/pgSQL function public.approve_venue_booking(uuid,text) line 16 at RAISE
+LOCATION:  exec_stmt_raise, pl_exec.c:3897
+NOTICE:  PASS: AC-047.2.18: overlapping approvals retain one confirmed winner and no partial loser
+NOTICE:  PASS: AC-047.2.19: approval and hold races preserve the winner in both orderings
+NOTICE:  PASS: AC-047.2.20: concurrent event edit invalidates approval without reserving cells
+DO
+BEGIN
+SET
+SET
+48000000-0000-0000-0001-000000000002
+bff299cf-636e-4ddb-9339-499a53876713
+
+COMMIT
+PASS: AC-048.3.7: simultaneous proposals permit only one pending request
+DO
+BEGIN
+SET
+SET
+48000000-0000-0000-0001-000000000003
+1006edb4-da32-4ff4-b113-c5f6798ce99d
+
+COMMIT
+PASS: AC-048.6.9: simultaneous approval and rejection have one winner
+DO
+BEGIN
+SET
+SET
+48000000-0000-0000-0001-000000000003
+5ad8b486-92ec-418a-a521-6904d4849288
+
+COMMIT
+PASS: AC-048.6.10: competing replacements cannot double-book the target; the loser keeps its original and open review
+DO
+SET
+BEGIN
+SET
+10000000-0000-0000-0001-000000000003
+7422166a-a8ca-4e23-90d7-4c556e43121b
+
+COMMIT
+SET
+SET
+10000000-0000-0000-0001-000000000003
+ERROR:  23505: Part of this period is already blocked. Remove or change that block first.
+CONTEXT:  PL/pgSQL function public.save_venue_block_window(uuid,date,date,text[],text,timestamp with time zone,timestamp with time zone) line 32 at RAISE
+SQL function "block_venue" statement 1
+LOCATION:  exec_stmt_raise, pl_exec.c:3897
+NOTICE:  PASS: AC-012.9.28: continuous and legacy overlapping requests serialize, with one complete winner and no 
+losing block
+DO
+BEGIN
+SET
+SET
+a1050000-0000-0000-0001-000000000001
+{"id": "a1050000-0000-0000-0004-000000000002", "changed": true, "version": 1, "reviewCount": 0}
+
+COMMIT
+PASS: AC-027.8.4: simultaneous staff decisions permit one versioned change and one audit
+BEGIN
+SET
+SET
+a1050000-0000-0000-0001-000000000001
+{"id": "a1050000-0000-0000-0004-000000000003", "changed": true, "version": 1, "reviewCount": 0}
+
+COMMIT
+PASS: AC-027.6.4: status change wins type lock; waiting reservation rechecks and refuses unusable stock
+BEGIN
+SET
+SET
+a1050000-0000-0000-0001-000000000001
+{"status": "reserved", "reserved": 1, "requested": 1}
+
+COMMIT
+PASS: AC-027.7.6: reservation wins type lock; waiting status change sees and flags it without losing the reservation
+DO

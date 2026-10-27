@@ -13,9 +13,9 @@ jobs:
       run:
         working-directory: frontend
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -40,7 +40,7 @@ jobs:
 
       - name: Save frontend coverage
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: frontend-coverage
           path: frontend/coverage/
@@ -59,8 +59,14 @@ jobs:
   database:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # Disposable Postgres 17 in Docker; never touches a Supabase project.
-      - name: Database tests
+      - name: Pre-conversion database regressions
         run: bash backend/supabase/tests/run_change_request_review.sh
+
+      - name: Quarter-hour booking upgrade and concurrency
+        run: bash backend/supabase/tests/run_venue_time_conversion.sh
+
+      - name: Quarter-hour booking fresh migration order
+        run: bash backend/supabase/tests/run_venue_time_conversion.sh fresh

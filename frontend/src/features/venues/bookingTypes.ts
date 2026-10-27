@@ -10,6 +10,8 @@ export type VenueBookingStatus =
 export type ClaimKindRow = 'event' | 'buffer' | 'maintenance'
 
 export interface VenueBookingSummary {
+  spaceLayout?: string
+  spaceAttendance?: number
   id: string
   venueId: string
   venueName: string

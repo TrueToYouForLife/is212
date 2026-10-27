@@ -5,10 +5,17 @@ export const EVENT_STATUSES = [
   'under_review',
   'approved',
   'planning',
+  'awaiting_safety_review',
+  'safety_changes_requested',
+  'in_preparation',
   'confirmed',
   'completed',
   'cancelled',
   'rejected',
+  // US22: a request closed by a coordinator before a decision. Distinct from
+  // 'cancelled' (an event that was going ahead and then was not) and from
+  // 'rejected' (a decision against it), which AC-022.2 requires.
+  'withdrawn',
 ] as const
 
 export type EventStatus = (typeof EVENT_STATUSES)[number]
@@ -21,10 +28,14 @@ export const EVENT_STATUS_LABELS: Record<EventStatus, string> = {
   under_review: 'Under review',
   approved: 'Approved',
   planning: 'Planning',
+  awaiting_safety_review: 'Awaiting safety review',
+  safety_changes_requested: 'Safety changes requested',
+  in_preparation: 'In preparation',
   confirmed: 'Confirmed',
   completed: 'Completed',
   cancelled: 'Cancelled',
   rejected: 'Rejected',
+  withdrawn: 'Withdrawn',
 }
 
 /**
