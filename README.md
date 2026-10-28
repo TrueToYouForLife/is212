@@ -3,6 +3,37 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
+## US24 equipment return inspections (backend portion)
+
+Claimed migration `0112_equipment_return_inspections.sql` adds Technical Support-only
+inspection records for event allocations. Out/Pending checks are calculated from saved
+Singapore collection/return dates; there is no separate checkout action. Findings and
+US27 status changes save atomically, retaining reports/history, reservation windows
+and unrelated reviews. Pending checks alone does not add an availability block.
+The inspection UI, deployment and manual acceptance are pending the next portion.
+See [scope and contracts](docs/us24-return-inspections.md) and
+[test cases](docs/test-cases/US24_test_cases.md).
+
+## US27 equipment catalogue and status
+
+Technical Support and Coordinators can browse **Equipment catalogue** at
+`/equipment/catalogue`: unit details, current locations, operational status,
+total/usable counts and combined filters. Usable stock is distinct from availability
+for an event. Technical Support can open **Manage status** to change status with a
+reason and view recorded history. Failed/stale saves keep the note and require reload;
+successful saves close the panel and refresh counts while preserving filters. Reopen
+a unit for fresh history. Coordinators remain
+read-only; no equipment creation/deletion controls are provided.
+Migrations `0104_equipment_catalogue.sql` and `0105_equipment_status_changes.sql`
+are applied, confirmed by Jaydon. Status changes record authenticated staff/time,
+exclude unusable stock and flag affected reservations through existing review and
+notification preferences, preserving reservations and unrelated reasons.
+Implementation PRs #142–144 are merged. Jaydon confirmed catalogue/status manual
+checks and the auto-close refinement passed. Evidence-sheet and Jira closeout remain
+administrative steps; delivered email is not claimed.
+See [scope and manual checks](docs/us27-equipment-catalogue.md) and
+[test cases](docs/test-cases/US27_test_cases.md).
+
 ## US41 arrangement review (completed within agreed scope)
 
 Migration 0052 adds per-arrangement review reasons after approved significant changes,
@@ -1246,17 +1277,71 @@ Test cases: `docs/test-cases/US5_test_cases.md`.
 
 ## US33 Choose notification channels by type (SCRUM-230)
 
-**Slice 1 (the choices):** **Notification settings** (`/notifications/settings`, linked from
-Notifications) lists the notification types for the user's role, each with In-app and Email
-switches; anything not yet changed is on for both. Behind `VITE_FEATURE_NOTIFICATION_PREFERENCES`
-until slice 2 (Sprint 4) makes delivery follow the choices through one shared sending helper.
+**Notification settings** (`/notifications/settings`, linked from Notifications) lists the
+notification types for the user's role, each with In-app and Email switches; anything not yet
+changed is on for both. Every notice goes through one shared sending helper (0079), which follows
+each person's choices and the three system-wide switches (kept as an admin kill switch); the page
+says when a type is switched off for everyone. Each feature's notices were moved onto the helper
+one PR at a time (0080 to 0088, 0090 to 0092, 0103; 0095 fixed 0080), and 0093 added email for the
+four types that were in-app only.
 
 | File | Adds |
 | --- | --- |
 | `0077_notification_preferences.sql` | `notification_types`, `notification_preferences`, `get_my_notification_preferences()`, `set_my_notification_preference()` |
+| `0093_us33_email_for_in_app_only_types.sql` | email for the four types that were in-app only |
+| `0106_us33_notification_settings_switched_off.sql` | the settings say when a type is switched off for everyone |
 | `0079_notification_delivery.sql` | slice 2a: `notification_channels()`, `queue_notification_email()`, `record_in_app_notice()`, `send_notification()`, `user_notifications`; the feed shows in-app copies and leaves out emails sent through the helper |
 
 Test cases: `docs/test-cases/US33_test_cases.md`.
+
+## US43 Operational safety review (SCRUM-239)
+
+Week 7 change 6, built in slices. **Slice 1 (sending an event for review):** a new **Safety
+Officer** role (`safety_officer`) and three statuses between Planning and Confirmed: **Awaiting
+safety review**, **Safety changes requested** and **In preparation**. The team decided an event is
+confirmed only after safety approval, so Planning can no longer go straight to Confirmed.
+
+**Switched off until the team turns it on** (`safety_review_settings` in the database and
+`VITE_FEATURE_SAFETY_REVIEW` in the app, both off by default): while off, Planning -> Confirmed works
+as before. The checklist for switching it on (US49's 0110, US44, US26) is in the US43 test cases.
+
+Once on, the Coordinator sends an event for review with **Send for safety review** on its Readiness card
+(US5), which is only allowed once every arrangement on the card is complete (registration setup
+aside, as it only opens on confirmation); readiness is one rule shared by the card and the review,
+including US49's rule that a rejected booking stays outstanding (0107).
+Each Safety Officer is then notified through the US33 helper. While the event awaits review only a
+Safety Officer's decision moves it on; its Coordinator can only cancel.
+
+**Slice 2 (the review queue):** **Safety reviews** (`/safety-reviews`, Safety Officers) lists the
+events awaiting review, oldest first, each with its attendance, accessibility needs, approved
+venues (layout and attendance against capacity, accessibility, restrictions such as maintenance,
+opening hours or blocks on the event's dates) and equipment with how much is reserved. US44
+(deciding), US45 (revising) and US26 (confirming) build on this.
+
+| File | Adds |
+| --- | --- |
+| `0109_us43_safety_review_queue.sql` | `get_safety_review_queue()` for the Safety Officer (tested after 0100) |
+| `0108_us43_safety_review.sql` | `safety_officer` role, the safety statuses and rules, `event_readiness_lines()` (shared readiness rule, plus a Safety review line), `send_for_safety_review()`, Safety Officer notices |
+
+Test cases: `docs/test-cases/US43_test_cases.md`.
+
+## US44 Approve / reject / request changes for safety review (SCRUM-249)
+
+Week 7 change 6, part of the safety review (US43), so hidden until it is switched on. From
+**Safety reviews**, the Safety Officer presses **Review** on an event awaiting review, assesses
+seven factors (attendance, venue capacity and layout, emergency access, accessibility, equipment
+placement, crowd movement, venue restrictions; a note for every concern) and records one decision.
+**Approve** moves the event to In Preparation; **Request changes** or **Reject** (with a comment and
+what to revisit: venue, equipment or both) moves it to Safety Changes Requested. The assigned
+Coordinator is notified through the US33 helper ("Safety review decisions") and sees a **Safety
+review** panel on the event with the decision, comment, what to revisit and each concern, plus
+earlier decisions. Each decision records who made it and when.
+
+| File | Adds |
+| --- | --- |
+| `0111_us44_safety_review_decisions.sql` | `safety_review_decisions` and `safety_review_assessments`, `record_safety_review_decision()`, `get_safety_review_decisions()`, the "Safety review decisions" notification type |
+
+Test cases: `docs/test-cases/US44_test_cases.md`.
 
 ## US32 View in-app notifications (SCRUM-229)
 

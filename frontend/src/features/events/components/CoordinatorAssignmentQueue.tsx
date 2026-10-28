@@ -5,7 +5,10 @@ import { listAssignmentCoordinators } from '../coordinatorAssignmentService'
 import { useRequestResource } from '../status/useRequestResource'
 import { CoordinatorAssignmentCard } from './CoordinatorAssignmentCard'
 
-const ACTIVE_STATUSES = ['submitted', 'under_review', 'approved', 'planning', 'confirmed'] as const
+const ACTIVE_STATUSES = [
+  'submitted', 'under_review', 'approved', 'planning',
+  'awaiting_safety_review', 'safety_changes_requested', 'in_preparation', 'confirmed',
+] as const
 
 /** Queue membership is presentation; Lead read/write permissions remain in the database. */
 export function CoordinatorAssignmentQueue({ requests, onAssigned }: { requests: EventRequestSummary[]; onAssigned: () => void }) {

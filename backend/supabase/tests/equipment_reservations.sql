@@ -789,7 +789,10 @@ select pg_temp.assert_true(:'us14_settings_a' = 'rows:1' and :'us14_settings_b' 
   and exists (select 1 from public.notification_outbox where event_id = pg_temp.ev(100))
   and pg_temp.us14_as(pg_temp.u('C1'), format(
     'select 1 from public.equipment_requirement_notifications where requirement_id = %L', pg_temp.rq(101))) = 'rows:1'
-  and not exists (select 1 from public.notification_outbox where event_id = pg_temp.ev(101)),
+  -- US33 (0093): Technical Support is now also emailed about the requirement itself; only the
+  -- reservation result's email is switched off here.
+  and not exists (select 1 from public.notification_outbox where event_id = pg_temp.ev(101)
+                  and notification_type is distinct from 'equipment_requirement_change'),
  'AC-014.13.5: in-app and email are both on by default and each can be switched off (#37, A5)');
 select pg_temp.assert_true((select count(*) = 2 from public.equipment_requirement_notifications
   where event_id = pg_temp.ev(76) and action in ('reserved', 'partially_reserved', 'unavailable')),
@@ -810,7 +813,9 @@ select pg_temp.assert_true(
 select pg_temp.assert_true(:'us14_over_message' like '23P01:%'
   and not exists (select 1 from public.equipment_requirement_notifications
                   where requirement_id = pg_temp.rq(90) and action in ('reserved', 'partially_reserved', 'unavailable'))
-  and not exists (select 1 from public.notification_outbox where event_id = pg_temp.ev(90)),
+  -- US33 (0093): Technical Support's email about the requirement itself is a separate notice.
+  and not exists (select 1 from public.notification_outbox where event_id = pg_temp.ev(90)
+                  and notification_type is distinct from 'equipment_requirement_change'),
  'AC-014.13.8: a rejected reservation sends no notification');
 
 reset role;

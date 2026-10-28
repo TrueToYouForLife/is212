@@ -111,6 +111,7 @@ export function MyVenueBookingsPage() {
                     </div>
 
                     {affected && <ReplacementBookingNotice booking={affected} pending={pendingReplacement} />}
+                    {booking.spaceLayout && <p className="mt-2 text-sm">Layout: {booking.spaceLayout} · People: {booking.spaceAttendance}</p>}
 
                     {booking.status === 'held' && booking.holdExpiresAt && (
                       <p className="mt-2 text-xs text-slate-500">

@@ -7,6 +7,13 @@ import { VenueTimetablePage } from '../pages/VenueTimetablePage'
 import { MyVenueBookingsPage } from '../pages/MyVenueBookingsPage'
 import { QUARTER_HOUR_SLOTS as SLOTS } from '../quarterHourSlots'
 import { buildTimetable } from '../venueTimetable'
+vi.mock('../bookingSpaceService', async original => ({ ...await original<typeof import('../bookingSpaceService')>(),
+  loadSpaceLayouts: async () => [{ layout: 'theatre', capacity: 100 }] }))
+async function fillSpace() {
+  await screen.findByText('theatre (capacity 100)')
+  await user().selectOptions(screen.getByLabelText('Layout for this booking'), 'theatre')
+  await user().type(screen.getByLabelText('People in this space'), '25')
+}
 import { BOOKING_ID, EVENT_ID, VENUE_ID, sgt } from './fixtures/venueBooking'
 
 const mocks = vi.hoisted(() => ({
@@ -151,12 +158,14 @@ describe('VenueTimetablePage — AC-009.2 / AC-011.1', () => {
   test('AC-011.1.1: holding sends the event and venue, and no slots, because the event decides them', async () => {
     mocks.holdVenue.mockResolvedValue({ ok: true, bookingId: BOOKING_ID })
     show(`?eventId=${EVENT_ID}`)
+    await fillSpace()
     await user().click(await screen.findByRole('button', { name: 'Place tentative hold' }))
-    expect(mocks.holdVenue).toHaveBeenCalledWith(EVENT_ID, VENUE_ID)
+    expect(mocks.holdVenue).toHaveBeenCalledWith(EVENT_ID, VENUE_ID, undefined, { layout: 'theatre', attendance: 25 })
   })
   test('AC-011.1.2: a successful hold confirms, says when it expires, and reloads the calendar', async () => {
     mocks.holdVenue.mockResolvedValue({ ok: true, bookingId: BOOKING_ID })
     show(`?eventId=${EVENT_ID}`)
+    await fillSpace()
     await user().click(await screen.findByRole('button', { name: 'Place tentative hold' }))
     expect(await screen.findByRole('status')).toHaveTextContent('expires in 3 days')
     await waitFor(() => expect(mocks.getVenueTimetable).toHaveBeenCalledTimes(2))
@@ -169,6 +178,7 @@ describe('VenueTimetablePage — AC-009.2 / AC-011.1', () => {
       conflicts: [{ date: '2026-10-12', slot: 'PM', kind: 'event' }],
     })
     show(`?eventId=${EVENT_ID}`)
+    await fillSpace()
     await user().click(await screen.findByRole('button', { name: 'Place tentative hold' }))
     expect(await screen.findByRole('alert')).toHaveTextContent('12 Oct 2026 (11:00–11:15) — already booked')
   })

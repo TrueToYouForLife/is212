@@ -33,8 +33,10 @@ import { FlaggedBookingsPage } from './features/venues/pages/FlaggedBookingsPage
 import { EventEquipmentPage } from './features/equipment/pages/EventEquipmentPage'
 import { TechSupportEquipmentPage } from './features/equipment/pages/TechSupportEquipmentPage'
 import { ReserveEquipmentPage } from './features/equipment/pages/ReserveEquipmentPage'
+import { EquipmentCataloguePage } from './features/equipment/pages/EquipmentCataloguePage'
 import { FEATURES } from './lib/features'
 import { NotificationPreferencesPage } from './features/notifications/preferences/NotificationPreferencesPage'
+import { SafetyReviewQueuePage } from './features/safety/SafetyReviewQueuePage'
 import { NotificationsPage } from './features/notifications/pages/NotificationsPage'
 import { EventRegistrationsPage } from './features/events/pages/EventRegistrationsPage'
 import { OrganisationEventDetailPage } from './features/events/pages/OrganisationEventDetailPage'
@@ -72,7 +74,8 @@ export default function App() {
             <Route path="/notifications" element={<NotificationsPage />} />
             <Route path="/requests/:id/registrations" element={<EventRegistrationsPage />} />
             <Route path="/organisation/events/:id" element={<OrganisationEventDetailPage />} />
-            {FEATURES.notificationPreferences && <Route path="/notifications/settings" element={<NotificationPreferencesPage />} />}
+            <Route path="/notifications/settings" element={<NotificationPreferencesPage />} />
+            <Route path="/safety-reviews" element={<SafetyReviewQueuePage />} />
             <Route path="/venues/availability" element={<VenueAvailabilityPage />} />
             <Route path="/venues/new" element={<AddVenuePage />} />
             <Route path="/venues/manage" element={<ManageVenuesPage />} />
@@ -88,6 +91,7 @@ export default function App() {
             {FEATURES.venueBlocks && <Route path="/venues/alerts" element={<FlaggedBookingsPage />} />}
             <Route path="/requests/:id/equipment" element={<EventEquipmentPage />} />
             <Route path="/equipment" element={<TechSupportEquipmentPage />} />
+            <Route path="/equipment/catalogue" element={<EquipmentCataloguePage />} />
             <Route path="/equipment/reservations" element={<ReserveEquipmentPage />} />
           </Route>
         </Routes>

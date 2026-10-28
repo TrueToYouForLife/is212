@@ -40,6 +40,7 @@ function navItemsFor(role: UserRole | null): NavItem[] {
         home,
         { label: 'Requests', to: '/requests' },
         { label: 'Venues', to: '/venues/search' },
+        { label: 'Equipment catalogue', to: '/equipment/catalogue' },
         { label: 'Availability', to: '/venues/availability' },
         ...(FEATURES.venueSuitability ? [{ label: 'Suitability', to: '/venues/suitability' }] : []),
         ...(FEATURES.venueBooking ? [{ label: 'My bookings', to: '/venues/bookings' }] : []),
@@ -53,8 +54,12 @@ function navItemsFor(role: UserRole | null): NavItem[] {
       return [
         home,
         { label: 'Equipment', to: '/equipment' },
+        { label: 'Equipment catalogue', to: '/equipment/catalogue' },
         { label: 'Reserve equipment', to: '/equipment/reservations' },
       ]
+    case 'safety_officer':
+      // US43: the review queue appears once the safety review is switched on.
+      return FEATURES.safetyReview ? [home, { label: 'Safety reviews', to: '/safety-reviews' }] : [home]
     case 'attendee':
       return [
         home,

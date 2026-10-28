@@ -1,3 +1,108 @@
+# US24 PR1 — return inspection backend, 27 October 2026
+- Branch `us24-return-inspection-backend`; Jaydon claimed 0112. Code-first; no frontend
+  edits, shared deployment or manual passes. Jaydon owns commits, PRs and merges.
+- Out is the saved collection-to-return window inclusive in Singapore time. Pending
+  checks starts the following day. No physical checkout/return timestamp or location
+  writes, early reservation release, scheduler or automatic rebooking. Pending checks
+  alone does not block future reservations; preserve US14's windows/US27 status rules.
+- Inspect actual allocation/unit, record findings and reuse set_equipment_status in one
+  transaction, with type-first locks and displayed source consent. Missing -> Unavailable
+  stays pending; follow-up is append-only. Good retains status by default, including legacy
+  values; explicit changes require a reason. Retain findings even if status is unchanged.
+- Existing defect reports retained; browser report writes closed. New inspection history
+  and RPCs are Technical Support-only. Stale/date/status/allocation changes require reload.
+- Cases/contracts/manual guide: docs/us24-return-inspections.md and docs/test-cases/US24_test_cases.md.
+  Final focused run: 23 grouped SQL cases passed, including four races and populated replay.
+  Historical/upgrade/fresh gates passed (upgrade/fresh preceded the last two test additions;
+  final focused run verifies those). No product defect found. A test-assembly/count mismatch
+  was corrected; not a product defect. Logs: docs/test-evidence/us24/pr1/. Sheet rows belong in chat.
+- Shared review: Yuan Long for allocation/report contracts; Jeremiah for the previously
+  identified US27 safety-stage notification eligibility gap, not expanded by this portion.
+- PR2 will add Out/Pending checks/History UI only after Jaydon reviews/merges this portion
+  and applies 0112. No new frontend/coverage run claimed for backend-only changes.
+
+# US27 documentation closeout — 23 October 2026
+- Branch `us27-docs-closeout`; implementation merged in #142/#143/#144.
+  Jaydon confirmed 0104 and 0105 applied, PR1 manual groups, status-flow checks and
+  subsequent auto-close check passed. Manual results: docs/test-evidence/us27/manual-results.md.
+- All eight ACs implemented; 40 grouped automated cases (19 frontend, 21 SQL).
+  Latest full frontend run: 1,535 tests / 177 files; coverage 96.12% lines/statements,
+  90.60% branches, 95.22% functions. This run preceded the auto-close refinement;
+  afterward 13 targeted tests / two files, typecheck/build and lint passed.
+  PR2 focused, historical, upgrade/fresh database gates, races and replay passed.
+- One genuine product defect, AC-027.2.3, fixed and retested; failure log retained.
+  Fixture/matcher mistakes and slow dependency reads are not product defects.
+- Shared evidence-sheet update and Jira transition remain with Jaydon. Sheet rows
+  belong in chat, never TSV files. No new migration or application changes for closeout;
+  no full-suite rerun claimed. Deployment timestamp/account IDs and delivered email
+  were not supplied; optional manual scenarios are not inferred.
+- Earlier US27 sections below are historical checkpoints, superseded by this status.
+
+# US27 PR3 — status UI, 23 October 2026
+- Branch `us27-equipment-status-ui`; PR2 merged and 0105 applied (Jaydon confirmed).
+  No new migration. User owns Git, deployment and manual verification. Code-first.
+- Technical Support gets Manage status in the existing catalogue. Load current version
+  and history via 0105 RPC; four explicit targets and required reason. Coordinator read-only.
+- Pending saves disable edits/reload/close; selected panel blocks other management opens
+  and catalogue refresh. Failed saves keep note/target, lock retry, require explicit reload.
+  No silent consent refresh. Confirmed saves (including no-op) automatically close the
+  panel and refresh stock, retaining filters/success feedback; reopening loads fresh history.
+- History displays stored actor/note and Singapore time. Role/account changes unmount
+  management and ignore late responses. Backend remains permission enforcement.
+- Eleven new cases passed; full suite 1,535 tests / 177 files, coverage 96.12% lines/
+  statements, 90.60% branches, 95.22% functions. Typecheck/lint/build passed.
+- Genuine AC-027.2.3 defect fixed: fast batched catalogue refresh left the panel stale.
+  Initially fixed with a refresh revision key; later superseded by Jaydon's requested
+  auto-close after success. Reopening loads fresh status/history/version. Failure evidence
+  in docs/test-evidence/us27/pr3/. Same regression case extended for auto-close/unit switch.
+- Early slow dependency reads/missing Promise definitions cleared on retry; environment
+  cause unconfirmed, not a product defect. No lockfile/config/dependency edits for this PR.
+  Jaydon confirmed status-flow manual checks and the subsequent auto-close refinement
+  passed on 23 October. No exact account/fixture IDs or delivered-email result supplied.
+  Sheet update, PR merge and deployed frontend verification remain with Jaydon.
+  Evidence-sheet rows belong in chat, never TSV files. No temporary catalogue seed added.
+
+# US27 PR2 — status backend, 23 October 2026
+- Branch `us27-equipment-status-backend`; Jaydon claimed 0105. Code-first; user owns
+  commits, PRs and deployment. No frontend edits or status UI in this portion.
+- 0105 adds versioned get/set_equipment_status RPCs, required notes and actual staff/time
+  audit. Preserve legacy retired/missing values; new target Unavailable stored unavailable.
+- Share US14 type lock before unit lock/re-read. Close direct browser status/version
+  updates while preserving unrelated unit edits. Audit has no browser write permissions.
+- New equipment_status_change_id review source and equipment_non_operational reason reuse
+  existing Coordinator indicators/resolution. Retain all reservations and independent reasons.
+  Upcoming Approved/Planning/Confirmed reserved/checked-out arrangements qualify; exact-start,
+  past/closed and returned/cancelled do not. Unassigned events flag without requester notices.
+- Existing arrangement_review preferences govern in-app copies and typed queued email via
+  US33 helpers. This producer adds default email; metadata records email support. No old
+  review/notification helper overrides. Flag this shared detail to Jeremiah for PR review.
+- Focused 18-case status suite, three races and populated 0105 replay passed. Final DB
+  historical/upgrade/fresh gates all exited 0. Malformed UUID in initial race fixture was corrected;
+  no product defect demonstrated. No new full frontend-suite result claimed for backend work.
+- PR1 merged #142; Jaydon confirmed 0104 applied and all seven chat manual groups passed.
+  Do not infer offline/zero-stock-specific checks or claim sheet updated. 0105 not deployed.
+- Next portion: Technical Support status form/history using loaded version; Coordinator
+  catalogue remains read-only. Do not implement PR3 until Jaydon reviews this portion.
+
+# US27 PR1 — equipment catalogue, 23 October 2026
+- Branch `us27-equipment-catalogue`; Jaydon claimed 0104. Code-first; user handles Git,
+  PRs and shared deployment. AC-027.1–4 only; status writes/reviews/audit are later portions.
+- Reuse 0019 types/units and type.notes description; catalogue RPC is restricted to
+  Technical Support/Coordinator. No new direct unit permissions or creation/deletion UI.
+- Global counts include zero-unit types; usable = Operational even if reserved for a date.
+  Three unit filters intersect; retired/missing retain reasons under Unavailable.
+- Preserve US13/14 routes, Organiser type choices and US42 summaries. Next status portion
+  must share the per-type reservation lock, close direct status-write bypasses, retain
+  allocations/independent reasons, and use current shared notification helpers/preferences.
+- Cases/manual steps: docs/us27-equipment-catalogue.md, docs/test-cases/US27_test_cases.md.
+  Sheet rows belong in chat, never repo TSV. No manual pass/deployment claimed.
+- Frontend final: 175 files / 1,524 tests passed, coverage 96.07% lines/statements,
+  90.53% branches, 95.13% functions; build/typecheck and lint passed. Final focused,
+  historical, quarter-hour upgrade and fresh-order DB gates exited 0, including
+  reserved-unit/snapshot assertions and existing concurrency regressions. Accidental
+  Docker approval interruption resolved; CI, shared deployment and manual checks pending.
+  No product defect demonstrated; unsupported test matcher corrected in test code.
+
 # US48 documentation closeout — 21 October 2026
 - Branch `us48-docs-closeout`; implementation merged in #127/#128. PR #128 shows
   four checks passed. 0099 applied (Jaydon confirmed); 0100-dependent workflow manually
