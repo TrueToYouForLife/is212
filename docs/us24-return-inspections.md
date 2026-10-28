@@ -1,7 +1,8 @@
 # US24 — Equipment return inspections
 
-Owner: Jaydon. Jira: SCRUM-69. Updated: 27 October 2026. Code-first development.
-Branch: `us24-return-inspection-backend`. Jaydon claimed migration 0112.
+Owner: Jaydon. Jira: SCRUM-69. Updated: 29 October 2026. Code-first development.
+PR1 branch: `us24-return-inspection-backend`; PR2: `us24-return-inspection-ui`.
+Jaydon claimed migration 0112 and confirmed it applied after the backend PR merged.
 
 ## Agreed scope and assumptions
 
@@ -73,6 +74,50 @@ Inspection/report/audit/version/reviews/notices commit or roll back together. Ex
 upcoming reservations and independent review reasons remain; notices use existing
 channel preferences. Queued email is not proof of delivery.
 
+## PR2 Technical Support interface
+
+PR1 is merged and Jaydon confirmed 0112 applied. No new migration is needed for PR2.
+Technical Support opens **Equipment returns** at `/equipment/returns`. The page defaults
+to Pending checks, with Out and History tabs and counts. Work rows show event/reference,
+type, actual asset tag, saved collection/return dates and operational status. Out is
+scheduled visibility, not proof of physical handover. Only Pending checks offers an
+inspection action. History displays stored findings, old/new status, staff name and
+Singapore timestamp; it does not invent inspection records for legacy defect reports.
+
+The form requires an explicit finding. No issues defaults to keeping the current
+status, including legacy Damaged/retired/missing values. Issues require descriptions;
+defect/damage/other also require an explicit supported status. Missing selects and
+locks Unavailable. Changing status on a No issues inspection requires a reason when
+the selected value differs. These are client UX checks; 0112 remains authoritative.
+
+Saving calls only the checked inspection operation, with displayed allocation consent;
+no separate report/status request, client actor/time or substituted unit ID is sent.
+Confirmed saves close the form and reload the lists. Other units stay independently
+inspectable. Missing stays pending with a visible follow-up indicator. Restoring
+Operational does not resolve independent review reasons or change storage location.
+
+Pending saves block editing, close/reload, list refresh, tab switching and opening a
+second allocation. A failed/stale/uncertain result keeps notes and selections and locks
+retry; only explicit Reload allocation refreshes consent. Reload retains findings and
+shows current status; if the allocation is no longer pending, saving remains blocked
+and notes remain available for reference. No polling or silent consent refresh is added.
+Role/account changes unmount the view/form and ignore late responses. The navigation
+and direct page admit Technical Support only; backend enforcement remains unchanged.
+
+PR2 automated verification: 14 new cases passed; full frontend suite passed 1,590
+tests / 189 files. Overall coverage: 96.27% lines/statements, 90.84% branches, 95.18%
+functions. Lint/typecheck passed. The initial build failed on an OS file-read timeout;
+a disposable copy with matching source/manifests and lockfile-installed dependencies
+built successfully. No project dependency/configuration changes or product defect
+were demonstrated. Environment failures and final evidence: `docs/test-evidence/us24/pr2/`.
+Jaydon reported all eight chat manual-check groups passed on 29 October 2026.
+Results and limitations: `docs/test-evidence/us24/manual-results.md`. CI and frontend
+merge/deployment remain pending.
+
+Supabase calls and response validation live in `equipmentReturnService.ts`; pure form
+rules live in `equipmentReturnValidation.ts`. Existing status labels/targets and date
+formatting are reused; the catalogue's general status editor is unchanged.
+
 ## Shared integration
 
 Yuan Long should review the allocation version addition, protected defect writes and
@@ -100,21 +145,58 @@ was corrected before the final focused verification; it is not a product defect.
 Apply 0112 after 0105 and the team's current migration baseline before deploying the
 future return UI. No frontend changes are part of PR1. Jaydon handles commits, PRs,
 merges and shared deployment. Nothing has been applied to shared Supabase by this work.
-PR2 is the return page/form/history; frontend and manual acceptance remain pending.
+PR2 implements the return page/form/history. Its frontend verification is recorded
+separately under `docs/test-evidence/us24/pr2/`; Jaydon has confirmed manual acceptance.
 
 ## Manual checks for PR2
 
-Use authenticated Technical Support accounts and existing allocated test units, with
-saved return dates before/today/after the Singapore day. Confirm Out/Pending checks
-classification, actual asset tags and a no-issue inspection. Inspect one unit from a
-multi-unit event and confirm the others remain pending. Record damage and check the
-catalogue status/counts, a future reservation refusal and the assigned Coordinator's
-review/notice while its reservation remains intact. Report missing and later resolve
-it with an explicit follow-up, preserving both history entries. Confirm no-issue does
-not silently restore Damaged/legacy statuses. Test stale saves in two staff sessions,
-input retention/reload, and role denial. Record actual manual results rather than
-inferring them from automated logs. Exact UI steps will accompany PR2.
+Use authenticated Technical Support accounts and disposable/existing allocated test
+units. Use an assigned Coordinator for future arrangement checks, and other role
+accounts for denial. Record the event reference, asset tags, saved dates and original
+statuses before making changes. If no past-return allocation exists, prepare agreed
+disposable fixtures separately; do not backdate live event records merely for testing.
+
+1. **Technical Support — access and lists:** open Equipment returns. Compare Pending
+   checks and Out with saved allocation dates. Today is still within Out when it is the
+   saved return day; pending starts the next Singapore day. Check actual event/asset
+   identities. Cancelled/future allocations do not appear in work lists. Out has no
+   inspection action. Refresh reflects current data; empty lists have explicit messages.
+2. **Technical Support — no issues/partial inspection:** inspect one pending allocation,
+   choose No issues and keep its current status. Save closes the form, moves that task
+   to history and leaves the event's other units pending. Check recorded account/time.
+   A unit already Damaged/legacy Unavailable is not silently restored to Operational.
+3. **Technical Support — issue/status:** choose Damage (or Defect/Other), require a
+   description and explicit resulting status, then save. Check the catalogue status
+   and usable counts. Check future reservation availability excludes that actual unit;
+   other healthy units of the same type may still satisfy a reservation. For a future
+   affected allocation in US27's supported event stages, the assigned Coordinator sees
+   its review/notice while the reservation and unrelated reasons remain intact.
+4. **Technical Support — missing/follow-up:** choose Missing, provide a description and
+   confirm Unavailable is fixed. Save leaves the task pending with a missing indicator
+   and history entry. Reopen it for an explicit follow-up. No issues keeps Unavailable
+   by default; restore Operational only with an explicit choice and reason if suitable.
+   Both inspection entries remain in history. No storage-location update is implied.
+5. **Technical Support — stale consent:** open inspection and enter findings in one
+   tab. In another staff tab, change that unit's status through the existing catalogue.
+   Saving the old inspection refuses, retaining its note and blocking retry. Explicitly
+   reload, review the new current status and retained selections, then save if intended.
+   If another staff member completed the inspection instead, reload says it is no
+   longer pending and keeps the note available for reference.
+6. **Technical Support — save/load failures:** where practical, use browser offline
+   mode on disposable data. Load failure must not look like an empty successful list.
+   An uncertain save keeps notes and requires reload: a lost response does not prove
+   that the server rolled back. Reload/history determines the actual outcome.
+7. **Other roles:** Coordinator, Organiser and Attendee have no Equipment returns link;
+   direct `/equipment/returns` refuses access. General catalogue/status and existing
+   request/reservation workflows remain available to their original roles.
+
+Jaydon confirmed the eight-group chat checklist passed on 29 October 2026, including
+issue findings, missing follow-up, stale consent, role denial and affected reservations.
+The optional offline test and additional scenarios in this longer guide are not inferred
+from that confirmation. Exact accounts/fixtures/timestamps and delivered email were not
+supplied. Preferences and email queuing follow the existing shared producer; delivery
+is a separate result.
 
 Evidence-sheet rows are supplied in chat, not repository TSV files. Do not populate
-Automated Test Case Runs. Manual passes, deployment, CI results and delivered email
-are not claimed by local database logs.
+Automated Test Case Runs. Manual passes come from Jaydon's report, not local database
+logs; frontend deployment, CI results and delivered email remain unclaimed.

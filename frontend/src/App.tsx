@@ -34,6 +34,7 @@ import { EventEquipmentPage } from './features/equipment/pages/EventEquipmentPag
 import { TechSupportEquipmentPage } from './features/equipment/pages/TechSupportEquipmentPage'
 import { ReserveEquipmentPage } from './features/equipment/pages/ReserveEquipmentPage'
 import { EquipmentCataloguePage } from './features/equipment/pages/EquipmentCataloguePage'
+import { EquipmentReturnsPage } from './features/equipment/pages/EquipmentReturnsPage'
 import { FEATURES } from './lib/features'
 import { NotificationPreferencesPage } from './features/notifications/preferences/NotificationPreferencesPage'
 import { SafetyReviewQueuePage } from './features/safety/SafetyReviewQueuePage'
@@ -92,6 +93,7 @@ export default function App() {
             <Route path="/requests/:id/equipment" element={<EventEquipmentPage />} />
             <Route path="/equipment" element={<TechSupportEquipmentPage />} />
             <Route path="/equipment/catalogue" element={<EquipmentCataloguePage />} />
+            <Route path="/equipment/returns" element={<EquipmentReturnsPage />} />
             <Route path="/equipment/reservations" element={<ReserveEquipmentPage />} />
           </Route>
         </Routes>

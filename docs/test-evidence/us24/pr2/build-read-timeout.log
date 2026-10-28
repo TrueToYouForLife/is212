@@ -1,0 +1,20 @@
+
+> connectsphere@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v5.4.21 building for production...
+✓ 0 modules transformed.
+x Build failed in 38m 25s
+error during build:
+[vite:build-html] ETIMEDOUT: connection timed out, read
+file: /Users/jaydon/Desktop/is212/frontend/index.html
+    at Object.readSync (node:fs:739:18)
+    at tryReadSync (node:fs:416:20)
+    at readFileSync (node:fs:462:19)
+    at getSourceSync (node:internal/modules/esm/load:37:14)
+    at defaultLoadSync (node:internal/modules/esm/load:153:34)
+    at ModuleLoader.load (node:internal/modules/esm/loader:821:12)
+    at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:591:31)
+    at #createModuleJob (node:internal/modules/esm/loader:623:36)
+    at #getJobFromResolveResult (node:internal/modules/esm/loader:329:34)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:294:41)

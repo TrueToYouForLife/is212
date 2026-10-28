@@ -1,0 +1,21 @@
+
+> connectsphere@0.1.0 test
+> vitest run --reporter=dot src/features/equipment/__tests__/equipmentReturnService.test.ts src/features/equipment/__tests__/EquipmentReturns.test.tsx
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Failed to load PostCSS config: Failed to load PostCSS config (searchPath: /Users/jaydon/Desktop/is212/frontend): [Error] Loading PostCSS Plugin failed: Unknown system error -70: Unknown system error -70, read
+
+(@/Users/jaydon/Desktop/is212/frontend/postcss.config.js)
+Error: Loading PostCSS Plugin failed: Unknown system error -70: Unknown system error -70, read
+
+(@/Users/jaydon/Desktop/is212/frontend/postcss.config.js)
+    at load (file:///Users/jaydon/Desktop/is212/frontend/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:33632:11)
+    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:33657:16
+    at Array.map (<anonymous>)
+    at plugins (file:///Users/jaydon/Desktop/is212/frontend/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:33656:8)
+    at processResult (file:///Users/jaydon/Desktop/is212/frontend/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:33726:14)
+    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:33856:14
