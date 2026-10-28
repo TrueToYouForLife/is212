@@ -27,6 +27,7 @@ import { ClarificationResponseForm } from '../components/ClarificationResponseFo
 import { ClarificationRoundHistory } from '../components/ClarificationRoundHistory'
 import { isAwaitingClarification } from '../clarificationResponseValidation'
 import { AuditTrailCard } from '../audit/AuditTrailCard'
+import { EventReadinessCard } from '../readiness/EventReadinessCard'
 import { EventVenueBookings } from '../components/EventVenueBookings'
 import { SafetyReviewDecisionsPanel } from '../../safety/SafetyReviewDecisionsPanel'
 import { FEATURES } from '../../../lib/features'
@@ -120,8 +121,7 @@ export function ReviewRequestDetailPage() {
 
             {/* US37. Placed above Request details because, when there is a question
                 outstanding, answering it is the only thing the Organiser came here to do.
-                The form renders itself only for a returned request; the history is shown
-                to both audiences whenever any round has been answered. */}
+                The form renders itself only for a returned request. */}
             {profile?.role === 'organiser' && request.organiserId === profile.id
               && isAwaitingClarification(request) && (
               <Card title="Clarification requested"
@@ -131,19 +131,33 @@ export function ReviewRequestDetailPage() {
               </Card>
             )}
 
+            {/* US37. The history is shown to both audiences whenever any round has been
+                answered: the Organiser reads what they have already said, the Coordinator
+                reads what they were told. Nothing else belongs in this card. */}
+            {((profile?.role === 'organiser' && request.organiserId === profile.id)
+              || (profile?.role === 'coordinator' && request.coordinatorId === profile.id)) && (
+              <Card title="Clarification replies"
+                description="What was asked, what the organiser answered, and what changed each time.">
+                <ClarificationRoundHistory key={`clarifyHistory:${request.id}`}
+                  eventId={request.id} refreshVersion={reviewRefreshVersion} />
+              </Card>
+            )}
+
+            {/* Each of these renders its own Card, so they are siblings rather than
+                children of the one above. status and onSent belong to readiness — it is
+                the panel that can move the event on. */}
             {((profile?.role === 'organiser' && request.organiserId === profile.id)
               || (profile?.role === 'coordinator' && request.coordinatorId === profile.id)) && (
               <>
-                <Card title="Clarification replies"
-                description="What was asked, what the organiser answered, and what changed each time.">
-                <ClarificationRoundHistory key={`clarifyHistory:${request.id}`}
-                  eventId={request.id} refreshVersion={reviewRefreshVersion} status={request.status} onSent={refreshAll} />
-                <EventVenueBookings key={`bookings:${request.id}:${profile.id}`} eventId={request.id} refreshVersion={reviewRefreshVersion} />
+                <EventReadinessCard key={`readiness:${request.id}`} eventId={request.id}
+                  refreshVersion={reviewRefreshVersion} status={request.status} onSent={refreshAll} />
+                <EventVenueBookings key={`bookings:${request.id}:${profile.id}`}
+                  eventId={request.id} refreshVersion={reviewRefreshVersion} />
                 {FEATURES.safetyReview && (
-                  <SafetyReviewDecisionsPanel key={`safety:${request.id}`} eventId={request.id} refreshVersion={reviewRefreshVersion} />
+                  <SafetyReviewDecisionsPanel key={`safety:${request.id}`} eventId={request.id}
+                    refreshVersion={reviewRefreshVersion} />
                 )}
               </>
-              </Card>
             )}
 
             <Card title="Request details">
@@ -175,6 +189,7 @@ export function ReviewRequestDetailPage() {
             )}
 
             {profile?.role === 'coordinator' && (
+              <div id="event-decision">
               <Card
                 title="Decision"
                 description="Your note is shared with the organiser, who is emailed when you approve or reject."
@@ -185,6 +200,7 @@ export function ReviewRequestDetailPage() {
                   onReviewed={refreshAll}
                 />
               </Card>
+              </div>
             )}
 
             {profile?.role === 'coordinator' && request.coordinatorId === profile.id
@@ -207,9 +223,10 @@ export function ReviewRequestDetailPage() {
               </Card>
             )}
 
-            {/* US54. Shown whenever the viewer owns the event or is its assigned
-                Coordinator, and not gated on registration being switched on: turning it
-                off later must not hide the people who had already registered. */}
+            {/* US54. The shared card, not a second copy of it: it carries the count as well
+                as the link, and both audiences here may read the roll call. Not gated on
+                registration being switched on — turning it off later must not hide the
+                people who had already registered. */}
             {((profile?.role === 'organiser' && request.organiserId === profile.id)
               || (profile?.role === 'coordinator' && request.coordinatorId === profile.id)) && (
               <RegistrationsCard eventId={request.id} canOpenRollCall />
@@ -230,15 +247,11 @@ export function ReviewRequestDetailPage() {
             )}
 
             {profile?.role === 'coordinator' && request.coordinatorId === profile.id && (
+              <div id="planning-details">
               <Card title="Planning details and history">
                 <PlanningUpdatePanel key={request.id} eventId={request.id} onChanged={refreshAll} />
               </Card>
-            )}
-
-            {((profile?.role === 'coordinator' && request.coordinatorId === profile.id)
-              || profile?.role === 'coordinator_lead') && (
-              <AuditTrailCard key={`audit:${request.id}:${profile.id}`} eventId={request.id}
-                refreshVersion={reviewRefreshVersion} />
+              </div>
             )}
 
             {((profile?.role === 'coordinator' && request.coordinatorId === profile.id)
