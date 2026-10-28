@@ -14,11 +14,14 @@ import { ORGANISATION_EVENT_MESSAGES as messages } from '../organisationEventSer
  * read-only promise, and tells a missing event apart from a broken read.
  */
 
-const mocks = vi.hoisted(() => ({ role: 'organiser' as string, load: vi.fn() }))
+const mocks = vi.hoisted(() => ({ role: 'organiser' as string, load: vi.fn(), count: vi.fn() }))
 vi.mock('../../auth/sessionContext', () => ({
   useCurrentUser: () => ({
     loading: false, session: { userId: 'viewer' }, profile: { id: 'viewer', role: mocks.role },
   }),
+}))
+vi.mock('../registrationCountService', () => ({
+  loadRegistrationCount: (id: string) => mocks.count(id),
 }))
 vi.mock('../organisationEventService', async (importOriginal) => ({
   ...(await importOriginal<typeof import('../organisationEventService')>()),
@@ -46,7 +49,11 @@ function renderPage() {
   )
 }
 
-beforeEach(() => { mocks.role = 'organiser'; mocks.load.mockReset() })
+beforeEach(() => {
+  mocks.role = 'organiser'
+  mocks.load.mockReset()
+  mocks.count.mockReset().mockResolvedValue({ ok: true, count: 3 })
+})
 
 describe('AC-031.2 — a colleague may view the event, and only view it', () => {
   test('AC-031.2.18: the shared details are shown, with the colleague named as organiser', async () => {
@@ -124,13 +131,21 @@ describe('AC-031.3 — nothing from another client organisation', () => {
   })
 })
 
-describe('AC-054.4 — the registrations a colleague may see are now reachable', () => {
-  test('AC-054.4.13: the page offers a route into the event’s registrations', async () => {
+describe('AC-054.4 — how full a colleague’s event is, not who is going', () => {
+  test('AC-054.4.13: a colleague is shown the number and no route into the roll call', async () => {
     mocks.load.mockResolvedValue({ ok: true, value: theirs })
     renderPage()
 
-    // Before this page existed the list was readable by a colleague and reachable by
-    // nobody. 0094 still decides whether they actually get it; the link is a courtesy.
+    // 0114 refuses them the names outright, so offering the link would only invite them to
+    // a page that can do nothing but turn them away.
+    expect(await screen.findByTestId('registration-count')).toHaveTextContent('3 registrations')
+    expect(screen.queryByRole('link', { name: 'Open registrations' })).not.toBeInTheDocument()
+  })
+
+  test('AC-054.4.21: the owner is shown the route into the roll call instead', async () => {
+    mocks.load.mockResolvedValue({ ok: true, value: { ...theirs, isMine: true } })
+    renderPage()
+
     expect(await screen.findByRole('link', { name: 'Open registrations' }))
       .toHaveAttribute('href', `/requests/${EVENT}/registrations`)
   })

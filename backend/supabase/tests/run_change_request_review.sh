@@ -396,7 +396,7 @@ SQL
   # (named on its test's first line; replays above restore older versions) and check it.
   for notice_test in "$repo_root"/supabase/tests/notice_channels_*.sql; do
     [ -e "$notice_test" ] || continue
-    cat "$repo_root/supabase/migrations/$(sed -n '1s/^-- Migration: //p' "$notice_test")"
+    cat "$repo_root/supabase/migrations/$(sed -n '1s/^-- Migration: //p' "$notice_test" | tr -d '\r')"
     cat "$notice_test"
   done
   # US27: protected catalogue reads, counts and role boundaries.
@@ -408,6 +408,7 @@ SQL
   # US54: who can see an event's registrations, then replay 0094.
   cat "$repo_root/supabase/tests/event_registration_visibility.sql"
   cat "$repo_root/supabase/migrations/0094_event_registration_visibility.sql"
+  cat "$repo_root/supabase/migrations/0114_event_registration_count.sql"
   cat <<'SQL'
 set role authenticated;
 select set_config('request.jwt.claim.sub', '54000000-0000-0000-0000-000000000001', false);
