@@ -12,6 +12,10 @@ export const EVENT_STATUSES = [
   'completed',
   'cancelled',
   'rejected',
+  // US22 (0066). Lost from this list when the safety stages were added, which left
+  // statusRules, StatusBadge and RequestStatusPanel referring to a status the union no
+  // longer had. The database CHECK in 0108 has always included it.
+  'withdrawn',
 ] as const
 
 export type EventStatus = (typeof EVENT_STATUSES)[number]
@@ -31,6 +35,7 @@ export const EVENT_STATUS_LABELS: Record<EventStatus, string> = {
   completed: 'Completed',
   cancelled: 'Cancelled',
   rejected: 'Rejected',
+  withdrawn: 'Withdrawn',
 }
 
 /**
