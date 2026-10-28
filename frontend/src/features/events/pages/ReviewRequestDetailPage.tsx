@@ -23,6 +23,7 @@ import { EventWaitlistPanel } from '../../registrations/components/EventWaitlist
 import { canChangeRegistration } from '../statusRules'
 import { PlanningUpdatePanel } from '../components/PlanningUpdatePanel'
 import { EventReadinessCard } from '../readiness/EventReadinessCard'
+import { AuditTrailCard } from '../audit/AuditTrailCard'
 import { EventVenueBookings } from '../components/EventVenueBookings'
 import { SafetyReviewDecisionsPanel } from '../../safety/SafetyReviewDecisionsPanel'
 import { FEATURES } from '../../../lib/features'
@@ -222,6 +223,12 @@ export function ReviewRequestDetailPage() {
                 <PlanningUpdatePanel key={request.id} eventId={request.id} onChanged={refreshAll} />
               </Card>
               </div>
+            )}
+
+            {((profile?.role === 'coordinator' && request.coordinatorId === profile.id)
+              || profile?.role === 'coordinator_lead') && (
+              <AuditTrailCard key={`audit:${request.id}:${profile.id}`} eventId={request.id}
+                refreshVersion={reviewRefreshVersion} />
             )}
 
             {canSeeHistory && (

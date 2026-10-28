@@ -26,7 +26,7 @@ if [ "$ready" != true ]; then echo 'Temporary database did not become ready.' >&
   # Historical suite exercises pre-conversion contracts and their migration replays.
   # Current quarter-hour upgrade/fresh-install coverage runs separately in CI.
   for migration in "$repo_root"/supabase/migrations/*.sql; do
-    case "$migration" in */0075_*|*/0098_*|*/0099_*|*/0100_*|*/0102_*|*/0103_*|*/0107_*|*/0109_*) continue ;; esac
+    case "$migration" in */0075_*|*/0098_*|*/0099_*|*/0100_*|*/0101_*|*/0102_*|*/0103_*|*/0107_*|*/0109_*) continue ;; esac
     cat "$migration"; printf '\n'; done
   cat "$repo_root/supabase/tests/change_request_review.sql"
   cat "$repo_root/supabase/migrations/0008_change_request_review.sql"
@@ -425,6 +425,10 @@ SQL
   # US44: the Safety Officer's decision (0111).
   cat "$repo_root/supabase/migrations/0111_us44_safety_review_decisions.sql"
   cat "$repo_root/supabase/tests/safety_review_decisions.sql"
+  # US34: audit trail. 0101 is applied here, after every earlier fixture, so their deletes and
+  # status shortcuts are not run against its triggers.
+  cat "$repo_root/supabase/migrations/0101_event_audit_log.sql"
+  cat "$repo_root/supabase/tests/event_audit_log.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"

@@ -1,0 +1,188 @@
+
+ RUN  v2.1.9 C:/Users/siewy/is212/frontend
+
+ ✓ src/features/events/audit/__tests__/auditDescription.test.ts (4 tests) 7ms
+ ❯ src/features/events/audit/__tests__/auditService.test.ts (3 tests | 1 failed) 33ms
+   × AC-034.4 — Organisers and Attendees cannot view audit records > AC-034.4.4: a refusal is reported as not allowed, never shown as an empty trail 17ms
+     → expected { ok: true, entries: [] } to deeply equal { ok: false, …(1) }
+ ✓ src/features/events/__tests__/AuditTrailPage.test.tsx (2 tests) 403ms
+ ❯ src/features/events/audit/__tests__/AuditTrailCard.test.tsx (5 tests | 1 failed) 1281ms
+   × AC-034.4 — Organisers and Attendees cannot view audit records > AC-034.4.5: a refused read shows the refusal, not an empty trail 1031ms
+     → Unable to find role="alert"
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      class="rounded-xl border border-slate-200 bg-white shadow-sm"
+    >
+      <div
+        class="border-b border-slate-100 px-6 py-5"
+      >
+        <h2
+          class="text-base font-semibold text-slate-900"
+        >
+          Audit trail
+        </h2>
+        <p
+          class="mt-1 text-sm text-slate-500"
+        >
+          Who did what to this event, and when. Records cannot be edited or deleted.
+        </p>
+      </div>
+      <div
+        class="px-6 py-6"
+      >
+        <p
+          class="text-sm text-slate-500"
+        >
+          No actions have been recorded for this event yet.
+        </p>
+      </div>
+    </section>
+  </div>
+</body>
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      class="rounded-xl border border-slate-200 bg-white shadow-sm"
+    >
+      <div
+        class="border-b border-slate-100 px-6 py-5"
+      >
+        <h2
+          class="text-base font-semibold text-slate-900"
+        >
+          Audit trail
+        </h2>
+        <p
+          class="mt-1 text-sm text-slate-500"
+        >
+          Who did what to this event, and when. Records cannot be edited or deleted.
+        </p>
+      </div>
+      <div
+        class="px-6 py-6"
+      >
+        <p
+          class="text-sm text-slate-500"
+        >
+          No actions have been recorded for this event yet.
+        </p>
+      </div>
+    </section>
+  </div>
+</body>
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/events/audit/__tests__/auditService.test.ts > AC-034.4 — Organisers and Attendees cannot view audit records > AC-034.4.4: a refusal is reported as not allowed, never shown as an empty trail
+AssertionError: expected { ok: true, entries: [] } to deeply equal { ok: false, …(1) }
+
+- Expected
++ Received
+
+  Object {
+-   "ok": false,
+-   "reason": "Only the event's assigned Coordinator and the Coordinator Lead can see its audit trail.",
++   "entries": Array [],
++   "ok": true,
+  }
+
+ ❯ src/features/events/audit/__tests__/auditService.test.ts:46:45
+     44|   test('AC-034.4.4: a refusal is reported as not allowed, never shown …
+     45|     mocks.rpc.mockResolvedValue({ data: null, error: { code: '42501', …
+     46|     expect(await getEventAuditTrail('e-1')).toEqual({ ok: false, reaso…
+       |                                             ^
+     47|     expect(console.error).not.toHaveBeenCalled()
+     48|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/features/events/audit/__tests__/AuditTrailCard.test.tsx > AC-034.4 — Organisers and Attendees cannot view audit records > AC-034.4.5: a refused read shows the refusal, not an empty trail
+TestingLibraryElementError: Unable to find role="alert"
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      class="rounded-xl border border-slate-200 bg-white shadow-sm"
+    >
+      <div
+        class="border-b border-slate-100 px-6 py-5"
+      >
+        <h2
+          class="text-base font-semibold text-slate-900"
+        >
+          Audit trail
+        </h2>
+        <p
+          class="mt-1 text-sm text-slate-500"
+        >
+          Who did what to this event, and when. Records cannot be edited or deleted.
+        </p>
+      </div>
+      <div
+        class="px-6 py-6"
+      >
+        <p
+          class="text-sm text-slate-500"
+        >
+          No actions have been recorded for this event yet.
+        </p>
+      </div>
+    </section>
+  </div>
+</body>
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      class="rounded-xl border border-slate-200 bg-white shadow-sm"
+    >
+      <div
+        class="border-b border-slate-100 px-6 py-5"
+      >
+        <h2
+          class="text-base font-semibold text-slate-900"
+        >
+          Audit trail
+        </h2>
+        <p
+          class="mt-1 text-sm text-slate-500"
+        >
+          Who did what to this event, and when. Records cannot be edited or deleted.
+        </p>
+      </div>
+      <div
+        class="px-6 py-6"
+      >
+        <p
+          class="text-sm text-slate-500"
+        >
+          No actions have been recorded for this event yet.
+        </p>
+      </div>
+    </section>
+  </div>
+</body>
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/features/events/audit/__tests__/AuditTrailCard.test.tsx:58:25
+     56|     mocks.rpc.mockResolvedValue({ data: null, error: { code: '42501', …
+     57|     render(<AuditTrailCard eventId="e-1" />)
+     58|     expect(await screen.findByRole('alert')).toHaveTextContent(AUDIT_M…
+       |                         ^
+     59|     expect(screen.queryByText('No actions have been recorded for this …
+     60|   })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+ Test Files  2 failed | 2 passed (4)
+      Tests  2 failed | 12 passed (14)
+   Start at  21:13:02
+   Duration  5.49s (transform 474ms, setup 1.04s, collect 1.74s, tests 1.72s, environment 6.11s, prepare 1.43s)
+

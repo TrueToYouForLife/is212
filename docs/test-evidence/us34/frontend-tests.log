@@ -1,0 +1,1130 @@
+
+ RUN  v2.1.9 C:/Users/siewy/is212/frontend
+
+ ✓ src/features/events/__tests__/eventReviewService.test.ts (23 tests) 183ms
+ ✓ src/features/venues/__tests__/suitabilityService.test.ts (19 tests) 223ms
+ ✓ src/features/venues/__tests__/venueBookingService.test.ts (20 tests) 309ms
+ ✓ src/features/venues/__tests__/venueManagementService.test.ts (26 tests) 260ms
+ ✓ src/features/events/__tests__/changeRequestReviewService.test.ts (23 tests) 120ms
+stderr | src/features/events/__tests__/eventChangeRequestService.test.ts > AC-006.6 — the request is submitted to the coordinator for review > AC-006.6.3: an unrecognised database error gives advice, not raw Postgres text
+[change-requests] { code: '08006', message: 'connection failure' }
+
+ ✓ src/features/events/__tests__/eventChangeRequestService.test.ts (32 tests) 165ms
+ ✓ src/features/events/__tests__/eventService.test.ts (19 tests) 260ms
+ ✓ src/features/events/__tests__/validation.test.ts (22 tests) 171ms
+ ✓ src/features/events/__tests__/withdrawRequest.test.ts (17 tests) 48ms
+ ✓ src/features/equipment/__tests__/equipmentRequirementService.test.ts (13 tests) 166ms
+ ✓ src/features/events/__tests__/SubmitEventChangesPage.test.tsx (17 tests) 908ms
+stderr | src/features/venues/__tests__/EditVenuePage.test.tsx > AC-046.5 — Venue Staff can retire a venue > AC-046.5.22: after retiring, Venue Staff are told the venue left search and 0 booking(s) went for review
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (C:\Users\siewy\is212\frontend\src\features\venues\pages\EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (C:\Users\siewy\is212\frontend\src\features\venues\pages\EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+ ✓ src/features/equipment/__tests__/EquipmentRequirementsEditor.test.tsx (14 tests) 5838ms
+   ✓ AC-013.1: assigned-coordinator editing with the organiser request shown > AC-013.1.9: shows the organiser's original equipment request next to the requirements 1618ms
+   ✓ AC-013.1: assigned-coordinator editing with the organiser request shown > AC-013.1.11: viewers who may not write see the lines without write controls 318ms
+   ✓ AC-013.2: catalogue picker and quantity validation > AC-013.2.17: quantity 0 shows an error and is not saved 722ms
+   ✓ AC-013.3: each line shows its status > AC-013.3.11: the coordinator can mark a line non-essential 480ms
+   ✓ AC-013.5: recording does not reserve > AC-013.5.2: a newly added line shows pending review, never reserved 597ms
+   ✓ AC-013.6: changing or removing a reserved line > AC-013.6.7: warns before a reserved line changes type or quantity 352ms
+   ✓ AC-013.6: changing or removing a reserved line > AC-013.6.8: removing a reserved line asks for confirmation that mentions the release 347ms
+   ✓ AC-013.6: changing or removing a reserved line > AC-013.6.9: after saving, the changed line shows pending review 436ms
+stderr | src/features/venues/__tests__/EditVenuePage.test.tsx > AC-046.5 — Venue Staff can retire a venue > AC-046.5.22: after retiring, Venue Staff are told the venue left search and 1 booking(s) went for review
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (C:\Users\siewy\is212\frontend\src\features\venues\pages\EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (C:\Users\siewy\is212\frontend\src\features\venues\pages\EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+ ✓ src/features/events/__tests__/EventRequestForm.test.tsx (14 tests) 7774ms
+   ✓ AC-001.1 > AC-001.1.11: shows save errors and preserves entered values 3145ms
+   ✓ AC-001.1 > AC-001.1.12: an unexpected save exception restores the controls without losing input 795ms
+   ✓ AC-001.2 > AC-001.2.22: clears submission-required errors when saving an incomplete draft 548ms
+   ✓ AC-001.4 > AC-001.4.34: keeps entered values and reuses the saved ID on subsequent saves (also AC-001.5) 314ms
+   ✓ AC-001.6 > AC-001.6.2: explicit submission uses the saved ID and resets it after success 655ms
+   ✓ AC-001.6 > AC-001.6.4: failed submission preserves the draft ID for further editing 429ms
+   ✓ AC-002.1 > AC-002.1.6: offers an input for every piece of preliminary information 303ms
+stderr | src/features/venues/__tests__/EditVenuePage.test.tsx > AC-046.5 — Venue Staff can retire a venue > AC-046.5.22: after retiring, Venue Staff are told the venue left search and 4 booking(s) went for review
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (C:\Users\siewy\is212\frontend\src\features\venues\pages\EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (C:\Users\siewy\is212\frontend\src\features\venues\pages\EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+stderr | src/features/venues/__tests__/EditVenuePage.test.tsx > AC-046.5 — Venue Staff can retire a venue > AC-046.5.25: a refused retirement is explained, with a reload when someone else changed the venue
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (C:\Users\siewy\is212\frontend\src\features\venues\pages\EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (C:\Users\siewy\is212\frontend\src\features\venues\pages\EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (C:\Users\siewy\is212\frontend\src\features\venues\pages\EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+ ✓ src/features/venues/__tests__/EditVenuePage.test.tsx (22 tests) 9315ms
+   ✓ AC-046.2 — Venue Staff can edit any of a venue’s details > AC-046.2.23: the venue opens with its current details filled in 2703ms
+   ✓ AC-046.2 — Venue Staff can edit any of a venue’s details > AC-046.2.24: saving sends the edited details with the version the venue was opened at 1824ms
+   ✓ AC-046.2 — Venue Staff can edit any of a venue’s details > AC-046.2.25: an edit someone else got to first is explained, and reloading shows their changes 923ms
+   ✓ AC-046.2 — Venue Staff can edit any of a venue’s details > AC-046.2.26: any other refusal keeps the edits as typed and shows why, with no reload offered 433ms
+   ✓ AC-046.2 — Venue Staff can edit any of a venue’s details > AC-046.2.29: "Edit again" reopens the venue as saved; leaving before it loads does not update the page 633ms
+   ✓ AC-046.4 — bookings an edit may have made unsuitable are flagged > AC-046.4.16: after saving, Venue Staff are told 1 booking(s) were sent for review and none was changed 362ms
+   ✓ AC-046.4 — bookings an edit may have made unsuitable are flagged > AC-046.4.16: after saving, Venue Staff are told 3 booking(s) were sent for review and none was changed 317ms
+   ✓ AC-046.5 — Venue Staff can retire a venue > AC-046.5.22: after retiring, Venue Staff are told the venue left search and 0 booking(s) went for review 370ms
+   ✓ AC-046.5 — Venue Staff can retire a venue > AC-046.5.22: after retiring, Venue Staff are told the venue left search and 1 booking(s) went for review 336ms
+   ✓ AC-046.5 — Venue Staff can retire a venue > AC-046.5.25: a refused retirement is explained, with a reload when someone else changed the venue 417ms
+ ✓ src/features/notifications/__tests__/NotificationsPage.test.tsx (15 tests) 1780ms
+   ✓ AC-032.1 — a user sees their notifications, newest first > AC-032.1.14: each notification shows what happened, its event and when, in the order the feed gives 451ms
+ ✓ src/features/events/__tests__/CoordinatorAssignmentQueue.test.tsx (3 tests) 2385ms
+   ✓ AC-017.1.10: Lead filters submitted unassigned requests and sees their basic details 1069ms
+   ✓ AC-017.2.9: Lead selects a coordinator with workload shown and retries a failed assignment 670ms
+   ✓ AC-017.3.2: Lead reassigns an active event with retry feedback and no controls for closed events 642ms
+ ✓ src/features/venues/__tests__/VenueBookingPages.test.tsx (25 tests) 4447ms
+   ✓ AC-010.9.6: the coordinator sees the suggested alternative on a rejected booking 628ms
+   ✓ VenueDetailsPage — AC-009.1 > AC-009.1.19: shows the venue’s characteristics, with facility counts spelled out 400ms
+   ✓ VenueTimetablePage — AC-009.2 / AC-011.1 > AC-011.5.19: draws the venue’s calendar for the coming week 359ms
+   ✓ VenueTimetablePage — AC-009.2 / AC-011.1 > AC-009.2.24: choosing an event highlights the slots it would take, including setup and turnaround 634ms
+   ✓ VenueTimetablePage — AC-009.2 / AC-011.1 > AC-011.1.1: holding sends the event and venue, and no slots, because the event decides them 315ms
+   ✓ VenueTimetablePage — AC-009.2 / AC-011.1 > AC-011.1.2: a successful hold confirms, says when it expires, and reloads the calendar 318ms
+ ✓ src/features/events/__tests__/DraftPages.test.tsx (12 tests) 2521ms
+   ✓ AC-001.3 > AC-001.3.1: unnamed drafts have a usable fallback label (also AC-001.4) 696ms
+   ✓ AC-001.4 > AC-001.4.24: opens a listed draft, restores fields and saves edits to the same ID (also AC-001.3, AC-001.5) 689ms
+ ✓ src/features/events/__tests__/CoordinatorActiveEvents.test.tsx (5 tests) 5454ms
+   ✓ AC-036.1.1: overview shows all active events once with coordinator status and Singapore dates, excluding inactive events 1969ms
+   ✓ AC-036.2.1: filters combine coordinator and status, handle unassigned and no matches, reset and refresh without changing workloads 2494ms
+   ✓ AC-036.4.1: Lead can open an event and reassign it with refreshed assignment and workload totals 359ms
+   ✓ AC-036.5.1: only Coordinator Lead sees the overview and requests coordinator workloads 447ms
+ ✓ src/features/venues/__tests__/VenueReplacementSearchPage.test.tsx (7 tests) 5769ms
+   ✓ AC-048.2.1: affected booking prefills the full event interval, attendance, layout and requirements without editing the event 1041ms
+   ✓ AC-048.2.2: adjusted filters and reset keep the original event; a missing layout catalogue entry is retained 1154ms
+   ✓ AC-048.2.3: empty, failed and unavailable-options searches never show stale selectable candidates 474ms
+   ✓ AC-048.2.5: a late old search cannot overwrite a reloaded source and its new attendance requirements 341ms
+   ✓ AC-048.3.8: selection submits the original booking and displayed consent once, requires a note, and preserves the original until approval 1294ms
+   ✓ AC-048.3.9: failed submission keeps the note and source version, prevents retries, and needs an explicit reload 1331ms
+ ✓ src/features/venues/__tests__/suitabilityValidation.test.ts (18 tests) 67ms
+ ✓ src/features/events/__tests__/changeRequestReplyValidation.test.ts (27 tests) 47ms
+ ✓ src/features/events/__tests__/changeRequestReviewValidation.test.ts (27 tests) 86ms
+ ✓ src/features/venues/__tests__/venueSearchService.test.ts (9 tests) 36ms
+ ✓ src/features/venues/__tests__/venueManagementValidation.test.ts (26 tests) 40ms
+stderr | src/features/venues/__tests__/VenueBlockForm.test.tsx > AC-012.7 — overlaps are previewed before saving > AC-012.7.12: Confirm block appears only after a preview, and confirms what was previewed
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\Users\siewy\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\Users\siewy\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\Users\siewy\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\Users\siewy\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\Users\siewy\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\Users\siewy\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\Users\siewy\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (C:\Users\siewy\is212\frontend\src\features\venues\components\VenueBlockForm.tsx:21:27)
+
+ ✓ src/features/registrations/__tests__/MyRegistrationsPage.test.tsx (9 tests) 1141ms
+ ✓ src/features/equipment/__tests__/validation.test.ts (28 tests) 32ms
+ ✓ src/features/venues/__tests__/VenueReplacementPanel.test.tsx (10 tests) 4669ms
+   ✓ AC-020.3.50: coordinator proposes an alternative with a reason and sees the original-preservation message 1219ms
+   ✓ AC-020.3.51: Venue Staff see current requirements and approve with a recorded note 645ms
+   ✓ AC-020.3.52: rejection and coordinator withdrawal use their distinct decision actions 828ms
+   ✓ AC-020.3.54: conflicts keep the decision note and do not report success 401ms
+   ✓ AC-020.3.56: failed proposal preserves selections and text for correction 398ms
+   ✓ AC-020.3.59: late loads are ignored after unmount and a pending proposal prevents duplicate submissions 576ms
+ ✓ src/features/venues/__tests__/VenueBlockForm.test.tsx (8 tests) 3768ms
+   ✓ AC-012.3 — a reason is required > AC-012.3.7: a blank reason shows its message beside the field, and nothing is previewed 722ms
+   ✓ AC-012.7 — overlaps are previewed before saving > AC-012.7.12: Confirm block appears only after a preview, and confirms what was previewed 494ms
+   ✓ AC-012.7 — what the preview shows, and when it still counts > AC-012.7.13: changing the dates or slots after previewing hides Confirm until previewed again 372ms
+   ✓ AC-012.7 — what the preview shows, and when it still counts > AC-012.7.14: the preview lists each affected booking and says it will be flagged, not cancelled 361ms
+   ✓ AC-012.9 — an existing block must be removed first > AC-012.9.17: a block overlapping an existing block cannot be confirmed, and the preview says why 346ms
+   ✓ AC-012.8 — overlapping bookings are flagged and their coordinators told > AC-012.8.16: after saving, the form says how many bookings were flagged, then clears 326ms
+   ✓ AC-012.2 — a refused block is explained > AC-012.2.28: a problem the service reports is shown, and nothing can be confirmed 302ms
+   ✓ AC-048.2.6: continuous block uses start/end dates and times, allows overnight, refuses reversed instants and invalidates changed previews 836ms
+ ✓ src/features/events/__tests__/ChangeRequestList.test.tsx (14 tests) 2275ms
+   ✓ AC-006.7.1: a request awaiting review reads as in review, with withdrawal still offered 517ms
+   ✓ AC-007.7.76: sending replies reloads status and removes the completed reply form 428ms
+   ✓ AC-007.7.77: focus preserves answers and manual reload replaces the displayed questions 650ms
+ ✓ src/features/events/__tests__/eventDraftQueryService.test.ts (18 tests) 42ms
+ ✓ src/features/registrations/__tests__/waitlistService.test.ts (11 tests) 47ms
+ ✓ src/features/events/__tests__/PlanningUpdatePanel.test.tsx (9 tests) 3582ms
+   ✓ AC-020.1.50: assigned coordinator edits existing values and refreshes after a successful save 1305ms
+   ✓ AC-020.1.51: invalid attendance and purpose show validation without attempting a save 465ms
+   ✓ AC-020.1.52: a stale save preserves entered text until the user explicitly reloads 966ms
+   ✓ AC-020.1.53: pending save disables inputs and prevents duplicate requests 433ms
+ ✓ src/features/events/__tests__/EventChangeRequestForm.test.tsx (10 tests) 7645ms
+   ✓ AC-006.4 — the form proposes new values without applying them > AC-006.4.5: a reason with no proposed field changes is refused before calling the service 1317ms
+   ✓ AC-006.4 — the form proposes new values without applying them > AC-006.4.6: only the fields the organiser actually filled in are sent, alongside the reason 973ms
+   ✓ AC-006.4 — the form proposes new values without applying them > AC-006.4.7: ticking a requirement proposes it as a code list, not as text 853ms
+   ✓ AC-006.4 — the form proposes new values without applying them > AC-006.4.8: an untouched prefilled control proposes nothing even once another field changes 753ms
+   ✓ AC-006.5 — the organiser must give a reason > AC-006.5.6: a proposed field with no reason is blocked by the reason requirement, not treated as valid 381ms
+   ✓ AC-006.6 — the request is submitted for review > AC-006.6.4: a successful submission confirms and clears the form for another request 919ms
+   ✓ AC-006.6 — the request is submitted for review > AC-006.6.5: a refused submission shows the service reason and keeps what was typed 1154ms
+   ✓ AC-006.6 — the request is submitted for review > AC-006.6.6: a thrown error is reported rather than leaving the organiser waiting 977ms
+ ✓ src/features/notifications/__tests__/notificationService.test.ts (10 tests) 39ms
+ ✓ src/features/registrations/__tests__/registrationService.test.ts (16 tests) 73ms
+ ✓ src/features/events/__tests__/eventDraftService.test.ts (16 tests) 160ms
+ ✓ src/features/venues/__tests__/VenueAvailabilityPage.test.tsx (15 tests) 2045ms
+   ✓ AC-019.1 — staff can view availability across dates > AC-019.1.14: Venue Staff see every venue for the week starting today in Singapore 733ms
+   ✓ AC-019.1 — staff can view availability across dates > AC-019.1.19: next, previous and this week move the calendar a week at a time 373ms
+ ✓ src/features/events/__tests__/ChangeRequestReviewForm.test.tsx (11 tests) 5746ms
+   ✓ AC-007.3 — visible comparison > AC-007.3.4: groups current and proposed values beneath their field names 431ms
+   ✓ AC-007.5 — explicit finalisation > AC-007.5.28: all approvals save once with the version displayed to the reviewer 484ms
+   ✓ AC-007.5 — explicit finalisation > AC-007.5.29: mixed final decisions send the rejected field reason and report partial approval 904ms
+   ✓ AC-007.5 — explicit finalisation > AC-007.5.31: a failed save preserves decisions and requires reload before retry 380ms
+   ✓ AC-007.6 — rejection reasons > AC-007.6.6: rejecting a field without an explanation displays an error without saving 350ms
+   ✓ AC-007.7 — field questions > AC-007.7.32: provisional approval and a separate question save together without claiming final approval 923ms
+   ✓ AC-007.10.3: rejecting every field sends both reasons and reports a rejected outcome 1401ms
+ ✓ src/components/layout/__tests__/TopNav.test.tsx (34 tests) 2456ms
+   ✓ AC-012.1 — only Venue Staff can block > AC-012.1.10: Venue Staff are offered the venue blocks page 499ms
+stderr | src/features/events/__tests__/eventRegistrationsService.test.ts > AC-054.1 — the Organiser sees each registration with the attendee’s details > AC-054.1.7: a read error is reported, not flattened into an empty roll call
+[events] loadEventRegistrations { message: 'boom' }
+
+stderr | src/features/events/__tests__/eventRegistrationsService.test.ts > AC-054.4 — an empty answer is resolved, not guessed > AC-054.4.10: a failed permission check is a load failure, not a refusal
+[events] canViewEventRegistrations { message: 'boom' }
+
+ ✓ src/features/events/__tests__/eventRegistrationsService.test.ts (10 tests) 37ms
+ ✓ src/features/venues/__tests__/slots.test.ts (28 tests) 33ms
+ ✓ src/features/venues/__tests__/VenueAvailabilityGrid.test.tsx (9 tests) 1094ms
+   ✓ AC-019.1 — staff can view availability across dates > AC-019.1.12: for coordinators, each venue name opens that venue's own timetable 413ms
+stderr | src/features/events/__tests__/organisationEventService.test.ts > AC-031.1 — an Organiser can view and act on their own events > AC-031.1.5: a read error is reported, not flattened into an empty list
+[events] loadOrganisationEvents { message: 'boom' }
+
+stderr | src/features/events/__tests__/organisationEventService.test.ts > AC-031.3 — nothing from another client organisation > AC-031.3.11: a failed single-event read is reported as a failure, not as not-found
+[events] loadOrganisationEvent { message: 'boom' }
+
+ ✓ src/features/events/__tests__/organisationEventService.test.ts (10 tests) 36ms
+ ✓ src/features/venues/__tests__/VenueFilters.test.tsx (10 tests) 1939ms
+   ✓ AC-008.3 — choosing an event applies its requirements to the filters > AC-008.3.1: the event's layout, accessibility and facilities become the filters 301ms
+   ✓ AC-008.3 — layout is chosen from the catalogue, not typed > AC-008.3.7: every layout in the catalogue is offered, plus "any layout" 780ms
+ ✓ src/features/auth/__tests__/SignUpPage.test.tsx (8 tests) 1226ms
+   ✓ AC-029.1: sign up with a name, email and password > AC-029.1.15: submitting the form signs up with the cleaned values 520ms
+ ✓ src/features/events/__tests__/changeRequestDiff.test.ts (11 tests) 19ms
+ ✓ src/features/events/__tests__/OrganisationEventDetailPage.test.tsx (8 tests) 1046ms
+   ✓ AC-031.2 — a colleague may view the event, and only view it > AC-031.2.18: the shared details are shown, with the colleague named as organiser 484ms
+ ✓ src/features/registrations/__tests__/RegisterOrWaitlist.test.tsx (9 tests) 870ms
+   ✓ AC-016.1: a full event offers the waiting list instead of registration > AC-016.1.13: a full event shows Join the waiting list and no registration form 307ms
+ ✓ src/features/events/__tests__/EventRegistrationsPage.test.tsx (8 tests) 764ms
+   ✓ AC-054.1 — each registration, with the attendee’s details > AC-054.1.10: a failed read offers a retry rather than an empty event 325ms
+ ✓ src/features/registrations/__tests__/EventWaitlistPanel.test.tsx (9 tests) 1167ms
+   ✓ AC-016.2: the Coordinator reads and reorders the waiting list > AC-016.2.37: shows each person in order with their position 302ms
+stderr | src/features/events/__tests__/OpenEventsPage.test.tsx > AC-029.4: after signing up, the Attendee is signed in and sees open events > AC-029.4.8: while the session is loading, nothing redirects (boundary)
+Warning: An update to OpenEventsPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at OpenEventsPage (C:\Users\siewy\is212\frontend\src\features\events\pages\OpenEventsPage.tsx:22:54)
+    at RenderedRoute (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+ ✓ src/features/venues/__tests__/venueAvailabilityService.test.ts (8 tests) 97ms
+ ✓ src/features/events/__tests__/OpenEventsPage.test.tsx (8 tests) 811ms
+   ✓ AC-029.4: after signing up, the Attendee is signed in and sees open events > AC-029.4.6: a signed-in Attendee sees the events-open-for-registration page 305ms
+ ✓ src/features/events/__tests__/arrangementReviewService.test.ts (4 tests) 88ms
+ ✓ src/features/events/__tests__/ChangeRequestReviewPanel.test.tsx (12 tests) 1967ms
+   ✓ AC-007.2.29: permission denial shows no comparison or review controls 356ms
+   ✓ AC-007.3.6: failed loading offers a manual reload rather than claiming there are no requests 431ms
+   ✓ AC-007.3.7: focus and parent rerenders preserve the comparison and unsaved choices 355ms
+   ✓ AC-007.9.16: successful finalisation reloads the outcome and refreshes the parent event 439ms
+ ✓ src/features/venues/__tests__/VenueBookingReviewPage.test.tsx (7 tests) 2504ms
+   ✓ AC-010.5.20: routed approval reloads the persisted decision and removes both decision actions 913ms
+   ✓ AC-010.8.17: the routed page rejects a pending booking and reloads the saved record 569ms
+   ✓ AC-010.12.16: reload after a refused decision reads the final status and removes the form 666ms
+ ✓ src/features/venues/__tests__/venueBlockValidation.test.ts (13 tests) 29ms
+ ✓ src/features/events/status/__tests__/RequestStatusPanel.test.tsx (19 tests) 1255ms
+   ✓ coordinator lifecycle controls > AC-LIFECYCLE.3-approved: invokes the guarded service and refreshes after success 411ms
+ ✓ src/features/venues/__tests__/venueReplacementService.test.ts (9 tests) 67ms
+ ✓ src/features/events/__tests__/changeRequestReviewQueryService.test.ts (9 tests) 94ms
+ ✓ src/features/notifications/preferences/__tests__/NotificationPreferencesPage.test.tsx (5 tests) 854ms
+   ✓ AC-033.1 — a user sees the notification types that apply to their role > AC-033.1.5: each type is listed with what it is for and its two switches 502ms
+ ✓ src/features/venues/__tests__/VenueBookingRejectionForm.test.tsx (18 tests) 2929ms
+   ✓ AC-010.8.15: the form requires a nonblank reason before rejection 607ms
+   ✓ AC-010.8.16: a valid rejection reports success and closes the action 416ms
+   ✓ AC-010.9.4: Venue Staff can suggest an alternative arrangement when rejecting 718ms
+   ✓ AC-010.12.14: double-clicking while a decision is pending sends it once 352ms
+   ✓ AC-010.12.15: an unsuccessful decision preserves the reason and locks retry until reload 393ms
+ ✓ src/features/events/__tests__/OrganisationEventsPage.test.tsx (6 tests) 809ms
+   ✓ AC-031.1 — an Organiser can view and act on their own events > AC-031.1.6: their own event is marked as theirs and links to its request page 367ms
+ ✓ src/features/equipment/__tests__/reservationService.test.ts (6 tests) 67ms
+ ✓ src/features/venues/__tests__/venueTimetableService.test.ts (8 tests) 36ms
+ ✓ src/features/venues/__tests__/AddVenuePage.test.tsx (12 tests) 2475ms
+   ✓ AC-046.1 — Venue Staff can add a venue with its details > AC-046.1.24: Venue Staff add a venue and are told it is in the catalogue 1050ms
+   ✓ AC-046.1 — Venue Staff can add a venue with its details > AC-046.1.25: "Add another venue" opens an empty form 782ms
+   ✓ AC-046.1 — Venue Staff can add a venue with its details > AC-046.1.26: a refused venue keeps the form as typed and shows why 504ms
+ ✓ src/features/venues/__tests__/VenueForm.test.tsx (6 tests) 2726ms
+   ✓ AC-046.1 — Venue Staff can add a venue with its details > AC-046.1.20: filling in every detail submits the venue 1378ms
+   ✓ AC-046.1 — Venue Staff can add a venue with its details > AC-046.1.22: problems are shown next to their fields, and nothing is submitted 459ms
+   ✓ AC-046.3 — every supported layout has a capacity of at least 1 > AC-046.3.9: an invalid capacity is flagged on its own row 350ms
+ ✓ src/features/events/__tests__/ArrangementResolution.test.tsx (2 tests) 4472ms
+   ✓ AC-041.6.3: resolves individual reasons using both methods, keeps other reasons open and displays retained history 3439ms
+   ✓ AC-041.6.4: requires explanation, blocks duplicate submits and preserves input on errors without claiming success 1029ms
+ ✓ src/features/venues/__tests__/VenueBookingComponents.test.tsx (15 tests) 833ms
+   ✓ VenueTimetableGrid — AC-011.5 > AC-011.5.14: draws one column per date and one row per display section 324ms
+ ✓ src/features/events/__tests__/ReviewActions.test.tsx (8 tests) 1987ms
+   ✓ AC-004.2 — accept or reject via a button > AC-004.2.22: a submitted request offers immediate decisions without Start review 421ms
+   ✓ AC-004.3 — reasons entered through an input box > AC-004.3.3: the reason typed in the box is sent with a rejection 577ms
+   ✓ AC-004.3 — reasons entered through an input box > AC-004.3.5: the reason box clears after a successful decision 475ms
+ ✓ src/features/events/__tests__/RegistrationSettingPanel.test.tsx (7 tests) 924ms
+ ✓ src/features/venues/__tests__/venueAvailability.test.ts (10 tests) 66ms
+ ✓ src/features/events/__tests__/statusRules.test.ts (26 tests) 32ms
+ ✓ src/features/registrations/__tests__/validation.test.ts (11 tests) 39ms
+ ✓ src/features/venues/__tests__/venueBookingReviewService.test.ts (12 tests) 44ms
+ ✓ src/features/events/__tests__/ChangeRequestReplyForm.test.tsx (8 tests) 2770ms
+   ✓ AC-007.7.68: blank answers prevent saving and can be corrected 1181ms
+   ✓ AC-007.7.69: every field question needs its own answer 494ms
+   ✓ AC-007.7.70: an older whole-request clarification accepts a single note 314ms
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.23: the assigned coordinator sees the switch on a Confirmed event
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\audit\\auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+ ✓ src/features/venues/__tests__/VenueSuitabilityPage.test.tsx (4 tests) 1024ms
+   ✓ AC-018.1 — coordinators can identify suitable venues > AC-018.1.29: choosing an event shows the organiser's own requirements and every venue assessed 406ms
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.24: nobody else sees it, and nobody sees it once the event is not Confirmed
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\audit\\auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.24: nobody else sees it, and nobody sees it once the event is not Confirmed
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\audit\\auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.24: nobody else sees it, and nobody sees it once the event is not Confirmed
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\audit\\auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.24: nobody else sees it, and nobody sees it once the event is not Confirmed
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\audit\\auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+ ✓ src/features/venues/__tests__/venueHoldAtomic.test.ts (5 tests) 132ms
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.24: nobody else sees it, and nobody sees it once the event is not Confirmed
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\audit\\auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.25: after a successful change the page reloads the event so it shows the new setting
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\audit\\auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.25: after a successful change the page reloads the event so it shows the new setting
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\audit\\auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-016.2.44: the assigned coordinator sees the waiting list on a Confirmed event
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\audit\\auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-016.2.45: nobody else sees it, and nobody sees it once the event is not Confirmed
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\audit\\auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-016.2.45: nobody else sees it, and nobody sees it once the event is not Confirmed
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\audit\\auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at runNextTicks (node:internal/process/task_queues:65:5)\n' +
+    '    at listOnTimeout (node:internal/timers:549:9)\n' +
+    '    at processTimers (node:internal/timers:523:7)\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at runNextTicks (node:internal/process/task_queues:65:5)\n' +
+    '    at listOnTimeout (node:internal/timers:549:9)\n' +
+    '    at processTimers (node:internal/timers:523:7)\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\audit\\auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at runNextTicks (node:internal/process/task_queues:65:5)\n' +
+    '    at listOnTimeout (node:internal/timers:549:9)\n' +
+    '    at processTimers (node:internal/timers:523:7)\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at runNextTicks (node:internal/process/task_queues:65:5)\n' +
+    '    at listOnTimeout (node:internal/timers:549:9)\n' +
+    '    at processTimers (node:internal/timers:523:7)\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\audit\\auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at runNextTicks (node:internal/process/task_queues:65:5)\n' +
+    '    at listOnTimeout (node:internal/timers:549:9)\n' +
+    '    at processTimers (node:internal/timers:523:7)\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at runNextTicks (node:internal/process/task_queues:65:5)\n' +
+    '    at listOnTimeout (node:internal/timers:549:9)\n' +
+    '    at processTimers (node:internal/timers:523:7)\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\audit\\auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+ ✓ src/features/events/__tests__/RegistrationSettingPage.test.tsx (5 tests) 2453ms
+   ✓ AC-052.1.23: the assigned coordinator sees the switch on a Confirmed event 661ms
+   ✓ AC-052.1.24: nobody else sees it, and nobody sees it once the event is not Confirmed 887ms
+   ✓ AC-016.2.45: nobody else sees it, and nobody sees it once the event is not Confirmed 580ms
+ ✓ src/features/venues/__tests__/venueBookingAssignment.test.ts (1 test) 15ms
+ ✓ src/features/registrations/__tests__/MyWaitlist.test.tsx (6 tests) 730ms
+   ✓ AC-016.2: waiting in the queue > AC-016.2.12: a waiting entry shows its position and a link to the event, and can be left 517ms
+ ✓ src/features/venues/__tests__/venueBlockService.create.test.ts (10 tests) 29ms
+ ✓ src/features/registrations/__tests__/OpenEventDetailsPage.test.tsx (4 tests) 766ms
+   ✓ AC-015.1: the Attendee views details of a confirmed event > AC-015.1.8: shows the event, its prerequisites and the information needed to register 601ms
+ ✓ src/features/venues/__tests__/VenueTimetablePreview.test.tsx (2 tests) 996ms
+   ✓ AC-047.2.37: booking preview uses venue durations, shows midnight buffers and navigates to their first date 719ms
+ ✓ src/features/events/__tests__/draftValidation.test.ts (20 tests) 75ms
+ ✓ src/features/venues/__tests__/quarterHourTimetables.test.tsx (2 tests) 1330ms
+   ✓ AC-047.2.32: single-venue timetable groups consecutive occupancy without hiding status, buffers, gaps or selection 470ms
+   ✓ AC-047.2.33: all-venue timetable preserves quarter-hour states, buffer labels and venue separation 857ms
+ ✓ src/features/venues/__tests__/MyVenueBookingsReplacement.test.tsx (3 tests) 1150ms
+   ✓ AC-048.1.2: each affected original shows both reasons and a replacement entry point using one shared context load 436ms
+   ✓ AC-048.5.2: original remains Needs replacement through pending, rejected and withdrawn requests; approval refresh removes it 504ms
+ ✓ src/features/venues/__tests__/venueTimetable.test.ts (14 tests) 26ms
+ ✓ src/features/venues/__tests__/VenueDecisionNotifications.test.tsx (8 tests) 887ms
+   ✓ AC-010.14.28: a failed read shows an error and manual refresh recovers 505ms
+ ✓ src/features/equipment/__tests__/ReserveForm.test.tsx (6 tests) 2949ms
+   ✓ AC-014.4: the return date > AC-014.4.10: a return date before the last day shows an error and is not saved 820ms
+   ✓ AC-014.8: full or partial reservation > AC-014.8.9: quantity must be a whole number from 0 to the requested quantity 1238ms
+   ✓ AC-014.9: shortfall and alternative > AC-014.9.9: alternative fields appear only when there is a shortfall 316ms
+   ✓ AC-014.9: shortfall and alternative > AC-014.9.10: the alternative picker offers catalogue types except the requested one 353ms
+ ✓ src/features/events/__tests__/OrganiserEquipmentArrangements.test.tsx (2 tests) 1093ms
+   ✓ AC-042.2.5: shows equipment names, quantities and all outcomes without presenting pending assessment as unavailable 560ms
+   ✓ AC-042.2.6: failed refresh clears stale equipment and retry, focus, parent refresh and event changes reload safely 529ms
+ ✓ src/features/events/__tests__/planningUpdateService.test.ts (7 tests) 135ms
+stderr | src/features/events/__tests__/ChangeRequestReviewPage.test.tsx > AC-007.2.31: the coordinator detail page connects the event ID and refresh callback to the review panel
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\audit\\auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/ChangeRequestReviewPage.test.tsx > AC-041.1.9: only the assigned coordinator sees arrangement reviews and page refresh reloads them
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\audit\\auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/ChangeRequestReviewPage.test.tsx > AC-041.1.9: only the assigned coordinator sees arrangement reviews and page refresh reloads them
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\audit\\auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\readiness\\readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\audit\\auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+ ✓ src/features/events/__tests__/ChangeRequestReviewPage.test.tsx (3 tests) 1219ms
+   ✓ AC-041.1.9: only the assigned coordinator sees arrangement reviews and page refresh reloads them 770ms
+ ✓ src/features/venues/__tests__/holdRules.test.ts (27 tests) 32ms
+ ✓ src/features/events/__tests__/RequestDetails.test.tsx (3 tests) 282ms
+ ✓ src/features/events/readiness/__tests__/ReadinessSummary.test.tsx (6 tests) 610ms
+   ✓ AC-005.1 — the Coordinator sees the status of each required arrangement > AC-005.1.4: every arrangement is listed with its status and detail, and the summary counts what is complete 375ms
+ ✓ src/features/registrations/__tests__/RegistrationForm.test.tsx (5 tests) 980ms
+   ✓ AC-015.2: the Attendee inputs the information required to register > AC-015.2.9: filling in and submitting the form registers with the cleaned answers 505ms
+ ✓ src/features/venues/__tests__/searchTextMatch.test.ts (16 tests) 17ms
+ ✓ src/features/equipment/__tests__/ReservationQueue.test.tsx (6 tests) 917ms
+   ✓ AC-014.8: full or partial reservation > AC-014.8.11: after reserving, the row leaves the queue with its outcome shown 598ms
+ ✓ src/features/events/__tests__/CoordinatorRequestSections.test.tsx (1 test) 1013ms
+   ✓ AC-017.4.6: coordinator sees assigned requests first and refresh moves reassigned requests between sections 1010ms
+ ✓ src/features/venues/__tests__/VenueBookingApprovalAction.test.tsx (8 tests) 627ms
+ ✓ src/features/venues/__tests__/VenueBookingQueuePage.test.tsx (7 tests) 889ms
+   ✓ AC-010.1.5: pending requests link to their existing review page 461ms
+ ✓ src/features/auth/__tests__/signUpService.test.ts (7 tests) 23ms
+ ✓ src/features/events/__tests__/requirementCatalogue.test.ts (8 tests) 17ms
+ ✓ src/features/registrations/__tests__/WithdrawRegistrationButton.test.tsx (5 tests) 869ms
+   ✓ AC-023.2: the Attendee confirms before the withdrawal takes effect > AC-023.2.1: clicking Withdraw asks first and names the event; nothing is sent yet 456ms
+ ✓ src/features/venues/__tests__/VenueBlocksPage.test.tsx (4 tests) 2007ms
+   ✓ AC-012.9 — current blocks can be viewed and removed > AC-012.9.23: choosing a venue shows its current blocks 624ms
+   ✓ AC-012.9 — current blocks can be viewed and removed > AC-012.9.24: removing a block reloads the current blocks 477ms
+   ✓ AC-012.9 — current blocks can be viewed and removed > AC-012.9.25: saving a new block on the chosen venue reloads the current blocks 795ms
+ ✓ src/features/events/__tests__/ArrangementReviewPanel.test.tsx (2 tests) 856ms
+   ✓ AC-041.1.7: groups all reasons by arrangement, identifies venue and equipment and refreshes after review 616ms
+ ✓ src/features/venues/__tests__/ManageVenuesPage.test.tsx (10 tests) 776ms
+   ✓ AC-046.2 — Venue Staff can edit any of a venue’s details > AC-046.2.20: Venue Staff see every venue with a link to edit it, and a way to add one 557ms
+ ✓ src/features/notifications/preferences/__tests__/preferencesService.test.ts (4 tests) 36ms
+ ✓ src/features/events/__tests__/RequestCoordinatorNames.test.tsx (5 tests) 630ms
+ ✓ src/features/registrations/__tests__/registrationServiceWaitlist.test.ts (5 tests) 33ms
+ ✓ src/features/venues/__tests__/SuitabilityResultList.test.tsx (4 tests) 559ms
+   ✓ AC-018.1 — coordinators can identify suitable venues > AC-018.1.23: suitable venues are grouped together, with the layouts that would fit 330ms
+ ✓ src/features/events/__tests__/OrganiserVenueArrangements.test.tsx (2 tests) 973ms
+   ✓ AC-042.1.5: organiser sees each venue with Singapore booking dates, midnight and buffer labels; missing slots stay explicit 482ms
+   ✓ AC-042.1.6: refresh replaces bookings, failed reads never show an empty success, and retry and event changes recover 488ms
+ ✓ src/features/events/__tests__/registrationSettingService.test.ts (7 tests) 27ms
+ ✓ src/features/events/status/__tests__/useRequestResource.test.ts (5 tests) 307ms
+ ✓ src/features/events/readiness/__tests__/EventReadinessCard.test.tsx (4 tests) 318ms
+ ✓ src/features/events/__tests__/changeRequestReplyService.test.ts (9 tests) 37ms
+ ✓ src/features/registrations/__tests__/waitlistManagementService.test.ts (5 tests) 24ms
+ ✓ src/features/events/audit/__tests__/AuditTrailCard.test.tsx (5 tests) 730ms
+   ✓ AC-034.3 — the assigned Coordinator and the Lead see the audit records in time order > AC-034.3.11: each record shows what happened, who did it and the change, in the order received 415ms
+ ✓ src/features/events/__tests__/AuditTrailPage.test.tsx (2 tests) 922ms
+   ✓ AC-034.3.14: the assigned Coordinator and the Coordinator Lead see the audit trail 317ms
+   ✓ AC-034.4.7: an unassigned Coordinator, the Organiser and other roles are not shown the audit trail 602ms
+ ✓ src/features/auth/__tests__/SignInPage.test.tsx (3 tests) 1108ms
+   ✓ SignInPage > goes where the user was headed once signed in 874ms
+stderr | src/features/events/__tests__/OrganiserVenueArrangementsPage.test.tsx > AC-042.3.4: the shared request page mounts venue and equipment arrangements only for the owning organiser
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (C:\\Users\\siewy\\is212\\frontend\\src\\test\\setup.ts:14:9)\n' +
+    '    at fetch (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///C:/Users/siewy/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (C:\\Users\\siewy\\is212\\frontend\\src\\features\\events\\audit\\auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+ ✓ src/features/events/__tests__/OrganiserVenueArrangementsPage.test.tsx (1 test) 976ms
+   ✓ AC-042.3.4: the shared request page mounts venue and equipment arrangements only for the owning organiser 972ms
+ ✓ src/features/venues/__tests__/VenueSearchPage.suitability.test.tsx (2 tests) 597ms
+   ✓ AC-018.1 — coordinators can identify suitable venues > AC-018.1.34: searching for one of your events shows each result's verdict for it 536ms
+ ✓ src/features/events/__tests__/organiserEquipmentArrangementService.test.ts (3 tests) 47ms
+ ✓ src/features/equipment/__tests__/TechSupportEquipmentView.test.tsx (2 tests) 602ms
+   ✓ AC-013.4: technical support views requirements and notifications > AC-013.4.5: lists added, changed and removed notifications with the event and equipment 341ms
+ ✓ src/features/venues/__tests__/VenueBufferSettings.test.tsx (3 tests) 1021ms
+   ✓ AC-047.1.5: Venue Staff read defaults and save independent quarter-hour durations with review feedback 575ms
+   ✓ AC-047.1.6: invalid input is refused; stale saves require reload before retrying 310ms
+ ✓ src/features/events/__tests__/coordinatorNames.test.ts (8 tests) 22ms
+ ✓ src/features/venues/__tests__/VenueBookingConflicts.test.tsx (6 tests) 575ms
+   ✓ AC-010.3.12: displays confirmed event and blocked buffer conflicts with their causes 306ms
+ ✓ src/features/notifications/__tests__/notificationFormat.test.ts (9 tests) 19ms
+ ✓ src/features/venues/__tests__/venueBlockService.preview.test.ts (3 tests) 22ms
+ ✓ src/features/auth/__tests__/roles.test.ts (8 tests) 21ms
+ ✓ src/features/events/__tests__/organiserVenueArrangementService.test.ts (3 tests) 32ms
+ ✓ src/features/venues/__tests__/venueSearchBuffers.test.ts (3 tests) 27ms
+ ✓ src/features/auth/__tests__/validation.test.ts (8 tests) 21ms
+ ✓ src/features/venues/__tests__/venueBlockService.currentBlocks.test.ts (5 tests) 24ms
+ ✓ src/features/venues/__tests__/FlaggedBookingsPage.test.tsx (4 tests) 592ms
+   ✓ AC-012.8 — coordinators see the bookings that need review > AC-012.8.20: each flagged booking shows its event, venue, affected slots and reason, with a link to the request 373ms
+ ✓ src/features/venues/__tests__/VenueBlockList.test.tsx (5 tests) 252ms
+ ✓ src/features/venues/__tests__/venueOccupiedSlots.test.ts (3 tests) 22ms
+ ✓ src/features/venues/__tests__/UnsuitableVenueAlert.test.tsx (4 tests) 503ms
+ ✓ src/features/auth/__tests__/signUpValidation.test.ts (9 tests) 32ms
+ ✓ src/features/notifications/__tests__/useUnreadNotificationCount.test.tsx (4 tests) 195ms
+ ✓ src/features/events/readiness/__tests__/readinessService.test.ts (3 tests) 61ms
+ ✓ src/features/registrations/__tests__/RegistrationFormWaitlist.test.tsx (3 tests) 689ms
+   ✓ AC-016.3: accepting an offered place > AC-016.3.19: with an offer, the form says Accept place and accepts it instead of registering 474ms
+ ✓ src/features/venues/__tests__/SlotPicker.test.tsx (3 tests) 1786ms
+   ✓ AC-012.2 — continuous start/end selection > AC-012.2.26: Full day chooses midnight to end of day, and unticking it clears the range 510ms
+   ✓ AC-047.2.34: range controls cover midnight, lunch and end of day in quarter-hour increments and support disabled/error states 1140ms
+ ✓ src/features/events/audit/__tests__/auditService.test.ts (3 tests) 24ms
+ ✓ src/features/venues/__tests__/RetireVenuePanel.test.tsx (4 tests) 739ms
+   ✓ AC-046.5 — Venue Staff can retire a venue > AC-046.5.18: retiring asks for a reason before anything else 412ms
+ ✓ src/features/venues/__tests__/venueBlockService.period.test.ts (2 tests) 24ms
+ ✓ src/features/venues/__tests__/VenueBlockList.remove.test.tsx (3 tests) 649ms
+   ✓ AC-012.9 — current blocks can be removed > AC-012.9.19: Remove asks for confirmation, and nothing is removed until it is given 430ms
+ ✓ src/features/venues/__tests__/venueBlockPreviewHelpers.test.ts (3 tests) 13ms
+ ✓ src/features/venues/__tests__/MyVenueBookingsNotifications.test.tsx (2 tests) 257ms
+ ✓ src/features/events/__tests__/ArrangementReviewIndicators.test.tsx (1 test) 1154ms
+   ✓ AC-041.1.12: request badges are assigned-only, preserve status, refresh and report failed counts 1149ms
+stderr | src/pages/__tests__/SignedInHome.test.tsx > AC-029.4: after signing up, the Attendee is signed in and sees open events > AC-029.4.11: a signed-in Attendee's Home points them to events, not to a coordinator
+Warning: An update to SignedInHome inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at SignedInHome (C:\Users\siewy\is212\frontend\src\pages\SignedInHome.tsx:18:25)
+    at Router (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+stderr | src/pages/__tests__/SignedInHome.test.tsx > AC-029.4: after signing up, the Attendee is signed in and sees open events > AC-029.4.12: other roles keep their Home (regression guard)
+Warning: An update to SignedInHome inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at SignedInHome (C:\Users\siewy\is212\frontend\src\pages\SignedInHome.tsx:18:25)
+    at Router (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+stderr | src/pages/__tests__/SignedInHome.test.tsx > AC-015.7: the Attendee sees their registrations > AC-015.7.11: an Attendee's Home also links to My registrations
+Warning: An update to SignedInHome inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at SignedInHome (C:\Users\siewy\is212\frontend\src\pages\SignedInHome.tsx:18:25)
+    at Router (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///C:/Users/siewy/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+ ✓ src/pages/__tests__/SignedInHome.test.tsx (3 tests) 488ms
+   ✓ AC-029.4: after signing up, the Attendee is signed in and sees open events > AC-029.4.11: a signed-in Attendee's Home points them to events, not to a coordinator 354ms
+ ✓ src/features/events/__tests__/changeRequestSignificance.test.ts (10 tests) 16ms
+ ✓ src/features/venues/__tests__/venueBookingQueueService.test.ts (6 tests) 24ms
+ ✓ src/features/venues/__tests__/VenueRequirementsForm.test.tsx (3 tests) 864ms
+   ✓ AC-018.1 — coordinators can identify suitable venues > AC-018.1.25: choosing a layout and features, then saving, sends structured requirements 581ms
+ ✓ src/features/venues/__tests__/VenueResultCard.test.tsx (3 tests) 226ms
+ ✓ src/features/venues/__tests__/venueAlertService.test.ts (2 tests) 21ms
+ ✓ src/features/registrations/__tests__/availableMoves.test.ts (6 tests) 18ms
+ ✓ src/features/events/__tests__/ChangeRequestReviewHistory.test.tsx (4 tests) 213ms
+ ✓ src/features/events/audit/__tests__/auditDescription.test.ts (4 tests) 22ms
+ ✓ src/features/venues/__tests__/venueBookingApprovalService.test.ts (5 tests) 20ms
+ ✓ src/features/events/__tests__/DecisionHistory.test.tsx (3 tests) 538ms
+   ✓ AC-004.5 — decision history > AC-004.5.4: shows each decision with its outcome, reason, reviewer and time 485ms
+ ✓ src/features/equipment/__tests__/EquipmentOutcomeNotices.test.tsx (2 tests) 186ms
+ ✓ src/features/venues/__tests__/venueDecisionNotificationService.test.ts (4 tests) 15ms
+ ✓ src/features/venues/__tests__/VenueBookingRequestDetails.test.tsx (3 tests) 234ms
+ ✓ src/features/events/__tests__/directEventReview.test.ts (6 tests) 24ms
+ ✓ src/features/registrations/__tests__/canAcceptOffer.test.ts (5 tests) 11ms
+ ✓ src/features/notifications/__tests__/noticeSource.test.ts (2 tests) 23ms
+ ✓ src/features/events/__tests__/ChangeRequestReplyHistory.test.tsx (2 tests) 304ms
+ ✓ src/features/events/__tests__/ChangeRequestSignificance.test.tsx (3 tests) 154ms
+ ✓ src/features/venues/__tests__/venueBlockService.venues.test.ts (2 tests) 18ms
+ ✓ src/features/events/readiness/__tests__/readinessLinks.test.ts (2 tests) 11ms
+ ✓ src/features/notifications/preferences/__tests__/NotificationsSettingsLink.test.tsx (1 test) 263ms
+ ✓ src/features/venues/__tests__/availabilityDates.test.ts (3 tests) 8ms
+ ✓ src/features/auth/__tests__/coordinatorLeadProfile.test.ts (1 test) 10ms
+ ✓ src/features/equipment/__tests__/reservationRules.test.ts (2 tests) 8ms
+ ✓ src/features/events/__tests__/draftFormValues.test.ts (3 tests) 7ms
+
+ Test Files  177 passed (177)
+      Tests  1530 passed (1530)
+   Start at  21:13:27
+   Duration  113.55s (transform 41.69s, setup 138.79s, collect 165.85s, tests 163.65s, environment 686.68s, prepare 112.58s)
+
