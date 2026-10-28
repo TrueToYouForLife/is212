@@ -1,6 +1,6 @@
 # US24 test cases
 
-Owner: Jaydon. Updated: 27 October 2026. Code-first development.
+Owner: Jaydon. Updated: 28 October 2026. Code-first development.
 
 PR1 has 23 grouped PostgreSQL integration cases. Auth claims are simulated; database
 permissions, constraints, state changes, rollback and concurrency are real. Related
@@ -41,5 +41,37 @@ Expected validation refusals, losing concurrent calls and deliberate injected fa
 are not discovered defects. Genuine product failures, if found, are recorded separately
 with retained evidence. Results are summarised in `docs/test-evidence/us24/pr1/README.md`.
 
-Next unused IDs: AC-024.1.11, AC-024.2.5, AC-024.3.10. PR2 will add requirement-based
-service/component cases and role-specific manual steps without renumbering PR1 cases.
+## PR2 frontend cases
+
+Fourteen new cases bring US24 to 37 grouped cases (23 database integration, six unit,
+eight component). Unit tests mock Supabase or exercise pure validation. Component tests
+render the page/form/navigation with mocked services and session context; they are not
+live database, Auth or browser end-to-end tests. Backend permissions, atomicity and
+availability remain covered by PR1's integration cases.
+
+| ID | Classification | Scenario and expected outcome |
+|---|---|---|
+| AC-024.1.11 | Unit — Happy path / Boundary | Loads the protected operation, preserves allocation-specific history and accepts valid empty lists. |
+| AC-024.1.12 | Unit — Negative / Boundary | Malformed/null lists, invalid dates/ranges, duplicate or contradictory work rows, invalid history and interrupted reads fail rather than becoming empty success. |
+| AC-024.1.13 | Component — Happy path / Boundary | Out/Pending checks/History show server-classified allocations, actual identities/dates, missing follow-up, legacy status meanings and stored staff/Singapore time across midnight. |
+| AC-024.1.14 | Component — Negative / Boundary | Loading/error differ from empty lists; retry restores data and refresh removes obsolete rows. |
+| AC-024.1.15 | Component — Happy path / Negative / Regression | Only Technical Support sees navigation and loads returns; other roles/signed-out users are denied. Auth loading does not fetch and role loss hides late list results. |
+| AC-024.1.16 | Component — Happy path / Negative | Requires explicit findings/issue descriptions; Missing forces Unavailable and No issues keeps the current Damaged status by default. |
+| AC-024.1.17 | Component — Boundary | Pending save cannot duplicate, edit, reload, close, switch tabs or open another allocation. |
+| AC-024.1.18 | Component — Negative / Regression | Stale/uncertain saves keep findings and require explicit reload; refreshed consent/current status is used, failed/obsolete reloads keep the form locked without discarding notes. |
+| AC-024.2.5 | Unit — Happy path / Negative / Boundary | Supports all issue/status choices, trims descriptions, preserves legacy/current status for No issues, forces Missing to Unavailable and rejects invalid source versions/unsupported targets or missing reasons. |
+| AC-024.2.6 | Unit — Happy path / Regression | Sends only allocation/displayed consent/findings/status; no actor/time/unit substitution. Accepts consistent legacy, unchanged-status, changed-status and missing receipts. |
+| AC-024.2.7 | Unit — Negative | Invalid inputs never send; malformed, mismatched allocation/finding/status/version/resolution or interrupted receipts cannot report success. |
+| AC-024.2.8 | Component — Happy path / Regression | Confirmed save closes management, refreshes partial results and lets another unit be inspected; Missing stays pending and reopening uses its fresh current status. |
+| AC-024.3.10 | Unit — Negative | Permission, stale, ineligible and uncertain responses have safe distinct messages without private database details. |
+| AC-024.3.11 | Component — Negative / Regression | Role/account changes unmount inspection and ignore late saves and old-account list results. |
+
+Sources: `equipmentReturnService.test.ts`, `EquipmentReturns.test.tsx` and the shared
+fixture `fixtures/equipmentReturns.ts` under `frontend/src/features/equipment/__tests__/`.
+All 14 new cases passed; full suite passed 1,590 tests / 189 files. Lint/typecheck
+and the matched-copy production build passed. Results/limits:
+`docs/test-evidence/us24/pr2/README.md`. Jaydon confirmed the eight chat manual
+check groups passed on 29 October 2026; see `docs/test-evidence/us24/manual-results.md`.
+PR1's database results are not presented as new PR2 runs.
+
+Next unused IDs: AC-024.1.19, AC-024.2.9, AC-024.3.12.
