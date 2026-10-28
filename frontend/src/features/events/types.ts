@@ -12,9 +12,9 @@ export const EVENT_STATUSES = [
   'completed',
   'cancelled',
   'rejected',
-  // US22: a request closed by a coordinator before a decision. Distinct from
-  // 'cancelled' (an event that was going ahead and then was not) and from
-  // 'rejected' (a decision against it), which AC-022.2 requires.
+  // US22 (0066). Lost from this list when the safety stages were added, which left
+  // statusRules, StatusBadge and RequestStatusPanel referring to a status the union no
+  // longer had. The database CHECK in 0108 has always included it.
   'withdrawn',
 ] as const
 
@@ -192,6 +192,14 @@ export interface EventRequestDetail extends EventRequestSummary {
   reviewNote: string | null
   reviewedAt: string | null
   createdAt: string | null
+  /**
+   * US37: the version the reader was shown, passed back untouched when answering a
+   * clarification request so 0096 can refuse an answer to a question that has since
+   * changed. Optional because the summary read does not carry it and a fixture need not
+   * supply one; clarificationResponseService treats its absence as a reason to reload
+   * rather than sending an answer unversioned.
+   */
+  updatedAt?: string | null
 }
 
 export interface ValidationIssue {

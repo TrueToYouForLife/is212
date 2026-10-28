@@ -256,6 +256,8 @@ create temporary table w22_before_replay as
  select id, status, reviewed_by from public.events where id::text like 'b2200000-%';
 SQL
   cat "$repo_root/supabase/migrations/0066_withdraw_submitted_request.sql"
+  # Replaying 0066 restores its stamp_event_review; 0115 is the later, combined version.
+  cat "$repo_root/supabase/migrations/0115_clarification_response_after_safety_review.sql"
   cat <<'SQL'
 select pg_temp.assert_true(
  not exists (
@@ -267,6 +269,7 @@ select pg_temp.assert_true(
 SQL
   # US43: 0066's replay restores its own status list; put the safety stages back (0108).
   cat "$repo_root/supabase/migrations/0108_us43_safety_review.sql"
+  cat "$repo_root/supabase/migrations/0115_clarification_response_after_safety_review.sql"
   cat "$repo_root/supabase/tests/venue_booking_approval.sql"
   cat "$repo_root/supabase/migrations/0045_venue_booking_approval.sql"
   cat <<'SQL'
@@ -416,6 +419,40 @@ select pg_temp.assert_true(
  (select count(*) = 2 from public.list_event_registrations(
     '54000000-1111-0000-0000-000000000001')),
  'AC-054.1.5: replaying 0094 leaves the list answering exactly as before');
+reset role;
+select set_config('request.jwt.claim.sub', '', false);
+SQL
+  # US37 slice 1: answering a clarification request, then replay 0096.
+  cat "$repo_root/supabase/tests/clarification_response.sql"
+  cat "$repo_root/supabase/migrations/0096_clarification_response.sql"
+  # 0096 alone reverts 0108 and its own carve-out; 0115 is the combined, final word.
+  cat "$repo_root/supabase/migrations/0115_clarification_response_after_safety_review.sql"
+  cat <<'SQL'
+-- clarification_response.sql ends with the session reset, and this assertion reads the
+-- response record under RLS: with nobody signed in it returns nothing, which would make
+-- the check pass for the wrong reason.
+set role authenticated;
+select set_config('request.jwt.claim.sub', '37000000-0000-0000-0000-000000000001', false);
+select pg_temp.assert_true(
+ (select count(*) = 2 from public.event_clarification_responses
+   where event_id = '37000000-1111-0000-0000-000000000001'),
+ 'AC-037.5.10: replaying 0096 leaves the answered rounds exactly as before');
+reset role;
+select set_config('request.jwt.claim.sub', '', false);
+SQL
+  # US37 slice 2: notifying the assigned Coordinator, then replay 0097.
+  cat "$repo_root/supabase/tests/clarification_response_notifications.sql"
+  cat "$repo_root/supabase/migrations/0097_clarification_response_notifications.sql"
+  cat <<'SQL'
+-- The feed answers per signed-in user, so the replay assertion needs a caller: with nobody
+-- signed in get_my_notifications raises rather than returning an empty list.
+set role authenticated;
+select set_config('request.jwt.claim.sub', '37900000-0000-0000-0000-000000000002', false);
+select pg_temp.assert_true(
+ (select count(*) >= 1 from public.get_my_notifications(200) f
+   where f.source = 'clarification_response'
+     and f.event_id = '37900000-1111-0000-0000-000000000001'),
+ 'AC-037.3.21: replaying 0097 leaves the feed answering exactly as before');
 reset role;
 select set_config('request.jwt.claim.sub', '', false);
 SQL
