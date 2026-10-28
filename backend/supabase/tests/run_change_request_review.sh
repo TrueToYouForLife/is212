@@ -256,6 +256,8 @@ create temporary table w22_before_replay as
  select id, status, reviewed_by from public.events where id::text like 'b2200000-%';
 SQL
   cat "$repo_root/supabase/migrations/0066_withdraw_submitted_request.sql"
+  # Replaying 0066 restores its stamp_event_review; 0115 is the later, combined version.
+  cat "$repo_root/supabase/migrations/0115_clarification_response_after_safety_review.sql"
   cat <<'SQL'
 select pg_temp.assert_true(
  not exists (
@@ -267,6 +269,7 @@ select pg_temp.assert_true(
 SQL
   # US43: 0066's replay restores its own status list; put the safety stages back (0108).
   cat "$repo_root/supabase/migrations/0108_us43_safety_review.sql"
+  cat "$repo_root/supabase/migrations/0115_clarification_response_after_safety_review.sql"
   cat "$repo_root/supabase/tests/venue_booking_approval.sql"
   cat "$repo_root/supabase/migrations/0045_venue_booking_approval.sql"
   cat <<'SQL'
@@ -422,6 +425,8 @@ SQL
   # US37 slice 1: answering a clarification request, then replay 0096.
   cat "$repo_root/supabase/tests/clarification_response.sql"
   cat "$repo_root/supabase/migrations/0096_clarification_response.sql"
+  # 0096 alone reverts 0108 and its own carve-out; 0115 is the combined, final word.
+  cat "$repo_root/supabase/migrations/0115_clarification_response_after_safety_review.sql"
   cat <<'SQL'
 -- clarification_response.sql ends with the session reset, and this assertion reads the
 -- response record under RLS: with nobody signed in it returns nothing, which would make
@@ -451,7 +456,6 @@ select pg_temp.assert_true(
 reset role;
 select set_config('request.jwt.claim.sub', '', false);
 SQL
-  done
   # US43 slice 1: sending an event for its safety review (0108; the 0038 replay above restores
   # its own role list, so 0108 is applied again first).
   cat "$repo_root/supabase/migrations/0108_us43_safety_review.sql"

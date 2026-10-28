@@ -239,9 +239,19 @@ set search_path = ''
 as $$
 begin
   if new.status is distinct from old.status
-     and new.status in ('under_review', 'approved', 'rejected')
      and auth.uid() is not null
-     and public.current_user_role() = 'coordinator' then
+     and (
+       -- Carried forward from 0066 (US22): a withdrawal is the Organiser closing their own
+       -- request, and it is stamped with who did it. This function is REPLACED here, so
+       -- every earlier change has to come with it — omitting this reverted US22 silently
+       -- and AC-022.1.16 caught it.
+       new.status = 'withdrawn'
+       -- A review decision is the Coordinator's. US37 has the Organiser move their own
+       -- request into under_review when they answer a clarification, which must not record
+       -- them as its reviewer.
+       or (new.status in ('under_review', 'approved', 'rejected')
+           and public.current_user_role() = 'coordinator')
+     ) then
     new.reviewed_by := auth.uid();
     new.reviewed_at := now();
   end if;

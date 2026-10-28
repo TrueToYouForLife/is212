@@ -289,6 +289,24 @@ select pg_temp.assert_true(
      and email_outbox_id is not null),
  'AC-037.3.20: it is still recorded and still emailed');
 
+-- Regression guards for what 0097 replaces. 0079 (US33) is the latest definition of the
+-- email list, the feed and the read-state CHECK; a replacement restated from 0072/0073
+-- reverts it, which is exactly what happened here and what AC-033.4.1 caught.
+select pg_temp.assert_true(
+ (select prosrc like '%o.notification_type is null%'
+    from pg_catalog.pg_proc
+   where oid = 'public.my_email_notifications()'::regprocedure),
+ 'AC-037.3.22: replacing the email list keeps 0079''s typed-email filter');
+
+select pg_temp.assert_true(
+ (select prosrc like '%my_in_app_notices()%'
+    from pg_catalog.pg_proc
+   where oid = 'public.get_my_notifications(integer)'::regprocedure)
+ and (select pg_get_constraintdef(oid) like '%''notice''%'
+        from pg_catalog.pg_constraint
+       where conname = 'notification_reads_source_check'),
+ 'AC-037.3.23: and the feed keeps 0079''s in-app notice source, read state included');
+
 -- Restored, so later files in the run see the configured default rather than this file's
 -- boundary case.
 update public.clarification_response_notification_settings

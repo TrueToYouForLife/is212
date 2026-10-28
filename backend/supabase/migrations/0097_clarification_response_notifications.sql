@@ -166,7 +166,7 @@ alter table public.notification_reads
 alter table public.notification_reads
   add constraint notification_reads_source_check check (
     source in ('arrangement_review', 'change_request', 'coordinator_assignment',
-               'equipment', 'venue_decision', 'venue_request', 'email',
+               'equipment', 'venue_decision', 'venue_request', 'email', 'notice',
                'clarification_response')
   );
 
@@ -180,7 +180,8 @@ language sql stable security definer set search_path = '' as $$
   from public.notification_outbox o
   join auth.users u on u.id = auth.uid() and lower(o.recipient_email) = lower(u.email)
   left join public.events e on e.id = o.event_id
-  where not exists (select 1 from public.change_request_notifications n where n.email_outbox_id = o.id)
+  where o.notification_type is null
+    and not exists (select 1 from public.change_request_notifications n where n.email_outbox_id = o.id)
     and not exists (select 1 from public.coordinator_assignment_notifications n where n.email_outbox_id = o.id)
     and not exists (select 1 from public.equipment_requirement_notifications n where n.email_outbox_id = o.id)
     and not exists (select 1 from public.clarification_response_notifications n where n.email_outbox_id = o.id);
@@ -264,6 +265,11 @@ begin
     left join public.venue_bookings b on b.id = n.venue_booking_id
     left join public.venues v on v.id = n.venue_id
     left join public.events e on e.id = b.event_id
+
+    union all
+    -- US33 (0079): in-app copies of notices that used to exist only as emails.
+    select 'notice', m.id, m.event_id, m.event_name, m.event_reference, m.subject, m.body, m.created_at, null, null
+    from public.my_in_app_notices() m
 
     union all
     select 'email', m.id, m.event_id, m.event_name, m.event_reference, m.subject, m.body, m.created_at, null, null

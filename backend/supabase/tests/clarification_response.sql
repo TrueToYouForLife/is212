@@ -260,6 +260,18 @@ select pg_temp.expect_error(
 -- before the trigger runs and no reachable browser path tells the two versions apart. The
 -- tightening is defence in depth for a SECURITY DEFINER caller, and the claim being made
 -- here is about the definition, so that is what is checked.
+-- The guard that was missing. 0096 added US37's case to enforce_event_status_transition;
+-- 0108 (US43) then replaced the whole function for the safety stages and dropped it, and
+-- because 0108 is the later migration the Organiser's resubmission was refused on every
+-- fresh database. 0115 is the combined version. This asserts BOTH halves are present, so
+-- the next story to replace this function finds out here rather than in the browser.
+select pg_temp.assert_true(
+ (select prosrc like '%awaiting_safety_review%'
+     and prosrc like '%event_clarification_responses%'
+    from pg_catalog.pg_proc
+   where oid = 'public.enforce_event_status_transition()'::regprocedure),
+ 'AC-037.2.15: the transition guard carries both the safety stages and US37''s resubmission');
+
 select pg_temp.assert_true(
  (select prosrc like '%actor_role = ''organiser'' and old.organiser_id = auth.uid()%'
     from pg_catalog.pg_proc
