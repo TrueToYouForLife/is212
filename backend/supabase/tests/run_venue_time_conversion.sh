@@ -17,7 +17,7 @@ if [ "$ready" != true ]; then echo 'Temporary database did not become ready.' >&
   # 0075 was claimed before migrations that have already been deployed.
   mode="${1:-upgrade}"
   for migration in "$repo_root"/supabase/migrations/*.sql; do
-    case "$migration" in */0098_*|*/0099_*|*/0100_*|*/0102_*|*/0103_*|*/0107_*|*/0109_*) continue ;;
+    case "$migration" in */0098_*|*/0099_*|*/0100_*|*/0102_*|*/0103_*|*/0107_*|*/0109_*|*/0110_*) continue ;;
     */0075_*)
       if [ "$mode" != fresh ]; then continue; fi
       cat "$repo_root/supabase/tests/venue_time_conversion_fixture.sql"
@@ -119,6 +119,10 @@ SQL
   # applies after 0100.
   cat "$repo_root/supabase/migrations/0109_us43_safety_review_queue.sql"
   cat "$repo_root/supabase/tests/safety_review_queue.sql"
+  cat "$repo_root/supabase/migrations/0110_individual_venue_cancellation.sql"
+  cat "$repo_root/supabase/tests/individual_venue_cancellation.sql"
+  cat "$repo_root/supabase/migrations/0110_individual_venue_cancellation.sql"
+  cat "$repo_root/supabase/tests/individual_venue_cancellation.sql"
   # US33 (0103): US12 closure alerts follow each person's channel choices; applies after 0100.
   cat "$repo_root/supabase/migrations/0103_us12_venue_block_notice_channels.sql"
   cat "$repo_root/supabase/tests/venue_block_notice_channels.sql"
@@ -137,3 +141,5 @@ bash "$repo_root/supabase/tests/equipment_status_races.sh" "$container"
 
 # US24: restore checked return contracts after historical replays; test real transactions/races/replay.
 bash "$repo_root/supabase/tests/run_equipment_returns.sh" "$container"
+
+bash "$repo_root/supabase/tests/individual_venue_cancellation_races.sh" "$container"
