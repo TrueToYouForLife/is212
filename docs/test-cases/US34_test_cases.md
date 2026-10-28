@@ -70,17 +70,17 @@ Next IDs: AC-034.1.13, .2.3, .3.15, .4.8.
   - AC-034.2.1: the row-level update/delete trigger was never created. `AC-034.2.1-forced-break.log`, `AC-034.2.1-restored-pass.log`.
   - AC-034.4.4 and AC-034.4.5: a refusal (42501) was returned as an empty trail. Two tests failed. `AC-034.4.4-forced-break.log`, `AC-034.4.4-restored-pass.log`.
   No broken code was retained and no test was changed.
-- Manual: not run (see below).
+- Manual: M1–M3 passed, reported by the tester on 28 October 2026 (see below). Exact event and account IDs were not provided.
 
-## Manual checks (shared Supabase, 0101 applied; none run yet)
+## Manual checks (shared Supabase, 0101 applied; all passed)
 
 Use each role's own account. Open the event at `/requests/<id>` and reload after each action.
 
 | Group | Covers | Steps | Expected | Status |
 |---|---|---|---|---|
-| M1 | AC-034.1 | Organiser submits a draft; the Lead assigns a Coordinator; the assigned Coordinator approves | Audit trail lists "submitted", "coordinator assigned" and "approved" in that order, each with the actor's name and a Singapore-time timestamp | Not run |
-| M2 | AC-034.3 | Open the event as the assigned Coordinator, then as the Lead | Both see the Audit trail card with the same entries | Not run |
-| M3 | AC-034.4 | Open the event as the Organiser | No Audit trail card | Not run |
+| M1 | AC-034.1 | Organiser submits a draft; the Lead assigns a Coordinator; the assigned Coordinator approves | Audit trail lists "submitted", "coordinator assigned" and "approved" in that order, each with the actor's name and a Singapore-time timestamp | Pass |
+| M2 | AC-034.3 | Open the event as the assigned Coordinator, then as the Lead | Both see the Audit trail card with the same entries | Pass |
+| M3 | AC-034.4 | Open the event as the Organiser | No Audit trail card | Pass |
 
 Kept to three because the database and frontend tests already cover the triggers (AC-034.1.1–12), immutability (.2.1–2) and every role refusal (.3.4, .4.1–7). The manual pass only shows they work against the shared Supabase with real accounts.
 
