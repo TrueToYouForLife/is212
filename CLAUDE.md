@@ -1,3 +1,24 @@
+# US48 safety-stage compatibility — 29 October 2026
+- Branch `us48-safety-stage-replacements`; Jaydon claimed 0116 and reopened US48 in Jira.
+  Agreed scope: Awaiting safety review and In preparation only. No US27 changes,
+  Safety changes requested extension, US45 transition or safety-settings change.
+- 0116 updates four current 0099/0102 RPC definitions: get/propose/decide replacement
+  and shared approve_venue_booking. Only stage predicates change; ordinary approvals
+  still require Approved/Planning, except a checked staff-owned replacement link.
+- Preserve quarter-hour buffers, per-booking requirements, source/decision consent,
+  original until atomic success, selective blocked/retired resolution and independent reviews.
+  No event/safety history writes. Notify Jeremiah about the shared approval function;
+  he owns re-review integration. No team messages/shared deployment/Git publication.
+- Existing UI contracts unchanged; no frontend source changes. 17 new grouped SQL
+  cases (six race executions across three IDs); results: docs/test-evidence/us48/safety-stages/.
+  Focused, historical, quarter-hour upgrade and fresh gates all passed (exit 0).
+  Fixed a missing organisation in synthetic test data before the focused retest.
+  Initial Docker startup failure was environment-only; no product defect established.
+- Historical runner skips 0116; quarter-hour upgrade/fresh gates install it last after
+  deliberate old-function replays. New-stage manual checks/CI/shared deployment pending.
+- Backed up invalid duplicate Git ref to /tmp/is212-git-ref-backup-0116/ and fast-forwarded
+  this clean branch to origin/main 8f14a1b (US24 PR160 merged). No commit or push made.
+
 # US24 PR2 — return inspection UI, updated 29 October 2026
 - Branch `us24-return-inspection-ui`; PR1 merged and 0112 applied (Jaydon confirmed).
   No new migration. Jaydon owns commits, PRs, merges, shared deployment/manual checks.
