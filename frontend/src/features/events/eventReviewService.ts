@@ -171,8 +171,9 @@ export async function transitionEventStatus(options: {
   }
 
   // A rejection or a return without a reason leaves the organiser nothing to act on.
-  const needsNote = to === 'rejected' || (to === 'submitted' && ['submitted', 'under_review'].includes(from))
-  if (needsNote && !note?.trim()) {
+  const needsNote = to === 'rejected' || to === 'withdrawn'
+  || (to === 'submitted' && ['submitted', 'under_review'].includes(from))
+    if (needsNote && !note?.trim()) {
     return { ok: false, reason: REVIEW_MESSAGES.noteRequired }
   }
 
