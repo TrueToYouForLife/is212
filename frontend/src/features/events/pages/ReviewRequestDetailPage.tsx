@@ -22,6 +22,7 @@ import { RegistrationSettingPanel } from '../components/RegistrationSettingPanel
 import { EventWaitlistPanel } from '../../registrations/components/EventWaitlistPanel'
 import { canChangeRegistration } from '../statusRules'
 import { PlanningUpdatePanel } from '../components/PlanningUpdatePanel'
+import { RegistrationsCard } from '../components/RegistrationsCard'
 import { EventReadinessCard } from '../readiness/EventReadinessCard'
 import { EventVenueBookings } from '../components/EventVenueBookings'
 import { SafetyReviewDecisionsPanel } from '../../safety/SafetyReviewDecisionsPanel'
@@ -189,17 +190,7 @@ export function ReviewRequestDetailPage() {
 
             {((profile?.role === 'organiser' && request.organiserId === profile.id)
               || (profile?.role === 'coordinator' && request.coordinatorId === profile.id)) && (
-              <Card
-                title="Registrations"
-                description="Who has registered for this event, and how many places are taken."
-              >
-                <Link
-                  to={`/requests/${request.id}/registrations`}
-                  className="text-sm font-medium text-indigo-700 hover:underline"
-                >
-                  Open registrations
-                </Link>
-              </Card>
+              <RegistrationsCard eventId={request.id} canOpenRollCall />
             )}
 
             {profile?.role === 'coordinator' && EQUIPMENT_EDITABLE_STATUSES.includes(request.status) && (

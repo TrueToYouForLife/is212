@@ -99,7 +99,7 @@ function EventDetail({ eventId }: { eventId: string }) {
 
     {/* US54 AC-054.4. 0094 decides whether this colleague may actually read the list; the
         link is a courtesy, and the page it opens reports a refusal plainly if not. */}
-    <RegistrationsCard eventId={event.id} isOwner={event.isMine} />
+    <RegistrationsCard eventId={event.id} canOpenRollCall={event.isMine} />
 
     {event.isMine && (
       <Card title="Your request">
