@@ -23,7 +23,11 @@ if [ "$ready" != true ]; then echo 'Temporary database did not become ready.' >&
 
 {
   cat "$repo_root/supabase/tests/bootstrap.sql"
-  for migration in "$repo_root"/supabase/migrations/*.sql; do cat "$migration"; printf '\n'; done
+  # Historical suite exercises pre-conversion contracts and their migration replays.
+  # Current quarter-hour upgrade/fresh-install coverage runs separately in CI.
+  for migration in "$repo_root"/supabase/migrations/*.sql; do
+    case "$migration" in */0075_*|*/0098_*|*/0099_*|*/0100_*|*/0101_*|*/0102_*|*/0103_*|*/0107_*|*/0109_*) continue ;; esac
+    cat "$migration"; printf '\n'; done
   cat "$repo_root/supabase/tests/change_request_review.sql"
   cat "$repo_root/supabase/migrations/0008_change_request_review.sql"
   # Restore the current assignment rules after the historical migration replay.
@@ -261,6 +265,8 @@ select pg_temp.assert_true(
  and (select count(*) = 2 from public.event_review_decisions where decision = 'withdrawn'),
  'AC-022.2.18: replaying 0066 changes no withdrawn event and logs no extra decision');
 SQL
+  # US43: 0066's replay restores its own status list; put the safety stages back (0108).
+  cat "$repo_root/supabase/migrations/0108_us43_safety_review.sql"
   cat "$repo_root/supabase/tests/venue_booking_approval.sql"
   cat "$repo_root/supabase/migrations/0045_venue_booking_approval.sql"
   cat <<'SQL'
@@ -390,11 +396,19 @@ SQL
   # (named on its test's first line; replays above restore older versions) and check it.
   for notice_test in "$repo_root"/supabase/tests/notice_channels_*.sql; do
     [ -e "$notice_test" ] || continue
-    cat "$repo_root/supabase/migrations/$(sed -n '1s/^-- Migration: //p' "$notice_test")"
+    cat "$repo_root/supabase/migrations/$(sed -n '1s/^-- Migration: //p' "$notice_test" | tr -d '\r')"
     cat "$notice_test"
-    # US54: who can see an event's registrations, then replay 0094.
+  done
+  # US27: protected catalogue reads, counts and role boundaries.
+  # Historical replays above restore older source constraints. Restore the additive status source.
+  cat "$repo_root/supabase/migrations/0105_equipment_status_changes.sql"
+  cat "$repo_root/supabase/tests/equipment_catalogue.sql"
+  cat "$repo_root/supabase/tests/equipment_status_fixture.sql"
+  cat "$repo_root/supabase/tests/equipment_status.sql"
+  # US54: who can see an event's registrations, then replay 0094.
   cat "$repo_root/supabase/tests/event_registration_visibility.sql"
   cat "$repo_root/supabase/migrations/0094_event_registration_visibility.sql"
+  cat "$repo_root/supabase/migrations/0114_event_registration_count.sql"
   cat <<'SQL'
 set role authenticated;
 select set_config('request.jwt.claim.sub', '54000000-0000-0000-0000-000000000001', false);
@@ -438,7 +452,22 @@ reset role;
 select set_config('request.jwt.claim.sub', '', false);
 SQL
   done
+  # US43 slice 1: sending an event for its safety review (0108; the 0038 replay above restores
+  # its own role list, so 0108 is applied again first).
+  cat "$repo_root/supabase/migrations/0108_us43_safety_review.sql"
+  cat "$repo_root/supabase/tests/safety_review.sql"
+  # US44: the Safety Officer's decision (0111).
+  cat "$repo_root/supabase/migrations/0111_us44_safety_review_decisions.sql"
+  cat "$repo_root/supabase/tests/safety_review_decisions.sql"
+  # US34: audit trail. 0101 is applied here, after every earlier fixture, so their deletes and
+  # status shortcuts are not run against its triggers.
+  cat "$repo_root/supabase/migrations/0101_event_audit_log.sql"
+  cat "$repo_root/supabase/tests/event_audit_log.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"
 bash "$repo_root/supabase/tests/retired_venue_replacement_races.sh" "$container"
+bash "$repo_root/supabase/tests/equipment_status_races.sh" "$container"
+
+# US24: restore checked return contracts after historical replays; test real transactions/races/replay.
+bash "$repo_root/supabase/tests/run_equipment_returns.sh" "$container"

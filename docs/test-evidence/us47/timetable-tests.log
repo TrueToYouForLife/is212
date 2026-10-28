@@ -1,0 +1,16 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/venues/__tests__/quarterHourTimetables.test.tsx src/features/venues/__tests__/VenueAvailabilityGrid.test.tsx src/features/venues/__tests__/VenueBookingComponents.test.tsx src/features/venues/__tests__/VenueAvailabilityPage.test.tsx --maxWorkers=1 --minWorkers=1
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+ ✓ src/features/venues/__tests__/VenueAvailabilityPage.test.tsx (15 tests) 261ms
+ ✓ src/features/venues/__tests__/VenueAvailabilityGrid.test.tsx (9 tests) 141ms
+ ✓ src/features/venues/__tests__/VenueBookingComponents.test.tsx (14 tests) 72ms
+ ✓ src/features/venues/__tests__/quarterHourTimetables.test.tsx (2 tests) 303ms
+
+ Test Files  4 passed (4)
+      Tests  40 passed (40)
+   Start at  22:33:03
+   Duration  3.52s (transform 119ms, setup 165ms, collect 443ms, tests 777ms, environment 1.19s, prepare 176ms)

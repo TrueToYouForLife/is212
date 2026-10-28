@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { FEATURES } from '../../../lib/features'
 import { transitionEventStatus } from '../eventReviewService'
 import { reviewActionsFor, STATUS_TRANSITIONS } from '../statusRules'
 import type { EventStatus } from '../types'
@@ -66,6 +67,13 @@ export function ReviewActions({ eventId, status, onReviewed }: ReviewActionsProp
   return (
     <div className="space-y-4">
       {status === 'planning' && (
+        <p className="text-sm text-slate-600">
+          {FEATURES.safetyReview
+            ? 'Send this event for safety review from its Readiness card once every arrangement is complete.'
+            : 'Confirm only after you have checked that all essential event arrangements are complete.'}
+        </p>
+      )}
+      {status === 'in_preparation' && (
         <p className="text-sm text-slate-600">
           Confirm only after you have checked that all essential event arrangements are complete.
         </p>

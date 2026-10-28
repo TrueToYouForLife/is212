@@ -86,6 +86,9 @@ export function FlaggedBookingsPage() {
                 <p className="text-sm text-slate-700">{flag.detail}</p>
                 <p className="text-xs text-slate-500">Affected: {flag.cells.map(describeCell).join(', ')}</p>
                 <p className="text-xs text-slate-500">Flagged on {FLAGGED_AT.format(new Date(flag.createdAt))}</p>
+                <Link to={`/venues/bookings/${flag.bookingId}/replacement`} className="mr-4 inline-block text-sm font-medium text-indigo-700 hover:underline">
+                  Find replacement
+                </Link>
                 <Link
                   to={`/requests/${flag.eventId}`}
                   className="inline-block text-sm font-medium text-indigo-700 hover:underline"

@@ -22,9 +22,14 @@ import { RegistrationSettingPanel } from '../components/RegistrationSettingPanel
 import { EventWaitlistPanel } from '../../registrations/components/EventWaitlistPanel'
 import { canChangeRegistration } from '../statusRules'
 import { PlanningUpdatePanel } from '../components/PlanningUpdatePanel'
+import { RegistrationsCard } from '../components/RegistrationsCard'
 import { ClarificationResponseForm } from '../components/ClarificationResponseForm'
 import { ClarificationRoundHistory } from '../components/ClarificationRoundHistory'
 import { isAwaitingClarification } from '../clarificationResponseValidation'
+import { AuditTrailCard } from '../audit/AuditTrailCard'
+import { EventVenueBookings } from '../components/EventVenueBookings'
+import { SafetyReviewDecisionsPanel } from '../../safety/SafetyReviewDecisionsPanel'
+import { FEATURES } from '../../../lib/features'
 
 export function ReviewRequestDetailPage() {
   const { id = '' } = useParams()
@@ -128,10 +133,16 @@ export function ReviewRequestDetailPage() {
 
             {((profile?.role === 'organiser' && request.organiserId === profile.id)
               || (profile?.role === 'coordinator' && request.coordinatorId === profile.id)) && (
-              <Card title="Clarification replies"
+              <>
+                <Card title="Clarification replies"
                 description="What was asked, what the organiser answered, and what changed each time.">
                 <ClarificationRoundHistory key={`clarifyHistory:${request.id}`}
-                  eventId={request.id} refreshVersion={reviewRefreshVersion} />
+                  eventId={request.id} refreshVersion={reviewRefreshVersion} status={request.status} onSent={refreshAll} />
+                <EventVenueBookings key={`bookings:${request.id}:${profile.id}`} eventId={request.id} refreshVersion={reviewRefreshVersion} />
+                {FEATURES.safetyReview && (
+                  <SafetyReviewDecisionsPanel key={`safety:${request.id}`} eventId={request.id} refreshVersion={reviewRefreshVersion} />
+                )}
+              </>
               </Card>
             )}
 
@@ -201,17 +212,7 @@ export function ReviewRequestDetailPage() {
                 off later must not hide the people who had already registered. */}
             {((profile?.role === 'organiser' && request.organiserId === profile.id)
               || (profile?.role === 'coordinator' && request.coordinatorId === profile.id)) && (
-              <Card
-                title="Registrations"
-                description="Who has registered for this event, and how many places are taken."
-              >
-                <Link
-                  to={`/requests/${request.id}/registrations`}
-                  className="text-sm font-medium text-indigo-700 hover:underline"
-                >
-                  Open registrations
-                </Link>
-              </Card>
+              <RegistrationsCard eventId={request.id} canOpenRollCall />
             )}
 
             {profile?.role === 'coordinator' && EQUIPMENT_EDITABLE_STATUSES.includes(request.status) && (
@@ -232,6 +233,18 @@ export function ReviewRequestDetailPage() {
               <Card title="Planning details and history">
                 <PlanningUpdatePanel key={request.id} eventId={request.id} onChanged={refreshAll} />
               </Card>
+            )}
+
+            {((profile?.role === 'coordinator' && request.coordinatorId === profile.id)
+              || profile?.role === 'coordinator_lead') && (
+              <AuditTrailCard key={`audit:${request.id}:${profile.id}`} eventId={request.id}
+                refreshVersion={reviewRefreshVersion} />
+            )}
+
+            {((profile?.role === 'coordinator' && request.coordinatorId === profile.id)
+              || profile?.role === 'coordinator_lead') && (
+              <AuditTrailCard key={`audit:${request.id}:${profile.id}`} eventId={request.id}
+                refreshVersion={reviewRefreshVersion} />
             )}
 
             {canSeeHistory && (

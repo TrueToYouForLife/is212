@@ -5,7 +5,7 @@
  */
 import { supabase } from '../../lib/supabase'
 import type { SlotCode } from './slots'
-import { groupAffectedBookings, validateVenueBlock } from './venueBlockValidation'
+import { groupAffectedBookings, validateVenueBlock, venueBlockPeriod } from './venueBlockValidation'
 import type {
   BlockableVenue,
   PreviewCell,
@@ -49,6 +49,8 @@ function firstError(errors: Partial<Record<VenueBlockField, string>>): string {
 }
 
 function requestArgs(block: VenueBlockInput) {
+  const period = venueBlockPeriod(block)
+  if (period) return { p_venue_id: block.venueId, p_starts_at: period.startsAt, p_ends_at: period.endsAt }
   return {
     p_venue_id: block.venueId,
     p_starts_on: block.startsOn,
@@ -92,7 +94,7 @@ export async function createVenueBlock(
 
   let response: { data: unknown; error: RpcError | null }
   try {
-    response = await supabase.rpc('block_venue', { ...requestArgs(block), p_reason: block.reason })
+    response = await supabase.rpc(block.startTime !== undefined ? 'block_venue_period' : 'block_venue', { ...requestArgs(block), p_reason: block.reason })
   } catch {
     return { ok: false, reason: VENUE_BLOCK_MESSAGES.uncertain }
   }
@@ -126,7 +128,7 @@ export async function previewVenueBlock(input: VenueBlockInput): Promise<VenueBl
   const checked = validateVenueBlock(input)
   if (!checked.ok) return { ok: false, reason: firstError(checked.errors) }
 
-  const { data, error } = await supabase.rpc('preview_venue_block', requestArgs(checked.value))
+  const { data, error } = await supabase.rpc(checked.value.startTime !== undefined ? 'preview_venue_block_period' : 'preview_venue_block', requestArgs(checked.value))
   if (error) return { ok: false, reason: describeError(error) }
 
   const rows = (data ?? []) as PreviewRow[]
@@ -157,6 +159,8 @@ interface BlockRow {
   starts_on: string
   ends_on: string
   slots: SlotCode[]
+  starts_at: string | null
+  ends_at: string | null
   reason: string
   created_by_name: string | null
   created_at: string
@@ -166,7 +170,7 @@ interface BlockRow {
 export async function listVenueBlocks(venueId: string): Promise<VenueBlockResult<VenueBlock[]>> {
   const { data, error } = await supabase
     .from('venue_closures')
-    .select('id, venue_id, starts_on, ends_on, slots, reason, created_by_name, created_at')
+    .select('id, venue_id, starts_on, ends_on, slots, starts_at, ends_at, reason, created_by_name, created_at')
     .eq('venue_id', venueId)
     .is('removed_at', null)
     .order('starts_on')
@@ -180,6 +184,7 @@ export async function listVenueBlocks(venueId: string): Promise<VenueBlockResult
       startsOn: row.starts_on,
       endsOn: row.ends_on,
       slots: row.slots,
+      ...(row.starts_at ? { startsAt: row.starts_at, endsAt: row.ends_at } : {}),
       reason: row.reason,
       createdByName: row.created_by_name,
       createdAt: row.created_at,

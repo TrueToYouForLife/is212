@@ -1,0 +1,13 @@
+
+ RUN  v2.1.9 C:/Users/siewy/is212/frontend
+
+ ✓ src/features/events/audit/__tests__/auditService.test.ts (3 tests) 22ms
+ ✓ src/features/events/audit/__tests__/auditDescription.test.ts (4 tests) 11ms
+ ✓ src/features/events/audit/__tests__/AuditTrailCard.test.tsx (5 tests) 218ms
+ ✓ src/features/events/__tests__/AuditTrailPage.test.tsx (2 tests) 379ms
+
+ Test Files  4 passed (4)
+      Tests  14 passed (14)
+   Start at  21:13:13
+   Duration  4.86s (transform 405ms, setup 1.02s, collect 1.55s, tests 631ms, environment 5.74s, prepare 1.43s)
+

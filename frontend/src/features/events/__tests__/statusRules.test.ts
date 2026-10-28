@@ -100,6 +100,9 @@ describe('remaining lifecycle actions', () => {
   test.each([
     ['approved', ['planning', 'cancelled']],
     ['planning', ['confirmed', 'cancelled']],
+    ['awaiting_safety_review', ['cancelled']],
+    ['safety_changes_requested', ['cancelled']],
+    ['in_preparation', ['confirmed', 'cancelled']],
     ['confirmed', ['completed', 'cancelled']],
     ['completed', []], ['cancelled', []], ['draft', []],
   ] as const)('AC-LIFECYCLE.1-%s: offers the permitted next steps', (status, expected) => {

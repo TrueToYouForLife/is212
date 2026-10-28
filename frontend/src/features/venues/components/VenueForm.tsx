@@ -125,7 +125,7 @@ export function VenueForm({
           Operating hours <span className="ml-1 text-red-600" aria-label="required">*</span>
         </legend>
         <p className="text-xs text-slate-500">
-          Venues open and close on slot boundaries, so their hours cover whole AM, PM or Night slots.
+          Choose opening and closing times in 15-minute increments, in Singapore time.
         </p>
         <div className="grid gap-4 sm:grid-cols-2">
           <Field id="venue-opens" label="Opens at">

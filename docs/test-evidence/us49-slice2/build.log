@@ -1,0 +1,25 @@
+
+> connectsphere@0.1.0 build
+> tsc --noEmit && vite build
+
+vite v5.4.21 building for production...
+transforming...
+✓ 329 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.71 kB │ gzip:   0.40 kB
+dist/assets/index-Dxe4Iz1J.css   33.67 kB │ gzip:   6.52 kB
+dist/assets/index-D-1SaQZH.js   881.28 kB │ gzip: 238.58 kB
+npm.cmd : 
+At line:2 char:1
++ npm.cmd run build *> ../us49-s2-build.log; exit $LASTEXITCODE
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: 
+https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 8.31s

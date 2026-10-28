@@ -106,8 +106,9 @@ select pg_temp.assert_true(
   pg_temp.us5_line(:'us5_e1', 'venue_booking') @> '{"complete": false, "detail": "1 booking awaiting Venue Staff. 1 approved."}'
   and pg_temp.us5_line(:'us5_e2', 'venue_booking') @> '{"complete": true, "detail": "1 venue booking approved."}'
   and pg_temp.us5_line(:'us5_e3', 'venue_booking') @> '{"complete": false, "detail": "No venue booked yet."}'
-  and pg_temp.us5_line(:'us5_e4', 'venue_booking') @> '{"complete": false, "detail": "1 booking held, not yet requested."}',
-  'AC-005.2.1: the venue booking is complete only when every live booking is approved; expired holds and rejections do not count');
+  -- US49 (0107, carried into 0108's shared readiness helper): a rejection stays outstanding.
+  and pg_temp.us5_line(:'us5_e4', 'venue_booking') @> '{"complete": false, "detail": "1 rejected; venue requirements remain outstanding. 1 booking held, not yet requested."}',
+  'AC-005.2.1: the venue booking is complete only when every live booking is approved; expired holds do not count, and a rejection stays outstanding');
 
 select pg_temp.assert_true(
   pg_temp.us5_line(:'us5_e1', 'equipment_reservation') @> '{"complete": false, "detail": "1 of 2 essential items reserved. 1 unavailable."}'

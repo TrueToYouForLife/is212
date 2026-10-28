@@ -63,8 +63,9 @@ reset role;
 -- AC-033.1: a user sees the notification types that apply to their role
 -- ---------------------------------------------------------------------------
 select pg_temp.assert_true(
+  -- US44 (0111) adds safety review decisions for Coordinators.
   pg_temp.us33_codes(:'us33_coordinator') = array['coordinator_assignment', 'change_request', 'arrangement_review',
-    'venue_booking_decision', 'venue_block_alert', 'equipment_reservation_outcome']
+    'venue_booking_decision', 'venue_block_alert', 'equipment_reservation_outcome', 'safety_review_decision']
   and pg_temp.us33_codes(:'us33_organiser') = array['event_request_decision', 'coordinator_assignment']
   and pg_temp.us33_codes(:'us33_venue_staff') = array['venue_booking_request']
   and pg_temp.us33_codes(:'us33_tech') = array['equipment_requirement_change']
@@ -145,5 +146,21 @@ select pg_temp.assert_true(
   :'us33_organiser_reads' = '0' and :'us33_forge' = '42501'
   and pg_temp.us33_type(:'us33_organiser_after', 'coordinator_assignment') @> '{"in_app": true, "email": true, "customised": false}',
   'AC-033.2.4: each person''s choices are their own: nobody can read or change another''s, and one person''s choice leaves others on the default');
+
+-- ---------------------------------------------------------------------------
+-- AC-033.2: a type switched off for everyone says so (0106)
+-- ---------------------------------------------------------------------------
+update public.change_request_notification_settings set email_enabled = false where notification_type = 'change_request_submitted';
+set local role authenticated;
+select pg_temp.us33_settings('33000000-0000-0000-0000-000000000002') as us33_switched_off \gset
+reset role;
+select pg_temp.assert_true(
+  pg_temp.us33_type(:'us33_switched_off', 'change_request')
+    @> '{"email": true, "email_off_for_everyone": true, "in_app_off_for_everyone": false}'
+  and pg_temp.us33_type(:'us33_switched_off', 'arrangement_review')
+    @> '{"email_off_for_everyone": false, "in_app_off_for_everyone": false}'
+  and (select bool_and(not (x ->> 'in_app_off_for_everyone')::boolean)
+       from jsonb_array_elements(:'us33_switched_off'::jsonb) x),
+  'AC-033.2.9: when an administrator switches a channel off for everyone, the settings say so for that type only, and the person''s own choice is kept');
 
 rollback;

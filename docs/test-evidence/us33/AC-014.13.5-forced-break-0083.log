@@ -1,0 +1,278 @@
+NOTICE:  PASS: AC-007.2.1: unassigned coordinator cannot read proposals
+NOTICE:  PASS: AC-007.2.2: unassigned coordinator cannot review via function
+NOTICE:  PASS: AC-007.2.3: coordinator cannot self-assign through function
+NOTICE:  PASS: AC-007.2.4: coordinator cannot self-assign through direct update
+NOTICE:  PASS: AC-007.2.5: Coordinator Lead assigns a coordinator
+NOTICE:  PASS: AC-007.2.6: assignment refuses an organiser as coordinator
+NOTICE:  PASS: AC-007.2.7: different coordinator cannot read assigned proposals
+NOTICE:  PASS: AC-007.2.8: different coordinator cannot review assigned proposals
+NOTICE:  PASS: AC-007.2.9: organiser cannot review own proposal
+NOTICE:  PASS: AC-007.2.10: organiser cannot directly edit submitted event details
+NOTICE:  PASS: AC-007.2.11: organiser cannot write reviewer metadata
+NOTICE:  PASS: AC-007.2.12: organiser cannot create an already-approved proposal
+NOTICE:  PASS: AC-007.2.13: anonymous caller cannot invoke review
+NOTICE:  PASS: AC-007.2.14: assigned coordinator can read proposals
+NOTICE:  PASS: AC-007.2.15: coordinator cannot bypass proposal review with a direct detail update
+NOTICE:  PASS: AC-007.2.16: organiser cannot spoof review metadata on insert
+NOTICE:  PASS: AC-007.2.17: withdrawal cannot rewrite the stored proposal
+NOTICE:  PASS: AC-007.2.18: reassignment immediately removes previous reviewer access
+NOTICE:  PASS: AC-007.5.13: database saves a partial approval
+NOTICE:  PASS: AC-007.5.14: reviewed request cannot be reviewed again
+NOTICE:  PASS: AC-007.5.15: database rejects missing decisions
+NOTICE:  PASS: AC-007.5.16: database rejects duplicate decisions
+NOTICE:  PASS: AC-007.5.17: database rejects proposed workflow fields
+NOTICE:  PASS: AC-007.5.18: withdrawn request cannot be reviewed
+NOTICE:  PASS: AC-007.5.19: stale event version cannot be reviewed
+NOTICE:  PASS: AC-007.6.3: database requires a rejection explanation
+NOTICE:  PASS: AC-007.6.4: rejection explanation stays with its field
+NOTICE:  PASS: AC-007.7.4: coordinator records clarification
+NOTICE:  PASS: AC-007.7.5: blank clarification is rejected
+NOTICE:  PASS: AC-007.7.6: clarification follow-up is stored
+NOTICE:  PASS: AC-007.9.3: only accepted field changes event; clarification leaves it unchanged
+NOTICE:  PASS: AC-007.9.4: accepted date cannot invalidate existing end date
+NOTICE:  PASS: AC-007.9.5: attendance outside integer range is rejected
+NOTICE:  PASS: AC-007.9.6: failed approval leaves both event and request unchanged
+NOTICE:  PASS: AC-007.9.7: approved false and blank optional text are applied
+NOTICE:  PASS: AC-007.9.8: fractional attendance is rejected
+NOTICE:  PASS: AC-007.9.9: timezone-less proposal is interpreted as Singapore time
+NOTICE:  PASS: AC-007.9.10: failure while saving decision aborts approval
+NOTICE:  PASS: AC-007.9.11: final-save failure rolls back the event update and decision together
+NOTICE:  PASS: AC-007.10.1: rejection leaves event details unchanged
+NOTICE:  PASS: AC-007.13.1: database stamps actor, time and individual decisions
+NOTICE:  PASS: AC-007.13.2: organiser can read saved outcome and explanation
+NOTICE:  PASS: AC-007.13.3: rerunning migration preserves saved review decisions
+NOTICE:  PASS: AC-007.2.22: another coordinator cannot save provisional field decisions
+NOTICE:  PASS: AC-007.2.23: organiser cannot overwrite coordinator field decisions
+NOTICE:  PASS: AC-007.7.20: mixed decisions with an unanswered question are not a final partial approval
+NOTICE:  PASS: AC-007.7.21: provisional decisions and trimmed questions are retained by field
+NOTICE:  PASS: AC-007.7.22: database rejects a blank field question
+NOTICE:  PASS: AC-007.7.23: database rejects a missing field question
+NOTICE:  PASS: AC-007.7.24: field questions must be text
+NOTICE:  PASS: AC-007.7.25: duplicate field decisions cannot be saved as clarification
+NOTICE:  PASS: AC-007.7.26: clarification cannot introduce a field outside the proposal
+NOTICE:  PASS: AC-007.7.27: clarification still requires a decision for every proposed field
+NOTICE:  PASS: AC-007.7.28: unknown field decisions are rejected
+NOTICE:  PASS: AC-007.7.29: multiple fields can each retain a different clarification question
+NOTICE:  PASS: AC-007.7.30: awaiting clarification cannot be finalised through a repeated review call
+NOTICE:  PASS: AC-007.8.1: unresolved reviews leave the entire event including timestamp unchanged
+NOTICE:  PASS: AC-007.8.2: invalid field reviews leave the request untouched
+NOTICE:  PASS: AC-007.9.15: fully resolved partial approval applies accepted fields and preserves rejected values
+NOTICE:  PASS: AC-007.13.4: organiser can read the saved question and attributed review action
+NOTICE:  PASS: AC-007.13.5: rerunning field clarification migration preserves existing and provisional decisions
+NOTICE:  PASS: AC-007.5.38: partial approval is allowed after replacing the live legacy constraint
+NOTICE:  PASS: AC-007.7.36: clarification is allowed after replacing the live legacy constraint
+NOTICE:  PASS: AC-007.13.6: applying the constraint correction twice preserves every saved request
+NOTICE:  PASS: AC-004.2.31: organiser cannot invoke direct coordinator review
+NOTICE:  PASS: AC-004.2.32: coordinator approves a submitted request in one operation
+NOTICE:  PASS: AC-004.2.33: already decided request cannot be overwritten
+NOTICE:  PASS: AC-004.2.34: a final-step failure is reported by the atomic operation
+NOTICE:  PASS: AC-004.2.35: failed decision does not leave the request started or stamped
+NOTICE:  PASS: AC-004.3.8: database rejects direct clarification without a reason
+NOTICE:  PASS: AC-004.3.9: direct clarification retains the question for organiser display
+NOTICE:  PASS: AC-004.4.6: direct approval and rejection each queue an email
+NOTICE:  PASS: AC-004.5.13: direct decisions retain one audit entry each including clarification actor and reason
+NOTICE:  PASS: AC-007.2.32: coordinator cannot impersonate the organiser reply
+NOTICE:  PASS: AC-007.2.33: another organiser cannot reply to the request
+NOTICE:  PASS: AC-007.2.34: an absent identity cannot reply
+NOTICE:  PASS: AC-007.2.35: organiser cannot directly rewrite reply history
+NOTICE:  PASS: AC-007.7.57: database rejects a missing field answer
+NOTICE:  PASS: AC-007.7.58: database rejects a blank answer
+NOTICE:  PASS: AC-007.7.59: database rejects duplicate field answers
+NOTICE:  PASS: AC-007.7.60: reply cannot replace proposed event values
+NOTICE:  PASS: AC-007.7.61: stale question version cannot be answered
+NOTICE:  PASS: AC-007.7.62: complete answers return the same request to review
+NOTICE:  PASS: AC-007.7.63: repeated submission cannot duplicate a saved reply
+NOTICE:  PASS: AC-007.7.64: an old review client without a request version cannot overwrite replies
+NOTICE:  PASS: AC-007.7.65: a stale coordinator review is rejected even when event values are unchanged
+NOTICE:  PASS: AC-007.7.66: a later whole-request question accepts a trimmed legacy reply
+NOTICE:  PASS: AC-007.8.3: clarification rounds and replies leave every event column unchanged
+NOTICE:  PASS: AC-007.9.17: final review after replies applies only accepted changes
+NOTICE:  PASS: AC-007.13.7: organiser can read retained questions answers actors and timestamps across review rounds
+NOTICE:  PASS: AC-007.13.8: replaying the reply migration preserves versions questions and answer history
+NOTICE:  PASS: AC-007.12.1: submitting significant requests does not queue revalidation before approval
+NOTICE:  PASS: AC-007.12.2: approving ordinary edits does not queue revalidation
+NOTICE:  PASS: AC-007.12.3: rejecting a significant request does not queue revalidation
+NOTICE:  PASS: AC-007.12.4: partial approval of ordinary fields does not queue rejected significant fields
+NOTICE:  PASS: AC-007.12.5: provisional approval while clarification is outstanding does not queue work
+NOTICE:  PASS: AC-007.12.6: removing an equipment requirement queues equipment-only work with actor and time
+NOTICE:  PASS: AC-007.12.7: approved layout and accessibility changes queue venue-only work
+NOTICE:  PASS: AC-007.12.8: approved attendance changes flag both arrangements for reconsideration
+NOTICE:  PASS: AC-007.12.9: approved date-time changes flag both arrangements
+NOTICE:  PASS: AC-007.12.10: another coordinator cannot read the assigned event revalidation queue
+NOTICE:  PASS: AC-007.12.11: organiser cannot read the internal arrangement queue
+NOTICE:  PASS: AC-007.12.12: operations manager can read queued arrangement checks
+NOTICE:  PASS: AC-007.12.13: browser cannot change revalidation records directly
+NOTICE:  PASS: AC-007.12.14: queue failure fails the review transaction
+NOTICE:  PASS: AC-007.12.15: failed hook leaves event request and queue unchanged
+NOTICE:  PASS: AC-007.12.16: revalidation hook does not change the event lifecycle status
+NOTICE:  PASS: AC-007.12.17: partial approval queues only the accepted significant fields
+NOTICE:  PASS: AC-007.12.18: retrying a final review cannot enqueue duplicate work
+NOTICE:  PASS: AC-007.12.19: replaying the hook migration preserves existing pending checks
+NOTICE:  PASS: AC-007.1.1: new submission creates an in-app delivery record for the assigned coordinator
+NOTICE:  PASS: AC-007.1.2: another coordinator cannot read these notifications
+NOTICE:  PASS: AC-007.1.3: organiser cannot read the coordinator notification records
+NOTICE:  PASS: AC-007.1.4: browser cannot forge or redirect notification records
+NOTICE:  PASS: AC-007.1.5: browser cannot change delivery configuration
+NOTICE:  PASS: AC-007.1.6: email is disabled by default without affecting in-app delivery
+NOTICE:  PASS: AC-007.1.7: enabled email uses the existing outbox for the assigned coordinator
+NOTICE:  PASS: AC-007.1.8: disabling both channels creates no notification
+NOTICE:  PASS: AC-007.1.9: email-only records do not appear in the in-app read
+NOTICE:  PASS: AC-007.1.10: unassigned requests are not broadcast to unrelated coordinators
+NOTICE:  PASS: AC-007.1.11: clarification reply returning for review creates a new versioned notification
+NOTICE:  PASS: AC-007.1.12: an unrelated update does not duplicate submission notifications
+NOTICE:  PASS: AC-007.1.13: withdrawal does not create another submission notification
+NOTICE:  PASS: AC-007.1.14: notification persistence failure fails the submission transaction
+NOTICE:  PASS: AC-007.1.15: a failed notification rolls back the new request
+NOTICE:  PASS: AC-007.1.16: former coordinator loses access to notifications after reassignment
+NOTICE:  PASS: AC-007.1.17: real browser-shaped organiser insert notifies the current assigned coordinator
+NOTICE:  PASS: AC-007.1.18: migration replay preserves notifications and channel settings
+NOTICE:  PASS: AC-007.13.12: approval rejection partial approval and clarification are retained
+NOTICE:  PASS: AC-007.13.13: clarification and later review survive organiser replies
+NOTICE:  PASS: AC-007.13.14: retained actions contain actor name identity and timestamp
+NOTICE:  PASS: AC-007.13.15: rejected proposal and explanation are preserved
+NOTICE:  PASS: AC-007.13.16: changing a profile does not rewrite historical reviewer names
+NOTICE:  PASS: AC-007.13.17: another coordinator cannot read review history
+NOTICE:  PASS: AC-007.13.18: organiser cannot read staff review identity history
+NOTICE:  PASS: AC-007.13.19: operations manager can read history
+NOTICE:  PASS: AC-007.13.20: assigned coordinator can read history
+NOTICE:  PASS: AC-007.13.21: browser cannot delete history
+NOTICE:  PASS: AC-007.13.22: browser cannot rewrite history
+NOTICE:  PASS: AC-007.13.23: browser cannot insert fabricated history
+NOTICE:  PASS: AC-007.13.24: history write failure prevents successful review
+NOTICE:  PASS: AC-007.13.25: failed history write rolls back both event and request
+NOTICE:  PASS: AC-007.13.26: migration replay preserves review history
+NOTICE:  PASS: AC-013.1.12: assigned coordinator can add a requirement to an approved event
+NOTICE:  PASS: AC-013.1.13: assigned coordinator can edit a requirement
+NOTICE:  PASS: AC-013.1.14: assigned coordinator can remove a requirement
+NOTICE:  PASS: AC-013.1.15: planning and confirmed events also accept requirements
+NOTICE:  PASS: AC-013.1.16: draft, submitted, under review, rejected, cancelled and completed events reject requirements
+NOTICE:  PASS: AC-013.1.17: no coordinator can write to an event without an assigned coordinator
+NOTICE:  PASS: AC-013.1.18: a different coordinator cannot add, edit or remove
+NOTICE:  PASS: AC-013.1.19: the event organiser cannot record requirements
+NOTICE:  PASS: AC-013.1.20: technical support can read but not add, edit or remove
+NOTICE:  PASS: AC-013.1.21: an operations manager cannot record requirements
+NOTICE:  PASS: AC-013.1.22: a requirement cannot be moved to another event
+NOTICE:  PASS: AC-013.1.23: after reassignment only the newly assigned coordinator can edit
+NOTICE:  PASS: AC-013.1.24: existing requirements lock when the event is no longer approved
+NOTICE:  PASS: AC-013.2.20: the database rejects quantity 0
+NOTICE:  PASS: AC-013.2.21: the database rejects a negative quantity
+NOTICE:  PASS: AC-013.2.22: the database accepts quantity 1
+NOTICE:  PASS: AC-013.2.23: a non-integer quantity is rejected, not rounded
+NOTICE:  PASS: AC-013.2.24: an equipment type not in the catalogue is rejected
+NOTICE:  PASS: AC-013.2.25: technical requirements are stored as given, or null
+NOTICE:  PASS: AC-013.2.26: the browser cannot record a requirement in another user's name
+NOTICE:  PASS: AC-013.3.12: a new requirement starts as pending review
+NOTICE:  PASS: AC-013.3.13: the coordinator cannot create a requirement with a status
+NOTICE:  PASS: AC-013.3.14: the coordinator cannot change a requirement's status
+NOTICE:  PASS: AC-013.3.15: the coordinator can mark a requirement non-essential
+NOTICE:  PASS: AC-013.3.16: the assigned coordinator reads statuses that another coordinator cannot
+NOTICE:  PASS: AC-013.3.17: an unknown status is rejected
+NOTICE:  PASS: AC-013.4.6: every technical support user reads requirements on any event
+NOTICE:  PASS: AC-013.4.7: technical support sees the event behind each requirement
+NOTICE:  PASS: AC-013.4.8: technical support cannot read events that have no requirements
+NOTICE:  PASS: AC-013.4.9: organisers, managers, venue staff and attendees read no requirements
+NOTICE:  PASS: AC-013.4.10: adding a requirement notifies every technical support user once
+NOTICE:  PASS: AC-013.4.11: changing a quantity notifies technical support
+NOTICE:  PASS: AC-013.4.12: changing only the technical requirements notifies technical support
+NOTICE:  PASS: AC-013.4.13: removal notifies technical support and keeps what was removed
+NOTICE:  PASS: AC-013.4.14: an update that changes nothing sends no notification
+NOTICE:  PASS: AC-013.4.15: a status set by reservation work does not notify technical support
+NOTICE:  PASS: AC-013.4.16: each user reads only their own notifications
+NOTICE:  PASS: AC-013.4.17: the browser cannot forge, alter or delete notifications
+NOTICE:  PASS: AC-013.4.18: with no technical support users the requirement is saved and nobody is notified
+NOTICE:  PASS: AC-013.5.3: recording a requirement creates no booking, booking line or allocation
+NOTICE:  PASS: AC-013.5.4: a recorded requirement has no reservation link and stock is unchanged
+NOTICE:  PASS: AC-013.5.5: the coordinator cannot link a requirement to a reservation when adding it
+NOTICE:  PASS: AC-013.5.6: the coordinator cannot link a requirement to a reservation when editing it
+NOTICE:  PASS: AC-013.5.7: editing a pending requirement reserves nothing
+NOTICE:  PASS: AC-013.6.10: changing a reserved quantity returns the requirement to pending review
+NOTICE:  PASS: AC-013.6.11: changing a reserved equipment type returns the requirement to pending review
+NOTICE:  PASS: AC-013.6.12: changing a partially reserved quantity returns it to pending review
+NOTICE:  PASS: AC-013.6.13: returning to pending review releases the units that were held
+NOTICE:  PASS: AC-013.6.14: editing only technical requirements keeps the reservation
+NOTICE:  PASS: AC-013.6.15: removing a reserved requirement releases its units and keeps them as cancelled history
+NOTICE:  PASS: AC-013.6.16: released units can be reserved again for the same dates
+NOTICE:  PASS: AC-013.6.17: removing a partially reserved requirement releases its unit
+NOTICE:  PASS: AC-013.6.18: removing a pending requirement changes no allocations
+NOTICE:  PASS: AC-013.6.19: release leaves another event's allocations untouched
+NOTICE:  PASS: AC-013.6.20: release cancels reserved units but leaves checked-out units alone
+NOTICE:  PASS: AC-013.6.21: another coordinator cannot remove or change a reserved requirement or release its units
+NOTICE:  PASS: AC-014.1.1: pending essential requirements are listed with their event, type and quantity
+NOTICE:  PASS: AC-014.1.2: non-essential requirements are not pending review (#106)
+NOTICE:  PASS: AC-014.1.3: reserved, partially reserved and unavailable requirements are not listed
+NOTICE:  PASS: AC-014.1.4: other roles cannot use the review list
+NOTICE:  PASS: AC-014.2.1: available counts usable units of the type with no overlapping reservation
+NOTICE:  PASS: AC-014.2.2: units of other types are not counted
+NOTICE:  PASS: AC-014.2.3: a type with no units has nothing available
+NOTICE:  PASS: AC-014.2.4: coordinators cannot see stock levels
+NOTICE:  PASS: AC-014.3.1: a unit at the venue is blocked from the collection day to the return day (#5)
+NOTICE:  PASS: AC-014.3.2: collection is the day before the first day of a multi-day event (#5)
+NOTICE:  PASS: AC-014.3.3: days are Singapore dates, so 00:30 SGT still collects the day before (#36)
+NOTICE:  PASS: AC-014.3.4: a unit reserved through a return day is unavailable to an event needing that day
+NOTICE:  PASS: AC-014.3.5: a unit is available again from return day + 1 (#5)
+NOTICE:  PASS: AC-014.3.6: same-day AM and PM events cannot share a unit (epic SCRUM-18)
+NOTICE:  PASS: AC-014.4.1: the return date defaults to the event's last Singapore day (A1)
+NOTICE:  PASS: AC-014.4.2: a later return date extends the window (A1)
+NOTICE:  PASS: AC-014.4.3: a return date before the last day is rejected (A1)
+NOTICE:  PASS: AC-014.4.4: extending after reserving moves every unit's return date (A1)
+NOTICE:  PASS: AC-014.4.5: extending into another reservation is rejected and nothing changes (A1)
+NOTICE:  PASS: AC-014.4.6: shortening the return date frees units earlier (A1)
+NOTICE:  PASS: AC-014.4.7: the return date cannot be shortened below the last day (A1)
+NOTICE:  PASS: AC-014.4.8: only technical support can change a return date
+NOTICE:  PASS: AC-014.5.1: a unit held elsewhere gets one transfer day before collection
+NOTICE:  PASS: AC-014.5.2: a unit at the event's venue gets no transfer day
+NOTICE:  PASS: AC-014.5.3: a unit at any of the event's approved venues needs no transfer day (A2)
+NOTICE:  PASS: AC-014.5.4: held and pending venue bookings do not count, so the transfer day is added (A2)
+NOTICE:  PASS: AC-014.5.5: with no approved venue booking every unit gets the transfer day (A2)
+NOTICE:  PASS: AC-014.5.6: transfer days apply per unit (#13)
+NOTICE:  PASS: AC-014.5.7: units already at the event's venue are picked first (#66)
+NOTICE:  PASS: AC-014.5.8: a clash on the transfer day itself makes the unit unavailable
+NOTICE:  PASS: AC-014.5.9: reserving does not move the unit
+NOTICE:  PASS: AC-014.6.1: damaged units are not counted
+NOTICE:  PASS: AC-014.6.2: units under maintenance are not counted
+NOTICE:  PASS: AC-014.6.3: retired and missing units are not counted
+NOTICE:  PASS: AC-014.6.4: reserving more than the usable units is rejected
+NOTICE:  PASS: AC-014.6.5: a reservation never picks an unusable unit
+NOTICE:  PASS: AC-014.7.1: the assigned event coordinator cannot reserve
+NOTICE:  PASS: AC-014.7.2: the event organiser cannot reserve
+NOTICE:  PASS: AC-014.7.3: attendees, operations managers and venue staff cannot reserve
+NOTICE:  PASS: AC-014.7.4: technical support cannot insert allocations directly
+NOTICE:  PASS: AC-014.7.5: technical support cannot write booking lines or bookings directly
+NOTICE:  PASS: AC-014.7.6: coordinators cannot insert allocations directly
+NOTICE:  PASS: AC-014.7.7: technical support cannot set a requirement status directly
+NOTICE:  PASS: AC-014.8.1: a full reservation reserves the requested quantity
+NOTICE:  PASS: AC-014.8.2: a partial reservation when fewer units are available
+NOTICE:  PASS: AC-014.8.3: requesting one and reserving one is a full reservation
+NOTICE:  PASS: AC-014.8.4: more than the requested quantity is rejected
+NOTICE:  PASS: AC-014.8.5: a negative quantity is rejected
+NOTICE:  PASS: AC-014.8.6: a requirement already decided cannot be reserved again (#114)
+NOTICE:  PASS: AC-014.8.7: an event that is no longer approved cannot have equipment reserved (A10)
+NOTICE:  PASS: AC-014.8.8: a partial reservation is rejected while enough units are available (A3)
+NOTICE:  PASS: AC-014.9.1: with nothing available the requirement is marked unavailable (A7)
+NOTICE:  PASS: AC-014.9.2: the shortfall is recorded as requested minus reserved
+NOTICE:  PASS: AC-014.9.3: a shortfall can carry a suggested alternative type and note
+NOTICE:  PASS: AC-014.9.4: a shortfall without an alternative creates no suggestion
+NOTICE:  PASS: AC-014.9.5: an alternative that is not in the catalogue is rejected
+NOTICE:  PASS: AC-014.9.6: the alternative must be a different type (A4)
+NOTICE:  PASS: AC-014.9.7: an alternative needs a shortfall (A4)
+NOTICE:  PASS: AC-014.9.8: suggesting an alternative reserves nothing for it
+NOTICE:  PASS: AC-014.10.1: the reservation links the event, requirement, type and quantity (A8)
+NOTICE:  PASS: AC-014.10.2: each reserved unit records who reserved it and when
+NOTICE:  PASS: AC-014.10.3: the reserving user comes from the session and cannot be supplied
+NOTICE:  PASS: AC-014.10.4: the booking line records who assessed it and when
+NOTICE:  PASS: AC-014.10.5: one equipment booking per event is reused
+NOTICE:  PASS: AC-014.11.1: an overlapping event sees fewer units
+NOTICE:  PASS: AC-014.11.2: a non-overlapping event is unaffected
+NOTICE:  PASS: AC-014.11.3: removing a reserved requirement (US13) restores availability
+NOTICE:  PASS: AC-014.11.4: changing a reserved requirement (US13) releases it for review again
+NOTICE:  PASS: AC-014.11.5: cancelled allocations do not block a unit; other statuses do (A6)
+NOTICE:  PASS: AC-014.12.1: reserving more than available is rejected with the available count
+NOTICE:  PASS: AC-014.12.2: two simultaneous reservations cannot exceed availability
+NOTICE:  PASS: AC-014.12.3: reservations for different types do not block each other
+NOTICE:  PASS: AC-014.12.4: a rejected reservation leaves nothing behind
+NOTICE:  PASS: AC-014.12.5: extending a return date and a new reservation cannot both take the same unit (A1)
+NOTICE:  PASS: AC-014.13.1: a full reservation notifies the assigned coordinator in-app
+NOTICE:  PASS: AC-014.13.2: a partial reservation notice includes the shortfall
+NOTICE:  PASS: AC-014.13.3: an unavailable notice includes the suggested alternative
+NOTICE:  PASS: AC-014.13.4: an email for the coordinator is queued in the existing outbox (#37)
+ERROR:  FAIL: AC-014.13.5: in-app and email are both on by default and each can be switched off (#37, A5)

@@ -19,7 +19,7 @@ select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000001'
 select pg_temp.submit_notification_request(1);
 select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000003',false);
 select pg_temp.assert_true((select count(*)=1 from public.change_request_notifications
- where change_request_id='90000000-0000-0000-0000-000000000001' and recipient_id=auth.uid() and request_version=0 and email_outbox_id is null),
+ where change_request_id='90000000-0000-0000-0000-000000000001' and recipient_id=auth.uid() and request_version=0),
  'AC-007.1.1: new submission creates an in-app delivery record for the assigned coordinator');
 select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000004',false);
 select pg_temp.assert_true(not exists(select 1 from public.change_request_notifications where event_id='80000000-0000-0000-0000-000000000001'),
@@ -32,8 +32,12 @@ select pg_temp.expect_error($q$update public.change_request_notifications set re
 select pg_temp.expect_error($q$update public.change_request_notification_settings set email_enabled=true$q$,'42501',
  'AC-007.1.5: browser cannot change delivery configuration');
 reset role;
-select pg_temp.assert_true(not exists(select 1 from public.notification_outbox where event_id='80000000-0000-0000-0000-000000000001'),
- 'AC-007.1.6: email is disabled by default without affecting in-app delivery');
+-- US33 (0081): people choose their own channels and US7's system-wide email switch is now on,
+-- so a Coordinator who has not turned this email off receives it.
+select pg_temp.assert_true((select count(*)=1 from public.change_request_notifications n
+ join public.notification_outbox o on o.id=n.email_outbox_id
+ where n.change_request_id='90000000-0000-0000-0000-000000000001' and o.notification_type='change_request'),
+ 'AC-007.1.6: email is sent by default alongside in-app delivery, unless the Coordinator turns it off (US33)');
 update public.change_request_notification_settings set email_enabled=true;
 set role authenticated;
 select pg_temp.submit_notification_request(2);

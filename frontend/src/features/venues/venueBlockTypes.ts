@@ -7,10 +7,13 @@ export interface VenueBlockInput {
   startsOn: string
   endsOn: string
   slots: SlotCode[]
+  /** Present together for one continuous Singapore start/end interval. */
+  startTime?: string
+  endTime?: string
   reason: string
 }
 
-export type VenueBlockField = 'startsOn' | 'endsOn' | 'slots' | 'reason'
+export type VenueBlockField = 'startsOn' | 'endsOn' | 'slots' | 'reason' | 'startTime' | 'endTime'
 
 export type VenueBlockValidation =
   | { ok: true; value: VenueBlockInput }
@@ -52,6 +55,8 @@ export interface VenueBlock {
   startsOn: string
   endsOn: string
   slots: SlotCode[]
+  startsAt?: string | null
+  endsAt?: string | null
   reason: string
   createdByName: string | null
   createdAt: string

@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { Card } from '../../../components/ui/Card'
 import { PageContainer } from '../../../components/layout/PageContainer'
 import { useCurrentUser } from '../../auth/sessionContext'
+import { VenueBufferSettings } from '../components/VenueBufferSettings'
 import { RetireVenuePanel } from '../components/RetireVenuePanel'
 import { VenueForm } from '../components/VenueForm'
 import { loadLayoutOptions, loadVenueForEdit, retireVenue, updateVenue } from '../venueManagementService'
@@ -150,6 +151,7 @@ export function EditVenuePage() {
             {`This venue is retired${loaded.venue.retirementNote ? ` (${loaded.venue.retirementNote})` : ''}. It no longer appears in venue search and cannot take new bookings.`}
           </p>
         )}
+        {loaded.venue.status === 'active' && <VenueBufferSettings key={loaded.venue.version} venueId={id} />}
         <Card title="Venue details">
           {form.dropped.length > 0 && (
             <p className="mb-4 rounded-lg bg-amber-50 p-3 text-sm text-amber-900">

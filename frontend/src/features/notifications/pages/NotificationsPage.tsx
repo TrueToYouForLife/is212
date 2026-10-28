@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Card } from '../../../components/ui/Card'
-import { FEATURES } from '../../../lib/features'
 import { PageContainer } from '../../../components/layout/PageContainer'
 import { useCurrentUser } from '../../auth/sessionContext'
 import { formatNotificationTime, notificationEventLabel, notificationTarget } from '../notificationFormat'
@@ -101,11 +100,9 @@ export function NotificationsPage() {
           <p className="mt-3 text-sm leading-relaxed text-slate-600">
             Everything sent to you about your events, newest first, including notices that were emailed to you.
           </p>
-          {FEATURES.notificationPreferences && (
-            <Link to="/notifications/settings" className="mt-2 inline-block text-sm font-medium text-indigo-700 hover:underline">
-              Notification settings
-            </Link>
-          )}
+          <Link to="/notifications/settings" className="mt-2 inline-block text-sm font-medium text-indigo-700 hover:underline">
+            Notification settings
+          </Link>
         </div>
         {notifications.length > 0 && (
           <button type="button" className={markAllClassName} disabled={unread === 0 || markingAll} onClick={() => void markAll()}>

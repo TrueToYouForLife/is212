@@ -1,0 +1,2102 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/venues/__tests__/VenueReplacementSearchPage.test.tsx src/features/venues/__tests__/MyVenueBookingsReplacement.test.tsx src/features/venues/__tests__/VenueReplacementPanel.test.tsx src/features/venues/__tests__/venueReplacementService.test.ts src/features/venues/__tests__/MyVenueBookingsNotifications.test.tsx src/features/venues/__tests__/VenueBookingQueuePage.test.tsx
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+ ✓ src/features/venues/__tests__/venueReplacementService.test.ts (9 tests) 10ms
+ ✓ src/features/venues/__tests__/MyVenueBookingsNotifications.test.tsx (2 tests) 63ms
+ ✓ src/features/venues/__tests__/VenueBookingQueuePage.test.tsx (7 tests) 163ms
+ ✓ src/features/venues/__tests__/VenueReplacementPanel.test.tsx (10 tests) 653ms
+ ❯ src/features/venues/__tests__/VenueReplacementSearchPage.test.tsx (7 tests | 1 failed) 719ms
+   × AC-048.2.3: empty, failed and unavailable-options searches never show stale selectable candidates 108ms
+     → Unable to find an accessible element with the role "button" and name "Search"
+
+Here are the accessible roles:
+
+  heading:
+
+  Name "Find a replacement venue":
+  <h2
+    class="text-base font-semibold text-slate-900"
+  />
+
+  Name "Workshop — Retired Hall":
+  <h2
+    class="font-semibold"
+  />
+
+  --------------------------------------------------
+  link:
+
+  Name "Back to your venue bookings":
+  <a
+    class="text-indigo-700 hover:underline"
+    data-discover="true"
+    href="/venues/bookings"
+  />
+
+  --------------------------------------------------
+  button:
+
+  Name "Reload booking and search":
+  <button
+    class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "
+    type="button"
+  />
+
+  Name "Clear filters":
+  <button
+    class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "
+    disabled=""
+    type="button"
+  />
+
+  Name "Searching…":
+  <button
+    class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "
+    disabled=""
+    type="button"
+  />
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  <p
+    class="font-semibold text-amber-800"
+  />
+
+  Name "":
+  <p />
+
+  Name "":
+  <p />
+
+  Name "":
+  <p />
+
+  Name "":
+  <p />
+
+  Name "":
+  <p
+    class="mt-1 text-slate-500"
+  />
+
+  Name "":
+  <p
+    class="text-xs text-slate-500"
+  />
+
+  --------------------------------------------------
+  list:
+
+  Name "":
+  <ul />
+
+  --------------------------------------------------
+  listitem:
+
+  Name "":
+  <li />
+
+  Name "":
+  <li />
+
+  --------------------------------------------------
+  combobox:
+
+  Name "Search for one of your events":
+  <select
+    class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 disabled:bg-slate-100"
+    disabled=""
+    id="venue-search-event"
+  />
+
+  Name "Layout":
+  <select
+    class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 disabled:bg-slate-100"
+    disabled=""
+    id="venue-search-layout"
+  />
+
+  --------------------------------------------------
+  option:
+
+  Name "— Manual search —":
+  <option
+    value=""
+  />
+
+  Name "Workshop":
+  <option
+    value="20652000-0000-4000-8000-000000000001"
+  />
+
+  Name "Any layout":
+  <option
+    value=""
+  />
+
+  Name "Theatre":
+  <option
+    value="theatre"
+  />
+
+  --------------------------------------------------
+  textbox:
+
+  Name "Search by name or location":
+  <input
+    class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 aria-[invalid=true]:border-red-400 aria-[invalid=true]:ring-red-500/20 disabled:bg-slate-100"
+    disabled=""
+    id="venue-search-keyword"
+    value=""
+  />
+
+  --------------------------------------------------
+  spinbutton:
+
+  Name "Expected attendance":
+  <input
+    class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 aria-[invalid=true]:border-red-400 aria-[invalid=true]:ring-red-500/20 disabled:bg-slate-100"
+    disabled=""
+    id="venue-search-attendance"
+    min="1"
+    type="number"
+    value="50"
+  />
+
+  --------------------------------------------------
+  group:
+
+  Name "Accessibility":
+  <fieldset
+    disabled=""
+  />
+
+  Name "Facilities":
+  <fieldset
+    disabled=""
+  />
+
+  --------------------------------------------------
+  checkbox:
+
+  Name "Wheelchair access":
+  <input
+    checked=""
+    type="checkbox"
+  />
+
+  Name "Hearing loop":
+  <input
+    type="checkbox"
+  />
+
+  Name "Accessible toilet":
+  <input
+    type="checkbox"
+  />
+
+  Name "Lift access":
+  <input
+    type="checkbox"
+  />
+
+  Name "Projector":
+  <input
+    type="checkbox"
+  />
+
+  Name "Microphone":
+  <input
+    type="checkbox"
+  />
+
+  Name "Stage":
+  <input
+    type="checkbox"
+  />
+
+  Name "Wi-Fi":
+  <input
+    checked=""
+    type="checkbox"
+  />
+
+  --------------------------------------------------
+  alert:
+
+  Name "":
+  <p
+    class="text-red-700"
+    role="alert"
+  />
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+<body>
+  <div />
+  <div>
+    <div
+      class="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6"
+    >
+      <section
+        class="rounded-xl border border-slate-200 bg-white shadow-sm"
+      >
+        <div
+          class="border-b border-slate-100 px-6 py-5"
+        >
+          <h2
+            class="text-base font-semibold text-slate-900"
+          >
+            Find a replacement venue
+          </h2>
+        </div>
+        <div
+          class="px-6 py-6"
+        >
+          <div
+            class="space-y-4"
+          >
+            <a
+              class="text-indigo-700 hover:underline"
+              data-discover="true"
+              href="/venues/bookings"
+            >
+              Back to your venue bookings
+            </a>
+            <button
+              class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "
+              type="button"
+            >
+              Reload booking and search
+            </button>
+            <h2
+              class="font-semibold"
+            >
+              Workshop
+               —
+              Retired Hall
+            </h2>
+            <p
+              class="font-semibold text-amber-800"
+            >
+              Needs replacement
+            </p>
+            <ul>
+              <li>
+                Venue blocked: Ceiling unsafe
+              </li>
+              <li>
+                Venue retired: Building closed
+              </li>
+            </ul>
+            <p>
+              Event time (Singapore):
+              3 Jan 2039, 09:00
+               to
+              3 Jan 2039, 11:00
+              .
+            </p>
+            <p>
+              Attendance:
+              50
+              . Layout:
+              theatre
+              .
+            </p>
+            <p>
+              The event’s full date and time are kept for this search. No event details are changed when adjusting venue filters.
+            </p>
+            <div
+              class="space-y-4"
+            >
+              <div
+                class="space-y-4 rounded-xl border border-slate-200 p-5"
+              >
+                <div
+                  class="space-y-1.5"
+                >
+                  <label
+                    class="block text-sm font-medium text-slate-700"
+                    for="venue-search-event"
+                  >
+                    Search for one of your events
+                  </label>
+                  <select
+                    class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 disabled:bg-slate-100"
+                    disabled=""
+                    id="venue-search-event"
+                  >
+                    <option
+                      value=""
+                    >
+                      — Manual search —
+                    </option>
+                    <option
+                      value="20652000-0000-4000-8000-000000000001"
+                    >
+                      Workshop
+                    </option>
+                  </select>
+                </div>
+                <div
+                  class="rounded-lg bg-slate-50 p-3 text-xs text-slate-600"
+                >
+                  <p>
+                    This event’s requested date and time decide which venues show as available, and its requirements have been applied to the filters below.
+                  </p>
+                  <p
+                    class="mt-1 text-slate-500"
+                  >
+                    Untick a requirement below to widen the search.
+                  </p>
+                </div>
+                <div
+                  class="grid gap-4 sm:grid-cols-2"
+                >
+                  <div
+                    class="space-y-1.5"
+                  >
+                    <label
+                      class="block text-sm font-medium text-slate-700"
+                      for="venue-search-keyword"
+                    >
+                      Search by name or location
+                    </label>
+                    <input
+                      class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 aria-[invalid=true]:border-red-400 aria-[invalid=true]:ring-red-500/20 disabled:bg-slate-100"
+                      disabled=""
+                      id="venue-search-keyword"
+                      value=""
+                    />
+                  </div>
+                  <div
+                    class="space-y-1.5"
+                  >
+                    <label
+                      class="block text-sm font-medium text-slate-700"
+                      for="venue-search-attendance"
+                    >
+                      Expected attendance
+                    </label>
+                    <input
+                      class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 aria-[invalid=true]:border-red-400 aria-[invalid=true]:ring-red-500/20 disabled:bg-slate-100"
+                      disabled=""
+                      id="venue-search-attendance"
+                      min="1"
+                      type="number"
+                      value="50"
+                    />
+                  </div>
+                  <div
+                    class="space-y-1.5"
+                  >
+                    <label
+                      class="block text-sm font-medium text-slate-700"
+                      for="venue-search-layout"
+                    >
+                      Layout
+                    </label>
+                    <select
+                      class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 disabled:bg-slate-100"
+                      disabled=""
+                      id="venue-search-layout"
+                    >
+                      <option
+                        value=""
+                      >
+                        Any layout
+                      </option>
+                      <option
+                        value="theatre"
+                      >
+                        Theatre
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <fieldset
+                  disabled=""
+                >
+                  <legend
+                    class="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500"
+                  >
+                    Accessibility
+                  </legend>
+                  <div
+                    class="flex flex-wrap gap-3"
+                  >
+                    <label
+                      class="flex items-center gap-2 text-sm text-slate-700"
+                    >
+                      <input
+                        checked=""
+                        type="checkbox"
+                      />
+                      Wheelchair access
+                    </label>
+                    <label
+                      class="flex items-center gap-2 text-sm text-slate-700"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                      Hearing loop
+                    </label>
+                    <label
+                      class="flex items-center gap-2 text-sm text-slate-700"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                      Accessible toilet
+                    </label>
+                    <label
+                      class="flex items-center gap-2 text-sm text-slate-700"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                      Lift access
+                    </label>
+                  </div>
+                </fieldset>
+                <fieldset
+                  disabled=""
+                >
+                  <legend
+                    class="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500"
+                  >
+                    Facilities
+                  </legend>
+                  <div
+                    class="flex flex-wrap gap-3"
+                  >
+                    <label
+                      class="flex items-center gap-2 text-sm text-slate-700"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                      Projector
+                    </label>
+                    <label
+                      class="flex items-center gap-2 text-sm text-slate-700"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                      Microphone
+                    </label>
+                    <label
+                      class="flex items-center gap-2 text-sm text-slate-700"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                      Stage
+                    </label>
+                    <label
+                      class="flex items-center gap-2 text-sm text-slate-700"
+                    >
+                      <input
+                        checked=""
+                        type="checkbox"
+                      />
+                      Wi-Fi
+                    </label>
+                  </div>
+                </fieldset>
+                <p
+                  class="text-xs text-slate-500"
+                >
+                  Applied from
+                  Workshop
+                  :
+
+                  layout theatre · Wheelchair access · Wi-Fi
+                </p>
+                <div
+                  class="flex flex-wrap items-center justify-end gap-3 border-t border-slate-100 pt-4"
+                >
+                  <button
+                    class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "
+                    disabled=""
+                    type="button"
+                  >
+                    Clear filters
+                  </button>
+                  <button
+                    class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "
+                    disabled=""
+                    type="button"
+                  >
+                    Searching…
+                  </button>
+                </div>
+              </div>
+              <p
+                class="text-red-700"
+                role="alert"
+              >
+                Booking times could not be loaded. Reload and try again.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+ ❯ src/features/venues/__tests__/MyVenueBookingsReplacement.test.tsx (3 tests | 1 failed) 1225ms
+   × AC-048.5.2: original remains Needs replacement through pending, rejected and withdrawn requests; approval refresh removes it 1100ms
+     → Unable to find an element with the text: Cancelled. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6"
+    >
+      <div
+        class="mb-8 max-w-3xl"
+      >
+        <p
+          class="text-xs font-semibold uppercase tracking-wider text-indigo-600"
+        >
+          Event coordinator
+        </p>
+        <h1
+          class="mt-2 text-3xl font-bold tracking-tight text-slate-900"
+        >
+          Your venue bookings
+        </h1>
+        <p
+          class="mt-3 text-sm leading-relaxed text-slate-600"
+        >
+          Tentative holds and submitted booking requests, newest first.
+        </p>
+      </div>
+      <div
+        class="space-y-4"
+      >
+        <ul
+          class="space-y-4"
+        >
+          <li>
+            <section
+              class="rounded-xl border border-slate-200 bg-white shadow-sm"
+            >
+              <div
+                class="border-b border-slate-100 px-6 py-5"
+              >
+                <h2
+                  class="text-base font-semibold text-slate-900"
+                >
+                  Retired Hall
+                </h2>
+              </div>
+              <div
+                class="px-6 py-6"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-3"
+                >
+                  <p
+                    class="text-sm text-slate-600"
+                  >
+                    20652000-0000-4000-8000-000000000001
+                  </p>
+                  <span
+                    class="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium bg-slate-100 text-slate-600"
+                  >
+                    Released
+                  </span>
+                </div>
+                <div
+                  class="mt-4"
+                >
+                  <p
+                    class="mb-2 text-xs text-slate-500"
+                  >
+                    Reserved time ranges (Singapore time)
+                  </p>
+                  <p
+                    class="text-sm text-slate-500"
+                  >
+                    These event times fall outside every bookable slot.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </li>
+          <li>
+            <section
+              class="rounded-xl border border-slate-200 bg-white shadow-sm"
+            >
+              <div
+                class="border-b border-slate-100 px-6 py-5"
+              >
+                <h2
+                  class="text-base font-semibold text-slate-900"
+                >
+                  Alternative Hall
+                </h2>
+              </div>
+              <div
+                class="px-6 py-6"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-3"
+                >
+                  <p
+                    class="text-sm text-slate-600"
+                  >
+                    20652000-0000-4000-8000-000000000001
+                  </p>
+                  <span
+                    class="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium bg-emerald-50 text-emerald-800"
+                  >
+                    Confirmed
+                  </span>
+                </div>
+                <div
+                  class="mt-4"
+                >
+                  <p
+                    class="mb-2 text-xs text-slate-500"
+                  >
+                    Reserved time ranges (Singapore time)
+                  </p>
+                  <p
+                    class="text-sm text-slate-500"
+                  >
+                    These event times fall outside every bookable slot.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </li>
+        </ul>
+      </div>
+      <section
+        class="rounded-xl border border-slate-200 bg-white shadow-sm"
+      >
+        <div
+          class="border-b border-slate-100 px-6 py-5"
+        >
+          <h2
+            class="text-base font-semibold text-slate-900"
+          >
+            Venue replacements
+          </h2>
+        </div>
+        <div
+          class="px-6 py-6"
+        >
+          <div
+            class="space-y-4"
+          >
+            <p>
+              Venue Staff must approve the replacement. Proposals do not reserve the alternative venue; availability is checked again at approval.
+            </p>
+            <button
+              class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "
+              type="button"
+            >
+              Reload replacements
+            </button>
+            <p>
+              No affected bookings are eligible for a new proposal.
+            </p>
+            <h3
+              class="font-semibold"
+              id="venue-replacement-history"
+            >
+              Replacement requests and history
+            </h3>
+            <ul
+              class="space-y-4"
+            >
+              <li
+                class="space-y-3 rounded border p-4"
+              >
+                <h4
+                  class="font-semibold"
+                >
+                  Workshop
+                  :
+                  Retired Hall
+                   →
+                  Alternative Hall
+                </h4>
+                <p>
+                  Status:
+                  approved
+                  . Proposed by
+                  Coordinator
+                   at
+                  18 Oct 2026, 09:00
+                </p>
+                <p>
+                  Old hall retired
+                </p>
+                <p>
+                  Workshop
+                   —
+                  3 Jan 2039, 09:00
+                   to
+                  3 Jan 2039, 11:00
+                  ; attendance
+                  50
+                </p>
+                <p>
+                  Requested layout:
+                  theatre
+                  . Accessibility:
+                  wheelchair_access
+                  . Facilities:
+                  wifi
+                  .
+                </p>
+                <p>
+                  Alternative venue: capacity
+                  120
+                  ; layout
+                  Theatre
+                  ; accessibility
+                  wheelchair_access
+                  ; facilities
+                  wifi
+                  .
+                </p>
+                <p>
+                  Special arrangements:
+                  Early setup
+                </p>
+                <p>
+                  Decision by
+                   at
+                  —
+                  :
+                </p>
+                <p>
+                  Replacement booking recorded:
+                  20655000-0000-4000-8000-000000000001
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6"
+    >
+      <div
+        class="mb-8 max-w-3xl"
+      >
+        <p
+          class="text-xs font-semibold uppercase tracking-wider text-indigo-600"
+        >
+          Event coordinator
+        </p>
+        <h1
+          class="mt-2 text-3xl font-bold tracking-tight text-slate-900"
+        >
+          Your venue bookings
+        </h1>
+        <p
+          class="mt-3 text-sm leading-relaxed text-slate-600"
+        >
+          Tentative holds and submitted booking requests, newest first.
+        </p>
+      </div>
+      <div
+        class="space-y-4"
+      >
+        <ul
+          class="space-y-4"
+        >
+          <li>
+            <section
+              class="rounded-xl border border-slate-200 bg-white shadow-sm"
+            >
+              <div
+                class="border-b border-slate-100 px-6 py-5"
+              >
+                <h2
+                  class="text-base font-semibold text-slate-900"
+                >
+                  Retired Hall
+                </h2>
+              </div>
+              <div
+                class="px-6 py-6"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-3"
+                >
+                  <p
+                    class="text-sm text-slate-600"
+                  >
+                    20652000-0000-4000-8000-000000000001
+                  </p>
+                  <span
+                    class="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium bg-slate-100 text-slate-600"
+                  >
+                    Released
+                  </span>
+                </div>
+                <div
+                  class="mt-4"
+                >
+                  <p
+                    class="mb-2 text-xs text-slate-500"
+                  >
+                    Reserved time ranges (Singapore time)
+                  </p>
+                  <p
+                    class="text-sm text-slate-500"
+                  >
+                    These event times fall outside every bookable slot.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </li>
+          <li>
+            <section
+              class="rounded-xl border border-slate-200 bg-white shadow-sm"
+            >
+              <div
+                class="border-b border-slate-100 px-6 py-5"
+              >
+                <h2
+                  class="text-base font-semibold text-slate-900"
+                >
+                  Alternative Hall
+                </h2>
+              </div>
+              <div
+                class="px-6 py-6"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-3"
+                >
+                  <p
+                    class="text-sm text-slate-600"
+                  >
+                    20652000-0000-4000-8000-000000000001
+                  </p>
+                  <span
+                    class="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium bg-emerald-50 text-emerald-800"
+                  >
+                    Confirmed
+                  </span>
+                </div>
+                <div
+                  class="mt-4"
+                >
+                  <p
+                    class="mb-2 text-xs text-slate-500"
+                  >
+                    Reserved time ranges (Singapore time)
+                  </p>
+                  <p
+                    class="text-sm text-slate-500"
+                  >
+                    These event times fall outside every bookable slot.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </li>
+        </ul>
+      </div>
+      <section
+        class="rounded-xl border border-slate-200 bg-white shadow-sm"
+      >
+        <div
+          class="border-b border-slate-100 px-6 py-5"
+        >
+          <h2
+            class="text-base font-semibold text-slate-900"
+          >
+            Venue replacements
+          </h2>
+        </div>
+        <div
+          class="px-6 py-6"
+        >
+          <div
+            class="space-y-4"
+          >
+            <p>
+              Venue Staff must approve the replacement. Proposals do not reserve the alternative venue; availability is checked again at approval.
+            </p>
+            <button
+              class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "
+              type="button"
+            >
+              Reload replacements
+            </button>
+            <p>
+              No affected bookings are eligible for a new proposal.
+            </p>
+            <h3
+              class="font-semibold"
+              id="venue-replacement-history"
+            >
+              Replacement requests and history
+            </h3>
+            <ul
+              class="space-y-4"
+            >
+              <li
+                class="space-y-3 rounded border p-4"
+              >
+                <h4
+                  class="font-semibold"
+                >
+                  Workshop
+                  :
+                  Retired Hall
+                   →
+                  Alternative Hall
+                </h4>
+                <p>
+                  Status:
+                  approved
+                  . Proposed by
+                  Coordinator
+                   at
+                  18 Oct 2026, 09:00
+                </p>
+                <p>
+                  Old hall retired
+                </p>
+                <p>
+                  Workshop
+                   —
+                  3 Jan 2039, 09:00
+                   to
+                  3 Jan 2039, 11:00
+                  ; attendance
+                  50
+                </p>
+                <p>
+                  Requested layout:
+                  theatre
+                  . Accessibility:
+                  wheelchair_access
+                  . Facilities:
+                  wifi
+                  .
+                </p>
+                <p>
+                  Alternative venue: capacity
+                  120
+                  ; layout
+                  Theatre
+                  ; accessibility
+                  wheelchair_access
+                  ; facilities
+                  wifi
+                  .
+                </p>
+                <p>
+                  Special arrangements:
+                  Early setup
+                </p>
+                <p>
+                  Decision by
+                   at
+                  —
+                  :
+                </p>
+                <p>
+                  Replacement booking recorded:
+                  20655000-0000-4000-8000-000000000001
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/venues/__tests__/MyVenueBookingsReplacement.test.tsx > AC-048.5.2: original remains Needs replacement through pending, rejected and withdrawn requests; approval refresh removes it
+TestingLibraryElementError: Unable to find an element with the text: Cancelled. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6"
+    >
+      <div
+        class="mb-8 max-w-3xl"
+      >
+        <p
+          class="text-xs font-semibold uppercase tracking-wider text-indigo-600"
+        >
+          Event coordinator
+        </p>
+        <h1
+          class="mt-2 text-3xl font-bold tracking-tight text-slate-900"
+        >
+          Your venue bookings
+        </h1>
+        <p
+          class="mt-3 text-sm leading-relaxed text-slate-600"
+        >
+          Tentative holds and submitted booking requests, newest first.
+        </p>
+      </div>
+      <div
+        class="space-y-4"
+      >
+        <ul
+          class="space-y-4"
+        >
+          <li>
+            <section
+              class="rounded-xl border border-slate-200 bg-white shadow-sm"
+            >
+              <div
+                class="border-b border-slate-100 px-6 py-5"
+              >
+                <h2
+                  class="text-base font-semibold text-slate-900"
+                >
+                  Retired Hall
+                </h2>
+              </div>
+              <div
+                class="px-6 py-6"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-3"
+                >
+                  <p
+                    class="text-sm text-slate-600"
+                  >
+                    20652000-0000-4000-8000-000000000001
+                  </p>
+                  <span
+                    class="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium bg-slate-100 text-slate-600"
+                  >
+                    Released
+                  </span>
+                </div>
+                <div
+                  class="mt-4"
+                >
+                  <p
+                    class="mb-2 text-xs text-slate-500"
+                  >
+                    Reserved time ranges (Singapore time)
+                  </p>
+                  <p
+                    class="text-sm text-slate-500"
+                  >
+                    These event times fall outside every bookable slot.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </li>
+          <li>
+            <section
+              class="rounded-xl border border-slate-200 bg-white shadow-sm"
+            >
+              <div
+                class="border-b border-slate-100 px-6 py-5"
+              >
+                <h2
+                  class="text-base font-semibold text-slate-900"
+                >
+                  Alternative Hall
+                </h2>
+              </div>
+              <div
+                class="px-6 py-6"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-3"
+                >
+                  <p
+                    class="text-sm text-slate-600"
+                  >
+                    20652000-0000-4000-8000-000000000001
+                  </p>
+                  <span
+                    class="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium bg-emerald-50 text-emerald-800"
+                  >
+                    Confirmed
+                  </span>
+                </div>
+                <div
+                  class="mt-4"
+                >
+                  <p
+                    class="mb-2 text-xs text-slate-500"
+                  >
+                    Reserved time ranges (Singapore time)
+                  </p>
+                  <p
+                    class="text-sm text-slate-500"
+                  >
+                    These event times fall outside every bookable slot.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </li>
+        </ul>
+      </div>
+      <section
+        class="rounded-xl border border-slate-200 bg-white shadow-sm"
+      >
+        <div
+          class="border-b border-slate-100 px-6 py-5"
+        >
+          <h2
+            class="text-base font-semibold text-slate-900"
+          >
+            Venue replacements
+          </h2>
+        </div>
+        <div
+          class="px-6 py-6"
+        >
+          <div
+            class="space-y-4"
+          >
+            <p>
+              Venue Staff must approve the replacement. Proposals do not reserve the alternative venue; availability is checked again at approval.
+            </p>
+            <button
+              class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "
+              type="button"
+            >
+              Reload replacements
+            </button>
+            <p>
+              No affected bookings are eligible for a new proposal.
+            </p>
+            <h3
+              class="font-semibold"
+              id="venue-replacement-history"
+            >
+              Replacement requests and history
+            </h3>
+            <ul
+              class="space-y-4"
+            >
+              <li
+                class="space-y-3 rounded border p-4"
+              >
+                <h4
+                  class="font-semibold"
+                >
+                  Workshop
+                  :
+                  Retired Hall
+                   →
+                  Alternative Hall
+                </h4>
+                <p>
+                  Status:
+                  approved
+                  . Proposed by
+                  Coordinator
+                   at
+                  18 Oct 2026, 09:00
+                </p>
+                <p>
+                  Old hall retired
+                </p>
+                <p>
+                  Workshop
+                   —
+                  3 Jan 2039, 09:00
+                   to
+                  3 Jan 2039, 11:00
+                  ; attendance
+                  50
+                </p>
+                <p>
+                  Requested layout:
+                  theatre
+                  . Accessibility:
+                  wheelchair_access
+                  . Facilities:
+                  wifi
+                  .
+                </p>
+                <p>
+                  Alternative venue: capacity
+                  120
+                  ; layout
+                  Theatre
+                  ; accessibility
+                  wheelchair_access
+                  ; facilities
+                  wifi
+                  .
+                </p>
+                <p>
+                  Special arrangements:
+                  Early setup
+                </p>
+                <p>
+                  Decision by
+                   at
+                  —
+                  :
+                </p>
+                <p>
+                  Replacement booking recorded:
+                  20655000-0000-4000-8000-000000000001
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6"
+    >
+      <div
+        class="mb-8 max-w-3xl"
+      >
+        <p
+          class="text-xs font-semibold uppercase tracking-wider text-indigo-600"
+        >
+          Event coordinator
+        </p>
+        <h1
+          class="mt-2 text-3xl font-bold tracking-tight text-slate-900"
+        >
+          Your venue bookings
+        </h1>
+        <p
+          class="mt-3 text-sm leading-relaxed text-slate-600"
+        >
+          Tentative holds and submitted booking requests, newest first.
+        </p>
+      </div>
+      <div
+        class="space-y-4"
+      >
+        <ul
+          class="space-y-4"
+        >
+          <li>
+            <section
+              class="rounded-xl border border-slate-200 bg-white shadow-sm"
+            >
+              <div
+                class="border-b border-slate-100 px-6 py-5"
+              >
+                <h2
+                  class="text-base font-semibold text-slate-900"
+                >
+                  Retired Hall
+                </h2>
+              </div>
+              <div
+                class="px-6 py-6"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-3"
+                >
+                  <p
+                    class="text-sm text-slate-600"
+                  >
+                    20652000-0000-4000-8000-000000000001
+                  </p>
+                  <span
+                    class="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium bg-slate-100 text-slate-600"
+                  >
+                    Released
+                  </span>
+                </div>
+                <div
+                  class="mt-4"
+                >
+                  <p
+                    class="mb-2 text-xs text-slate-500"
+                  >
+                    Reserved time ranges (Singapore time)
+                  </p>
+                  <p
+                    class="text-sm text-slate-500"
+                  >
+                    These event times fall outside every bookable slot.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </li>
+          <li>
+            <section
+              class="rounded-xl border border-slate-200 bg-white shadow-sm"
+            >
+              <div
+                class="border-b border-slate-100 px-6 py-5"
+              >
+                <h2
+                  class="text-base font-semibold text-slate-900"
+                >
+                  Alternative Hall
+                </h2>
+              </div>
+              <div
+                class="px-6 py-6"
+              >
+                <div
+                  class="flex flex-wrap items-center justify-between gap-3"
+                >
+                  <p
+                    class="text-sm text-slate-600"
+                  >
+                    20652000-0000-4000-8000-000000000001
+                  </p>
+                  <span
+                    class="inline-block rounded-full px-2.5 py-0.5 text-xs font-medium bg-emerald-50 text-emerald-800"
+                  >
+                    Confirmed
+                  </span>
+                </div>
+                <div
+                  class="mt-4"
+                >
+                  <p
+                    class="mb-2 text-xs text-slate-500"
+                  >
+                    Reserved time ranges (Singapore time)
+                  </p>
+                  <p
+                    class="text-sm text-slate-500"
+                  >
+                    These event times fall outside every bookable slot.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </li>
+        </ul>
+      </div>
+      <section
+        class="rounded-xl border border-slate-200 bg-white shadow-sm"
+      >
+        <div
+          class="border-b border-slate-100 px-6 py-5"
+        >
+          <h2
+            class="text-base font-semibold text-slate-900"
+          >
+            Venue replacements
+          </h2>
+        </div>
+        <div
+          class="px-6 py-6"
+        >
+          <div
+            class="space-y-4"
+          >
+            <p>
+              Venue Staff must approve the replacement. Proposals do not reserve the alternative venue; availability is checked again at approval.
+            </p>
+            <button
+              class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "
+              type="button"
+            >
+              Reload replacements
+            </button>
+            <p>
+              No affected bookings are eligible for a new proposal.
+            </p>
+            <h3
+              class="font-semibold"
+              id="venue-replacement-history"
+            >
+              Replacement requests and history
+            </h3>
+            <ul
+              class="space-y-4"
+            >
+              <li
+                class="space-y-3 rounded border p-4"
+              >
+                <h4
+                  class="font-semibold"
+                >
+                  Workshop
+                  :
+                  Retired Hall
+                   →
+                  Alternative Hall
+                </h4>
+                <p>
+                  Status:
+                  approved
+                  . Proposed by
+                  Coordinator
+                   at
+                  18 Oct 2026, 09:00
+                </p>
+                <p>
+                  Old hall retired
+                </p>
+                <p>
+                  Workshop
+                   —
+                  3 Jan 2039, 09:00
+                   to
+                  3 Jan 2039, 11:00
+                  ; attendance
+                  50
+                </p>
+                <p>
+                  Requested layout:
+                  theatre
+                  . Accessibility:
+                  wheelchair_access
+                  . Facilities:
+                  wifi
+                  .
+                </p>
+                <p>
+                  Alternative venue: capacity
+                  120
+                  ; layout
+                  Theatre
+                  ; accessibility
+                  wheelchair_access
+                  ; facilities
+                  wifi
+                  .
+                </p>
+                <p>
+                  Special arrangements:
+                  Early setup
+                </p>
+                <p>
+                  Decision by
+                   at
+                  —
+                  :
+                </p>
+                <p>
+                  Replacement booking recorded:
+                  20655000-0000-4000-8000-000000000001
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/features/venues/__tests__/MyVenueBookingsReplacement.test.tsx:56:23
+     54|   await userEvent.click(screen.getByRole('button', { name: 'Reload rep…
+     55|   await waitFor(() => expect(screen.queryByText('Needs replacement')).…
+     56|   expect(await screen.findByText('Cancelled')).toBeInTheDocument()
+       |                       ^
+     57|   expect(screen.getByText(/Replacement booking recorded/)).toHaveTextC…
+     58| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/features/venues/__tests__/VenueReplacementSearchPage.test.tsx > AC-048.2.3: empty, failed and unavailable-options searches never show stale selectable candidates
+TestingLibraryElementError: Unable to find an accessible element with the role "button" and name "Search"
+
+Here are the accessible roles:
+
+  heading:
+
+  Name "Find a replacement venue":
+  <h2
+    class="text-base font-semibold text-slate-900"
+  />
+
+  Name "Workshop — Retired Hall":
+  <h2
+    class="font-semibold"
+  />
+
+  --------------------------------------------------
+  link:
+
+  Name "Back to your venue bookings":
+  <a
+    class="text-indigo-700 hover:underline"
+    data-discover="true"
+    href="/venues/bookings"
+  />
+
+  --------------------------------------------------
+  button:
+
+  Name "Reload booking and search":
+  <button
+    class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "
+    type="button"
+  />
+
+  Name "Clear filters":
+  <button
+    class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "
+    disabled=""
+    type="button"
+  />
+
+  Name "Searching…":
+  <button
+    class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "
+    disabled=""
+    type="button"
+  />
+
+  --------------------------------------------------
+  paragraph:
+
+  Name "":
+  <p
+    class="font-semibold text-amber-800"
+  />
+
+  Name "":
+  <p />
+
+  Name "":
+  <p />
+
+  Name "":
+  <p />
+
+  Name "":
+  <p />
+
+  Name "":
+  <p
+    class="mt-1 text-slate-500"
+  />
+
+  Name "":
+  <p
+    class="text-xs text-slate-500"
+  />
+
+  --------------------------------------------------
+  list:
+
+  Name "":
+  <ul />
+
+  --------------------------------------------------
+  listitem:
+
+  Name "":
+  <li />
+
+  Name "":
+  <li />
+
+  --------------------------------------------------
+  combobox:
+
+  Name "Search for one of your events":
+  <select
+    class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 disabled:bg-slate-100"
+    disabled=""
+    id="venue-search-event"
+  />
+
+  Name "Layout":
+  <select
+    class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 disabled:bg-slate-100"
+    disabled=""
+    id="venue-search-layout"
+  />
+
+  --------------------------------------------------
+  option:
+
+  Name "— Manual search —":
+  <option
+    value=""
+  />
+
+  Name "Workshop":
+  <option
+    value="20652000-0000-4000-8000-000000000001"
+  />
+
+  Name "Any layout":
+  <option
+    value=""
+  />
+
+  Name "Theatre":
+  <option
+    value="theatre"
+  />
+
+  --------------------------------------------------
+  textbox:
+
+  Name "Search by name or location":
+  <input
+    class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 aria-[invalid=true]:border-red-400 aria-[invalid=true]:ring-red-500/20 disabled:bg-slate-100"
+    disabled=""
+    id="venue-search-keyword"
+    value=""
+  />
+
+  --------------------------------------------------
+  spinbutton:
+
+  Name "Expected attendance":
+  <input
+    class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 aria-[invalid=true]:border-red-400 aria-[invalid=true]:ring-red-500/20 disabled:bg-slate-100"
+    disabled=""
+    id="venue-search-attendance"
+    min="1"
+    type="number"
+    value="50"
+  />
+
+  --------------------------------------------------
+  group:
+
+  Name "Accessibility":
+  <fieldset
+    disabled=""
+  />
+
+  Name "Facilities":
+  <fieldset
+    disabled=""
+  />
+
+  --------------------------------------------------
+  checkbox:
+
+  Name "Wheelchair access":
+  <input
+    checked=""
+    type="checkbox"
+  />
+
+  Name "Hearing loop":
+  <input
+    type="checkbox"
+  />
+
+  Name "Accessible toilet":
+  <input
+    type="checkbox"
+  />
+
+  Name "Lift access":
+  <input
+    type="checkbox"
+  />
+
+  Name "Projector":
+  <input
+    type="checkbox"
+  />
+
+  Name "Microphone":
+  <input
+    type="checkbox"
+  />
+
+  Name "Stage":
+  <input
+    type="checkbox"
+  />
+
+  Name "Wi-Fi":
+  <input
+    checked=""
+    type="checkbox"
+  />
+
+  --------------------------------------------------
+  alert:
+
+  Name "":
+  <p
+    class="text-red-700"
+    role="alert"
+  />
+
+  --------------------------------------------------
+
+Ignored nodes: comments, script, style
+<body>
+  <div />
+  <div>
+    <div
+      class="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6"
+    >
+      <section
+        class="rounded-xl border border-slate-200 bg-white shadow-sm"
+      >
+        <div
+          class="border-b border-slate-100 px-6 py-5"
+        >
+          <h2
+            class="text-base font-semibold text-slate-900"
+          >
+            Find a replacement venue
+          </h2>
+        </div>
+        <div
+          class="px-6 py-6"
+        >
+          <div
+            class="space-y-4"
+          >
+            <a
+              class="text-indigo-700 hover:underline"
+              data-discover="true"
+              href="/venues/bookings"
+            >
+              Back to your venue bookings
+            </a>
+            <button
+              class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "
+              type="button"
+            >
+              Reload booking and search
+            </button>
+            <h2
+              class="font-semibold"
+            >
+              Workshop
+               —
+              Retired Hall
+            </h2>
+            <p
+              class="font-semibold text-amber-800"
+            >
+              Needs replacement
+            </p>
+            <ul>
+              <li>
+                Venue blocked: Ceiling unsafe
+              </li>
+              <li>
+                Venue retired: Building closed
+              </li>
+            </ul>
+            <p>
+              Event time (Singapore):
+              3 Jan 2039, 09:00
+               to
+              3 Jan 2039, 11:00
+              .
+            </p>
+            <p>
+              Attendance:
+              50
+              . Layout:
+              theatre
+              .
+            </p>
+            <p>
+              The event’s full date and time are kept for this search. No event details are changed when adjusting venue filters.
+            </p>
+            <div
+              class="space-y-4"
+            >
+              <div
+                class="space-y-4 rounded-xl border border-slate-200 p-5"
+              >
+                <div
+                  class="space-y-1.5"
+                >
+                  <label
+                    class="block text-sm font-medium text-slate-700"
+                    for="venue-search-event"
+                  >
+                    Search for one of your events
+                  </label>
+                  <select
+                    class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 disabled:bg-slate-100"
+                    disabled=""
+                    id="venue-search-event"
+                  >
+                    <option
+                      value=""
+                    >
+                      — Manual search —
+                    </option>
+                    <option
+                      value="20652000-0000-4000-8000-000000000001"
+                    >
+                      Workshop
+                    </option>
+                  </select>
+                </div>
+                <div
+                  class="rounded-lg bg-slate-50 p-3 text-xs text-slate-600"
+                >
+                  <p>
+                    This event’s requested date and time decide which venues show as available, and its requirements have been applied to the filters below.
+                  </p>
+                  <p
+                    class="mt-1 text-slate-500"
+                  >
+                    Untick a requirement below to widen the search.
+                  </p>
+                </div>
+                <div
+                  class="grid gap-4 sm:grid-cols-2"
+                >
+                  <div
+                    class="space-y-1.5"
+                  >
+                    <label
+                      class="block text-sm font-medium text-slate-700"
+                      for="venue-search-keyword"
+                    >
+                      Search by name or location
+                    </label>
+                    <input
+                      class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 aria-[invalid=true]:border-red-400 aria-[invalid=true]:ring-red-500/20 disabled:bg-slate-100"
+                      disabled=""
+                      id="venue-search-keyword"
+                      value=""
+                    />
+                  </div>
+                  <div
+                    class="space-y-1.5"
+                  >
+                    <label
+                      class="block text-sm font-medium text-slate-700"
+                      for="venue-search-attendance"
+                    >
+                      Expected attendance
+                    </label>
+                    <input
+                      class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 aria-[invalid=true]:border-red-400 aria-[invalid=true]:ring-red-500/20 disabled:bg-slate-100"
+                      disabled=""
+                      id="venue-search-attendance"
+                      min="1"
+                      type="number"
+                      value="50"
+                    />
+                  </div>
+                  <div
+                    class="space-y-1.5"
+                  >
+                    <label
+                      class="block text-sm font-medium text-slate-700"
+                      for="venue-search-layout"
+                    >
+                      Layout
+                    </label>
+                    <select
+                      class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 disabled:bg-slate-100"
+                      disabled=""
+                      id="venue-search-layout"
+                    >
+                      <option
+                        value=""
+                      >
+                        Any layout
+                      </option>
+                      <option
+                        value="theatre"
+                      >
+                        Theatre
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <fieldset
+                  disabled=""
+                >
+                  <legend
+                    class="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500"
+                  >
+                    Accessibility
+                  </legend>
+                  <div
+                    class="flex flex-wrap gap-3"
+                  >
+                    <label
+                      class="flex items-center gap-2 text-sm text-slate-700"
+                    >
+                      <input
+                        checked=""
+                        type="checkbox"
+                      />
+                      Wheelchair access
+                    </label>
+                    <label
+                      class="flex items-center gap-2 text-sm text-slate-700"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                      Hearing loop
+                    </label>
+                    <label
+                      class="flex items-center gap-2 text-sm text-slate-700"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                      Accessible toilet
+                    </label>
+                    <label
+                      class="flex items-center gap-2 text-sm text-slate-700"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                      Lift access
+                    </label>
+                  </div>
+                </fieldset>
+                <fieldset
+                  disabled=""
+                >
+                  <legend
+                    class="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500"
+                  >
+                    Facilities
+                  </legend>
+                  <div
+                    class="flex flex-wrap gap-3"
+                  >
+                    <label
+                      class="flex items-center gap-2 text-sm text-slate-700"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                      Projector
+                    </label>
+                    <label
+                      class="flex items-center gap-2 text-sm text-slate-700"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                      Microphone
+                    </label>
+                    <label
+                      class="flex items-center gap-2 text-sm text-slate-700"
+                    >
+                      <input
+                        type="checkbox"
+                      />
+                      Stage
+                    </label>
+                    <label
+                      class="flex items-center gap-2 text-sm text-slate-700"
+                    >
+                      <input
+                        checked=""
+                        type="checkbox"
+                      />
+                      Wi-Fi
+                    </label>
+                  </div>
+                </fieldset>
+                <p
+                  class="text-xs text-slate-500"
+                >
+                  Applied from
+                  Workshop
+                  :
+
+                  layout theatre · Wheelchair access · Wi-Fi
+                </p>
+                <div
+                  class="flex flex-wrap items-center justify-end gap-3 border-t border-slate-100 pt-4"
+                >
+                  <button
+                    class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "
+                    disabled=""
+                    type="button"
+                  >
+                    Clear filters
+                  </button>
+                  <button
+                    class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "
+                    disabled=""
+                    type="button"
+                  >
+                    Searching…
+                  </button>
+                </div>
+              </div>
+              <p
+                class="text-red-700"
+                role="alert"
+              >
+                Booking times could not be loaded. Reload and try again.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/features/venues/__tests__/VenueReplacementSearchPage.test.tsx:69:17
+     67|   show()
+     68|   expect(await screen.findByRole('alert')).toHaveTextContent('Booking …
+     69|   expect(screen.getByRole('button', { name: 'Search', exact: true })).…
+       |                 ^
+     70| })
+     71|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+ Test Files  2 failed | 4 passed (6)
+      Tests  2 failed | 36 passed (38)
+   Start at  11:06:56
+   Duration  3.04s (transform 452ms, setup 580ms, collect 2.15s, tests 2.83s, environment 3.54s, prepare 619ms)

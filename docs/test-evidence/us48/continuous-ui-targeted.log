@@ -1,0 +1,113 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/venues/__tests__/VenueBlockForm.test.tsx src/features/venues/__tests__/SlotPicker.test.tsx src/features/venues/__tests__/VenueBlocksPage.test.tsx src/features/venues/__tests__/venueBlockService src/features/venues/__tests__/venueBlockValidation.test.ts src/features/venues/__tests__/VenueBlockList
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+ ✓ src/features/venues/__tests__/venueBlockService.preview.test.ts (3 tests) 7ms
+ ✓ src/features/venues/__tests__/venueBlockValidation.test.ts (13 tests) 6ms
+ ✓ src/features/venues/__tests__/venueBlockService.period.test.ts (2 tests) 7ms
+ ✓ src/features/venues/__tests__/venueBlockService.currentBlocks.test.ts (5 tests) 5ms
+ ✓ src/features/venues/__tests__/venueBlockService.create.test.ts (10 tests) 7ms
+ ✓ src/features/venues/__tests__/VenueBlockList.test.tsx (5 tests) 52ms
+ ✓ src/features/venues/__tests__/VenueBlockList.remove.test.tsx (3 tests) 179ms
+ ✓ src/features/venues/__tests__/SlotPicker.test.tsx (3 tests) 337ms
+stderr | src/features/venues/__tests__/VenueBlockForm.test.tsx > AC-012.7 — overlaps are previewed before saving > AC-012.7.12: Confirm block appears only after a preview, and confirms what was previewed
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (/Users/jaydon/Desktop/is212/frontend/src/features/venues/components/VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (/Users/jaydon/Desktop/is212/frontend/src/features/venues/components/VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (/Users/jaydon/Desktop/is212/frontend/src/features/venues/components/VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (/Users/jaydon/Desktop/is212/frontend/src/features/venues/components/VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (/Users/jaydon/Desktop/is212/frontend/src/features/venues/components/VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (/Users/jaydon/Desktop/is212/frontend/src/features/venues/components/VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (/Users/jaydon/Desktop/is212/frontend/src/features/venues/components/VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (/Users/jaydon/Desktop/is212/frontend/src/features/venues/components/VenueBlockForm.tsx:21:27)
+
+ ✓ src/features/venues/__tests__/VenueBlocksPage.test.tsx (4 tests) 356ms
+ ✓ src/features/venues/__tests__/venueBlockService.venues.test.ts (2 tests) 3ms
+ ✓ src/features/venues/__tests__/VenueBlockForm.test.tsx (8 tests) 668ms
+
+ Test Files  11 passed (11)
+      Tests  58 passed (58)
+   Start at  11:55:14
+   Duration  2.83s (transform 712ms, setup 1.68s, collect 2.22s, tests 1.63s, environment 8.73s, prepare 1.38s)

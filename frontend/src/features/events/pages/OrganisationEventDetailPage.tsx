@@ -8,6 +8,7 @@ import { StatusBadge } from '../components/StatusBadge'
 import { formatDateTime, orDash } from '../formatters'
 import { ORGANISATION_EVENT_MESSAGES, loadOrganisationEvent } from '../organisationEventService'
 import type { LoadResult, OrganisationEventDetail } from '../organisationEventService'
+import { RegistrationsCard } from '../components/RegistrationsCard'
 
 /**
  * US31 AC-031.2: one of the organisation's events, for a colleague who does not own it.
@@ -98,17 +99,7 @@ function EventDetail({ eventId }: { eventId: string }) {
 
     {/* US54 AC-054.4. 0094 decides whether this colleague may actually read the list; the
         link is a courtesy, and the page it opens reports a refusal plainly if not. */}
-    <Card
-      title="Registrations"
-      description="Who has registered for this event, and how many places are taken."
-    >
-      <Link
-        to={`/requests/${event.id}/registrations`}
-        className="text-sm font-medium text-indigo-700 hover:underline"
-      >
-        Open registrations
-      </Link>
-    </Card>
+    <RegistrationsCard eventId={event.id} canOpenRollCall={event.isMine} />
 
     {event.isMine && (
       <Card title="Your request">

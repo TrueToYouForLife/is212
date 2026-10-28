@@ -10,6 +10,9 @@ export interface NotificationPreference {
   email: boolean
   /** False while the type is still on its default (both on, AC-033.3). */
   customised: boolean
+  /** An administrator has switched this channel off for everyone, which overrides the person's choice. */
+  inAppOffForEveryone: boolean
+  emailOffForEveryone: boolean
 }
 
 export const PREFERENCE_MESSAGES = {
@@ -29,6 +32,8 @@ const rowSchema = z.object({
   in_app: z.boolean(),
   email: z.boolean(),
   customised: z.boolean(),
+  in_app_off_for_everyone: z.boolean(),
+  email_off_for_everyone: z.boolean(),
 })
 
 /** AC-033.1, AC-033.3: the types for the user's role, each with their choice or the default. */
@@ -49,6 +54,7 @@ export async function getMyNotificationPreferences(): Promise<PreferencesResult>
     preferences: parsed.data.map((row) => ({
       typeCode: row.type_code, label: row.label, description: row.description,
       inApp: row.in_app, email: row.email, customised: row.customised,
+      inAppOffForEveryone: row.in_app_off_for_everyone, emailOffForEveryone: row.email_off_for_everyone,
     })),
   }
 }

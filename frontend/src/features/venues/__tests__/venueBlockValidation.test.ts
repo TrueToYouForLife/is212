@@ -6,7 +6,7 @@ const valid: VenueBlockInput = {
   venueId: 'v1',
   startsOn: '2040-03-10',
   endsOn: '2040-03-10',
-  slots: ['AM'],
+  slots: ['T0900'],
   reason: 'Repairs',
 }
 
@@ -73,9 +73,9 @@ describe('AC-012.2 — one or more slots', () => {
   })
 
   test('AC-012.2.19: repeated and unordered slots are passed on once each, in time order', () => {
-    expect(validateVenueBlock({ ...valid, slots: ['NIGHT', 'AM', 'AM'] })).toStrictEqual({
+    expect(validateVenueBlock({ ...valid, slots: ['T2345', 'T0900', 'T0900'] })).toStrictEqual({
       ok: true,
-      value: { ...valid, slots: ['AM', 'NIGHT'] },
+      value: { ...valid, slots: ['T0900', 'T2345'] },
     })
   })
 
@@ -89,4 +89,28 @@ describe('AC-012.2 — one or more slots', () => {
       },
     })
   })
+})
+
+test('AC-047.2.35: legacy and malformed codes are refused even alongside valid quarter-hour cells', () => {
+  for (const slot of ['AM', 'PM', 'NIGHT', 'T0010', 'T2400', 'T9999'] as VenueBlockInput['slots']) {
+    const result = validateVenueBlock({ ...valid, slots: ['T0000', slot] })
+    expect(result).toEqual({ ok: false, errors: { slots: BLOCK_VALIDATION_MESSAGES.invalidSlots } })
+  }
+  expect(validateVenueBlock({ ...valid, slots: ['T2345', 'T0000', 'T1200', 'T0000'] }))
+    .toEqual({ ok: true, value: { ...valid, slots: ['T0000', 'T1200', 'T2345'] } })
+})
+
+test('AC-012.2.31: continuous periods validate quarter hours, overnight order, midnight and the occupied-day limit', () => {
+  const period = { ...valid, slots: [], startsOn: '2049-10-21', endsOn: '2049-10-22', startTime: '21:00', endTime: '08:00' }
+  expect(validateVenueBlock(period).ok).toBe(true)
+  expect(validateVenueBlock({ ...period, endsOn: period.startsOn }).ok).toBe(false)
+  expect(validateVenueBlock({ ...period, endTime: '21:00', endsOn: period.startsOn }).ok).toBe(false)
+  expect(validateVenueBlock({ ...period, startTime: '21:01' }).ok).toBe(false)
+  expect(validateVenueBlock({ ...period, startTime: '24:00' }).ok).toBe(false)
+  expect(validateVenueBlock({ ...period, endTime: '24:15' }).ok).toBe(false)
+  expect(validateVenueBlock({ ...period, startTime: undefined }).ok).toBe(false)
+  expect(validateVenueBlock({ ...period, startsOn: '2049-02-30' }).ok).toBe(false)
+  expect(validateVenueBlock({ ...period, startsOn: '2049-01-01', endsOn: '2050-01-02', startTime: '00:00', endTime: '00:00' }).ok).toBe(true)
+  expect(validateVenueBlock({ ...period, startsOn: '2049-01-01', endsOn: '2050-01-02', startTime: '00:00', endTime: '00:15' }).ok).toBe(false)
+  expect(validateVenueBlock({ ...period, endsOn: period.startsOn, startTime: '23:45', endTime: '24:00' }).ok).toBe(true)
 })
