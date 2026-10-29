@@ -17,7 +17,7 @@ if [ "$ready" != true ]; then echo 'Temporary database did not become ready.' >&
   # 0075 was claimed before migrations that have already been deployed.
   mode="${1:-upgrade}"
   for migration in "$repo_root"/supabase/migrations/*.sql; do
-    case "$migration" in */0098_*|*/0099_*|*/0100_*|*/0102_*|*/0103_*|*/0107_*|*/0109_*|*/0116_*) continue ;;
+    case "$migration" in */0098_*|*/0099_*|*/0100_*|*/0102_*|*/0103_*|*/0107_*|*/0109_*|*/0110_*|*/0116_*) continue ;;
     */0075_*)
       if [ "$mode" != fresh ]; then continue; fi
       cat "$repo_root/supabase/tests/venue_time_conversion_fixture.sql"
@@ -115,10 +115,18 @@ SQL
   # put the shared helper back (with 0107's rule), then checked here.
   cat "$repo_root/supabase/migrations/0108_us43_safety_review.sql"
   cat "$repo_root/supabase/tests/safety_review_readiness.sql"
+  # US26 (0117): re-applying 0108 resets the status rules; put the confirm check back (0117 also
+  # carries 0115's clarification case), then check that a confirmed event's venue time stays taken.
+  cat "$repo_root/supabase/migrations/0117_us26_confirm_when_ready.sql"
+  cat "$repo_root/supabase/tests/confirm_event_booking.sql"
   # US43 slice 2 (0109): the Safety Officer's review queue; it reads continuous venue blocks, so it
   # applies after 0100.
   cat "$repo_root/supabase/migrations/0109_us43_safety_review_queue.sql"
   cat "$repo_root/supabase/tests/safety_review_queue.sql"
+  cat "$repo_root/supabase/migrations/0110_individual_venue_cancellation.sql"
+  cat "$repo_root/supabase/tests/individual_venue_cancellation.sql"
+  cat "$repo_root/supabase/migrations/0110_individual_venue_cancellation.sql"
+  cat "$repo_root/supabase/tests/individual_venue_cancellation.sql"
   # US33 (0103): US12 closure alerts follow each person's channel choices; applies after 0100.
   cat "$repo_root/supabase/migrations/0103_us12_venue_block_notice_channels.sql"
   cat "$repo_root/supabase/tests/venue_block_notice_channels.sql"
@@ -140,3 +148,4 @@ bash "$repo_root/supabase/tests/run_equipment_returns.sh" "$container"
 
 # US48: restore safety-stage replacement contracts after historical replays.
 bash "$repo_root/supabase/tests/run_venue_replacement_safety_stages.sh" "$container"
+bash "$repo_root/supabase/tests/individual_venue_cancellation_races.sh" "$container"

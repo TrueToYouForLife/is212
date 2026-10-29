@@ -1,0 +1,73 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/venues/__tests__/venueCancellationService.test.ts -t AC-049.7.33 --maxWorkers=1 --minWorkers=1
+
+
+ RUN  v2.1.9 C:/dev/spm/is212/frontend
+
+ ❯ src/features/venues/__tests__/venueCancellationService.test.ts (2 tests | 1 failed | 1 skipped) 23ms
+   × AC-049.7.33: blank reason performs no request and valid reason sends exact booking and consent version 22ms
+     → expected "spy" to be called with arguments: [ …(2) ]
+
+Received: 
+
+  1st spy call:
+
+  Array [
+    "cancel_individual_venue_booking",
+    Object {
+      "p_booking_id": "b1",
+-     "p_expected_version": "v1",
++     "p_expected_version": "wrong-version",
+      "p_reason": "why",
+    },
+  ]
+
+
+Number of calls: 1
+
+
+npm.cmd : ⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+At line:2 char:427
++ ... ($false))); npm.cmd test -- src/features/venues/__tests__/venueCancel ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+ FAIL  src/features/venues/__tests__/venueCancellationService.test.ts > AC-049.7.33: blank reason performs no request 
+and valid reason sends exact booking and consent version
+AssertionError: expected "spy" to be called with arguments: [ …(2) ]
+
+Received: 
+
+  1st spy call:
+
+  Array [
+    "cancel_individual_venue_booking",
+    Object {
+      "p_booking_id": "b1",
+-     "p_expected_version": "v1",
++     "p_expected_version": "wrong-version",
+      "p_reason": "why",
+    },
+  ]
+
+
+Number of calls: 1
+
+ ❯ src/features/venues/__tests__/venueCancellationService.test.ts:11:15
+      9|   rpc.mockResolvedValue({ data:'b1',error:null })
+     10|   expect((await cancelVenueBooking('b1',' why ','v1')).ok).toBe(true)
+     11|   expect(rpc).toHaveBeenCalledWith('cancel_individual_venue_booking',{…
+       |               ^
+     12| })
+     13| test('AC-049.7.34: malformed, refused and network results fail closed'…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 1 skipped (2)
+   Start at  23:16:46
+   Duration  3.62s (transform 128ms, setup 369ms, collect 85ms, tests 23ms, environment 1.69s, prepare 172ms)
+

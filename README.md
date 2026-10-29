@@ -1360,6 +1360,22 @@ earlier decisions. Each decision records who made it and when.
 
 Test cases: `docs/test-cases/US44_test_cases.md`.
 
+## US26 Confirm an event (SCRUM-71)
+
+A Coordinator confirms an event only once every essential arrangement on its Readiness card is
+complete (registration setup aside, as it opens on confirmation). The check is in the status rules
+(0117), so any change to Confirmed goes through it, not only the Confirm button; when it refuses,
+the Coordinator is told the event is not ready. With the safety review switched off, events are
+confirmed from Planning as before; switched on, only from In Preparation, after the Safety
+Officer's approval. A confirmed event shows as Confirmed to its Organiser and Coordinator, and its
+approved venue booking keeps the venue's time taken.
+
+| File | Adds |
+| --- | --- |
+| `0117_us26_confirm_when_ready.sql` | `event_ready_to_confirm()`, and the readiness check in `enforce_event_status_transition()` (built on 0115) |
+
+Test cases: `docs/test-cases/US26_test_cases.md`.
+
 ## US32 View in-app notifications (SCRUM-229)
 
 Built in slices (trunk-based). **Slice 1 (the feed):** **Notifications** (`/notifications`, in
@@ -1583,3 +1599,21 @@ evidence sheet is up to date. Documentation merge and Jira transition remain.
 See [story notes](docs/us48-venue-replacement.md),
 [test cases](docs/test-cases/US48_test_cases.md) and
 [evidence](docs/test-evidence/us48/README.md).
+
+## US49 — multiple venues per event
+
+Assigned Coordinators can request several venues, each with its own layout and
+attendance (0102). Each booking is reviewed independently; the event shows every
+booking and its status. Rejected requirements remain outstanding until explicitly
+resolved/cancelled (0107, retained in US43's shared readiness helper).
+
+Migration **0110** adds reason-required individual cancellation of pending,
+approved and rejected bookings. It records actor/time, retains original decisions,
+releases only that booking's slots and buffers, and notifies Venue Staff through
+their channel preferences. Other bookings and the event remain unchanged, even
+when the last booking is cancelled. Tentative holds keep their existing release
+action. Deploy 0110 and the cancellation UI before enabling the safety workflow;
+this migration does not toggle the safety switch.
+
+See [Slice 1](docs/us49-slice1.md), [Slice 2](docs/us49-slice2.md) and
+[Slice 3 / deployment and manual checks](docs/us49-slice3.md).

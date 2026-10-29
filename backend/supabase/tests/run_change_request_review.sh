@@ -26,7 +26,7 @@ if [ "$ready" != true ]; then echo 'Temporary database did not become ready.' >&
   # Historical suite exercises pre-conversion contracts and their migration replays.
   # Current quarter-hour upgrade/fresh-install coverage runs separately in CI.
   for migration in "$repo_root"/supabase/migrations/*.sql; do
-    case "$migration" in */0075_*|*/0098_*|*/0099_*|*/0100_*|*/0101_*|*/0102_*|*/0103_*|*/0107_*|*/0109_*|*/0116_*) continue ;; esac
+    case "$migration" in */0075_*|*/0098_*|*/0099_*|*/0100_*|*/0101_*|*/0102_*|*/0103_*|*/0107_*|*/0109_*|*/0110_*|*/0116_*) continue ;; esac
     cat "$migration"; printf '\n'; done
   cat "$repo_root/supabase/tests/change_request_review.sql"
   cat "$repo_root/supabase/migrations/0008_change_request_review.sql"
@@ -258,6 +258,8 @@ SQL
   cat "$repo_root/supabase/migrations/0066_withdraw_submitted_request.sql"
   # Replaying 0066 restores its stamp_event_review; 0115 is the later, combined version.
   cat "$repo_root/supabase/migrations/0115_clarification_response_after_safety_review.sql"
+  # US26: replaying 0115 resets the status rules; put the confirm check back (0117).
+  cat "$repo_root/supabase/migrations/0117_us26_confirm_when_ready.sql"
   cat <<'SQL'
 select pg_temp.assert_true(
  not exists (
@@ -270,6 +272,8 @@ SQL
   # US43: 0066's replay restores its own status list; put the safety stages back (0108).
   cat "$repo_root/supabase/migrations/0108_us43_safety_review.sql"
   cat "$repo_root/supabase/migrations/0115_clarification_response_after_safety_review.sql"
+  # US26: replaying 0115 resets the status rules; put the confirm check back (0117).
+  cat "$repo_root/supabase/migrations/0117_us26_confirm_when_ready.sql"
   cat "$repo_root/supabase/tests/venue_booking_approval.sql"
   cat "$repo_root/supabase/migrations/0045_venue_booking_approval.sql"
   cat <<'SQL'
@@ -427,6 +431,8 @@ SQL
   cat "$repo_root/supabase/migrations/0096_clarification_response.sql"
   # 0096 alone reverts 0108 and its own carve-out; 0115 is the combined, final word.
   cat "$repo_root/supabase/migrations/0115_clarification_response_after_safety_review.sql"
+  # US26: replaying 0115 resets the status rules; put the confirm check back (0117).
+  cat "$repo_root/supabase/migrations/0117_us26_confirm_when_ready.sql"
   cat <<'SQL'
 -- clarification_response.sql ends with the session reset, and this assertion reads the
 -- response record under RLS: with nobody signed in it returns nothing, which would make
@@ -463,6 +469,9 @@ SQL
   # US44: the Safety Officer's decision (0111).
   cat "$repo_root/supabase/migrations/0111_us44_safety_review_decisions.sql"
   cat "$repo_root/supabase/tests/safety_review_decisions.sql"
+  # US26: confirming an event (0117; 0108 was applied again above, so 0117 is too).
+  cat "$repo_root/supabase/migrations/0117_us26_confirm_when_ready.sql"
+  cat "$repo_root/supabase/tests/confirm_event.sql"
   # US34: audit trail. 0101 is applied here, after every earlier fixture, so their deletes and
   # status shortcuts are not run against its triggers.
   cat "$repo_root/supabase/migrations/0101_event_audit_log.sql"

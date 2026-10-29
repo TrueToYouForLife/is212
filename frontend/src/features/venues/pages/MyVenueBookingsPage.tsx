@@ -13,6 +13,7 @@ import { VenueReplacementPanel } from '../components/VenueReplacementPanel'
 import { daysUntilExpiry, isHoldLive } from '../holdRules'
 import { listMyVenueBookings, releaseHold, submitVenueBooking } from '../venueBookingService'
 import type { VenueBookingSummary } from '../bookingTypes'
+import { VenueCancellationPanel } from '../components/VenueCancellationPanel'
 
 /** AC: the coordinator can view their submitted requests and each one's current status,
  *  convert a hold into a request, and release a hold they no longer need. */
@@ -138,7 +139,10 @@ export function MyVenueBookingsPage() {
                       <SlotClaimPreview cells={booking.cells} compact />
                     </div>
 
-                    {(booking.status === 'held' || booking.status === 'pending_approval') && (
+                    {booking.status !== 'held' && booking.status !== 'expired' && (
+                      <VenueCancellationPanel key={`${profile?.id}:${booking.id}`} bookingId={booking.id} onChanged={() => void load()} />
+                    )}
+                    {booking.status === 'held' && (
                       <div className="mt-5 flex flex-wrap items-center justify-end gap-3">
                         {booking.status === 'held' && live && (
                           <Button
