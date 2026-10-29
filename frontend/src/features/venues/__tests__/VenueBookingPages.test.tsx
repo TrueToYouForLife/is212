@@ -18,10 +18,12 @@ import { BOOKING_ID, EVENT_ID, VENUE_ID, sgt } from './fixtures/venueBooking'
 
 const mocks = vi.hoisted(() => ({
   role: 'coordinator' as string,
+  cancellationContext: vi.fn(), cancelBooking: vi.fn(),
   getVenue: vi.fn(), getVenueTimetable: vi.fn(),
   loadTimeSlots: vi.fn(), listMyAssignedEvents: vi.fn(),
   holdVenue: vi.fn(), listMyVenueBookings: vi.fn(), submitVenueBooking: vi.fn(), releaseHold: vi.fn(),
 }))
+vi.mock('../venueCancellationService', () => ({ getVenueCancellation: mocks.cancellationContext, cancelVenueBooking: mocks.cancelBooking }))
 
 vi.mock('../../auth/sessionContext', () => ({
   useCurrentUser: () => ({ loading: false, profile: { id: 'viewer', role: mocks.role } }),
@@ -72,6 +74,8 @@ const EMPTY_TIMETABLE = buildTimetable(SLOTS, [], '2026-10-12', 7)
 beforeEach(() => {
   vi.resetAllMocks()
   mocks.role = 'coordinator'
+  mocks.cancellationContext.mockResolvedValue({ status: 'pending_approval', version: 'v1', audit: null })
+  mocks.cancelBooking.mockResolvedValue({ ok: true })
   mocks.getVenue.mockResolvedValue({ ok: true, venue: VENUE })
   mocks.getVenueTimetable.mockResolvedValue({ ok: true, timetable: EMPTY_TIMETABLE })
   mocks.loadTimeSlots.mockResolvedValue(SLOTS)
@@ -257,21 +261,28 @@ describe('MyVenueBookingsPage — AC-009.9 / AC-011.7 / AC-011.8', () => {
     await user().click(await screen.findByRole('button', { name: 'Release hold' }))
     expect(await screen.findByText('This hold can no longer be released.')).toBeInTheDocument()
   })
-  test('AC-009.9.14: a request awaiting review can be released but not submitted again', async () => {
+  test('AC-009.9.14 / AC-049.7.35: a pending request uses reasoned cancellation and cannot be submitted again', async () => {
     mocks.listMyVenueBookings.mockResolvedValue({
       ok: true, bookings: [{ ...HELD, status: 'pending_approval' as const }],
     })
     show()
     expect(await screen.findByText('Awaiting Venue Staff')).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Submit for approval' })).not.toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Release hold' })).toBeInTheDocument()
+    expect(await screen.findByRole('button', { name: 'Cancel booking' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'Release hold' })).not.toBeInTheDocument()
+    await user().click(screen.getByRole('button', { name: 'Cancel booking' }))
+    await user().type(screen.getByLabelText('Cancellation reason'), 'Remove this request')
+    await user().click(screen.getByRole('button', { name: 'Confirm cancellation' }))
+    expect(mocks.cancelBooking).toHaveBeenCalledWith(BOOKING_ID, 'Remove this request', 'v1')
   })
-  test('AC-009.9.15: a rejected request shows the Venue Staff note and offers no actions', async () => {
+  test('AC-009.9.15 / AC-049.7.36: a rejected request retains its note and offers explicit cancellation', async () => {
+    mocks.cancellationContext.mockResolvedValue({ status: 'rejected', version: 'v1', audit: null })
     mocks.listMyVenueBookings.mockResolvedValue({
       ok: true, bookings: [{ ...HELD, status: 'rejected' as const, reviewNote: 'Clashes with maintenance.' }],
     })
     show()
     expect(await screen.findByText('Clashes with maintenance.')).toBeInTheDocument()
+    expect(await screen.findByRole('button', { name: 'Cancel booking' })).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Release hold' })).not.toBeInTheDocument()
   })
   test('AC-009.9.16: having held nothing yet reads as an invitation, not an error', async () => {

@@ -1,0 +1,17 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/venues/__tests__/VenueCancellationPanel.test.tsx src/features/venues/__tests__/venueCancellationService.test.ts --maxWorkers=2 --minWorkers=1
+
+
+ RUN  v2.1.9 C:/dev/spm/is212/frontend
+
+ ✓ src/features/venues/__tests__/venueCancellationService.test.ts (2 tests) 8ms
+ ✓ src/features/venues/__tests__/VenueCancellationPanel.test.tsx (4 tests) 1132ms
+   ✓ AC-049.7.30: cancellation requires a reason and uses the displayed version for the selected booking 581ms
+   ✓ AC-049.7.31: failure preserves the reason and requires reload before retrying with fresh consent 527ms
+
+ Test Files  2 passed (2)
+      Tests  6 passed (6)
+   Start at  23:36:26
+   Duration  4.65s (transform 166ms, setup 545ms, collect 622ms, tests 1.14s, environment 2.71s, prepare 337ms)
+

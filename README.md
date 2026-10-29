@@ -1571,3 +1571,21 @@ evidence sheet is up to date. Documentation merge and Jira transition remain.
 See [story notes](docs/us48-venue-replacement.md),
 [test cases](docs/test-cases/US48_test_cases.md) and
 [evidence](docs/test-evidence/us48/README.md).
+
+## US49 — multiple venues per event
+
+Assigned Coordinators can request several venues, each with its own layout and
+attendance (0102). Each booking is reviewed independently; the event shows every
+booking and its status. Rejected requirements remain outstanding until explicitly
+resolved/cancelled (0107, retained in US43's shared readiness helper).
+
+Migration **0110** adds reason-required individual cancellation of pending,
+approved and rejected bookings. It records actor/time, retains original decisions,
+releases only that booking's slots and buffers, and notifies Venue Staff through
+their channel preferences. Other bookings and the event remain unchanged, even
+when the last booking is cancelled. Tentative holds keep their existing release
+action. Deploy 0110 and the cancellation UI before enabling the safety workflow;
+this migration does not toggle the safety switch.
+
+See [Slice 1](docs/us49-slice1.md), [Slice 2](docs/us49-slice2.md) and
+[Slice 3 / deployment and manual checks](docs/us49-slice3.md).
