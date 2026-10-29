@@ -1348,6 +1348,22 @@ earlier decisions. Each decision records who made it and when.
 
 Test cases: `docs/test-cases/US44_test_cases.md`.
 
+## US26 Confirm an event (SCRUM-71)
+
+A Coordinator confirms an event only once every essential arrangement on its Readiness card is
+complete (registration setup aside, as it opens on confirmation). The check is in the status rules
+(0117), so any change to Confirmed goes through it, not only the Confirm button; when it refuses,
+the Coordinator is told the event is not ready. With the safety review switched off, events are
+confirmed from Planning as before; switched on, only from In Preparation, after the Safety
+Officer's approval. A confirmed event shows as Confirmed to its Organiser and Coordinator, and its
+approved venue booking keeps the venue's time taken.
+
+| File | Adds |
+| --- | --- |
+| `0117_us26_confirm_when_ready.sql` | `event_ready_to_confirm()`, and the readiness check in `enforce_event_status_transition()` (built on 0115) |
+
+Test cases: `docs/test-cases/US26_test_cases.md`.
+
 ## US32 View in-app notifications (SCRUM-229)
 
 Built in slices (trunk-based). **Slice 1 (the feed):** **Notifications** (`/notifications`, in
