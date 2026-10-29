@@ -42,6 +42,8 @@ export const REVIEW_MESSAGES = {
   notPermitted: 'You are not permitted to make that change.',
   noteRequired: 'Give a reason when returning or rejecting a request.',
   historyFailed: 'The decision history could not be loaded.',
+  // US26 (0117): the database refuses to confirm an event until its arrangements are complete.
+  notReady: 'This event is not ready to be confirmed: every essential arrangement on its Readiness card must be complete.',
 } as const
 
 interface EventRow {
@@ -197,6 +199,7 @@ export async function transitionEventStatus(options: {
     .maybeSingle()
 
   if (error) {
+    if (error.code === '55000') return { ok: false, reason: REVIEW_MESSAGES.notReady }
     // A refusal from the trigger or a policy is meaningful: the workflow said no.
     const refused = error.code === '42501' || error.code === '22000'
     return {
