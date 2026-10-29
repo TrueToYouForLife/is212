@@ -115,6 +115,10 @@ SQL
   # put the shared helper back (with 0107's rule), then checked here.
   cat "$repo_root/supabase/migrations/0108_us43_safety_review.sql"
   cat "$repo_root/supabase/tests/safety_review_readiness.sql"
+  # US26 (0117): re-applying 0108 resets the status rules; put the confirm check back (0117 also
+  # carries 0115's clarification case), then check that a confirmed event's venue time stays taken.
+  cat "$repo_root/supabase/migrations/0117_us26_confirm_when_ready.sql"
+  cat "$repo_root/supabase/tests/confirm_event_booking.sql"
   # US43 slice 2 (0109): the Safety Officer's review queue; it reads continuous venue blocks, so it
   # applies after 0100.
   cat "$repo_root/supabase/migrations/0109_us43_safety_review_queue.sql"
