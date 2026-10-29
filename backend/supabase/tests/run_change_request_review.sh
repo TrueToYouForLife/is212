@@ -26,7 +26,7 @@ if [ "$ready" != true ]; then echo 'Temporary database did not become ready.' >&
   # Historical suite exercises pre-conversion contracts and their migration replays.
   # Current quarter-hour upgrade/fresh-install coverage runs separately in CI.
   for migration in "$repo_root"/supabase/migrations/*.sql; do
-    case "$migration" in */0075_*|*/0098_*|*/0099_*|*/0100_*|*/0102_*|*/0103_*|*/0107_*|*/0109_*|*/0110_*) continue ;; esac
+    case "$migration" in */0075_*|*/0098_*|*/0099_*|*/0100_*|*/0101_*|*/0102_*|*/0103_*|*/0107_*|*/0109_*|*/0110_*) continue ;; esac
     cat "$migration"; printf '\n'; done
   cat "$repo_root/supabase/tests/change_request_review.sql"
   cat "$repo_root/supabase/migrations/0008_change_request_review.sql"
@@ -256,6 +256,8 @@ create temporary table w22_before_replay as
  select id, status, reviewed_by from public.events where id::text like 'b2200000-%';
 SQL
   cat "$repo_root/supabase/migrations/0066_withdraw_submitted_request.sql"
+  # Replaying 0066 restores its stamp_event_review; 0115 is the later, combined version.
+  cat "$repo_root/supabase/migrations/0115_clarification_response_after_safety_review.sql"
   cat <<'SQL'
 select pg_temp.assert_true(
  not exists (
@@ -267,6 +269,7 @@ select pg_temp.assert_true(
 SQL
   # US43: 0066's replay restores its own status list; put the safety stages back (0108).
   cat "$repo_root/supabase/migrations/0108_us43_safety_review.sql"
+  cat "$repo_root/supabase/migrations/0115_clarification_response_after_safety_review.sql"
   cat "$repo_root/supabase/tests/venue_booking_approval.sql"
   cat "$repo_root/supabase/migrations/0045_venue_booking_approval.sql"
   cat <<'SQL'
@@ -396,7 +399,7 @@ SQL
   # (named on its test's first line; replays above restore older versions) and check it.
   for notice_test in "$repo_root"/supabase/tests/notice_channels_*.sql; do
     [ -e "$notice_test" ] || continue
-    cat "$repo_root/supabase/migrations/$(sed -n '1s/^-- Migration: //p' "$notice_test")"
+    cat "$repo_root/supabase/migrations/$(sed -n '1s/^-- Migration: //p' "$notice_test" | tr -d '\r')"
     cat "$notice_test"
   done
   # US27: protected catalogue reads, counts and role boundaries.
@@ -408,6 +411,7 @@ SQL
   # US54: who can see an event's registrations, then replay 0094.
   cat "$repo_root/supabase/tests/event_registration_visibility.sql"
   cat "$repo_root/supabase/migrations/0094_event_registration_visibility.sql"
+  cat "$repo_root/supabase/migrations/0114_event_registration_count.sql"
   cat <<'SQL'
 set role authenticated;
 select set_config('request.jwt.claim.sub', '54000000-0000-0000-0000-000000000001', false);
@@ -418,6 +422,40 @@ select pg_temp.assert_true(
 reset role;
 select set_config('request.jwt.claim.sub', '', false);
 SQL
+  # US37 slice 1: answering a clarification request, then replay 0096.
+  cat "$repo_root/supabase/tests/clarification_response.sql"
+  cat "$repo_root/supabase/migrations/0096_clarification_response.sql"
+  # 0096 alone reverts 0108 and its own carve-out; 0115 is the combined, final word.
+  cat "$repo_root/supabase/migrations/0115_clarification_response_after_safety_review.sql"
+  cat <<'SQL'
+-- clarification_response.sql ends with the session reset, and this assertion reads the
+-- response record under RLS: with nobody signed in it returns nothing, which would make
+-- the check pass for the wrong reason.
+set role authenticated;
+select set_config('request.jwt.claim.sub', '37000000-0000-0000-0000-000000000001', false);
+select pg_temp.assert_true(
+ (select count(*) = 2 from public.event_clarification_responses
+   where event_id = '37000000-1111-0000-0000-000000000001'),
+ 'AC-037.5.10: replaying 0096 leaves the answered rounds exactly as before');
+reset role;
+select set_config('request.jwt.claim.sub', '', false);
+SQL
+  # US37 slice 2: notifying the assigned Coordinator, then replay 0097.
+  cat "$repo_root/supabase/tests/clarification_response_notifications.sql"
+  cat "$repo_root/supabase/migrations/0097_clarification_response_notifications.sql"
+  cat <<'SQL'
+-- The feed answers per signed-in user, so the replay assertion needs a caller: with nobody
+-- signed in get_my_notifications raises rather than returning an empty list.
+set role authenticated;
+select set_config('request.jwt.claim.sub', '37900000-0000-0000-0000-000000000002', false);
+select pg_temp.assert_true(
+ (select count(*) >= 1 from public.get_my_notifications(200) f
+   where f.source = 'clarification_response'
+     and f.event_id = '37900000-1111-0000-0000-000000000001'),
+ 'AC-037.3.21: replaying 0097 leaves the feed answering exactly as before');
+reset role;
+select set_config('request.jwt.claim.sub', '', false);
+SQL
   # US43 slice 1: sending an event for its safety review (0108; the 0038 replay above restores
   # its own role list, so 0108 is applied again first).
   cat "$repo_root/supabase/migrations/0108_us43_safety_review.sql"
@@ -425,6 +463,10 @@ SQL
   # US44: the Safety Officer's decision (0111).
   cat "$repo_root/supabase/migrations/0111_us44_safety_review_decisions.sql"
   cat "$repo_root/supabase/tests/safety_review_decisions.sql"
+  # US34: audit trail. 0101 is applied here, after every earlier fixture, so their deletes and
+  # status shortcuts are not run against its triggers.
+  cat "$repo_root/supabase/migrations/0101_event_audit_log.sql"
+  cat "$repo_root/supabase/tests/event_audit_log.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"

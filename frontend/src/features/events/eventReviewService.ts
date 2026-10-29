@@ -31,7 +31,7 @@ const SUMMARY_COLUMNS =
 // unassigned rather than failing loudly. Both lists feed the same mapper — add a column
 // to one and check whether the other needs it too.
 const DETAIL_COLUMNS =
-  'id, reference, organiser_id, coordinator_id, name, purpose, event_type, proposed_start, proposed_end, expected_attendance, status, submitted_at, description, programme, layout_preference, accessibility_requirements, facility_requirements, equipment_requirements, registration_required, special_arrangements, review_note, reviewed_at, created_at'
+  'id, reference, organiser_id, coordinator_id, name, purpose, event_type, proposed_start, proposed_end, expected_attendance, status, submitted_at, description, programme, layout_preference, accessibility_requirements, facility_requirements, equipment_requirements, registration_required, special_arrangements, review_note, reviewed_at, created_at, updated_at'
 
 const DECISION_COLUMNS = 'id, from_status, decision, reason, decided_by_name, decided_at'
 
@@ -143,6 +143,9 @@ export async function getEventRequest(id: string): Promise<DetailResult> {
       reviewNote: data.review_note,
       reviewedAt: data.reviewed_at,
       createdAt: data.created_at,
+      // US37 passes this back to 0096 untouched as the version being answered, so the
+      // detail read is the only place it may come from.
+      updatedAt: data.updated_at,
     },
   }
 }
@@ -167,14 +170,10 @@ export async function transitionEventStatus(options: {
     return { ok: false, reason: REVIEW_MESSAGES.notPermitted }
   }
 
-  // A rejection, a return or a withdrawal without a reason leaves the organiser nothing
-  // to act on. AC-022 does not ask for a reason on withdrawal; it is required here to
-  // match the other two terminal decisions, and because event_review_decisions.reason
-  // would otherwise record a closed request with no explanation. A decision for the PO
-  // if the team would rather withdrawal were reasonless.
+  // A rejection or a return without a reason leaves the organiser nothing to act on.
   const needsNote = to === 'rejected' || to === 'withdrawn'
-    || (to === 'submitted' && ['submitted', 'under_review'].includes(from))
-  if (needsNote && !note?.trim()) {
+  || (to === 'submitted' && ['submitted', 'under_review'].includes(from))
+    if (needsNote && !note?.trim()) {
     return { ok: false, reason: REVIEW_MESSAGES.noteRequired }
   }
 

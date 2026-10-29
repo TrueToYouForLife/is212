@@ -22,6 +22,11 @@ import { RegistrationSettingPanel } from '../components/RegistrationSettingPanel
 import { EventWaitlistPanel } from '../../registrations/components/EventWaitlistPanel'
 import { canChangeRegistration } from '../statusRules'
 import { PlanningUpdatePanel } from '../components/PlanningUpdatePanel'
+import { RegistrationsCard } from '../components/RegistrationsCard'
+import { ClarificationResponseForm } from '../components/ClarificationResponseForm'
+import { ClarificationRoundHistory } from '../components/ClarificationRoundHistory'
+import { isAwaitingClarification } from '../clarificationResponseValidation'
+import { AuditTrailCard } from '../audit/AuditTrailCard'
 import { EventReadinessCard } from '../readiness/EventReadinessCard'
 import { EventVenueBookings } from '../components/EventVenueBookings'
 import { SafetyReviewDecisionsPanel } from '../../safety/SafetyReviewDecisionsPanel'
@@ -114,12 +119,43 @@ export function ReviewRequestDetailPage() {
             )}
             <p className="text-xs text-slate-500">Status updates automatically every 30 seconds.</p>
 
-            {profile?.role === 'coordinator' && request.coordinatorId === profile.id && (
+            {/* US37. Placed above Request details because, when there is a question
+                outstanding, answering it is the only thing the Organiser came here to do.
+                The form renders itself only for a returned request. */}
+            {profile?.role === 'organiser' && request.organiserId === profile.id
+              && isAwaitingClarification(request) && (
+              <Card title="Clarification requested"
+                description="The coordinator has asked for more detail before the review can continue.">
+                <ClarificationResponseForm key={`clarify:${request.id}:${request.updatedAt}`}
+                  request={request} onSent={refreshAll} />
+              </Card>
+            )}
+
+            {/* US37. The history is shown to both audiences whenever any round has been
+                answered: the Organiser reads what they have already said, the Coordinator
+                reads what they were told. Nothing else belongs in this card. */}
+            {((profile?.role === 'organiser' && request.organiserId === profile.id)
+              || (profile?.role === 'coordinator' && request.coordinatorId === profile.id)) && (
+              <Card title="Clarification replies"
+                description="What was asked, what the organiser answered, and what changed each time.">
+                <ClarificationRoundHistory key={`clarifyHistory:${request.id}`}
+                  eventId={request.id} refreshVersion={reviewRefreshVersion} />
+              </Card>
+            )}
+
+            {/* Each of these renders its own Card, so they are siblings rather than
+                children of the one above. status and onSent belong to readiness — it is
+                the panel that can move the event on. */}
+            {((profile?.role === 'organiser' && request.organiserId === profile.id)
+              || (profile?.role === 'coordinator' && request.coordinatorId === profile.id)) && (
               <>
-                <EventReadinessCard key={request.id} eventId={request.id} refreshVersion={reviewRefreshVersion} status={request.status} onSent={refreshAll} />
-                <EventVenueBookings key={`bookings:${request.id}:${profile.id}`} eventId={request.id} refreshVersion={reviewRefreshVersion} />
+                <EventReadinessCard key={`readiness:${request.id}`} eventId={request.id}
+                  refreshVersion={reviewRefreshVersion} status={request.status} onSent={refreshAll} />
+                <EventVenueBookings key={`bookings:${request.id}:${profile.id}`}
+                  eventId={request.id} refreshVersion={reviewRefreshVersion} />
                 {FEATURES.safetyReview && (
-                  <SafetyReviewDecisionsPanel key={`safety:${request.id}`} eventId={request.id} refreshVersion={reviewRefreshVersion} />
+                  <SafetyReviewDecisionsPanel key={`safety:${request.id}`} eventId={request.id}
+                    refreshVersion={reviewRefreshVersion} />
                 )}
               </>
             )}
@@ -187,19 +223,13 @@ export function ReviewRequestDetailPage() {
               </Card>
             )}
 
+            {/* US54. The shared card, not a second copy of it: it carries the count as well
+                as the link, and both audiences here may read the roll call. Not gated on
+                registration being switched on — turning it off later must not hide the
+                people who had already registered. */}
             {((profile?.role === 'organiser' && request.organiserId === profile.id)
               || (profile?.role === 'coordinator' && request.coordinatorId === profile.id)) && (
-              <Card
-                title="Registrations"
-                description="Who has registered for this event, and how many places are taken."
-              >
-                <Link
-                  to={`/requests/${request.id}/registrations`}
-                  className="text-sm font-medium text-indigo-700 hover:underline"
-                >
-                  Open registrations
-                </Link>
-              </Card>
+              <RegistrationsCard eventId={request.id} canOpenRollCall />
             )}
 
             {profile?.role === 'coordinator' && EQUIPMENT_EDITABLE_STATUSES.includes(request.status) && (
@@ -222,6 +252,12 @@ export function ReviewRequestDetailPage() {
                 <PlanningUpdatePanel key={request.id} eventId={request.id} onChanged={refreshAll} />
               </Card>
               </div>
+            )}
+
+            {((profile?.role === 'coordinator' && request.coordinatorId === profile.id)
+              || profile?.role === 'coordinator_lead') && (
+              <AuditTrailCard key={`audit:${request.id}:${profile.id}`} eventId={request.id}
+                refreshVersion={reviewRefreshVersion} />
             )}
 
             {canSeeHistory && (

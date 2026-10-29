@@ -1,3 +1,35 @@
+# US24 PR2 — return inspection UI, updated 29 October 2026
+- Branch `us24-return-inspection-ui`; PR1 merged and 0112 applied (Jaydon confirmed).
+  No new migration. Jaydon owns commits, PRs, merges, shared deployment/manual checks.
+- Technical Support-only `/equipment/returns` with Out/Pending checks/History. Use the
+  server's date-based allocation lists; no checkout action, scheduling job, physical
+  timestamps/location changes or extra availability block. General US27 editor unchanged.
+- Form requires explicit findings; issue descriptions/status choices, forced Unavailable
+  for Missing, keep-current default for No issues including legacy values. One checked
+  RPC saves atomically. Success closes/refreshes; Missing remains pending for follow-up.
+- Pending blocks duplicates/edit/close/reload/tab/list changes. Failed/stale/uncertain
+  outcomes retain inputs and lock retry until explicit reload; never silently replace
+  displayed consent. Obsolete/failed reload preserves notes and stays locked. Role/account
+  changes unmount and ignore late responses. Backend remains permission enforcement.
+- Pure validation in equipmentReturnValidation.ts; only equipmentReturnService.ts calls
+  Supabase, validates list/receipt identities/versions and maps safe errors. Reuse status
+  labels/targets/date formatting. No client actor/time/unit substitution.
+- Fourteen new tests: six unit, eight component; total 37 grouped US24 cases including
+  PR1's 23 SQL cases. Targeted 14 cases passed; full frontend run 1,590 tests / 189
+  files passed. Coverage 96.27% lines/statements, 90.84% branches, 95.18% functions.
+  Lint and typecheck passed. Build passed in a source/lockfile-matched disposable copy
+  after the repo build failed on an OS file-read timeout (no modules transformed).
+  Original dependencies/config unchanged; no new DB run claimed for frontend-only work.
+  Initial test startup hit OS file-read error in PostCSS; sampled typecheck waited in
+  file read. Root cause unconfirmed, not a product defect; no project dependency/config edits.
+- Docs/manual guide: docs/us24-return-inspections.md; tests: docs/test-cases/US24_test_cases.md.
+  Logs: docs/test-evidence/us24/pr2/. Jaydon reported all eight chat manual groups passed
+  on 29 October; details/limits: docs/test-evidence/us24/manual-results.md. Initial API
+  404 PGRST202 came from an incomplete 0112 paste; Jaydon reran the complete migration
+  and confirmed its objects exist. Deployment/setup issue, not a product defect.
+  CI, frontend merge/deployment and sheet update remain unclaimed. Provide sheet rows
+  in chat; never repository TSV/Automated Test Case Runs.
+
 # US24 PR1 — return inspection backend, 27 October 2026
 - Branch `us24-return-inspection-backend`; Jaydon claimed 0112. Code-first; no frontend
   edits, shared deployment or manual passes. Jaydon owns commits, PRs and merges.
