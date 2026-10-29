@@ -3,6 +3,18 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
+## US48 safety-stage compatibility
+
+Migration `0116_us48_safety_stage_replacements.sql` extends the existing affected-venue
+replacement flow to Awaiting safety review and In preparation. Listing/proposals and
+checked Venue Staff replacement approval retain the original reservation until success,
+per-booking requirements, buffers and selective review resolution. Ordinary bookings
+retain their existing approval restrictions. No event-stage transition or US45 re-review
+is implemented; coordinate the shared integration with Jeremiah. Migration 0116 is claimed
+and local, not yet deployed; new-stage manual checks remain pending.
+See [scope and manual checks](docs/us48-venue-replacement.md) and
+[verification evidence](docs/test-evidence/us48/safety-stages/README.md).
+
 ## US24 equipment return inspections
 
 Claimed migration `0112_equipment_return_inspections.sql` adds Technical Support-only

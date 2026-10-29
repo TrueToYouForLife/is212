@@ -2,7 +2,68 @@
 
 Owner: Jaydon. Story: SCRUM-243. Code-first development.
 
-## Current checkpoint — documentation closeout, 21 October 2026
+## Current checkpoint — safety-stage compatibility, 29 October 2026
+
+Jaydon reopened US48 in Jira and created `us48-safety-stage-replacements`, claiming
+migration `0116_us48_safety_stage_replacements.sql`. This follow-up implements the
+24 October discussion with Jeremiah and Jaydon's 25 October agreement: replacements
+also work in **Awaiting safety review** and **In preparation**.
+
+0116 replaces four existing functions using their current 0099/0102 definitions:
+`get_venue_replacements`, `propose_venue_replacement`, `decide_venue_replacement` and
+`approve_venue_booking`. Only the agreed stage predicates change. Existing signatures,
+per-booking layout/attendance, permissions, consent versions, quarter-hour occupancy,
+buffers, atomic replacement and selective resolution remain supported. Existing UI
+search/panels consume the unchanged contracts; no frontend source change is needed.
+The shared approval exception still requires a browser-unwritable approved replacement
+link, the current approving Venue Staff member and the cancelled original from the
+same event. Ordinary bookings do not gain approval access in these stages.
+
+No event information/status, stored safety decision or safety-review settings are
+changed. Safety changes requested gains no new replacement permission. US27 status
+reviews are unchanged. US45 transitions/re-review remain Jeremiah's integration work;
+this patch does not claim that a stored safety assessment covers a replacement venue.
+Notify Jeremiah about the shared approval-function extension and coordinate it with
+his safety workflow before enabling that complete workflow. No team message was sent.
+
+Deployment: apply 0116 after 0099/0100/0102/0108 and the team's current baseline.
+No additional frontend deployment is required for this database contract change.
+Replaying older replacement/approval migrations after 0116 would restore their older
+stage checks; apply 0116 last after any such deliberate replay. The historical runner
+skips 0116; quarter-hour upgrade/fresh gates install/test it after historical replays.
+Jaydon owns shared deployment, commits, PR and merge. None is claimed for this patch.
+
+Verification and limits: [safety-stage evidence](test-evidence/us48/safety-stages/README.md).
+Seventeen new grouped SQL integration cases cover both stages, real role checks,
+blocked/retired sources, buffered occupancy, retained event/decision history, selective
+resolution, stale source/decision consent, ordinary-approval refusal, expected rollback,
+replay and six real concurrent-session races. Manual checks for this patch remain pending;
+the original 21 October manual results below are historical, not new-stage evidence.
+
+### Manual checks after Jaydon applies 0116
+
+Use disposable events already prepared in each agreed stage with an approved venue
+booking, the assigned Coordinator and Venue Staff accounts. Coordinate fixture/stage
+preparation with Jeremiah; do not enable the shared safety workflow just to test this patch.
+
+1. Venue Staff blocks one original venue over the booking interval, or retires another
+   disposable original with a reason. The reservation remains in place.
+2. Assigned Coordinator opens Your venue bookings and checks Needs replacement/reason.
+   Find replacement must open with the original interval and per-booking attendance/layout.
+3. Submit a proposal. Original reservation/event stage remain; target is not reserved yet.
+   Check withdrawal/rejection still retain the original and its open reasons.
+4. Venue Staff approves a current proposal. Target is confirmed with buffers, original is
+   released and only blocked/retired reviews resolve with that staff/replacement audit.
+   An independent capacity/details review remains open; event stage/information remain.
+5. Repeat for the other agreed stage and for blocked versus retired originals. A target
+   setup/turnaround conflict must refuse approval and leave the original and reviews intact.
+6. After a proposal, change relevant event information or stage using an agreed test
+   fixture. Old consent must refuse; decision reload alone cannot bypass changed source
+   consent. Other Coordinators/roles and ordinary safety-stage booking approvals remain denied.
+
+Record only checks actually performed; no new manual pass or email delivery is claimed.
+
+## Historical checkpoint — documentation closeout, 21 October 2026
 
 Implementation is merged in [PR #127](https://github.com/TrueToYouForLife/is212/pull/127)
 and [PR #128](https://github.com/TrueToYouForLife/is212/pull/128). PR #128 shows all

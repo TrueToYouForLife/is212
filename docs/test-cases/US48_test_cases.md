@@ -72,7 +72,7 @@ That scenario checks blocking controls, not US48 replacement search. Its existin
 code/log ID is retained for history, but it is excluded from the US48 AC table and
 sheet submission. Do not reuse it or relabel dependency tests as replacement ACs.
 
-Next unused IDs: AC-048.1.5, .2.7, .3.10, .4.2, .5.3, .6.11.
+Next unused IDs after the safety-stage follow-up: AC-048.1.6, .2.7, .3.15, .4.3, .5.4, .6.20.
 Existing US20/US41 frontend compatibility cases retain their existing IDs.
 
 ## Manual checks — Jaydon-reported pass, 21 October 2026
@@ -123,3 +123,36 @@ merged with four checks passed. The sheet is updated per Jaydon; documentation
 merge and Jira transition remain. A separate 0100 deployment timestamp/operator
 was not supplied. Required sheet owner/tester fields use Jaydon. Do not populate Automated
 Test Case Runs. See `docs/test-evidence/us48/README.md` for local logs.
+
+## Safety-stage follow-up — 29 October 2026
+
+Owner: Jaydon. Migration 0116; branch `us48-safety-stage-replacements`.
+17 grouped PostgreSQL integration cases extend the original 31 US48 cases to 48.
+Both Awaiting safety review and In preparation run through each applicable scenario;
+six concurrent-session executions share three race IDs. Synthetic failure injection
+is an expected rollback check, not a product defect. No new frontend cases are needed
+for unchanged screen/RPC contracts. Current results: `docs/test-evidence/us48/safety-stages/README.md`.
+
+| ID | Type | Requirement-based scenario and expected result |
+| --- | --- | --- |
+| AC-048.1.5 | Integration — Happy path / Negative | Both agreed stages list affected bookings; unagreed and terminal stages stay excluded. |
+| AC-048.3.10 | Integration — Negative | Another Coordinator cannot list or propose a replacement for these bookings. |
+| AC-048.3.11 | Integration — Negative / Regression | Event changes invalidate decision consent and proposal source; refreshing only the decision cannot bypass stale source consent. |
+| AC-048.3.12 | Integration — Negative / Regression | Ordinary booking approval remains refused; only the checked replacement link enables approval in either stage. |
+| AC-048.3.13 | Integration — Boundary / Regression | Concurrent proposals in each stage permit exactly one pending request. |
+| AC-048.3.14 | Integration — Negative | Safety changes requested and terminal event stages do not gain proposal permission. |
+| AC-048.4.2 | Integration — Happy path / Regression | Proposals preserve events/original reservations and reserve no target cells. |
+| AC-048.5.3 | Integration — Negative / Regression | Rejected/withdrawn requests retain originals and open Needs replacement reasons in both stages. |
+| AC-048.6.11 | Integration — Happy path / Regression | Approve blocked and retired sources in both stages; preserve per-booking requirements, event information/stage and stored safety history, atomically release original and claim buffered target. |
+| AC-048.6.12 | Integration — Happy path / Regression | Only blocked/retired reviews resolve with real approving staff/replacement; independent reasons remain open. |
+| AC-048.6.13 | Integration — Negative / Boundary | A target setup-only block refuses approval in either stage. |
+| AC-048.6.14 | Integration — Negative / Regression | Exact snapshots after conflict refusal prove no partial release, review resolution, replacement or history writes. |
+| AC-048.6.15 | Integration — Regression | Populated 0116 replay preserves event, reservation, review, safety history and consent. |
+| AC-048.6.16 | Integration — Boundary / Regression | Concurrent approval/rejection in each stage has one winner and retained authenticated decision audit. |
+| AC-048.6.17 | Integration — Boundary / Regression | Competing replacements cannot double-book a target; loser keeps original claims, pending proposal and open flag. |
+| AC-048.6.18 | Integration — Negative / Regression | Inject a late review-resolution failure after target approval; the entire replacement fails. |
+| AC-048.6.19 | Integration — Negative / Regression | Exact snapshots prove the late failure leaves no replacement side effects or lost original data. |
+
+Sources: `venue_replacement_safety_stages.sql`, `venue_replacement_safety_races.sh`
+and replay assertion in `run_venue_replacement_safety_stages.sh` under `backend/supabase/tests/`.
+Manual results for these new stages remain pending; earlier manual passes do not cover them.
