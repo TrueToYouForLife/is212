@@ -124,10 +124,21 @@ select pg_temp.assert_true(
 -- ---------------------------------------------------------------------------
 -- AC-045.5: earlier reviews stay viewable
 -- ---------------------------------------------------------------------------
+-- Both decisions are written inside this one transaction, so now() -- and so their decided_at
+-- default -- is byte-identical for both, which leaves "newest first" a tie that 0111 resolves on
+-- d.id: a gen_random_uuid(), different every run. That made this case pass or fail by chance.
+-- Backdating the first review gives the ordering under test a real answer. In the app the two
+-- reviews are minutes and two transactions apart, so this is the fixture's compression of time,
+-- not a rule of the product.
+update public.safety_review_decisions set decided_at = decided_at - interval '1 hour'
+ where event_id = '45a30000-0000-0000-0000-000000000001';
 select pg_temp.us45_as('45a00000-0000-0000-0000-000000000003', pg_temp.us45_decide('45a30000-0000-0000-0000-000000000001', 'approve', null, '{}')) as us45_second \gset
 set local role authenticated;
 select set_config('request.jwt.claim.sub', '45a00000-0000-0000-0000-000000000002', true);
-select json_agg(q.decision order by q.decided_at desc)::text as us45_history_c from public.get_safety_review_decisions('45a30000-0000-0000-0000-000000000001') q \gset
+-- No order by on purpose: json_agg keeps the order get_safety_review_decisions returned, which is
+-- the order the Safety review panel renders. Re-sorting by decided_at here tested this file's
+-- sort rather than the function's, so AC-045.5's "newest first" went unchecked.
+select json_agg(q.decision)::text as us45_history_c from public.get_safety_review_decisions('45a30000-0000-0000-0000-000000000001') q \gset
 select set_config('request.jwt.claim.sub', '45a00000-0000-0000-0000-000000000003', true);
 select count(*) as us45_history_s from public.get_safety_review_decisions('45a30000-0000-0000-0000-000000000001') \gset
 select set_config('request.jwt.claim.sub', '', true);
