@@ -1376,6 +1376,24 @@ approved venue booking keeps the venue's time taken.
 
 Test cases: `docs/test-cases/US26_test_cases.md`.
 
+## US45 Revise arrangements after a safety review (SCRUM-240)
+
+Week 7 change 6, part of the safety review (US43), so it only matters once that is switched on.
+When the Safety Officer requests changes or rejects (US44), the Coordinator presses **Revise
+arrangements**: the event returns to Planning and the venue and/or equipment bookings the Safety
+Officer named are flagged "Needs review" (US41's arrangement reviews, with the comment). Changes
+go through the normal approval flows; while any review is open the Readiness card shows
+"Arrangements needing review", which holds back sending for review and confirming. Once resolved,
+the Coordinator sends it for review again; earlier decisions stay in the Safety review panel. A new
+review flag or venue block on an event awaiting review or in preparation sends it back to Planning,
+and its Coordinator is told it needs a new safety review.
+
+| File | Adds |
+| --- | --- |
+| `0118_us45_revise_after_safety_review.sql` | safety review flags and send-back triggers, the revise route, the "Arrangements needing review" readiness line (built on 0108 and 0117) |
+
+Test cases: `docs/test-cases/US45_test_cases.md`.
+
 ## US32 View in-app notifications (SCRUM-229)
 
 Built in slices (trunk-based). **Slice 1 (the feed):** **Notifications** (`/notifications`, in

@@ -53,6 +53,7 @@ safety review is switched on only when all of these are deployed and checked:
    booking outstanding and nothing else can clear it.
 2. US44: the Safety Officer can decide a review, so events can leave Awaiting Safety Review.
 3. US26: an event In Preparation can be confirmed.
+4. US45: a sent-back event can be revised and sent again, and a later change sends it back.
 
 Then, together: `update public.safety_review_settings set enabled = true, updated_at = now();` on
 Supabase, and `VITE_FEATURE_SAFETY_REVIEW=true` for the frontend. Switching back off is the same
@@ -74,7 +75,7 @@ Any status before completed can be cancelled; submitted and under_review can sti
 |---|---|---|
 | Planning -> Awaiting Safety Review | the Coordinator, with "Send for safety review", once readiness is complete | US43 |
 | Awaiting -> In Preparation / Safety Changes Requested | Safety Officer | US44 |
-| Safety Changes Requested -> Awaiting | Coordinator resubmits | US45 |
+| Safety Changes Requested -> Planning -> Awaiting | Coordinator revises ("Revise arrangements"), then sends it for review again | US45 |
 | In Preparation -> Confirmed | Coordinator | US26 |
 
 ## Design decisions (slice 1)
