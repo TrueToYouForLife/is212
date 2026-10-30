@@ -16,6 +16,9 @@ export function readinessLink(arrangement: string, eventId: string): ReadinessLi
     case 'equipment_reservation':
     case 'technical_support':
       return { kind: 'route', to: `/requests/${eventId}/equipment`, text: 'Open equipment requirements' }
+    case 'arrangement_reviews':
+      // US45: arrangements flagged after a change or a safety review.
+      return { kind: 'anchor', to: '#arrangement-reviews', text: 'Review the flagged arrangements' }
     case 'programme':
       return { kind: 'anchor', to: '#planning-details', text: 'Add the programme' }
     case 'registration_setup':

@@ -118,6 +118,8 @@ SQL
   # US26 (0117): re-applying 0108 resets the status rules; put the confirm check back (0117 also
   # carries 0115's clarification case), then check that a confirmed event's venue time stays taken.
   cat "$repo_root/supabase/migrations/0117_us26_confirm_when_ready.sql"
+  # US45: replaying 0117 resets the status rules; put US45's routes back (0118).
+  cat "$repo_root/supabase/migrations/0118_us45_revise_after_safety_review.sql"
   cat "$repo_root/supabase/tests/confirm_event_booking.sql"
   # US43 slice 2 (0109): the Safety Officer's review queue; it reads continuous venue blocks, so it
   # applies after 0100.

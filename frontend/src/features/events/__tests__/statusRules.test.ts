@@ -101,7 +101,7 @@ describe('remaining lifecycle actions', () => {
     ['approved', ['planning', 'cancelled']],
     ['planning', ['confirmed', 'cancelled']],
     ['awaiting_safety_review', ['cancelled']],
-    ['safety_changes_requested', ['cancelled']],
+    ['safety_changes_requested', ['planning', 'cancelled']],
     ['in_preparation', ['confirmed', 'cancelled']],
     ['confirmed', ['completed', 'cancelled']],
     ['completed', []], ['cancelled', []], ['draft', []],

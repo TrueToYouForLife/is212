@@ -260,6 +260,8 @@ SQL
   cat "$repo_root/supabase/migrations/0115_clarification_response_after_safety_review.sql"
   # US26: replaying 0115 resets the status rules; put the confirm check back (0117).
   cat "$repo_root/supabase/migrations/0117_us26_confirm_when_ready.sql"
+  # US45: replaying 0117 resets the status rules; put US45's routes back (0118).
+  cat "$repo_root/supabase/migrations/0118_us45_revise_after_safety_review.sql"
   cat <<'SQL'
 select pg_temp.assert_true(
  not exists (
@@ -274,6 +276,8 @@ SQL
   cat "$repo_root/supabase/migrations/0115_clarification_response_after_safety_review.sql"
   # US26: replaying 0115 resets the status rules; put the confirm check back (0117).
   cat "$repo_root/supabase/migrations/0117_us26_confirm_when_ready.sql"
+  # US45: replaying 0117 resets the status rules; put US45's routes back (0118).
+  cat "$repo_root/supabase/migrations/0118_us45_revise_after_safety_review.sql"
   cat "$repo_root/supabase/tests/venue_booking_approval.sql"
   cat "$repo_root/supabase/migrations/0045_venue_booking_approval.sql"
   cat <<'SQL'
@@ -433,6 +437,8 @@ SQL
   cat "$repo_root/supabase/migrations/0115_clarification_response_after_safety_review.sql"
   # US26: replaying 0115 resets the status rules; put the confirm check back (0117).
   cat "$repo_root/supabase/migrations/0117_us26_confirm_when_ready.sql"
+  # US45: replaying 0117 resets the status rules; put US45's routes back (0118).
+  cat "$repo_root/supabase/migrations/0118_us45_revise_after_safety_review.sql"
   cat <<'SQL'
 -- clarification_response.sql ends with the session reset, and this assertion reads the
 -- response record under RLS: with nobody signed in it returns nothing, which would make
@@ -471,7 +477,11 @@ SQL
   cat "$repo_root/supabase/tests/safety_review_decisions.sql"
   # US26: confirming an event (0117; 0108 was applied again above, so 0117 is too).
   cat "$repo_root/supabase/migrations/0117_us26_confirm_when_ready.sql"
+  # US45: replaying 0117 resets the status rules; put US45's routes back (0118).
+  cat "$repo_root/supabase/migrations/0118_us45_revise_after_safety_review.sql"
   cat "$repo_root/supabase/tests/confirm_event.sql"
+  # US45: revising after a safety review (0118, applied again above with 0117).
+  cat "$repo_root/supabase/tests/safety_review_revision.sql"
   # US34: audit trail. 0101 is applied here, after every earlier fixture, so their deletes and
   # status shortcuts are not run against its triggers.
   cat "$repo_root/supabase/migrations/0101_event_audit_log.sql"
