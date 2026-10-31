@@ -120,6 +120,10 @@ SQL
   cat "$repo_root/supabase/migrations/0117_us26_confirm_when_ready.sql"
   # US45: replaying 0117 resets the status rules; put US45's routes back (0118).
   cat "$repo_root/supabase/migrations/0118_us45_revise_after_safety_review.sql"
+  # US38: the postponed status and its routes (0119).
+  cat "$repo_root/supabase/migrations/0119_us38_status_lifecycle.sql"
+  # US38 AC-038.5: a Confirmed event leaves Confirmed on an approved significant change (0121).
+  cat "$repo_root/supabase/migrations/0121_us38_leave_confirmed_on_change.sql"
   cat "$repo_root/supabase/tests/confirm_event_booking.sql"
   # US43 slice 2 (0109): the Safety Officer's review queue; it reads continuous venue blocks, so it
   # applies after 0100.

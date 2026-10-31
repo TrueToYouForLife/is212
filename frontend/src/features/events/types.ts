@@ -9,6 +9,8 @@ export const EVENT_STATUSES = [
   'safety_changes_requested',
   'in_preparation',
   'confirmed',
+  // US38 (0119): a planned event the Coordinator has paused.
+  'postponed',
   'completed',
   'cancelled',
   'rejected',
@@ -32,6 +34,7 @@ export const EVENT_STATUS_LABELS: Record<EventStatus, string> = {
   safety_changes_requested: 'Safety changes requested',
   in_preparation: 'In preparation',
   confirmed: 'Confirmed',
+  postponed: 'Postponed',
   completed: 'Completed',
   cancelled: 'Cancelled',
   rejected: 'Rejected',
