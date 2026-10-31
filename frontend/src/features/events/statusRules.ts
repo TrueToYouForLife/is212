@@ -21,13 +21,19 @@ export const STATUS_TRANSITIONS: Record<EventStatus, readonly EventStatus[]> = {
   approved: ['planning', 'cancelled'],
   // US43: once the safety review is switched on, an event leaves Planning only by being sent
   // for it; until then Planning is confirmed as before (0108's safety_review_settings).
-  planning: FEATURES.safetyReview ? ['awaiting_safety_review', 'cancelled'] : ['confirmed', 'cancelled'],
+  planning: FEATURES.safetyReview
+    ? ['awaiting_safety_review', 'postponed', 'cancelled']
+    : ['confirmed', 'postponed', 'cancelled'],
   // US45 (0118): a sent-back event is revised in Planning; Awaiting and In Preparation go back to
   // Planning only when an arrangement changes (the database does that, never a button).
   awaiting_safety_review: ['in_preparation', 'safety_changes_requested', 'planning', 'cancelled'],
   safety_changes_requested: ['planning', 'cancelled'],
-  in_preparation: ['confirmed', 'planning', 'cancelled'],
-  confirmed: ['completed', 'cancelled'],
+  in_preparation: ['confirmed', 'planning', 'postponed', 'cancelled'],
+  // US38 AC-038.5 (0121): Planning again only when an approved significant change needs it
+  // (the database does that, never a button).
+  confirmed: ['completed', 'postponed', 'planning', 'cancelled'],
+  // US38 (0119): re-planned, or called off.
+  postponed: ['planning', 'cancelled'],
   // Terminal. Coming back from one of these is a new request, which keeps the trail honest.
   completed: [],
   cancelled: [],
@@ -58,7 +64,9 @@ export function canActorTransition(
   // US43: the Coordinator sends an event for review from its Readiness card, not with a status button.
   if (from === 'planning' && to === 'awaiting_safety_review') return false
   // US45: only the database sends an event in review or preparation back to Planning.
-  if (to === 'planning' && (from === 'awaiting_safety_review' || from === 'in_preparation')) return false
+  if (to === 'planning' && (from === 'awaiting_safety_review' || from === 'in_preparation' || from === 'confirmed')) return false
+  // US38: postponing and resuming are the Coordinator's; an organiser may still cancel.
+  if ((to === 'postponed' || from === 'postponed') && to !== 'cancelled') return actor.role === 'coordinator'
   // Deciding a safety review is the Safety Officer's alone (US44).
   if (from === 'awaiting_safety_review' && to !== 'cancelled') return actor.role === 'safety_officer'
 
@@ -90,19 +98,30 @@ const REVIEW_ACTIONS: readonly ReviewAction[] = [
   { to: 'withdrawn', label: 'Withdraw request', tone: 'danger' },
   { to: 'planning', label: 'Start planning', tone: 'primary' },
   { to: 'confirmed', label: 'Confirm event', tone: 'primary' },
+  { to: 'postponed', label: 'Postpone event', tone: 'neutral' },
   { to: 'completed', label: 'Mark completed', tone: 'primary' },
   { to: 'cancelled', label: 'Cancel event', tone: 'danger' },
 ]
 
-export function reviewActionsFor(status: EventStatus): ReviewAction[] {
+/** AC-038.6: Completed is offered only once the event's end has passed (0119 enforces it). */
+export function hasEnded(endsAt: string | null | undefined, now: Date = new Date()): boolean {
+  if (!endsAt) return false
+  const end = new Date(endsAt)
+  return !Number.isNaN(end.getTime()) && end <= now
+}
+
+export function reviewActionsFor(status: EventStatus, endsAt?: string | null): ReviewAction[] {
   return REVIEW_ACTIONS.filter((action) =>
     status !== 'draft' &&
+    !(action.to === 'completed' && !hasEnded(endsAt)) &&
     canActorTransition({ role: 'coordinator', isOwner: false }, status, action.to),
   ).map((action) =>
     // US45: going back to Planning after a safety review is revising the arrangements.
     status === 'safety_changes_requested' && action.to === 'planning'
       ? { ...action, label: 'Revise arrangements' }
-      : action,
+      : status === 'postponed' && action.to === 'planning'
+        ? { ...action, label: 'Resume planning' }
+        : action,
   )
 }
 

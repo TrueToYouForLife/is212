@@ -66,7 +66,8 @@ select pg_temp.assert_true(
   -- US44 (0111) adds safety review decisions for Coordinators.
   pg_temp.us33_codes(:'us33_coordinator') = array['coordinator_assignment', 'change_request', 'arrangement_review',
     'venue_booking_decision', 'venue_block_alert', 'equipment_reservation_outcome', 'safety_review_decision']
-  and pg_temp.us33_codes(:'us33_organiser') = array['event_request_decision', 'coordinator_assignment']
+  -- US38 (0119) adds the notice that a confirmed event is no longer confirmed, for Organisers.
+  and pg_temp.us33_codes(:'us33_organiser') = array['event_request_decision', 'coordinator_assignment', 'event_status_change']
   and pg_temp.us33_codes(:'us33_venue_staff') = array['venue_booking_request']
   and pg_temp.us33_codes(:'us33_tech') = array['equipment_requirement_change']
   and pg_temp.us33_codes(:'us33_attendee') = array['registration_update', 'waitlist_update'],
