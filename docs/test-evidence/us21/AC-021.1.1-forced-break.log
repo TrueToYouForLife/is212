@@ -1,0 +1,157 @@
+NOTICE:  PASS: AC-047.2.3: conversion preserves exact booking/buffer/maintenance occupancy and all booking metadata
+NOTICE:  PASS: AC-047.2.4: overlapping and removed block definitions retain their exact periods, gaps and metadata; triggers restored
+NOTICE:  PASS: AC-047.2.5: repeated conversion preserves catalogue, reservations and block definitions
+NOTICE:  PASS: AC-047.2.6: venue durations generate the exact customer-example and cross-midnight quarter-hour cells
+NOTICE:  PASS: AC-047.2.6: zero durations add no buffer; partial quarter-hours occupy every touched cell without changing event times
+NOTICE:  PASS: AC-047.2.7: invalid block inputs refused and internal/unauthenticated access remains restricted
+NOTICE:  PASS: AC-047.2.8: quarter-hour block normalises codes, includes lunch time and flags overlapping holds without removing their cells
+NOTICE:  PASS: AC-047.2.8: released quarter-hour reservation cells revert to their covering block
+NOTICE:  PASS: AC-047.2.8: removing a quarter-hour block preserves remaining booking cells
+NOTICE:  PASS: AC-047.2.9: assigned Coordinator creates a hold with venue-specific buffers and unchanged default expiry
+NOTICE:  PASS: AC-047.2.10: conflicts and invalid/unauthorised requests leave no partial booking or lost reservation
+NOTICE:  PASS: AC-047.2.11: expiry boundary releases the old cells atomically and preserves the expired booking
+NOTICE:  PASS: AC-047.2.12: a block covering only setup refuses the hold and rolls back expiry cleanup without losing reservations
+NOTICE:  PASS: AC-047.2.14: review returns venue-specific cells, structured requirements and review version
+NOTICE:  PASS: AC-047.2.14: approval reserves event and venue-specific buffer cells together
+NOTICE:  PASS: AC-047.2.15: venue edits invalidate open reviews; conflicting approval rolls back without partial cells
+NOTICE:  PASS: AC-047.2.16: mismatched converted reservation is refused without deleting or shortening its saved occupancy
+NOTICE:  PASS: AC-047.2.17: incomplete timing still allows staff to read booking details with conflict checking unavailable
+NOTICE:  PASS: AC-047.2.21: planning timing change checks each venue buffer; setup-only block flags only the buffered venue
+NOTICE:  PASS: AC-047.2.22: revalidation preserves saved reservations and records each flag and coordinator notification once
+NOTICE:  PASS: AC-047.2.44: quarter-hour opening hours accept full-day and partial-day bounds, rejecting misaligned and empty periods
+NOTICE:  PASS: AC-047.3.4: replaying settings migration preserves populated bookings and claims
+NOTICE:  PASS: AC-047.4.3: new venues expose independent zero defaults
+NOTICE:  PASS: AC-047.1.3: Venue Staff save independent durations and detect conflicts between extended buffers
+NOTICE:  PASS: AC-047.3.1: conflicting holds retain every saved row and notify the Coordinator and Venue Staff
+NOTICE:  PASS: AC-047.1.4: unchanged settings are a no-op; invalid, unauthorised and stale edits are refused
+NOTICE:  PASS: AC-047.2.45: effective availability includes new setup while preserving saved occupancy
+NOTICE:  PASS: AC-047.2.46: subsequent holds cannot occupy existing bookings new buffers; refused writes roll back
+NOTICE:  PASS: AC-047.3.2: repeated changes notify again, respect staff preferences and queue rather than claim email delivery
+NOTICE:  PASS: AC-047.2.47: maintenance flags a booking when only its newly required setup overlaps
+NOTICE:  PASS: AC-047.3.3: decreasing to zero preserves reservations and does not silently resolve outstanding reviews
+NOTICE:  PASS: AC-047.2.21: planning timing change checks each venue buffer; setup-only block flags only the buffered venue
+NOTICE:  PASS: AC-047.2.22: revalidation preserves saved reservations and records each flag and coordinator notification once
+NOTICE:  PASS: AC-048.1.1: assigned Coordinator sees blocked/retired reasons and excludes unaffected, expired, closed and past bookings
+NOTICE:  PASS: AC-048.5.1: pending proposal still needs replacement, preserves the original and reserves no target
+NOTICE:  PASS: AC-048.3.1: duplicate/blank proposals, self-approval and direct audit/helper writes are refused
+NOTICE:  PASS: AC-048.3.2: unassigned Coordinator cannot see or propose another event replacement
+NOTICE:  PASS: AC-048.3.2: organiser cannot use the internal replacement workflow
+NOTICE:  PASS: AC-048.3.3: expired holds, unaffected/closed/past events and same/retired targets are ineligible
+NOTICE:  PASS: AC-048.6.1: blocked approval reserves target-specific buffers, reblocks old cells and resolves only eligible open reviews with staff/link audit
+NOTICE:  PASS: AC-048.6.2: retired reviews resolve; upcoming Confirmed events, pending requests and live holds can be replaced
+NOTICE:  PASS: AC-048.4.1: successful replacements keep every original event field and status unchanged
+NOTICE:  PASS: AC-048.6.3: rejection and withdrawal retain affected status and recorded decisions
+NOTICE:  PASS: AC-048.3.4: changed event consent or removed block invalidates approval even after reloading staff review
+NOTICE:  PASS: AC-048.6.4: target block covering only setup rejects approval and rolls back the switch
+NOTICE:  PASS: AC-048.6.5: derived neighbour turnaround conflicts with target setup without losing original rows
+NOTICE:  PASS: AC-048.6.6: a review-write failure rolls back booking, claims, proposal decision and audit together
+NOTICE:  PASS: AC-048.6.6: unsuccessful outcomes leave exact original booking, claim and review snapshots intact
+NOTICE:  PASS: AC-048.3.4: changed target details invalidate the loaded staff decision
+NOTICE:  PASS: AC-048.3.5: previous Coordinator loses replacement management after reassignment
+NOTICE:  PASS: AC-048.3.5: current Coordinator can withdraw stale history and submit a fresh proposal
+NOTICE:  PASS: AC-048.6.7: ordinary cancellation retains existing flag cleanup without inventing replacement audit
+NOTICE:  PASS: AC-048.3.6: Confirmed-event exception does not permit ordinary unrelated booking approvals
+NOTICE:  PASS: AC-048.6.8: replaying 0099 preserves events, bookings, claims, reviews and replacement history
+NOTICE:  PASS: AC-012.10.7: upgrading populated legacy data to 0100 preserves events, reservations, reviews, history and existing block coverage
+NOTICE:  PASS: AC-012.1.13: non-staff preview/save and private block helpers are denied
+NOTICE:  PASS: AC-012.2.33: null/infinite/misaligned/nonpositive/overlong periods and blank reasons are refused
+NOTICE:  PASS: AC-012.2.34: overnight/interior days cover exact half-open cells; legacy gaps remain and mixed overlap is refused
+NOTICE:  PASS: AC-012.2.34: an exclusive midnight endpoint does not occupy the following date
+NOTICE:  PASS: AC-012.7.15: preview identifies exact endpoint bookings and overlapping blocks without including adjacent cells
+NOTICE:  PASS: AC-012.8.26: exact affected bookings get review flags while all original reservations and event details remain
+NOTICE:  PASS: AC-012.5.6: staff approve bookings touching either endpoint but refuse bookings inside the block
+NOTICE:  PASS: AC-012.5.6: holds outside the period remain available and an inside hold is refused
+NOTICE:  PASS: AC-012.8.26: replacement approval reblocks the released exact cell and resolves only the replaced booking
+NOTICE:  PASS: AC-012.7.16: buffer ending exactly at the block end is adjacent, not overlapping
+NOTICE:  PASS: AC-012.7.16: settings and preview detect derived setup inside the exact block without rewriting the hold
+NOTICE:  PASS: AC-012.7.16: settings preserve saved occupancy while effective occupancy includes newly required buffers
+NOTICE:  PASS: AC-012.9.27: removing one continuous block releases only its maintenance cells/reviews and preserves other blocks and bookings
+NOTICE:  PASS: AC-012.10.8: replaying 0100 preserves events, bookings, claims, reviews, block definitions and replacement history
+NOTICE:  PASS: AC-049.2.7: adding requirement columns preserves existing pending replacement consent versions
+NOTICE:  PASS: AC-049.1.1: one event can hold two different venues simultaneously
+NOTICE:  PASS: AC-049.2.1: each space retains its own layout and attendance instead of whole-event attendance
+NOTICE:  PASS: AC-049.3.1: capacity is checked independently and one person above capacity is refused
+NOTICE:  PASS: AC-049.2.2: unavailable layouts and nonpositive attendance cannot create bookings
+NOTICE:  PASS: AC-049.3.2: another event cannot occupy an existing space reservation
+NOTICE:  PASS: AC-049.1.2: refused third bookings preserve the two existing bookings
+NOTICE:  PASS: AC-049.2.3: browser writes cannot rewrite the checked requirements
+NOTICE:  PASS: AC-049.2.4: Venue Staff review the attendance for this booking
+NOTICE:  PASS: AC-049.1.3: Venue Staff cannot create coordinator holds
+NOTICE:  PASS: AC-049.3.3: each booking reserves its own setup and turnaround
+NOTICE:  PASS: AC-049.3.4: missing event facilities refuse a space before reservation
+NOTICE:  PASS: AC-049.3.5: approving a suitable space does not use event-wide attendance or decide another booking
+NOTICE:  PASS: AC-049.3.6: reduced layout capacity is checked again at approval
+NOTICE:  PASS: AC-049.3.7: venue edit review uses the affected booking attendance
+NOTICE:  PASS: AC-049.3.8: legacy hold API cannot bypass suitability checks
+NOTICE:  PASS: AC-049.2.6: direct browser inserts cannot bypass checked requirements
+NOTICE:  PASS: AC-049.2.5: replay preserves all legacy and new booking requirements
+NOTICE:  PASS: AC-049.6.1: one approved and one pending venue remain incomplete
+NOTICE:  PASS: AC-049.5.1: assigned coordinator sees both bookings for the event
+NOTICE:  PASS: AC-049.6.2: no bookings is incomplete rather than vacuously approved
+NOTICE:  PASS: AC-049.5.2: staff cannot use the coordinator-only event summary
+NOTICE:  PASS: AC-049.4.1: approving one booking leaves its sibling record unchanged
+NOTICE:  PASS: AC-049.6.3: all required bookings approved is complete
+NOTICE:  PASS: AC-049.6.4: adding a live hold makes previously complete venues outstanding
+NOTICE:  PASS: AC-049.4.2: rejection preserves approved sibling records and their occupied slots
+NOTICE:  PASS: AC-049.4.3: rejecting one booking releases only its own occupied cells
+NOTICE:  PASS: AC-049.6.5: rejection remains outstanding even when other venues are approved
+NOTICE:  PASS: AC-049.5.3: rejection stays visible with reason and suggested alternative
+NOTICE:  PASS: AC-049.6.6: explicitly cancelled requirement no longer blocks readiness but remains visible
+NOTICE:  PASS: AC-049.6.7: venue completion does not mark another arrangement complete
+NOTICE:  PASS: AC-049.5.4: reassignment immediately removes the former coordinator summary access
+NOTICE:  PASS: AC-049.6.1: one approved and one pending venue remain incomplete
+NOTICE:  PASS: AC-049.5.1: assigned coordinator sees both bookings for the event
+NOTICE:  PASS: AC-049.6.2: no bookings is incomplete rather than vacuously approved
+NOTICE:  PASS: AC-049.5.2: staff cannot use the coordinator-only event summary
+NOTICE:  PASS: AC-049.4.1: approving one booking leaves its sibling record unchanged
+NOTICE:  PASS: AC-049.6.3: all required bookings approved is complete
+NOTICE:  PASS: AC-049.6.4: adding a live hold makes previously complete venues outstanding
+NOTICE:  PASS: AC-049.4.2: rejection preserves approved sibling records and their occupied slots
+NOTICE:  PASS: AC-049.4.3: rejecting one booking releases only its own occupied cells
+NOTICE:  PASS: AC-049.6.5: rejection remains outstanding even when other venues are approved
+NOTICE:  PASS: AC-049.5.3: rejection stays visible with reason and suggested alternative
+NOTICE:  PASS: AC-049.6.6: explicitly cancelled requirement no longer blocks readiness but remains visible
+NOTICE:  PASS: AC-049.6.7: venue completion does not mark another arrangement complete
+NOTICE:  PASS: AC-049.5.4: reassignment immediately removes the former coordinator summary access
+NOTICE:  PASS: AC-043.1.18: after 0107, readiness is still the shared rule: one approved and one rejected venue is outstanding on the card and not ready for review
+NOTICE:  PASS: AC-026.3.1: once an event is confirmed, another Coordinator cannot book its venue at the same time; another time is still free
+NOTICE:  PASS: AC-043.4.1: the queue lists only events awaiting review, the one sent first at the top
+NOTICE:  PASS: AC-043.4.2: each event shows its expected attendance, its accessibility requirements by name, and when it was sent
+NOTICE:  PASS: AC-043.4.3: each approved venue shows the layout and attendance of its booking against the venue's capacity for that layout, and its accessibility
+NOTICE:  PASS: AC-043.4.4: each venue lists its known restrictions: maintenance, opening hours, and blocks on the event's dates only
+NOTICE:  PASS: AC-043.4.5: the equipment shows each request, essential first, with how many items are actually reserved
+NOTICE:  PASS: AC-043.4.6: only a Safety Officer can see the queue
+NOTICE:  PASS: AC-043.4.7: once the Safety Officer has decided an event, it leaves the queue
+NOTICE:  PASS: AC-049.7.1: blank cancellation reason is refused
+NOTICE:  PASS: AC-049.7.2: stale consent cannot cancel a booking
+NOTICE:  PASS: AC-049.7.3: direct browser cancellation cannot bypass the checked action
+NOTICE:  PASS: AC-049.7.4: Venue Staff cannot perform the assigned Coordinator action
+NOTICE:  PASS: AC-049.9.1: cancellation records trimmed reason, actual actor and server time
+NOTICE:  PASS: AC-049.9.2: retry cannot duplicate a cancellation
+NOTICE:  PASS: AC-049.7.5: approved booking cancellation frees event, setup and turnaround claims
+NOTICE:  PASS: AC-049.8.1: cancelling one space preserves sibling bookings and reservations
+NOTICE:  PASS: AC-049.9.3: Venue Staff receive in-app and queued email cancellation notices through the shared helper
+NOTICE:  PASS: AC-049.7.7: downstream notification failure refuses cancellation
+NOTICE:  PASS: AC-049.8.3: failed transaction restores booking, claims and audit completely
+NOTICE:  PASS: AC-049.9.5: staff channel preferences suppress future cancellation notices
+NOTICE:  PASS: AC-049.8.2: cancelling every booking leaves all event columns unchanged
+NOTICE:  PASS: AC-049.7.8: cancelling rejected requirement clears readiness when remaining bookings are approved
+NOTICE:  PASS: AC-049.7.6: rejected booking can be cancelled without erasing the rejection history
+NOTICE:  PASS: AC-049.9.4: each successful cancellation has exactly one immutable audit record
+NOTICE:  PASS: AC-049.7.1: blank cancellation reason is refused
+NOTICE:  PASS: AC-049.7.2: stale consent cannot cancel a booking
+NOTICE:  PASS: AC-049.7.3: direct browser cancellation cannot bypass the checked action
+NOTICE:  PASS: AC-049.7.4: Venue Staff cannot perform the assigned Coordinator action
+NOTICE:  PASS: AC-049.9.1: cancellation records trimmed reason, actual actor and server time
+NOTICE:  PASS: AC-049.9.2: retry cannot duplicate a cancellation
+NOTICE:  PASS: AC-049.7.5: approved booking cancellation frees event, setup and turnaround claims
+NOTICE:  PASS: AC-049.8.1: cancelling one space preserves sibling bookings and reservations
+NOTICE:  PASS: AC-049.9.3: Venue Staff receive in-app and queued email cancellation notices through the shared helper
+NOTICE:  PASS: AC-049.7.7: downstream notification failure refuses cancellation
+NOTICE:  PASS: AC-049.8.3: failed transaction restores booking, claims and audit completely
+NOTICE:  PASS: AC-049.9.5: staff channel preferences suppress future cancellation notices
+NOTICE:  PASS: AC-049.8.2: cancelling every booking leaves all event columns unchanged
+NOTICE:  PASS: AC-049.7.8: cancelling rejected requirement clears readiness when remaining bookings are approved
+NOTICE:  PASS: AC-049.7.6: rejected booking can be cancelled without erasing the rejection history
+NOTICE:  PASS: AC-049.9.4: each successful cancellation has exactly one immutable audit record
+ERROR:  FAIL: AC-021.1.1: cancelling a confirmed event releases its confirmed and pending venue bookings, recorded as cancelled with the reason, and keeps the event record

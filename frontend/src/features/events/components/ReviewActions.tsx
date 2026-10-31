@@ -21,6 +21,9 @@ const TONE_CLASSES = {
  * and the database trigger enforce. A button that produces an error on click is a worse
  * experience than a button that is not there.
  */
+export const CANCEL_CONFIRMATION =
+  'Cancel this event? Its venue bookings and equipment reservations will be released, and registered attendees will be told. This cannot be undone.'
+
 export function ReviewActions({ eventId, status, onReviewed }: ReviewActionsProps) {
   const [note, setNote] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -38,7 +41,8 @@ export function ReviewActions({ eventId, status, onReviewed }: ReviewActionsProp
   }
 
   const act = async (to: EventStatus) => {
-    if (to === 'cancelled' && !window.confirm('Cancel this event? This cannot be undone.')) return
+    // US21 (0120): cancelling releases the event's arrangements and tells registered attendees.
+    if (to === 'cancelled' && !window.confirm(CANCEL_CONFIRMATION)) return
     setBusy(true)
     setError(null)
 
