@@ -1394,6 +1394,22 @@ and its Coordinator is told it needs a new safety review.
 
 Test cases: `docs/test-cases/US45_test_cases.md`.
 
+## US21 Cancel, postpone or reschedule an event (SCRUM-66)
+
+Slice 1: cancelling properly. When an event is cancelled, from any stage, its pending and confirmed
+venue bookings are released the way an individual cancellation (US49, 0110) releases them (recorded,
+slot claims freed, Venue Staff told), reserved equipment is released (items already checked out stay
+out for their return, US24), and attendees who registered or are waiting for a place are told, under
+a new "Cancelled, postponed or rescheduled events" notification type. The event record and its
+registrations are kept. The Cancel confirmation says what will happen. Slice 2 (postpone and
+reschedule) is still to come.
+
+| File | Adds |
+| --- | --- |
+| `0120_us21_cancel_event_releases.sql` | `release_event_on_cancellation()` and its trigger, the attendee notification type (tested after 0110) |
+
+Test cases: `docs/test-cases/US21_test_cases.md`.
+
 ## US32 View in-app notifications (SCRUM-229)
 
 Built in slices (trunk-based). **Slice 1 (the feed):** **Notifications** (`/notifications`, in
