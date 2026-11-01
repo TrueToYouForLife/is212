@@ -1401,12 +1401,18 @@ venue bookings are released the way an individual cancellation (US49, 0110) rele
 slot claims freed, Venue Staff told), reserved equipment is released (items already checked out stay
 out for their return, US24), and attendees who registered or are waiting for a place are told, under
 a new "Cancelled, postponed or rescheduled events" notification type. The event record and its
-registrations are kept. The Cancel confirmation says what will happen. Slice 2 (postpone and
-reschedule) is still to come.
+registrations are kept. The Cancel confirmation says what will happen.
+
+Slice 2: rescheduling. From the Decision card, the Coordinator gives an event a new start and end
+(any stage from Approved to Confirmed, or Postponed). It returns to Planning with the new date,
+its venue and equipment bookings are kept but flagged "Needs review" (team proposal #70 / US38),
+the change is recorded with the old date, and registered or waiting attendees are told the new
+and old times. Postponing (US38) now tells them too. AC-021.2 was revised to match #70.
 
 | File | Adds |
 | --- | --- |
 | `0120_us21_cancel_event_releases.sql` | `release_event_on_cancellation()` and its trigger, the attendee notification type (tested after 0110) |
+| `0122_us21_reschedule_and_postpone_notices.sql` | `reschedule_event()`, `event_reschedules`, the reschedule flag source, postponement notices (tested after 0120) |
 
 Test cases: `docs/test-cases/US21_test_cases.md`.
 

@@ -5,6 +5,8 @@ import { PageContainer } from '../../../components/layout/PageContainer'
 import { useCurrentUser } from '../../auth/sessionContext'
 import { RequestDetails } from '../components/RequestDetails'
 import { ReviewActions } from '../components/ReviewActions'
+import { RescheduleEventForm } from '../reschedule/RescheduleEventForm'
+import { canReschedule } from '../reschedule/rescheduleService'
 import { DecisionHistory } from '../components/DecisionHistory'
 import { RequestStatusPanel } from '../status/RequestStatusPanel'
 import { useRequestResource } from '../status/useRequestResource'
@@ -200,6 +202,10 @@ export function ReviewRequestDetailPage() {
                   endsAt={request.proposedEnd}
                   onReviewed={refreshAll}
                 />
+                {/* US21: a new date for the event (0122). */}
+                {canReschedule(request.status) && (
+                  <RescheduleEventForm key={`reschedule:${request.id}`} eventId={request.id} onRescheduled={refreshAll} />
+                )}
               </Card>
               </div>
             )}
