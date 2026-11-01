@@ -262,6 +262,10 @@ SQL
   cat "$repo_root/supabase/migrations/0117_us26_confirm_when_ready.sql"
   # US45: replaying 0117 resets the status rules; put US45's routes back (0118).
   cat "$repo_root/supabase/migrations/0118_us45_revise_after_safety_review.sql"
+  # US38: the postponed status and its routes (0119).
+  cat "$repo_root/supabase/migrations/0119_us38_status_lifecycle.sql"
+  # US38 AC-038.5: a Confirmed event leaves Confirmed on an approved significant change (0121).
+  cat "$repo_root/supabase/migrations/0121_us38_leave_confirmed_on_change.sql"
   cat <<'SQL'
 select pg_temp.assert_true(
  not exists (
@@ -278,6 +282,10 @@ SQL
   cat "$repo_root/supabase/migrations/0117_us26_confirm_when_ready.sql"
   # US45: replaying 0117 resets the status rules; put US45's routes back (0118).
   cat "$repo_root/supabase/migrations/0118_us45_revise_after_safety_review.sql"
+  # US38: the postponed status and its routes (0119).
+  cat "$repo_root/supabase/migrations/0119_us38_status_lifecycle.sql"
+  # US38 AC-038.5: a Confirmed event leaves Confirmed on an approved significant change (0121).
+  cat "$repo_root/supabase/migrations/0121_us38_leave_confirmed_on_change.sql"
   cat "$repo_root/supabase/tests/venue_booking_approval.sql"
   cat "$repo_root/supabase/migrations/0045_venue_booking_approval.sql"
   cat <<'SQL'
@@ -439,6 +447,10 @@ SQL
   cat "$repo_root/supabase/migrations/0117_us26_confirm_when_ready.sql"
   # US45: replaying 0117 resets the status rules; put US45's routes back (0118).
   cat "$repo_root/supabase/migrations/0118_us45_revise_after_safety_review.sql"
+  # US38: the postponed status and its routes (0119).
+  cat "$repo_root/supabase/migrations/0119_us38_status_lifecycle.sql"
+  # US38 AC-038.5: a Confirmed event leaves Confirmed on an approved significant change (0121).
+  cat "$repo_root/supabase/migrations/0121_us38_leave_confirmed_on_change.sql"
   cat <<'SQL'
 -- clarification_response.sql ends with the session reset, and this assertion reads the
 -- response record under RLS: with nobody signed in it returns nothing, which would make
@@ -479,6 +491,10 @@ SQL
   cat "$repo_root/supabase/migrations/0117_us26_confirm_when_ready.sql"
   # US45: replaying 0117 resets the status rules; put US45's routes back (0118).
   cat "$repo_root/supabase/migrations/0118_us45_revise_after_safety_review.sql"
+  # US38: the postponed status and its routes (0119).
+  cat "$repo_root/supabase/migrations/0119_us38_status_lifecycle.sql"
+  # US38 AC-038.5: a Confirmed event leaves Confirmed on an approved significant change (0121).
+  cat "$repo_root/supabase/migrations/0121_us38_leave_confirmed_on_change.sql"
   cat "$repo_root/supabase/tests/confirm_event.sql"
   # US45: revising after a safety review (0118, applied again above with 0117).
   cat "$repo_root/supabase/tests/safety_review_revision.sql"
@@ -486,6 +502,8 @@ SQL
   # status shortcuts are not run against its triggers.
   cat "$repo_root/supabase/migrations/0101_event_audit_log.sql"
   cat "$repo_root/supabase/tests/event_audit_log.sql"
+  # US38: status lifecycle (0119). After 0101, because AC-038.9 reads the audit trail it writes.
+  cat "$repo_root/supabase/tests/event_status_lifecycle.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"

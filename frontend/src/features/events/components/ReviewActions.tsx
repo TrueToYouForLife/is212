@@ -7,6 +7,8 @@ import type { EventStatus } from '../types'
 interface ReviewActionsProps {
   eventId: string
   status: EventStatus
+  /** The event's end, so Mark completed appears only after it has passed (AC-038.6). */
+  endsAt?: string | null
   onReviewed: (status: EventStatus) => void
 }
 
@@ -24,12 +26,12 @@ const TONE_CLASSES = {
 export const CANCEL_CONFIRMATION =
   'Cancel this event? Its venue bookings and equipment reservations will be released, and registered attendees will be told. This cannot be undone.'
 
-export function ReviewActions({ eventId, status, onReviewed }: ReviewActionsProps) {
+export function ReviewActions({ eventId, status, endsAt, onReviewed }: ReviewActionsProps) {
   const [note, setNote] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
 
-  const actions = reviewActionsFor(status)
+  const actions = reviewActionsFor(status, endsAt)
   if (actions.length === 0) {
     return (
       <p className="text-sm text-slate-500">

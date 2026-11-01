@@ -197,6 +197,7 @@ export function ReviewRequestDetailPage() {
                 <ReviewActions
                   eventId={request.id}
                   status={request.status}
+                  endsAt={request.proposedEnd}
                   onReviewed={refreshAll}
                 />
               </Card>

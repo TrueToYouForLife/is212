@@ -14,6 +14,7 @@ const TONES: Record<EventStatus, string> = {
   safety_changes_requested: 'bg-orange-50 text-orange-800',
   in_preparation: 'bg-teal-50 text-teal-700',
   confirmed: 'bg-indigo-100 text-indigo-800',
+  postponed: 'bg-amber-100 text-amber-800',
   completed: 'bg-slate-100 text-slate-700',
   cancelled: 'bg-slate-100 text-slate-500',
   // Closed without a decision, so it reads as settled rather than refused —

@@ -12,6 +12,7 @@ const STATUS_DESCRIPTIONS: Record<EventStatus, string> = {
   safety_changes_requested: 'The Safety Officer has asked for changes to your event arrangements; the event is not yet confirmed.',
   in_preparation: 'Your event has passed its safety check and is being prepared; the event is not yet confirmed.',
   confirmed: 'Your event has been confirmed and is ready to proceed.',
+  postponed: 'Your event has been postponed by the Coordinator and is not currently going ahead on its planned dates.',
   completed: 'This event has been completed.',
   rejected: 'Your event request was rejected.',
   cancelled: 'This event has been cancelled.',

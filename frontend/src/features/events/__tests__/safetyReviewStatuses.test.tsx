@@ -19,11 +19,11 @@ vi.mock('../../../lib/features', async (importOriginal) => ({
 
 describe('AC-043.1 — the Coordinator sends an event for review once its arrangements are complete', () => {
   test('AC-043.1.9: the rules mirror 0108: Planning leads only to safety review, and Confirmed only follows In Preparation', () => {
-    expect(STATUS_TRANSITIONS.planning).toEqual(['awaiting_safety_review', 'cancelled'])
+    expect(STATUS_TRANSITIONS.planning).toEqual(['awaiting_safety_review', 'postponed', 'cancelled'])
     // US45 (0118): back to Planning to revise, or when an arrangement changes.
     expect(STATUS_TRANSITIONS.awaiting_safety_review).toEqual(['in_preparation', 'safety_changes_requested', 'planning', 'cancelled'])
     expect(STATUS_TRANSITIONS.safety_changes_requested).toEqual(['planning', 'cancelled'])
-    expect(STATUS_TRANSITIONS.in_preparation).toEqual(['confirmed', 'planning', 'cancelled'])
+    expect(STATUS_TRANSITIONS.in_preparation).toEqual(['confirmed', 'planning', 'postponed', 'cancelled'])
     expect(EVENT_STATUSES.filter((status) => STATUS_TRANSITIONS[status].includes('confirmed'))).toEqual(['in_preparation'])
   })
 
@@ -31,7 +31,7 @@ describe('AC-043.1 — the Coordinator sends an event for review once its arrang
     for (const role of ['coordinator', 'coordinator_lead', 'safety_officer', 'organiser'] as const) {
       expect(canActorTransition({ role, isOwner: true }, 'planning', 'awaiting_safety_review')).toBe(false)
     }
-    expect(reviewActionsFor('planning').map((action) => action.label)).toEqual(['Cancel event'])
+    expect(reviewActionsFor('planning').map((action) => action.label)).toEqual(['Postpone event', 'Cancel event'])
   })
 })
 

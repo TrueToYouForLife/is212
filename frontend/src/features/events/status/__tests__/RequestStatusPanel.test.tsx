@@ -72,7 +72,8 @@ describe('coordinator lifecycle controls', () => {
   ] as const)('AC-LIFECYCLE.3-%s: invokes the guarded service and refreshes after success', async (status, label, to) => {
     lifecycle.transition.mockResolvedValue({ ok: true, status: to })
     const onReviewed = vi.fn()
-    render(<ReviewActions eventId="event-1" status={status} onReviewed={onReviewed} />)
+    // A past end, because Mark completed is withheld until the event has ended (AC-038.6).
+    render(<ReviewActions eventId="event-1" status={status} endsAt="2020-01-01T00:00:00Z" onReviewed={onReviewed} />)
     await userEvent.click(screen.getByRole('button', { name: label }))
     expect(lifecycle.transition).toHaveBeenCalledWith({
       id: 'event-1', from: status, to, actor: { role: 'coordinator', isOwner: false }, note: '',

@@ -17,7 +17,7 @@ vi.mock('../readiness/readinessService', async (importOriginal) => ({
 
 describe('AC-043.1 — until the safety review is switched on, nothing changes', () => {
   test('AC-043.1.19: Planning still offers Confirm with today\'s hint, and the Readiness card offers no safety review', async () => {
-    expect(reviewActionsFor('planning').map((action) => action.to)).toEqual(['confirmed', 'cancelled'])
+    expect(reviewActionsFor('planning').map((action) => action.to)).toEqual(['confirmed', 'postponed', 'cancelled'])
     const { unmount } = render(<ReviewActions eventId="e-1" status="planning" onReviewed={() => undefined} />)
     expect(screen.getByRole('button', { name: 'Confirm event' })).toBeInTheDocument()
     expect(screen.getByText(/Confirm only after you have checked/)).toBeInTheDocument()

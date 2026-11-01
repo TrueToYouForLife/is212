@@ -7,7 +7,7 @@ import { CoordinatorAssignmentCard } from './CoordinatorAssignmentCard'
 
 const ACTIVE_STATUSES = [
   'submitted', 'under_review', 'approved', 'planning',
-  'awaiting_safety_review', 'safety_changes_requested', 'in_preparation', 'confirmed',
+  'awaiting_safety_review', 'safety_changes_requested', 'in_preparation', 'confirmed', 'postponed',
 ] as const
 
 /** Queue membership is presentation; Lead read/write permissions remain in the database. */

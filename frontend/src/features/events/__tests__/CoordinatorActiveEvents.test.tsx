@@ -189,3 +189,15 @@ test('AC-036.5.1: only Coordinator Lead sees the overview and requests coordinat
   expect(screen.getByRole('region', { name: 'Active events' })).toBeInTheDocument()
   expect(mocks.options).toHaveBeenCalledTimes(1)
 })
+
+test('AC-038.8.4: a Postponed event stays in the active list; a Completed one drops out of it', async () => {
+  mocks.list.mockResolvedValue({ ok: true, requests: [
+    { ...base, id: 'postponed', name: 'Event postponed', status: 'postponed' },
+    { ...base, id: 'completed', name: 'Hidden completed', status: 'completed' },
+  ] })
+  show()
+  const events = await screen.findByRole('region', { name: 'Active events' })
+  expect(within(events).getByText('Event postponed')).toBeInTheDocument()
+  expect(within(events).getByText('Postponed')).toBeInTheDocument()
+  expect(screen.queryByText('Hidden completed')).not.toBeInTheDocument()
+})

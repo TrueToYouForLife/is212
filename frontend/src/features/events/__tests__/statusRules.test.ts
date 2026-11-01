@@ -99,14 +99,16 @@ describe('AC-004.2 — actions offered to a coordinator', () => {
 describe('remaining lifecycle actions', () => {
   test.each([
     ['approved', ['planning', 'cancelled']],
-    ['planning', ['confirmed', 'cancelled']],
+    ['planning', ['confirmed', 'postponed', 'cancelled']],
     ['awaiting_safety_review', ['cancelled']],
     ['safety_changes_requested', ['planning', 'cancelled']],
-    ['in_preparation', ['confirmed', 'cancelled']],
-    ['confirmed', ['completed', 'cancelled']],
+    ['in_preparation', ['confirmed', 'postponed', 'cancelled']],
+    ['confirmed', ['postponed', 'completed', 'cancelled']],
+    ['postponed', ['planning', 'cancelled']],
     ['completed', []], ['cancelled', []], ['draft', []],
   ] as const)('AC-LIFECYCLE.1-%s: offers the permitted next steps', (status, expected) => {
-    expect(reviewActionsFor(status).map((action) => action.to)).toEqual(expected)
+    // A past end, so Mark completed is on offer for Confirmed (AC-038.6 hides it before then).
+    expect(reviewActionsFor(status, '2020-01-01T00:00:00Z').map((action) => action.to)).toEqual(expected)
   })
 
   test.each(['operations_manager', 'venue_staff', 'tech_support', 'attendee'] as const)(
