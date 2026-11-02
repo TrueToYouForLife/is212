@@ -5,6 +5,14 @@ Level Security).
 
 ## Test-case documentation closeout — 2 November 2026
 
+US41's missing replay assertion is now implemented as AC-041.1.3, with populated
+flag/notification comparisons after 0052 and 0053 replay. Focused, historical,
+quarter-hour upgrade and fresh-order gates passed. No migration or UI update.
+[Results and limits](docs/test-evidence/us41/replay/README.md) also record that the
+ten older US41 SQL cases are not invoked by current runners; they are not claimed
+as newly verified. The current index has 2,881 numeric source IDs; counts below
+describe the earlier documentation-only checkpoint.
+
 The [test-case index](docs/test-cases/README.md) links canonical catalogues for all
 45 stories with numeric test IDs in the current test sources. US1, US7 and US17 now
 have complete catalogues; other missing team catalogues are added, US31 is completed,

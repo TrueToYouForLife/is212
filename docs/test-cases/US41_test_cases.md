@@ -1,6 +1,20 @@
 # US41 — Flag arrangements affected by a significant change
 
-## Documentation accuracy review — 2 November 2026
+## Replay verification follow-up — 2 November 2026
+
+AC-041.1.3 is now implemented and passed after both 0052 and 0053 replay in the
+focused current-schema, historical, quarter-hour upgrade and fresh-order gates.
+This brings the source inventory to 22 IDs: eleven frontend and eleven SQL.
+Only the new replay case is newly verified here; the ten older SQL IDs in
+`arrangement_revalidation.sql` and `arrangement_layout_capacity.sql` are not wired
+into current runners. Their source mappings remain below without a new pass claim.
+
+Four deliberate data-change probes confirmed that the comparison detects differences;
+each rolled back and the final comparison passed. No product defect, frontend run,
+manual pass, migration or shared deployment is claimed. Evidence and runner limits:
+[populated replay verification](../test-evidence/us41/replay/README.md).
+
+## Prior documentation accuracy review — 2 November 2026
 
 All 21 existing source IDs remain mapped. Successful preservation checks and valid
 rejections are classified separately from refused writes. AC-041.1.3 is still missing:
@@ -18,27 +32,26 @@ Descriptions follow the current test titles/assertion labels; parameter rows kee
 existing IDs. Counts are unique source IDs, not a count of runtime executions or a new
 coverage measurement. Shared cross-story assertions may appear in both relevant catalogues.
 
-This is a documentation update. It does not claim fresh automated passes, manual
-acceptance, deployed migrations or email delivery. Unit tests exercise pure logic or mock
+Pass claims are limited to the dated verification sections, not all mapped source IDs.
+No new manual acceptance, deployed migrations or email delivery is claimed. Unit tests exercise pure logic or mock
 external services; component tests render UI with their source's mocks; SQL/shell
 integration tests use the disposable database runners. Existing evidence and historical
 checkpoints remain in their original documents. Manual results are valid only where an
 actual execution/report is recorded.
 
-**Separate follow-up:** `AC-041.1.3` is described as replay preservation in
-[the implementation notes](../us41-arrangement-revalidation.md), but no test with that
-ID exists in current test sources. The fixture takes replay snapshots without a matching
-comparison. It is not counted below, not a pass, and remains in the next verification
-portion; this documentation change does not add or remove the test.
+The earlier fixture's unused snapshots do not establish a replay pass. The new
+self-contained replay fixture, comparison and runner now implement AC-041.1.3;
+the broader behavioural runner gap remains separate, as described above.
 
 Related implementation notes: [us41-arrangement-revalidation.md](../us41-arrangement-revalidation.md).
 
-## Existing cases (21 source IDs)
+## Existing cases (22 source IDs)
 
 | Test ID | AC | Classification | Scenario / expected assertion | Test source |
 | --- | --- | --- | --- | --- |
 | AC-041.1.1 | 1 | Integration — Happy path / Regression | requirement changes create independent review reasons and preserve earlier reasons | [backend/supabase/tests/arrangement_revalidation.sql](../../backend/supabase/tests/arrangement_revalidation.sql#L90) |
 | AC-041.1.2 | 1 | Integration — Happy path / Regression | Successful approval and flag resolution leave the fixture booking, slot and allocation snapshots unchanged; this is a regression assertion, not a proof about every possible approval. | [backend/supabase/tests/arrangement_revalidation.sql](../../backend/supabase/tests/arrangement_revalidation.sql#L130) |
+| AC-041.1.3 | 1 | Integration — Regression / Boundary | Replay 0052 and 0053 against populated open/independent reasons and both resolution methods; compare every flag/notification field in both directions, retaining attribution/history and refusing additions or deletions. | [arrangement_review_replay.sql](../../backend/supabase/tests/arrangement_review_replay.sql#L1), [fixture](../../backend/supabase/tests/arrangement_review_replay_fixture.sql), [runner](../../backend/supabase/tests/run_arrangement_review_replay.sh) |
 | AC-041.1.4 | 1 | Integration — Negative / Regression | failed notification rolls back approved values, request decision, flags and queue | [backend/supabase/tests/arrangement_revalidation.sql](../../backend/supabase/tests/arrangement_revalidation.sql#L155) |
 | AC-041.1.5 | 1 | Unit — Happy path / Regression | reads open and resolved flags for the selected event and preserves arrangement identity and reasons | [frontend/src/features/events/__tests__/arrangementReviewService.test.ts](../../frontend/src/features/events/__tests__/arrangementReviewService.test.ts#L13) |
 | AC-041.1.6 | 1 | Unit — Negative / Boundary | invalid IDs, database errors, malformed responses and lost connections do not look like an empty review list | [frontend/src/features/events/__tests__/arrangementReviewService.test.ts](../../frontend/src/features/events/__tests__/arrangementReviewService.test.ts#L28) |

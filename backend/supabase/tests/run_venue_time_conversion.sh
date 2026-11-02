@@ -163,3 +163,6 @@ bash "$repo_root/supabase/tests/run_equipment_returns.sh" "$container"
 # US48: restore safety-stage replacement contracts after historical replays.
 bash "$repo_root/supabase/tests/run_venue_replacement_safety_stages.sh" "$container"
 bash "$repo_root/supabase/tests/individual_venue_cancellation_races.sh" "$container"
+
+# Last: US41 data preservation replay deliberately restores historical functions.
+bash "$repo_root/supabase/tests/run_arrangement_review_replay.sh" "$container"

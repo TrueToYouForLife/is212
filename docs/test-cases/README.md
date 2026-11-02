@@ -6,7 +6,7 @@ notes remain in `docs/`, and execution/failure evidence stays in `docs/test-evid
 
 ## Current source traceability
 
-All **2,880 distinct numeric AC test-ID references across 45 stories** in the tracked
+All **2,881 distinct numeric AC test-ID references across 45 stories** in the tracked
 frontend test files and `backend/supabase/tests/` are represented in their story's
 catalogue below. This checks source-to-document traceability, not pass rates, runtime
 case counts, coverage percentages or completeness against a newer Jira backlog.
@@ -53,7 +53,7 @@ same ID count once; linked source locations preserve cross-story coverage.
 | US36 | 5 | [US36 test cases](US36_test_cases.md) | All source IDs listed |
 | US37 | 111 | [US37 test cases](US37_test_cases.md) | All source IDs listed |
 | US38 | 57 | [US38 test cases](US38_test_cases.md) | All source IDs listed |
-| US41 | 21 | [US41 test cases](US41_test_cases.md) | All source IDs listed |
+| US41 | 22 | [US41 test cases](US41_test_cases.md) | All source IDs listed; runtime limits below |
 | US42 | 19 | [US42 test cases](US42_test_cases.md) | All source IDs listed |
 | US43 | 48 | [US43 test cases](US43_test_cases.md) | All source IDs listed |
 | US44 | 25 | [US44 test cases](US44_test_cases.md) | All source IDs listed |
@@ -77,9 +77,11 @@ This lists the existing titles and parameter cases without allocating new AC IDs
   test file duplicates 27 review-validation cases. These eleven missing dedicated cases
   are documented separately and excluded from the 266 current source IDs.
 
-- **US41:** `AC-041.1.3` is a documented intention with no matching test-source ID.
-  Replay snapshots exist, but their comparison is missing. It is explicitly excluded
-  from the implemented-case inventory and retained as the next verification portion.
+- **US41:** AC-041.1.3 is now implemented and verified in focused, historical, upgrade
+  and fresh-order gates; [evidence](../test-evidence/us41/replay/README.md). Ten older
+  SQL IDs in the original two US41 files are source-mapped but not invoked by current
+  runners. This separate behavioural runner gap remains; catalogue presence is not CI
+  coverage. The new replay case raises the original 2,880-ID inventory to 2,881.
 - **US48:** 49 source IDs include the historical `AC-048.2.6` venue-block UI case.
   The US48 catalogue explains that it is dependency coverage, not an additional
   replacement-search AC case. There are 48 replacement cases across the original flow
@@ -96,7 +98,7 @@ This lists the existing titles and parameter cases without allocating new AC IDs
   old hold limits, old notification defaults or earlier lifecycle fixtures. Their
   catalogues describe those tests without reinstating superseded product rules.
 
-## Documentation verification for this change
+## Catalogue closeout verification (historical)
 
 - Every current numeric source ID appears in its own canonical Markdown catalogue.
 - Every source AC prefix appears there; this is not a claim about absent Jira ACs.
