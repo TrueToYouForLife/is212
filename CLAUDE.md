@@ -1,3 +1,19 @@
+# Jaydon test documentation accuracy review — 2 November 2026
+- Branch `jaydon-test-documentation-review`, baseline d23ff29 after catalogue closeout
+  merged. Documentation only; Jaydon handles Git and publication. No new test runs,
+  manual passes, migration, shared deployment or spreadsheet changes claimed.
+- Review: docs/jaydon-test-documentation-review.md. Ten stories: US1/7/17/24/27/36/41/42/47/48,
+  634 distinct numeric source references. Corrected scenario types, parameter inputs,
+  create-vs-update assertions in US1, link-only checks in US36, and US42 UI classifications.
+- New static finding: tracked changeRequestReplyValidation.test.ts is byte-identical to
+  changeRequestReviewValidation.test.ts; both repeat 27 review-validation cases. Historical
+  AC-007.7.37–47 are absent. Record missing dedicated reply coverage, not a product failure
+  or extra distinct cases; no test source deleted/changed. Restore in a later portion.
+- US41 AC-041.1.3 remains next bounded test portion: snapshots exist, comparison absent.
+  Inspect replay order and add a populated preservation assertion, then use disposable DB.
+- US48 safety-stage manual results remain unreported; 0116 SQL checks do not establish
+  US45 invalidation/resubmission with the safety workflow enabled. Historical reports retained.
+
 # Test-case documentation closeout — 2 November 2026
 - Branch `jaydon-test-documentation-closeout`; documentation-only. No product, migration
   or test-source changes. Jaydon handles commits/push/PR/merge; no shared sheet edits.

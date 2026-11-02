@@ -13,6 +13,12 @@ separately. All 2,880 numeric source IDs are traceable; this is documentation co
 not a new test run or a claim that every Jira AC is complete. US41's absent replay
 assertion and outstanding manual checks remain explicit follow-ups.
 
+The subsequent [accuracy review of Jaydon's ten stories](docs/jaydon-test-documentation-review.md)
+corrects scenario descriptions and classifications, and records a separate US7 gap:
+the dedicated reply-validation file duplicates review tests while eleven historical
+reply-validation IDs are absent. US41 replay coverage and US48 safety-stage manual
+acceptance remain separate follow-ups; this review claims no new test execution.
+
 
 ## US48 safety-stage compatibility
 

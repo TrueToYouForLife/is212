@@ -1,5 +1,15 @@
 # US42 View my event's confirmed arrangements (SCRUM-238)
 
+## Documentation accuracy review — 2 November 2026
+
+All 19 cases remain mapped: eight SQL integration, six service unit and five component.
+Rendered venue/equipment panels and the mocked page/child visibility case are Component,
+not Unit or live UI/database integration. Seven manual passes remain Jaydon-reported
+18 October results. Legacy slot fixtures test rendering compatibility; they do not
+independently verify the full quarter-hour booking flow.
+
+[Review findings and limits](../jaydon-test-documentation-review.md).
+
 Owner: Jaydon. Updated: 18 October 2026.
 Code-first development, with tests after each logical portion. This is not a TDD record.
 
@@ -40,12 +50,12 @@ All ten cases below passed locally on 18 October 2026. PostgreSQL integration te
 | AC-042.1.2 | Database integration — boundary | No approved bookings returns an empty result; missing ledger cells do not invent dates | Same SQL file |
 | AC-042.1.3 | Unit (service) — happy path / boundary | Correct event RPC, multiple venues, midnight, empty slots and empty result | `frontend/src/features/events/__tests__/organiserVenueArrangementService.test.ts` |
 | AC-042.1.4 | Unit (service) — negative | Invalid IDs, permission/database errors, malformed responses and lost connections return a safe error | Same service test file |
-| AC-042.1.5 | Unit (component) — happy path / boundary | Loading, venue names, Singapore dates, midnight, buffer labels and missing-slot message | `frontend/src/features/events/__tests__/OrganiserVenueArrangements.test.tsx` |
-| AC-042.1.6 | Unit (component) — negative / recovery | Refresh failure removes stale results; retry, focus, parent refresh and event changes reload data | Same component test file |
+| AC-042.1.5 | Component — happy path / boundary | Loading, venue names, Singapore dates, midnight, buffer labels and missing-slot message | `frontend/src/features/events/__tests__/OrganiserVenueArrangements.test.tsx` |
+| AC-042.1.6 | Component — negative / recovery | Refresh failure removes stale results; retry, focus, parent refresh and event changes reload data | Same component test file |
 | AC-042.3.1 | Database integration — negative | Exact response field allowlist; organiser cannot directly read staff booking/slot rows | `backend/supabase/tests/organiser_venue_arrangements.sql` |
 | AC-042.3.2 | Database integration — negative | Unrelated organiser, coordinator, anonymous/signed-out caller and invalid event IDs are refused | Same SQL file |
 | AC-042.3.3 | Unit (service) — negative | Unexpected internal fields at booking or slot level are rejected | `frontend/src/features/events/__tests__/organiserVenueArrangementService.test.ts` |
-| AC-042.3.4 | UI integration (mocked) — happy path / negative | Shared request page mounts venue and equipment panels only for the owning organiser | `frontend/src/features/events/__tests__/OrganiserVenueArrangementsPage.test.tsx` |
+| AC-042.3.4 | Component (mocked page/children) — happy path / negative | Shared request page mounts venue and equipment panels only for the owning organiser | `frontend/src/features/events/__tests__/OrganiserVenueArrangementsPage.test.tsx` |
 
 Next unused IDs: **AC-042.1.7**, **AC-042.2.7**, **AC-042.3.8**.
 Grouped scenarios share a case ID; ten cases does not mean ten individual assertions.
@@ -113,8 +123,8 @@ The UI is integrated; equipment manual checks passed and shared-sheet updates ar
 
 | ID | Type | What is tested |
 |---|---|---|
-| AC-042.2.5 | Unit test — happy path / boundary | Names, reserved/requested quantities and all four labels; pending review never appears unavailable |
-| AC-042.2.6 | Unit test — negative / recovery | Refresh error clears old results; retry, focus, parent refresh and switching events reload safely |
+| AC-042.2.5 | Component — happy path / boundary | Names, reserved/requested quantities and all four labels; pending review never appears unavailable |
+| AC-042.2.6 | Component — negative / recovery | Refresh error clears old results; retry, focus, parent refresh and switching events reload safely |
 
 File: `frontend/src/features/events/__tests__/OrganiserEquipmentArrangements.test.tsx`.
 Existing AC-042.3.4 now covers both panels and additionally Technical Support and

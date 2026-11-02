@@ -1,5 +1,14 @@
 # US47 test cases
 
+## Documentation accuracy review — 2 November 2026
+
+All 61 numeric source IDs remain mapped. Earlier “next ID”, draft, pending and
+verification statements below are dated historical checkpoints; the final settings and
+closeout evidence supersede them only for the recorded scope. Historical helpers/slot
+fixtures do not describe the current booking allocation model. No new execution is claimed.
+
+[Review findings and limits](../jaydon-test-documentation-review.md).
+
 Owner: Jaydon. Updated: 21 October 2026. Code-first development.
 
 ## Current status

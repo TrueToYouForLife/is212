@@ -1,5 +1,14 @@
 # US1 — Save Draft Event Request
 
+## Documentation accuracy review — 2 November 2026
+
+The 83 IDs describe mocked service/pure unit tests and rendered component tests. They
+do not independently establish live database permissions. AC-001.5.2–3 exercise create/save
+response handling, despite their AC5 allocation; the unavailable existing-draft update
+branch is covered by AC-001.4.1. No new manual or automated pass is recorded.
+
+[Review findings and limits](../jaydon-test-documentation-review.md).
+
 Owner: Jaydon. Catalogue checked: 2 November 2026.
 
 ## Scope and evidence
@@ -43,7 +52,7 @@ actual execution/report is recorded.
 | AC-001.2.9 | 2 | Unit — Negative / Boundary | Rejects zero attendance. | [frontend/src/features/events/__tests__/draftValidation.test.ts](../../frontend/src/features/events/__tests__/draftValidation.test.ts#L58) |
 | AC-001.2.10 | 2 | Unit — Negative / Boundary | Rejects negative attendance. | [frontend/src/features/events/__tests__/draftValidation.test.ts](../../frontend/src/features/events/__tests__/draftValidation.test.ts#L59) |
 | AC-001.2.11 | 2 | Unit — Negative / Boundary | Rejects fractional attendance. | [frontend/src/features/events/__tests__/draftValidation.test.ts](../../frontend/src/features/events/__tests__/draftValidation.test.ts#L60) |
-| AC-001.2.12 | 2 | Unit — Negative | rejects attendance many that cannot be stored | [frontend/src/features/events/__tests__/draftValidation.test.ts](../../frontend/src/features/events/__tests__/draftValidation.test.ts#L61) |
+| AC-001.2.12 | 2 | Unit — Negative | Rejects non-numeric attendance text (`many`). | [frontend/src/features/events/__tests__/draftValidation.test.ts](../../frontend/src/features/events/__tests__/draftValidation.test.ts#L61) |
 | AC-001.2.13 | 2 | Unit — Negative / Boundary | Rejects infinite attendance. | [frontend/src/features/events/__tests__/draftValidation.test.ts](../../frontend/src/features/events/__tests__/draftValidation.test.ts#L62) |
 | AC-001.2.14 | 2 | Unit — Negative / Boundary | Rejects NaN attendance. | [frontend/src/features/events/__tests__/draftValidation.test.ts](../../frontend/src/features/events/__tests__/draftValidation.test.ts#L63) |
 | AC-001.2.15 | 2 | Unit — Negative / Boundary | Rejects attendance above the PostgreSQL integer limit. | [frontend/src/features/events/__tests__/draftValidation.test.ts](../../frontend/src/features/events/__tests__/draftValidation.test.ts#L64) |
@@ -56,7 +65,7 @@ actual execution/report is recorded.
 | AC-001.2.22 | 2 | Component — Negative | clears submission-required errors when saving an incomplete draft | [frontend/src/features/events/__tests__/EventRequestForm.test.tsx](../../frontend/src/features/events/__tests__/EventRequestForm.test.tsx#L115) |
 | AC-001.3.1 | 3 | Component — Happy path | unnamed drafts have a usable fallback label (also AC-001.4) | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L79) |
 | AC-001.3.2 | 3 | Component — Happy path / Boundary | saves an empty draft without submitting and displays Draft status (also AC-001.1, AC-001.2, AC-001.5) | [frontend/src/features/events/__tests__/EventRequestForm.test.tsx](../../frontend/src/features/events/__tests__/EventRequestForm.test.tsx#L127) |
-| AC-001.4.1 | 4 | Unit — Happy path | reports an unavailable draft without inserting a replacement (also AC-001.5) | [frontend/src/features/events/__tests__/eventDraftService.test.ts](../../frontend/src/features/events/__tests__/eventDraftService.test.ts#L125) |
+| AC-001.4.1 | 4 | Unit — Negative / Regression | reports an unavailable draft without inserting a replacement (also AC-001.5) | [frontend/src/features/events/__tests__/eventDraftService.test.ts](../../frontend/src/features/events/__tests__/eventDraftService.test.ts#L125) |
 | AC-001.4.2 | 4 | Unit — Negative | a blank existing ID cannot accidentally create a new draft | [frontend/src/features/events/__tests__/eventDraftService.test.ts](../../frontend/src/features/events/__tests__/eventDraftService.test.ts#L133) |
 | AC-001.4.3 | 4 | Unit — Happy path | loads every saved field without writing or submitting (also AC-001.5) | [frontend/src/features/events/__tests__/eventDraftQueryService.test.ts](../../frontend/src/features/events/__tests__/eventDraftQueryService.test.ts#L45) |
 | AC-001.4.4 | 4 | Unit — Happy path | loads an incomplete draft without applying submission validation (also AC-001.2) | [frontend/src/features/events/__tests__/eventDraftQueryService.test.ts](../../frontend/src/features/events/__tests__/eventDraftQueryService.test.ts#L70) |
@@ -71,8 +80,8 @@ actual execution/report is recorded.
 | AC-001.4.13 | 4 | Unit — Negative | handles a lost database connection | [frontend/src/features/events/__tests__/eventDraftQueryService.test.ts](../../frontend/src/features/events/__tests__/eventDraftQueryService.test.ts#L116) |
 | AC-001.4.14 | 4 | Unit — Negative | handles an authentication exception without querying events | [frontend/src/features/events/__tests__/eventDraftQueryService.test.ts](../../frontend/src/features/events/__tests__/eventDraftQueryService.test.ts#L122) |
 | AC-001.4.15 | 4 | Unit — Happy path | requests only owned drafts ordered by most recently saved (also AC-001.3) | [frontend/src/features/events/__tests__/eventDraftQueryService.test.ts](../../frontend/src/features/events/__tests__/eventDraftQueryService.test.ts#L128) |
-| AC-001.4.16 | 4 | Unit — Happy path | filters mismatched rows without exposing them (also AC-001.3) | [frontend/src/features/events/__tests__/eventDraftQueryService.test.ts](../../frontend/src/features/events/__tests__/eventDraftQueryService.test.ts#L137) |
-| AC-001.4.17 | 4 | Unit — Happy path / Negative / Boundary | an empty list is successful rather than an error | [frontend/src/features/events/__tests__/eventDraftQueryService.test.ts](../../frontend/src/features/events/__tests__/eventDraftQueryService.test.ts#L142) |
+| AC-001.4.16 | 4 | Unit — Negative | filters mismatched rows without exposing them (also AC-001.3) | [frontend/src/features/events/__tests__/eventDraftQueryService.test.ts](../../frontend/src/features/events/__tests__/eventDraftQueryService.test.ts#L137) |
+| AC-001.4.17 | 4 | Unit — Boundary | An empty owned-draft list returns a successful empty result. | [frontend/src/features/events/__tests__/eventDraftQueryService.test.ts](../../frontend/src/features/events/__tests__/eventDraftQueryService.test.ts#L142) |
 | AC-001.4.18 | 4 | Unit — Negative | signed-out users cannot query drafts | [frontend/src/features/events/__tests__/eventDraftQueryService.test.ts](../../frontend/src/features/events/__tests__/eventDraftQueryService.test.ts#L147) |
 | AC-001.4.19 | 4 | Unit — Negative / Boundary | reports a failed query without pretending the list is empty | [frontend/src/features/events/__tests__/eventDraftQueryService.test.ts](../../frontend/src/features/events/__tests__/eventDraftQueryService.test.ts#L153) |
 | AC-001.4.20 | 4 | Unit — Negative | handles connection exceptions | [frontend/src/features/events/__tests__/eventDraftQueryService.test.ts](../../frontend/src/features/events/__tests__/eventDraftQueryService.test.ts#L158) |
@@ -83,23 +92,23 @@ actual execution/report is recorded.
 | AC-001.4.25 | 4 | Component — Happy path | an incomplete draft can reopen and save without required fields (also AC-001.2) | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L107) |
 | AC-001.4.26 | 4 | Component — Happy path / Boundary | empty state offers a new request | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L118) |
 | AC-001.4.27 | 4 | Component — Negative | failed list can be retried | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L125) |
-| AC-001.4.28 | 4 | Component — Happy path / Regression | unavailable draft shows no editable form and supports retry | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L133) |
+| AC-001.4.28 | 4 | Component — Negative / Regression | unavailable draft shows no editable form and supports retry | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L133) |
 | AC-001.4.29 | 4 | Component — Negative | A signed-out visitor cannot load or edit the draft page. | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L143) |
 | AC-001.4.30 | 4 | Component — Negative | A Coordinator cannot use the Organiser draft editor. | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L144) |
 | AC-001.4.31 | 4 | Component — Boundary | Session loading does not fetch or expose editable draft data. | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L145) |
-| AC-001.4.32 | 4 | Component — Happy path | navigating to another draft ignores an old pending response | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L152) |
+| AC-001.4.32 | 4 | Component — Boundary / Regression | navigating to another draft ignores an old pending response | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L152) |
 | AC-001.4.33 | 4 | Component — Happy path / Regression | switching accounts clears the previous draft before loading again | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L163) |
 | AC-001.4.34 | 4 | Component — Happy path | keeps entered values and reuses the saved ID on subsequent saves (also AC-001.5) | [frontend/src/features/events/__tests__/EventRequestForm.test.tsx](../../frontend/src/features/events/__tests__/EventRequestForm.test.tsx#L141) |
 | AC-001.5.1 | 5 | Unit — Happy path | updates only the matching owned draft without changing workflow fields (also AC-001.4) | [frontend/src/features/events/__tests__/eventDraftService.test.ts](../../frontend/src/features/events/__tests__/eventDraftService.test.ts#L140) |
-| AC-001.5.2 | 5 | Unit — Negative / Regression | An update returning no matching row does not report a successful draft save. | [frontend/src/features/events/__tests__/eventDraftService.test.ts](../../frontend/src/features/events/__tests__/eventDraftService.test.ts#L156) |
-| AC-001.5.3 | 5 | Unit — Negative / Regression | An update returning a submitted row does not report a successful draft save. | [frontend/src/features/events/__tests__/eventDraftService.test.ts](../../frontend/src/features/events/__tests__/eventDraftService.test.ts#L157) |
-| AC-001.5.4 | 5 | Component — Happy path | disables editing and both actions while a save is pending | [frontend/src/features/events/__tests__/EventRequestForm.test.tsx](../../frontend/src/features/events/__tests__/EventRequestForm.test.tsx#L159) |
+| AC-001.5.2 | 5 | Unit — Negative | A create/save reply with no row returns saveFailed; this case calls saveEventDraft without an existing ID and does not test the update path. | [frontend/src/features/events/__tests__/eventDraftService.test.ts](../../frontend/src/features/events/__tests__/eventDraftService.test.ts#L156) |
+| AC-001.5.3 | 5 | Unit — Negative | A create/save reply containing a submitted row returns saveFailed; this case does not test an update of an existing draft. | [frontend/src/features/events/__tests__/eventDraftService.test.ts](../../frontend/src/features/events/__tests__/eventDraftService.test.ts#L157) |
+| AC-001.5.4 | 5 | Component — Boundary | disables editing and both actions while a save is pending | [frontend/src/features/events/__tests__/EventRequestForm.test.tsx](../../frontend/src/features/events/__tests__/EventRequestForm.test.tsx#L159) |
 | AC-001.6.1 | 6 | Component — Happy path | direct draft URL can submit the existing request explicitly (also AC-001.4) | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L177) |
 | AC-001.6.2 | 6 | Component — Happy path | explicit submission uses the saved ID and resets it after success | [frontend/src/features/events/__tests__/EventRequestForm.test.tsx](../../frontend/src/features/events/__tests__/EventRequestForm.test.tsx#L177) |
 | AC-001.6.3 | 6 | Component — Negative | a saved incomplete draft still cannot be submitted | [frontend/src/features/events/__tests__/EventRequestForm.test.tsx](../../frontend/src/features/events/__tests__/EventRequestForm.test.tsx#L194) |
 | AC-001.6.4 | 6 | Component — Negative / Regression | failed submission preserves the draft ID for further editing | [frontend/src/features/events/__tests__/EventRequestForm.test.tsx](../../frontend/src/features/events/__tests__/EventRequestForm.test.tsx#L204) |
 | AC-001.6.5 | 6 | Unit — Happy path | submits the existing owned draft with its latest details in one update | [frontend/src/features/events/__tests__/eventService.test.ts](../../frontend/src/features/events/__tests__/eventService.test.ts#L74) |
 | AC-001.6.6 | 6 | Unit — Negative | refuses a missing, inaccessible or already submitted draft without inserting | [frontend/src/features/events/__tests__/eventService.test.ts](../../frontend/src/features/events/__tests__/eventService.test.ts#L88) |
-| AC-001.6.7 | 6 | Unit — Happy path | revalidates incomplete drafts before attempting submission | [frontend/src/features/events/__tests__/eventService.test.ts](../../frontend/src/features/events/__tests__/eventService.test.ts#L96) |
+| AC-001.6.7 | 6 | Unit — Negative | Incomplete draft submission is refused before any database update. | [frontend/src/features/events/__tests__/eventService.test.ts](../../frontend/src/features/events/__tests__/eventService.test.ts#L96) |
 | AC-001.6.8 | 6 | Unit — Negative | reports a database refusal during draft submission | [frontend/src/features/events/__tests__/eventService.test.ts](../../frontend/src/features/events/__tests__/eventService.test.ts#L102) |
 | AC-001.6.9 | 6 | Unit — Negative | a blank draft ID cannot fall back to creating a second request | [frontend/src/features/events/__tests__/eventService.test.ts](../../frontend/src/features/events/__tests__/eventService.test.ts#L109) |

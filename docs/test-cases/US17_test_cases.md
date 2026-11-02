@@ -1,5 +1,14 @@
 # US17 — Assign / reassign an Event Coordinator
 
+## Documentation accuracy review — 2 November 2026
+
+The 53 source IDs remain mapped to their actual unit, component and database tests.
+Mocked frontend handover checks are separate from SQL permission enforcement. Coordinator
+name lookup returns no names for disallowed staff or oversized batches; the visitor case
+expects a permission error. Earlier TDD/rollout notes retain their historical dates.
+
+[Review findings and limits](../jaydon-test-documentation-review.md).
+
 Owner: Jaydon. Catalogue checked: 2 November 2026.
 
 ## Scope and evidence
@@ -52,16 +61,16 @@ Related implementation notes: [us17-assignment.md](../us17-assignment.md), [us17
 | AC-017.4.6 | 4 | Component — Happy path / Regression | coordinator sees assigned requests first and refresh moves reassigned requests between sections | [frontend/src/features/events/__tests__/CoordinatorRequestSections.test.tsx](../../frontend/src/features/events/__tests__/CoordinatorRequestSections.test.tsx#L23) |
 | AC-017.4.7 | 4 | Integration — Happy path | a Coordinator who is not the assigned one still sees the assigned Coordinator's name; so does a Coordinator Lead; and an Operations Manager | [backend/supabase/tests/event_coordinator_names.sql](../../backend/supabase/tests/event_coordinator_names.sql#L48) |
 | AC-017.4.8 | 4 | Integration — Happy path | an Organiser is told the name for their own event, and not for another Organiser's | [backend/supabase/tests/event_coordinator_names.sql](../../backend/supabase/tests/event_coordinator_names.sql#L66) |
-| AC-017.4.9 | 4 | Integration — Happy path | an Attendee is told nothing; nor is Venue Staff; nor Technical Support | [backend/supabase/tests/event_coordinator_names.sql](../../backend/supabase/tests/event_coordinator_names.sql#L73) |
+| AC-017.4.9 | 4 | Integration — Negative | Attendee, Venue Staff and Technical Support receive no Coordinator names. | [backend/supabase/tests/event_coordinator_names.sql](../../backend/supabase/tests/event_coordinator_names.sql#L73) |
 | AC-017.4.10 | 4 | Integration — Negative | a visitor who is not signed in is refused | [backend/supabase/tests/event_coordinator_names.sql](../../backend/supabase/tests/event_coordinator_names.sql#L90) |
-| AC-017.4.11 | 4 | Integration — Happy path | an event with no Coordinator, and an id that does not exist, give no name | [backend/supabase/tests/event_coordinator_names.sql](../../backend/supabase/tests/event_coordinator_names.sql#L97) |
-| AC-017.4.12 | 4 | Integration — Negative / Boundary | a list of more than 500 events is refused, so one call cannot scan the table; and exactly 500 is still allowed | [backend/supabase/tests/event_coordinator_names.sql](../../backend/supabase/tests/event_coordinator_names.sql#L101) |
+| AC-017.4.11 | 4 | Integration — Boundary | An unassigned event and a nonexistent event ID return no Coordinator name. | [backend/supabase/tests/event_coordinator_names.sql](../../backend/supabase/tests/event_coordinator_names.sql#L97) |
+| AC-017.4.12 | 4 | Integration — Boundary | A batch of 501 IDs returns no names; a batch of exactly 500 remains permitted. | [backend/supabase/tests/event_coordinator_names.sql](../../backend/supabase/tests/event_coordinator_names.sql#L101) |
 | AC-017.4.13 | 4 | Unit — Happy path | someone else's event names that Coordinator | [frontend/src/features/events/__tests__/coordinatorNames.test.ts](../../frontend/src/features/events/__tests__/coordinatorNames.test.ts#L12) |
 | AC-017.4.14 | 4 | Unit — Happy path | the viewer's own event names them and says it is them | [frontend/src/features/events/__tests__/coordinatorNames.test.ts](../../frontend/src/features/events/__tests__/coordinatorNames.test.ts#L16) |
-| AC-017.4.15 | 4 | Unit — Happy path | an event nobody is assigned to says so; only an explicit null means that | [frontend/src/features/events/__tests__/coordinatorNames.test.ts](../../frontend/src/features/events/__tests__/coordinatorNames.test.ts#L20) |
-| AC-017.4.16 | 4 | Unit — Happy path | if the name could not be loaded it says someone is assigned, without guessing who | [frontend/src/features/events/__tests__/coordinatorNames.test.ts](../../frontend/src/features/events/__tests__/coordinatorNames.test.ts#L25) |
+| AC-017.4.15 | 4 | Unit — Boundary | an event nobody is assigned to says so; only an explicit null means that | [frontend/src/features/events/__tests__/coordinatorNames.test.ts](../../frontend/src/features/events/__tests__/coordinatorNames.test.ts#L20) |
+| AC-017.4.16 | 4 | Unit — Negative | if the name could not be loaded it says someone is assigned, without guessing who | [frontend/src/features/events/__tests__/coordinatorNames.test.ts](../../frontend/src/features/events/__tests__/coordinatorNames.test.ts#L25) |
 | AC-017.4.17 | 4 | Unit — Happy path | maps each event to its Coordinator's name | [frontend/src/features/events/__tests__/coordinatorNames.test.ts](../../frontend/src/features/events/__tests__/coordinatorNames.test.ts#L32) |
-| AC-017.4.18 | 4 | Unit — Happy path | no events means no request at all | [frontend/src/features/events/__tests__/coordinatorNames.test.ts](../../frontend/src/features/events/__tests__/coordinatorNames.test.ts#L42) |
+| AC-017.4.18 | 4 | Unit — Boundary | no events means no request at all | [frontend/src/features/events/__tests__/coordinatorNames.test.ts](../../frontend/src/features/events/__tests__/coordinatorNames.test.ts#L42) |
 | AC-017.4.19 | 4 | Unit — Happy path / Boundary | more than 500 events are asked for in chunks, within the database's limit | [frontend/src/features/events/__tests__/coordinatorNames.test.ts](../../frontend/src/features/events/__tests__/coordinatorNames.test.ts#L47) |
 | AC-017.4.20 | 4 | Unit — Negative | a failed lookup says so without the raw error, so the cards fall back | [frontend/src/features/events/__tests__/coordinatorNames.test.ts](../../frontend/src/features/events/__tests__/coordinatorNames.test.ts#L55) |
 | AC-017.4.21 | 4 | Component — Happy path | a card shows the label it is given, and nothing when it has none | [frontend/src/features/events/__tests__/RequestCoordinatorNames.test.tsx](../../frontend/src/features/events/__tests__/RequestCoordinatorNames.test.tsx#L33) |
@@ -70,8 +79,8 @@ Related implementation notes: [us17-assignment.md](../us17-assignment.md), [us17
 | AC-017.4.24 | 4 | Component — Negative | if the names cannot be loaded, the card still says someone is assigned | [frontend/src/features/events/__tests__/RequestCoordinatorNames.test.tsx](../../frontend/src/features/events/__tests__/RequestCoordinatorNames.test.tsx#L54) |
 | AC-017.4.25 | 4 | Component — Happy path | a Coordinator Lead's view does not look names up; its cards already name them | [frontend/src/features/events/__tests__/RequestCoordinatorNames.test.tsx](../../frontend/src/features/events/__tests__/RequestCoordinatorNames.test.tsx#L60) |
 | AC-017.5.1 | 5 | Integration — Happy path | assignment records in-app notifications and queues email for the new coordinator and organiser | [backend/supabase/tests/coordinator_assignment_notifications.sql](../../backend/supabase/tests/coordinator_assignment_notifications.sql#L46) |
-| AC-017.5.2 | 5 | Integration — Negative / Regression | reassignment notifies replacement and organiser; no-op and failed attempts create nothing | [backend/supabase/tests/coordinator_assignment_notifications.sql](../../backend/supabase/tests/coordinator_assignment_notifications.sql#L88) |
+| AC-017.5.2 | 5 | Integration — Happy path / Negative / Regression | reassignment notifies replacement and organiser; no-op and failed attempts create nothing | [backend/supabase/tests/coordinator_assignment_notifications.sql](../../backend/supabase/tests/coordinator_assignment_notifications.sql#L88) |
 | AC-017.5.3 | 5 | Integration — Negative | recipients read only their authorised notices; browser writes, settings changes and outbox reads are denied | [backend/supabase/tests/coordinator_assignment_notifications.sql](../../backend/supabase/tests/coordinator_assignment_notifications.sql#L157) |
-| AC-017.5.4 | 5 | Integration — Happy path | channel settings control future notices without changing previous records | [backend/supabase/tests/coordinator_assignment_notifications.sql](../../backend/supabase/tests/coordinator_assignment_notifications.sql#L219) |
+| AC-017.5.4 | 5 | Integration — Happy path / Boundary | channel settings control future notices without changing previous records | [backend/supabase/tests/coordinator_assignment_notifications.sql](../../backend/supabase/tests/coordinator_assignment_notifications.sql#L219) |
 | AC-017.5.5 | 5 | Integration — Happy path / Regression | replay preserves settings and records; subsequent assignments respect saved channels | [backend/supabase/tests/coordinator_assignment_notifications_replay.sql](../../backend/supabase/tests/coordinator_assignment_notifications_replay.sql#L16) |
-| AC-017.6.1 | 6 | Integration — Negative / Regression | assignment history retains who, from/to and when, excluding failed and unchanged assignments | [backend/supabase/tests/coordinator_assignment.sql](../../backend/supabase/tests/coordinator_assignment.sql#L296) |
+| AC-017.6.1 | 6 | Integration — Happy path / Negative / Regression | assignment history retains who, from/to and when, excluding failed and unchanged assignments | [backend/supabase/tests/coordinator_assignment.sql](../../backend/supabase/tests/coordinator_assignment.sql#L296) |

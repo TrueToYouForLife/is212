@@ -70,6 +70,13 @@ This lists the existing titles and parameter cases without allocating new AC IDs
 
 ## Known distinctions and follow-ups
 
+- **Detailed review:** [Jaydon's story catalogue review](../jaydon-test-documentation-review.md)
+  checks scenario wording, classifications, parameter inputs and historical evidence
+  separately from source-ID presence. No new test run is claimed.
+- **US7:** historical AC-007.7.37–47 are absent from current sources. The reply-validation
+  test file duplicates 27 review-validation cases. These eleven missing dedicated cases
+  are documented separately and excluded from the 266 current source IDs.
+
 - **US41:** `AC-041.1.3` is a documented intention with no matching test-source ID.
   Replay snapshots exist, but their comparison is missing. It is explicitly excluded
   from the implemented-case inventory and retained as the next verification portion.

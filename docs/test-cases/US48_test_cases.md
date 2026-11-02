@@ -1,5 +1,15 @@
 # US48 test cases
 
+## Documentation accuracy review — 2 November 2026
+
+The source inventory has 49 IDs: 48 replacement cases and the legacy AC-048.2.6
+continuous-block dependency case, excluded from replacement case totals. Original
+manual passes are from 21 October. The 17 safety-stage SQL cases have recorded local
+results, but new-stage manual results remain unreported. They verify the replacement
+contract, not US45 safety invalidation/resubmission with its feature enabled.
+
+[Review findings and limits](../jaydon-test-documentation-review.md).
+
 Owner: Jaydon. Updated: 21 October 2026. Code-first development.
 
 ## PR1 backend cases

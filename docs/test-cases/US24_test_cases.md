@@ -1,5 +1,14 @@
 # US24 test cases
 
+## Documentation accuracy review — 2 November 2026
+
+All 37 grouped cases remain mapped: 23 database integration, six unit and eight
+component. Out is date-based, not a recorded physical checkout; Pending checks alone
+does not block future reservations. The eight manual groups are Jaydon-reported passes
+from 29 October, not a new browser run. PR1 and PR2 evidence remains portion-specific.
+
+[Review findings and limits](../jaydon-test-documentation-review.md).
+
 Owner: Jaydon. Updated: 28 October 2026. Code-first development.
 
 PR1 has 23 grouped PostgreSQL integration cases. Auth claims are simulated; database
