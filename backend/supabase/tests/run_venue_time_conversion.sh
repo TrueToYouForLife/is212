@@ -17,7 +17,7 @@ if [ "$ready" != true ]; then echo 'Temporary database did not become ready.' >&
   # 0075 was claimed before migrations that have already been deployed.
   mode="${1:-upgrade}"
   for migration in "$repo_root"/supabase/migrations/*.sql; do
-    case "$migration" in */0098_*|*/0099_*|*/0100_*|*/0102_*|*/0103_*|*/0107_*|*/0109_*|*/0110_*|*/0116_*|*/0120_*) continue ;;
+    case "$migration" in */0098_*|*/0099_*|*/0100_*|*/0102_*|*/0103_*|*/0107_*|*/0109_*|*/0110_*|*/0116_*|*/0120_*|*/0122_*) continue ;;
     */0075_*)
       if [ "$mode" != fresh ]; then continue; fi
       cat "$repo_root/supabase/tests/venue_time_conversion_fixture.sql"
@@ -137,6 +137,10 @@ SQL
   # writes 0110's cancellation record, so it applies after 0110.
   cat "$repo_root/supabase/migrations/0120_us21_cancel_event_releases.sql"
   cat "$repo_root/supabase/tests/event_cancellation.sql"
+  # US21 slice 2 (0122): rescheduling, and telling attendees about postponements; uses 0120's
+  # attendee notification type, so it applies after 0120.
+  cat "$repo_root/supabase/migrations/0122_us21_reschedule_and_postpone_notices.sql"
+  cat "$repo_root/supabase/tests/event_reschedule.sql"
   # US33 (0103): US12 closure alerts follow each person's channel choices; applies after 0100.
   cat "$repo_root/supabase/migrations/0103_us12_venue_block_notice_channels.sql"
   cat "$repo_root/supabase/tests/venue_block_notice_channels.sql"
