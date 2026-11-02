@@ -1,5 +1,15 @@
 # US27 test cases
 
+## Documentation accuracy review — 2 November 2026
+
+All 40 grouped cases remain mapped: 21 database integration and 19 frontend.
+Catalogue usable counts are global Operational stock, not availability for an event.
+Status-save auto-close and stale/error handling are covered separately. Historical
+full-suite results precede the later auto-close refinement; the later targeted results
+are retained separately. No delivered-email or new manual pass is inferred.
+
+[Review findings and limits](../jaydon-test-documentation-review.md).
+
 Owner: Jaydon. Updated: 23 October 2026. Code-first development.
 
 Implementation merged in PRs #142–144. The 40 grouped cases below cover all eight
@@ -85,7 +95,7 @@ product-code change. Do not record it as a product defect.
 Code-first. Unit tests exercise pure validation or mock the Supabase client. Component
 tests render real catalogue/panel UI with mocked services; they are not live database
 or browser end-to-end tests. Backend integration cases above enforce permissions,
-reservation exclusion, audit atomicity and notification delivery rules.
+reservation exclusion, audit atomicity and notification queuing/preferences.
 
 | ID | Classification | Scenario and expected outcome |
 |---|---|---|
