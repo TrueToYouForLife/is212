@@ -1,5 +1,9 @@
 # US36 — View coordinator assignments
 
+Current test-case catalogue: [US36 test cases](test-cases/US36_test_cases.md).
+The sections below retain their historical checkpoints; the catalogue maps current source IDs.
+
+
 Owner: Jaydon
 
 Status: implementation and verification complete; both implementation PRs merged

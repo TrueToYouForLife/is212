@@ -69,15 +69,15 @@ or component; **unit (service)** is a service against the mocked Supabase client
 | AC-046.1.17 | an unexpected failure gives a general message and is logged | unit (service) | failure | venueManagementService.test.ts |
 | AC-046.1.18 | layout options come from the catalogue, in order | unit (service) | normal | venueManagementService.test.ts |
 | AC-046.1.19 | a failed or empty layout catalogue is reported | unit (service) | failure | venueManagementService.test.ts |
-| AC-046.1.20 | filling in every detail submits the venue | unit | normal | VenueForm.test.tsx |
-| AC-046.1.21 | opening and closing times can only be chosen on slot boundaries | unit | boundary | VenueForm.test.tsx |
-| AC-046.1.22 | problems are shown next to their fields and nothing is submitted | unit | failure | VenueForm.test.tsx |
-| AC-046.1.23 | a database refusal is shown; the button is disabled while saving | unit | failure | VenueForm.test.tsx |
-| AC-046.1.24 | Venue Staff add a venue and are told it is in the catalogue | unit | normal | AddVenuePage.test.tsx |
-| AC-046.1.25 | "Add another venue" opens an empty form | unit | normal | AddVenuePage.test.tsx |
-| AC-046.1.26 | a refused venue keeps the form as typed and shows why | unit | failure | AddVenuePage.test.tsx |
-| AC-046.1.27 | if layout options cannot load, the page says so instead of the form | unit | failure | AddVenuePage.test.tsx |
-| AC-046.1.28 | leaving before layout options arrive does not update the page | unit | boundary | AddVenuePage.test.tsx |
+| AC-046.1.20 | filling in every detail submits the venue | component | normal | VenueForm.test.tsx |
+| AC-046.1.21 | opening and closing times can only be chosen on slot boundaries | component | boundary | VenueForm.test.tsx |
+| AC-046.1.22 | problems are shown next to their fields and nothing is submitted | component | failure | VenueForm.test.tsx |
+| AC-046.1.23 | a database refusal is shown; the button is disabled while saving | component | failure | VenueForm.test.tsx |
+| AC-046.1.24 | Venue Staff add a venue and are told it is in the catalogue | component | normal | AddVenuePage.test.tsx |
+| AC-046.1.25 | "Add another venue" opens an empty form | component | normal | AddVenuePage.test.tsx |
+| AC-046.1.26 | a refused venue keeps the form as typed and shows why | component | failure | AddVenuePage.test.tsx |
+| AC-046.1.27 | if layout options cannot load, the page says so instead of the form | component | failure | AddVenuePage.test.tsx |
+| AC-046.1.28 | leaving before layout options arrive does not update the page | component | boundary | AddVenuePage.test.tsx |
 
 ### AC-046.3 Every supported layout has a capacity of at least 1
 
@@ -91,8 +91,8 @@ or component; **unit (service)** is a service against the mocked Supabase client
 | AC-046.3.6 | a capacity of exactly 1 is accepted | unit | boundary | venueManagementValidation.test.ts |
 | AC-046.3.7 | at least one layout, from the catalogue, listed once | unit | failure | venueManagementValidation.test.ts |
 | AC-046.3.8 | only the rows with a problem are flagged, in order | unit | normal | venueManagementValidation.test.ts |
-| AC-046.3.9 | an invalid capacity is flagged on its own row | unit | failure | VenueForm.test.tsx |
-| AC-046.3.10 | the last layout cannot be removed; no more rows than layouts | unit | boundary | VenueForm.test.tsx |
+| AC-046.3.9 | an invalid capacity is flagged on its own row | component | failure | VenueForm.test.tsx |
+| AC-046.3.10 | the last layout cannot be removed; no more rows than layouts | component | boundary | VenueForm.test.tsx |
 
 ### AC-046.6 Only Venue Staff change venues; each change records who and when
 
@@ -106,10 +106,10 @@ or component; **unit (service)** is a service against the mocked Supabase client
 | AC-046.6.6 | nobody can write or erase the history from the app; only Venue Staff can read it | integration (SQL) | conflict | venue_management.sql |
 | AC-046.6.7 | a venue added outside the app is recorded with no user | integration (SQL) | boundary | venue_management.sql |
 | AC-046.6.8 | a "not Venue Staff" refusal is explained | unit (service) | conflict | venueManagementService.test.ts |
-| AC-046.6.9 | coordinators, Leads, organisers, operations managers, tech support and attendees are refused, and nothing loads | unit | conflict | AddVenuePage.test.tsx |
-| AC-046.6.10 | while the session is loading, nothing is shown or loaded | unit | boundary | AddVenuePage.test.tsx |
-| AC-046.6.11 | Venue Staff are offered "Add venue" once venue management is switched on | unit | normal | TopNav.test.tsx |
-| AC-046.6.12 | other roles are never offered it | unit | conflict | TopNav.test.tsx |
+| AC-046.6.9 | coordinators, Leads, organisers, operations managers, tech support and attendees are refused, and nothing loads | component | conflict | AddVenuePage.test.tsx |
+| AC-046.6.10 | while the session is loading, nothing is shown or loaded | component | boundary | AddVenuePage.test.tsx |
+| AC-046.6.11 | Venue Staff are offered "Add venue" once venue management is switched on | component | normal | TopNav.test.tsx |
+| AC-046.6.12 | other roles are never offered it | component | conflict | TopNav.test.tsx |
 
 0064 is replayed by the database runner before these tests, which also shows it is safe to replay.
 
@@ -157,16 +157,16 @@ layout an event needs. If US20 moves that rule into a function, both should call
 | AC-046.2.17 | an out-of-date edit is reported so it can be reloaded | unit (service) | conflict | venueManagementService.test.ts |
 | AC-046.2.18 | not found, duplicate name and invalid hours are explained | unit (service) | failure | venueManagementService.test.ts |
 | AC-046.2.19 | database reasons shown as they are; unexpected ones logged; signed out sends nothing | unit (service) | failure | venueManagementService.test.ts |
-| AC-046.2.20 | Venue Staff see every venue with an Edit link and an Add venue button | unit | normal | ManageVenuesPage.test.tsx |
-| AC-046.2.21 | a failed list is reported; an empty catalogue says so | unit | failure | ManageVenuesPage.test.tsx |
-| AC-046.2.22 | leaving before the list arrives does not update the page | unit | boundary | ManageVenuesPage.test.tsx |
-| AC-046.2.23 | the edit page opens with the venue's current details | unit | normal | EditVenuePage.test.tsx |
-| AC-046.2.24 | saving sends the edits with the opened version | unit | normal | EditVenuePage.test.tsx |
-| AC-046.2.25 | an out-of-date edit is explained; reloading shows the other change | unit | conflict | EditVenuePage.test.tsx |
-| AC-046.2.26 | another refusal keeps the edits and shows why | unit | failure | EditVenuePage.test.tsx |
-| AC-046.2.27 | a feature no longer in the catalogue is named before saving | unit | boundary | EditVenuePage.test.tsx |
-| AC-046.2.28 | a venue or layout options that cannot load are reported | unit | failure | EditVenuePage.test.tsx |
-| AC-046.2.29 | "Edit again" reopens the saved venue; leaving early does not update the page | unit | boundary | EditVenuePage.test.tsx |
+| AC-046.2.20 | Venue Staff see every venue with an Edit link and an Add venue button | component | normal | ManageVenuesPage.test.tsx |
+| AC-046.2.21 | a failed list is reported; an empty catalogue says so | component | failure | ManageVenuesPage.test.tsx |
+| AC-046.2.22 | leaving before the list arrives does not update the page | component | boundary | ManageVenuesPage.test.tsx |
+| AC-046.2.23 | the edit page opens with the venue's current details | component | normal | EditVenuePage.test.tsx |
+| AC-046.2.24 | saving sends the edits with the opened version | component | normal | EditVenuePage.test.tsx |
+| AC-046.2.25 | an out-of-date edit is explained; reloading shows the other change | component | conflict | EditVenuePage.test.tsx |
+| AC-046.2.26 | another refusal keeps the edits and shows why | component | failure | EditVenuePage.test.tsx |
+| AC-046.2.27 | a feature no longer in the catalogue is named before saving | component | boundary | EditVenuePage.test.tsx |
+| AC-046.2.28 | a venue or layout options that cannot load are reported | component | failure | EditVenuePage.test.tsx |
+| AC-046.2.29 | "Edit again" reopens the saved venue; leaving early does not update the page | component | boundary | EditVenuePage.test.tsx |
 
 ### AC-046.4 An edit never changes a booking; possibly unsuitable bookings are flagged and their Coordinators notified
 
@@ -188,7 +188,7 @@ layout an event needs. If US20 moves that rule into a function, both should call
 | AC-046.4.17 | one booking reviewed for two reasons in one edit counts as one booking sent for review | integration (SQL) | boundary | venue_edit.sql |
 | AC-046.4.14 | saving reports how many bookings were sent for review | unit (service) | normal | venueManagementService.test.ts |
 | AC-046.4.15 | an answer without a count is read as nothing flagged | unit (service) | boundary | venueManagementService.test.ts |
-| AC-046.4.16 | after saving, Venue Staff are told how many bookings were sent for review and that none changed | unit | normal | EditVenuePage.test.tsx |
+| AC-046.4.16 | after saving, Venue Staff are told how many bookings were sent for review and that none changed | component | normal | EditVenuePage.test.tsx |
 
 ### AC-046.6 Only Venue Staff edit venues; each edit recorded
 
@@ -197,10 +197,10 @@ layout an event needs. If US20 moves that rule into a function, both should call
 | AC-046.6.13 | only Venue Staff can open a venue for editing or save an edit | integration (SQL) | conflict | venue_edit.sql |
 | AC-046.6.14 | every saved edit is recorded with who, when and what changed | integration (SQL) | normal | venue_edit.sql |
 | AC-046.6.15 | a "not Venue Staff" refusal is explained when opening or saving | unit (service) | conflict | venueManagementService.test.ts |
-| AC-046.6.16 | other roles are told managing venues is for Venue Staff; nothing loads | unit | conflict | ManageVenuesPage.test.tsx |
-| AC-046.6.17 | while the session loads, the list shows nothing | unit | boundary | ManageVenuesPage.test.tsx |
-| AC-046.6.18 | other roles are told editing venues is for Venue Staff; nothing loads | unit | conflict | EditVenuePage.test.tsx |
-| AC-046.6.19 | while the session loads, the edit page shows nothing | unit | boundary | EditVenuePage.test.tsx |
+| AC-046.6.16 | other roles are told managing venues is for Venue Staff; nothing loads | component | conflict | ManageVenuesPage.test.tsx |
+| AC-046.6.17 | while the session loads, the list shows nothing | component | boundary | ManageVenuesPage.test.tsx |
+| AC-046.6.18 | other roles are told editing venues is for Venue Staff; nothing loads | component | conflict | EditVenuePage.test.tsx |
+| AC-046.6.19 | while the session loads, the edit page shows nothing | component | boundary | EditVenuePage.test.tsx |
 
 0067 is replayed by the database runner before these tests, which also shows it is safe to replay.
 
@@ -240,14 +240,14 @@ layout an event needs. If US20 moves that rule into a function, both should call
 | AC-046.5.15 | retiring a venue someone just changed is reported as out of date | unit (service) | conflict | venueManagementService.test.ts |
 | AC-046.5.16 | a missing venue, database reasons and unexpected failures are explained | unit (service) | failure | venueManagementService.test.ts |
 | AC-046.5.17 | an answer without a count is nothing flagged; signed out sends nothing | unit (service) | boundary | venueManagementService.test.ts |
-| AC-046.5.18 | retiring asks for a reason first | unit | failure | RetireVenuePanel.test.tsx |
-| AC-046.5.19 | retiring needs an explicit confirmation; cancelling goes back | unit | normal | RetireVenuePanel.test.tsx |
-| AC-046.5.20 | confirming retires the venue with the reason, trimmed | unit | normal | RetireVenuePanel.test.tsx |
-| AC-046.5.21 | while retiring, neither confirming again nor cancelling is possible | unit | boundary | RetireVenuePanel.test.tsx |
-| AC-046.5.22 | after retiring, Venue Staff are told the venue left search and how many bookings went for review | unit | normal | EditVenuePage.test.tsx |
-| AC-046.5.23 | a retired venue opens saying so and why, with no way to retire it again | unit | conflict | EditVenuePage.test.tsx |
-| AC-046.5.24 | a retired venue with no reason recorded still says it is retired | unit | boundary | EditVenuePage.test.tsx |
-| AC-046.5.25 | a refused retirement is explained, with a reload when the venue changed | unit | failure | EditVenuePage.test.tsx |
+| AC-046.5.18 | retiring asks for a reason first | component | failure | RetireVenuePanel.test.tsx |
+| AC-046.5.19 | retiring needs an explicit confirmation; cancelling goes back | component | normal | RetireVenuePanel.test.tsx |
+| AC-046.5.20 | confirming retires the venue with the reason, trimmed | component | normal | RetireVenuePanel.test.tsx |
+| AC-046.5.21 | while retiring, neither confirming again nor cancelling is possible | component | boundary | RetireVenuePanel.test.tsx |
+| AC-046.5.22 | after retiring, Venue Staff are told the venue left search and how many bookings went for review | component | normal | EditVenuePage.test.tsx |
+| AC-046.5.23 | a retired venue opens saying so and why, with no way to retire it again | component | conflict | EditVenuePage.test.tsx |
+| AC-046.5.24 | a retired venue with no reason recorded still says it is retired | component | boundary | EditVenuePage.test.tsx |
+| AC-046.5.25 | a refused retirement is explained, with a reload when the venue changed | component | failure | EditVenuePage.test.tsx |
 
 ### AC-046.6 Only Venue Staff retire venues
 

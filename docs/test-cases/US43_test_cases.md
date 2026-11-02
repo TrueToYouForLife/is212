@@ -122,17 +122,17 @@ review or in preparation, replacement and a return to review belong to US45.
 | AC-043.1.18 | after 0107, readiness is still the shared rule: approved and rejected is outstanding on the card and not ready for review | integration (SQL) | conflict | safety_review_readiness.sql |
 | AC-043.1.9 | the rules mirror 0108: Planning leads only to review; Confirmed only follows In Preparation | unit | normal | safetyReviewStatuses.test.tsx |
 | AC-043.1.10 | no status button sends an event for review; that is done from the readiness card | unit | conflict | safetyReviewStatuses.test.tsx |
-| AC-043.2.5 | every safety stage has a label and a badge | unit | normal | safetyReviewStatuses.test.tsx |
-| AC-043.2.6 | the Organiser is told their event is with the Safety Officer and not yet confirmed | unit | normal | safetyReviewStatuses.test.tsx |
+| AC-043.2.5 | every safety stage has a label and a badge | component | normal | safetyReviewStatuses.test.tsx |
+| AC-043.2.6 | the Organiser is told their event is with the Safety Officer and not yet confirmed | component | normal | safetyReviewStatuses.test.tsx |
 | AC-043.2.7 | Safety Officer is a role the app recognises and names | unit | normal | safetyReviewStatuses.test.tsx |
 | AC-043.3.6 | a Coordinator awaiting review can only cancel; deciding is the Safety Officer's | unit | conflict | safetyReviewStatuses.test.tsx |
-| AC-043.1.15 | in Planning the hint points to the readiness card and there is no Confirm; In Preparation offers Confirm | unit | normal | safetyReviewStatuses.test.tsx |
+| AC-043.1.15 | in Planning the hint points to the readiness card and there is no Confirm; In Preparation offers Confirm | component | normal | safetyReviewStatuses.test.tsx |
 | AC-043.1.11 | ready means every readiness line complete, except registration setup and the safety review | unit | boundary | safetyReviewSend.test.tsx |
-| AC-043.1.12 | in Planning and ready, "Send for safety review" sends it and the page refreshes | unit | normal | safetyReviewSend.test.tsx |
-| AC-043.1.13 | until ready the card says so instead; outside Planning it offers nothing | unit | boundary | safetyReviewSend.test.tsx |
-| AC-043.1.14 | a refused send says why, the page is not refreshed, and the button works again | unit | failure | safetyReviewSend.test.tsx |
+| AC-043.1.12 | in Planning and ready, "Send for safety review" sends it and the page refreshes | component | normal | safetyReviewSend.test.tsx |
+| AC-043.1.13 | until ready the card says so instead; outside Planning it offers nothing | component | boundary | safetyReviewSend.test.tsx |
+| AC-043.1.14 | a refused send says why, the page is not refreshed, and the button works again | component | failure | safetyReviewSend.test.tsx |
 | AC-043.1.16 | sending calls the database once for the event, and each refusal says why (including "not switched on yet") | unit (service) | failure | safetyReviewService.test.ts |
-| AC-043.1.19 | while switched off, Planning still offers Confirm with today's hint and the readiness card offers no safety review | unit | normal | safetyReviewSwitchedOff.test.tsx |
+| AC-043.1.19 | while switched off, Planning still offers Confirm with today's hint and the readiness card offers no safety review | component | normal | safetyReviewSwitchedOff.test.tsx |
 
 US43's own tests switch the safety review on (database: inside their rolled-back transaction;
 frontend: by mocking the flag). Existing tests run with it off, so they keep testing today's
@@ -160,13 +160,13 @@ changed. US5's AC-005.2.1 now expects 0107's rule (a rejection stays outstanding
 | AC-043.4.7 | once the Safety Officer has decided an event, it leaves the queue | integration (SQL) | boundary | safety_review_queue.sql |
 | AC-043.4.8 | the queue is read once, kept in the database's order, and named for the app | unit (service) | normal | safetyReviewQueueService.test.ts |
 | AC-043.4.9 | a non-Safety Officer is told it is not theirs; any other failure or unexpected answer says to try again | unit (service) | failure | safetyReviewQueueService.test.ts |
-| AC-043.4.10 | events listed oldest first, with when sent, attendance and accessibility needs | unit | normal | SafetyReviewQueuePage.test.tsx |
-| AC-043.4.11 | each venue shows layout, attendance against capacity (flagging over capacity), accessibility and restrictions | unit | boundary | SafetyReviewQueuePage.test.tsx |
-| AC-043.4.12 | the equipment shows each request, whether essential, and how many items are reserved | unit | normal | SafetyReviewQueuePage.test.tsx |
-| AC-043.4.13 | with nothing waiting it says so; a failed load shows why; an event without a reference uses its name | unit | failure | SafetyReviewQueuePage.test.tsx |
-| AC-043.4.14 | an answer arriving after the Safety Officer left the page is ignored | unit | boundary | SafetyReviewQueuePage.test.tsx |
-| AC-043.4.15 | a Safety Officer is offered Safety reviews in the menu; a Coordinator is not | unit | normal | SafetyReviewQueuePage.test.tsx |
-| AC-043.4.16 | while switched off, a Safety Officer is not offered Safety reviews | unit | normal | SafetyReviewNavSwitchedOff.test.tsx |
+| AC-043.4.10 | events listed oldest first, with when sent, attendance and accessibility needs | component | normal | SafetyReviewQueuePage.test.tsx |
+| AC-043.4.11 | each venue shows layout, attendance against capacity (flagging over capacity), accessibility and restrictions | component | boundary | SafetyReviewQueuePage.test.tsx |
+| AC-043.4.12 | the equipment shows each request, whether essential, and how many items are reserved | component | normal | SafetyReviewQueuePage.test.tsx |
+| AC-043.4.13 | with nothing waiting it says so; a failed load shows why; an event without a reference uses its name | component | failure | SafetyReviewQueuePage.test.tsx |
+| AC-043.4.14 | an answer arriving after the Safety Officer left the page is ignored | component | boundary | SafetyReviewQueuePage.test.tsx |
+| AC-043.4.15 | a Safety Officer is offered Safety reviews in the menu; a Coordinator is not | component | normal | SafetyReviewQueuePage.test.tsx |
+| AC-043.4.16 | while switched off, a Safety Officer is not offered Safety reviews | component | normal | SafetyReviewNavSwitchedOff.test.tsx |
 
 Forced break (slice 2): `get_safety_review_queue()` made to list the newest first; AC-043.4.1
 failed. Log: `docs/test-evidence/us43/AC-043.4.1-forced-break.log`. `SafetyReviewQueuePage.tsx` and

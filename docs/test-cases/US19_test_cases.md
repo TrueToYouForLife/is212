@@ -65,21 +65,21 @@ the mocked Supabase client). Scenarios: normal, boundary, conflict, failure.
 | AC-019.1.9 | moving a week at a time crosses month and year ends | unit | boundary | availabilityDates.test.ts |
 | AC-019.1.10 | "this week" starts on today in Singapore, already tomorrow from 16:00 UTC | unit | boundary | availabilityDates.test.ts |
 | AC-019.1.11 | each day is headed with its weekday and date | unit | normal | availabilityDates.test.ts |
-| AC-019.1.12 | for coordinators, each venue name opens that venue's timetable | unit | normal | VenueAvailabilityGrid.test.tsx |
-| AC-019.1.13 | for Venue Staff, names are plain text; location and maintenance are shown | unit | normal | VenueAvailabilityGrid.test.tsx |
-| AC-019.1.14 | Venue Staff see every venue for the week starting today in Singapore | unit | normal | VenueAvailabilityPage.test.tsx |
-| AC-019.1.15 | coordinators see it too, and can open a venue's timetable from its name | unit | normal | VenueAvailabilityPage.test.tsx |
-| AC-019.1.16 | with venue booking switched off, coordinators get no timetable link | unit | boundary | VenueAvailabilityPage.test.tsx |
-| AC-019.1.17 | organisers, Leads, operations managers, tech support and attendees are refused, and nothing loads | unit | conflict | VenueAvailabilityPage.test.tsx |
-| AC-019.1.18 | while the session is loading, nothing is shown or loaded | unit | boundary | VenueAvailabilityPage.test.tsx |
-| AC-019.1.19 | next, previous and this week move the calendar a week at a time | unit | normal | VenueAvailabilityPage.test.tsx |
-| AC-019.1.20 | choosing a date starts the week there; clearing the date keeps the current week | unit | boundary | VenueAvailabilityPage.test.tsx |
-| AC-019.1.21 | slot times are read once and reused between weeks | unit | normal | VenueAvailabilityPage.test.tsx |
-| AC-019.1.22 | a failed load shows the error instead of a calendar; slot times are retried | unit | failure | VenueAvailabilityPage.test.tsx |
-| AC-019.1.23 | with no active venues, the page says so | unit | boundary | VenueAvailabilityPage.test.tsx |
-| AC-019.1.24 | an answer for a week the user has moved away from is ignored | unit | conflict | VenueAvailabilityPage.test.tsx |
-| AC-019.1.25 | Venue Staff and coordinators are offered Availability in the nav | unit | normal | TopNav.test.tsx |
-| AC-019.1.26 | other roles are not offered it | unit | conflict | TopNav.test.tsx |
+| AC-019.1.12 | for coordinators, each venue name opens that venue's timetable | component | normal | VenueAvailabilityGrid.test.tsx |
+| AC-019.1.13 | for Venue Staff, names are plain text; location and maintenance are shown | component | normal | VenueAvailabilityGrid.test.tsx |
+| AC-019.1.14 | Venue Staff see every venue for the week starting today in Singapore | component | normal | VenueAvailabilityPage.test.tsx |
+| AC-019.1.15 | coordinators see it too, and can open a venue's timetable from its name | component | normal | VenueAvailabilityPage.test.tsx |
+| AC-019.1.16 | with venue booking switched off, coordinators get no timetable link | component | boundary | VenueAvailabilityPage.test.tsx |
+| AC-019.1.17 | organisers, Leads, operations managers, tech support and attendees are refused, and nothing loads | component | conflict | VenueAvailabilityPage.test.tsx |
+| AC-019.1.18 | while the session is loading, nothing is shown or loaded | component | boundary | VenueAvailabilityPage.test.tsx |
+| AC-019.1.19 | next, previous and this week move the calendar a week at a time | component | normal | VenueAvailabilityPage.test.tsx |
+| AC-019.1.20 | choosing a date starts the week there; clearing the date keeps the current week | component | boundary | VenueAvailabilityPage.test.tsx |
+| AC-019.1.21 | slot times are read once and reused between weeks | component | normal | VenueAvailabilityPage.test.tsx |
+| AC-019.1.22 | a failed load shows the error instead of a calendar; slot times are retried | component | failure | VenueAvailabilityPage.test.tsx |
+| AC-019.1.23 | with no active venues, the page says so | component | boundary | VenueAvailabilityPage.test.tsx |
+| AC-019.1.24 | an answer for a week the user has moved away from is ignored | component | conflict | VenueAvailabilityPage.test.tsx |
+| AC-019.1.25 | Venue Staff and coordinators are offered Availability in the nav | component | normal | TopNav.test.tsx |
+| AC-019.1.26 | other roles are not offered it | component | conflict | TopNav.test.tsx |
 
 ### AC-019.2 Bookings and confirmed events are blocked out
 
@@ -93,18 +93,18 @@ the mocked Supabase client). Scenarios: normal, boundary, conflict, failure.
 | AC-019.2.6 | a booking for an unlisted (retired) venue is not drawn anywhere | unit | conflict | venueAvailability.test.ts |
 | AC-019.2.7 | venues are listed by name, whatever order they arrive in | unit | normal | venueAvailability.test.ts |
 | AC-019.2.8 | the week spans the requested days in order, across a month end | unit | boundary | venueAvailability.test.ts |
-| AC-019.2.9 | each kind of occupancy has its own wording, on screen and for screen readers | unit | normal | VenueAvailabilityGrid.test.tsx |
-| AC-019.2.10 | a Venue Staff block shows as blocked, with its reason, in the grid | unit | normal | VenueAvailabilityGrid.test.tsx |
-| AC-019.2.11 | the key names every state, including setup and turnaround | unit | normal | VenueAvailabilityGrid.test.tsx |
+| AC-019.2.9 | each kind of occupancy has its own wording, on screen and for screen readers | component | normal | VenueAvailabilityGrid.test.tsx |
+| AC-019.2.10 | a Venue Staff block shows as blocked, with its reason, in the grid | component | normal | VenueAvailabilityGrid.test.tsx |
+| AC-019.2.11 | the key names every state, including setup and turnaround | component | normal | VenueAvailabilityGrid.test.tsx |
 
 ### AC-019.3 Each day is shown as AM, PM and Night
 
 | ID | Test | Type | Scenario | File |
 |---|---|---|---|---|
-| AC-019.3.1 | every venue has AM, PM and Night rows in order, even when slots are defined out of order | unit | boundary | VenueAvailabilityGrid.test.tsx |
-| AC-019.3.2 | a full-day booking fills all three slots, with setup and turnaround either side | unit | normal | VenueAvailabilityGrid.test.tsx |
-| AC-019.3.3 | one column per day of the week, headed with weekday and date | unit | normal | VenueAvailabilityGrid.test.tsx |
-| AC-019.3.4 | each venue shows 21 cells for the week, three a day | unit | boundary | VenueAvailabilityGrid.test.tsx |
+| AC-019.3.1 | every venue has AM, PM and Night rows in order, even when slots are defined out of order | component | boundary | VenueAvailabilityGrid.test.tsx |
+| AC-019.3.2 | a full-day booking fills all three slots, with setup and turnaround either side | component | normal | VenueAvailabilityGrid.test.tsx |
+| AC-019.3.3 | one column per day of the week, headed with weekday and date | component | normal | VenueAvailabilityGrid.test.tsx |
+| AC-019.3.4 | each venue shows 21 cells for the week, three a day | component | boundary | VenueAvailabilityGrid.test.tsx |
 
 ## Manual test cases (shared Supabase project)
 
