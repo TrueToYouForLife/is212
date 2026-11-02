@@ -1,5 +1,9 @@
 # US7 coordinator review UI — change log
 
+Current test-case catalogue: [US7 test cases](test-cases/US7_test_cases.md).
+The sections below retain their historical checkpoints; the catalogue maps current source IDs.
+
+
 Follow-up during live testing: added migration `0011`, a three-case SQL regression
 file and a runner update for the shared database's legacy status constraint name.
 No application code changed for that correction. See README for the cause and IDs;

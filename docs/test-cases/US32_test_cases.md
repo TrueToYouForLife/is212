@@ -71,13 +71,13 @@ or component; **unit (service)** is a service against the mocked Supabase client
 | AC-032.1.11 | the feed is read in one call and each row becomes a notification, in order | unit (service) | normal | notificationService.test.ts |
 | AC-032.1.12 | with nothing sent yet the list is empty; 100 are asked for by default | unit (service) | boundary | notificationService.test.ts |
 | AC-032.1.13 | a failed or unexpected answer is reported and logged, never an empty list | unit (service) | failure | notificationService.test.ts |
-| AC-032.1.14 | each notification shows what happened, its event and when, in the feed's order | unit | normal | NotificationsPage.test.tsx |
-| AC-032.1.15 | a notice with no visible event or detail shows just what happened and when | unit | boundary | NotificationsPage.test.tsx |
-| AC-032.1.16 | with no notifications the page says so | unit | boundary | NotificationsPage.test.tsx |
-| AC-032.1.17 | a failed load shows the error, not an empty list | unit | failure | NotificationsPage.test.tsx |
-| AC-032.1.18 | leaving before the notifications arrive does not update the page | unit | boundary | NotificationsPage.test.tsx |
-| AC-032.1.19 | every signed-in role is offered Notifications once the feature is on | unit | normal | TopNav.test.tsx |
-| AC-032.1.20 | Notifications is not offered while the feature is off, or to someone signed out | unit | conflict | TopNav.test.tsx |
+| AC-032.1.14 | each notification shows what happened, its event and when, in the feed's order | component | normal | NotificationsPage.test.tsx |
+| AC-032.1.15 | a notice with no visible event or detail shows just what happened and when | component | boundary | NotificationsPage.test.tsx |
+| AC-032.1.16 | with no notifications the page says so | component | boundary | NotificationsPage.test.tsx |
+| AC-032.1.17 | a failed load shows the error, not an empty list | component | failure | NotificationsPage.test.tsx |
+| AC-032.1.18 | leaving before the notifications arrive does not update the page | component | boundary | NotificationsPage.test.tsx |
+| AC-032.1.19 | every signed-in role is offered Notifications once the feature is on | component | normal | TopNav.test.tsx |
+| AC-032.1.20 | Notifications is not offered while the feature is off, or to someone signed out | component | conflict | TopNav.test.tsx |
 
 ### AC-032.5 A user only ever sees their own notifications
 
@@ -89,8 +89,8 @@ or component; **unit (service)** is a service against the mocked Supabase client
 | AC-032.5.4 | emails to other addresses are never shown; a signed-out request is refused | integration (SQL) | failure | notification_feed.sql |
 | AC-032.5.5 | the email outbox itself stays unreadable from the app | integration (SQL) | conflict | notification_feed.sql |
 | AC-032.5.6 | a signed-out request is refused and the user asked to sign in | unit (service) | failure | notificationService.test.ts |
-| AC-032.5.7 | someone signed out is asked to sign in, and nothing is loaded | unit | conflict | NotificationsPage.test.tsx |
-| AC-032.5.8 | while the session loads, nothing is shown or loaded | unit | boundary | NotificationsPage.test.tsx |
+| AC-032.5.7 | someone signed out is asked to sign in, and nothing is loaded | component | conflict | NotificationsPage.test.tsx |
+| AC-032.5.8 | while the session loads, nothing is shown or loaded | component | boundary | NotificationsPage.test.tsx |
 
 ## Design decisions (slice 2)
 
@@ -117,13 +117,13 @@ Venue notices now also carry the booking they are about (`item_id`), and every n
 | AC-032.2.2 | a venue notification carries the booking it is about | integration (SQL) | normal | notification_feed.sql |
 | AC-032.2.3 | the unread count is read in one call; an answer without a number counts as none | unit (service) | boundary | notificationService.test.ts |
 | AC-032.2.4 | a count that cannot be read is reported and logged; signed out asks to sign in | unit (service) | failure | notificationService.test.ts |
-| AC-032.2.5 | unread notices are marked unread on screen and for screen readers; read ones are not | unit | normal | NotificationsPage.test.tsx |
-| AC-032.2.6 | the count is read when the nav appears | unit | normal | useUnreadNotificationCount.test.tsx |
-| AC-032.2.7 | the count is re-read on every page change and whenever notices are marked read | unit | normal | useUnreadNotificationCount.test.tsx |
-| AC-032.2.8 | a count that cannot be read shows no number rather than a wrong one | unit | failure | useUnreadNotificationCount.test.tsx |
-| AC-032.2.9 | signed out nothing is read; an answer after leaving is ignored | unit | boundary | useUnreadNotificationCount.test.tsx |
-| AC-032.2.10 | the count is shown beside Notifications and read out with it | unit | normal | TopNav.test.tsx |
-| AC-032.2.11 | no number at zero or when unknown; over 99 shows 99+ | unit | boundary | TopNav.test.tsx |
+| AC-032.2.5 | unread notices are marked unread on screen and for screen readers; read ones are not | component | normal | NotificationsPage.test.tsx |
+| AC-032.2.6 | the count is read when the nav appears | component | normal | useUnreadNotificationCount.test.tsx |
+| AC-032.2.7 | the count is re-read on every page change and whenever notices are marked read | component | normal | useUnreadNotificationCount.test.tsx |
+| AC-032.2.8 | a count that cannot be read shows no number rather than a wrong one | component | failure | useUnreadNotificationCount.test.tsx |
+| AC-032.2.9 | signed out nothing is read; an answer after leaving is ignored | component | boundary | useUnreadNotificationCount.test.tsx |
+| AC-032.2.10 | the count is shown beside Notifications and read out with it | component | normal | TopNav.test.tsx |
+| AC-032.2.11 | no number at zero or when unknown; over 99 shows 99+ | component | boundary | TopNav.test.tsx |
 
 ### AC-032.3 Opening a notification marks it read and goes to its event or item
 
@@ -138,10 +138,10 @@ Venue notices now also carry the booking they are about (`item_id`), and every n
 | AC-032.3.7 | Organisers, Coordinators, Leads and Operations Managers go to the event's request page | unit | normal | notificationFormat.test.ts |
 | AC-032.3.8 | Venue Staff go to the booking a request is about, or the queue | unit | normal | notificationFormat.test.ts |
 | AC-032.3.9 | Technical Support go to Equipment, Attendees to My registrations; signed out goes nowhere | unit | boundary | notificationFormat.test.ts |
-| AC-032.3.10 | opening an unread notice marks it read, then goes to its event | unit | normal | NotificationsPage.test.tsx |
-| AC-032.3.11 | opening a read notice goes straight there without marking it again | unit | boundary | NotificationsPage.test.tsx |
-| AC-032.3.12 | a notice with nowhere to go is marked read where it is | unit | boundary | NotificationsPage.test.tsx |
-| AC-032.3.13 | if a notice cannot be marked read, the user is told and still taken to it | unit | failure | NotificationsPage.test.tsx |
+| AC-032.3.10 | opening an unread notice marks it read, then goes to its event | component | normal | NotificationsPage.test.tsx |
+| AC-032.3.11 | opening a read notice goes straight there without marking it again | component | boundary | NotificationsPage.test.tsx |
+| AC-032.3.12 | a notice with nowhere to go is marked read where it is | component | boundary | NotificationsPage.test.tsx |
+| AC-032.3.13 | if a notice cannot be marked read, the user is told and still taken to it | component | failure | NotificationsPage.test.tsx |
 
 ### AC-032.4 A user can mark all notifications as read
 
@@ -150,9 +150,9 @@ Venue notices now also carry the booking they are about (`item_id`), and every n
 | AC-032.4.1 | marking all read clears the user's own unread notices only, and says how many | integration (SQL) | normal | notification_feed.sql |
 | AC-032.4.2 | marking all read reports how many there were and refreshes the count | unit (service) | normal | notificationService.test.ts |
 | AC-032.4.3 | a failed mark-all is reported and logged; signed out asks to sign in | unit (service) | failure | notificationService.test.ts |
-| AC-032.4.4 | marking all read shows every notice as read and disables the button | unit | normal | NotificationsPage.test.tsx |
-| AC-032.4.5 | with nothing unread the button cannot be used; while marking it says so | unit | boundary | NotificationsPage.test.tsx |
-| AC-032.4.6 | a failed mark-all is reported and nothing is shown as read | unit | failure | NotificationsPage.test.tsx |
+| AC-032.4.4 | marking all read shows every notice as read and disables the button | component | normal | NotificationsPage.test.tsx |
+| AC-032.4.5 | with nothing unread the button cannot be used; while marking it says so | component | boundary | NotificationsPage.test.tsx |
+| AC-032.4.6 | a failed mark-all is reported and nothing is shown as read | component | failure | NotificationsPage.test.tsx |
 
 ### AC-032.5 Each user's read state is their own
 

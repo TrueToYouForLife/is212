@@ -3,6 +3,17 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
+## Test-case documentation closeout — 2 November 2026
+
+The [test-case index](docs/test-cases/README.md) links canonical catalogues for all
+45 stories with numeric test IDs in the current test sources. US1, US7 and US17 now
+have complete catalogues; other missing team catalogues are added, US31 is completed,
+and US45's existing spec is in `docs/test-cases/`. Shared/untagged tests are indexed
+separately. All 2,880 numeric source IDs are traceable; this is documentation coverage,
+not a new test run or a claim that every Jira AC is complete. US41's absent replay
+assertion and outstanding manual checks remain explicit follow-ups.
+
+
 ## US48 safety-stage compatibility
 
 Migration `0116_us48_safety_stage_replacements.sql` extends the existing affected-venue

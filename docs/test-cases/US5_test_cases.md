@@ -63,16 +63,16 @@ and gains two section anchors (`#event-decision`, `#planning-details`) for its l
 | AC-005.4.2 | anyone else is told it is for the assigned Coordinator; an unknown event is not found | unit (service) | conflict | readinessService.test.ts |
 | AC-005.5.1 | each arrangement links to the page or section that governs it | unit | normal | readinessLinks.test.ts |
 | AC-005.5.2 | an arrangement a later story adds has no link until that story gives it one | unit | boundary | readinessLinks.test.ts |
-| AC-005.1.4 | every arrangement is listed with status and detail; the summary counts what is complete | unit | normal | ReadinessSummary.test.tsx |
-| AC-005.3.1 | complete and outstanding each have their own word and symbol, not just a colour | unit | normal | ReadinessSummary.test.tsx |
-| AC-005.3.2 | with everything complete, the summary says so | unit | boundary | ReadinessSummary.test.tsx |
-| AC-005.5.3 | outstanding lines link onwards; complete lines do not | unit | normal | ReadinessSummary.test.tsx |
-| AC-005.6.2 | an arrangement a later story adds (test double for the safety review) is shown like any other | unit | boundary | ReadinessSummary.test.tsx |
-| AC-005.8.2 | with no arrangements to show, nothing is presented as outstanding | unit | boundary | ReadinessSummary.test.tsx |
-| AC-005.1.5 | the summary loads for the event; a failure is shown instead | unit | failure | EventReadinessCard.test.tsx |
-| AC-005.7.2 | it is read again every 30 seconds, so changes by others appear without reloading | unit | normal | EventReadinessCard.test.tsx |
-| AC-005.7.3 | it is read again at once when the page refreshes after a change made here | unit | normal | EventReadinessCard.test.tsx |
-| AC-005.7.4 | once the page is left it stops reading and ignores a late answer | unit | boundary | EventReadinessCard.test.tsx |
+| AC-005.1.4 | every arrangement is listed with status and detail; the summary counts what is complete | component | normal | ReadinessSummary.test.tsx |
+| AC-005.3.1 | complete and outstanding each have their own word and symbol, not just a colour | component | normal | ReadinessSummary.test.tsx |
+| AC-005.3.2 | with everything complete, the summary says so | component | boundary | ReadinessSummary.test.tsx |
+| AC-005.5.3 | outstanding lines link onwards; complete lines do not | component | normal | ReadinessSummary.test.tsx |
+| AC-005.6.2 | an arrangement a later story adds (test double for the safety review) is shown like any other | component | boundary | ReadinessSummary.test.tsx |
+| AC-005.8.2 | with no arrangements to show, nothing is presented as outstanding | component | boundary | ReadinessSummary.test.tsx |
+| AC-005.1.5 | the summary loads for the event; a failure is shown instead | component | failure | EventReadinessCard.test.tsx |
+| AC-005.7.2 | it is read again every 30 seconds, so changes by others appear without reloading | component | normal | EventReadinessCard.test.tsx |
+| AC-005.7.3 | it is read again at once when the page refreshes after a change made here | component | normal | EventReadinessCard.test.tsx |
+| AC-005.7.4 | once the page is left it stops reading and ignores a late answer | component | boundary | EventReadinessCard.test.tsx |
 
 ## Manual test cases (shared Supabase, after 0076 is applied)
 

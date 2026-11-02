@@ -61,7 +61,7 @@ Preparation or Confirmed. US21 adds rescheduling and the attendee notices.
 | AC-021.1.5 | an event with nothing booked and nobody registered is simply cancelled | integration (SQL) | boundary | event_cancellation.sql |
 | AC-021.3.1 | attendees registered or waiting for a place are told the event was cancelled; those who withdrew are not, and registrations are kept | integration (SQL) | normal | event_cancellation.sql |
 | AC-021.3.2 | an attendee who turned these emails off is told in the app only | integration (SQL) | boundary | event_cancellation.sql |
-| AC-021.1.6 | the Coordinator is told cancelling releases the bookings and reservations and tells attendees; declining changes nothing | unit | normal | eventCancellation.test.tsx |
+| AC-021.1.6 | the Coordinator is told cancelling releases the bookings and reservations and tells attendees; declining changes nothing | component | normal | eventCancellation.test.tsx |
 | AC-021.1.7 | the Coordinator reschedules a confirmed event: it takes the new date, returns to Planning, and the change is recorded with the old date | integration (SQL) | normal | event_reschedule.sql |
 | AC-021.2.1 | its venue booking and equipment reservation are kept, each flagged for the Coordinator to confirm or replace at the new time | integration (SQL) | normal | event_reschedule.sql |
 | AC-021.4.1 | attendees registered or waiting are told the new date and time (and the old one); those who withdrew are not, and registrations are kept | integration (SQL) | normal | event_reschedule.sql |
@@ -70,9 +70,9 @@ Preparation or Confirmed. US21 adds rescheduling and the attendee notices.
 | AC-021.3.3 | when an event is postponed, its registered attendees are told a new date will follow, and their registrations are kept | integration (SQL) | normal | event_reschedule.sql |
 | AC-021.1.10 | one call carries the new times and the trimmed reason; each refusal says why | unit (service) | failure | rescheduleService.test.ts |
 | AC-021.1.11 | an event can be rescheduled at any stage before it is completed, cancelled or closed | unit | boundary | rescheduleService.test.ts |
-| AC-021.1.12 | nothing is sent until both times are chosen and the end is after the start | unit | failure | RescheduleEventForm.test.tsx |
-| AC-021.4.2 | the chosen local times are sent as instants with the reason; afterwards the page refreshes and the form clears | unit | normal | RescheduleEventForm.test.tsx |
-| AC-021.4.3 | while saving the button waits; a refusal is shown and nothing is reported as rescheduled | unit | failure | RescheduleEventForm.test.tsx |
+| AC-021.1.12 | nothing is sent until both times are chosen and the end is after the start | component | failure | RescheduleEventForm.test.tsx |
+| AC-021.4.2 | the chosen local times are sent as instants with the reason; afterwards the page refreshes and the form clears | component | normal | RescheduleEventForm.test.tsx |
+| AC-021.4.3 | while saving the button waits; a refusal is shown and nothing is reported as rescheduled | component | failure | RescheduleEventForm.test.tsx |
 
 ## Manual test cases (shared Supabase, after 0120 is applied)
 

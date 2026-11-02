@@ -49,7 +49,7 @@ AC-045.6.5.
 | AC-045.6.2 | a change while an event awaits review sends it back to Planning too (so off the Safety Officer's queue), and its Coordinator is told | integration (SQL) | conflict | safety_review_revision.sql |
 | AC-045.6.3 | while the safety review is switched off, a change moves nothing | integration (SQL) | boundary | safety_review_revision.sql |
 | AC-045.2.3 | a sent-back event offers "Revise arrangements" (back to Planning) and cancelling, not resubmitting directly | unit | normal | safetyRevision.test.tsx |
-| AC-045.2.4 | pressing "Revise arrangements" moves the event to Planning | unit | normal | safetyRevision.test.tsx |
+| AC-045.2.4 | pressing "Revise arrangements" moves the event to Planning | component | normal | safetyRevision.test.tsx |
 | AC-045.4.2 | the "Arrangements needing review" line links to the arrangement reviews on the page | unit | normal | safetyRevision.test.tsx |
 | AC-045.6.4 | nobody is offered a button to move an event in review or preparation back to Planning | unit | conflict | safetyRevision.test.tsx |
 

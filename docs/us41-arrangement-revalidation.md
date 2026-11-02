@@ -1,5 +1,9 @@
 # US41 — Review arrangements after significant changes
 
+Current test-case catalogue: [US41 test cases](test-cases/US41_test_cases.md).
+The sections below retain their historical checkpoints; the catalogue maps current source IDs.
+
+
 Owner: Jaydon
 
 Status: completed within the agreed US41 scope. Original implementation merged in

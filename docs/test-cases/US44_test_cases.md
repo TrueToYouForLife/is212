@@ -62,14 +62,14 @@ AC-044.6.6.
 | AC-044.2.4 | one call carries the decision, the trimmed comment, what to revisit and all seven factors; an approval sends nothing to revisit | unit (service) | normal | safetyDecisionService.test.ts |
 | AC-044.6.4 | each refusal says why; a rule the database rejects is shown as it explains it | unit (service) | failure | safetyDecisionService.test.ts |
 | AC-044.5.3 | the decisions are read for the event and named for the app; refusals and odd answers say so | unit (service) | failure | safetyDecisionService.test.ts |
-| AC-044.1.4 | the form lists the seven factors, and nothing is sent until each is answered and every concern described | unit | failure | SafetyReviewDecisionForm.test.tsx |
-| AC-044.2.5 | the comment is required and what to revisit is offered for Request changes and Reject, not for Approve | unit | normal | SafetyReviewDecisionForm.test.tsx |
-| AC-044.3.2 | an approval with every factor answered is recorded and reported | unit | normal | SafetyReviewDecisionForm.test.tsx |
-| AC-044.4.3 | a change request carries its concerns, comment and what to revisit | unit | normal | SafetyReviewDecisionForm.test.tsx |
-| AC-044.6.5 | while saving the button waits; a refusal is shown and nothing is reported as decided | unit | failure | SafetyReviewDecisionForm.test.tsx |
-| AC-044.3.3 | Review opens the decision form; once decided the event leaves the queue with a note of the outcome | unit | normal | SafetyReviewQueueDecision.test.tsx |
-| AC-044.5.4 | the latest decision shows who decided and when, what to revisit, the comment and each concern; earlier ones follow | unit | normal | SafetyReviewDecisionsPanel.test.tsx |
-| AC-044.5.5 | before any decision the panel shows nothing; a failed load says why; a late answer after leaving is ignored | unit | failure | SafetyReviewDecisionsPanel.test.tsx |
+| AC-044.1.4 | the form lists the seven factors, and nothing is sent until each is answered and every concern described | component | failure | SafetyReviewDecisionForm.test.tsx |
+| AC-044.2.5 | the comment is required and what to revisit is offered for Request changes and Reject, not for Approve | component | normal | SafetyReviewDecisionForm.test.tsx |
+| AC-044.3.2 | an approval with every factor answered is recorded and reported | component | normal | SafetyReviewDecisionForm.test.tsx |
+| AC-044.4.3 | a change request carries its concerns, comment and what to revisit | component | normal | SafetyReviewDecisionForm.test.tsx |
+| AC-044.6.5 | while saving the button waits; a refusal is shown and nothing is reported as decided | component | failure | SafetyReviewDecisionForm.test.tsx |
+| AC-044.3.3 | Review opens the decision form; once decided the event leaves the queue with a note of the outcome | component | normal | SafetyReviewQueueDecision.test.tsx |
+| AC-044.5.4 | the latest decision shows who decided and when, what to revisit, the comment and each concern; earlier ones follow | component | normal | SafetyReviewDecisionsPanel.test.tsx |
+| AC-044.5.5 | before any decision the panel shows nothing; a failed load says why; a late answer after leaving is ignored | component | failure | SafetyReviewDecisionsPanel.test.tsx |
 
 US33's AC-033.1.1 (same ID) now also lists "Safety review decisions" among a Coordinator's
 notification types.

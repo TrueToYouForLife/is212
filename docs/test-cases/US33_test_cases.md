@@ -83,12 +83,12 @@ Places that send notices today (the re-estimation input):
 | AC-033.1.4 | no types is empty; signed out asks to sign in; failures are reported and logged | unit (service) | failure | preferencesService.test.ts |
 | AC-033.2.5 | a choice saves both channels for its type in one call | unit (service) | normal | preferencesService.test.ts |
 | AC-033.2.6 | a type that does not apply, signed out or a failure is reported | unit (service) | failure | preferencesService.test.ts |
-| AC-033.1.5 | each type is listed with what it is for and its two switches | unit | normal | NotificationPreferencesPage.test.tsx |
-| AC-033.1.6 | a role with no notifications is told so; a failed load is shown | unit | boundary | NotificationPreferencesPage.test.tsx |
-| AC-033.1.7 | signed out or loading, nothing is loaded; leaving early ignores a late answer | unit | boundary | NotificationPreferencesPage.test.tsx |
-| AC-033.2.7 | switching email off saves the type with in-app still on, and says it was saved | unit | normal | NotificationPreferencesPage.test.tsx |
-| AC-033.2.8 | switches pause while saving; a failed save puts the switch back and says why | unit | failure | NotificationPreferencesPage.test.tsx |
-| AC-033.1.8 | the Notifications page links to the settings once the feature is on, and not before | unit | boundary | NotificationsSettingsLink.test.tsx |
+| AC-033.1.5 | each type is listed with what it is for and its two switches | component | normal | NotificationPreferencesPage.test.tsx |
+| AC-033.1.6 | a role with no notifications is told so; a failed load is shown | component | boundary | NotificationPreferencesPage.test.tsx |
+| AC-033.1.7 | signed out or loading, nothing is loaded; leaving early ignores a late answer | component | boundary | NotificationPreferencesPage.test.tsx |
+| AC-033.2.7 | switching email off saves the type with in-app still on, and says it was saved | component | normal | NotificationPreferencesPage.test.tsx |
+| AC-033.2.8 | switches pause while saving; a failed save puts the switch back and says why | component | failure | NotificationPreferencesPage.test.tsx |
+| AC-033.1.8 | the Notifications page links to the settings once the feature is on, and not before | component | boundary | NotificationsSettingsLink.test.tsx |
 
 ## Manual test cases (shared Supabase, after 0077 is applied)
 
@@ -198,9 +198,9 @@ Forced break: sending the booking-request email to nobody fails AC-033.3.3.
 | ID | Test | Type | Scenario | File |
 |---|---|---|---|---|
 | AC-033.2.9 | when an administrator switches a channel off for everyone, the settings say so for that type only, and the person's own choice is kept | integration (SQL) | conflict | notification_preferences.sql |
-| AC-033.2.10 | a type switched off for everyone says which channel; other types say nothing | unit | normal | NotificationPreferencesPage.test.tsx |
-| AC-033.2.11 | the note names in-app, or both channels, when those are switched off | unit | boundary | NotificationPreferencesPage.test.tsx |
-| AC-033.1.8 | the Notifications page links to the notification settings (no flag) | unit | normal | NotificationsSettingsLink.test.tsx |
+| AC-033.2.10 | a type switched off for everyone says which channel; other types say nothing | component | normal | NotificationPreferencesPage.test.tsx |
+| AC-033.2.11 | the note names in-app, or both channels, when those are switched off | component | boundary | NotificationPreferencesPage.test.tsx |
+| AC-033.1.8 | the Notifications page links to the notification settings (no flag) | component | normal | NotificationsSettingsLink.test.tsx |
 
 Forced break (2d): `get_my_notification_preferences()` made to report nothing as switched off;
 AC-033.2.9 failed. Log: `docs/test-evidence/us33/AC-033.2.9-forced-break-0106.log`.

@@ -1,5 +1,9 @@
 # US17 - Assign / Reassign an Event Coordinator
 
+Current test-case catalogue: [US17 test cases](test-cases/US17_test_cases.md).
+The sections below retain their historical checkpoints; the catalogue maps current source IDs.
+
+
 ## Coordinator request grouping — us17-assigned-requests-ui
 
 The coordinator Requests page separates **Assigned to me** from **Other event

@@ -39,8 +39,8 @@ within each test file. Next free IDs: AC-026.1.7, AC-026.2.3, AC-026.3.2.
 | AC-026.2.1 | the Organiser and the assigned Coordinator see the event as Confirmed | integration (SQL) | normal | confirm_event.sql |
 | AC-026.3.1 | once an event is confirmed, another Coordinator cannot book its venue at the same time; another time is still free | integration (SQL) | conflict | confirm_event_booking.sql |
 | AC-026.1.5 | when the database refuses because the event is not ready, the Coordinator is told exactly that | unit (service) | failure | confirmEventService.test.ts |
-| AC-026.1.6 | pressing Confirm on an event that is not ready says why, and nothing changes | unit | failure | confirmEvent.test.tsx |
-| AC-026.2.2 | the badge reads Confirmed, and the Organiser is told the event will go ahead | unit | normal | confirmEvent.test.tsx |
+| AC-026.1.6 | pressing Confirm on an event that is not ready says why, and nothing changes | component | failure | confirmEvent.test.tsx |
+| AC-026.2.2 | the badge reads Confirmed, and the Organiser is told the event will go ahead | component | normal | confirmEvent.test.tsx |
 
 ## Manual test cases (shared Supabase, after 0117 is applied)
 

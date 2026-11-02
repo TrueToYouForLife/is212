@@ -1,3 +1,21 @@
+# Test-case documentation closeout — 2 November 2026
+- Branch `jaydon-test-documentation-closeout`; documentation-only. No product, migration
+  or test-source changes. Jaydon handles commits/push/PR/merge; no shared sheet edits.
+- Canonical catalogues and audit: docs/test-cases/README.md. US1 (83 IDs), US7 (266)
+  and US17 (53) now fully mapped; complete missing team catalogues and US31 rows too.
+  US45 spec moved to docs/test-cases/US45_test_cases.md; existing records retained.
+- Trace all 2,880 numeric source IDs across 45 stories to their own catalogue; this is
+  source traceability, not runtime counts/pass/coverage or a newer Jira AC signoff.
+  Shared/legacy/untagged test titles are in Shared_test_cases.md without invented IDs.
+- Existing UI-rendering rows labelled unit are corrected to component. SQL/shell cases
+  are integration, mocked services/pure helpers are unit. No manual pass/defect invented.
+- US41 AC-041.1.3 remains a separate follow-up: replay snapshots exist, comparison/test
+  is absent; explicitly not a passing source case. US48 legacy .2.6 is dependency-only.
+- No source IDs in this checkout for US25/28/30/35/39/40/50/51/53; owners must verify mapping,
+  not infer a pass or an unimplemented story. Existing manual Not run records preserved.
+- US48 compatibility PR161 is merged on this baseline; team reported shared migrations
+  applied through 0122. New-stage manual acceptance remains unreported here.
+
 # US48 safety-stage compatibility — 29 October 2026
 - Branch `us48-safety-stage-replacements`; Jaydon claimed 0116 and reopened US48 in Jira.
   Agreed scope: Awaiting safety review and In preparation only. No US27 changes,
