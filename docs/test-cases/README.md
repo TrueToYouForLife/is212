@@ -78,10 +78,11 @@ This lists the existing titles and parameter cases without allocating new AC IDs
   are documented separately and excluded from the 266 current source IDs.
 
 - **US41:** AC-041.1.3 is now implemented and verified in focused, historical, upgrade
-  and fresh-order gates; [evidence](../test-evidence/us41/replay/README.md). Ten older
-  SQL IDs in the original two US41 files are source-mapped but not invoked by current
-  runners. This separate behavioural runner gap remains; catalogue presence is not CI
-  coverage. The new replay case raises the original 2,880-ID inventory to 2,881.
+  and fresh-order gates; [replay evidence](../test-evidence/us41/replay/README.md). The ten
+  older SQL IDs are now restored to those gates too, before the final replay;
+  [regression evidence](../test-evidence/us41/regression/README.md). This closes the
+  recorded SQL runner gap without adding IDs. The earlier replay addition raised the
+  original 2,880-ID inventory to 2,881; US41 has 22. Frontend cases were not rerun here.
 - **US48:** 49 source IDs include the historical `AC-048.2.6` venue-block UI case.
   The US48 catalogue explains that it is dependency coverage, not an additional
   replacement-search AC case. There are 48 replacement cases across the original flow

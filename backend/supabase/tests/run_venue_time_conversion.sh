@@ -164,5 +164,8 @@ bash "$repo_root/supabase/tests/run_equipment_returns.sh" "$container"
 bash "$repo_root/supabase/tests/run_venue_replacement_safety_stages.sh" "$container"
 bash "$repo_root/supabase/tests/individual_venue_cancellation_races.sh" "$container"
 
+# US41 behavioural assertions must precede the historical function replays.
+bash "$repo_root/supabase/tests/run_arrangement_revalidation.sh" "$container"
+
 # Last: US41 data preservation replay deliberately restores historical functions.
 bash "$repo_root/supabase/tests/run_arrangement_review_replay.sh" "$container"

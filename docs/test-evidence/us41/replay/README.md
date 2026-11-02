@@ -3,6 +3,11 @@
 Owner: Jaydon. Recorded: 2 November 2026.
 Branch: `us41-replay-preservation-test`. Base: `917ecb4`.
 
+Subsequent verification: the ten older SQL cases described as missing from runners
+below are now restored and passed in all applicable gates. See
+[the regression follow-up](../regression/README.md). This file retains the original
+replay portion's execution scope and evidence; it is not a new run of those old logs.
+
 ## Scope
 
 One new grouped case, AC-041.1.3, compares all columns of review flags and their

@@ -11,22 +11,24 @@ update public.profiles set role=case when id='41000000-0000-0000-0000-0000000000
 insert into public.events(id,organiser_id,coordinator_id,name,purpose,proposed_start,proposed_end,expected_attendance,layout_preference,status)
 select ('41100000-0000-0000-0000-'||lpad(n::text,12,'0'))::uuid,
  '41000000-0000-0000-0000-000000000001','41000000-0000-0000-0000-000000000002',
- 'US41 event','Review arrangements','2038-01-10 09:00+08','2038-01-10 11:00+08',50,'Theatre','approved'
+ 'US41 event','Review arrangements','2038-01-10 09:00+08','2038-01-10 11:00+08',50,'theatre','approved'
  from generate_series(1,2) n;
 insert into public.venues(id,name,location,capacity,layout,status) values
- ('41200000-0000-0000-0000-000000000001','US41 small hall','Test',100,'Theatre','active'),
- ('41200000-0000-0000-0000-000000000002','US41 large hall','Test',200,'Theatre','active');
+ ('41200000-0000-0000-0000-000000000001','US41 small hall','Test',100,'theatre','active'),
+ ('41200000-0000-0000-0000-000000000002','US41 large hall','Test',200,'theatre','active');
 insert into public.venue_bookings(id,event_id,venue_id,requested_by,status) values
  ('41300000-0000-0000-0000-000000000001','41100000-0000-0000-0000-000000000001','41200000-0000-0000-0000-000000000001','41000000-0000-0000-0000-000000000002','confirmed'),
  ('41300000-0000-0000-0000-000000000002','41100000-0000-0000-0000-000000000001','41200000-0000-0000-0000-000000000002','41000000-0000-0000-0000-000000000002','confirmed'),
  ('41300000-0000-0000-0000-000000000003','41100000-0000-0000-0000-000000000002','41200000-0000-0000-0000-000000000001','41000000-0000-0000-0000-000000000002','confirmed');
 insert into public.venue_slot_claims(venue_id,slot_date,slot,kind,booking_id)
  select b.venue_id,c.slot_date,c.slot,c.kind,b.id from public.venue_bookings b
- cross join lateral public.venue_review_cells(
+ cross join lateral pg_temp.us41_cells(b.venue_id,
  case when b.id='41300000-0000-0000-0000-000000000003' then '2038-01-20 09:00+08'::timestamptz else '2038-01-10 09:00+08'::timestamptz end,
  case when b.id='41300000-0000-0000-0000-000000000003' then '2038-01-20 11:00+08'::timestamptz else '2038-01-10 11:00+08'::timestamptz end) c
  where b.id::text like '41300000-%';
-insert into public.equipment_types(id,name,category) values ('41400000-0000-0000-0000-000000000001','US41 microphone','Audio');
+insert into public.equipment_types(id,name,category) values
+ ('41400000-0000-0000-0000-000000000001','US41 microphone','Audio'),
+ ('41400000-0000-0000-0000-000000000002','US41 spare microphone','Audio');
 insert into public.equipment_items(id,type_id,asset_tag,home_venue_id,current_venue_id) values
  ('41500000-0000-0000-0000-000000000001','41400000-0000-0000-0000-000000000001','US41-MIC','41200000-0000-0000-0000-000000000001','41200000-0000-0000-0000-000000000001');
 insert into public.equipment_bookings(id,event_id,requested_by,use_from,use_to,status)
@@ -52,8 +54,8 @@ from (values
  (2,'{"expectedAttendance":"100"}'::jsonb),
  (3,'{"expectedAttendance":"120"}'::jsonb),
  (4,'{"proposedStart":"2038-01-20T01:00:00Z","proposedEnd":"2038-01-20T03:00:00Z"}'::jsonb),
- (5,'{"equipmentRequirements":"Two microphones","accessibilityRequirements":"Ramp"}'::jsonb),
- (6,'{"equipmentRequirements":"Rejected equipment"}'::jsonb)) f(n,proposal);
+ (5,'{"equipmentRequirements":["us41_microphone"],"accessibilityRequirements":["wheelchair_access"]}'::jsonb),
+ (6,'{"equipmentRequirements":["us41_spare_microphone"]}'::jsonb)) f(n,proposal);
 create function pg_temp.us41_review(n integer, decisions jsonb) returns text language sql as $$
  select public.review_event_change_request(('41800000-0000-0000-0000-'||lpad(n::text,12,'0'))::uuid,
  (select updated_at from public.events where id='41100000-0000-0000-0000-000000000001'),
@@ -131,7 +133,17 @@ select pg_temp.assert_true(
 -- Force a notice-write failure to verify atomic approval, not a silent partial success.
 insert into public.event_change_requests(id,event_id,organiser_id,proposed_changes,reason) values
  ('41800000-0000-0000-0000-000000000007','41100000-0000-0000-0000-000000000001',
- '41000000-0000-0000-0000-000000000001','{"equipmentRequirements":"Atomic rollback fixture"}','Rollback fixture');
+ '41000000-0000-0000-0000-000000000001','{"equipmentRequirements":["us41_spare_microphone"]}','Rollback fixture');
+create function pg_temp.us41_rollback_snapshot() returns jsonb language sql as $$
+ select jsonb_build_array(
+  (select jsonb_agg(to_jsonb(t) order by id) from public.events t),
+  (select jsonb_agg(to_jsonb(t) order by id) from public.event_change_requests t),
+  (select jsonb_agg(to_jsonb(t) order by change_request_id) from public.event_change_revalidations t),
+  (select jsonb_agg(to_jsonb(t) order by id) from public.arrangement_review_flags t),
+  (select jsonb_agg(to_jsonb(t) order by id) from public.arrangement_review_notifications t),
+  (select jsonb_agg(to_jsonb(t) order by id) from public.notification_outbox t));
+$$;
+create temp table us41_before_failed_approval as select pg_temp.us41_rollback_snapshot() value;
 create function pg_temp.us41_notice_failure() returns trigger language plpgsql as $$
 begin raise exception 'Simulated notification write failure'; end $$;
 create trigger us41_notice_failure before insert on public.arrangement_review_notifications
@@ -148,14 +160,14 @@ begin
  end;
  if exists(select 1 from public.arrangement_review_flags where change_request_id='41800000-0000-0000-0000-000000000007')
  or exists(select 1 from public.event_change_revalidations where change_request_id='41800000-0000-0000-0000-000000000007')
- or not exists(select 1 from public.events where id='41100000-0000-0000-0000-000000000001' and equipment_requirements='Two microphones')
+ or not exists(select 1 from public.events where id='41100000-0000-0000-0000-000000000001' and equipment_requirements=array['us41_microphone'])
  or not exists(select 1 from public.event_change_requests where id='41800000-0000-0000-0000-000000000007' and status='submitted') then
   raise exception 'Approval was only partially rolled back';
  end if;
- raise notice 'PASS: AC-041.1.4: failed notification rolls back approved values, request decision, flags and queue';
 end $$;
 reset role;
 select set_config('request.jwt.claim.sub','',false);
 drop trigger us41_notice_failure on public.arrangement_review_notifications;
-create temp table us41_flags_replay as select * from public.arrangement_review_flags;
-create temp table us41_notices_replay as select * from public.arrangement_review_notifications;
+select pg_temp.assert_true((select value=pg_temp.us41_rollback_snapshot() from us41_before_failed_approval),
+ 'AC-041.1.4: failed notification preserves exact event, request, revalidation, flags, notices and outbox snapshots');
+-- AC-041.1.3 has its own populated fixture/comparison in the final replay runner.

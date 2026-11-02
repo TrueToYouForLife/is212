@@ -1,3 +1,41 @@
+# PR170 CI verify follow-up
+- Branch us41-arrangement-regression-coverage, failed revision c94d336. PR170 attached.
+  Both CI DB jobs and push verify passed; pull-request verify failed coverage, with
+  multiple alerts in AC-009.9.17 and undefined .then in cancellation context (AC-010.9.6).
+- Shared VenueBookingPages.test.tsx: explicit valid-empty replacement/decision-notice
+  service mocks; cleanup before mock/timer restoration. Existing .9.17 deliberately
+  creates both errors and checks their own alert messages, retaining no-false-empty rule.
+  No app/migration/CI configuration changes or new IDs. US9/10/11/49 anchors refreshed;
+  original ownership retained. Necessary shared test integration only.
+- Full local coverage passed 1,717 tests / 213 files; 96.47% lines/statements,
+  91.17% branches, 94.76% functions. Shuffled focused run: 32 tests / three files,
+  seed 170; typecheck/lint/build passed. DB not rerun: unchanged and CI DB jobs passed.
+- Evidence: docs/test-evidence/us41/regression/ci-verify/README.md. Initial unchanged
+  file passed locally, so exact late-effect timing is inferred, not reproduced.
+  Test setup correction, not demonstrated product defect; no manual/defect row invented.
+  Jaydon must commit/push and await new CI; no remote rerun, comment, push or merge made.
+
+# US41 restored behavioural SQL coverage — 2 November 2026
+- Branch `us41-arrangement-regression-coverage`, base 749e6a0. Jaydon handles publication/Git.
+  No app, migration or frontend changes, no shared deployment or new manual pass.
+- run_arrangement_revalidation.sh invokes the two original SQL files, called by both
+  CI DB entry points immediately before the LAST replay check. Canonical layout codes,
+  catalogue-backed arrays and actual model-appropriate cell calculators replace old
+  free-text fixtures. Null per-booking fields intentionally test event-level fallback.
+- Ten old IDs restored, not newly allocated; US41 stays 22 (11 SQL, 11 frontend), global
+  2,881. AC-041.1.4 strengthened with exact event/request/revalidation/flag/notice/outbox
+  rollback snapshots. Removed unused original snapshots; populated replay stays separate.
+- Focused final, historical retest, quarter-hour upgrade and fresh gates exited 0; all
+  ten cases plus both .1.3 replay checkpoints passed. Three deliberate DB-function faults
+  failed the intended unchanged assertions; subtransactions restored functions/data,
+  final full ten-case suite passed. No product defect/TDD or new coverage % claimed.
+- Test helper initially sorted revalidations by nonexistent id; corrected to change_request_id.
+  First preservation probe hit the existing protected-slot guard; final allocation-date
+  probe reaches .1.2. Both are test setup/injected-fault issues, not product defects.
+- Evidence: docs/test-evidence/us41/regression/README.md. Refresh ten existing overview
+  evidence refs; no duplicate IDs, manual/defect rows or Automated Test Case Runs edits.
+  The old SQL runner gap is closed. US7 reply-validation restoration remains next.
+
 # US41 replay preservation test — 2 November 2026
 - Branch `us41-replay-preservation-test`, base 917ecb4; Jaydon handles commits/push/PR/merge.
   No app or migration edits, shared deployment, new frontend run or manual pass.

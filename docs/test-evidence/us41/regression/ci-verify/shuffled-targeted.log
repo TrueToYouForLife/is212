@@ -1,0 +1,16 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/venues/__tests__/VenueBookingPages.test.tsx src/features/venues/__tests__/MyVenueBookingsReplacement.test.tsx src/features/venues/__tests__/VenueCancellationPanel.test.tsx --sequence.shuffle --sequence.seed=170
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+      Running tests with seed "170"
+
+ ✓ src/features/venues/__tests__/VenueCancellationPanel.test.tsx (4 tests) 236ms
+ ✓ src/features/venues/__tests__/MyVenueBookingsReplacement.test.tsx (3 tests) 192ms
+ ✓ src/features/venues/__tests__/VenueBookingPages.test.tsx (25 tests) 624ms
+
+ Test Files  3 passed (3)
+      Tests  32 passed (32)
+   Start at  00:05:52
+   Duration  2.32s (transform 264ms, setup 265ms, collect 1.24s, tests 1.05s, environment 1.57s, prepare 164ms)

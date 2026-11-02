@@ -1,5 +1,18 @@
 # US41 — Review arrangements after significant changes
 
+## Behavioural verification restored — 2 November 2026
+
+The ten original SQL case IDs now execute through the new focused
+`run_arrangement_revalidation.sh` and both existing CI database entry points, before
+the final replay check. Canonical code/array fixtures work with the historical and
+current quarter-hour models. All ten passed focused, historical, upgrade and fresh
+gates, and AC-041.1.3 remained passing. The notification-failure case now checks full
+rollback snapshots. Three deliberate faults were detected and rolled back, followed
+by a passing unchanged suite. No product/migration changes or new case IDs were needed.
+
+The earlier runner gap below is closed by this portion. No frontend suite or manual
+check was rerun. [Evidence and test setup corrections](test-evidence/us41/regression/README.md).
+
 ## Replay verification — 2 November 2026
 
 AC-041.1.3 now compares complete populated review/notification snapshots after each
