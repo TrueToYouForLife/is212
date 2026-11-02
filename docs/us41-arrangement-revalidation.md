@@ -1,5 +1,20 @@
 # US41 — Review arrangements after significant changes
 
+## Replay verification — 2 November 2026
+
+AC-041.1.3 now compares complete populated review/notification snapshots after each
+0052/0053 replay. It preserves independent open reasons and resolved method/note/actor/
+time history, detecting additions, deletions and changed fields. Focused, historical,
+quarter-hour upgrade and fresh-order gates passed. Four deliberate difference probes
+were detected and rolled back; no product defect was found. No new migration, manual
+pass or shared deployment is needed or claimed. See [evidence](test-evidence/us41/replay/README.md).
+
+The original `arrangement_revalidation.sql` and `arrangement_layout_capacity.sql`
+are not called by the current runners. Their ten source IDs remain documented, but
+this follow-up does not claim a new execution of those behavioural checks. Assessing
+and restoring their legacy fixtures is a separate verification portion. Earlier
+results below describe their historical checkpoints, not current CI coverage.
+
 Current test-case catalogue: [US41 test cases](test-cases/US41_test_cases.md).
 The sections below retain their historical checkpoints; the catalogue maps current source IDs.
 

@@ -3,6 +3,12 @@
 Owner: Jaydon. Recorded: 2 November 2026.
 Branch: `jaydon-test-documentation-review`. Source baseline: `d23ff29`.
 
+Subsequent US41 follow-up: AC-041.1.3 is now implemented and locally verified;
+see [replay evidence](test-evidence/us41/replay/README.md). The findings below retain
+the documentation-review checkpoint. That work also identified a separate current
+runner gap: the ten older US41 SQL cases are not invoked by existing entry points.
+Restoring those behavioural checks and US7's dedicated reply cases remains separate.
+
 ## Scope and method
 
 Review US1, US7, US17, US24, US27, US36, US41, US42, US47 and US48 after the

@@ -1,3 +1,21 @@
+# US41 replay preservation test — 2 November 2026
+- Branch `us41-replay-preservation-test`, base 917ecb4; Jaydon handles commits/push/PR/merge.
+  No app or migration edits, shared deployment, new frontend run or manual pass.
+- AC-041.1.3: self-contained populated fixture, two independent venue reasons plus
+  equipment, one open and two resolved via actual Coordinator RPC. Compare every flag/
+  notice column in both directions after 0052 and after 0053 replay; fixture guards
+  prevent empty/RLS-hidden passes. Run as admin for full-table comparison.
+- New run_arrangement_review_replay.sh is LAST in historical and conversion runners:
+  historical function replays must not precede current-schema tests. Standalone fresh
+  schema, historical, quarter-hour upgrade and fresh gates all exited 0. Four deliberate
+  difference probes were detected/rolled back, final comparison passed; not defects/TDD.
+- Evidence: docs/test-evidence/us41/replay/README.md. No normal assertion failed.
+  Docker stopped/socket sandbox access were environment issues; local runs authorised.
+- US41 inventory now 22 IDs (11 SQL/11 frontend), global 2,881 numeric references.
+  Separate newly identified gap: arrangement_revalidation.sql and arrangement_layout_capacity.sql
+  contain ten older SQL IDs but are not invoked by current runners. Do not claim these
+  passed anew; assess/restore legacy fixtures in a separate portion. US7 gap still pending.
+
 # Jaydon test documentation accuracy review — 2 November 2026
 - Branch `jaydon-test-documentation-review`, baseline d23ff29 after catalogue closeout
   merged. Documentation only; Jaydon handles Git and publication. No new test runs,
