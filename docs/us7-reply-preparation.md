@@ -1,15 +1,14 @@
 # Organiser reply preparation (26 September)
 
-## Current verification note — 2 November 2026
+## Current verification note — 3 November 2026
 
-The eleven reply-validation cases listed at the original checkpoint below are absent
-from current test sources. The named file now duplicates review-validation tests and
-does not call `validateChangeRequestReply`. Preserve the historical specification, but
-do not use it as evidence of current dedicated reply-validation passes. See the
-[US7 missing-case register](test-cases/US7_test_cases.md#missing-historical-reply-validation-cases)
-and [documentation review](jaydon-test-documentation-review.md). Restoration is a
-separate test change; no product failure has been demonstrated by this finding.
-
+AC-007.7.37–47 are restored in the dedicated reply-validation file. It calls
+`validateChangeRequestReply`, replacing the duplicate review cases found on 2 November.
+The original review file retains all 27 review cases. The eleven restored IDs keep
+this document's original intent and group related invalid inputs under each case.
+See the [current catalogue](test-cases/US7_test_cases.md) and
+[execution evidence](test-evidence/us7/reply-validation/README.md). Historical results
+below remain historical; no new shared deployment or manual pass is claimed.
 
 `src/features/events/changeRequestReplyValidation.ts` prepares answers without I/O.
 Every field marked clarification_requested needs exactly one nonblank answer; reply

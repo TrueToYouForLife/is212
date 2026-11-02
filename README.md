@@ -3,6 +3,15 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
+## US7 reply-validation test restoration — 3 November 2026
+
+The dedicated reply file now exercises eleven allocated reply-validation cases instead
+of repeating review tests. Covers complete answers, invalid/injected input, stale status,
+inconsistent saved questions, legacy replies and immutable input. No application or
+migration change. [Results and limits](docs/test-evidence/us7/reply-validation/README.md).
+The current catalogue contains 2,892 distinct numeric source IDs; counts below are
+historical checkpoints.
+
 ## US41 arrangement regression coverage — 2 November 2026
 
 The ten older US41 SQL cases now run before the final replay check in the existing

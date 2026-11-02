@@ -1,0 +1,17 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/events/__tests__/changeRequestReplyValidation.test.ts src/features/events/__tests__/changeRequestReviewValidation.test.ts src/features/events/__tests__/changeRequestReplyService.test.ts src/features/events/__tests__/ChangeRequestReplyForm.test.tsx src/features/events/__tests__/ChangeRequestReplyHistory.test.tsx
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+ ✓ src/features/events/__tests__/changeRequestReplyValidation.test.ts (11 tests) 24ms
+ ✓ src/features/events/__tests__/changeRequestReviewValidation.test.ts (27 tests) 21ms
+ ✓ src/features/events/__tests__/changeRequestReplyService.test.ts (9 tests) 7ms
+ ✓ src/features/events/__tests__/ChangeRequestReplyHistory.test.tsx (2 tests) 59ms
+ ✓ src/features/events/__tests__/ChangeRequestReplyForm.test.tsx (8 tests) 322ms
+
+ Test Files  5 passed (5)
+      Tests  57 passed (57)
+   Start at  00:29:54
+   Duration  1.63s (transform 322ms, setup 433ms, collect 776ms, tests 434ms, environment 2.41s, prepare 285ms)
