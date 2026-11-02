@@ -3,6 +3,12 @@
 Owner: Jaydon. Recorded: 2 November 2026.
 Branch: `us41-arrangement-regression-coverage`. Base: `749e6a0`.
 
+PR170 subsequently exposed a timing-sensitive shared frontend test setup failure in
+the pull-request verify job; both database jobs passed. The minimal fixture/cleanup/
+error-query correction and full local frontend verification are recorded separately
+in [CI verify follow-up](ci-verify/README.md). No database or application change was
+needed. The original database results below retain their original execution scope.
+
 ## Scope and fixture changes
 
 Restores execution of the ten existing SQL case IDs in `arrangement_revalidation.sql`

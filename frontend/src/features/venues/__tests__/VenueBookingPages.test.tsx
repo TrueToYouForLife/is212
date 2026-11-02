@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { cleanup, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest'
@@ -19,11 +19,14 @@ import { BOOKING_ID, EVENT_ID, VENUE_ID, sgt } from './fixtures/venueBooking'
 const mocks = vi.hoisted(() => ({
   role: 'coordinator' as string,
   cancellationContext: vi.fn(), cancelBooking: vi.fn(),
+  replacements: vi.fn(), decisionNotifications: vi.fn(),
   getVenue: vi.fn(), getVenueTimetable: vi.fn(),
   loadTimeSlots: vi.fn(), listMyAssignedEvents: vi.fn(),
   holdVenue: vi.fn(), listMyVenueBookings: vi.fn(), submitVenueBooking: vi.fn(), releaseHold: vi.fn(),
 }))
 vi.mock('../venueCancellationService', () => ({ getVenueCancellation: mocks.cancellationContext, cancelVenueBooking: mocks.cancelBooking }))
+vi.mock('../venueReplacementService', () => ({ getVenueReplacements: mocks.replacements }))
+vi.mock('../venueDecisionNotificationService', () => ({ listVenueDecisionNotifications: mocks.decisionNotifications }))
 
 vi.mock('../../auth/sessionContext', () => ({
   useCurrentUser: () => ({ loading: false, profile: { id: 'viewer', role: mocks.role } }),
@@ -76,6 +79,8 @@ beforeEach(() => {
   mocks.role = 'coordinator'
   mocks.cancellationContext.mockResolvedValue({ status: 'pending_approval', version: 'v1', audit: null })
   mocks.cancelBooking.mockResolvedValue({ ok: true })
+  mocks.replacements.mockResolvedValue({ ok: true, value: { sources: [], affectedBookings: [], requests: [], venues: [] } })
+  mocks.decisionNotifications.mockResolvedValue({ ok: true, notifications: [] })
   mocks.getVenue.mockResolvedValue({ ok: true, venue: VENUE })
   mocks.getVenueTimetable.mockResolvedValue({ ok: true, timetable: EMPTY_TIMETABLE })
   mocks.loadTimeSlots.mockResolvedValue(SLOTS)
@@ -85,6 +90,8 @@ beforeEach(() => {
   vi.setSystemTime(new Date('2026-10-05T04:00:00.000Z'))
 })
 afterEach(() => {
+  // Unmount and flush pending effects while the service mocks still return Promises.
+  cleanup()
   vi.useRealTimers()
   vi.restoreAllMocks()
 })
@@ -291,8 +298,10 @@ describe('MyVenueBookingsPage — AC-009.9 / AC-011.7 / AC-011.8', () => {
   })
   test('AC-009.9.17: a failed load is reported, never shown as an empty list', async () => {
     mocks.listMyVenueBookings.mockResolvedValue({ ok: false, reason: 'Your venue booking requests could not be loaded.' })
+    mocks.replacements.mockResolvedValue({ ok: false, reason: 'Replacement checks unavailable.' })
     show()
-    expect(await screen.findByRole('alert')).toHaveTextContent('could not be loaded')
+    expect(await screen.findByText('Your venue booking requests could not be loaded.')).toHaveAttribute('role', 'alert')
+    expect(await screen.findByText('Replacement checks unavailable.')).toHaveAttribute('role', 'alert')
     expect(screen.queryByText(/have not held a venue yet/)).not.toBeInTheDocument()
   })
 })
