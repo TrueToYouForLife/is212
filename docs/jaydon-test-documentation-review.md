@@ -7,7 +7,9 @@ Latest US41 follow-up: the ten older SQL cases now execute before replay in the
 focused/historical/quarter-hour upgrade/fresh gates and all passed. This closes the
 SQL runner gap described at the earlier checkpoints below. No additional case IDs
 or product changes were needed. See [restored regression evidence](test-evidence/us41/regression/README.md).
-US7's dedicated reply-validation gap and unreported US48 manual checks remain separate.
+US7's dedicated reply-validation gap was subsequently closed on 3 November;
+see [restored cases and evidence](test-evidence/us7/reply-validation/README.md).
+Unreported US48 safety-stage manual checks remain outstanding.
 
 Subsequent US41 follow-up: AC-041.1.3 is now implemented and locally verified;
 see [replay evidence](test-evidence/us41/replay/README.md). The findings below retain
@@ -57,6 +59,9 @@ expectations or claim a pass before the test runs. No migration is expected unle
 testing demonstrates a product defect requiring one.
 
 ## Follow-up 2: US7 dedicated reply-validation tests
+
+Closed on 3 November 2026: eleven allocated IDs now exercise the real reply validator.
+The paragraphs below retain the original review finding, not the current source state.
 
 At the review baseline, these tracked files are byte-identical:
 

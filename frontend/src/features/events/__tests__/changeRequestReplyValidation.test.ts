@@ -1,159 +1,113 @@
 import { describe, expect, test } from 'vitest'
-import { CHANGE_REVIEW_MESSAGES, validateChangeRequestReview } from '../changeRequestReviewValidation'
+import { CHANGE_REPLY_MESSAGES as messages, validateChangeRequestReply } from '../changeRequestReplyValidation'
+import type { EventChangeRequest } from '../types'
 
-const proposed = { name: 'New name', expectedAttendance: '120' }
-const approveName = { field: 'name', decision: 'approved' }
-const approveAttendance = { field: 'expectedAttendance', decision: 'approved' }
+type ReplyRequest = Pick<EventChangeRequest, 'status' | 'proposedChanges' | 'fieldDecisions' | 'reviewNote'>
+const request: ReplyRequest = {
+  status: 'clarification_requested',
+  proposedChanges: { name: 'New title', expectedAttendance: '120', purpose: 'Community event', description: 'New description' },
+  fieldDecisions: [
+    { field: 'name', decision: 'clarification_requested', note: 'Which title?' },
+    { field: 'expectedAttendance', decision: 'clarification_requested', note: 'Includes staff?' },
+    { field: 'purpose', decision: 'approved', note: '' },
+    { field: 'description', decision: 'rejected', note: 'Keep the published description.' },
+  ],
+  reviewNote: null,
+}
+const replies = [
+  { field: 'expectedAttendance', message: '  Includes ten staff.\n' },
+  { field: 'name', message: '\tUse the proposed title.  ' },
+]
+const legacy: ReplyRequest = { ...request, fieldDecisions: [], reviewNote: 'Please explain the changes.' }
+function refuses(candidate: ReplyRequest, input: unknown, reason: string) {
+  expect(validateChangeRequestReply(candidate, input)).toEqual({ ok: false, reason })
+}
 
-describe('AC-007.5: approve or reject requested changes, including partial approval (#104)', () => {
-  test('AC-007.5.1: approves all proposed changes', () => {
-    expect(validateChangeRequestReview(proposed, {
-      action: 'decide', decisions: [approveName, approveAttendance],
-    })).toMatchObject({ ok: true, review: { status: 'approved', approvedChanges: proposed } })
-  })
-
-  test('AC-007.5.2: rejects all proposed changes with reasons', () => {
-    expect(validateChangeRequestReview(proposed, { action: 'decide', decisions: [
-      { field: 'name', decision: 'rejected', note: 'Keep the published name.' },
-      { field: 'expectedAttendance', decision: 'rejected', note: 'Venue capacity is 100.' },
-    ] })).toMatchObject({ ok: true, review: { status: 'rejected', approvedChanges: {} } })
-  })
-
-  test('AC-007.5.3: supports different decisions in one request', () => {
-    expect(validateChangeRequestReview(proposed, { action: 'decide', decisions: [
-      approveName,
-      { field: 'expectedAttendance', decision: 'rejected', note: 'Venue capacity is 100.' },
-    ] })).toMatchObject({ ok: true, review: { status: 'partially_approved',
-      approvedChanges: { name: 'New name' } } })
-  })
-
-  test.each([
-    ['AC-007.5.4', []],
-    ['AC-007.5.5', [approveName]],
-    ['AC-007.5.6', [approveName, approveName]],
-    ['AC-007.5.7', [approveName, { field: 'purpose', decision: 'approved' }]],
-  ])('%s: refuses incomplete, duplicate or unrequested decisions', (_id, decisions) => {
-    expect(validateChangeRequestReview(proposed, { action: 'decide', decisions }))
-      .toEqual({ ok: false, reason: CHANGE_REVIEW_MESSAGES.incompleteDecisions })
-  })
-
-  test('AC-007.5.8: refuses unsupported decisions', () => {
-    expect(validateChangeRequestReview({ name: 'New name' }, {
-      action: 'decide', decisions: [{ field: 'name', decision: 'maybe' }],
-    })).toEqual({ ok: false, reason: CHANGE_REVIEW_MESSAGES.invalidReview })
-  })
-
-  test.each([
-    ['AC-007.5.9', {}],
-    ['AC-007.5.10', { status: 'confirmed' }],
-    ['AC-007.5.11', { expectedAttendance: 120 }],
-    ['AC-007.5.12', { name: undefined }],
-  ])('%s: refuses empty or malformed stored proposals', (_id, changes) => {
-    expect(validateChangeRequestReview(changes, { action: 'decide', decisions: [] }))
-      .toEqual({ ok: false, reason: CHANGE_REVIEW_MESSAGES.invalidChanges })
-  })
-})
-
-describe('AC-007.6: rejection reasons', () => {
-  test('AC-007.6.1: requires a nonblank explanation for every rejected field', () => {
-    expect(validateChangeRequestReview(proposed, { action: 'decide', decisions: [
-      { field: 'name', decision: 'rejected', note: 'Keep current name.' },
-      { field: 'expectedAttendance', decision: 'rejected', note: '  ' },
-    ] })).toEqual({ ok: false, reason: CHANGE_REVIEW_MESSAGES.rejectionNoteRequired })
-  })
-
-  test('AC-007.6.2: preserves the explanation alongside its rejected field', () => {
-    const result = validateChangeRequestReview({ name: 'New name' }, {
-      action: 'decide', decisions: [{ field: 'name', decision: 'rejected', note: '  Explain the new title.  ' }],
+describe('AC-007.7: organiser answers saved questions without editing the proposal', () => {
+  test('AC-007.7.37: trims answers into question order and excludes provisional decisions', () => {
+    expect(validateChangeRequestReply(request, { replies })).toEqual({ ok: true, reply: { replies: [
+      { field: 'name', message: 'Use the proposed title.' },
+      { field: 'expectedAttendance', message: 'Includes ten staff.' },
+    ] } })
+    const single: ReplyRequest = { ...request, proposedChanges: { name: 'New title' }, fieldDecisions: [request.fieldDecisions[0]] }
+    expect(validateChangeRequestReply(single, { replies: [replies[1]] })).toEqual({
+      ok: true, reply: { replies: [{ field: 'name', message: 'Use the proposed title.' }] },
     })
-    expect(result).toMatchObject({ ok: true, review: { decisions: [
-      { field: 'name', decision: 'rejected', note: 'Explain the new title.' },
-    ] } })
   })
-})
-
-describe('AC-007.7: request clarification', () => {
-  test('AC-007.7.1: keeps all event values unchanged while retaining the follow-up', () => {
-    expect(validateChangeRequestReview(proposed, { action: 'clarify', note: '  Why more attendees?  ' }))
-      .toEqual({ ok: true, review: { status: 'clarification_requested',
-        note: 'Why more attendees?', approvedChanges: {} } })
+  test('AC-007.7.38: refuses zero answers and a missing answer', () => {
+    for (const answers of [[], [replies[0]]]) refuses(request, { replies: answers }, messages.incomplete)
   })
-
-  test('AC-007.7.2: requires a nonblank clarification message', () => {
-    expect(validateChangeRequestReview(proposed, { action: 'clarify', note: '  ' }))
-      .toEqual({ ok: false, reason: CHANGE_REVIEW_MESSAGES.clarificationRequired })
+  test('AC-007.7.39: duplicate answers cannot replace a missing answer or add a third answer', () => {
+    for (const answers of [[replies[0], replies[0]], [...replies, replies[0]]]) {
+      refuses(request, { replies: answers }, messages.incomplete)
+    }
   })
-
-  test('AC-007.7.3: legacy whole-request clarification rejects a field-decision payload', () => {
-    expect(validateChangeRequestReview(proposed, {
-      action: 'clarify', note: 'Please explain.', decisions: [approveName, approveAttendance],
-    })).toEqual({ ok: false, reason: CHANGE_REVIEW_MESSAGES.invalidReview })
+  test('AC-007.7.40: refuses answers for approved, rejected, unproposed or unknown fields', () => {
+    for (const field of ['purpose', 'description', 'programme', 'status']) {
+      refuses(request, { replies: [replies[0], { field, message: 'An answer.' }] }, messages.incomplete)
+    }
   })
-
-  test('AC-007.7.9: mixed approval, rejection and clarification saves decisions but prepares no event changes', () => {
-    const decisions = [approveName,
-      { field: 'expectedAttendance', decision: 'rejected', note: 'Capacity limit.' },
-      { field: 'equipmentRequirements', decision: 'clarification_requested', note: '  How many projectors?  ' },
+  test('AC-007.7.41: refuses empty and whitespace-only answers alongside a valid answer', () => {
+    for (const message of ['', ' \t\n ']) {
+      refuses(request, { replies: [replies[0], { field: 'name', message }] }, messages.empty)
+    }
+  })
+  test('AC-007.7.42: refuses injected values, decisions, non-text answers and mixed reply formats', () => {
+    for (const input of [
+      { replies, proposedChanges: { name: 'Injected title' } },
+      { replies, decisions: [{ field: 'name', decision: 'approved' }] },
+      { replies: [replies[0], { ...replies[1], value: 'Injected title' }] },
+      { replies: [replies[0], { ...replies[1], decision: 'approved' }] },
+      { replies: [replies[0], { field: 'name', message: 120 }] },
+      { replies: [replies[0], { field: 'name', message: null }] },
+      { replies: [replies[0], { field: 'name' }] }, { replies, note: 'Mixed format' }, null,
+    ]) refuses(request, input, messages.invalidReply)
+    for (const input of [{ note: 'Answer', proposedChanges: { name: 'Injected' } }, { note: 'Answer', replies }, { note: 120 }]) {
+      refuses(legacy, input, messages.invalidReply)
+    }
+  })
+  test('AC-007.7.43: refuses another reply after submission and other non-clarification statuses', () => {
+    for (const status of ['submitted', 'approved', 'partially_approved', 'rejected', 'withdrawn'] as const) {
+      refuses({ ...request, status }, { replies }, messages.unavailable)
+      refuses({ ...legacy, status }, { note: 'Answer' }, messages.unavailable)
+    }
+  })
+  test('AC-007.7.44: refuses incomplete, duplicate, unrequested or questionless saved reviews', () => {
+    const invalid: ReplyRequest[] = [
+      { ...request, fieldDecisions: request.fieldDecisions.slice(1) },
+      { ...request, fieldDecisions: [request.fieldDecisions[0], request.fieldDecisions[0], ...request.fieldDecisions.slice(2)] },
+      { ...request, fieldDecisions: [...request.fieldDecisions.slice(0, 3), { field: 'programme', decision: 'clarification_requested', note: 'Why?' }] },
+      { ...request, fieldDecisions: request.fieldDecisions.map((item) => item.decision === 'clarification_requested' ? { ...item, note: ' \t ' } : item) },
+      { ...request, fieldDecisions: request.fieldDecisions.map((item) => ({ ...item, decision: 'approved' })) },
+      { ...request, proposedChanges: {} }, { ...legacy, reviewNote: null }, { ...legacy, reviewNote: ' \n ' },
     ]
-    expect(validateChangeRequestReview({ ...proposed, equipmentRequirements: ['projector'] }, {
-      action: 'decide', decisions,
-    })).toEqual({ ok: true, review: { status: 'clarification_requested', approvedChanges: {}, decisions: [
-      { ...approveName, note: '' }, decisions[1], { ...decisions[2], note: 'How many projectors?' },
-    ] } })
+    for (const candidate of invalid) refuses(candidate, { replies }, messages.invalidQuestions)
   })
-
-  test('AC-007.7.10: retains separate questions for multiple fields', () => {
-    const decisions = [
-      { field: 'name', decision: 'clarification_requested', note: 'Which title?' },
-      { field: 'expectedAttendance', decision: 'clarification_requested', note: 'Does this include staff?' },
-    ]
-    expect(validateChangeRequestReview(proposed, { action: 'decide', decisions }))
-      .toEqual({ ok: true, review: { status: 'clarification_requested', decisions, approvedChanges: {} } })
+  test('AC-007.7.45: accepts a trimmed legacy whole-request answer', () => {
+    expect(validateChangeRequestReply(legacy, { note: ' \tExplanation of the changes.\n ' }))
+      .toEqual({ ok: true, reply: { note: 'Explanation of the changes.' } })
   })
-
-  test.each([
-    ['AC-007.7.11', '  '], ['AC-007.7.12', undefined],
-  ])('%s: each clarification field needs its own nonblank question', (_id, note) => {
-    expect(validateChangeRequestReview(proposed, { action: 'decide', decisions: [
-      approveName, { field: 'expectedAttendance', decision: 'clarification_requested', note },
-    ] })).toEqual({ ok: false, reason: CHANGE_REVIEW_MESSAGES.clarificationRequired })
+  test('AC-007.7.46: refuses empty and whitespace-only legacy answers', () => {
+    for (const note of ['', ' \n\t ']) refuses(legacy, { note }, messages.empty)
   })
-
-  test.each([
-    ['AC-007.7.13', [approveName, { field: 'purpose', decision: 'clarification_requested', note: 'Why?' }]],
-    ['AC-007.7.14', [approveName, { field: 'name', decision: 'clarification_requested', note: 'Which?' }]],
-    ['AC-007.7.15', [{ field: 'name', decision: 'clarification_requested', note: 'Which?' }]],
-  ])('%s: clarification still requires exactly one decision for every proposed field', (_id, decisions) => {
-    expect(validateChangeRequestReview(proposed, { action: 'decide', decisions }))
-      .toEqual({ ok: false, reason: CHANGE_REVIEW_MESSAGES.incompleteDecisions })
-  })
-
-  test('AC-007.7.16: provisional decisions do not mutate the original proposal or input', () => {
-    const changes = Object.freeze({ ...proposed })
-    const decision = Object.freeze({ field: 'expectedAttendance', decision: 'clarification_requested', note: '  Why?  ' })
-    const input = Object.freeze({ action: 'decide', decisions: Object.freeze([Object.freeze(approveName), decision]) })
-    expect(validateChangeRequestReview(changes, input)).toMatchObject({ ok: true, review: { approvedChanges: {} } })
-    expect(decision.note).toBe('  Why?  ')
-    expect(changes).toEqual(proposed)
-  })
-})
-
-describe('AC-007.9: prepare only accepted event values', () => {
-  test('AC-007.9.1: preserves false and empty text as explicit proposed values', () => {
-    expect(validateChangeRequestReview({ registrationRequired: false, description: '' }, {
-      action: 'decide', decisions: [
-        { field: 'registrationRequired', decision: 'approved' },
-        { field: 'description', decision: 'approved' },
-      ],
-    })).toMatchObject({ ok: true, review: { approvedChanges: { registrationRequired: false, description: '' } } })
-  })
-
-  test('AC-007.9.2: does not modify the proposal or the coordinator input', () => {
-    const changes = Object.freeze({ ...proposed })
-    const input = Object.freeze({ action: 'decide', decisions: Object.freeze([
-      Object.freeze(approveName), Object.freeze(approveAttendance),
-    ]) })
-    expect(validateChangeRequestReview(changes, input).ok).toBe(true)
-    expect(changes).toEqual(proposed)
+  test('AC-007.7.47: preserves proposals, questions, decisions and input on success and refusal', () => {
+    const candidate = structuredClone(request)
+    const input = { replies: structuredClone(replies) }
+    const before = structuredClone({ candidate, input })
+    Object.freeze(candidate.proposedChanges)
+    candidate.fieldDecisions.forEach(Object.freeze)
+    Object.freeze(candidate.fieldDecisions)
+    Object.freeze(candidate)
+    input.replies.forEach(Object.freeze)
+    Object.freeze(input.replies)
+    Object.freeze(input)
+    expect(validateChangeRequestReply(candidate, input).ok).toBe(true)
+    refuses(candidate, { replies: input.replies.slice(0, 1) }, messages.incomplete)
+    expect({ candidate, input }).toEqual(before)
+    const oldRequest = Object.freeze({ ...legacy })
+    const oldInput = Object.freeze({ note: '  Explanation.  ' })
+    expect(validateChangeRequestReply(oldRequest, oldInput)).toEqual({ ok: true, reply: { note: 'Explanation.' } })
+    expect(oldRequest).toEqual(legacy)
+    expect(oldInput.note).toBe('  Explanation.  ')
   })
 })

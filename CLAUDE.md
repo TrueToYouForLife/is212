@@ -1,3 +1,18 @@
+# US7 reply-validation restoration — 3 November 2026
+- Branch `us7-reply-validation-tests`, base 215f847 (PR170 merged, Jaydon confirmed).
+  Jaydon handles commits/push/PR/merge. No application/migration/shared deployment changes.
+- Replaced duplicate 27 review executions in dedicated reply file with 11 allocated
+  AC-007.7.37–47 cases against the real reply validator. Original review file unchanged.
+  Group related negative/boundary inputs; no manufactured product defect or new IDs.
+- Focused 57 / five files and full 1,701 / 213 files passed; typecheck/lint/build passed.
+  Runtime count falls by 16 because duplicated 27 are replaced by 11 distinct cases.
+  Coverage 96.50% lines/statements, 91.29% branches, 94.76% functions; reply helper 100%.
+- Catalogue US7 now 277 source IDs; global 2,892 / 45 stories. Corrected source links,
+  closed missing-case finding, retained historical checkpoints. Evidence:
+  docs/test-evidence/us7/reply-validation/README.md. No sheet/manual/remote CI result claimed.
+- US48 safety-stage manual acceptance with US45 workflow remains outstanding. Earlier
+  PR170 notes below are historical: user confirmed merge and branch deletion.
+
 # PR170 CI verify follow-up
 - Branch us41-arrangement-regression-coverage, failed revision c94d336. PR170 attached.
   Both CI DB jobs and push verify passed; pull-request verify failed coverage, with
