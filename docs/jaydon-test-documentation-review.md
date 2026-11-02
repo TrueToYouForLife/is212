@@ -3,6 +3,12 @@
 Owner: Jaydon. Recorded: 2 November 2026.
 Branch: `jaydon-test-documentation-review`. Source baseline: `d23ff29`.
 
+Latest US41 follow-up: the ten older SQL cases now execute before replay in the
+focused/historical/quarter-hour upgrade/fresh gates and all passed. This closes the
+SQL runner gap described at the earlier checkpoints below. No additional case IDs
+or product changes were needed. See [restored regression evidence](test-evidence/us41/regression/README.md).
+US7's dedicated reply-validation gap and unreported US48 manual checks remain separate.
+
 Subsequent US41 follow-up: AC-041.1.3 is now implemented and locally verified;
 see [replay evidence](test-evidence/us41/replay/README.md). The findings below retain
 the documentation-review checkpoint. That work also identified a separate current

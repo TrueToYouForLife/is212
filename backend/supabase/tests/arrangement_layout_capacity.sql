@@ -1,4 +1,4 @@
--- US41 regression: run after arrangement_revalidation.sql and historical replay.
+-- US41 regression: run after arrangement_revalidation.sql, before historical replays.
 reset role;
 select set_config('request.jwt.claim.sub','',false);
 insert into public.layout_types(code,label) values ('classroom','Classroom') on conflict do nothing;
@@ -6,7 +6,7 @@ insert into public.venue_layouts(venue_id,layout,capacity) values ('41200000-000
 update public.venue_layouts set capacity=200 where venue_id='41200000-0000-0000-0000-000000000001' and layout='theatre';
 insert into public.event_venue_requirements(event_id,layout,updated_by) values ('41100000-0000-0000-0000-000000000001','theatre','41000000-0000-0000-0000-000000000002');
 insert into public.event_change_requests(id,event_id,organiser_id,proposed_changes,reason) values
- ('41800000-0000-0000-0000-000000000008','41100000-0000-0000-0000-000000000001','41000000-0000-0000-0000-000000000001','{"layoutPreference":"Classroom"}','Audit layout change'),
+ ('41800000-0000-0000-0000-000000000008','41100000-0000-0000-0000-000000000001','41000000-0000-0000-0000-000000000001','{"layoutPreference":"classroom"}','Audit layout change'),
  ('41800000-0000-0000-0000-000000000009','41100000-0000-0000-0000-000000000001','41000000-0000-0000-0000-000000000001','{"expectedAttendance":"160"}','Audit later attendance');
 set role authenticated;
 select set_config('request.jwt.claim.sub','41000000-0000-0000-0000-000000000002',false);

@@ -3,6 +3,14 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
+## US41 arrangement regression coverage — 2 November 2026
+
+The ten older US41 SQL cases now run before the final replay check in the existing
+database gates. Focused, historical, quarter-hour upgrade and fresh-order checks
+passed. Fixtures and runner integration only; no migration or application change.
+[Results and limits](docs/test-evidence/us41/regression/README.md). Earlier runner-gap
+statements below describe the preceding checkpoints.
+
 ## Test-case documentation closeout — 2 November 2026
 
 US41's missing replay assertion is now implemented as AC-041.1.3, with populated
