@@ -6,6 +6,11 @@ notes remain in `docs/`, and execution/failure evidence stays in `docs/test-evid
 
 ## Current source traceability
 
+US1 update, 4 November 2026: three new cases (AC-001.4.35–37), plus stronger
+assertions in three existing cases. US1 now has 86 source IDs;
+[coverage results and remaining defensive fallbacks](../test-evidence/us1/draft-coverage/README.md).
+The global 3 November inventory below is a historical checkpoint, not a new full audit.
+
 US41 update, 3 November 2026: three new real HTTP integration IDs after the upstream
 feature-flag cleanup removed three IDs (two US12, one US19). Global total remains
 2,892; current US41 count is 25. [API fix evidence](../test-evidence/us41/loading-fix/README.md).
@@ -14,7 +19,7 @@ feature-flag cleanup removed three IDs (two US12, one US19). Global total remain
 US7 update, 3 November 2026: eleven allocated reply-validation IDs restored;
 [results](../test-evidence/us7/reply-validation/README.md). Earlier baseline above is historical.
 
-All **2,892 distinct numeric AC test-ID references across 45 stories** in the tracked
+At the 3 November checkpoint, all **2,892 distinct numeric AC test-ID references across 45 stories** in the tracked
 frontend test files and `backend/supabase/tests/` are represented in their story's
 catalogue below. This checks source-to-document traceability, not pass rates, runtime
 case counts, coverage percentages or completeness against a newer Jira backlog.
@@ -27,7 +32,7 @@ same ID count once; linked source locations preserve cross-story coverage.
 
 | Story | Unique source IDs | Catalogue | Documentation status |
 | --- | ---: | --- | --- |
-| US1 | 83 | [US1 test cases](US1_test_cases.md) | All source IDs listed |
+| US1 | 86 | [US1 test cases](US1_test_cases.md) | All source IDs listed |
 | US2 | 61 | [US2 test cases](US2_test_cases.md) | All source IDs listed |
 | US3 | 14 | [US3 test cases](US3_test_cases.md) | All source IDs listed |
 | US4 | 69 | [US4 test cases](US4_test_cases.md) | All source IDs listed |

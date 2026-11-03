@@ -1,0 +1,31 @@
+
+> connectsphere@0.1.0 coverage
+> vitest run --coverage src/features/events/__tests__/DraftPages.test.tsx src/features/events/__tests__/draftFormValues.test.ts src/features/events/__tests__/draftValidation.test.ts src/features/events/__tests__/eventDraftQueryService.test.ts --coverage.include=src/features/events/pages/MyDraftsPage.tsx --coverage.include=src/features/events/pages/ResumeDraftPage.tsx --coverage.include=src/features/events/draftFormValues.ts --coverage.include=src/features/events/draftValidation.ts --coverage.include=src/features/events/eventDraftQueryService.ts --coverage.reportsDirectory=/tmp/is212-us1-coverage-after
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+      Coverage enabled with v8
+
+ ✓ src/features/events/__tests__/draftFormValues.test.ts (5 tests) 4ms
+ ✓ src/features/events/__tests__/eventDraftQueryService.test.ts (18 tests) 9ms
+ ✓ src/features/events/__tests__/draftValidation.test.ts (20 tests) 13ms
+ ✓ src/features/events/__tests__/DraftPages.test.tsx (13 tests) 390ms
+
+ Test Files  4 passed (4)
+      Tests  56 passed (56)
+   Start at  01:58:10
+   Duration  1.85s (transform 269ms, setup 327ms, collect 537ms, tests 417ms, environment 1.86s, prepare 333ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   99.18 |    98.33 |     100 |   99.18 |
+ events            |     100 |     97.8 |     100 |     100 |
+  ...FormValues.ts |     100 |      100 |     100 |     100 |
+  ...Validation.ts |     100 |    96.87 |     100 |     100 | 82
+  ...eryService.ts |     100 |    97.67 |     100 |     100 | 86
+ events/pages      |   97.05 |      100 |     100 |   97.05 |
+  MyDraftsPage.tsx |   97.36 |      100 |     100 |   97.36 | 26
+  ...DraftPage.tsx |   96.66 |      100 |     100 |   96.66 | 28
+-------------------|---------|----------|---------|---------|-------------------

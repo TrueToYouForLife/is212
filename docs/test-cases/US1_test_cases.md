@@ -1,5 +1,21 @@
 # US1 — Save Draft Event Request
 
+## Coverage follow-up — 4 November 2026
+
+US1 now has 86 source IDs. This portion strengthens the existing unnamed-draft and
+retry assertions and adds AC-001.4.35–37: invalid date input at the form-conversion
+boundary, independent restored requirement arrays, and a pending list response from
+the previous account. These are two unit cases and one component case; no application
+code, database objects or permissions changed.
+
+The full frontend run passed 1,701 tests across 211 files. `draftFormValues.ts` reaches
+100% on all four measures; `MyDraftsPage.tsx` reaches 100% branches/functions but retains
+its defensive exception line. Four defensive fallbacks remain across the five assigned
+US1 files. They are explained with their current contracts in the
+[coverage evidence](../test-evidence/us1/draft-coverage/README.md); no synthetic root-level
+schema error, null-success collection response or forced service rejection was used
+to increase coverage. No manual pass or live database verification is claimed.
+
 ## Documentation accuracy review — 2 November 2026
 
 The 83 IDs describe mocked service/pure unit tests and rendered component tests. They
@@ -9,7 +25,7 @@ branch is covered by AC-001.4.1. No new manual or automated pass is recorded.
 
 [Review findings and limits](../jaydon-test-documentation-review.md).
 
-Owner: Jaydon. Catalogue checked: 2 November 2026.
+Owner: Jaydon. Catalogue checked: 4 November 2026; the review above is historical.
 
 ## Scope and evidence
 
@@ -18,14 +34,15 @@ Descriptions follow the current test titles/assertion labels; parameter rows kee
 existing IDs. Counts are unique source IDs, not a count of runtime executions or a new
 coverage measurement. Shared cross-story assertions may appear in both relevant catalogues.
 
-This is a documentation update. It does not claim fresh automated passes, manual
-acceptance, deployed migrations or email delivery. Unit tests exercise pure logic or mock
+The original catalogue was a documentation update; new execution results are recorded
+only in dated follow-ups above. Catalogue rows alone do not claim manual acceptance,
+deployed migrations or email delivery. Unit tests exercise pure logic or mock
 external services; component tests render UI with their source's mocks; SQL/shell
 integration tests use the disposable database runners. Existing evidence and historical
 checkpoints remain in their original documents. Manual results are valid only where an
 actual execution/report is recorded.
 
-## Existing cases (83 source IDs)
+## Existing cases (86 source IDs)
 
 | Test ID | AC | Classification | Scenario / expected assertion | Test source |
 | --- | --- | --- | --- | --- |
@@ -63,7 +80,7 @@ actual execution/report is recorded.
 | AC-001.2.20 | 2 | Unit — Happy path / Negative / Boundary | Saving an old-date draft is allowed; submitting it still fails current submission rules. | [frontend/src/features/events/__tests__/draftValidation.test.ts](../../frontend/src/features/events/__tests__/draftValidation.test.ts#L93) |
 | AC-001.2.21 | 2 | Unit — Happy path / Boundary | saves an empty request as draft for the signed-in owner (also AC-001.1, AC-001.5) | [frontend/src/features/events/__tests__/eventDraftService.test.ts](../../frontend/src/features/events/__tests__/eventDraftService.test.ts#L106) |
 | AC-001.2.22 | 2 | Component — Negative | clears submission-required errors when saving an incomplete draft | [frontend/src/features/events/__tests__/EventRequestForm.test.tsx](../../frontend/src/features/events/__tests__/EventRequestForm.test.tsx#L115) |
-| AC-001.3.1 | 3 | Component — Happy path | unnamed drafts have a usable fallback label (also AC-001.4) | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L79) |
+| AC-001.3.1 | 3 | Component — Happy path / Boundary | Missing names use the trimmed purpose or Untitled draft; each link retains its draft ID and Draft label without saving/submitting (also AC-001.4). | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L79) |
 | AC-001.3.2 | 3 | Component — Happy path / Boundary | saves an empty draft without submitting and displays Draft status (also AC-001.1, AC-001.2, AC-001.5) | [frontend/src/features/events/__tests__/EventRequestForm.test.tsx](../../frontend/src/features/events/__tests__/EventRequestForm.test.tsx#L127) |
 | AC-001.4.1 | 4 | Unit — Negative / Regression | reports an unavailable draft without inserting a replacement (also AC-001.5) | [frontend/src/features/events/__tests__/eventDraftService.test.ts](../../frontend/src/features/events/__tests__/eventDraftService.test.ts#L125) |
 | AC-001.4.2 | 4 | Unit — Negative | a blank existing ID cannot accidentally create a new draft | [frontend/src/features/events/__tests__/eventDraftService.test.ts](../../frontend/src/features/events/__tests__/eventDraftService.test.ts#L133) |
@@ -88,22 +105,25 @@ actual execution/report is recorded.
 | AC-001.4.21 | 4 | Unit — Happy path / Boundary / Regression | restored dates preserve their instant and precision | [frontend/src/features/events/__tests__/draftFormValues.test.ts](../../frontend/src/features/events/__tests__/draftFormValues.test.ts#L5) |
 | AC-001.4.22 | 4 | Unit — Happy path / Boundary | missing dates remain empty (also AC-001.2) | [frontend/src/features/events/__tests__/draftFormValues.test.ts](../../frontend/src/features/events/__tests__/draftFormValues.test.ts#L10) |
 | AC-001.4.23 | 4 | Unit — Happy path / Regression | attendance is restored as form text | [frontend/src/features/events/__tests__/draftFormValues.test.ts](../../frontend/src/features/events/__tests__/draftFormValues.test.ts#L15) |
-| AC-001.4.24 | 4 | Component — Happy path / Regression | opens a listed draft, restores fields and saves edits to the same ID (also AC-001.3, AC-001.5) | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L87) |
-| AC-001.4.25 | 4 | Component — Happy path | an incomplete draft can reopen and save without required fields (also AC-001.2) | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L107) |
-| AC-001.4.26 | 4 | Component — Happy path / Boundary | empty state offers a new request | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L118) |
-| AC-001.4.27 | 4 | Component — Negative | failed list can be retried | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L125) |
-| AC-001.4.28 | 4 | Component — Negative / Regression | unavailable draft shows no editable form and supports retry | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L133) |
-| AC-001.4.29 | 4 | Component — Negative | A signed-out visitor cannot load or edit the draft page. | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L143) |
-| AC-001.4.30 | 4 | Component — Negative | A Coordinator cannot use the Organiser draft editor. | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L144) |
-| AC-001.4.31 | 4 | Component — Boundary | Session loading does not fetch or expose editable draft data. | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L145) |
-| AC-001.4.32 | 4 | Component — Boundary / Regression | navigating to another draft ignores an old pending response | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L152) |
-| AC-001.4.33 | 4 | Component — Happy path / Regression | switching accounts clears the previous draft before loading again | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L163) |
+| AC-001.4.24 | 4 | Component — Happy path / Regression | opens a listed draft, restores fields and saves edits to the same ID (also AC-001.3, AC-001.5) | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L97) |
+| AC-001.4.25 | 4 | Component — Happy path | an incomplete draft can reopen and save without required fields (also AC-001.2) | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L117) |
+| AC-001.4.26 | 4 | Component — Happy path / Boundary | empty state offers a new request | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L128) |
+| AC-001.4.27 | 4 | Component — Negative / Regression | A failed list can be retried; success removes the alert, shows the drafts, and never loads an editor, saves or submits. | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L135) |
+| AC-001.4.28 | 4 | Component — Negative / Regression | An unavailable draft exposes no form; retry loads the same ID and restores its values, removing the alert without saving/submitting. | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L148) |
+| AC-001.4.29 | 4 | Component — Negative | A signed-out visitor cannot load or edit the draft page. | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L162) |
+| AC-001.4.30 | 4 | Component — Negative | A Coordinator cannot use the Organiser draft editor. | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L163) |
+| AC-001.4.31 | 4 | Component — Boundary | Session loading does not fetch or expose editable draft data. | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L164) |
+| AC-001.4.32 | 4 | Component — Boundary / Regression | navigating to another draft ignores an old pending response | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L171) |
+| AC-001.4.33 | 4 | Component — Happy path / Regression | switching accounts clears the previous draft before loading again | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L182) |
 | AC-001.4.34 | 4 | Component — Happy path | keeps entered values and reuses the saved ID on subsequent saves (also AC-001.5) | [frontend/src/features/events/__tests__/EventRequestForm.test.tsx](../../frontend/src/features/events/__tests__/EventRequestForm.test.tsx#L141) |
+| AC-001.4.35 | 4 | Unit — Negative / Boundary | Invalid date strings become empty form inputs while name, purpose and attendance are preserved. This tests the conversion helper, not database acceptance of invalid timestamps. | [frontend/src/features/events/__tests__/draftFormValues.test.ts](../../frontend/src/features/events/__tests__/draftFormValues.test.ts#L22) |
+| AC-001.4.36 | 4 | Unit — Happy path / Regression | Restored requirement lists retain their codes and belong to the form; editing them does not mutate the loaded draft. | [frontend/src/features/events/__tests__/draftFormValues.test.ts](../../frontend/src/features/events/__tests__/draftFormValues.test.ts#L32) |
+| AC-001.4.37 | 4 | Component — Negative / Regression | After an account switch, the previous account's pending list response cannot replace or expose drafts in the new account's list; no save/submission occurs. | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L194) |
 | AC-001.5.1 | 5 | Unit — Happy path | updates only the matching owned draft without changing workflow fields (also AC-001.4) | [frontend/src/features/events/__tests__/eventDraftService.test.ts](../../frontend/src/features/events/__tests__/eventDraftService.test.ts#L140) |
 | AC-001.5.2 | 5 | Unit — Negative | A create/save reply with no row returns saveFailed; this case calls saveEventDraft without an existing ID and does not test the update path. | [frontend/src/features/events/__tests__/eventDraftService.test.ts](../../frontend/src/features/events/__tests__/eventDraftService.test.ts#L156) |
 | AC-001.5.3 | 5 | Unit — Negative | A create/save reply containing a submitted row returns saveFailed; this case does not test an update of an existing draft. | [frontend/src/features/events/__tests__/eventDraftService.test.ts](../../frontend/src/features/events/__tests__/eventDraftService.test.ts#L157) |
 | AC-001.5.4 | 5 | Component — Boundary | disables editing and both actions while a save is pending | [frontend/src/features/events/__tests__/EventRequestForm.test.tsx](../../frontend/src/features/events/__tests__/EventRequestForm.test.tsx#L159) |
-| AC-001.6.1 | 6 | Component — Happy path | direct draft URL can submit the existing request explicitly (also AC-001.4) | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L177) |
+| AC-001.6.1 | 6 | Component — Happy path | direct draft URL can submit the existing request explicitly (also AC-001.4) | [frontend/src/features/events/__tests__/DraftPages.test.tsx](../../frontend/src/features/events/__tests__/DraftPages.test.tsx#L225) |
 | AC-001.6.2 | 6 | Component — Happy path | explicit submission uses the saved ID and resets it after success | [frontend/src/features/events/__tests__/EventRequestForm.test.tsx](../../frontend/src/features/events/__tests__/EventRequestForm.test.tsx#L177) |
 | AC-001.6.3 | 6 | Component — Negative | a saved incomplete draft still cannot be submitted | [frontend/src/features/events/__tests__/EventRequestForm.test.tsx](../../frontend/src/features/events/__tests__/EventRequestForm.test.tsx#L194) |
 | AC-001.6.4 | 6 | Component — Negative / Regression | failed submission preserves the draft ID for further editing | [frontend/src/features/events/__tests__/EventRequestForm.test.tsx](../../frontend/src/features/events/__tests__/EventRequestForm.test.tsx#L204) |
