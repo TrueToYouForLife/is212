@@ -1,4 +1,3 @@
-import { FEATURES } from '../../lib/features'
 import type { UserRole } from '../auth/types'
 import type { EventStatus } from './types'
 
@@ -19,11 +18,9 @@ export const STATUS_TRANSITIONS: Record<EventStatus, readonly EventStatus[]> = {
   // Back to submitted is a coordinator asking for more detail — a normal review outcome.
   under_review: ['approved', 'rejected', 'submitted', 'cancelled', 'withdrawn'],
   approved: ['planning', 'cancelled'],
-  // US43: once the safety review is switched on, an event leaves Planning only by being sent
-  // for it; until then Planning is confirmed as before (0108's safety_review_settings).
-  planning: FEATURES.safetyReview
-    ? ['awaiting_safety_review', 'postponed', 'cancelled']
-    : ['confirmed', 'postponed', 'cancelled'],
+  // US43 (switched on in 0123): an event leaves Planning for confirmation only by being sent for
+  // its safety review; it is confirmed from In Preparation once the Safety Officer approves.
+  planning: ['awaiting_safety_review', 'postponed', 'cancelled'],
   // US45 (0118): a sent-back event is revised in Planning; Awaiting and In Preparation go back to
   // Planning only when an arrangement changes (the database does that, never a button).
   awaiting_safety_review: ['in_preparation', 'safety_changes_requested', 'planning', 'cancelled'],

@@ -17,7 +17,7 @@ if [ "$ready" != true ]; then echo 'Temporary database did not become ready.' >&
   # 0075 was claimed before migrations that have already been deployed.
   mode="${1:-upgrade}"
   for migration in "$repo_root"/supabase/migrations/*.sql; do
-    case "$migration" in */0098_*|*/0099_*|*/0100_*|*/0102_*|*/0103_*|*/0107_*|*/0109_*|*/0110_*|*/0116_*|*/0120_*|*/0122_*) continue ;;
+    case "$migration" in */0098_*|*/0099_*|*/0100_*|*/0102_*|*/0103_*|*/0107_*|*/0109_*|*/0110_*|*/0116_*|*/0120_*|*/0122_*|*/0123_*) continue ;;
     */0075_*)
       if [ "$mode" != fresh ]; then continue; fi
       cat "$repo_root/supabase/tests/venue_time_conversion_fixture.sql"
@@ -169,3 +169,11 @@ bash "$repo_root/supabase/tests/run_arrangement_revalidation.sh" "$container"
 
 # Last: US41 data preservation replay deliberately restores historical functions.
 bash "$repo_root/supabase/tests/run_arrangement_review_replay.sh" "$container"
+
+# Safety review (0123): switched on last, after every earlier suite. They were written for the
+# switch's old default, and the suites that need it on (US26, US43 to US45) switch it on
+# themselves; then check that every migration leaves it on.
+{
+  cat "$repo_root/supabase/migrations/0123_switch_on_safety_review.sql"
+  cat "$repo_root/supabase/tests/safety_review_switched_on.sql"
+} | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1

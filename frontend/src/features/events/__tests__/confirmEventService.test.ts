@@ -20,7 +20,7 @@ describe('AC-026.1 — confirmed only once every essential arrangement is comple
   test('AC-026.1.5: when the database refuses because the event is not ready, the Coordinator is told exactly that', async () => {
     const { update } = mockUpdate({ data: null, error: { code: '55000', message: 'not ready' } })
     const result = await transitionEventStatus({
-      id: 'event-1', from: 'planning', to: 'confirmed', actor: { role: 'coordinator', isOwner: false },
+      id: 'event-1', from: 'in_preparation', to: 'confirmed', actor: { role: 'coordinator', isOwner: false },
     })
     expect(update).toHaveBeenCalledWith(expect.objectContaining({ status: 'confirmed' }))
     expect(result).toEqual({ ok: false, reason: REVIEW_MESSAGES.notReady })
