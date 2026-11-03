@@ -23,7 +23,7 @@ so they can arrange an alternative.
 bookings, with event, venue, affected slots, reason and when flagged, and a link to the
 request.
 
-Both pages are behind `VITE_FEATURE_VENUE_BLOCKS`.
+Both pages are always on (the `VITE_FEATURE_VENUE_BLOCKS` flag was removed once US12 was done).
 
 ## Design decisions
 
@@ -105,6 +105,6 @@ Evidence of test-first development:
 
 ## Trying it
 
-Set `VITE_FEATURE_VENUE_BLOCKS=true` in `frontend/.env.local`, run the app, and sign in as
+Run the app and sign in as
 Venue Staff to block a venue, then as a coordinator to see any flagged bookings under
 **Venue alerts**.

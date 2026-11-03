@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { Card } from '../../../components/ui/Card'
 import { Field } from '../../../components/ui/FormControls'
 import { PageContainer } from '../../../components/layout/PageContainer'
-import { FEATURES } from '../../../lib/features'
 import { useCurrentUser } from '../../auth/sessionContext'
 import { AvailabilityLegend, VenueAvailabilityGrid } from '../components/VenueAvailabilityGrid'
 import { shiftDate, todayInSingapore } from '../availabilityDates'
@@ -132,7 +131,7 @@ export function VenueAvailabilityPage() {
           </div>
           <VenueAvailabilityGrid
             availability={availability}
-            linkVenues={role === 'coordinator' && FEATURES.venueBooking}
+            linkVenues={role === 'coordinator'}
           />
         </Card>
       )}

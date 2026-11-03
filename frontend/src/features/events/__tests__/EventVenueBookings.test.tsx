@@ -5,7 +5,6 @@ import { beforeEach, expect, test, vi } from 'vitest'
 import { EventVenueBookings } from '../components/EventVenueBookings'
 const read = vi.hoisted(() => vi.fn())
 vi.mock('../eventVenueBookingsService', () => ({ loadEventVenueBookings: read }))
-vi.mock('../../../lib/features', () => ({ FEATURES: { venueBooking: true } }))
 const row = (status: string, n = 1) => ({ booking_id: `booking-${n}`, venue_name: `Hall ${n}`, status,
   space_layout: 'theatre', space_attendance: 30, review_note: null, review_alternative: null })
 beforeEach(() => { read.mockReset() })

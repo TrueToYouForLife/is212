@@ -148,7 +148,6 @@ is generated. Existing Venue Staff submission notifications remain separate.
 Required review migrations are 0037, 0040, 0044, 0045 and **0051**, together with
 all their earlier schema dependencies. Apply migrations through the team's normal
 ordered deployment process; do not run older policy migrations over a newer schema.
-The frontend routes use `VITE_FEATURE_VENUE_BOOKING=true` in `frontend/.env`.
 0051 only delivers new Venue Staff decisions after deployment; it does not backfill
 old approvals/rejections or send email. A notification storage failure rolls back
 the decision, including claim changes, so decisions for eligible recipients cannot silently lose notices.
@@ -1096,7 +1095,7 @@ rather than from Jira and should be checked against the backlog.
 
 > US9's Jira key is not recorded in the repo either. Fill it in.
 
-Behind `VITE_FEATURE_VENUE_BOOKING`. A coordinator opens a venue from the search results
+A coordinator opens a venue from the search results
 (`/venues/:id`), checks its timetable (`/venues/:id/timetable`), places a tentative hold on
 the slots an event needs, and then submits the hold as a booking request. Their own
 bookings are at `/venues/bookings`. Only an `approved` or `planning` event may be booked
@@ -1183,8 +1182,7 @@ A coordinator picks one of their events at `/venues/suitability`, records its ve
 requirements beside the organiser's own words, and sees every venue grouped as
 **Suitable**, **Unsuitable** (with every reason) or **Unavailable** (blacked out: booked,
 blocked or under maintenance). Searching venues for one of your events shows each result's
-verdict. Screens are behind `VITE_FEATURE_VENUE_SUITABILITY`, which is off unless set to
-`true` in your own `frontend/.env`.
+verdict.
 
 Migrations, all safe to replay:
 
@@ -1222,9 +1220,8 @@ steps and Singapore time, with a reason (requires 0100). A block covers at most
 blocks it would overlap. Bookings inside a new block are **flagged for review, not
 cancelled** (Week 7 change 2): an email is queued for each coordinator, who sees it under **Venue
 alerts**, and a flagged booking cannot be approved until the block is removed or the
-booking ends. Removing a block keeps it on record with who removed it and when. Screens
-(**Venue blocks** for Venue Staff, **Venue alerts** for coordinators) are behind
-`VITE_FEATURE_VENUE_BLOCKS`, which is off unless set to `true` in your own `frontend/.env`.
+booking ends. Removing a block keeps it on record with who removed it and when. Venue
+Staff use **Venue blocks** and coordinators **Venue alerts**.
 
 Historical block migrations (0026–0034 replay is tested against the original schema;
 do not reapply them after later migrations):

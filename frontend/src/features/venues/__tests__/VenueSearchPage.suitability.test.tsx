@@ -9,7 +9,6 @@ const mocks = vi.hoisted(() => ({ search: vi.fn(), assess: vi.fn() }))
 vi.mock('../../auth/sessionContext', () => ({
   useCurrentUser: () => ({ loading: false, profile: { id: 'coordinator-1', role: 'coordinator' } }),
 }))
-vi.mock('../../../lib/features', () => ({ FEATURES: { venueSuitability: true, venueBlocks: false } }))
 vi.mock('../venueSearchService', () => ({ searchVenues: mocks.search, listMyAssignedEvents: async () => [] }))
 vi.mock('../venueBookingService', () => ({ loadTimeSlots: async () => [] }))
 // loadLayoutTypes feeds the layout dropdown in VenueFilters; the page loads it with the
