@@ -83,4 +83,20 @@ describe('AC-009.7 — the coordinator is told which slot conflicts and why', ()
   test('AC-009.7.5: no clashes produces no text to append', () => {
     expect(describeConflicts([])).toBe('')
   })
+  test('AC-009.7.12: many clashing slots are summarised per day instead of listed one by one', () => {
+    const slots = (date: string, n: number) => Array.from({ length: n }, () => ({ date, slot: 'AM' as const, kind: 'event' as const }))
+    const described = describeConflicts([
+      ...slots('2026-11-20', 96), ...slots('2026-11-21', 96), ...slots('2026-11-22', 96),
+      ...slots('2026-11-23', 96), ...slots('2026-11-24', 96), ...slots('2026-11-25', 40),
+    ])
+    expect(described).toBe(
+      '520 slots clash across 6 days: 20 Nov 2026 (96 slots); 21 Nov 2026 (96 slots); 22 Nov 2026 (96 slots); '
+      + '23 Nov 2026 (96 slots); 24 Nov 2026 (96 slots); and 1 more day',
+    )
+    expect(described.length).toBeLessThan(300)
+  })
+  test('AC-009.7.13: exactly five clashes are still listed individually (boundary)', () => {
+    const five = Array.from({ length: 5 }, () => ({ date: '2026-10-12', slot: 'AM' as const, kind: 'event' as const }))
+    expect(describeConflicts(five).split('; ')).toHaveLength(5)
+  })
 })

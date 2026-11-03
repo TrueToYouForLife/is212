@@ -55,8 +55,19 @@ export function describeConflict(conflict: BookingConflict): string {
   return `${formatPlainDate(conflict.date)} (${SLOT_SHORT_LABELS[conflict.slot]}) — ${CONFLICT_REASONS[conflict.kind]}`
 }
 
+// A multi-day hold clashing with a busy venue can produce hundreds of 15-minute slots; listing
+// each one made the refusal unreadable, so past this many we summarise per day instead.
+const MAX_LISTED_CONFLICTS = 5
+const MAX_LISTED_DAYS = 5
+
 /** AC: the coordinator is told which slot conflicts and why, not merely that it failed. */
 export function describeConflicts(conflicts: BookingConflict[]): string {
   if (conflicts.length === 0) return ''
-  return conflicts.map(describeConflict).join('; ')
+  if (conflicts.length <= MAX_LISTED_CONFLICTS) return conflicts.map(describeConflict).join('; ')
+  const perDay = new Map<string, number>()
+  for (const { date } of conflicts) perDay.set(date, (perDay.get(date) ?? 0) + 1)
+  const days = Array.from(perDay, ([date, count]) => `${formatPlainDate(date)} (${count} ${count === 1 ? 'slot' : 'slots'})`)
+  const shown = days.slice(0, MAX_LISTED_DAYS).join('; ')
+  const hidden = days.length - MAX_LISTED_DAYS
+  return `${conflicts.length} slots clash across ${days.length} ${days.length === 1 ? 'day' : 'days'}: ${shown}${hidden > 0 ? `; and ${hidden} more ${hidden === 1 ? 'day' : 'days'}` : ''}`
 }
