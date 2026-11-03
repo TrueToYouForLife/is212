@@ -35,7 +35,6 @@ import { TechSupportEquipmentPage } from './features/equipment/pages/TechSupport
 import { ReserveEquipmentPage } from './features/equipment/pages/ReserveEquipmentPage'
 import { EquipmentCataloguePage } from './features/equipment/pages/EquipmentCataloguePage'
 import { EquipmentReturnsPage } from './features/equipment/pages/EquipmentReturnsPage'
-import { FEATURES } from './lib/features'
 import { NotificationPreferencesPage } from './features/notifications/preferences/NotificationPreferencesPage'
 import { SafetyReviewQueuePage } from './features/safety/SafetyReviewQueuePage'
 import { NotificationsPage } from './features/notifications/pages/NotificationsPage'
@@ -81,15 +80,15 @@ export default function App() {
             <Route path="/venues/new" element={<AddVenuePage />} />
             <Route path="/venues/manage" element={<ManageVenuesPage />} />
             <Route path="/venues/:id/edit" element={<EditVenuePage />} />
-            {FEATURES.venueSuitability && <Route path="/venues/suitability" element={<VenueSuitabilityPage />} />}
-            {FEATURES.venueBooking && <Route path="/venues/bookings" element={<MyVenueBookingsPage />} />}
-            {FEATURES.venueBooking && <Route path="/venues/bookings/:bookingId/replacement" element={<VenueReplacementSearchPage />} />}
-            {FEATURES.venueBooking && <Route path="/venues/review" element={<VenueBookingQueuePage />} />}
-            {FEATURES.venueBooking && <Route path="/venues/bookings/:bookingId/review" element={<VenueBookingReviewPage />} />}
-            {FEATURES.venueBooking && <Route path="/venues/:id" element={<VenueDetailsPage />} />}
-            {FEATURES.venueBooking && <Route path="/venues/:id/timetable" element={<VenueTimetablePage />} />}
-            {FEATURES.venueBlocks && <Route path="/venues/blocks" element={<VenueBlocksPage />} />}
-            {FEATURES.venueBlocks && <Route path="/venues/alerts" element={<FlaggedBookingsPage />} />}
+            <Route path="/venues/suitability" element={<VenueSuitabilityPage />} />
+            <Route path="/venues/bookings" element={<MyVenueBookingsPage />} />
+            <Route path="/venues/bookings/:bookingId/replacement" element={<VenueReplacementSearchPage />} />
+            <Route path="/venues/review" element={<VenueBookingQueuePage />} />
+            <Route path="/venues/bookings/:bookingId/review" element={<VenueBookingReviewPage />} />
+            <Route path="/venues/:id" element={<VenueDetailsPage />} />
+            <Route path="/venues/:id/timetable" element={<VenueTimetablePage />} />
+            <Route path="/venues/blocks" element={<VenueBlocksPage />} />
+            <Route path="/venues/alerts" element={<FlaggedBookingsPage />} />
             <Route path="/requests/:id/equipment" element={<EventEquipmentPage />} />
             <Route path="/equipment" element={<TechSupportEquipmentPage />} />
             <Route path="/equipment/catalogue" element={<EquipmentCataloguePage />} />

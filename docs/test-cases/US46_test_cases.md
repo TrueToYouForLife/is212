@@ -263,7 +263,7 @@ feature flag. 0070 is replayed by the database runner before these tests.
 
 | ID | Steps | Expected |
 |---|---|---|
-| M1 | With `VITE_FEATURE_VENUE_MANAGEMENT=true`, sign in as Venue Staff and open **Add venue**. Add a venue with two layouts. | "Venue added"; the venue appears on **Availability** and in venue search with its larger layout. |
+| M1 | Sign in as Venue Staff and open **Add venue**. Add a venue with two layouts. | "Venue added"; the venue appears on **Availability** and in venue search with its larger layout. |
 | M2 | Try a capacity of 0, then a name another venue uses. | Each is refused with its reason; nothing is saved. |
 | M3 | Sign in as an Operations Manager and open `/venues/new`. | Told adding venues is for Venue Staff. |
 | M4 | As Venue Staff, open **Manage venues**, edit a venue that has a confirmed booking, and lower its booked layout's capacity below that event's attendance. | "Venue updated" says 1 booking was sent for review; the booking is still confirmed. |

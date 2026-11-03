@@ -30,7 +30,7 @@ each test file.
 |---|---|---|
 | D1 | Venue Staff and Event Coordinators can open the calendar; every other role is told it is not for them and nothing is loaded. | AC-019.1 names Venue Staff; Coordinators already read the same data for booking. No Week 7 change needs another role to see it, and both roles already have read access through RLS (0018), so no migration. |
 | D2 | All venues for one week: each venue is a group of three rows (AM, PM, Night), one column per day. | Staff can scan down a day for a free venue or along a row for one venue's week. A real table, not three slots squeezed into one cell, so screen readers get venue, slot and date for every cell. |
-| D3 | Read-only. Coordinators open a venue's own timetable (US10) from its name to place a hold, only while `VITE_FEATURE_VENUE_BOOKING` is on. | One place to book; this page is for seeing. No link to a page that is switched off. |
+| D3 | Read-only. Coordinators open a venue's own timetable (US10) from its name to place a hold. | One place to book; this page is for seeing. (While the venue booking flag existed, the link was hidden whenever it was off.) |
 | D4 | Cells use the same states, labels and colours as the US10 timetable, built by its `buildTimetable()`. The colours moved to `timetableStyles.ts` so both grids share them. | Both calendars read the same. The US10 grid's behaviour is unchanged (its tests still pass). |
 | D5 | Setup and turnaround cells are striped as well as coloured. | So they are not told apart by colour alone. |
 | D6 | Retired venues are hidden; venues under maintenance are shown with a label. | A retired venue cannot be booked; a venue under maintenance still has bookings staff need to see. |
@@ -69,7 +69,7 @@ the mocked Supabase client). Scenarios: normal, boundary, conflict, failure.
 | AC-019.1.13 | for Venue Staff, names are plain text; location and maintenance are shown | component | normal | VenueAvailabilityGrid.test.tsx |
 | AC-019.1.14 | Venue Staff see every venue for the week starting today in Singapore | component | normal | VenueAvailabilityPage.test.tsx |
 | AC-019.1.15 | coordinators see it too, and can open a venue's timetable from its name | component | normal | VenueAvailabilityPage.test.tsx |
-| AC-019.1.16 | with venue booking switched off, coordinators get no timetable link | component | boundary | VenueAvailabilityPage.test.tsx |
+| AC-019.1.16 | **Retired** (the venue booking flag was removed; the link is always shown): with venue booking switched off, coordinators get no timetable link | component | boundary | VenueAvailabilityPage.test.tsx |
 | AC-019.1.17 | organisers, Leads, operations managers, tech support and attendees are refused, and nothing loads | component | conflict | VenueAvailabilityPage.test.tsx |
 | AC-019.1.18 | while the session is loading, nothing is shown or loaded | component | boundary | VenueAvailabilityPage.test.tsx |
 | AC-019.1.19 | next, previous and this week move the calendar a week at a time | component | normal | VenueAvailabilityPage.test.tsx |

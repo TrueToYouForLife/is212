@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Card } from '../../../components/ui/Card'
 import { PageContainer } from '../../../components/layout/PageContainer'
-import { FEATURES } from '../../../lib/features'
 import { useCurrentUser } from '../../auth/sessionContext'
 import { VenueFilters } from '../components/VenueFilters'
 import { VenueResultCard } from '../components/VenueResultCard'
@@ -45,7 +44,7 @@ export function VenueSearchPage() {
       setVenues(result.venues)
       // US18: when the search is for one of the coordinator's events, show how each result fits it.
       // If that check fails the search results still stand; the suitability page shows the error.
-      if (FEATURES.venueSuitability && toSearch.eventId && result.venues.length > 0) {
+      if (toSearch.eventId && result.venues.length > 0) {
         const assessed = await assessVenuesForEvent(
           toSearch.eventId,
           slotDefs,

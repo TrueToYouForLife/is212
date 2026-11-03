@@ -42,9 +42,9 @@ function navItemsFor(role: UserRole | null): NavItem[] {
         { label: 'Venues', to: '/venues/search' },
         { label: 'Equipment catalogue', to: '/equipment/catalogue' },
         { label: 'Availability', to: '/venues/availability' },
-        ...(FEATURES.venueSuitability ? [{ label: 'Suitability', to: '/venues/suitability' }] : []),
-        ...(FEATURES.venueBooking ? [{ label: 'My bookings', to: '/venues/bookings' }] : []),
-        ...(FEATURES.venueBlocks ? [{ label: 'Venue alerts', to: '/venues/alerts' }] : []),
+        { label: 'Suitability', to: '/venues/suitability' },
+        { label: 'My bookings', to: '/venues/bookings' },
+        { label: 'Venue alerts', to: '/venues/alerts' },
       ]
     case 'coordinator_lead':
       return [home, { label: 'Assignments', to: '/requests' }]
@@ -71,8 +71,8 @@ function navItemsFor(role: UserRole | null): NavItem[] {
       return [
         home,
         { label: 'Availability', to: '/venues/availability' },
-        ...(FEATURES.venueBooking ? [{ label: 'Booking requests', to: '/venues/review' }] : []),
-        ...(FEATURES.venueBlocks ? [{ label: 'Venue blocks', to: '/venues/blocks' }] : []),
+        { label: 'Booking requests', to: '/venues/review' },
+        { label: 'Venue blocks', to: '/venues/blocks' },
         { label: 'Manage venues', to: '/venues/manage' },
       ]
     default:

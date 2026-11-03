@@ -9,7 +9,6 @@ import { SLOTS } from './fixtures/venueBooking'
 const mocks = vi.hoisted(() => ({
   role: 'venue_staff' as string,
   userLoading: false,
-  flags: { venueBooking: true },
   getAvailability: vi.fn(),
   loadSlots: vi.fn(),
 }))
@@ -17,7 +16,6 @@ const mocks = vi.hoisted(() => ({
 vi.mock('../../auth/sessionContext', () => ({
   useCurrentUser: () => ({ loading: mocks.userLoading, profile: { id: 'user-1', role: mocks.role } }),
 }))
-vi.mock('../../../lib/features', () => ({ FEATURES: mocks.flags }))
 vi.mock('../venueAvailabilityService', () => ({ getVenueAvailability: mocks.getAvailability }))
 vi.mock('../venueBookingService', () => ({ loadTimeSlots: mocks.loadSlots }))
 
@@ -45,7 +43,6 @@ beforeEach(() => {
   vi.setSystemTime(new Date('2026-10-11T16:30:00Z'))
   mocks.role = 'venue_staff'
   mocks.userLoading = false
-  mocks.flags.venueBooking = true
   mocks.loadSlots.mockResolvedValue(SLOTS)
   mocks.getAvailability.mockImplementation(async (_slots: unknown, fromDate: string) => (
     { ok: true, availability: weekFrom(fromDate) }
@@ -69,14 +66,6 @@ describe('AC-019.1 — staff can view availability across dates', () => {
     mocks.role = 'coordinator'
     renderPage()
     expect(await screen.findByRole('link', { name: 'Alpha Hall' })).toHaveAttribute('href', '/venues/v-hall/timetable')
-  })
-
-  test('AC-019.1.16: while venue booking is switched off, coordinators get no link to a timetable that is not there', async () => {
-    mocks.role = 'coordinator'
-    mocks.flags.venueBooking = false
-    renderPage()
-    expect(await screen.findByText('Alpha Hall')).toBeInTheDocument()
-    expect(screen.queryByRole('link', { name: 'Alpha Hall' })).toBeNull()
   })
 
   test.each(['organiser', 'coordinator_lead', 'operations_manager', 'tech_support', 'attendee'])(

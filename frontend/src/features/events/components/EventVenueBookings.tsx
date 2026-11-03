@@ -1,7 +1,6 @@
 import { useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { Card } from '../../../components/ui/Card'
-import { FEATURES } from '../../../lib/features'
 import { loadEventVenueBookings } from '../eventVenueBookingsService'
 import { useRequestResource } from '../status/useRequestResource'
 
@@ -23,6 +22,6 @@ export function EventVenueBookings({ eventId, refreshVersion = 0 }: { eventId: s
           {b.review_alternative && <p>Suggested alternative: {b.review_alternative}</p>}
         </li>)}
       </ul>}
-    {FEATURES.venueBooking && <Link to="/venues/bookings" className="mt-3 inline-block text-sm text-indigo-700 underline">Manage venue bookings</Link>}
+    <Link to="/venues/bookings" className="mt-3 inline-block text-sm text-indigo-700 underline">Manage venue bookings</Link>
   </Card>
 }
