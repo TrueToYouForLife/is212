@@ -12,6 +12,8 @@ export default defineConfig({
       // Business rules and persistence are what we are graded on; config and entrypoints
       // carry no logic worth covering and would only dilute the percentage.
       include: ['src/features/**/*.ts', 'src/features/**/*.tsx'],
+      // Type-only modules compile to nothing, so they always read 0% while holding no logic.
+      exclude: ['src/features/**/types.ts', 'src/features/**/*Types.ts'],
       reporter: ['text', 'lcov', 'html', 'json-summary'],
       reportOnFailure: true,
     },
