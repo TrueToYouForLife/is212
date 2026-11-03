@@ -1,5 +1,13 @@
 # US41 — Flag arrangements affected by a significant change
 
+## Arrangement-review API loading fix — 3 November 2026
+
+Explicitly select the original booking relationship after US48 added a replacement
+booking FK. The old query reproduces HTTP 300/PGRST201 in a disposable API; the fixed
+query and unchanged access restrictions pass. Three HTTP integration cases bring US41
+to 25 source IDs. Four browser read-only groups also passed; no resolution writes or
+US48 safety-stage workflow are claimed. [Results and limits](../test-evidence/us41/loading-fix/README.md).
+
 ## Behavioural runner restoration — 2 November 2026
 
 The ten existing SQL cases in `arrangement_revalidation.sql` and
@@ -43,7 +51,7 @@ portion; no pass is claimed here. Notification assertions establish records, not
 
 [Review findings and limits](../jaydon-test-documentation-review.md).
 
-Owner: Jaydon. Catalogue checked: 2 November 2026.
+Owner: Jaydon. Catalogue checked: 3 November 2026.
 
 ## Scope and evidence
 
@@ -55,7 +63,7 @@ coverage measurement. Shared cross-story assertions may appear in both relevant 
 Pass claims are limited to the dated verification sections, not all mapped source IDs.
 No new manual acceptance, deployed migrations or email delivery is claimed. Unit tests exercise pure logic or mock
 external services; component tests render UI with their source's mocks; SQL/shell
-integration tests use the disposable database runners. Existing evidence and historical
+integration tests use the disposable database/API runners. Existing evidence and historical
 checkpoints remain in their original documents. Manual results are valid only where an
 actual execution/report is recorded.
 
@@ -65,7 +73,7 @@ the broader behavioural runner gap remains separate, as described above.
 
 Related implementation notes: [us41-arrangement-revalidation.md](../us41-arrangement-revalidation.md).
 
-## Existing cases (22 source IDs)
+## Existing cases (25 source IDs)
 
 | Test ID | AC | Classification | Scenario / expected assertion | Test source |
 | --- | --- | --- | --- | --- |
@@ -73,14 +81,17 @@ Related implementation notes: [us41-arrangement-revalidation.md](../us41-arrange
 | AC-041.1.2 | 1 | Integration — Happy path / Regression | Successful approval and flag resolution leave the fixture booking, slot and allocation snapshots unchanged; this is a regression assertion, not a proof about every possible approval. | [backend/supabase/tests/arrangement_revalidation.sql](../../backend/supabase/tests/arrangement_revalidation.sql#L132) |
 | AC-041.1.3 | 1 | Integration — Regression / Boundary | Replay 0052 and 0053 against populated open/independent reasons and both resolution methods; compare every flag/notification field in both directions, retaining attribution/history and refusing additions or deletions. | [arrangement_review_replay.sql](../../backend/supabase/tests/arrangement_review_replay.sql#L1), [fixture](../../backend/supabase/tests/arrangement_review_replay_fixture.sql), [runner](../../backend/supabase/tests/run_arrangement_review_replay.sh) |
 | AC-041.1.4 | 1 | Integration — Negative / Regression | Notification-write failure rolls back exact events, requests, revalidations, review flags, notices and outbox snapshots | [backend/supabase/tests/arrangement_revalidation.sql](../../backend/supabase/tests/arrangement_revalidation.sql#L172) |
-| AC-041.1.5 | 1 | Unit — Happy path / Regression | reads open and resolved flags for the selected event and preserves arrangement identity and reasons | [frontend/src/features/events/__tests__/arrangementReviewService.test.ts](../../frontend/src/features/events/__tests__/arrangementReviewService.test.ts#L13) |
-| AC-041.1.6 | 1 | Unit — Negative / Boundary | invalid IDs, database errors, malformed responses and lost connections do not look like an empty review list | [frontend/src/features/events/__tests__/arrangementReviewService.test.ts](../../frontend/src/features/events/__tests__/arrangementReviewService.test.ts#L28) |
+| AC-041.1.5 | 1 | Unit — Happy path / Regression | Reads open/resolved flags with the explicit original-booking FK and preserves arrangement identity and reasons | [frontend/src/features/events/__tests__/arrangementReviewService.test.ts](../../frontend/src/features/events/__tests__/arrangementReviewService.test.ts#L13) |
+| AC-041.1.6 | 1 | Unit — Negative / Boundary | invalid IDs, database errors, malformed responses and lost connections do not look like an empty review list | [frontend/src/features/events/__tests__/arrangementReviewService.test.ts](../../frontend/src/features/events/__tests__/arrangementReviewService.test.ts#L29) |
 | AC-041.1.7 | 1 | Component — Happy path / Regression | groups all reasons by arrangement, identifies venue and equipment and refreshes after review | [frontend/src/features/events/__tests__/ArrangementReviewPanel.test.tsx](../../frontend/src/features/events/__tests__/ArrangementReviewPanel.test.tsx#L10) |
 | AC-041.1.8 | 1 | Component — Negative / Boundary / Regression | loading, failed read, retry and changed event do not show stale reasons or a false empty state | [frontend/src/features/events/__tests__/ArrangementReviewPanel.test.tsx](../../frontend/src/features/events/__tests__/ArrangementReviewPanel.test.tsx#L30) |
 | AC-041.1.9 | 1 | Component — Happy path / Regression | only the assigned coordinator sees arrangement reviews and page refresh reloads them | [frontend/src/features/events/__tests__/ChangeRequestReviewPage.test.tsx](../../frontend/src/features/events/__tests__/ChangeRequestReviewPage.test.tsx#L46) |
 | AC-041.1.10 | 1 | Unit — Happy path | event detail fetches and maps current assignment for arrangement-review visibility | [frontend/src/features/events/__tests__/eventReviewService.test.ts](../../frontend/src/features/events/__tests__/eventReviewService.test.ts#L344) |
-| AC-041.1.11 | 1 | Unit — Happy path / Negative | list counts distinct arrangements per event and returns errors rather than false zero counts | [frontend/src/features/events/__tests__/arrangementReviewService.test.ts](../../frontend/src/features/events/__tests__/arrangementReviewService.test.ts#L40) |
+| AC-041.1.11 | 1 | Unit — Happy path / Negative | list counts distinct arrangements per event and returns errors rather than false zero counts | [frontend/src/features/events/__tests__/arrangementReviewService.test.ts](../../frontend/src/features/events/__tests__/arrangementReviewService.test.ts#L41) |
 | AC-041.1.12 | 1 | Component — Negative / Regression | request badges are assigned-only, preserve status, refresh and report failed counts | [frontend/src/features/events/__tests__/ArrangementReviewIndicators.test.tsx](../../frontend/src/features/events/__tests__/ArrangementReviewIndicators.test.tsx#L14) |
+| AC-041.1.13 | 1 | Integration — Happy path / Regression | API reads open venue reasons, resolved original-venue history and equipment without following the replacement FK | [backend/supabase/tests/arrangement_review_api.mjs](../../backend/supabase/tests/arrangement_review_api.mjs#L52) |
+| AC-041.1.14 | 1 | Integration — Boundary / Regression | API returns a real empty list for an assigned event without reviews | [backend/supabase/tests/arrangement_review_api.mjs](../../backend/supabase/tests/arrangement_review_api.mjs#L55) |
+| AC-041.1.15 | 1 | Integration — Negative / Regression | Unassigned Coordinator, Venue Staff, Organiser and anonymous cannot read protected reviews | [backend/supabase/tests/arrangement_review_api.mjs](../../backend/supabase/tests/arrangement_review_api.mjs#L61) |
 | AC-041.2.1 | 2 | Integration — Happy path | date changes check each venue and reserved unit; free new slots require review without a false conflict | [backend/supabase/tests/arrangement_revalidation.sql](../../backend/supabase/tests/arrangement_revalidation.sql#L85) |
 | AC-041.3.1 | 3 | Integration — Happy path / Boundary | attendance exactly at layout capacity remains suitable | [backend/supabase/tests/arrangement_revalidation.sql](../../backend/supabase/tests/arrangement_revalidation.sql#L72) |
 | AC-041.3.2 | 3 | Integration — Happy path | increased attendance flags only the undersized venue with its layout capacity | [backend/supabase/tests/arrangement_revalidation.sql](../../backend/supabase/tests/arrangement_revalidation.sql#L77) |
@@ -88,6 +99,6 @@ Related implementation notes: [us41-arrangement-revalidation.md](../us41-arrange
 | AC-041.4.1 | 4 | Integration — Happy path | each reason has one notice addressed to the assigned coordinator with arrangement reference | [backend/supabase/tests/arrangement_revalidation.sql](../../backend/supabase/tests/arrangement_revalidation.sql#L96) |
 | AC-041.5.1 | 5 | Integration — Happy path / Regression | ordinary approval, rejected significant changes and unapproved proposals produce no flags | [backend/supabase/tests/arrangement_revalidation.sql](../../backend/supabase/tests/arrangement_revalidation.sql#L69) |
 | AC-041.6.1 | 6 | Integration — Negative | only assigned coordinator resolves with a recorded explanation; history cannot be overwritten | [backend/supabase/tests/arrangement_revalidation.sql](../../backend/supabase/tests/arrangement_revalidation.sql#L123) |
-| AC-041.6.2 | 6 | Unit — Happy path / Negative / Boundary | resolution validates input, calls the protected RPC and handles refused, stale or uncertain writes | [frontend/src/features/events/__tests__/arrangementReviewService.test.ts](../../frontend/src/features/events/__tests__/arrangementReviewService.test.ts#L56) |
+| AC-041.6.2 | 6 | Unit — Happy path / Negative / Boundary | resolution validates input, calls the protected RPC and handles refused, stale or uncertain writes | [frontend/src/features/events/__tests__/arrangementReviewService.test.ts](../../frontend/src/features/events/__tests__/arrangementReviewService.test.ts#L57) |
 | AC-041.6.3 | 6 | Component — Happy path / Regression | resolves individual reasons using both methods, keeps other reasons open and displays retained history | [frontend/src/features/events/__tests__/ArrangementResolution.test.tsx](../../frontend/src/features/events/__tests__/ArrangementResolution.test.tsx#L14) |
 | AC-041.6.4 | 6 | Component — Negative / Boundary / Regression | requires explanation, blocks duplicate submits and preserves input on errors without claiming success | [frontend/src/features/events/__tests__/ArrangementResolution.test.tsx](../../frontend/src/features/events/__tests__/ArrangementResolution.test.tsx#L47) |

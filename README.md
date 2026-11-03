@@ -3,6 +3,13 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
+## US41 arrangement-review loading fix — 3 November 2026
+
+Arrangement reviews now explicitly load the original booking after replacement
+history introduced a second booking relationship. Real API regression and browser
+checks confirm the loading fix with unchanged access restrictions. No migration;
+deploy the updated frontend. [Results](docs/test-evidence/us41/loading-fix/README.md).
+
 ## US7 reply-validation test restoration — 3 November 2026
 
 The dedicated reply file now exercises eleven allocated reply-validation cases instead

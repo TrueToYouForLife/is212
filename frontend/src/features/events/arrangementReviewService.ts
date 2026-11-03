@@ -26,7 +26,7 @@ export async function listArrangementReviews(eventId: string): Promise<
   if (!z.string().uuid().safeParse(eventId).success) return { ok: false, reason: ARRANGEMENT_REVIEW_ERROR }
   try {
     const { data, error } = await supabase.from('arrangement_review_flags')
-      .select('id, venue_booking_id, equipment_booking_id, detail, created_at, status, resolution, resolution_method, resolved_at, resolved_by, resolver:profiles!arrangement_review_flags_resolved_by_fkey(full_name), venue_booking:venue_bookings(venue:venues(name))')
+      .select('id, venue_booking_id, equipment_booking_id, detail, created_at, status, resolution, resolution_method, resolved_at, resolved_by, resolver:profiles!arrangement_review_flags_resolved_by_fkey(full_name), venue_booking:venue_bookings!arrangement_review_flags_venue_booking_id_fkey(venue:venues(name))')
       .eq('event_id', eventId)
       .order('created_at', { ascending: false }).order('id', { ascending: true })
     if (error) return { ok: false, reason: ARRANGEMENT_REVIEW_ERROR }

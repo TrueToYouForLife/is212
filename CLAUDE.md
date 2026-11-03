@@ -1,3 +1,24 @@
+# US41 arrangement-review loading fix — 3 November 2026
+- Branch `us41-arrangement-review-loading-fix`, base 292c9af; Jaydon handles Git/PR/merge.
+- Confirmed product bug: post-0099 unqualified venue_bookings embed returns HTTP300
+  PGRST201. Specify arrangement_review_flags_venue_booking_id_fkey; keep replacement
+  FK/audit, alias/schema, RLS and resolution behaviour unchanged. No migration.
+- Strengthened .1.5 unit contract; .1.13–15 new real HTTP integration groups, distinct
+  original/replacement names, history/equipment/empty/RLS. Standalone runner uses all
+  current migrations, PostgreSQL17/PostgREST12.2.12 and synthetic Auth/JWTs; cleans own
+  containers/network, no shared data. CI database job adds Node22 and this gate.
+- API final, 12 targeted / five files, full 1,698 / 213 files, typecheck/lint/build pass.
+  Coverage96.50% statements/lines,91.29% branches,94.76% functions. No broad SQL rerun.
+- Four actual read-only UI groups passed on localhost with coordinator@test.com and
+  configured shared backend: EVT0025 empty+refresh, EVT0020 venue reason+refresh,
+  EVT0012 mixed reasons/history, EVT0015 assigned-other protected panel hidden.
+  No shared writes, resolution saves, team message, sheet edit or remote CI claim.
+- Evidence docs/test-evidence/us41/loading-fix/ includes real API error and screenshots.
+  Yuanlong says defect already logged; number/approval not verified. Update existing
+  entry, no duplicate. OwnerJaydon; actual authenticated identity retained in evidence.
+- US41 now25 IDs; index includes backend.mjs. Global2892/45 remains: main removed three
+  flag IDs(US12two/US19one), APIadds3. US48 safety-stage manual workflow remains pending.
+
 # US7 reply-validation restoration — 3 November 2026
 - Branch `us7-reply-validation-tests`, base 215f847 (PR170 merged, Jaydon confirmed).
   Jaydon handles commits/push/PR/merge. No application/migration/shared deployment changes.
