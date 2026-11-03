@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Button } from '../../../components/ui/Button'
-import { FEATURES } from '../../../lib/features'
 import { Card } from '../../../components/ui/Card'
 import { STATUS_REFRESH_MS } from '../status/useRequestResource'
 import { ReadinessSummary } from './ReadinessSummary'
@@ -14,7 +13,7 @@ import type { ReadinessLine } from './types'
  * the page refreshes after a change here, and on the same 30-second cycle as the status, so a
  * change made by Venue Staff or Technical Support shows without reloading (AC-005.7).
  * US43: in Planning it also offers "Send for safety review", once every arrangement is complete
- * and once the safety review is switched on (VITE_FEATURE_SAFETY_REVIEW).
+ * (the safety review is switched on, 0123).
  */
 export function EventReadinessCard({ eventId, refreshVersion = 0, status, onSent }: {
   eventId: string
@@ -66,7 +65,7 @@ export function EventReadinessCard({ eventId, refreshVersion = 0, status, onSent
       ) : (
         <>
           <ReadinessSummary eventId={eventId} lines={lines} />
-          {FEATURES.safetyReview && status === 'planning' && (
+          {status === 'planning' && (
             <div className="mt-4 border-t border-slate-100 pt-4">
               {readyForSafetyReview(lines) ? (
                 <Button type="button" onClick={() => void send()} disabled={sending}>

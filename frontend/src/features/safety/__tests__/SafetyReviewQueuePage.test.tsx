@@ -13,10 +13,6 @@ vi.mock('../safetyReviewQueueService', async (importOriginal) => ({
 }))
 vi.mock('../../notifications/useUnreadNotificationCount', () => ({ useUnreadNotificationCount: () => null }))
 vi.mock('../../auth/components/SessionBadge', () => ({ SessionBadge: () => null }))
-// US43 tests run with the safety review switched on.
-vi.mock('../../../lib/features', async (importOriginal) => ({
-  FEATURES: { ...(await importOriginal<typeof import('../../../lib/features')>()).FEATURES, safetyReview: true },
-}))
 
 const OLDER: QueueEvent = {
   eventId: 'e-2', reference: 'EVT-2', name: 'Workshop', sentAt: '2042-03-05T01:00:00Z',

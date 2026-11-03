@@ -28,9 +28,9 @@ describe('AC-026.1 — confirmed only once every essential arrangement is comple
   test('AC-026.1.6: pressing Confirm on an event that is not ready says why, and nothing changes', async () => {
     mocks.transition.mockResolvedValue({ ok: false, reason: REVIEW_MESSAGES.notReady })
     const onReviewed = vi.fn()
-    render(<ReviewActions eventId="event-1" status="planning" onReviewed={onReviewed} />)
+    render(<ReviewActions eventId="event-1" status="in_preparation" onReviewed={onReviewed} />)
     await act(async () => { fireEvent.click(screen.getByRole('button', { name: 'Confirm event' })) })
-    expect(mocks.transition).toHaveBeenCalledWith(expect.objectContaining({ id: 'event-1', from: 'planning', to: 'confirmed' }))
+    expect(mocks.transition).toHaveBeenCalledWith(expect.objectContaining({ id: 'event-1', from: 'in_preparation', to: 'confirmed' }))
     expect(screen.getByText(REVIEW_MESSAGES.notReady)).toBeInTheDocument()
     expect(onReviewed).not.toHaveBeenCalled()
   })

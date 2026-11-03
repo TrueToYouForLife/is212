@@ -685,7 +685,8 @@ from auth.users u,
      (values ('organiser@test.com',   'organiser'),
              ('coordinator@test.com', 'coordinator'),
              ('venue@test.com',       'venue_staff'),
-             ('tech@test.com',        'tech_support')) as v(email, role)
+             ('tech@test.com',        'tech_support'),
+             ('safety@test.com',      'safety_officer')) as v(email, role)
 where u.email = v.email and p.id = u.id;
 ```
  
@@ -704,6 +705,7 @@ where id = (select id from auth.users where email = 'organiser2@test.com');
 | Event Coordinator | `coordinator@test.com` |
 | Venue Staff | `venue@test.com` |
 | Technical Support Staff | `tech@test.com` |
+| Safety Officer | `safety@test.com` |
 | Attendee | `attendee@test.com` |
 
 Passwords are shared in the team chat, never committed.
@@ -1357,11 +1359,11 @@ Officer** role (`safety_officer`) and three statuses between Planning and Confir
 safety review**, **Safety changes requested** and **In preparation**. The team decided an event is
 confirmed only after safety approval, so Planning can no longer go straight to Confirmed.
 
-**Switched off until the team turns it on** (`safety_review_settings` in the database and
-`VITE_FEATURE_SAFETY_REVIEW` in the app, both off by default): while off, Planning -> Confirmed works
-as before. The checklist for switching it on (US49's 0110, US44, US26) is in the US43 test cases.
+**Switched on since 0123**, once every piece on its checklist (US49's 0110, US44, US26, US45) was
+deployed; the checklist is in the US43 test cases. `safety_review_settings` stays as the single
+switch: setting `enabled` to false turns it off again, and sending for review is then refused.
 
-Once on, the Coordinator sends an event for review with **Send for safety review** on its Readiness card
+The Coordinator sends an event for review with **Send for safety review** on its Readiness card
 (US5), which is only allowed once every arrangement on the card is complete (registration setup
 aside, as it only opens on confirmation); readiness is one rule shared by the card and the review,
 including US49's rule that a rejected booking stays outstanding (0107).
@@ -1377,13 +1379,14 @@ opening hours or blocks on the event's dates) and equipment with how much is res
 | File | Adds |
 | --- | --- |
 | `0109_us43_safety_review_queue.sql` | `get_safety_review_queue()` for the Safety Officer (tested after 0100) |
+| `0123_switch_on_safety_review.sql` | switches the safety review on (applied last by both test runners) |
 | `0108_us43_safety_review.sql` | `safety_officer` role, the safety statuses and rules, `event_readiness_lines()` (shared readiness rule, plus a Safety review line), `send_for_safety_review()`, Safety Officer notices |
 
 Test cases: `docs/test-cases/US43_test_cases.md`.
 
 ## US44 Approve / reject / request changes for safety review (SCRUM-249)
 
-Week 7 change 6, part of the safety review (US43), so hidden until it is switched on. From
+Week 7 change 6, part of the safety review (US43, switched on since 0123). From
 **Safety reviews**, the Safety Officer presses **Review** on an event awaiting review, assesses
 seven factors (attendance, venue capacity and layout, emergency access, accessibility, equipment
 placement, crowd movement, venue restrictions; a note for every concern) and records one decision.
@@ -1404,9 +1407,8 @@ Test cases: `docs/test-cases/US44_test_cases.md`.
 A Coordinator confirms an event only once every essential arrangement on its Readiness card is
 complete (registration setup aside, as it opens on confirmation). The check is in the status rules
 (0117), so any change to Confirmed goes through it, not only the Confirm button; when it refuses,
-the Coordinator is told the event is not ready. With the safety review switched off, events are
-confirmed from Planning as before; switched on, only from In Preparation, after the Safety
-Officer's approval. A confirmed event shows as Confirmed to its Organiser and Coordinator, and its
+the Coordinator is told the event is not ready. With the safety review on (since 0123), events
+are confirmed only from In Preparation, after the Safety Officer's approval. A confirmed event shows as Confirmed to its Organiser and Coordinator, and its
 approved venue booking keeps the venue's time taken.
 
 | File | Adds |
@@ -1417,7 +1419,7 @@ Test cases: `docs/test-cases/US26_test_cases.md`.
 
 ## US45 Revise arrangements after a safety review (SCRUM-240)
 
-Week 7 change 6, part of the safety review (US43), so it only matters once that is switched on.
+Week 7 change 6, part of the safety review (US43, switched on since 0123).
 When the Safety Officer requests changes or rejects (US44), the Coordinator presses **Revise
 arrangements**: the event returns to Planning and the venue and/or equipment bookings the Safety
 Officer named are flagged "Needs review" (US41's arrangement reviews, with the comment). Changes

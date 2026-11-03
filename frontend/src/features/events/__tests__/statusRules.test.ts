@@ -99,7 +99,8 @@ describe('AC-004.2 — actions offered to a coordinator', () => {
 describe('remaining lifecycle actions', () => {
   test.each([
     ['approved', ['planning', 'cancelled']],
-    ['planning', ['confirmed', 'postponed', 'cancelled']],
+    // Planning is sent for its safety review from the Readiness card (US43, on since 0123).
+    ['planning', ['postponed', 'cancelled']],
     ['awaiting_safety_review', ['cancelled']],
     ['safety_changes_requested', ['planning', 'cancelled']],
     ['in_preparation', ['confirmed', 'postponed', 'cancelled']],
