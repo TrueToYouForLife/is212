@@ -1,3 +1,17 @@
+# US1 draft coverage — 4 November 2026
+- Branch `us1-draft-coverage`, base 3edab5b. Jaydon owns Git/PR/merge; rebalanced
+  coverage work only. No app/migration/shared-data changes or manual pass claimed.
+- Strengthened AC-001.3.1 and .4.27–28; new .4.35–37 test date-boundary conversion,
+  copied requirement arrays and stale list response after account switch. US1 86 IDs.
+- Focused before 53 / four files, after 56 / four files; full 1,701 / 211 files passed.
+  Coverage 96.52% statements/lines,91.30% branches,94.76% functions. Lint and build
+  (includes typecheck) passed. Full suite has unrelated React act/blocked-network
+  warnings; no real network calls or failing assertions. Build has chunk-size warning.
+- draftFormValues all100%; MyDrafts branches/functions100%. Retain four defensive
+  fallbacks under current service/schema/collection contracts; no impossible mocks,
+  coverage exclusions or removed safeguards. Evidence docs/test-evidence/us1/draft-coverage/.
+- No product defect found. No SQL gate needed for this test/docs-only portion.
+
 # US41 arrangement-review loading fix — 3 November 2026
 - Branch `us41-arrangement-review-loading-fix`, base 292c9af; Jaydon handles Git/PR/merge.
 - Confirmed product bug: post-0099 unqualified venue_bookings embed returns HTTP300

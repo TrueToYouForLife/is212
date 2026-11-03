@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes, Link } from 'react-router-dom'
 import { SessionContext } from '../../auth/sessionContext'
 import type { CurrentUser } from '../../auth/sessionContext'
-import type { LoadedEventDraft, LoadEventDraftResult } from '../types'
+import type { ListEventDraftsResult, LoadedEventDraft, LoadEventDraftResult } from '../types'
 import { MyDraftsPage } from '../pages/MyDraftsPage'
 import { ResumeDraftPage } from '../pages/ResumeDraftPage'
 
@@ -77,9 +77,19 @@ beforeEach(() => {
 
 describe('AC-001.3', () => {
   test("AC-001.3.1: unnamed drafts have a usable fallback label (also AC-001.4)", async () => {
-    mocks.list.mockResolvedValue({ ok: true, drafts: [{ ...draft, name: null, purpose: null }] })
+    mocks.list.mockResolvedValue({ ok: true, drafts: [
+      { ...draft, name: null, purpose: null },
+      { ...draft, id: 'draft-2', name: '  ', purpose: '  Celebrate  ' },
+    ] })
     render(view())
-    expect(await screen.findByRole('link', { name: /Untitled draft/ })).toHaveAttribute('href', '/drafts/draft-1')
+    const untitled = await screen.findByRole('link', { name: /Untitled draft/ })
+    expect(untitled).toHaveAttribute('href', '/drafts/draft-1')
+    expect(untitled).toHaveTextContent('Draft')
+    const purposeLabel = screen.getByRole('link', { name: /Celebrate/ })
+    expect(purposeLabel).toHaveAttribute('href', '/drafts/draft-2')
+    expect(purposeLabel).toHaveTextContent('Draft')
+    expect(mocks.save).not.toHaveBeenCalled()
+    expect(mocks.submit).not.toHaveBeenCalled()
   })
 })
 
@@ -128,6 +138,11 @@ describe('AC-001.4', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('Offline list')
     fireEvent.click(screen.getByRole('button', { name: 'Try again' }))
     await screen.findByRole('link', { name: /Dinner/ })
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(mocks.list).toHaveBeenCalledTimes(2)
+    expect(mocks.load).not.toHaveBeenCalled()
+    expect(mocks.save).not.toHaveBeenCalled()
+    expect(mocks.submit).not.toHaveBeenCalled()
   })
 
   test("AC-001.4.28: unavailable draft shows no editable form and supports retry", async () => {
@@ -136,7 +151,11 @@ describe('AC-001.4', () => {
     await screen.findByText('Draft unavailable')
     expect(screen.queryByLabelText('Event name')).not.toBeInTheDocument()
     fireEvent.click(screen.getByRole('button', { name: 'Try again' }))
-    await screen.findByLabelText('Event name')
+    expect(await screen.findByLabelText('Event name')).toHaveValue('Dinner')
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(mocks.load.mock.calls).toEqual([['draft-1'], ['draft-1']])
+    expect(mocks.save).not.toHaveBeenCalled()
+    expect(mocks.submit).not.toHaveBeenCalled()
   })
 
   test.each([
@@ -170,6 +189,35 @@ describe('AC-001.4', () => {
     }))
     expect(screen.queryByDisplayValue('Dinner')).not.toBeInTheDocument()
     await screen.findByText('Draft unavailable')
+  })
+
+  test("AC-001.4.37: an old account's pending list cannot replace the new account's drafts", async () => {
+    let finish!: (result: ListEventDraftsResult) => void
+    mocks.list.mockReturnValueOnce(new Promise<ListEventDraftsResult>((resolve) => { finish = resolve }))
+    const rendered = render(view())
+    expect(screen.getByRole('status')).toHaveTextContent('Loading drafts')
+    mocks.list.mockResolvedValueOnce({ ok: true, drafts: [{
+      id: 'new-owner-draft', name: 'New owner request', purpose: null,
+      status: 'draft', updatedAt: draft.updatedAt,
+    }] })
+    rendered.rerender(view('/drafts', {
+      ...user, session: { userId: 'owner-2', email: null },
+      profile: { id: 'owner-2', fullName: 'Another organiser', role: 'organiser' },
+    }))
+    expect(await screen.findByRole('link', { name: /New owner request/ }))
+      .toHaveAttribute('href', '/drafts/new-owner-draft')
+    await act(async () => {
+      finish({ ok: true, drafts: [{
+        id: draft.id, name: 'Old owner request', purpose: null,
+        status: 'draft', updatedAt: draft.updatedAt,
+      }] })
+    })
+    expect(screen.queryByRole('link', { name: /Old owner request/ })).not.toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /New owner request/ })).toBeInTheDocument()
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(mocks.list).toHaveBeenCalledTimes(2)
+    expect(mocks.save).not.toHaveBeenCalled()
+    expect(mocks.submit).not.toHaveBeenCalled()
   })
 })
 

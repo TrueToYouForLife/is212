@@ -798,7 +798,11 @@ See [CLAUDE.md](CLAUDE.md) for the architecture rules the whole team follows.
 Every test name begins with the acceptance criterion it covers, so
 `npm run test -- --reporter=verbose` prints the traceability matrix.
 
-## Acceptance criteria → tests (Save Draft Event Request, in progress)
+## Acceptance criteria → tests (Save Draft Event Request)
+
+US1 coverage follow-up (4 November 2026): 86 source case IDs, including draft-label
+fallbacks, retry recovery, restored-field isolation and account-switch races. No product
+or database changes. [Results and defensive coverage limits](docs/test-evidence/us1/draft-coverage/README.md).
 
 Save Draft Event Request is **US-001**. Its criteria follow the Jira order:
 
@@ -826,7 +830,7 @@ Current automated case ranges:
 | AC-001.1 | AC-001.1.1 through AC-001.1.12 | 12 |
 | AC-001.2 | AC-001.2.1 through AC-001.2.22 | 22 |
 | AC-001.3 | AC-001.3.1 through AC-001.3.2 | 2 |
-| AC-001.4 | AC-001.4.1 through AC-001.4.34 | 34 |
+| AC-001.4 | AC-001.4.1 through AC-001.4.37 | 37 |
 | AC-001.5 | AC-001.5.1 through AC-001.5.4 | 4 |
 | AC-001.6 | AC-001.6.1 through AC-001.6.9 | 9 |
 
