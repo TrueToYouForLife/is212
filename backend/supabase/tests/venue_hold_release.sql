@@ -15,7 +15,11 @@ select set_config('request.jwt.claim.sub', '', true);
 insert into auth.users (id, email) values
   ('11b90000-0000-0000-0000-000000000001', 'organiser-11b9@example.test'),
   ('11b90000-0000-0000-0000-000000000002', 'coordinator-11b9@example.test');
-update public.profiles set role = 'organiser', full_name = 'Olive Organiser'
+-- client_org_id is required for an organiser by 0069's profiles_client_org_required check;
+-- 0c0a0000-...-0001 is the organisation 0069 seeds. Northwind Trading is reused by the other
+-- suites rather than inserting another organisation this story has no interest in.
+update public.profiles set role = 'organiser', full_name = 'Olive Organiser',
+       client_org_id = '0c0a0000-0000-4000-8000-000000000001'
  where id = '11b90000-0000-0000-0000-000000000001';
 update public.profiles set role = 'coordinator', full_name = 'Cora Coordinator'
  where id = '11b90000-0000-0000-0000-000000000002';
