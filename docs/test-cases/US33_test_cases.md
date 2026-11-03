@@ -92,11 +92,13 @@ Places that send notices today (the re-estimation input):
 
 ## Manual test cases (shared Supabase, after 0077 is applied)
 
-| ID | Steps | Expected |
-|---|---|---|
-| M1 | Sign in as a Coordinator and open Notifications, then Notification settings. | Six types, every switch on. |
-| M2 | Turn email off for "Change requests to review", reload. | It stays off; the others are unchanged. |
-| M3 | Sign in as an Attendee. | Only "Your registrations" and "Waiting list updates". |
+| ID | Steps | Expected | Result |
+|---|---|---|---|
+| M1 | Sign in as a Coordinator and open Notifications, then Notification settings. | Eight types, every switch on. | Not run |
+| M2 | Turn email off for "Change requests to review", reload. | It stays off; the others are unchanged. | Not run |
+| M3 | Sign in as an Attendee. | Only "Your registrations", "Waiting list updates" and "Cancelled, postponed or rescheduled events". | Not run |
+
+Record each result as Pass or Fail, with the date and who ran it (e.g. "Pass, 4 Nov 2026, Jeremiah"). The checks are listed in running order in `docs/manual-test-run-sheet.md`. M1 and M3 updated for the notification types added since (US44's Safety review decisions; US21's Cancelled, postponed or rescheduled events).
 
 ## Coverage and forced break
 

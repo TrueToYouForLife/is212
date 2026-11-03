@@ -44,11 +44,13 @@ within each test file. Next free IDs: AC-026.1.7, AC-026.2.3, AC-026.3.2.
 
 ## Manual test cases (shared Supabase, after 0117 is applied)
 
-| ID | Steps | Expected |
-|---|---|---|
-| M1 | As a Coordinator, open an event in Planning whose venue booking is still pending; press Confirm event. | "This event is not ready to be confirmed…"; still Planning. |
-| M2 | Once Venue Staff approve the booking and the programme is written, press Confirm event again. | The event is Confirmed; the Organiser sees "Your event has been confirmed and is ready to proceed." |
-| M3 | As another Coordinator, try to hold the same venue at the same time for a different event. | Refused; the time is taken. |
+| ID | Steps | Expected | Result |
+|---|---|---|---|
+| M1 | As a Coordinator, open an event in Planning whose venue booking is still pending. | No Confirm event button; the Readiness card shows the venue booking as Outstanding and offers no "Send for safety review", so the event cannot move towards confirmation. | Not run |
+| M2 | Once Venue Staff approve the booking and the programme is written, send the event for safety review (Readiness card), sign in as the Safety Officer and approve it, then as the Coordinator press Confirm event on the event, now In Preparation. | The event is Confirmed; the Organiser sees "Your event has been confirmed and is ready to proceed." | Not run |
+| M3 | As another Coordinator, try to hold the same venue at the same time for a different event. | Refused; the time is taken. | Not run |
+
+Record each result as Pass or Fail, with the date and who ran it (e.g. "Pass, 4 Nov 2026, Jeremiah"). The checks are listed in running order in `docs/manual-test-run-sheet.md`. US26 M1 and M2 updated for the safety review, which is on since 0123: confirming happens from In Preparation, after the Safety Officer approves.
 
 ## Coverage and forced break
 
