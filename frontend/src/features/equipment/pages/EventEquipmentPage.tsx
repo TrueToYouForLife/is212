@@ -20,7 +20,7 @@ export function EventEquipmentPage() {
     </nav>
     <h1 className="mb-6 text-2xl font-bold tracking-tight text-slate-900">Equipment requirements</h1>
     {/* US14 outcomes for the coordinator; RLS returns only their own notices. */}
-    {profile?.role === 'coordinator' && <EquipmentOutcomeNotices key={`${id}:${profile.id}`} eventId={id} />}
+    {profile?.role === 'coordinator' && <EquipmentOutcomeNotices key={`notices:${id}:${profile.id}`} eventId={id} />}
     {loading ? <p className="text-sm text-slate-500">Loading…</p>
       : !profile ? <p className="text-sm text-slate-600">Sign in to view equipment requirements.</p>
         : <EquipmentRequirementsEditor key={`${id}:${profile.id}`} eventId={id}
