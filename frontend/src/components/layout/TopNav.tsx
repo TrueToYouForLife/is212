@@ -2,7 +2,6 @@ import { NavLink } from 'react-router-dom'
 import { SessionBadge } from '../../features/auth/components/SessionBadge'
 import type { AppSession, UserProfile, UserRole } from '../../features/auth/types'
 import { BrandMark } from './BrandMark'
-import { FEATURES } from '../../lib/features'
 import { useUnreadNotificationCount } from '../../features/notifications/useUnreadNotificationCount'
 
 interface TopNavProps {
@@ -59,8 +58,8 @@ function navItemsFor(role: UserRole | null): NavItem[] {
         { label: 'Equipment returns', to: '/equipment/returns' },
       ]
     case 'safety_officer':
-      // US43: the review queue appears once the safety review is switched on.
-      return FEATURES.safetyReview ? [home, { label: 'Safety reviews', to: '/safety-reviews' }] : [home]
+      // US43: the Safety Officer's review queue.
+      return [home, { label: 'Safety reviews', to: '/safety-reviews' }]
     case 'attendee':
       return [
         home,

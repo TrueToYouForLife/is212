@@ -261,17 +261,19 @@ feature flag. 0070 is replayed by the database runner before these tests.
 
 ## Manual test cases (shared Supabase, after 0064, 0067 and 0070 are applied)
 
-| ID | Steps | Expected |
-|---|---|---|
-| M1 | Sign in as Venue Staff and open **Add venue**. Add a venue with two layouts. | "Venue added"; the venue appears on **Availability** and in venue search with its larger layout. |
-| M2 | Try a capacity of 0, then a name another venue uses. | Each is refused with its reason; nothing is saved. |
-| M3 | Sign in as an Operations Manager and open `/venues/new`. | Told adding venues is for Venue Staff. |
-| M4 | As Venue Staff, open **Manage venues**, edit a venue that has a confirmed booking, and lower its booked layout's capacity below that event's attendance. | "Venue updated" says 1 booking was sent for review; the booking is still confirmed. |
-| M5 | Sign in as that event's Coordinator and open the event. | The arrangement review panel shows the capacity reason; resolving it works as for any other review. |
-| M6 | Open the same venue in two tabs, save in one, then save in the other. | The second save is refused as changed by someone else; "Reload the venue" shows the first save. |
-| M7 | As Venue Staff, open a venue with a confirmed booking, enter a reason, click **Retire venue…**, then **Confirm retirement**. | "Venue retired"; the venue no longer appears in venue search or availability; the booking is still confirmed. |
-| M8 | Sign in as that event's Coordinator and open the event. | The arrangement review panel shows the retirement with its reason. |
-| M9 | As a Coordinator, open the retired venue's timetable from an old link and try to hold a slot. | The hold is refused. |
+| ID | Steps | Expected | Result |
+|---|---|---|---|
+| M1 | Sign in as Venue Staff and open **Add venue**. Add a venue with two layouts. | "Venue added"; the venue appears on **Availability** and in venue search with its larger layout. | Not run |
+| M2 | Try a capacity of 0, then a name another venue uses. | Each is refused with its reason; nothing is saved. | Not run |
+| M3 | Sign in as an Operations Manager and open `/venues/new`. | Told adding venues is for Venue Staff. | Not run |
+| M4 | As Venue Staff, open **Manage venues**, edit a venue that has a confirmed booking, and lower its booked layout's capacity below that event's attendance. | "Venue updated" says 1 booking was sent for review; the booking is still confirmed. | Not run |
+| M5 | Sign in as that event's Coordinator and open the event. | The arrangement review panel shows the capacity reason; resolving it works as for any other review. | Not run |
+| M6 | Open the same venue in two tabs, save in one, then save in the other. | The second save is refused as changed by someone else; "Reload the venue" shows the first save. | Not run |
+| M7 | As Venue Staff, open a venue with a confirmed booking, enter a reason, click **Retire venue…**, then **Confirm retirement**. | "Venue retired"; the venue no longer appears in venue search or availability; the booking is still confirmed. | Not run |
+| M8 | Sign in as that event's Coordinator and open the event. | The arrangement review panel shows the retirement with its reason. | Not run |
+| M9 | As a Coordinator, open the retired venue's timetable from an old link and try to hold a slot. | The hold is refused. | Not run |
+
+Record each result as Pass or Fail, with the date and who ran it (e.g. "Pass, 4 Nov 2026, Jeremiah"). The checks are listed in running order in `docs/manual-test-run-sheet.md`.
 
 ## Coverage and forced break
 

@@ -76,11 +76,13 @@ and gains two section anchors (`#event-decision`, `#planning-details`) for its l
 
 ## Manual test cases (shared Supabase, after 0076 is applied)
 
-| ID | Steps | Expected |
-|---|---|---|
-| M1 | As a Coordinator, open an event assigned to you that has a held venue and an essential equipment item. | Readiness shows Venue booking and Equipment reservation as Outstanding, with links. |
-| M2 | As Venue Staff, approve the booking; back as the Coordinator, wait up to 30 seconds. | Venue booking turns Complete without reloading. |
-| M3 | Open the same event as another Coordinator. | No readiness card. |
+| ID | Steps | Expected | Result |
+|---|---|---|---|
+| M1 | As a Coordinator, open an event assigned to you that has a held venue and an essential equipment item. | Readiness shows Venue booking and Equipment reservation as Outstanding, with links. | Not run |
+| M2 | As Venue Staff, approve the booking; back as the Coordinator, wait up to 30 seconds. | Venue booking turns Complete without reloading. | Not run |
+| M3 | Open the same event as another Coordinator. | No readiness card. | Not run |
+
+Record each result as Pass or Fail, with the date and who ran it (e.g. "Pass, 4 Nov 2026, Jeremiah"). The checks are listed in running order in `docs/manual-test-run-sheet.md`.
 
 ## Coverage and forced break
 

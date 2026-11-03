@@ -8,7 +8,7 @@ Week 7 change 6, built in slices.
 | 2. The Safety Officer's review queue (0109) | AC-043.4 | implemented; automated cases pass; menu link shown once switched on |
 
 Test IDs follow `CLAUDE.md`: `AC-043.Y.Z`, Z unique across the story and increasing top to bottom
-within each test file. Next free IDs: AC-043.1.20, AC-043.2.8, AC-043.3.8, AC-043.4.17.
+within each test file. Next free IDs: AC-043.1.21, AC-043.2.8, AC-043.3.8, AC-043.4.17.
 
 ## Acceptance criteria
 
@@ -58,6 +58,12 @@ safety review is switched on only when all of these are deployed and checked:
 Then, together: `update public.safety_review_settings set enabled = true, updated_at = now();` on
 Supabase, and `VITE_FEATURE_SAFETY_REVIEW=true` for the frontend. Switching back off is the same
 update with `false`.
+
+**Done (0123):** all four are deployed. 0123 switches the safety review on everywhere, fresh installs
+included, and `VITE_FEATURE_SAFETY_REVIEW` was removed, so the screens are always on.
+`safety_review_settings` stays as the single switch. Both test runners apply 0123 last, after
+every earlier suite (written for the switch's old default; those needing it on switch it on
+themselves), and AC-043.1.20 checks every migration leaves it on.
 
 ## The lifecycle
 
@@ -120,6 +126,7 @@ review or in preparation, replacement and a return to review belong to US45.
 | AC-043.3.5 | a submitted or under-review request can still be withdrawn (US22) | integration (SQL) | boundary | safety_review.sql |
 | AC-043.1.17 | while switched off, Planning is confirmed as before, nothing can be sent and readiness shows no safety line | integration (SQL) | normal | safety_review.sql |
 | AC-043.1.18 | after 0107, readiness is still the shared rule: approved and rejected is outstanding on the card and not ready for review | integration (SQL) | conflict | safety_review_readiness.sql |
+| AC-043.1.20 | after every migration the safety review is switched on, so events are confirmed only after their safety review | integration (SQL) | normal | safety_review_switched_on.sql |
 | AC-043.1.9 | the rules mirror 0108: Planning leads only to review; Confirmed only follows In Preparation | unit | normal | safetyReviewStatuses.test.tsx |
 | AC-043.1.10 | no status button sends an event for review; that is done from the readiness card | unit | conflict | safetyReviewStatuses.test.tsx |
 | AC-043.2.5 | every safety stage has a label and a badge | component | normal | safetyReviewStatuses.test.tsx |
@@ -132,7 +139,7 @@ review or in preparation, replacement and a return to review belong to US45.
 | AC-043.1.13 | until ready the card says so instead; outside Planning it offers nothing | component | boundary | safetyReviewSend.test.tsx |
 | AC-043.1.14 | a refused send says why, the page is not refreshed, and the button works again | component | failure | safetyReviewSend.test.tsx |
 | AC-043.1.16 | sending calls the database once for the event, and each refusal says why (including "not switched on yet") | unit (service) | failure | safetyReviewService.test.ts |
-| AC-043.1.19 | while switched off, Planning still offers Confirm with today's hint and the readiness card offers no safety review | component | normal | safetyReviewSwitchedOff.test.tsx |
+| AC-043.1.19 | **Retired** (the flag was removed in 0123's PR; the safety review is always on): while switched off, Planning still offers Confirm with today's hint and the readiness card offers no safety review | component | normal | safetyReviewSwitchedOff.test.tsx |
 
 US43's own tests switch the safety review on (database: inside their rolled-back transaction;
 frontend: by mocking the flag). Existing tests run with it off, so they keep testing today's
@@ -166,7 +173,7 @@ changed. US5's AC-005.2.1 now expects 0107's rule (a rejection stays outstanding
 | AC-043.4.13 | with nothing waiting it says so; a failed load shows why; an event without a reference uses its name | component | failure | SafetyReviewQueuePage.test.tsx |
 | AC-043.4.14 | an answer arriving after the Safety Officer left the page is ignored | component | boundary | SafetyReviewQueuePage.test.tsx |
 | AC-043.4.15 | a Safety Officer is offered Safety reviews in the menu; a Coordinator is not | component | normal | SafetyReviewQueuePage.test.tsx |
-| AC-043.4.16 | while switched off, a Safety Officer is not offered Safety reviews | component | normal | SafetyReviewNavSwitchedOff.test.tsx |
+| AC-043.4.16 | **Retired** (the flag was removed in 0123's PR; the link is always offered): while switched off, a Safety Officer is not offered Safety reviews | component | normal | SafetyReviewNavSwitchedOff.test.tsx |
 
 Forced break (slice 2): `get_safety_review_queue()` made to list the newest first; AC-043.4.1
 failed. Log: `docs/test-evidence/us43/AC-043.4.1-forced-break.log`. `SafetyReviewQueuePage.tsx` and
@@ -174,14 +181,16 @@ failed. Log: `docs/test-evidence/us43/AC-043.4.1-forced-break.log`. `SafetyRevie
 
 ## Manual test cases (shared Supabase, after 0108 is applied)
 
-| ID | Steps | Expected |
-|---|---|---|
-| M0 | With the switch off, open an event in Planning as its Coordinator. | Confirm is offered as before; no Safety review line or button. |
-| M1 | Switch the safety review on (checklist above). Give a test account the role `safety_officer`. As a Coordinator, open an event in Planning with an approved venue and reserved essential equipment but no programme. | Readiness shows Programme outstanding; "Send for safety review" is not offered. |
-| M2 | Add the programme; open the event again. | "Send for safety review" appears; pressing it moves the event to "Awaiting safety review". |
-| M3 | Sign in as the Safety Officer and open Notifications. | "Safety review needed: …" is listed. |
-| M4 | As the Coordinator, open the event. | Only "Cancel event" is offered; Readiness shows "With the Safety Officer for review." |
-| M5 | After 0109: as the Safety Officer, open Safety reviews. | The event is listed with its attendance, venues and capacity, accessibility, equipment and restrictions; the oldest sent is first. |
+| ID | Steps | Expected | Result |
+|---|---|---|---|
+| M0 | With the switch off, open an event in Planning as its Coordinator. | Confirm is offered as before; no Safety review line or button. | Retired: the safety review is switched on (0123), so there is no switched-off state to check. |
+| M1 | Sign in as a Coordinator and open an event in Planning with an approved venue and reserved essential equipment but no programme. | Readiness shows Programme outstanding; "Send for safety review" is not offered. | Not run |
+| M2 | Add the programme; open the event again. | "Send for safety review" appears; pressing it moves the event to "Awaiting safety review". | Not run |
+| M3 | Sign in as the Safety Officer and open Notifications. | "Safety review needed: …" is listed. | Not run |
+| M4 | As the Coordinator, open the event. | Only "Cancel event" is offered; Readiness shows "With the Safety Officer for review." | Not run |
+| M5 | After 0109: as the Safety Officer, open Safety reviews. | The event is listed with its attendance, venues and capacity, accessibility, equipment and restrictions; the oldest sent is first. | Not run |
+
+Record each result as Pass or Fail, with the date and who ran it (e.g. "Pass, 4 Nov 2026, Jeremiah"). The checks are listed in running order in `docs/manual-test-run-sheet.md`. M0 retired and M1's setup simplified now that 0123 switches the safety review on and README lists the Safety Officer test login.
 
 ## Coverage and forced break
 
@@ -196,3 +205,7 @@ tested with the flag on and off.
 Forced break: in `0108_us43_safety_review.sql`, `event_ready_for_safety_review()` was made to ignore
 the programme (`'programme'` added to the lines it skips). AC-043.1.1 failed; the file was then
 restored. Log: `docs/test-evidence/us43/AC-043.1.1-forced-break.log`.
+
+Forced break (0123): `0123_switch_on_safety_review.sql` was changed to leave the switch off
+(`set enabled = false`). AC-043.1.20 failed; the file was then restored. Log:
+`docs/test-evidence/us43/AC-043.1.20-forced-break.log`.

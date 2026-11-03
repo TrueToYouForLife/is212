@@ -4,10 +4,6 @@ import { ReviewActions } from '../components/ReviewActions'
 import { readinessLink } from '../readiness/readinessLinks'
 import { canActorTransition, reviewActionsFor } from '../statusRules'
 
-// US45 tests run with the safety review switched on.
-vi.mock('../../../lib/features', async (importOriginal) => ({
-  FEATURES: { ...(await importOriginal<typeof import('../../../lib/features')>()).FEATURES, safetyReview: true },
-}))
 const mocks = vi.hoisted(() => ({ transition: vi.fn() }))
 vi.mock('../eventReviewService', async (importOriginal) => ({
   ...(await importOriginal<typeof import('../eventReviewService')>()),
