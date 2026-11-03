@@ -108,11 +108,13 @@ the mocked Supabase client). Scenarios: normal, boundary, conflict, failure.
 
 ## Manual test cases (shared Supabase project)
 
-| ID | Steps | Expected |
-|---|---|---|
-| M1 | Sign in as Venue Staff. Open **Availability**. | Every active venue is listed for the week starting today, AM/PM/Night for each day. |
-| M2 | With a confirmed booking and a tentative hold in the shown week, view as Venue Staff and as a Coordinator. | Confirmed cells read "Booked", held cells "Held", their setup/turnaround cells striped. Note whether Venue Staff see the event reference (see Known limitations). |
-| M3 | Block a venue for one slot (US12), then reload Availability. | That cell reads "Blocked" with the reason. |
+| ID | Steps | Expected | Result |
+|---|---|---|---|
+| M1 | Sign in as Venue Staff. Open **Availability**. | Every active venue is listed for the week starting today, AM/PM/Night for each day. | Not run |
+| M2 | With a confirmed booking and a tentative hold in the shown week, view as Venue Staff and as a Coordinator. | Confirmed cells read "Booked", held cells "Held", their setup/turnaround cells striped. Note whether Venue Staff see the event reference (see Known limitations). | Not run |
+| M3 | Block a venue for one slot (US12), then reload Availability. | That cell reads "Blocked" with the reason. | Not run |
+
+Record each result as Pass or Fail, with the date and who ran it (e.g. "Pass, 4 Nov 2026, Jeremiah"). The checks are listed in running order in `docs/manual-test-run-sheet.md`.
 
 ## Coverage
 

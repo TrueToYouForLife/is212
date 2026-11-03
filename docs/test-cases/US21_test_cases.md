@@ -76,13 +76,15 @@ Preparation or Confirmed. US21 adds rescheduling and the attendee notices.
 
 ## Manual test cases (shared Supabase, after 0120 is applied)
 
-| ID | Steps | Expected |
-|---|---|---|
-| M1 | As a Coordinator, cancel a confirmed event that has a confirmed venue booking, reserved equipment and registered attendees. | The confirmation says what will happen; the event is Cancelled. |
-| M2 | Open the venue's availability for that time. | Free again. |
-| M3 | As Venue Staff, and as a registered attendee, open Notifications. | "Venue booking cancelled: …" and "Event cancelled: …" respectively. |
-| M4 | As a Coordinator, open a confirmed event with registered attendees and use Reschedule with a later date. | The event is Planning with the new date; its bookings show "Needs review"; attendees get "Event rescheduled: …" with the new and old times. |
-| M5 | Postpone a planned event with registered attendees. | Attendees get "Event postponed: …"; its bookings are unchanged. |
+| ID | Steps | Expected | Result |
+|---|---|---|---|
+| M1 | As a Coordinator, cancel a confirmed event that has a confirmed venue booking, reserved equipment and registered attendees. | The confirmation says what will happen; the event is Cancelled. | Not run |
+| M2 | Open the venue's availability for that time. | Free again. | Not run |
+| M3 | As Venue Staff, and as a registered attendee, open Notifications. | "Venue booking cancelled: …" and "Event cancelled: …" respectively. | Not run |
+| M4 | As a Coordinator, open a confirmed event with registered attendees and use Reschedule with a later date. | The event is Planning with the new date; its bookings show "Needs review"; attendees get "Event rescheduled: …" with the new and old times. | Not run |
+| M5 | Postpone a planned event with registered attendees. | Attendees get "Event postponed: …"; its bookings are unchanged. | Not run |
+
+Record each result as Pass or Fail, with the date and who ran it (e.g. "Pass, 4 Nov 2026, Jeremiah"). The checks are listed in running order in `docs/manual-test-run-sheet.md`.
 
 ## Coverage and forced break
 

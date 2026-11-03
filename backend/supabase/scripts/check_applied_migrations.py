@@ -119,6 +119,16 @@ def constraints(sql):
     return out
 
 
+# Data-only migrations: (check, how it was checked).
+DATA_ONLY_CHECKS = {
+    '0123_switch_on_safety_review': (
+        "case when to_regclass('public.safety_review_settings') is null then false else "
+        "query_to_xml('select enabled from public.safety_review_settings', false, true, '')::text "
+        "like '%<enabled>true</enabled>%' end",
+        'safety_review_settings.enabled is on'),
+}
+
+
 def main():
     paths = sorted(glob.glob(os.path.join(MIGRATIONS, '*.sql')))
     if not paths:
@@ -232,6 +242,11 @@ def main():
             check = f"({check} or {final[superseder][0]})"
             how = f"{how}, or superseded by {entries[superseder]['name'][:4]}"
         final[i] = (check, how)
+    # Migrations that only change data create nothing to look for, so they are checked by hand-written
+    # rules. Each rule must be safe on a project that lacks the objects (it then reads false).
+    for i, e in enumerate(entries):
+        if e['name'] in DATA_ONLY_CHECKS:
+            final[i] = DATA_ONLY_CHECKS[e['name']]
     rows = [(e['name'], final[i][0] or 'null', final[i][1] or 'cannot tell: check by hand') for i, e in enumerate(entries)]
     print('-- Which migrations are applied on this Supabase project? Read-only; changes nothing.')
     print(f'-- Built from {len(rows)} migration files by check_applied_migrations.py.')

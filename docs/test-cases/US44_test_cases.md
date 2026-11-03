@@ -76,12 +76,14 @@ notification types.
 
 ## Manual test cases (shared Supabase, once the safety review is switched on)
 
-| ID | Steps | Expected |
-|---|---|---|
-| M1 | As the Safety Officer, open Safety reviews, press Review on an event, choose Approve without answering the factors. | The form lists every factor still to answer; nothing is saved. |
-| M2 | Answer every factor (one concern, with a note), choose Request changes, add a comment, tick Venue, record. | The event leaves the queue with "changes requested"; it is now Safety Changes Requested. |
-| M3 | As its Coordinator, open the event and Notifications. | The Safety review panel shows the decision, comment, "Revisit: venue" and the concern; a "Safety review changes requested" notice is listed. |
-| M4 | As the Coordinator, try to confirm the event. | Not offered; only cancelling is. |
+| ID | Steps | Expected | Result |
+|---|---|---|---|
+| M1 | As the Safety Officer, open Safety reviews, press Review on an event, choose Approve without answering the factors. | The form lists every factor still to answer; nothing is saved. | Not run |
+| M2 | Answer every factor (one concern, with a note), choose Request changes, add a comment, tick Venue, record. | The event leaves the queue with "changes requested"; it is now Safety Changes Requested. | Not run |
+| M3 | As its Coordinator, open the event and Notifications. | The Safety review panel shows the decision, comment, "Revisit: venue" and the concern; a "Safety review changes requested" notice is listed. | Not run |
+| M4 | As the Coordinator, try to confirm the event. | Not offered; only cancelling is. | Not run |
+
+Record each result as Pass or Fail, with the date and who ran it (e.g. "Pass, 4 Nov 2026, Jeremiah"). The checks are listed in running order in `docs/manual-test-run-sheet.md`.
 
 ## Coverage and forced break
 

@@ -181,14 +181,16 @@ failed. Log: `docs/test-evidence/us43/AC-043.4.1-forced-break.log`. `SafetyRevie
 
 ## Manual test cases (shared Supabase, after 0108 is applied)
 
-| ID | Steps | Expected |
-|---|---|---|
-| M0 | With the switch off, open an event in Planning as its Coordinator. | Confirm is offered as before; no Safety review line or button. |
-| M1 | Switch the safety review on (checklist above). Give a test account the role `safety_officer`. As a Coordinator, open an event in Planning with an approved venue and reserved essential equipment but no programme. | Readiness shows Programme outstanding; "Send for safety review" is not offered. |
-| M2 | Add the programme; open the event again. | "Send for safety review" appears; pressing it moves the event to "Awaiting safety review". |
-| M3 | Sign in as the Safety Officer and open Notifications. | "Safety review needed: …" is listed. |
-| M4 | As the Coordinator, open the event. | Only "Cancel event" is offered; Readiness shows "With the Safety Officer for review." |
-| M5 | After 0109: as the Safety Officer, open Safety reviews. | The event is listed with its attendance, venues and capacity, accessibility, equipment and restrictions; the oldest sent is first. |
+| ID | Steps | Expected | Result |
+|---|---|---|---|
+| M0 | With the switch off, open an event in Planning as its Coordinator. | Confirm is offered as before; no Safety review line or button. | Retired: the safety review is switched on (0123), so there is no switched-off state to check. |
+| M1 | Sign in as a Coordinator and open an event in Planning with an approved venue and reserved essential equipment but no programme. | Readiness shows Programme outstanding; "Send for safety review" is not offered. | Not run |
+| M2 | Add the programme; open the event again. | "Send for safety review" appears; pressing it moves the event to "Awaiting safety review". | Not run |
+| M3 | Sign in as the Safety Officer and open Notifications. | "Safety review needed: …" is listed. | Not run |
+| M4 | As the Coordinator, open the event. | Only "Cancel event" is offered; Readiness shows "With the Safety Officer for review." | Not run |
+| M5 | After 0109: as the Safety Officer, open Safety reviews. | The event is listed with its attendance, venues and capacity, accessibility, equipment and restrictions; the oldest sent is first. | Not run |
+
+Record each result as Pass or Fail, with the date and who ran it (e.g. "Pass, 4 Nov 2026, Jeremiah"). The checks are listed in running order in `docs/manual-test-run-sheet.md`. M0 retired and M1's setup simplified now that 0123 switches the safety review on and README lists the Safety Officer test login.
 
 ## Coverage and forced break
 

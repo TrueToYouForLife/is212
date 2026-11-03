@@ -168,14 +168,16 @@ without the feature flag.
 
 ## Manual test cases (shared Supabase, after 0072 and 0073 are applied)
 
-| ID | Steps | Expected |
-|---|---|---|
-| M1 | Sign in as an Organiser whose event request was approved and open **Notifications**. | The approval appears, naming the event, with the time it was sent. |
-| M2 | Sign in as a Coordinator who was assigned an event and whose venue booking was decided. | Both appear, newest first; the assignment appears once. |
-| M3 | Sign in as another Coordinator. | None of the first Coordinator's notices appear. |
-| M4 | As the Coordinator from M2, check the nav, then open the venue booking decision. | The nav shows the unread count; opening the decision goes to the event and the count drops by one. |
-| M5 | Click **Mark all as read**. | Every notice shows as read and the nav count disappears. |
-| M6 | As Venue Staff, open a new booking request from Notifications, then visit Booking requests. | It opens the booking's review page, and shows as read on both pages. |
+| ID | Steps | Expected | Result |
+|---|---|---|---|
+| M1 | Sign in as an Organiser whose event request was approved and open **Notifications**. | The approval appears, naming the event, with the time it was sent. | Not run |
+| M2 | Sign in as a Coordinator who was assigned an event and whose venue booking was decided. | Both appear, newest first; the assignment appears once. | Not run |
+| M3 | Sign in as another Coordinator. | None of the first Coordinator's notices appear. | Not run |
+| M4 | As the Coordinator from M2, check the nav, then open the venue booking decision. | The nav shows the unread count; opening the decision goes to the event and the count drops by one. | Not run |
+| M5 | Click **Mark all as read**. | Every notice shows as read and the nav count disappears. | Not run |
+| M6 | As Venue Staff, open a new booking request from Notifications, then visit Booking requests. | It opens the booking's review page, and shows as read on both pages. | Not run |
+
+Record each result as Pass or Fail, with the date and who ran it (e.g. "Pass, 4 Nov 2026, Jeremiah"). The checks are listed in running order in `docs/manual-test-run-sheet.md`.
 
 ## Coverage and forced break
 
