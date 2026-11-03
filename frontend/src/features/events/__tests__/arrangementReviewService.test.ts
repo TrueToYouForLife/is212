@@ -17,6 +17,7 @@ test('AC-041.1.5: reads open and resolved flags for the selected event and prese
     resolved_at: '2026-10-13T02:00:00Z', resolved_by: eventId, resolver: { full_name: 'Jaydon' } }
   const q = query([flag, history])
   expect(await listArrangementReviews(eventId)).toEqual({ ok: true, value: [flag, history] })
+  expect(q.select.mock.calls[0][0]).toContain('venue_booking:venue_bookings!arrangement_review_flags_venue_booking_id_fkey(venue:venues(name))')
   expect(q.select.mock.calls[0][0]).toContain('resolved_by')
   expect(q.select.mock.calls[0][0]).toContain('resolver:profiles!arrangement_review_flags_resolved_by_fkey(full_name)')
   expect(mocks.from).toHaveBeenCalledWith('arrangement_review_flags')

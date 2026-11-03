@@ -6,6 +6,11 @@ notes remain in `docs/`, and execution/failure evidence stays in `docs/test-evid
 
 ## Current source traceability
 
+US41 update, 3 November 2026: three new real HTTP integration IDs after the upstream
+feature-flag cleanup removed three IDs (two US12, one US19). Global total remains
+2,892; current US41 count is 25. [API fix evidence](../test-evidence/us41/loading-fix/README.md).
+
+
 US7 update, 3 November 2026: eleven allocated reply-validation IDs restored;
 [results](../test-evidence/us7/reply-validation/README.md). Earlier baseline above is historical.
 
@@ -16,7 +21,7 @@ case counts, coverage percentages or completeness against a newer Jira backlog.
 Parameterized tests and grouped SQL assertions can execute several checks for one ID.
 
 The source scan includes `.test.ts`, `.test.tsx`, `.spec.ts`, `.spec.tsx` and database
-`.sql`/`.sh` test sources. It excludes evidence logs, migrations, README ID-allocation
+`.sql`/`.sh`/`.mjs` test sources. It excludes evidence logs, migrations, README ID-allocation
 notes and application comments from the test inventory. Multiple references to the
 same ID count once; linked source locations preserve cross-story coverage.
 
@@ -33,14 +38,14 @@ same ID count once; linked source locations preserve cross-story coverage.
 | US9 | 93 | [US9 test cases](US9_test_cases.md) | All source IDs listed |
 | US10 | 191 | [US10 test cases](US10_test_cases.md) | All source IDs listed |
 | US11 | 15 | [US11 test cases](US11_test_cases.md) | All source IDs listed |
-| US12 | 143 | [US12 test cases](US12_test_cases.md) | All source IDs listed |
+| US12 | 141 | [US12 test cases](US12_test_cases.md) | All source IDs listed |
 | US13 | 113 | [US13 test cases](US13_test_cases.md) | All source IDs listed |
 | US14 | 104 | [US14 test cases](US14_test_cases.md) | All source IDs listed |
 | US15 | 74 | [US15 test cases](US15_test_cases.md) | All source IDs listed |
 | US16 | 123 | [US16 test cases](US16_test_cases.md) | All source IDs listed |
 | US17 | 53 | [US17 test cases](US17_test_cases.md) | All source IDs listed |
 | US18 | 93 | [US18 test cases](US18_test_cases.md) | All source IDs listed |
-| US19 | 41 | [US19 test cases](US19_test_cases.md) | All source IDs listed |
+| US19 | 40 | [US19 test cases](US19_test_cases.md) | All source IDs listed |
 | US20 | 79 | [US20 test cases](US20_test_cases.md) | All source IDs listed |
 | US21 | 19 | [US21 test cases](US21_test_cases.md) | All source IDs listed |
 | US22 | 34 | [US22 test cases](US22_test_cases.md) | All source IDs listed |
@@ -56,7 +61,7 @@ same ID count once; linked source locations preserve cross-story coverage.
 | US36 | 5 | [US36 test cases](US36_test_cases.md) | All source IDs listed |
 | US37 | 111 | [US37 test cases](US37_test_cases.md) | All source IDs listed |
 | US38 | 57 | [US38 test cases](US38_test_cases.md) | All source IDs listed |
-| US41 | 22 | [US41 test cases](US41_test_cases.md) | All source IDs listed; runtime limits below |
+| US41 | 25 | [US41 test cases](US41_test_cases.md) | All source IDs listed; runtime limits below |
 | US42 | 19 | [US42 test cases](US42_test_cases.md) | All source IDs listed |
 | US43 | 48 | [US43 test cases](US43_test_cases.md) | All source IDs listed |
 | US44 | 25 | [US44 test cases](US44_test_cases.md) | All source IDs listed |

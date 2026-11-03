@@ -1,0 +1,136 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/events/__tests__/arrangementReviewService.test.ts src/features/events/__tests__/ArrangementReviewPanel.test.tsx src/features/events/__tests__/ArrangementResolution.test.tsx src/features/events/__tests__/ArrangementReviewIndicators.test.tsx src/features/events/__tests__/ChangeRequestReviewPage.test.tsx
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+ ✓ src/features/events/__tests__/arrangementReviewService.test.ts (4 tests) 10ms
+ ✓ src/features/events/__tests__/ArrangementReviewPanel.test.tsx (2 tests) 131ms
+ ✓ src/features/events/__tests__/ArrangementReviewIndicators.test.tsx (1 test) 170ms
+stderr | src/features/events/__tests__/ChangeRequestReviewPage.test.tsx > AC-007.2.30: the organiser detail page mounts the read-only list without coordinator controls
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (/Users/jaydon/Desktop/is212/frontend/src/features/events/readiness/readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/ChangeRequestReviewPage.test.tsx > AC-007.2.31: the coordinator detail page connects the event ID and refresh callback to the review panel
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (/Users/jaydon/Desktop/is212/frontend/src/features/events/readiness/readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/ChangeRequestReviewPage.test.tsx > AC-041.1.9: only the assigned coordinator sees arrangement reviews and page refresh reloads them
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (/Users/jaydon/Desktop/is212/frontend/src/features/events/readiness/readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/ChangeRequestReviewPage.test.tsx > AC-041.1.9: only the assigned coordinator sees arrangement reviews and page refresh reloads them
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/ChangeRequestReviewPage.test.tsx > AC-041.1.9: only the assigned coordinator sees arrangement reviews and page refresh reloads them
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (/Users/jaydon/Desktop/is212/frontend/src/features/events/readiness/readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (/Users/jaydon/Desktop/is212/frontend/src/features/events/readiness/readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+ ✓ src/features/events/__tests__/ChangeRequestReviewPage.test.tsx (3 tests) 192ms
+ ✓ src/features/events/__tests__/ArrangementResolution.test.tsx (2 tests) 485ms
+   ✓ AC-041.6.3: resolves individual reasons using both methods, keeps other reasons open and displays retained history 361ms
+
+ Test Files  5 passed (5)
+      Tests  12 passed (12)
+   Start at  22:07:44
+   Duration  2.13s (transform 549ms, setup 481ms, collect 1.69s, tests 988ms, environment 3.07s, prepare 327ms)

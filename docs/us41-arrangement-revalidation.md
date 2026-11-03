@@ -1,5 +1,15 @@
 # US41 — Review arrangements after significant changes
 
+## Loading defect fixed — 3 November 2026
+
+US48's 0099 added a second venue-booking FK to arrangement reviews. The frontend
+embed did not specify the original FK, causing real PostgREST HTTP 300/PGRST201.
+The query now selects the original booking explicitly. No migration or permission
+change. Three real API regression groups, twelve targeted frontend tests, full
+frontend gates and four read-only browser groups passed.
+[Cause, evidence and limits](test-evidence/us41/loading-fix/README.md).
+
+
 ## Behavioural verification restored — 2 November 2026
 
 The ten original SQL case IDs now execute through the new focused
