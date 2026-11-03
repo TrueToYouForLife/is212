@@ -9,6 +9,9 @@ import { BookingTimeSummary } from '../components/BookingTimeSummary'
 import { BookingSpaceFields } from '../components/BookingSpaceFields'
 import { spaceError } from '../bookingSpaceService'
 import { VenueTimetableGrid } from '../components/VenueTimetableGrid'
+import { UnsuitableVenueAlert } from '../components/UnsuitableVenueAlert'
+import { assessVenueForBooking } from '../suitabilityService'
+import type { VenueAssessment } from '../suitabilityTypes'
 import { occupiedVenueCells } from '../venueOccupiedSlots'
 import type { VenueWithBuffers } from '../venueTimetableService'
 import type { ClaimCell, TimeSlot } from '../slots'
@@ -53,6 +56,11 @@ export function VenueTimetablePage() {
   const [heldBookingId, setHeldBookingId] = useState<string | null>(null)
   const [holding, setHolding] = useState(false)
   const [space, setSpace] = useState({ layout: '', attendance: 0 })
+  // AC-011.10: the verdict waiting for the coordinator's answer. Null means either nothing has
+  // been checked yet or the venue was suitable; the alert itself is what holds the decision.
+  const [pendingAssessment, setPendingAssessment] = useState<VenueAssessment | null>(null)
+  const [checking, setChecking] = useState(false)
+  const busy = holding || checking
 
   const isCoordinator = profile?.role === 'coordinator'
   const selectedEvent = events.find((event) => event.id === eventId) ?? null
@@ -119,6 +127,9 @@ export function VenueTimetablePage() {
     setEventId(nextEventId)
     setHoldError(null)
     setHeldBookingId(null)
+    // A verdict belongs to one event and one space; keeping it across a change would let the
+    // coordinator answer an alert about the venue they were looking at a moment ago.
+    setPendingAssessment(null)
     const event = events.find((candidate) => candidate.id === nextEventId)
     if (event?.proposedStart && event.proposedEnd && venue) {
       try {
@@ -130,9 +141,15 @@ export function VenueTimetablePage() {
     }
   }
 
-  const handleHold = async () => {
+  /**
+   * Places the hold. Reached either straight from the button, when the venue is suitable, or
+   * from "Book anyway" on the alert. Kept separate from the check so that answering the alert
+   * does not run the assessment a second time.
+   */
+  const placeHold = async () => {
     setHolding(true)
     setHoldError(null)
+    setPendingAssessment(null)
     const result = await holdVenue(eventId, venueId, undefined, space)
     if (result.ok) {
       setHeldBookingId(result.bookingId)
@@ -141,6 +158,34 @@ export function VenueTimetablePage() {
       setHoldError(result.reason)
     }
     setHolding(false)
+  }
+
+  /**
+   * AC-011.10: the venue's suitability is checked before a hold is placed, and an unsuitable
+   * one is held only on "Book anyway".
+   *
+   * Suitability is advice, not a veto — that is the whole point of offering "Book anyway" — so a
+   * check that cannot run fails open and the hold proceeds. Blocking the booking because an
+   * advisory read failed would deny the coordinator a venue the database would have accepted,
+   * and the same verdict is available on the suitability page. An unavailable venue is the
+   * exception that needs no special case here: UnsuitableVenueAlert withholds "Book anyway" for
+   * that verdict, because the database would refuse the hold anyway.
+   */
+  const handleHold = async () => {
+    setChecking(true)
+    setHoldError(null)
+    try {
+      const assessment = await assessVenueForBooking(eventId, venueId, slots)
+      if (assessment.ok && assessment.value.verdict !== 'suitable') {
+        setPendingAssessment(assessment.value)
+        return
+      }
+    } catch {
+      // Fail open, as above.
+    } finally {
+      setChecking(false)
+    }
+    await placeHold()
   }
 
   const eventIsBookable = canBookForEventStatus(selectedEvent ? 'approved' : null)
@@ -184,7 +229,7 @@ export function VenueTimetablePage() {
                 id="timetable-event"
                 className={selectClassName}
                 value={eventId}
-                disabled={holding}
+                disabled={busy}
                 onChange={(e) => handleEventChange(e.target.value)}
               >
                 <option value="">— No event selected —</option>
@@ -202,7 +247,7 @@ export function VenueTimetablePage() {
                 type="date"
                 className={selectClassName}
                 value={fromDate}
-                disabled={holding}
+                disabled={busy}
                 onChange={(e) => handleDateChange(e.target.value)}
               />
             </Field>
@@ -237,9 +282,25 @@ export function VenueTimetablePage() {
                 </div>
               )}
 
-              <BookingSpaceFields key={`${venueId}-${eventId}`} venueId={venueId} value={space} onChange={setSpace} disabled={holding || Boolean(heldBookingId)} />
+              <BookingSpaceFields
+                key={`${venueId}-${eventId}`}
+                venueId={venueId}
+                value={space}
+                // Layout and attendance are two of the things suitability is judged on, so a
+                // change to either makes an open verdict stale: drop it and check again.
+                onChange={(next) => { setSpace(next); setPendingAssessment(null) }}
+                disabled={busy || Boolean(heldBookingId)}
+              />
 
-              {heldBookingId ? (
+              {pendingAssessment ? (
+                <div className="mt-4">
+                  <UnsuitableVenueAlert
+                    assessment={pendingAssessment}
+                    onProceed={placeHold}
+                    onCancel={() => setPendingAssessment(null)}
+                  />
+                </div>
+              ) : heldBookingId ? (
                 <div role="status" className="mt-4 rounded-lg bg-emerald-50 p-3 text-sm text-emerald-800">
                   Tentative hold placed. It expires in 3 days if it is not submitted.{' '}
                   <Link to="/venues/bookings" className="font-medium underline">
@@ -248,8 +309,8 @@ export function VenueTimetablePage() {
                 </div>
               ) : (
                 <div className="mt-5 flex flex-wrap items-center justify-end gap-3">
-                  <Button type="button" onClick={handleHold} disabled={!canHold || holding}>
-                    {holding ? 'Placing hold…' : 'Place tentative hold'}
+                  <Button type="button" onClick={handleHold} disabled={!canHold || busy}>
+                    {checking ? 'Checking the venue…' : holding ? 'Placing hold…' : 'Place tentative hold'}
                   </Button>
                 </div>
               )}
