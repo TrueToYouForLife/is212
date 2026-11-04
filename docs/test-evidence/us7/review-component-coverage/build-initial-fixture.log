@@ -1,0 +1,11 @@
+
+> connectsphere@0.1.0 build
+> tsc --noEmit && vite build
+
+src/features/events/__tests__/ChangeRequestSummary.test.tsx(10,43): error TS2322: Type 'number' is not assignable to type 'string'.
+src/features/events/__tests__/ChangeRequestSummary.test.tsx(12,46): error TS2322: Type 'null' is not assignable to type 'string'.
+src/features/events/__tests__/ChangeRequestSummary.test.tsx(30,22): error TS2322: Type 'ChangeRequestFieldDecision | { field: "programme"; decision: "approved"; note: null; }' is not assignable to type 'ChangeRequestFieldDecision'.
+  Type '{ field: "programme"; decision: "approved"; note: null; }' is not assignable to type 'ChangeRequestFieldDecision'.
+    Types of property 'note' are incompatible.
+      Type 'null' is not assignable to type 'string'.
+src/features/events/__tests__/ChangeRequestSummary.test.tsx(30,105): error TS2322: Type 'null' is not assignable to type 'string'.
