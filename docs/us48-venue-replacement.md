@@ -271,3 +271,32 @@ Runs stays with GitHub Actions. Future sheet rows are provided directly in chat.
    deployment, product changes or repeat full-suite run is needed for this portion.
 2. Complete the Jira transition according to the team's review process. Jira Done
    and documentation merge are not claimed complete until Jaydon confirms them.
+
+## Replacement coverage follow-up — 4 November 2026
+
+Seven component cases cover session/booking load interruptions, obsolete responses,
+search-option recovery, unspecified requirements, returning to venue selection,
+fresh decision versions and honest optional history. No production source, API,
+SQL, migration, configuration or coverage exclusion changed. Existing US20 cases
+are retained with their original IDs.
+
+| File | Statements / lines / functions | Branches |
+|---|---|---|
+| components/ReplacementVenueSearch.tsx | 100% | 100% |
+| useVenueReplacements.ts | 100% | 100% |
+| pages/VenueReplacementSearchPage.tsx | 100% | 100% |
+| components/VenueReplacementPanel.tsx | 100% | 97.77% |
+| components/ReplacementProposalForm.tsx | 100% | 95% |
+
+Panel line 18 protects against a second pending decision. The fieldset disables
+normal actions during the save; repeated clicks are already tested. Proposal line
+20 protects pending/locked/saved states: the controls are disabled while pending or
+locked, and the form is absent after success. Retain these guards for queued or
+programmatic calls without forcing UI events solely for branch coverage.
+
+The full frontend run passed 1,794 tests / 233 files, plus typecheck/build and lint.
+Two deliberate disposable-copy faults were detected; restored 24 focused tests
+passed. No genuine product defect, new manual pass or live database test is claimed.
+[Cases](test-cases/US48_test_cases.md) and
+[evidence](test-evidence/us48/replacement-coverage/README.md). Shared worklist rows
+26/27/37/38/39 were updated, read back and confirmed saved to Drive; formulas retained.

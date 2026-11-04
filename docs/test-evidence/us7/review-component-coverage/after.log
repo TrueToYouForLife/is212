@@ -1,0 +1,30 @@
+
+> connectsphere@0.1.0 coverage
+> vitest run --coverage src/features/events/__tests__/ChangeRequestReviewForm.test.tsx src/features/events/__tests__/ChangeRequestReviewPanel.test.tsx src/features/events/__tests__/ChangeRequestSummary.test.tsx src/features/events/__tests__/ChangeRequestReplyHistory.test.tsx src/features/events/__tests__/ChangeRequestSignificance.test.tsx src/features/events/__tests__/ChangeRequestList.test.tsx --coverage.include=src/features/events/components/ChangeRequestSummary.tsx --coverage.include=src/features/events/components/ChangeRequestReviewField.tsx --coverage.include=src/features/events/components/ChangeRequestReviewForm.tsx --coverage.include=src/features/events/components/ChangeRequestReviewPanel.tsx --coverage.reportsDirectory=/tmp/is212-us7-component-after
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+      Coverage enabled with v8
+
+ ✓ src/features/events/__tests__/ChangeRequestSignificance.test.tsx (3 tests) 35ms
+ ✓ src/features/events/__tests__/ChangeRequestReplyHistory.test.tsx (2 tests) 95ms
+ ✓ src/features/events/__tests__/ChangeRequestSummary.test.tsx (1 test) 100ms
+ ✓ src/features/events/__tests__/ChangeRequestList.test.tsx (14 tests) 412ms
+ ✓ src/features/events/__tests__/ChangeRequestReviewPanel.test.tsx (14 tests) 569ms
+ ✓ src/features/events/__tests__/ChangeRequestReviewForm.test.tsx (11 tests) 888ms
+
+ Test Files  6 passed (6)
+      Tests  45 passed (45)
+   Start at  15:16:13
+   Duration  2.54s (transform 444ms, setup 585ms, collect 2.05s, tests 2.10s, environment 3.82s, prepare 596ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   98.34 |     95.6 |     100 |   98.34 |
+ ...eviewField.tsx |     100 |     90.9 |     100 |     100 | 17
+ ...ReviewForm.tsx |   96.96 |    93.54 |     100 |   96.96 | 49-50
+ ...eviewPanel.tsx |   97.95 |      100 |     100 |   97.95 | 29
+ ...estSummary.tsx |     100 |    95.65 |     100 |     100 | 25
+-------------------|---------|----------|---------|---------|-------------------

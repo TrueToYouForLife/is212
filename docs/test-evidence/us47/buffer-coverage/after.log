@@ -1,0 +1,26 @@
+
+> connectsphere@0.1.0 coverage
+> vitest run --coverage src/features/venues/__tests__/VenueBufferSettings.test.tsx src/features/venues/__tests__/venueBufferSettingsService.test.ts --coverage.include=src/features/venues/venueBufferSettingsService.ts --coverage.include=src/features/venues/components/VenueBufferSettings.tsx --coverage.reportsDirectory=/tmp/is212-us47-after
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+      Coverage enabled with v8
+
+ ✓ src/features/venues/__tests__/venueBufferSettingsService.test.ts (2 tests) 5ms
+ ✓ src/features/venues/__tests__/VenueBufferSettings.test.tsx (5 tests) 228ms
+
+ Test Files  2 passed (2)
+      Tests  7 passed (7)
+   Start at  20:00:03
+   Duration  1.63s (transform 72ms, setup 132ms, collect 186ms, tests 233ms, environment 816ms, prepare 132ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------|---------|----------|---------|---------|-------------------
+All files          |     100 |    98.27 |     100 |     100 |
+ venues            |     100 |      100 |     100 |     100 |
+  ...ngsService.ts |     100 |      100 |     100 |     100 |
+ venues/components |     100 |    96.96 |     100 |     100 |
+  ...rSettings.tsx |     100 |    96.96 |     100 |     100 | 26
+-------------------|---------|----------|---------|---------|-------------------

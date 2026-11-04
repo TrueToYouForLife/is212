@@ -1,0 +1,567 @@
+
+> connectsphere@0.1.0 coverage
+> vitest run --coverage src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx src/features/equipment/__tests__/EquipmentCatalogue.test.tsx --coverage.include=src/features/equipment/components/EquipmentCatalogueView.tsx --coverage.include=src/features/equipment/components/EquipmentStatusPanel.tsx --coverage.include=src/features/equipment/components/EquipmentStatusHistory.tsx --coverage.reportsDirectory=/tmp/is212-us27-status-after
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+      Coverage enabled with v8
+
+ ✓ src/features/equipment/__tests__/EquipmentCatalogue.test.tsx (6 tests) 356ms
+ ❯ src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx (10 tests | 2 failed) 1278ms
+   ✓ AC-027.2.3: confirmed save closes management, refreshes stock and retains filters; reopening loads fresh history and no-op also closes 354ms
+   × AC-027.2.4: one affected reservation is reported accurately after a confirmed save and refreshed stock is shown 129ms
+     → Found multiple elements with the text: Under Maintenance
+
+Here are the matching elements:
+
+Ignored nodes: comments, script, style
+[36m<option>[39m
+  [0mUnder Maintenance[0m
+[36m</option>[39m
+
+Ignored nodes: comments, script, style
+[36m<td[39m
+  [33mclass[39m=[32m"p-3"[39m
+[36m>[39m
+  [0mUnder Maintenance[0m
+[36m</td>[39m
+
+(If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"mx-auto w-full max-w-6xl px-4 py-10 sm:px-6"[39m
+    [36m>[39m
+      [36m<h1[39m
+        [33mclass[39m=[32m"mb-6 text-2xl font-bold tracking-tight text-slate-900"[39m
+      [36m>[39m
+        [0mEquipment catalogue[0m
+      [36m</h1>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"space-y-6"[39m
+      [36m>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"rounded bg-green-50 p-3 text-green-800"[39m
+          [33mrole[39m=[32m"status"[39m
+        [36m>[39m
+          [0mStatus updated. 1 reservation was flagged for review.[0m
+        [36m</p>[39m
+        [36m<section[39m
+          [33maria-label[39m=[32m"Equipment stock totals"[39m
+        [36m>[39m
+          [36m<h2[39m
+            [33mclass[39m=[32m"text-lg font-semibold"[39m
+          [36m>[39m
+            [0mStock by type[0m
+          [36m</h2>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"text-sm text-slate-600"[39m
+          [36m>[39m
+            [0mTotals cover all locations and statuses, regardless of filters. Usable means Operational; availability for an event also depends on reservations and transfer time.[0m
+          [36m</p>[39m
+          [36m<ul[39m
+            [33mclass[39m=[32m"mt-3 grid gap-3 sm:grid-cols-2"[39m
+          [36m>[39m
+            [36m<li[39m
+              [33mclass[39m=[32m"rounded border p-3"[39m
+            [36m>[39m
+              [36m<h3[39m
+                [33mclass[39m=[32m"font-semibold"[39m
+              [36m>[39m
+                [0mProjector[0m
+              [36m</h3>[39m
+              [36m<p>[39m
+                [0m0[0m
+                [0m usable / [0m
+                [0m1[0m
+                [0m total units[0m
+              [36m</p>[39m
+            [36m</li>[39m
+          [36m</ul>[39m
+        [36m</section>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex flex-wrap items-end gap-4"[39m
+        [36m>[39m
+          [36m<label>[39m
+            [0mEquipment type[0m
+            [36m<select[39m
+              [33mclass[39m=[32m"mt-1 block rounded border border-slate-300 p-2"[39m
+            [36m>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m""[39m
+              [36m>[39m
+                [0mAll types[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"projector"[39m
+              [36m>[39m
+                [0mProjector[0m
+              [36m</option>[39m
+            [36m</select>[39m
+          [36m</label>[39m
+          [36m<label>[39m
+            [0mLocation[0m
+            [36m<select[39m
+              [33mclass[39m=[32m"mt-1 block rounded border border-slate-300 p-2"[39m
+            [36m>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m""[39m
+              [36m>[39m
+                [0mAll locations[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"store"[39m
+              [36m>[39m
+                [0mStore[0m
+                [0m — [0m
+                [0mLevel 1[0m
+              [36m</option>[39m
+            [36m</select>[39m
+          [36m</label>[39m
+          [36m<label>[39m
+            [0mOperational status[0m
+            [36m<select[39m
+              [33mclass[39m=[32m"mt-1 block rounded border border-slate-300 p-2"[39m
+            [36m>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m""[39m
+              [36m>[39m
+                [0mAll statuses[0m
+              [36m</option>[39m
+              [36m<option>[39m
+                [0mOperational[0m
+              [36m</option>[39m
+              [36m<option>[39m
+                [0mDamaged[0m
+              [36m</option>[39m
+              [36m<option>[39m
+                [0mUnder Maintenance[0m
+              [36m</option>[39m
+              [36m<option>[39m
+                [0mUnavailable[0m
+              [36m</option>[39m
+            [36m</select>[39m
+          [36m</label>[39m
+          [36m<button[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mReset filters[0m
+          [36m</button>[39m
+          [36m<button[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mRefresh catalogue[0m
+          [36m</button>[39m
+        [36m</div>[39m
+        [36m<p[39m
+          [33mrole[39m=[32m"status"[39m
+        [36m>[39m
+          [0m1[0m
+          [0m equipment [0m
+          [0munit[0m
+          [0m shown[0m
+        [36m</p>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"overflow-x-auto"[39m
+        [36m>[39m
+          [36m<table[39m
+            [33mclass[39m=[32m"w-full text-left text-sm"[39m
+          [36m>[39m
+            [36m<caption[39m
+              [33mclass[39m=[32m"sr-only"[39m
+            [36m>[39m
+              [0mEquipment units[0m
+            [36m</caption>[39m
+            [36m<thead>[39m
+              [36m<tr>[39m
+                [36m<th[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                  [33mscope[39m=[32m"col"[39m
+                [36m>[39m
+                  [0mAsset tag[0m
+                [36m</th>[39m
+                [36m<th[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                  [33mscope[39m=[32m"col"[39m
+                [36m>[39m
+                  [0mType[0m
+                [36m</th>[39m
+                [36m<th[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                  [33mscope[39m=[32m"col"[39m
+                [36m>[39m
+                  [0mDescription[0m
+                [36m</th>[39m
+                [36m<th[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                  [33mscope[39m=[32m"col"[39m
+                [36m>[39m
+                  [0mLocation[0m
+                [36m</th>[39m
+                [36m<th[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                  [33mscope[39m=[32m"col"[39m
+                [36m>[39m
+                  [0mOperational status[0m
+                [36m</th>[39m
+                [36m<th[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                  [33mscope[39m=[32m"col"[39m
+                [36m>[39m
+                  [0mStatus management[0m
+                [36m</th>[39m
+              [36m</tr>[39m
+            [36m</thead>[39m
+            [36m<tbody>[39m
+              [36m<tr[39m
+                [33mclass[39m=[32m"border-t"[39m
+              [36m>[39m
+                [36m<td[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                [36m>[39m
+                  [0mP-1[0m
+                [36m</td>[39m
+                [36m<td[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                [36m>[39m
+                  [0mProjector[0m
+                [36m</td>[39m
+                [36m<td[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                [36m>[39m
+                  [0mHDMI[0m
+                [36m</td>[39m
+                [36m<td[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                [36m>[39m
+                  [0mStore[0m
+                  [0m — [0m
+                  [0mLevel 1[0m
+                [36m</td>[39m
+                [36m<td[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                [36m>[39m
+                  [0mUnder Maintenance[0m
+                [36m</td>[39m
+                [36m<td[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33maria-label[39m=[32m"Manage status for P-1"[39m
+                    [33mclass[39m=[32m"rounded border border-slate-300 px-3 py-2 disabled:opacity-50"[39m
+                    [33mtype[39m=[32m"button"[39m
+                  [36m>[39m
+                    [0mManage status[0m
+                  [36m</button>[39m
+                [36m</td>[39m
+              [36m</tr>[39m
+            [36m</tbody>[39m
+          [36m</table>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+   × AC-027.1.7: a late response for the previous unit cannot replace the current unit details or its save version 104ms
+     → Invalid Chai property: toHaveBeenCalledExactlyOnceWith
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx > AC-027.2.4: one affected reservation is reported accurately after a confirmed save and refreshed stock is shown
+TestingLibraryElementError: Found multiple elements with the text: Under Maintenance
+
+Here are the matching elements:
+
+Ignored nodes: comments, script, style
+[36m<option>[39m
+  [0mUnder Maintenance[0m
+[36m</option>[39m
+
+Ignored nodes: comments, script, style
+[36m<td[39m
+  [33mclass[39m=[32m"p-3"[39m
+[36m>[39m
+  [0mUnder Maintenance[0m
+[36m</td>[39m
+
+(If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"mx-auto w-full max-w-6xl px-4 py-10 sm:px-6"[39m
+    [36m>[39m
+      [36m<h1[39m
+        [33mclass[39m=[32m"mb-6 text-2xl font-bold tracking-tight text-slate-900"[39m
+      [36m>[39m
+        [0mEquipment catalogue[0m
+      [36m</h1>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"space-y-6"[39m
+      [36m>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"rounded bg-green-50 p-3 text-green-800"[39m
+          [33mrole[39m=[32m"status"[39m
+        [36m>[39m
+          [0mStatus updated. 1 reservation was flagged for review.[0m
+        [36m</p>[39m
+        [36m<section[39m
+          [33maria-label[39m=[32m"Equipment stock totals"[39m
+        [36m>[39m
+          [36m<h2[39m
+            [33mclass[39m=[32m"text-lg font-semibold"[39m
+          [36m>[39m
+            [0mStock by type[0m
+          [36m</h2>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"text-sm text-slate-600"[39m
+          [36m>[39m
+            [0mTotals cover all locations and statuses, regardless of filters. Usable means Operational; availability for an event also depends on reservations and transfer time.[0m
+          [36m</p>[39m
+          [36m<ul[39m
+            [33mclass[39m=[32m"mt-3 grid gap-3 sm:grid-cols-2"[39m
+          [36m>[39m
+            [36m<li[39m
+              [33mclass[39m=[32m"rounded border p-3"[39m
+            [36m>[39m
+              [36m<h3[39m
+                [33mclass[39m=[32m"font-semibold"[39m
+              [36m>[39m
+                [0mProjector[0m
+              [36m</h3>[39m
+              [36m<p>[39m
+                [0m0[0m
+                [0m usable / [0m
+                [0m1[0m
+                [0m total units[0m
+              [36m</p>[39m
+            [36m</li>[39m
+          [36m</ul>[39m
+        [36m</section>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex flex-wrap items-end gap-4"[39m
+        [36m>[39m
+          [36m<label>[39m
+            [0mEquipment type[0m
+            [36m<select[39m
+              [33mclass[39m=[32m"mt-1 block rounded border border-slate-300 p-2"[39m
+            [36m>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m""[39m
+              [36m>[39m
+                [0mAll types[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"projector"[39m
+              [36m>[39m
+                [0mProjector[0m
+              [36m</option>[39m
+            [36m</select>[39m
+          [36m</label>[39m
+          [36m<label>[39m
+            [0mLocation[0m
+            [36m<select[39m
+              [33mclass[39m=[32m"mt-1 block rounded border border-slate-300 p-2"[39m
+            [36m>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m""[39m
+              [36m>[39m
+                [0mAll locations[0m
+              [36m</option>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m"store"[39m
+              [36m>[39m
+                [0mStore[0m
+                [0m — [0m
+                [0mLevel 1[0m
+              [36m</option>[39m
+            [36m</select>[39m
+          [36m</label>[39m
+          [36m<label>[39m
+            [0mOperational status[0m
+            [36m<select[39m
+              [33mclass[39m=[32m"mt-1 block rounded border border-slate-300 p-2"[39m
+            [36m>[39m
+              [36m<option[39m
+                [33mvalue[39m=[32m""[39m
+              [36m>[39m
+                [0mAll statuses[0m
+              [36m</option>[39m
+              [36m<option>[39m
+                [0mOperational[0m
+              [36m</option>[39m
+              [36m<option>[39m
+                [0mDamaged[0m
+              [36m</option>[39m
+              [36m<option>[39m
+                [0mUnder Maintenance[0m
+              [36m</option>[39m
+              [36m<option>[39m
+                [0mUnavailable[0m
+              [36m</option>[39m
+            [36m</select>[39m
+          [36m</label>[39m
+          [36m<button[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mReset filters[0m
+          [36m</button>[39m
+          [36m<button[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mRefresh catalogue[0m
+          [36m</button>[39m
+        [36m</div>[39m
+        [36m<p[39m
+          [33mrole[39m=[32m"status"[39m
+        [36m>[39m
+          [0m1[0m
+          [0m equipment [0m
+          [0munit[0m
+          [0m shown[0m
+        [36m</p>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"overflow-x-auto"[39m
+        [36m>[39m
+          [36m<table[39m
+            [33mclass[39m=[32m"w-full text-left text-sm"[39m
+          [36m>[39m
+            [36m<caption[39m
+              [33mclass[39m=[32m"sr-only"[39m
+            [36m>[39m
+              [0mEquipment units[0m
+            [36m</caption>[39m
+            [36m<thead>[39m
+              [36m<tr>[39m
+                [36m<th[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                  [33mscope[39m=[32m"col"[39m
+                [36m>[39m
+                  [0mAsset tag[0m
+                [36m</th>[39m
+                [36m<th[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                  [33mscope[39m=[32m"col"[39m
+                [36m>[39m
+                  [0mType[0m
+                [36m</th>[39m
+                [36m<th[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                  [33mscope[39m=[32m"col"[39m
+                [36m>[39m
+                  [0mDescription[0m
+                [36m</th>[39m
+                [36m<th[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                  [33mscope[39m=[32m"col"[39m
+                [36m>[39m
+                  [0mLocation[0m
+                [36m</th>[39m
+                [36m<th[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                  [33mscope[39m=[32m"col"[39m
+                [36m>[39m
+                  [0mOperational status[0m
+                [36m</th>[39m
+                [36m<th[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                  [33mscope[39m=[32m"col"[39m
+                [36m>[39m
+                  [0mStatus management[0m
+                [36m</th>[39m
+              [36m</tr>[39m
+            [36m</thead>[39m
+            [36m<tbody>[39m
+              [36m<tr[39m
+                [33mclass[39m=[32m"border-t"[39m
+              [36m>[39m
+                [36m<td[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                [36m>[39m
+                  [0mP-1[0m
+                [36m</td>[39m
+                [36m<td[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                [36m>[39m
+                  [0mProjector[0m
+                [36m</td>[39m
+                [36m<td[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                [36m>[39m
+                  [0mHDMI[0m
+                [36m</td>[39m
+                [36m<td[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                [36m>[39m
+                  [0mStore[0m
+                  [0m — [0m
+                  [0mLevel 1[0m
+                [36m</td>[39m
+                [36m<td[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                [36m>[39m
+                  [0mUnder Maintenance[0m
+                [36m</td>[39m
+                [36m<td[39m
+                  [33mclass[39m=[32m"p-3"[39m
+                [36m>[39m
+                  [36m<button[39m
+                    [33maria-label[39m=[32m"Manage status for P-1"[39m
+                    [33mclass[39m=[32m"rounded border border-slate-300 px-3 py-2 disabled:opacity-50"[39m
+                    [33mtype[39m=[32m"button"[39m
+                  [36m>[39m
+                    [0mManage status[0m
+                  [36m</button>[39m
+                [36m</td>[39m
+              [36m</tr>[39m
+            [36m</tbody>[39m
+          [36m</table>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ getElementError node_modules/@testing-library/dom/dist/query-helpers.js:20:35
+ ❯ getMultipleElementsFoundError node_modules/@testing-library/dom/dist/query-helpers.js:23:10
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:55:13
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx:207:17
+    205|   expect(await screen.findByText('Status updated. 1 reservation was fl…
+    206|   expect(await screen.findByText('0 usable / 1 total units')).toBeInTh…
+    207|   expect(screen.getByText('Under Maintenance')).toBeInTheDocument()
+       |                 ^
+    208|   expect(screen.queryByRole('region', { name: 'Manage equipment status…
+    209|   expect(screen.getByRole('button', { name: 'Manage status for P-1' })…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx > AC-027.1.7: a late response for the previous unit cannot replace the current unit details or its save version
+Error: Invalid Chai property: toHaveBeenCalledExactlyOnceWith
+ ❯ src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx:234:15
+    232|   await actor.click(screen.getByRole('button', { name: 'Save status' }…
+    233|   expect(mocks.save.mock.calls).toEqual([[{ itemId: nextId, status: 'u…
+    234|   expect(saved).toHaveBeenCalledExactlyOnceWith(receipt)
+       |               ^
+    235|   expect(closed).not.toHaveBeenCalled()
+    236| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 14 passed (16)
+   Start at  16:42:00
+   Duration  2.45s (transform 171ms, setup 135ms, collect 571ms, tests 1.63s, environment 806ms, prepare 125ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------|---------|----------|---------|---------|-------------------
+All files          |     100 |    97.16 |     100 |     100 |
+ ...alogueView.tsx |     100 |    96.87 |     100 |     100 | 32,42
+ ...tusHistory.tsx |     100 |      100 |     100 |     100 |
+ ...tatusPanel.tsx |     100 |    97.29 |     100 |     100 | 41
+-------------------|---------|----------|---------|---------|-------------------

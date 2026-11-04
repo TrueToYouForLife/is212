@@ -1,0 +1,286 @@
+Deliberate regression in a disposable copy; not a product defect.
+
+> connectsphere@0.1.0 test
+> vitest run src/features/venues/__tests__/VenueReplacementSearchPage.test.tsx -t AC-048.2.9
+
+
+ RUN  v2.1.9 /private/var/folders/p4/h4056bks5mg95y7t5v1n_8gw0000gn/T/is212-us48-probe-rgo1yrss/frontend
+
+ ❯ src/features/venues/__tests__/VenueReplacementSearchPage.test.tsx (11 tests | 1 failed | 10 skipped) 365ms
+   × AC-048.2.9: unspecified requirements stay empty and choosing another venue retains the original search consent 364ms
+     → Unable to find a label with the text of: Search by name or location
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"mx-auto w-full max-w-6xl px-4 py-10 sm:px-6"[39m
+    [36m>[39m
+      [36m<section[39m
+        [33mclass[39m=[32m"rounded-xl border border-slate-200 bg-white shadow-sm"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"border-b border-slate-100 px-6 py-5"[39m
+        [36m>[39m
+          [36m<h2[39m
+            [33mclass[39m=[32m"text-base font-semibold text-slate-900"[39m
+          [36m>[39m
+            [0mFind a replacement venue[0m
+          [36m</h2>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"px-6 py-6"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"space-y-4"[39m
+          [36m>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m"text-indigo-700 hover:underline"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/venues/bookings"[39m
+            [36m>[39m
+              [0mBack to your venue bookings[0m
+            [36m</a>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [0mReload booking and search[0m
+            [36m</button>[39m
+            [36m<h2[39m
+              [33mclass[39m=[32m"font-semibold"[39m
+            [36m>[39m
+              [0mWorkshop[0m
+              [0m — [0m
+              [0mRetired Hall[0m
+            [36m</h2>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"font-semibold text-amber-800"[39m
+            [36m>[39m
+              [0mNeeds replacement[0m
+            [36m</p>[39m
+            [36m<ul>[39m
+              [36m<li>[39m
+                [0mVenue blocked: Ceiling unsafe[0m
+              [36m</li>[39m
+              [36m<li>[39m
+                [0mVenue retired: Building closed[0m
+              [36m</li>[39m
+            [36m</ul>[39m
+            [36m<p>[39m
+              [0mEvent time (Singapore): [0m
+              [0m3 Jan 2039, 09:00[0m
+              [0m to [0m
+              [0m3 Jan 2039, 11:00[0m
+              [0m.[0m
+            [36m</p>[39m
+            [36m<p>[39m
+              [0mAttendance: [0m
+              [0mNot specified[0m
+              [0m. Layout: [0m
+              [0mNo preference[0m
+              [0m.[0m
+            [36m</p>[39m
+            [36m<p>[39m
+              [0mThe event’s full date and time are kept for this search. No event details are changed when adjusting venue filters.[0m
+            [36m</p>[39m
+            [36m<form[39m
+              [33mclass[39m=[32m"space-y-3 rounded-lg border p-4"[39m
+            [36m>[39m
+              [36m<h2[39m
+                [33mclass[39m=[32m"font-semibold"[39m
+              [36m>[39m
+                [0mRequest [0m
+                [0mAlternative Hall[0m
+                [0m as replacement[0m
+              [36m</h2>[39m
+              [36m<p>[39m
+                [0mVenue Staff must approve this request. The alternative is not reserved until approval succeeds.[0m
+              [36m</p>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"space-y-1.5"[39m
+              [36m>[39m
+                [36m<label[39m
+                  [33mclass[39m=[32m"block text-sm font-medium text-slate-700"[39m
+                  [33mfor[39m=[32m"replacement-reason"[39m
+                [36m>[39m
+                  [0mReason and proposed arrangement[0m
+                [36m</label>[39m
+                [36m<textarea[39m
+                  [33mclass[39m=[32m"w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 aria-[invalid=true]:border-red-400 aria-[invalid=true]:ring-red-500/20 disabled:bg-slate-100"[39m
+                  [33mid[39m=[32m"replacement-reason"[39m
+                  [33mrows[39m=[32m"3"[39m
+                [36m/>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex flex-wrap gap-3"[39m
+              [36m>[39m
+                [36m<button[39m
+                  [33mclass[39m=[32m"inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "[39m
+                  [33mtype[39m=[32m"submit"[39m
+                [36m>[39m
+                  [0mPropose replacement[0m
+                [36m</button>[39m
+                [36m<button[39m
+                  [33mclass[39m=[32m"inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "[39m
+                  [33mtype[39m=[32m"button"[39m
+                [36m>[39m
+                  [0mChoose another venue[0m
+                [36m</button>[39m
+              [36m</div>[39m
+            [36m</form>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 10 skipped (11)
+   Start at  20:18:24
+   Duration  2.43s (transform 186ms, setup 78ms, collect 466ms, tests 365ms, environment 696ms, prepare 124ms)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/venues/__tests__/VenueReplacementSearchPage.test.tsx > AC-048.2.9: unspecified requirements stay empty and choosing another venue retains the original search consent
+TestingLibraryElementError: Unable to find a label with the text of: Search by name or location
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"mx-auto w-full max-w-6xl px-4 py-10 sm:px-6"[39m
+    [36m>[39m
+      [36m<section[39m
+        [33mclass[39m=[32m"rounded-xl border border-slate-200 bg-white shadow-sm"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"border-b border-slate-100 px-6 py-5"[39m
+        [36m>[39m
+          [36m<h2[39m
+            [33mclass[39m=[32m"text-base font-semibold text-slate-900"[39m
+          [36m>[39m
+            [0mFind a replacement venue[0m
+          [36m</h2>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"px-6 py-6"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"space-y-4"[39m
+          [36m>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m"text-indigo-700 hover:underline"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/venues/bookings"[39m
+            [36m>[39m
+              [0mBack to your venue bookings[0m
+            [36m</a>[39m
+            [36m<button[39m
+              [33mclass[39m=[32m"inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "[39m
+              [33mtype[39m=[32m"button"[39m
+            [36m>[39m
+              [0mReload booking and search[0m
+            [36m</button>[39m
+            [36m<h2[39m
+              [33mclass[39m=[32m"font-semibold"[39m
+            [36m>[39m
+              [0mWorkshop[0m
+              [0m — [0m
+              [0mRetired Hall[0m
+            [36m</h2>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"font-semibold text-amber-800"[39m
+            [36m>[39m
+              [0mNeeds replacement[0m
+            [36m</p>[39m
+            [36m<ul>[39m
+              [36m<li>[39m
+                [0mVenue blocked: Ceiling unsafe[0m
+              [36m</li>[39m
+              [36m<li>[39m
+                [0mVenue retired: Building closed[0m
+              [36m</li>[39m
+            [36m</ul>[39m
+            [36m<p>[39m
+              [0mEvent time (Singapore): [0m
+              [0m3 Jan 2039, 09:00[0m
+              [0m to [0m
+              [0m3 Jan 2039, 11:00[0m
+              [0m.[0m
+            [36m</p>[39m
+            [36m<p>[39m
+              [0mAttendance: [0m
+              [0mNot specified[0m
+              [0m. Layout: [0m
+              [0mNo preference[0m
+              [0m.[0m
+            [36m</p>[39m
+            [36m<p>[39m
+              [0mThe event’s full date and time are kept for this search. No event details are changed when adjusting venue filters.[0m
+            [36m</p>[39m
+            [36m<form[39m
+              [33mclass[39m=[32m"space-y-3 rounded-lg border p-4"[39m
+            [36m>[39m
+              [36m<h2[39m
+                [33mclass[39m=[32m"font-semibold"[39m
+              [36m>[39m
+                [0mRequest [0m
+                [0mAlternative Hall[0m
+                [0m as replacement[0m
+              [36m</h2>[39m
+              [36m<p>[39m
+                [0mVenue Staff must approve this request. The alternative is not reserved until approval succeeds.[0m
+              [36m</p>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"space-y-1.5"[39m
+              [36m>[39m
+                [36m<label[39m
+                  [33mclass[39m=[32m"block text-sm font-medium text-slate-700"[39m
+                  [33mfor[39m=[32m"replacement-reason"[39m
+                [36m>[39m
+                  [0mReason and proposed arrangement[0m
+                [36m</label>[39m
+                [36m<textarea[39m
+                  [33mclass[39m=[32m"w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30 aria-[invalid=true]:border-red-400 aria-[invalid=true]:ring-red-500/20 disabled:bg-slate-100"[39m
+                  [33mid[39m=[32m"replacement-reason"[39m
+                  [33mrows[39m=[32m"3"[39m
+                [36m/>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex flex-wrap gap-3"[39m
+              [36m>[39m
+                [36m<button[39m
+                  [33mclass[39m=[32m"inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "[39m
+                  [33mtype[39m=[32m"submit"[39m
+                [36m>[39m
+                  [0mPropose replacement[0m
+                [36m</button>[39m
+                [36m<button[39m
+                  [33mclass[39m=[32m"inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:bg-slate-300 "[39m
+                  [33mtype[39m=[32m"button"[39m
+                [36m>[39m
+                  [0mChoose another venue[0m
+                [36m</button>[39m
+              [36m</div>[39m
+            [36m</form>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError ../../../../../../../../Users/jaydon/Desktop/is212/frontend/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ getAllByLabelText ../../../../../../../../Users/jaydon/Desktop/is212/frontend/node_modules/@testing-library/dom/dist/queries/label-text.js:111:38
+ ❯ ../../../../../../../../Users/jaydon/Desktop/is212/frontend/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../../../../../../../../Users/jaydon/Desktop/is212/frontend/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/features/venues/__tests__/VenueReplacementSearchPage.test.tsx:198:17
+    196|   await userEvent.click(await screen.findByRole('button', { name: 'Cho…
+    197|   await userEvent.click(screen.getByRole('button', { name: 'Choose ano…
+    198|   expect(screen.getByLabelText('Search by name or location')).toHaveVa…
+       |                 ^
+    199|   expect(mocks.propose).not.toHaveBeenCalled()
+    200|   await userEvent.click(screen.getByRole('button', { name: 'Choose Alt…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

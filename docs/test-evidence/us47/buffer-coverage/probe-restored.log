@@ -1,0 +1,14 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/venues/__tests__/venueBufferSettingsService.test.ts src/features/venues/__tests__/VenueBufferSettings.test.tsx
+
+
+ RUN  v2.1.9 /private/tmp/is212-us47-probe
+
+ ✓ src/features/venues/__tests__/venueBufferSettingsService.test.ts (2 tests) 6ms
+ ✓ src/features/venues/__tests__/VenueBufferSettings.test.tsx (5 tests) 395ms
+
+ Test Files  2 passed (2)
+      Tests  7 passed (7)
+   Start at  20:01:28
+   Duration  1.79s (transform 95ms, setup 165ms, collect 220ms, tests 402ms, environment 1.01s, prepare 104ms)

@@ -1,0 +1,228 @@
+Deliberate regression in a disposable copy; not a product defect. Expected failure: AC-024.1.21
+
+> connectsphere@0.1.0 test
+> vitest run src/features/equipment/__tests__/EquipmentReturns.test.tsx -t AC-024.1.21
+
+
+ RUN  v2.1.9 /private/var/folders/p4/h4056bks5mg95y7t5v1n_8gw0000gn/T/is212-us24-return-probes-u4x2tu0r/frontend
+
+ ❯ src/features/equipment/__tests__/EquipmentReturns.test.tsx (11 tests | 1 failed | 10 skipped) 173ms
+   × AC-024.1.21: leaving during an allocation reload ignores its late result and cannot reload twice while pending 173ms
+     → expected "spy" to not be called at all, but actually been called 1 times
+
+Received:
+
+  1st spy call:
+
+    Array [
+      Object {
+        "history": Array [
+          Object {
+            "allocationId": "24000000-0000-4000-8000-000000000004",
+            "allocationStatus": "reserved",
+            "assetTag": "LEGACY-24",
+            "collectionDate": "2026-10-24",
+            "defectReportId": null,
+            "description": "Checked case and cable",
+            "eventId": "24000000-0000-4000-8000-000000000010",
+            "eventName": "Open day",
+            "eventReference": "EVT-24",
+            "finding": "good",
+            "inspectedAt": "2026-10-26T16:15:00+00:00",
+            "inspectedBy": "24000000-0000-4000-8000-000000000040",
+            "inspectedByName": "Stored staff name",
+            "inspectedStatusVersion": 0,
+            "inspectionId": "24000000-0000-4000-8000-000000000030",
+            "inspectionVersion": 1,
+            "itemId": "24000000-0000-4000-8000-000000000022",
+            "lastFinding": "good",
+            "lastInspectedAt": "2026-10-26T16:15:00+00:00",
+            "operationalStatus": "retired",
+            "previousStatus": "retired",
+            "resultingStatus": "retired",
+            "returnDate": "2026-10-26",
+            "statusChangeId": null,
+            "statusVersion": 0,
+            "typeName": "Projector",
+            "version": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          },
+        ],
+        "out": Array [
+          Object {
+            "allocationId": "24000000-0000-4000-8000-000000000003",
+            "allocationStatus": "reserved",
+            "assetTag": "P-24",
+            "collectionDate": "2026-10-27",
+            "eventId": "24000000-0000-4000-8000-000000000011",
+            "eventName": "Another event",
+            "eventReference": "EVT-24",
+            "itemId": "24000000-0000-4000-8000-000000000020",
+            "lastFinding": null,
+            "lastInspectedAt": null,
+            "operationalStatus": "operational",
+            "returnDate": "2026-10-29",
+            "statusVersion": 0,
+            "typeName": "Projector",
+            "version": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          },
+        ],
+        "pendingChecks": Array [
+          Object {
+            "allocationId": "24000000-0000-4000-8000-000000000001",
+            "allocationStatus": "reserved",
+            "assetTag": "P-24",
+            "collectionDate": "2026-10-24",
+            "eventId": "24000000-0000-4000-8000-000000000010",
+            "eventName": "Open day",
+            "eventReference": "EVT-24",
+            "itemId": "24000000-0000-4000-8000-000000000020",
+            "lastFinding": null,
+            "lastInspectedAt": null,
+            "operationalStatus": "operational",
+            "returnDate": "2026-10-26",
+            "statusVersion": 0,
+            "typeName": "Projector",
+            "version": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          },
+          Object {
+            "allocationId": "24000000-0000-4000-8000-000000000002",
+            "allocationStatus": "reserved",
+            "assetTag": "P-25",
+            "collectionDate": "2026-10-24",
+            "eventId": "24000000-0000-4000-8000-000000000010",
+            "eventName": "Open day",
+            "eventReference": "EVT-24",
+            "itemId": "24000000-0000-4000-8000-000000000021",
+            "lastFinding": null,
+            "lastInspectedAt": null,
+            "operationalStatus": "operational",
+            "returnDate": "2026-10-26",
+            "statusVersion": 0,
+            "typeName": "Projector",
+            "version": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          },
+        ],
+      },
+    ]
+
+
+Number of calls: 1
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 10 skipped (11)
+   Start at  15:48:35
+   Duration  1.12s (transform 113ms, setup 44ms, collect 328ms, tests 173ms, environment 235ms, prepare 37ms)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/equipment/__tests__/EquipmentReturns.test.tsx > AC-024.1.21: leaving during an allocation reload ignores its late result and cannot reload twice while pending
+AssertionError: expected "spy" to not be called at all, but actually been called 1 times
+
+Received:
+
+  1st spy call:
+
+    Array [
+      Object {
+        "history": Array [
+          Object {
+            "allocationId": "24000000-0000-4000-8000-000000000004",
+            "allocationStatus": "reserved",
+            "assetTag": "LEGACY-24",
+            "collectionDate": "2026-10-24",
+            "defectReportId": null,
+            "description": "Checked case and cable",
+            "eventId": "24000000-0000-4000-8000-000000000010",
+            "eventName": "Open day",
+            "eventReference": "EVT-24",
+            "finding": "good",
+            "inspectedAt": "2026-10-26T16:15:00+00:00",
+            "inspectedBy": "24000000-0000-4000-8000-000000000040",
+            "inspectedByName": "Stored staff name",
+            "inspectedStatusVersion": 0,
+            "inspectionId": "24000000-0000-4000-8000-000000000030",
+            "inspectionVersion": 1,
+            "itemId": "24000000-0000-4000-8000-000000000022",
+            "lastFinding": "good",
+            "lastInspectedAt": "2026-10-26T16:15:00+00:00",
+            "operationalStatus": "retired",
+            "previousStatus": "retired",
+            "resultingStatus": "retired",
+            "returnDate": "2026-10-26",
+            "statusChangeId": null,
+            "statusVersion": 0,
+            "typeName": "Projector",
+            "version": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          },
+        ],
+        "out": Array [
+          Object {
+            "allocationId": "24000000-0000-4000-8000-000000000003",
+            "allocationStatus": "reserved",
+            "assetTag": "P-24",
+            "collectionDate": "2026-10-27",
+            "eventId": "24000000-0000-4000-8000-000000000011",
+            "eventName": "Another event",
+            "eventReference": "EVT-24",
+            "itemId": "24000000-0000-4000-8000-000000000020",
+            "lastFinding": null,
+            "lastInspectedAt": null,
+            "operationalStatus": "operational",
+            "returnDate": "2026-10-29",
+            "statusVersion": 0,
+            "typeName": "Projector",
+            "version": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          },
+        ],
+        "pendingChecks": Array [
+          Object {
+            "allocationId": "24000000-0000-4000-8000-000000000001",
+            "allocationStatus": "reserved",
+            "assetTag": "P-24",
+            "collectionDate": "2026-10-24",
+            "eventId": "24000000-0000-4000-8000-000000000010",
+            "eventName": "Open day",
+            "eventReference": "EVT-24",
+            "itemId": "24000000-0000-4000-8000-000000000020",
+            "lastFinding": null,
+            "lastInspectedAt": null,
+            "operationalStatus": "operational",
+            "returnDate": "2026-10-26",
+            "statusVersion": 0,
+            "typeName": "Projector",
+            "version": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          },
+          Object {
+            "allocationId": "24000000-0000-4000-8000-000000000002",
+            "allocationStatus": "reserved",
+            "assetTag": "P-25",
+            "collectionDate": "2026-10-24",
+            "eventId": "24000000-0000-4000-8000-000000000010",
+            "eventName": "Open day",
+            "eventReference": "EVT-24",
+            "itemId": "24000000-0000-4000-8000-000000000021",
+            "lastFinding": null,
+            "lastInspectedAt": null,
+            "operationalStatus": "operational",
+            "returnDate": "2026-10-26",
+            "statusVersion": 0,
+            "typeName": "Projector",
+            "version": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          },
+        ],
+      },
+    ]
+
+
+Number of calls: 1
+
+ ❯ src/features/equipment/__tests__/EquipmentReturns.test.tsx:297:24
+    295|   view.unmount()
+    296|   await act(async () => reload.resolve({ ok: true, data: returnsData()…
+    297|   expect(onReload).not.toHaveBeenCalled()
+       |                        ^
+    298|   expect(onSaved).not.toHaveBeenCalled()
+    299|   expect(onClose).not.toHaveBeenCalled()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

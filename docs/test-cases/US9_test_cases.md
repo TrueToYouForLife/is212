@@ -21,6 +21,56 @@ requirements and US47's quarter-hour buffers are documented under their own IDs;
 catalogue does not reinstate the old one-hold-per-event or AM/PM/Night rules. In particular,
 a source ID here is not proof that every current Jira AC has a separate implementation.
 
+## Acceptance-criterion coverage (added 4 November 2026)
+
+The table below is the AC-to-source direction, which the index's traceability claim does not
+cover: the index checks that every source ID appears in a catalogue, not that every Jira AC has a
+source ID of its own. Criteria are SCRUM-15's.
+
+| AC | Automated coverage | Where |
+| --- | --- | --- |
+| AC-009.1 select a venue for an approved event | yes | AC-009.1.1 to .1.5, .1.15 to .1.25 |
+| AC-009.2 specify the slot(s); each consumed in full | yes | AC-009.2.1 to .2.15, .2.23 to .2.24 |
+| AC-009.3 attendance and layout taken from the event record | **no AC-009 ID** | covered under US49 as AC-049.2.1 to .2.4, .2.6 and .2.30 to .2.33, in `BookingSpaceFields.test.tsx`, `venueHoldAtomic.test.ts` and `multi_venue_requirements.sql`. See the note below: US49 changed the model this criterion describes |
+| AC-009.4 submit a completed booking request | yes | AC-009.4.1 to .4.4 |
+| AC-009.5 setup/turnaround occupy adjacent slots, across days | yes | AC-009.5.1 to .5.13, .5.16 to .5.17 |
+| AC-009.6 cannot book a conflicting, occupied or blocked slot | yes, integration (added) | AC-009.6.1 to .6.4 in `venue_booking_request_conflicts.sql`. Also exercised under US10 as AC-010.3.1 to .3.11 in `venue_booking_conflicts.sql`, which asserts what the reviewer is shown rather than that the claim is refused |
+| AC-009.7 informed which slot conflicts and why | yes | AC-009.7.1 to .7.5, .7.11 |
+| AC-009.8 Venue Staff notified of a new request | yes | AC-009.8.1 to .8.18, including `venue_booking_request_notifications.sql` |
+| AC-009.9 view the submitted request and its status | yes | AC-009.9.1 to .9.17 |
+
+Neither gap is untested behaviour: both criteria are enforced and exercised, under another
+story's IDs. What is missing is the trace from this story's criteria to them.
+
+**AC-009.3 is also a model change, not only a numbering one.** This criterion says attendance and
+layout come from the event record rather than being re-entered. US49 (SCRUM-244) moved both to a
+per-booking field, because each space in a multi-venue event needs its own suitability check while
+attendance is an event-level column — AC-049.2 and its own stated assumption. The current tests
+therefore assert US49's model, which is the correct current behaviour but not what AC-009.3
+describes. The criterion needs re-wording to match, which is a backlog question for the Product
+Owner rather than something a catalogue can record.
+
+**AC-009.6 is this story's central negative criterion**, and now has cases in its own name, in
+`venue_booking_request_conflicts.sql`: AC-009.6.1 a slot an existing booking holds, AC-009.6.2 a
+slot held only as another booking's setup or turnaround buffer, AC-009.6.3 a slot inside a blocked
+period, and AC-009.6.4 a negative control on a free date, without which a fixture that refused
+every insert for an unrelated reason would pass the other three. All four passed first time, so
+this is regression coverage of behaviour that has always been correct, not a red-green cycle, and
+no defect is claimed. The refusal is the `venue_slot_claims` primary key, in place since `0018`.
+
+The README previously said US9's database coverage was in `venue_booking_conflicts.sql` and
+`venue_booking_assignment.sql`; those carry only AC-010 and AC-017 IDs respectively, and that
+sentence has been corrected.
+
+**The shape of this story's coverage.** Before this change, of 93 source IDs the only SQL file
+under an AC-009 ID was `venue_booking_request_notifications.sql` (AC-009.8); everything else was
+frontend. That is the same
+shape US11 had — 15 IDs, all component tests — and is how the `postponed` defect in `0035` stayed
+hidden through 84 migrations. Worth keeping in mind before this story is treated as closed.
+
+Next free IDs: AC-009.1.26, .2.25, .3.1, .4.5, .5.18, .6.5, .7.12, .8.19, .9.18. Gaps inside the
+existing ranges are historical and must not be reused.
+
 ## Existing cases (93 source IDs)
 
 | Test ID | AC | Classification | Scenario / expected assertion | Test source |

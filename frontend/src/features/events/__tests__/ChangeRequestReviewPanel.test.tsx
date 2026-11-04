@@ -1,8 +1,9 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, expect, test, vi } from 'vitest'
 import { ChangeRequestReviewPanel } from '../components/ChangeRequestReviewPanel'
 import { changeRequest, eventId, reviewContext, replyRound } from './fixtures/changeRequestReview'
+import type { ChangeRequestReviewContextResult } from '../changeRequestReviewQueryService'
 
 const mocks = vi.hoisted(() => ({ load: vi.fn(), save: vi.fn() }))
 vi.mock('../changeRequestReviewQueryService', () => ({
@@ -98,4 +99,56 @@ test('AC-007.13.9: coordinator sees saved question and answer alongside the next
   expect(await screen.findByText('Yes, including ten staff.')).toBeInTheDocument()
   expect(screen.getByText('Includes staff?')).toBeInTheDocument()
   expect(screen.getByRole('form', { name: 'Review change request' })).toBeInTheDocument()
+})
+
+test('AC-007.3.12: switching events ignores the previous event response even when it arrives last', async () => {
+  let finishOld!: (result: ChangeRequestReviewContextResult) => void
+  mocks.load.mockReturnValueOnce(new Promise<ChangeRequestReviewContextResult>((resolve) => { finishOld = resolve }))
+  const { rerender, onReviewed } = setup()
+  expect(screen.getByRole('button', { name: 'Reload review' })).toBeDisabled()
+  const nextId = '10000000-0000-0000-0000-000000000002'
+  mocks.load.mockResolvedValueOnce({ ok: true, context: { ...reviewContext, eventId: nextId, requests: [] } })
+  rerender(<ChangeRequestReviewPanel eventId={nextId} onReviewed={onReviewed} />)
+  expect(await screen.findByText('No changes have been requested for this event.')).toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Reload review' })).toBeEnabled()
+  await act(async () => { finishOld({ ok: true, context: reviewContext }) })
+  expect(screen.getByText('No changes have been requested for this event.')).toBeInTheDocument()
+  expect(screen.queryByRole('form')).not.toBeInTheDocument()
+  expect(screen.queryByText('New title')).not.toBeInTheDocument()
+  expect(mocks.load.mock.calls).toEqual([[eventId], [nextId]])
+  expect(mocks.save).not.toHaveBeenCalled()
+  expect(onReviewed).not.toHaveBeenCalled()
+})
+
+test('AC-007.9.24: explicit reload clears unsaved decisions and saves only against the newly displayed comparison version', async () => {
+  const { user, onReviewed } = setup()
+  await screen.findByRole('form')
+  await user.selectOptions(screen.getByLabelText('Decision for Event name'), 'rejected')
+  await user.type(screen.getByLabelText(/Comment for Event name/), 'My unsaved reason')
+  const latestRequest = { ...changeRequest, reviewVersion: 2, reviewHistory: [] }
+  const latestContext = { ...reviewContext, eventUpdatedAt: '2026-09-26T01:00:00Z',
+    currentValues: { ...reviewContext.currentValues, name: 'Updated published title' }, requests: [latestRequest] }
+  mocks.load.mockResolvedValueOnce({ ok: true, context: latestContext })
+  await user.click(screen.getByRole('button', { name: 'Reload review' }))
+  expect(await screen.findByText('Updated published title')).toBeInTheDocument()
+  expect(screen.queryByText('Original title')).not.toBeInTheDocument()
+  expect(screen.getByLabelText('Decision for Event name')).toHaveValue('')
+  expect(screen.getByLabelText(/Comment for Event name/)).toHaveValue('')
+  expect(mocks.save).not.toHaveBeenCalled()
+  await user.selectOptions(screen.getByLabelText('Decision for Event name'), 'approved')
+  await user.selectOptions(screen.getByLabelText('Decision for Expected attendance'), 'approved')
+  mocks.save.mockResolvedValueOnce({ ok: true, status: 'approved' })
+  mocks.load.mockResolvedValueOnce({ ok: true, context: { ...latestContext,
+    requests: [{ ...latestRequest, status: 'approved' }] } })
+  await user.click(screen.getByRole('button', { name: 'Finalise review' }))
+  expect(await screen.findByText('Review saved: Approved.')).toBeInTheDocument()
+  expect(mocks.save.mock.calls).toEqual([[latestRequest, latestContext.eventUpdatedAt, {
+    action: 'decide', decisions: [
+      { field: 'name', decision: 'approved', note: '' },
+      { field: 'expectedAttendance', decision: 'approved', note: '' },
+    ],
+  }]])
+  expect(onReviewed).toHaveBeenCalledTimes(1)
+  await user.click(screen.getByRole('button', { name: 'Reload review' }))
+  expect(screen.queryByText('Review saved: Approved.')).not.toBeInTheDocument()
 })

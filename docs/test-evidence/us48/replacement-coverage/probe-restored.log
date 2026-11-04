@@ -1,0 +1,18 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/venues/__tests__/VenueReplacementSearchPage.test.tsx src/features/venues/__tests__/VenueReplacementPanel.test.tsx src/features/venues/__tests__/useVenueReplacements.test.ts
+
+
+ RUN  v2.1.9 /private/var/folders/p4/h4056bks5mg95y7t5v1n_8gw0000gn/T/is212-us48-probe-rgo1yrss/frontend
+
+ ✓ src/features/venues/__tests__/useVenueReplacements.test.ts (1 test) 124ms
+ ✓ src/features/venues/__tests__/VenueReplacementPanel.test.tsx (12 tests) 1342ms
+ ✓ src/features/venues/__tests__/VenueReplacementSearchPage.test.tsx (11 tests) 1943ms
+   ✓ AC-048.3.8: selection submits the original booking and displayed consent once, requires a note, and preserves the original until approval 323ms
+   ✓ AC-048.3.9: failed submission keeps the note and source version, prevents retries, and needs an explicit reload 321ms
+   ✓ AC-048.2.9: unspecified requirements stay empty and choosing another venue retains the original search consent 404ms
+
+ Test Files  3 passed (3)
+      Tests  24 passed (24)
+   Start at  20:18:27
+   Duration  3.73s (transform 300ms, setup 222ms, collect 1.05s, tests 3.41s, environment 1.86s, prepare 482ms)

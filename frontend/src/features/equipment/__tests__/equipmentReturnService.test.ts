@@ -27,6 +27,12 @@ test('AC-024.1.12: malformed, ambiguous, failed or interrupted lists cannot beco
     { ...valid, pendingChecks: [{ ...allocation, lastFinding: 'missing' }] },
     { ...valid, history: [{ ...valid.history[0], finding: 'damage', defectReportId: null }] },
     { ...valid, history: [valid.history[0], valid.history[0]] },
+    { ...valid, out: [{ ...valid.out[0], allocationStatus: 'cancelled' }] },
+    { ...valid, out: [{ ...valid.out[0], lastFinding: 'missing', lastInspectedAt: valid.history[0].inspectedAt }] },
+    { ...valid, pendingChecks: [{ ...allocation, lastFinding: 'good', lastInspectedAt: valid.history[0].inspectedAt }] },
+    { ...valid, history: [{ ...valid.history[0], finding: 'damage', defectReportId: returnId(99), description: null }] },
+    { ...valid, history: [{ ...valid.history[0], finding: 'damage', defectReportId: returnId(99), description: '  ' }] },
+    { ...valid, history: [{ ...valid.history[0], finding: 'missing', defectReportId: returnId(99), resultingStatus: 'operational' }] },
   ]) {
     mocks.rpc.mockResolvedValueOnce({ data, error: null })
     expect(await loadEquipmentReturns()).toEqual({ ok: false, reason: messages.load })

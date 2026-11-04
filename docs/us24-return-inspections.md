@@ -1,5 +1,49 @@
 # US24 — Equipment return inspections
 
+## Return coverage follow-up — 4 November 2026
+
+Branch `us24-return-coverage`, base `3350c20` (US7 PR182 merged). Three new component
+cases cover closing an unsaved inspection, nullable event/history display details and
+leaving during an allocation reload. AC-024.1.12 also rejects cancelled/previously
+inspected Out rows, completed findings in Pending checks, defect history without a
+description and Missing history with an Operational result. These are explicit
+untrusted-response refusals, not claims that the normal SQL operation returns them.
+
+The nullable-display case uses fields permitted by the return service's schema. It
+does not claim the normal submission flow omits event references, or that staff audit
+identity is supplied by the browser. Its histories use separate allocation/unit/event
+identities; missing labels never invent a person or event name.
+
+| Target | Statements / lines | Branches | Functions |
+| --- | ---: | ---: | ---: |
+| EquipmentReturnsView.tsx | 100% | 100% | 100% |
+| equipmentReturnService.ts | 100% | 100% | 100% |
+| ReturnInspectionForm.tsx | 100% | 93.75% | 100% |
+
+The form retains three uncovered branches:
+
+- **Lines 26 and 40:** early guards against repeated submit/reload are behind controls
+  disabled while working or locked. Ordinary repeated clicks and late reloads are
+  tested. No forced submit through disabled controls is added solely for coverage.
+- **Line 30:** a failed Zod parse supplies at least one issue with a message. The
+  generic empty-error fallback remains without patching Zod into an impossible failure.
+
+The reason is pending team acceptance, not an accepted exclusion. Safeguards and
+coverage settings remain unchanged. Full frontend: 1,744 tests / 223 files passed;
+focused: 17 tests / two files passed; lint and build/typecheck passed. Overall coverage:
+98.24% statements/lines, 92.29% branches, 95.83% functions. Two deliberate regressions
+were detected in a disposable copy and its restored tests passed.
+
+Only tests, documentation and evidence change. No product defect, new manual/SQL pass
+or shared deployment is claimed. Catalogue: 40 grouped IDs (23 database, six unit,
+11 component). Status/catalogue gaps are deferred to US27. The shared event requirement
+catalogue service is not called by this return workflow; its US24 worklist mapping
+needs separate review rather than forced US24 tests. It originated in Nicole's US8
+work, so any future change to that shared file needs her review before merge.
+[Execution evidence and worklist records](test-evidence/us24/return-coverage/README.md).
+
+The following implementation and deployment checkpoints retain their historical dates.
+
 Owner: Jaydon. Jira: SCRUM-69. Updated: 29 October 2026. Code-first development.
 PR1 branch: `us24-return-inspection-backend`; PR2: `us24-return-inspection-ui`.
 Jaydon claimed migration 0112 and confirmed it applied after the backend PR merged.

@@ -1,0 +1,14 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/events/__tests__/ChangeRequestReviewPanel.test.tsx src/features/events/__tests__/ChangeRequestSummary.test.tsx
+
+
+ RUN  v2.1.9 /private/var/folders/p4/h4056bks5mg95y7t5v1n_8gw0000gn/T/is212-us7-component-probes-79x31qbk/frontend
+
+ ✓ src/features/events/__tests__/ChangeRequestSummary.test.tsx (1 test) 120ms
+ ✓ src/features/events/__tests__/ChangeRequestReviewPanel.test.tsx (14 tests) 721ms
+
+ Test Files  2 passed (2)
+      Tests  15 passed (15)
+   Start at  15:16:37
+   Duration  2.23s (transform 178ms, setup 150ms, collect 488ms, tests 840ms, environment 1.22s, prepare 151ms)

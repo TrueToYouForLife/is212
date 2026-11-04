@@ -1,5 +1,33 @@
 # US27 test cases
 
+## Release UI fix — 4 November 2026
+
+Owner: Jaydon. One new grouped unit case brings the current catalogue to 44 IDs
+(21 database, seven unit, 16 component); historical counts below retain their dates.
+
+| ID | Classification | Scenario and expected outcome | Source |
+|---|---|---|---|
+| AC-027.8.10 | Unit — Negative / Boundary / Regression | An unresolved save remains pending before 15 seconds, then aborts and reports an unknown outcome; no automatic retry or late-success callback. A timely stale refusal still uses the existing stale message, and timers are cleaned up. | `frontend/src/features/equipment/__tests__/equipmentStatusService.test.ts` |
+| AC-027.5.9 (extended) | Component — Negative / Regression | Failed, timed-out and stale saves preserve notes, unlock Close/Reload controls and block another save until explicit reload with the fresh version. | `frontend/src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx` |
+
+The stalled request cause is unconfirmed. This change bounds the UI wait and requires
+checking status/history before retry; abort is not proof that the database rolled back.
+[Validation and manual retests](../test-evidence/release-ui-fixes/README.md).
+
+## Status coverage — 4 November 2026
+
+Current catalogue: 43 grouped source IDs (21 database integration, six unit,
+16 component). Three new component cases cover the panel's unit-ID update contract,
+single-reservation feedback and blank stored staff labels. Services are mocked; no
+live audit/RLS or new manual pass is claimed. No application/database change. Historical
+portion totals below retain their original dates. [Results and exact remaining gaps](../us27-equipment-catalogue.md).
+
+| ID | Classification | Scenario and expected outcome | Source |
+| --- | --- | --- | --- |
+| AC-027.1.7 | Component — Negative / Regression | A late previous-unit load cannot replace the current unit; the next save uses only the current unit ID/version and invokes the success callback once. Exercises the component prop-update contract. | [EquipmentStatusPanel.test.tsx](../../frontend/src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx#L213) |
+| AC-027.2.4 | Component — Happy path / Boundary / Regression | A confirmed status change reports one flagged reservation accurately, closes management and refreshes the unit's status/global stock totals. | [EquipmentStatusPanel.test.tsx](../../frontend/src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx#L193) |
+| AC-027.8.9 | Component — Boundary | A blank stored display name reads Name not recorded, while the recorded status transition, note and Singapore timestamp remain visible without edit controls. | [EquipmentStatusPanel.test.tsx](../../frontend/src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx#L238) |
+
 ## Documentation accuracy review — 2 November 2026
 
 All 40 grouped cases remain mapped: 21 database integration and 19 frontend.
@@ -137,7 +165,7 @@ Owner/discovered/fixed fields: Jaydon. Record in Defects (Automated Testing); no
 defect is claimed. Early slow dependency reads and missing standard-library definitions
 that cleared on retry are environment issues with unconfirmed root cause, not product defects.
 
-Next unused IDs: AC-027.1.7, .2.4, .3.2, .4.4, .5.10, .6.5, .7.7, .8.9.
+Next unused IDs: AC-027.1.8, .2.5, .3.2, .4.4, .5.10, .6.5, .7.7, .8.10.
 
 Historical PR1 verification: all eight frontend cases passed in the full 1,524-test run (175 files);
 build/typecheck and lint passed. All three grouped SQL cases passed in the final

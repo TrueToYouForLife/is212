@@ -1,3 +1,159 @@
+# US48 replacement coverage — 4 November 2026
+- Branch `us48-replacement-coverage`; Jaydon owns Git. Tests/docs/evidence only;
+  no app/SQL/migration/config/exclusion or shared deployment changes.
+- Seven component cases .1.6/.1.7/.2.7–9/.3.15/.6.20; inventory56 numeric US48 IDs,
+  including one retained continuous-block dependency. Existing US20 IDs unchanged.
+- Focused17 before/24 after; full1,794 tests/233 files; build/typecheck/lint passed.
+  Global98.41% statements/lines,93.56% branches,96.23% functions.
+- Search/hook/search page all100%; panel100% statements/lines/functions,97.77% branches;
+  proposal100% statements/lines/functions,95% branches. Guards at panel18/proposal20
+  retained for pending/locked/saved submissions; normal disabled controls tested.
+- Disposable session-guard/back-action faults detected; restored24 tests passed.
+  No new product defect, manual/SQL/live Auth result. Evidence:
+  docs/test-evidence/us48/replacement-coverage/README.md.
+- Worklist rows26/27/37/38/39 updated, read back and saved to Drive. D result formulas
+  preserved; full100% rows have blank justification. Cleared active owner filtering
+  to verify hidden rows; filter controls retained. Supabase recovery stays Jeremiah's.
+- Next separate portion: shared requirementCatalogueService.ts coverage, with original
+  owner review where needed; then final coverage/sheet reconciliation.
+
+# US47 buffer coverage — 4 November 2026
+- Branch `us47-buffer-coverage`; Jaydon owns Git. Tests/docs only; no app, SQL, migration,
+  config or shared deployment. US48 replacement files are the next separate portion.
+- New .1.8/.1.9 unit and .1.10/.1.11 component cases; extended .1.6 fresh-version retry.
+  Current US47 inventory65 IDs. Focused3 before/7 after; full1,787 tests/232 files.
+- Build/typecheck/lint passed. Global98.36% statements/lines,93.20% branches,95.97% functions.
+  Service all100%; panel100% statements/lines/functions,96.96% branches. Panel26 early
+  submit guard retained: form absent before load, disabled busy/stale. No forced submit.
+- Disposable validation/cancellation faults detected; restored7 tests passed. No new
+  product defect or manual/SQL pass. Evidence: docs/test-evidence/us47/buffer-coverage/.
+- Shared coverage worklist rows36/40 updated, read back and saved to Drive; existing
+  result formulas preserved. Screenshots retained in evidence. Supabase pool recovery
+  stays with Jeremiah.
+
+# US41 arrangement coverage — 4 November 2026
+- Branch `us41-arrangement-coverage`; Jaydon owns Git. Tests/docs only, no SQL/app/SDK
+  changes. Three new IDs .1.16/.1.17/.6.5; current inventory 28 (14 integration,5 unit,9 component).
+- Focused8 before/11 after; full1,760 tests/224 files; build/typecheck/lint passed.
+  Global98.26% statements/lines,92.54% branches,95.85% functions.
+- Review service all 100%; panel100% statements/lines/functions,95.74% branches.
+  Panel 18 missing-timestamp fallbacks contradict resolved-row CHECK0052:21–22;
+  retain safeguards and document justification. No invalid history fabricated.
+- Disposable-copy failed-count/ascending-history faults detected; restored 9 tests pass.
+  No genuine product defect or new manual/SQL pass. Evidence: docs/test-evidence/us41/arrangement-coverage/.
+- Worklist rows44/48 percentages/locations/progress/notes saved and verified to Drive;
+  service Retested - 100%, panel Justification needed. Supabase recovery stays Jeremiah's.
+
+# Release UI fixes — 4 November 2026
+- Branch `us27-us42-release-ui-fixes`; Jaydon owns Git/PR/merge. No migration.
+- US27 saves have a 15-second deadline, abort signal and explicit unknown-outcome
+  guidance. Note retained, no automatic retry, late response cannot report success.
+  Underlying multi-tab/session stall cause remains unconfirmed; reload/check history.
+- Shared request page mounts readiness/bookings/internal safety only for assigned
+  Coordinator; Organiser retains US42 summaries. Shared-owner review required.
+- Cases AC-027.8.10, extended AC-027.5.9 and AC-042.3.8; evidence:
+  docs/test-evidence/release-ui-fixes/README.md. No shared-sheet/Jira update claimed.
+
+# US27 status coverage — 4 November 2026
+- Branch `us27-status-coverage`, baseaa2b1ad (US24 PR184 merged). Jaydon owns Git/PR/merge.
+  Three new component IDs .1.7/.2.4/.8.9: late unit details, one flagged reservation,
+  blank stored display name. US27 now43 IDs (21 SQL, six unit, 16 component).
+- Focused13 before/16 after (two files); full1,747/223, lint/build/typecheck pass.
+  Global98.24% statements/lines,92.35% branches,95.83% functions. All target files100%
+  statements/lines/functions; historyall100%; catalogue96.87% branches, panel97.29%.
+- Retain catalogue fallbacks32/42 and panel submit guard41, with exact contract/UI
+  reasons in docs/us27-equipment-catalogue.md. No artificial success/selection/submit.
+- Initial new tests had ambiguous text lookup/unsupported matcher; corrected and
+  retested, initial log retained. Two disposable-copy probes detected; restored16 pass.
+  No product defect, app/database/migration/config/exclusion change or new manual/SQL pass.
+- Sheet rows32/34/35 percentages/locations/notes saved and verified: catalogue/panel
+  Justification needed; history Retested - 100%. US27 summary uses story-tag formulas.
+  Shared event-requirement service remains separate;
+  original owner review required before changing/merging it. User owns Git and deployment.
+
+# US24 return coverage — 4 November 2026
+- Branch `us24-return-coverage`, base3350c20 (PR182 merged). Jaydon owns Git/PR/merge.
+  Only tests/docs/evidence; no application/database/migration/config/exclusion changes.
+- Three new component IDs .1.19–21: unsaved close/reopen, valid nullable display fields,
+  late reload after unmount. Strengthen .1.12 malformed-response cases. US24 now40 IDs:
+  23 database, six unit,11 component. No new manual/SQL pass or product defect found.
+- Focused14 before/17 after (two files); full1,744/223, lint/build/typecheck pass.
+  Global98.24% statements/lines,92.29% branches,95.83% functions. View/service all100%;
+  form100% statements/lines/functions,93.75% branches (26,30,40; reasons in story doc).
+- Two disposable-copy regression probes detected; restored17 tests pass. First late
+  reload probe stopped for missing .env; synthetic localhost config fixed its harness,
+  retaining the network guard. No real credentials copied or app defect claimed.
+- Sheet rows30/31/33 percentages/locations/progress/notes saved and verified: view/service
+  Retested - 100%; form Justification needed. US24 summary uses story-tag counts.
+  Status/catalogue components deferred to US27;
+  event requirement catalogue service's US24 mapping needs review (original Nicole US8).
+
+# US7 review-component coverage — 4 November 2026
+- Branch `us7-review-component-coverage`, base4d47053 (PR181 merged). Jaydon owns Git.
+  Three new component IDs .3.12/.9.24/.13.32; catalogue285. Notes/provisional outcomes,
+  late event-switch responses and reload/reset with fresh save versions are tested.
+- Focused42/five files before,45/six after; full1,741/223, lint/build/typecheck pass.
+  Global98.24% statements/lines,92.04% branches,95.71% functions. Two disposable-copy
+  regressions detected; restored15 tests pass. No product/DB/migration/exclusion edits.
+- Initial build rejected new fixture number attendance/null notes; corrected to text/
+  empty strings and retested. Retained initial failure is a fixture error, not app defect.
+- Summary100% statements/lines,95.65% branches; field100% statements/lines,90.90% branches;
+  form96.96% statements/lines,93.54% branches; panel97.95% statements/lines,100% branches.
+  All functions100%. Exact remaining reasons in docs/us7-review-component-coverage.md.
+- Sheet rows42/43/46/50 percentages, locations and justifications saved/verified;
+  all Justification needed. US41 arrangement-review files remain separate. No new
+  manual, SQL, deployed-environment, commit, push, PR or remote CI result claimed.
+
+# US7 review-data coverage — 4 November 2026
+- Branch `us7-review-data-coverage`, base 13309ef (US17 PR180 merged). Jaydon owns Git.
+  Only tests/docs/evidence; no application, database, migration or coverage exclusions.
+- Five new unit cases: .3.8–11 and .9.23; strengthen .3.1 mapping with actual structured
+  arrays, correcting a historical text fixture. US7 catalogue282 IDs. No product defect.
+- Focused43/three files before,48/four after; full1,738/222, lint and build/typecheck pass.
+  Global98.23% statements/lines,91.94% branches,95.71% functions. Two disposable-copy
+  regression probes detected; restored37 tests pass. No SQL/manual/RLS pass claimed.
+- Target files all100% statements/lines/functions. Branches: display96.42% (47),
+  query70% (35,39–41,43–46), save93.10% (24–25). Exact contract-based reasons in
+  docs/us7-review-data-coverage.md; retain safeguards, no impossible null mocks.
+- Worklist rows41/47/49 refreshed and verified saved to Drive: percentages/locations,
+  Justification needed and exact contract reasons. US7 summary uses story-tag formulas.
+  Remaining four US7 review components, US41 arrangement files and other owners'
+  allocations stay outside this portion. No commit, push, PR or remote CI claimed.
+
+# US17 assignment coverage — 4 November 2026
+- Branch `us17-assignment-coverage`, base 41fa44a (US1 PR179 and upstream PR178 merged).
+  Jaydon owns Git/PR/merge. No product, migration, shared DB, configuration or exclusions
+  changed. Story-by-story: US17 only; US36/38 tests are unchanged regression coverage.
+- New .1.13, .2.10–19 and .3.3–4: eight unit/five component cases. Components keep
+  assignment service real, mock Supabase RPC only. US17 catalogue now66 source IDs.
+- Focused before9/two files; expanded22/five files pass. Full1,733/221 files, lint and
+  build (includes typecheck) pass. Overall98.14% statements/lines,91.80% branches,
+  95.71% functions includes upstream coverage work; do not attribute all gains here.
+- Service, card and queue all100%; form100% statements/lines/functions,95.45% branches. Retain line23
+  early-return guard: ordinary clicks cannot submit disabled/invalid/pending controls.
+  Do not force submit events just to claim100%; record reason pending team review.
+- Three disposable-copy regression probes detected; restored11 new tests pass. No
+  genuine product defect found. Probe-checker Error/AssertionError mismatch corrected,
+  not an app failure. Evidence docs/test-evidence/us17/assignment-coverage/.
+- Shared coverage worklist rows 24–25/29/45 refreshed and verified saved to Drive:
+  service/card/queue Retested - 100%; form Justification needed. Jaydon takes the two
+  additional card/queue files (32 total). US17 summary uses story-tag formulas
+  (11 mapped files, six with gaps across all owners). No new manual or SQL pass claimed.
+
+# US1 draft coverage — 4 November 2026
+- Branch `us1-draft-coverage`, base 3edab5b. Jaydon owns Git/PR/merge; rebalanced
+  coverage work only. No app/migration/shared-data changes or manual pass claimed.
+- Strengthened AC-001.3.1 and .4.27–28; new .4.35–37 test date-boundary conversion,
+  copied requirement arrays and stale list response after account switch. US1 86 IDs.
+- Focused before 53 / four files, after 56 / four files; full 1,701 / 211 files passed.
+  Coverage 96.52% statements/lines,91.30% branches,94.76% functions. Lint and build
+  (includes typecheck) passed. Full suite has unrelated React act/blocked-network
+  warnings; no real network calls or failing assertions. Build has chunk-size warning.
+- draftFormValues all100%; MyDrafts branches/functions100%. Retain four defensive
+  fallbacks under current service/schema/collection contracts; no impossible mocks,
+  coverage exclusions or removed safeguards. Evidence docs/test-evidence/us1/draft-coverage/.
+- No product defect found. No SQL gate needed for this test/docs-only portion.
+
 # US41 arrangement-review loading fix — 3 November 2026
 - Branch `us41-arrangement-review-loading-fix`, base 292c9af; Jaydon handles Git/PR/merge.
 - Confirmed product bug: post-0099 unqualified venue_bookings embed returns HTTP300

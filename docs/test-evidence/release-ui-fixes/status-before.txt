@@ -1,0 +1,12 @@
+Window: "ConnectSphere — Event Planning", App: Google Chrome.
+													74 container %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+														75 container  Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools Stack table collapsed
+																78 text Download the React DevTools for a better development experience: 
+									107 text Current status:  Damaged
+									109 text New status
+									110 pop-up button (disabled) New status, Value: Unavailable
+									111 text Reason for status change
+									112 text entry area (disabled) Reason for status change, Value: Release QA stale edit must be refused; do not overwrite the first save.
+									113 button (disabled) Saving…
+									114 button (disabled) Reload unit
+									115 button (disabled) Close status panel

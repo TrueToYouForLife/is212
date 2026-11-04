@@ -3,13 +3,6 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
-## US41 arrangement-review loading fix — 3 November 2026
-
-Arrangement reviews now explicitly load the original booking after replacement
-history introduced a second booking relationship. Real API regression and browser
-checks confirm the loading fix with unchanged access restrictions. No migration;
-deploy the updated frontend. [Results](docs/test-evidence/us41/loading-fix/README.md).
-
 ## US7 reply-validation test restoration — 3 November 2026
 
 The dedicated reply file now exercises eleven allocated reply-validation cases instead
@@ -155,6 +148,7 @@ is generated. Existing Venue Staff submission notifications remain separate.
 Required review migrations are 0037, 0040, 0044, 0045 and **0051**, together with
 all their earlier schema dependencies. Apply migrations through the team's normal
 ordered deployment process; do not run older policy migrations over a newer schema.
+The frontend routes use `VITE_FEATURE_VENUE_BOOKING=true` in `frontend/.env`.
 0051 only delivers new Venue Staff decisions after deployment; it does not backfill
 old approvals/rejections or send email. A notification storage failure rolls back
 the decision, including claim changes, so decisions for eligible recipients cannot silently lose notices.
@@ -692,8 +686,7 @@ from auth.users u,
      (values ('organiser@test.com',   'organiser'),
              ('coordinator@test.com', 'coordinator'),
              ('venue@test.com',       'venue_staff'),
-             ('tech@test.com',        'tech_support'),
-             ('safety@test.com',      'safety_officer')) as v(email, role)
+             ('tech@test.com',        'tech_support')) as v(email, role)
 where u.email = v.email and p.id = u.id;
 ```
  
@@ -712,7 +705,6 @@ where id = (select id from auth.users where email = 'organiser2@test.com');
 | Event Coordinator | `coordinator@test.com` |
 | Venue Staff | `venue@test.com` |
 | Technical Support Staff | `tech@test.com` |
-| Safety Officer | `safety@test.com` |
 | Attendee | `attendee@test.com` |
 
 Passwords are shared in the team chat, never committed.
@@ -1104,7 +1096,7 @@ rather than from Jira and should be checked against the backlog.
 
 > US9's Jira key is not recorded in the repo either. Fill it in.
 
-A coordinator opens a venue from the search results
+Behind `VITE_FEATURE_VENUE_BOOKING`. A coordinator opens a venue from the search results
 (`/venues/:id`), checks its timetable (`/venues/:id/timetable`), places a tentative hold on
 the slots an event needs, and then submits the hold as a booking request. Their own
 bookings are at `/venues/bookings`. Only an `approved` or `planning` event may be booked
@@ -1125,11 +1117,18 @@ Two constraint decisions are worth being able to defend:
 
 Apply `0035` then `0036`; `0049` belongs to US17's handover.
 
-Tests: 106 AC-009 cases and 15 AC-011 cases across `holdRules.test.ts` and `slots.test.ts`
+Tests: 93 AC-009 cases and 22 AC-011 cases across `holdRules.test.ts` and `slots.test.ts`
 (pure rules, no mocks), `venueBookingService.test.ts` and `venueTimetableService.test.ts`
 (services against a Supabase fake), and `VenueBookingComponents.test.tsx` /
-`VenueBookingPages.test.tsx`. Database coverage is in
-`backend/supabase/tests/venue_booking_conflicts.sql` and `venue_booking_assignment.sql`.
+`VenueBookingPages.test.tsx`.
+
+Database coverage under an AC-009 ID is `venue_booking_request_notifications.sql` (AC-009.8)
+and nothing else; under an AC-011 ID it is `venue_hold_release.sql` (AC-011.9, added with
+`0124`). `venue_booking_conflicts.sql` and `venue_booking_assignment.sql` do exercise the
+conflict and assignment rules these two stories depend on, but their cases are numbered
+AC-010 and AC-017 — an earlier version of this paragraph claimed them as US9's own database
+coverage, which they are not. Which criteria are covered under another story's IDs is set
+out in `docs/test-cases/US9_test_cases.md` and `US11_test_cases.md`.
 
 
 ## US8 structured event requirements (0054–0056)
@@ -1191,7 +1190,8 @@ A coordinator picks one of their events at `/venues/suitability`, records its ve
 requirements beside the organiser's own words, and sees every venue grouped as
 **Suitable**, **Unsuitable** (with every reason) or **Unavailable** (blacked out: booked,
 blocked or under maintenance). Searching venues for one of your events shows each result's
-verdict.
+verdict. Screens are behind `VITE_FEATURE_VENUE_SUITABILITY`, which is off unless set to
+`true` in your own `frontend/.env`.
 
 Migrations, all safe to replay:
 
@@ -1229,8 +1229,9 @@ steps and Singapore time, with a reason (requires 0100). A block covers at most
 blocks it would overlap. Bookings inside a new block are **flagged for review, not
 cancelled** (Week 7 change 2): an email is queued for each coordinator, who sees it under **Venue
 alerts**, and a flagged booking cannot be approved until the block is removed or the
-booking ends. Removing a block keeps it on record with who removed it and when. Venue
-Staff use **Venue blocks** and coordinators **Venue alerts**.
+booking ends. Removing a block keeps it on record with who removed it and when. Screens
+(**Venue blocks** for Venue Staff, **Venue alerts** for coordinators) are behind
+`VITE_FEATURE_VENUE_BLOCKS`, which is off unless set to `true` in your own `frontend/.env`.
 
 Historical block migrations (0026–0034 replay is tested against the original schema;
 do not reapply them after later migrations):
@@ -1366,11 +1367,11 @@ Officer** role (`safety_officer`) and three statuses between Planning and Confir
 safety review**, **Safety changes requested** and **In preparation**. The team decided an event is
 confirmed only after safety approval, so Planning can no longer go straight to Confirmed.
 
-**Switched on since 0123**, once every piece on its checklist (US49's 0110, US44, US26, US45) was
-deployed; the checklist is in the US43 test cases. `safety_review_settings` stays as the single
-switch: setting `enabled` to false turns it off again, and sending for review is then refused.
+**Switched off until the team turns it on** (`safety_review_settings` in the database and
+`VITE_FEATURE_SAFETY_REVIEW` in the app, both off by default): while off, Planning -> Confirmed works
+as before. The checklist for switching it on (US49's 0110, US44, US26) is in the US43 test cases.
 
-The Coordinator sends an event for review with **Send for safety review** on its Readiness card
+Once on, the Coordinator sends an event for review with **Send for safety review** on its Readiness card
 (US5), which is only allowed once every arrangement on the card is complete (registration setup
 aside, as it only opens on confirmation); readiness is one rule shared by the card and the review,
 including US49's rule that a rejected booking stays outstanding (0107).
@@ -1386,14 +1387,13 @@ opening hours or blocks on the event's dates) and equipment with how much is res
 | File | Adds |
 | --- | --- |
 | `0109_us43_safety_review_queue.sql` | `get_safety_review_queue()` for the Safety Officer (tested after 0100) |
-| `0123_switch_on_safety_review.sql` | switches the safety review on (applied last by both test runners) |
 | `0108_us43_safety_review.sql` | `safety_officer` role, the safety statuses and rules, `event_readiness_lines()` (shared readiness rule, plus a Safety review line), `send_for_safety_review()`, Safety Officer notices |
 
 Test cases: `docs/test-cases/US43_test_cases.md`.
 
 ## US44 Approve / reject / request changes for safety review (SCRUM-249)
 
-Week 7 change 6, part of the safety review (US43, switched on since 0123). From
+Week 7 change 6, part of the safety review (US43), so hidden until it is switched on. From
 **Safety reviews**, the Safety Officer presses **Review** on an event awaiting review, assesses
 seven factors (attendance, venue capacity and layout, emergency access, accessibility, equipment
 placement, crowd movement, venue restrictions; a note for every concern) and records one decision.
@@ -1414,8 +1414,9 @@ Test cases: `docs/test-cases/US44_test_cases.md`.
 A Coordinator confirms an event only once every essential arrangement on its Readiness card is
 complete (registration setup aside, as it opens on confirmation). The check is in the status rules
 (0117), so any change to Confirmed goes through it, not only the Confirm button; when it refuses,
-the Coordinator is told the event is not ready. With the safety review on (since 0123), events
-are confirmed only from In Preparation, after the Safety Officer's approval. A confirmed event shows as Confirmed to its Organiser and Coordinator, and its
+the Coordinator is told the event is not ready. With the safety review switched off, events are
+confirmed from Planning as before; switched on, only from In Preparation, after the Safety
+Officer's approval. A confirmed event shows as Confirmed to its Organiser and Coordinator, and its
 approved venue booking keeps the venue's time taken.
 
 | File | Adds |
@@ -1426,7 +1427,7 @@ Test cases: `docs/test-cases/US26_test_cases.md`.
 
 ## US45 Revise arrangements after a safety review (SCRUM-240)
 
-Week 7 change 6, part of the safety review (US43, switched on since 0123).
+Week 7 change 6, part of the safety review (US43), so it only matters once that is switched on.
 When the Safety Officer requests changes or rejects (US44), the Coordinator presses **Revise
 arrangements**: the event returns to Planning and the venue and/or equipment bookings the Safety
 Officer named are flagged "Needs review" (US41's arrangement reviews, with the comment). Changes
@@ -1705,3 +1706,26 @@ this migration does not toggle the safety switch.
 
 See [Slice 1](docs/us49-slice1.md), [Slice 2](docs/us49-slice2.md) and
 [Slice 3 / deployment and manual checks](docs/us49-slice3.md).
+
+Release UI follow-up (4 November 2026): Coordinator-only request panels are hidden
+from Organisers; equipment status saves report an unknown outcome after 15 seconds
+rather than remaining locked indefinitely. No migration. See
+[validation and limits](docs/test-evidence/release-ui-fixes/README.md).
+
+US41 coverage follow-up (4 November 2026): arrangement review service reaches 100%
+across all metrics; panel reaches 100% statements/lines/functions and 95.74% branches.
+Remaining timestamp guards are justified against the database constraint.
+[Results and limits](docs/test-evidence/us41/arrangement-coverage/README.md).
+
+US47 buffer-settings coverage (4 November 2026): service reaches 100% across all
+metrics; panel reaches 100% statements/lines/functions and 96.96% branches. The
+remaining disabled-submit guard is documented. Tests/docs only; no migration.
+[Results and limits](docs/test-evidence/us47/buffer-coverage/README.md).
+
+## US48 replacement coverage — 4 November 2026
+
+Seven component cases strengthen interrupted-load recovery, stale-response handling,
+search consent and retained decision history. Three files reach 100% across all
+coverage measures; two retain documented duplicate-submit guards. Full frontend:
+1,794 tests passed. No application or database changes.
+[Results and remaining reasons](docs/test-evidence/us48/replacement-coverage/README.md).

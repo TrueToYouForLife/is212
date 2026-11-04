@@ -1,0 +1,42 @@
+Deliberate regression probe in disposable copy; not a product defect.
+Expected failing case: AC-017.2.12
+
+> connectsphere@0.1.0 test
+> vitest run src/features/events/__tests__/coordinatorAssignmentService.test.ts -t AC-017.2.12
+
+
+ RUN  v2.1.9 /private/var/folders/p4/h4056bks5mg95y7t5v1n_8gw0000gn/T/is212-us17-quality-k4ocm_y4/frontend
+
+ ❯ src/features/events/__tests__/coordinatorAssignmentService.test.ts (8 tests | 1 failed | 7 skipped) 9ms
+   × AC-017.2 > AC-017.2.12: invalid picker identities or workloads reject the response without offering a partial list 9ms
+     → expected { ok: true, value: [] } to deeply equal { ok: false, …(1) }
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 7 skipped (8)
+   Start at  14:21:17
+   Duration  605ms (transform 38ms, setup 47ms, collect 44ms, tests 9ms, environment 220ms, prepare 33ms)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/events/__tests__/coordinatorAssignmentService.test.ts > AC-017.2 > AC-017.2.12: invalid picker identities or workloads reject the response without offering a partial list
+AssertionError: expected { ok: true, value: [] } to deeply equal { ok: false, …(1) }
+
+- Expected
++ Received
+
+  Object {
+-   "ok": false,
+-   "reason": "The coordinator list could not be loaded. Please try again.",
++   "ok": true,
++   "value": Array [],
+  }
+
+ ❯ src/features/events/__tests__/coordinatorAssignmentService.test.ts:56:7
+     54|     ]) {
+     55|       mocks.rpc.mockResolvedValueOnce({ data: [option, invalid], error…
+     56|       await expect(listAssignmentCoordinators()).resolves.toEqual({
+       |       ^
+     57|         ok: false, reason: 'The coordinator list could not be loaded. …
+     58|       })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

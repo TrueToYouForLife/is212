@@ -84,7 +84,7 @@ Verification on 18 October 2026:
 - AC-042.1.4 caught a deliberate service fault that returned an empty successful result on a database read error. After restoring the original service byte-for-byte, the unchanged service file passed all three tests. Both logs are saved in the evidence folder.
 - This is code-first test-effectiveness evidence, not a product defect or TDD cycle. Coverage percentages have not been measured yet.
 
-Next unused test IDs: **AC-042.1.7**, **AC-042.2.7**, **AC-042.3.8**.
+Next unused test IDs: **AC-042.1.7**, **AC-042.2.7**, **AC-042.3.9**.
 
 ## Manual checks — passed
 
@@ -143,3 +143,12 @@ The earlier venue-only counts above remain historical. Equipment manual checks p
 unrelated-organiser denial and exclusion of internal information. Tested by: Jaydon.
 Shared evidence sheet updated with the nine equipment cases, extended AC-042.3.4 and
 four manual equipment records. No new product defect was observed.
+
+## Release follow-up — 4 November 2026
+
+The shared request page had mounted Coordinator-only readiness, venue bookings and
+internal safety decisions for its Organiser audience, producing permission errors.
+These panels now mount only for the assigned Coordinator; the owning Organiser
+continues to receive the US42 venue/equipment summaries. No database permission or
+RPC change. Shared-page owners should review the integration before merging.
+See [release UI evidence](test-evidence/release-ui-fixes/README.md).

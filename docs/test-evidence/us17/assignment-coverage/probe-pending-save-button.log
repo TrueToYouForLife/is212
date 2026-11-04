@@ -1,0 +1,43 @@
+Deliberate regression probe in disposable copy; not a product defect.
+Expected failing case: AC-017.2.17
+
+> connectsphere@0.1.0 test
+> vitest run src/features/events/__tests__/CoordinatorAssignmentForm.test.tsx -t AC-017.2.17
+
+
+ RUN  v2.1.9 /private/var/folders/p4/h4056bks5mg95y7t5v1n_8gw0000gn/T/is212-us17-quality-k4ocm_y4/frontend
+
+ ❯ src/features/events/__tests__/CoordinatorAssignmentForm.test.tsx (3 tests | 1 failed | 2 skipped) 88ms
+   × AC-017.2 > AC-017.2.17: a pending assignment locks selection and repeated clicks, then resets only after confirmed success 87ms
+     → expect(element).toBeDisabled()
+
+Received element is not disabled:
+  <button
+  class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+  type="submit"
+/>
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 skipped (3)
+   Start at  14:21:18
+   Duration  832ms (transform 47ms, setup 49ms, collect 133ms, tests 88ms, environment 240ms, prepare 36ms)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/events/__tests__/CoordinatorAssignmentForm.test.tsx > AC-017.2 > AC-017.2.17: a pending assignment locks selection and repeated clicks, then resets only after confirmed success
+Error: expect(element).toBeDisabled()
+
+Received element is not disabled:
+  <button
+  class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+  type="submit"
+/>
+ ❯ src/features/events/__tests__/CoordinatorAssignmentForm.test.tsx:33:61
+     31|     await user.selectOptions(picker, bobId)
+     32|     await user.click(save)
+     33|     expect(screen.getByRole('button', { name: 'Saving…' })).toBeDisabl…
+       |                                                             ^
+     34|     expect(picker).toBeDisabled()
+     35|     expect(picker).toHaveValue(bobId)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

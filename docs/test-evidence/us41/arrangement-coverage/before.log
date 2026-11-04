@@ -1,0 +1,28 @@
+
+> connectsphere@0.1.0 coverage
+> vitest run --coverage src/features/events/__tests__/arrangementReviewService.test.ts src/features/events/__tests__/ArrangementReviewPanel.test.tsx src/features/events/__tests__/ArrangementResolution.test.tsx --coverage.include=src/features/events/arrangementReviewService.ts --coverage.include=src/features/events/components/ArrangementReviewPanel.tsx --coverage.reportsDirectory=/tmp/is212-us41-before
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+      Coverage enabled with v8
+
+ ✓ src/features/events/__tests__/arrangementReviewService.test.ts (4 tests) 7ms
+ ✓ src/features/events/__tests__/ArrangementReviewPanel.test.tsx (2 tests) 121ms
+ ✓ src/features/events/__tests__/ArrangementResolution.test.tsx (2 tests) 482ms
+   ✓ AC-041.6.3: resolves individual reasons using both methods, keeps other reasons open and displays retained history 354ms
+
+ Test Files  3 passed (3)
+      Tests  8 passed (8)
+   Start at  19:32:22
+   Duration  1.73s (transform 144ms, setup 257ms, collect 457ms, tests 610ms, environment 1.50s, prepare 211ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   98.36 |    89.61 |     100 |   98.36 |
+ events            |   97.29 |    97.05 |     100 |   97.29 |
+  ...iewService.ts |   97.29 |    97.05 |     100 |   97.29 | 57-58
+ events/components |     100 |    83.72 |     100 |     100 |
+  ...viewPanel.tsx |     100 |    83.72 |     100 |     100 | 18,46-47,51
+-------------------|---------|----------|---------|---------|-------------------

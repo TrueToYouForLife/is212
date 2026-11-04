@@ -17,12 +17,14 @@ const saved = z.object({
   changed: z.boolean(), reviewCount: z.number().int().nonnegative(),
 })
 export type EquipmentStatusResult = z.infer<typeof saved>
+export const EQUIPMENT_STATUS_SAVE_TIMEOUT_MS = 15_000
 export const EQUIPMENT_STATUS_MESSAGES = {
   load: 'Equipment status and history could not be loaded. Please reload the unit.',
   invalid: 'Choose a status and enter a reason. Reload the unit if its details are unavailable.',
   forbidden: 'Only Technical Support Staff can manage equipment status. Check your access and reload.',
   stale: 'This equipment unit changed. Your note is kept; reload the unit and review its current status before saving again.',
   failed: 'The save result could not be confirmed. Your note is kept; reload the unit before trying again.',
+  timeout: 'The save is taking too long and its result could not be confirmed. Your note is kept here. Copy it, then reload the page and check the current status and history before trying again.',
 } as const
 
 export async function loadEquipmentStatus(itemId: string): Promise<
@@ -43,11 +45,23 @@ export async function saveEquipmentStatus(input: EquipmentStatusInput): Promise<
 > {
   const parsed = equipmentStatusInput.safeParse(input)
   if (!parsed.success) return { ok: false, reason: EQUIPMENT_STATUS_MESSAGES.invalid }
+  const controller = new AbortController()
+  let timer: ReturnType<typeof setTimeout> | undefined
   try {
     const value = parsed.data
-    const { data, error } = await supabase.rpc('set_equipment_status', {
+    const request = supabase.rpc('set_equipment_status', {
       p_item: value.itemId, p_status: value.status, p_note: value.note, p_version: value.version,
-    })
+    }).abortSignal(controller.signal)
+    // A stalled session/token lookup can precede fetch, so abort alone cannot bound
+    // the wait. A timeout means an unknown outcome, never permission to retry blindly.
+    const response = await Promise.race([request, new Promise<null>((resolve) => {
+      timer = setTimeout(() => {
+        resolve(null)
+        controller.abort()
+      }, EQUIPMENT_STATUS_SAVE_TIMEOUT_MS)
+    })])
+    if (response === null) return { ok: false, reason: EQUIPMENT_STATUS_MESSAGES.timeout }
+    const { data, error } = response
     if (error) return { ok: false, reason: error.code === '42501' ? EQUIPMENT_STATUS_MESSAGES.forbidden
       : error.code === '40001' ? EQUIPMENT_STATUS_MESSAGES.stale
         : error.code === '22023' ? EQUIPMENT_STATUS_MESSAGES.invalid : EQUIPMENT_STATUS_MESSAGES.failed }
@@ -56,4 +70,5 @@ export async function saveEquipmentStatus(input: EquipmentStatusInput): Promise<
       && result.data.version === value.version + (result.data.changed ? 1 : 0)
       ? { ok: true, data: result.data } : { ok: false, reason: EQUIPMENT_STATUS_MESSAGES.failed }
   } catch { return { ok: false, reason: EQUIPMENT_STATUS_MESSAGES.failed } }
+  finally { clearTimeout(timer) }
 }

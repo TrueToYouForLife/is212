@@ -18,4 +18,31 @@ describe('AC-001.4', () => {
     } })
     expect(values).toMatchObject({ name: 'Dinner', expectedAttendance: '12', purpose: '', registrationRequired: true })
   })
+
+  test("AC-001.4.35: an invalid date string restores as empty without losing other draft fields", () => {
+    const values = draftFormValues({ id: 'draft-1', status: 'draft', updatedAt: '', values: {
+      name: 'Dinner', purpose: 'Celebrate', expectedAttendance: 12,
+      proposedStart: 'not-a-date', proposedEnd: 'not-a-date',
+    } })
+    expect(values).toMatchObject({
+      proposedStart: '', proposedEnd: '', name: 'Dinner', purpose: 'Celebrate', expectedAttendance: '12',
+    })
+  })
+
+  test("AC-001.4.36: editing restored requirement lists does not mutate the loaded draft", () => {
+    const saved = { id: 'draft-1', status: 'draft' as const, updatedAt: '', values: {
+      layoutPreference: 'theatre',
+      accessibilityRequirements: ['wheelchair_access'],
+      facilityRequirements: ['projector'], equipmentRequirements: ['wireless_mic'],
+    } }
+    const values = draftFormValues(saved)
+    expect(values).toMatchObject(saved.values)
+    values.accessibilityRequirements.push('hearing_loop')
+    values.facilityRequirements.length = 0
+    values.equipmentRequirements.push('speaker')
+    expect(saved.values).toEqual({
+      layoutPreference: 'theatre', accessibilityRequirements: ['wheelchair_access'],
+      facilityRequirements: ['projector'], equipmentRequirements: ['wireless_mic'],
+    })
+  })
 })

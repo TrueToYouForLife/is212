@@ -1,0 +1,638 @@
+Deliberate regression in a disposable copy; not a product defect. Expected failure: AC-007.3.12
+
+> connectsphere@0.1.0 test
+> vitest run src/features/events/__tests__/ChangeRequestReviewPanel.test.tsx -t AC-007.3.12
+
+
+ RUN  v2.1.9 /private/var/folders/p4/h4056bks5mg95y7t5v1n_8gw0000gn/T/is212-us7-component-probes-79x31qbk/frontend
+
+ ❯ src/features/events/__tests__/ChangeRequestReviewPanel.test.tsx (14 tests | 1 failed | 13 skipped) 102ms
+   × AC-007.3.12: switching events ignores the previous event response even when it arrives last 101ms
+     → Unable to find an element with the text: No changes have been requested for this event.. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"space-y-4"[39m
+    [36m>[39m
+      [36m<button[39m
+        [33mclass[39m=[32m"text-sm font-medium text-indigo-700 hover:underline disabled:opacity-50"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0mReload review[0m
+      [36m</button>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"text-xs text-slate-500"[39m
+      [36m>[39m
+        [0mReloading replaces the comparison and clears unsaved decisions.[0m
+      [36m</p>[39m
+      [36m<ul[39m
+        [33mclass[39m=[32m"space-y-5"[39m
+      [36m>[39m
+        [36m<li[39m
+          [33mclass[39m=[32m"rounded-xl border border-slate-200 p-4 sm:p-5"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex flex-wrap items-center justify-between gap-3"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"rounded-full px-2 py-0.5 text-xs font-medium bg-amber-50 text-amber-700"[39m
+            [36m>[39m
+              [0mIn review[0m
+            [36m</span>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"text-xs text-slate-500"[39m
+            [36m>[39m
+              [0mRequested [0m
+              [0m25 Sept 2026, 09:00[0m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"mt-3 text-sm"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"inline-flex rounded-full px-2.5 py-1 text-xs font-medium bg-amber-50 text-amber-800"[39m
+            [36m>[39m
+              [0mSignificant change[0m
+            [36m</span>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"mt-1 text-slate-600"[39m
+            [36m>[39m
+              [0mAffects: [0m
+              [0mExpected attendance[0m
+              [0m.[0m
+            [36m</p>[39m
+          [36m</div>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"mt-3 whitespace-pre-wrap text-sm text-slate-700"[39m
+          [36m>[39m
+            [36m<strong>[39m
+              [0mOrganiser’s reason: [0m
+            [36m</strong>[39m
+            [0mWe expect more guests.[0m
+          [36m</p>[39m
+          [36m<ul[39m
+            [33mclass[39m=[32m"mt-3 space-y-3 text-sm text-slate-700"[39m
+          [36m>[39m
+            [36m<li[39m
+              [33mclass[39m=[32m"whitespace-pre-wrap"[39m
+            [36m>[39m
+              [36m<strong>[39m
+                [0mEvent name[0m
+                [0m: [0m
+              [36m</strong>[39m
+              [0mNew title[0m
+            [36m</li>[39m
+            [36m<li[39m
+              [33mclass[39m=[32m"whitespace-pre-wrap"[39m
+            [36m>[39m
+              [36m<strong>[39m
+                [0mExpected attendance[0m
+                [0m: [0m
+              [36m</strong>[39m
+              [0m80[0m
+            [36m</li>[39m
+          [36m</ul>[39m
+          [36m<details[39m
+            [33mclass[39m=[32m"mt-4 border-t border-slate-200 pt-3"[39m
+          [36m>[39m
+            [36m<summary[39m
+              [33mclass[39m=[32m"cursor-pointer text-sm font-semibold"[39m
+            [36m>[39m
+              [0mReview decision history ([0m
+              [0m0[0m
+              [0m)[0m
+            [36m</summary>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"mt-2 text-sm text-slate-500"[39m
+            [36m>[39m
+              [0mNo review actions recorded since history tracking was enabled.[0m
+            [36m</p>[39m
+          [36m</details>[39m
+          [36m<form[39m
+            [33maria-label[39m=[32m"Review change request"[39m
+            [33mclass[39m=[32m"mt-5 space-y-4"[39m
+            [33mnovalidate[39m=[32m""[39m
+          [36m>[39m
+            [36m<fieldset[39m
+              [33mclass[39m=[32m"space-y-4 disabled:opacity-70"[39m
+            [36m>[39m
+              [36m<legend[39m
+                [33mclass[39m=[32m"mb-2 text-base font-semibold"[39m
+              [36m>[39m
+                [0mReview each requested change[0m
+              [36m</legend>[39m
+              [36m<fieldset[39m
+                [33mclass[39m=[32m"rounded-lg border border-slate-200 p-4"[39m
+              [36m>[39m
+                [36m<legend[39m
+                  [33mclass[39m=[32m"px-1 text-sm font-semibold text-slate-900"[39m
+                [36m>[39m
+                  [0mEvent name[0m
+                [36m</legend>[39m
+                [36m<dl[39m
+                  [33mclass[39m=[32m"grid gap-3 text-sm sm:grid-cols-2"[39m
+                [36m>[39m
+                  [36m<div>[39m
+                    [36m<dt[39m
+                      [33mclass[39m=[32m"text-slate-500"[39m
+                    [36m>[39m
+                      [0mCurrent value[0m
+                    [36m</dt>[39m
+                    [36m<dd[39m
+                      [33mclass[39m=[32m"mt-1 whitespace-pre-wrap"[39m
+                    [36m>[39m
+                      [0mOriginal title[0m
+                    [36m</dd>[39m
+                  [36m</div>[39m
+                  [36m<div>[39m
+                    [36m<dt[39m
+                      [33mclass[39m=[32m"text-slate-500"[39m
+                    [36m>[39m
+                      [0mProposed value[0m
+                    [36m</dt>[39m
+                    [36m<dd[39m
+                      [33mclass[39m=[32m"mt-1 whitespace-pre-wrap"[39m
+                    [36m>[39m
+                      [0mNew title[0m
+                    [36m</dd>[39m
+                  [36m</div>[39m
+                [36m</dl>[39m
+                [36m<label[39m
+                  [33mclass[39m=[32m"mt-4 block text-sm font-medium"[39m
+                  [33mfor[39m=[32m":r0:-decision"[39m
+                [36m>[39m
+                  [0mDecision for [0m
+                  [0mEvent name[0m
+                [36m</label>[39m
+                [36m<select[39m
+                  [33mclass[39m=[32m"mt-1 w-full rounded-lg border border-slate-300 bg-white p-2 text-sm"[39m
+                  [33mid[39m=[32m":r0:-decision"[39m
+                [36m>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m""[39m
+                  [36m>[39m
+                    [0mChoose a decision[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"approved"[39m
+                  [36m>[39m
+                    [0mApprove[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"rejected"[39m
+                  [36m>[39m
+                    [0mReject[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"clarification_requested"[39m
+                  [36m>[39m
+                    [0mRequest clarification[0m
+                  [36m</option>[39m
+                [36m</select>[39m
+                [36m<label[39m
+                  [33mclass[39m=[32m"mt-3 block text-sm font-medium"[39m
+                  [33mfor[39m=[32m":r0:-note"[39m
+                [36m>[39m
+                  [0mComment for [0m
+                  [0mEvent name[0m
+                  [0m [0m
+                  [0m(optional)[0m
+                [36m</label>[39m
+                [36m<textarea[39m
+                  [33maria-required[39m=[32m"false"[39m
+                  [33mclass[39m=[32m"mt-1 w-full rounded-lg border border-slate-300 p-2 text-sm"[39m
+                  [33mid[39m=[32m":r0:-note"[39m
+                  [33mplaceholder[39m=[32m"Optional comment"[39m
+                  [33mrows[39m=[32m"2"[39m
+                [36m/>[39m
+              [36m</fieldset>[39m
+              [36m<fieldset[39m
+                [33mclass[39m=[32m"rounded-lg border border-slate-200 p-4"[39m
+              [36m>[39m
+                [36m<legend[39m
+                  [33mclass[39m=[32m"px-1 text-sm font-semibold text-slate-900"[39m
+                [36m>[39m
+                  [0mExpected attendance[0m
+                [36m</legend>[39m
+                [36m<dl[39m
+                  [33mclass[39m=[32m"grid gap-3 text-sm sm:grid-cols-2"[39m
+                [36m>[39m
+                  [36m<div>[39m
+                    [36m<dt[39m
+                      [33mclass[39m=[32m"text-slate-500"[39m
+                    [36m>[39m
+                      [0mCurrent value[0m
+                    [36m</dt>[39m
+                    [36m<dd[39m
+                      [33mclass[39m=[32m"mt-1 whitespace-pre-wrap"[39m
+                    [36m>[39m
+                      [0m50[0m
+                    [36m</dd>[39m
+                  [36m</div>[39m
+                  [36m<div>[39m
+                    [36m<dt[39m
+                      [33mclass[39m=[32m"text-slate-500"[39m
+                    [36m>[39m
+                      [0mProposed value[0m
+                    [36m</dt>[39m
+                    [36m<dd[39m
+                      [33mclass[39m=[32m"mt-1 whitespace-pre-wrap"[39m
+                    [36m>[39m
+                      [0m80[0m
+                    [36m</dd>[39m
+                  [36m</div>[39m
+                [36m</dl>[39m
+                [36m<label[39m
+                  [33mclass[39m=[32m"mt-4 block text-sm font-medium"[39m
+                  [33mfor[39m=[32m":r1:-decision"[39m
+                [36m>[39m
+                  [0mDecision for [0m
+                  [0mExpected attendance[0m
+                [36m</label>[39m
+                [36m<select[39m
+                  [33mclass[39m=[32m"mt-1 w-full rounded-lg border border-slate-300 bg-white p-2 text-sm"[39m
+                  [33mid[39m=[32m":r1:-decision"[39m
+                [36m>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m""[39m
+                  [36m>[39m
+                    [0mChoose a decision[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"approved"[39m
+                  [36m>[39m
+                    [0mApprove[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"rejected"[39m
+                  [36m>[39m
+                    [0mReject[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"clarification_requested"[39m
+                  [36m>[39m
+                    [0mRequest clarification[0m
+                  [36m</option>[39m
+                [36m</select>[39m
+                [36m<label[39m
+                  [33mclass[39m=[32m"mt-3 block text-sm font-medium"[39m
+                  [33mfor[39m=[32m":r1:-note"[39m
+                [36m>[39m
+                  [0mComment for [0m
+                  [0mExpected attendance[0m
+                  [0m [0m
+                  [0m(optional)[0m
+                [36m</label>[39m
+                [36m<textarea[39m
+                  [33maria-required[39m=[32m"false"[39m
+                  [33mclass[39m=[32m"mt-1 w-full rounded-lg border border-slate-300 p-2 text-sm"[39m
+                  [33mid[39m=[32m":r1:-note"[39m
+                  [33mplaceholder[39m=[32m"Optional comment"[39m
+                  [33mrows[39m=[32m"2"[39m
+                [36m/>[39m
+              [36m</fieldset>[39m
+              [36m<p[39m
+                [33mclass[39m=[32m"text-sm text-slate-600"[39m
+              [36m>[39m
+                [0mFinalising applies only the approved fields. Rejected fields keep their current values.[0m
+              [36m</p>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"[39m
+                [33mtype[39m=[32m"submit"[39m
+              [36m>[39m
+                [0mFinalise review[0m
+              [36m</button>[39m
+            [36m</fieldset>[39m
+          [36m</form>[39m
+        [36m</li>[39m
+      [36m</ul>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 13 skipped (14)
+   Start at  15:16:32
+   Duration  2.05s (transform 149ms, setup 86ms, collect 304ms, tests 102ms, environment 744ms, prepare 57ms)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/events/__tests__/ChangeRequestReviewPanel.test.tsx > AC-007.3.12: switching events ignores the previous event response even when it arrives last
+TestingLibraryElementError: Unable to find an element with the text: No changes have been requested for this event.. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"space-y-4"[39m
+    [36m>[39m
+      [36m<button[39m
+        [33mclass[39m=[32m"text-sm font-medium text-indigo-700 hover:underline disabled:opacity-50"[39m
+        [33mtype[39m=[32m"button"[39m
+      [36m>[39m
+        [0mReload review[0m
+      [36m</button>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"text-xs text-slate-500"[39m
+      [36m>[39m
+        [0mReloading replaces the comparison and clears unsaved decisions.[0m
+      [36m</p>[39m
+      [36m<ul[39m
+        [33mclass[39m=[32m"space-y-5"[39m
+      [36m>[39m
+        [36m<li[39m
+          [33mclass[39m=[32m"rounded-xl border border-slate-200 p-4 sm:p-5"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex flex-wrap items-center justify-between gap-3"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"rounded-full px-2 py-0.5 text-xs font-medium bg-amber-50 text-amber-700"[39m
+            [36m>[39m
+              [0mIn review[0m
+            [36m</span>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"text-xs text-slate-500"[39m
+            [36m>[39m
+              [0mRequested [0m
+              [0m25 Sept 2026, 09:00[0m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"mt-3 text-sm"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"inline-flex rounded-full px-2.5 py-1 text-xs font-medium bg-amber-50 text-amber-800"[39m
+            [36m>[39m
+              [0mSignificant change[0m
+            [36m</span>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"mt-1 text-slate-600"[39m
+            [36m>[39m
+              [0mAffects: [0m
+              [0mExpected attendance[0m
+              [0m.[0m
+            [36m</p>[39m
+          [36m</div>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"mt-3 whitespace-pre-wrap text-sm text-slate-700"[39m
+          [36m>[39m
+            [36m<strong>[39m
+              [0mOrganiser’s reason: [0m
+            [36m</strong>[39m
+            [0mWe expect more guests.[0m
+          [36m</p>[39m
+          [36m<ul[39m
+            [33mclass[39m=[32m"mt-3 space-y-3 text-sm text-slate-700"[39m
+          [36m>[39m
+            [36m<li[39m
+              [33mclass[39m=[32m"whitespace-pre-wrap"[39m
+            [36m>[39m
+              [36m<strong>[39m
+                [0mEvent name[0m
+                [0m: [0m
+              [36m</strong>[39m
+              [0mNew title[0m
+            [36m</li>[39m
+            [36m<li[39m
+              [33mclass[39m=[32m"whitespace-pre-wrap"[39m
+            [36m>[39m
+              [36m<strong>[39m
+                [0mExpected attendance[0m
+                [0m: [0m
+              [36m</strong>[39m
+              [0m80[0m
+            [36m</li>[39m
+          [36m</ul>[39m
+          [36m<details[39m
+            [33mclass[39m=[32m"mt-4 border-t border-slate-200 pt-3"[39m
+          [36m>[39m
+            [36m<summary[39m
+              [33mclass[39m=[32m"cursor-pointer text-sm font-semibold"[39m
+            [36m>[39m
+              [0mReview decision history ([0m
+              [0m0[0m
+              [0m)[0m
+            [36m</summary>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"mt-2 text-sm text-slate-500"[39m
+            [36m>[39m
+              [0mNo review actions recorded since history tracking was enabled.[0m
+            [36m</p>[39m
+          [36m</details>[39m
+          [36m<form[39m
+            [33maria-label[39m=[32m"Review change request"[39m
+            [33mclass[39m=[32m"mt-5 space-y-4"[39m
+            [33mnovalidate[39m=[32m""[39m
+          [36m>[39m
+            [36m<fieldset[39m
+              [33mclass[39m=[32m"space-y-4 disabled:opacity-70"[39m
+            [36m>[39m
+              [36m<legend[39m
+                [33mclass[39m=[32m"mb-2 text-base font-semibold"[39m
+              [36m>[39m
+                [0mReview each requested change[0m
+              [36m</legend>[39m
+              [36m<fieldset[39m
+                [33mclass[39m=[32m"rounded-lg border border-slate-200 p-4"[39m
+              [36m>[39m
+                [36m<legend[39m
+                  [33mclass[39m=[32m"px-1 text-sm font-semibold text-slate-900"[39m
+                [36m>[39m
+                  [0mEvent name[0m
+                [36m</legend>[39m
+                [36m<dl[39m
+                  [33mclass[39m=[32m"grid gap-3 text-sm sm:grid-cols-2"[39m
+                [36m>[39m
+                  [36m<div>[39m
+                    [36m<dt[39m
+                      [33mclass[39m=[32m"text-slate-500"[39m
+                    [36m>[39m
+                      [0mCurrent value[0m
+                    [36m</dt>[39m
+                    [36m<dd[39m
+                      [33mclass[39m=[32m"mt-1 whitespace-pre-wrap"[39m
+                    [36m>[39m
+                      [0mOriginal title[0m
+                    [36m</dd>[39m
+                  [36m</div>[39m
+                  [36m<div>[39m
+                    [36m<dt[39m
+                      [33mclass[39m=[32m"text-slate-500"[39m
+                    [36m>[39m
+                      [0mProposed value[0m
+                    [36m</dt>[39m
+                    [36m<dd[39m
+                      [33mclass[39m=[32m"mt-1 whitespace-pre-wrap"[39m
+                    [36m>[39m
+                      [0mNew title[0m
+                    [36m</dd>[39m
+                  [36m</div>[39m
+                [36m</dl>[39m
+                [36m<label[39m
+                  [33mclass[39m=[32m"mt-4 block text-sm font-medium"[39m
+                  [33mfor[39m=[32m":r0:-decision"[39m
+                [36m>[39m
+                  [0mDecision for [0m
+                  [0mEvent name[0m
+                [36m</label>[39m
+                [36m<select[39m
+                  [33mclass[39m=[32m"mt-1 w-full rounded-lg border border-slate-300 bg-white p-2 text-sm"[39m
+                  [33mid[39m=[32m":r0:-decision"[39m
+                [36m>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m""[39m
+                  [36m>[39m
+                    [0mChoose a decision[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"approved"[39m
+                  [36m>[39m
+                    [0mApprove[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"rejected"[39m
+                  [36m>[39m
+                    [0mReject[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"clarification_requested"[39m
+                  [36m>[39m
+                    [0mRequest clarification[0m
+                  [36m</option>[39m
+                [36m</select>[39m
+                [36m<label[39m
+                  [33mclass[39m=[32m"mt-3 block text-sm font-medium"[39m
+                  [33mfor[39m=[32m":r0:-note"[39m
+                [36m>[39m
+                  [0mComment for [0m
+                  [0mEvent name[0m
+                  [0m [0m
+                  [0m(optional)[0m
+                [36m</label>[39m
+                [36m<textarea[39m
+                  [33maria-required[39m=[32m"false"[39m
+                  [33mclass[39m=[32m"mt-1 w-full rounded-lg border border-slate-300 p-2 text-sm"[39m
+                  [33mid[39m=[32m":r0:-note"[39m
+                  [33mplaceholder[39m=[32m"Optional comment"[39m
+                  [33mrows[39m=[32m"2"[39m
+                [36m/>[39m
+              [36m</fieldset>[39m
+              [36m<fieldset[39m
+                [33mclass[39m=[32m"rounded-lg border border-slate-200 p-4"[39m
+              [36m>[39m
+                [36m<legend[39m
+                  [33mclass[39m=[32m"px-1 text-sm font-semibold text-slate-900"[39m
+                [36m>[39m
+                  [0mExpected attendance[0m
+                [36m</legend>[39m
+                [36m<dl[39m
+                  [33mclass[39m=[32m"grid gap-3 text-sm sm:grid-cols-2"[39m
+                [36m>[39m
+                  [36m<div>[39m
+                    [36m<dt[39m
+                      [33mclass[39m=[32m"text-slate-500"[39m
+                    [36m>[39m
+                      [0mCurrent value[0m
+                    [36m</dt>[39m
+                    [36m<dd[39m
+                      [33mclass[39m=[32m"mt-1 whitespace-pre-wrap"[39m
+                    [36m>[39m
+                      [0m50[0m
+                    [36m</dd>[39m
+                  [36m</div>[39m
+                  [36m<div>[39m
+                    [36m<dt[39m
+                      [33mclass[39m=[32m"text-slate-500"[39m
+                    [36m>[39m
+                      [0mProposed value[0m
+                    [36m</dt>[39m
+                    [36m<dd[39m
+                      [33mclass[39m=[32m"mt-1 whitespace-pre-wrap"[39m
+                    [36m>[39m
+                      [0m80[0m
+                    [36m</dd>[39m
+                  [36m</div>[39m
+                [36m</dl>[39m
+                [36m<label[39m
+                  [33mclass[39m=[32m"mt-4 block text-sm font-medium"[39m
+                  [33mfor[39m=[32m":r1:-decision"[39m
+                [36m>[39m
+                  [0mDecision for [0m
+                  [0mExpected attendance[0m
+                [36m</label>[39m
+                [36m<select[39m
+                  [33mclass[39m=[32m"mt-1 w-full rounded-lg border border-slate-300 bg-white p-2 text-sm"[39m
+                  [33mid[39m=[32m":r1:-decision"[39m
+                [36m>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m""[39m
+                  [36m>[39m
+                    [0mChoose a decision[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"approved"[39m
+                  [36m>[39m
+                    [0mApprove[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"rejected"[39m
+                  [36m>[39m
+                    [0mReject[0m
+                  [36m</option>[39m
+                  [36m<option[39m
+                    [33mvalue[39m=[32m"clarification_requested"[39m
+                  [36m>[39m
+                    [0mRequest clarification[0m
+                  [36m</option>[39m
+                [36m</select>[39m
+                [36m<label[39m
+                  [33mclass[39m=[32m"mt-3 block text-sm font-medium"[39m
+                  [33mfor[39m=[32m":r1:-note"[39m
+                [36m>[39m
+                  [0mComment for [0m
+                  [0mExpected attendance[0m
+                  [0m [0m
+                  [0m(optional)[0m
+                [36m</label>[39m
+                [36m<textarea[39m
+                  [33maria-required[39m=[32m"false"[39m
+                  [33mclass[39m=[32m"mt-1 w-full rounded-lg border border-slate-300 p-2 text-sm"[39m
+                  [33mid[39m=[32m":r1:-note"[39m
+                  [33mplaceholder[39m=[32m"Optional comment"[39m
+                  [33mrows[39m=[32m"2"[39m
+                [36m/>[39m
+              [36m</fieldset>[39m
+              [36m<p[39m
+                [33mclass[39m=[32m"text-sm text-slate-600"[39m
+              [36m>[39m
+                [0mFinalising applies only the approved fields. Rejected fields keep their current values.[0m
+              [36m</p>[39m
+              [36m<button[39m
+                [33mclass[39m=[32m"rounded-lg bg-indigo-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"[39m
+                [33mtype[39m=[32m"submit"[39m
+              [36m>[39m
+                [0mFinalise review[0m
+              [36m</button>[39m
+            [36m</fieldset>[39m
+          [36m</form>[39m
+        [36m</li>[39m
+      [36m</ul>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError ../../../../../../../../Users/jaydon/Desktop/is212/frontend/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../../../../../../../../Users/jaydon/Desktop/is212/frontend/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../../../../../../../../Users/jaydon/Desktop/is212/frontend/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../../../../../../../../Users/jaydon/Desktop/is212/frontend/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/features/events/__tests__/ChangeRequestReviewPanel.test.tsx:115:17
+    113|   expect(screen.getByRole('button', { name: 'Reload review' })).toBeEn…
+    114|   await act(async () => { finishOld({ ok: true, context: reviewContext…
+    115|   expect(screen.getByText('No changes have been requested for this eve…
+       |                 ^
+    116|   expect(screen.queryByRole('form')).not.toBeInTheDocument()
+    117|   expect(screen.queryByText('New title')).not.toBeInTheDocument()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

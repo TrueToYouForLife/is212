@@ -1,0 +1,15 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/events/__tests__/changeRequestDisplay.test.ts src/features/events/__tests__/changeRequestReviewQueryService.test.ts src/features/events/__tests__/changeRequestReviewService.test.ts
+
+
+ RUN  v2.1.9 /private/var/folders/p4/h4056bks5mg95y7t5v1n_8gw0000gn/T/is212-us7-data-probes-qottyheu/frontend
+
+ ✓ src/features/events/__tests__/changeRequestDisplay.test.ts (3 tests) 23ms
+ ✓ src/features/events/__tests__/changeRequestReviewService.test.ts (24 tests) 16ms
+ ✓ src/features/events/__tests__/changeRequestReviewQueryService.test.ts (10 tests) 48ms
+
+ Test Files  3 passed (3)
+      Tests  37 passed (37)
+   Start at  14:52:35
+   Duration  2.28s (transform 171ms, setup 376ms, collect 262ms, tests 87ms, environment 2.94s, prepare 310ms)

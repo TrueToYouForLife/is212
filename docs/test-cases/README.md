@@ -6,6 +6,30 @@ notes remain in `docs/`, and execution/failure evidence stays in `docs/test-evid
 
 ## Current source traceability
 
+US27 update, 4 November 2026: three new status/catalogue/history component IDs; US27
+now has 43 grouped source IDs. [Coverage and remaining safeguards](../us27-equipment-catalogue.md).
+
+US24 update, 4 November 2026: three new return component IDs; US24 now has 40 grouped
+source IDs. Malformed-response assertions are strengthened under the existing ID.
+[Coverage and remaining guards](../us24-return-inspections.md).
+
+US7 component update, 4 November 2026: three new IDs; US7 now has 285 source IDs.
+Saved outcomes, late responses and reload versions are covered. [Results and remaining
+component safeguards](../us7-review-component-coverage.md).
+
+US7 update, 4 November 2026: five new review-data unit IDs; US7 now has 282 source IDs.
+Comparison mapping also checks structured requirement arrays. [Coverage results and
+remaining defensive branches](../us7-review-data-coverage.md).
+
+US17 update, 4 November 2026: thirteen new assignment-service/form/card/queue cases;
+US17 now has 66 source IDs. Existing US36 cases remain unchanged. [Coverage results and remaining
+guard](../test-evidence/us17/assignment-coverage/README.md).
+
+US1 update, 4 November 2026: three new cases (AC-001.4.35–37), plus stronger
+assertions in three existing cases. US1 now has 86 source IDs;
+[coverage results and remaining defensive fallbacks](../test-evidence/us1/draft-coverage/README.md).
+The global 3 November inventory below is a historical checkpoint, not a new full audit.
+
 US41 update, 3 November 2026: three new real HTTP integration IDs after the upstream
 feature-flag cleanup removed three IDs (two US12, one US19). Global total remains
 2,892; current US41 count is 25. [API fix evidence](../test-evidence/us41/loading-fix/README.md).
@@ -14,7 +38,7 @@ feature-flag cleanup removed three IDs (two US12, one US19). Global total remain
 US7 update, 3 November 2026: eleven allocated reply-validation IDs restored;
 [results](../test-evidence/us7/reply-validation/README.md). Earlier baseline above is historical.
 
-All **2,892 distinct numeric AC test-ID references across 45 stories** in the tracked
+At the 3 November checkpoint, all **2,892 distinct numeric AC test-ID references across 45 stories** in the tracked
 frontend test files and `backend/supabase/tests/` are represented in their story's
 catalogue below. This checks source-to-document traceability, not pass rates, runtime
 case counts, coverage percentages or completeness against a newer Jira backlog.
@@ -27,13 +51,13 @@ same ID count once; linked source locations preserve cross-story coverage.
 
 | Story | Unique source IDs | Catalogue | Documentation status |
 | --- | ---: | --- | --- |
-| US1 | 83 | [US1 test cases](US1_test_cases.md) | All source IDs listed |
+| US1 | 86 | [US1 test cases](US1_test_cases.md) | All source IDs listed |
 | US2 | 61 | [US2 test cases](US2_test_cases.md) | All source IDs listed |
 | US3 | 14 | [US3 test cases](US3_test_cases.md) | All source IDs listed |
 | US4 | 69 | [US4 test cases](US4_test_cases.md) | All source IDs listed |
 | US5 | 25 | [US5 test cases](US5_test_cases.md) | All source IDs listed |
 | US6 | 78 | [US6 test cases](US6_test_cases.md) | All source IDs listed |
-| US7 | 277 | [US7 test cases](US7_test_cases.md) | All source IDs listed |
+| US7 | 285 | [US7 test cases](US7_test_cases.md) | All source IDs listed |
 | US8 | 34 | [US8 test cases](US8_test_cases.md) | All source IDs listed |
 | US9 | 93 | [US9 test cases](US9_test_cases.md) | All source IDs listed |
 | US10 | 191 | [US10 test cases](US10_test_cases.md) | All source IDs listed |
@@ -43,16 +67,16 @@ same ID count once; linked source locations preserve cross-story coverage.
 | US14 | 104 | [US14 test cases](US14_test_cases.md) | All source IDs listed |
 | US15 | 74 | [US15 test cases](US15_test_cases.md) | All source IDs listed |
 | US16 | 123 | [US16 test cases](US16_test_cases.md) | All source IDs listed |
-| US17 | 53 | [US17 test cases](US17_test_cases.md) | All source IDs listed |
+| US17 | 66 | [US17 test cases](US17_test_cases.md) | All source IDs listed |
 | US18 | 93 | [US18 test cases](US18_test_cases.md) | All source IDs listed |
 | US19 | 40 | [US19 test cases](US19_test_cases.md) | All source IDs listed |
 | US20 | 79 | [US20 test cases](US20_test_cases.md) | All source IDs listed |
 | US21 | 19 | [US21 test cases](US21_test_cases.md) | All source IDs listed |
 | US22 | 34 | [US22 test cases](US22_test_cases.md) | All source IDs listed |
 | US23 | 34 | [US23 test cases](US23_test_cases.md) | All source IDs listed |
-| US24 | 37 | [US24 test cases](US24_test_cases.md) | All source IDs listed |
+| US24 | 40 | [US24 test cases](US24_test_cases.md) | All source IDs listed |
 | US26 | 9 | [US26 test cases](US26_test_cases.md) | All source IDs listed |
-| US27 | 40 | [US27 test cases](US27_test_cases.md) | All source IDs listed |
+| US27 | 43 | [US27 test cases](US27_test_cases.md) | All source IDs listed |
 | US29 | 40 | [US29 test cases](US29_test_cases.md) | All source IDs listed |
 | US31 | 60 | [US31 test cases](US31_test_cases.md) | All source IDs listed |
 | US32 | 60 | [US32 test cases](US32_test_cases.md) | All source IDs listed |

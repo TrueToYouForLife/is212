@@ -1,0 +1,67 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/events/__tests__/arrangementReviewService.test.ts src/features/events/__tests__/ArrangementReviewPanel.test.tsx
+
+
+ RUN  v2.1.9 /private/tmp/is212-us41-probe
+
+ ❯ src/features/events/__tests__/arrangementReviewService.test.ts (5 tests | 1 failed) 82ms
+   × AC-041.1.16: a genuine empty count result is valid, while absent data and a rejected read never clear review indicators as zero 35ms
+     → expected { ok: true, value: {} } to deeply equal { ok: false, …(1) }
+ ❯ src/features/events/__tests__/ArrangementReviewPanel.test.tsx (4 tests | 1 failed) 439ms
+   × AC-041.6.5: mixed resolution history is newest first, retains equipment/venue references and uses recorded actor IDs when display names are unavailable 52ms
+     → expected [ …(3) ] to deeply equal [ …(3) ]
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/events/__tests__/ArrangementReviewPanel.test.tsx > AC-041.6.5: mixed resolution history is newest first, retains equipment/venue references and uses recorded actor IDs when display names are unavailable
+AssertionError: expected [ …(3) ] to deeply equal [ …(3) ]
+
+- Expected
++ Received
+
+  Array [
+-   "Reference: 41000000-0000-0000-0000-000000000013",
+-   "Reference: 41000000-0000-0000-0000-000000000012",
+    "Reference: 41000000-0000-0000-0000-000000000011",
++   "Reference: 41000000-0000-0000-0000-000000000012",
++   "Reference: 41000000-0000-0000-0000-000000000013",
+  ]
+
+ ❯ src/features/events/__tests__/ArrangementReviewPanel.test.tsx:75:79
+     73|   const history = await screen.findByRole('region', { name: 'Resolutio…
+     74|   const items = within(history).getAllByRole('listitem')
+     75|   expect(items.map(item => within(item).getByText(/Reference:/).textCo…
+       |                                                                               ^
+     76|     `Reference: ${equipment.equipment_booking_id}`, `Reference: ${unna…
+     77|     `Reference: ${resolved.venue_booking_id}`,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/features/events/__tests__/arrangementReviewService.test.ts > AC-041.1.16: a genuine empty count result is valid, while absent data and a rejected read never clear review indicators as zero
+AssertionError: expected { ok: true, value: {} } to deeply equal { ok: false, …(1) }
+
+- Expected
++ Received
+
+  Object {
+-   "ok": false,
+-   "reason": "Arrangement reviews could not be loaded. Please try again.",
++   "ok": true,
++   "value": Object {},
+  }
+
+ ❯ src/features/events/__tests__/arrangementReviewService.test.ts:66:47
+     64|   const failed = { ok: false, reason: ARRANGEMENT_REVIEW_ERROR }
+     65|   expect(await listArrangementReviewCounts()).toEqual(failed)
+     66|   expect(await listArrangementReviewCounts()).toEqual(failed)
+       |                                               ^
+     67|   expect(select).toHaveBeenCalledWith('event_id, venue_booking_id, equ…
+     68|   expect(eq.mock.calls).toEqual([['status', 'open'], ['status', 'open'…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 7 passed (9)
+   Start at  19:34:13
+   Duration  3.27s (transform 148ms, setup 273ms, collect 520ms, tests 521ms, environment 1.84s, prepare 451ms)

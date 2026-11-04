@@ -1,5 +1,21 @@
 # US47 test cases
 
+## Buffer-settings coverage — 4 November 2026
+
+Four new grouped cases bring the current catalogue to **65 numeric source IDs**.
+Earlier counts and pending statements below retain their original dates.
+
+| ID | Classification | Scenario / expected outcome | Source |
+|---|---|---|---|
+| AC-047.1.8 | Unit — Negative / Regression | Read/save permission, validation, stale and unknown errors use safe distinct messages; malformed or interrupted reads cannot invent settings. | `frontend/src/features/venues/__tests__/venueBufferSettingsService.test.ts` |
+| AC-047.1.9 | Unit — Happy path / Negative / Boundary | Refuse invalid duration/version before writing; accept zero and the largest supported integer multiple of 15; preserve independent values/version; malformed/interrupted save responses never claim success. | Same service test file |
+| AC-047.1.10 | Component — Negative / Regression | Changing venues ignores a late earlier read; the next save uses the current venue's displayed durations and version. | `frontend/src/features/venues/__tests__/VenueBufferSettings.test.tsx` |
+| AC-047.1.11 | Component — Happy path / Negative / Regression | Pending save disables edits/duplicate clicks; permission refusal preserves inputs without success; explicit retry can recover. | Same component test file |
+
+Existing AC-047.1.6 now also verifies that stale reload uses the fresh version when
+saving zero defaults. Services mock Supabase; these are not live API/RLS/manual tests.
+[Measured coverage, guard justification and probes](../test-evidence/us47/buffer-coverage/README.md).
+
 ## Documentation accuracy review — 2 November 2026
 
 All 61 numeric source IDs remain mapped. Earlier “next ID”, draft, pending and
