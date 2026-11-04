@@ -9,6 +9,14 @@ vi.mock('../venueReplacementService', () => ({ getVenueReplacements: mocks.repla
 vi.mock('../venueBookingQueueService', () => ({ listPendingVenueBookings: mocks.list }))
 vi.mock('../../auth/sessionContext', () => ({ useCurrentUser: () => ({ loading: mocks.loading, profile: { id: mocks.id, role: mocks.role } }) }))
 const show = () => render(<MemoryRouter><VenueBookingQueuePage /></MemoryRouter>)
+
+test('reloading replacement decisions refreshes the pending booking queue too', async () => {
+  show()
+  await screen.findByText('No replacement requests.')
+  await userEvent.click(screen.getByRole('button', { name: 'Reload replacements' }))
+  expect(mocks.list).toHaveBeenCalledTimes(2)
+  expect(await screen.findByText('No bookings are awaiting review.')).toBeInTheDocument()
+})
 beforeEach(() => { vi.clearAllMocks(); mocks.role = 'venue_staff'; mocks.id = 'u1'; mocks.loading = false; mocks.list.mockResolvedValue({ ok: true, bookings: [] }) })
 
 test('AC-010.1.5: pending requests link to their existing review page', async () => {

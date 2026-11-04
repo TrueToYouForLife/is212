@@ -6,6 +6,37 @@ import { BLOCK_VALIDATION_MESSAGES } from '../venueBlockValidation'
 
 const NOTHING: VenueBlockPreview = { affectedBookings: [], existingBlocks: [] }
 
+test.each([[null, 'could not confirm how many'], [1, '1 booking was flagged']])('saved result reports the actual count %s', async (count, text) => {
+  render(<VenueBlockForm venueId="v1" onPreview={previewing()} onCreate={saving(count as number | null)} />)
+  fillIn()
+  fireEvent.click(screen.getByRole('button', { name: 'Preview' }))
+  fireEvent.click(await screen.findByRole('button', { name: 'Confirm block' }))
+  expect(await screen.findByRole('status')).toHaveTextContent(String(text))
+})
+
+test('failed confirmation preserves entered data and does not report a saved block', async () => {
+  const onSaved = vi.fn()
+  render(<VenueBlockForm venueId="v1" onPreview={previewing()} onCreate={vi.fn().mockResolvedValue({ ok: false, reason: 'The period changed. Preview again.' })} onSaved={onSaved} />)
+  fillIn()
+  fireEvent.click(screen.getByRole('button', { name: 'Preview' }))
+  fireEvent.click(await screen.findByRole('button', { name: 'Confirm block' }))
+  expect(await screen.findByRole('alert')).toHaveTextContent('The period changed. Preview again.')
+  expect(screen.getByLabelText(/Reason/)).toHaveValue(ENTERED.reason)
+  expect(onSaved).not.toHaveBeenCalled()
+})
+
+test('blanking the reason after preview prevents confirmation', async () => {
+  const onCreate = saving()
+  render(<VenueBlockForm venueId="v1" onPreview={previewing()} onCreate={onCreate} />)
+  fillIn()
+  fireEvent.click(screen.getByRole('button', { name: 'Preview' }))
+  await screen.findByRole('button', { name: 'Confirm block' })
+  fireEvent.change(screen.getByLabelText(/Reason/), { target: { value: ' ' } })
+  fireEvent.click(screen.getByRole('button', { name: 'Confirm block' }))
+  expect(await screen.findByRole('alert')).toHaveTextContent(BLOCK_VALIDATION_MESSAGES.reasonRequired)
+  expect(onCreate).not.toHaveBeenCalled()
+})
+
 const ENTERED: VenueBlockInput = {
   venueId: 'v1',
   startsOn: '2040-03-10',

@@ -1,14 +1,14 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { beforeEach, expect, test, vi } from 'vitest'
 import { VenueBookingReviewPage } from '../pages/VenueBookingReviewPage'
 
-const mocks = vi.hoisted(() => ({ get: vi.fn(), reject: vi.fn(), approve: vi.fn(), role: 'venue_staff' }))
+const mocks = vi.hoisted(() => ({ get: vi.fn(), reject: vi.fn(), approve: vi.fn(), role: 'venue_staff', loading: false }))
 vi.mock('../venueBookingApprovalService', () => ({ approveVenueBooking: mocks.approve }))
 vi.mock('../venueBookingReviewService', () => ({ getVenueBookingReview: mocks.get, rejectVenueBooking: mocks.reject }))
 vi.mock('../../auth/sessionContext', () => ({ useCurrentUser: () => ({
-  loading: false, profile: { id: 'staff-1', role: mocks.role },
+  loading: mocks.loading, profile: { id: 'staff-1', role: mocks.role },
 }) }))
 const BOOKING = {
   id: 'booking-1', venueName: 'Alpha Hall', status: 'rejected', reviewNote: 'Unavailable',
@@ -17,16 +17,34 @@ const BOOKING = {
 const PENDING = { ...BOOKING, status: 'pending_approval', reviewNote: null,
   reviewAlternative: null, reviewedBy: null, reviewedAt: null }
 function show() {
-  render(<MemoryRouter initialEntries={['/venues/bookings/booking-1/review']}>
+  return render(<MemoryRouter initialEntries={['/venues/bookings/booking-1/review']}>
     <Routes><Route path="/venues/bookings/:bookingId/review" element={<VenueBookingReviewPage />} /></Routes>
   </MemoryRouter>)
 }
 beforeEach(() => {
   vi.clearAllMocks()
   mocks.role = 'venue_staff'
+  mocks.loading = false
   mocks.get.mockResolvedValue({ ok: true, booking: BOOKING })
   mocks.reject.mockResolvedValue({ ok: true })
   mocks.approve.mockResolvedValue({ ok: true })
+})
+
+test('review waits for session resolution', () => {
+  mocks.loading = true
+  show()
+  expect(screen.getByText(/Checking your session/)).toBeInTheDocument()
+  expect(mocks.get).not.toHaveBeenCalled()
+})
+
+test('a review result arriving after navigation cannot restore the removed page', async () => {
+  let finish!: (value: unknown) => void
+  mocks.get.mockReturnValueOnce(new Promise(resolve => { finish = resolve }))
+  const view = show()
+  view.unmount()
+  await act(async () => finish({ ok: true, booking: BOOKING }))
+  expect(screen.queryByText('Alpha Hall')).not.toBeInTheDocument()
+  expect(mocks.reject).not.toHaveBeenCalled()
 })
 
 test('AC-010.5.20: routed approval reloads the persisted decision and removes both decision actions', async () => {

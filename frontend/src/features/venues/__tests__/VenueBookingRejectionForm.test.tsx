@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, expect, test, vi } from 'vitest'
 import { VenueBookingRejectionForm } from '../components/VenueBookingRejectionForm'
@@ -71,6 +71,7 @@ test('AC-010.12.14: double-clicking while a decision is pending sends it once', 
   const user = userEvent.setup()
   await user.type(screen.getByLabelText('Rejection reason'), 'Unavailable')
   await user.dblClick(screen.getByRole('button', { name: 'Reject booking' }))
+  fireEvent.submit(screen.getByLabelText('Rejection reason').closest('form')!)
   expect(mocks.reject).toHaveBeenCalledOnce()
   await act(async () => finish({ ok: true }))
 })
@@ -85,6 +86,8 @@ test('AC-010.12.15: an unsuccessful decision preserves the reason and locks retr
   expect(await screen.findByRole('alert')).toHaveTextContent('Already reviewed. Reload.')
   expect(screen.getByLabelText('Rejection reason')).toHaveValue('Unavailable')
   expect(screen.getByRole('button', { name: 'Reject booking' })).toBeDisabled()
+  fireEvent.submit(screen.getByLabelText('Rejection reason').closest('form')!)
+  expect(mocks.reject).toHaveBeenCalledOnce()
   expect(onRejected).not.toHaveBeenCalled()
 })
 

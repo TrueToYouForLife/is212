@@ -1,8 +1,19 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, expect, test, vi } from 'vitest'
 import { VenueCancellationPanel } from '../components/VenueCancellationPanel'
 const mocks = vi.hoisted(() => ({ read: vi.fn(), cancel: vi.fn() }))
+
+test('a late context for the previous booking cannot replace the current booking', async () => {
+  let finish!: (value: unknown) => void
+  mocks.read.mockReturnValueOnce(new Promise(resolve => { finish = resolve }))
+  const view = render(<VenueCancellationPanel bookingId="old" onChanged={vi.fn()} />)
+  view.rerender(<VenueCancellationPanel bookingId="new" onChanged={vi.fn()} />)
+  await screen.findByRole('button', { name: 'Cancel booking' })
+  await act(async () => finish({ status: 'cancelled', version: 'old', audit: { actor_name: 'Old actor', reason: 'Old reason', cancelled_at: '2026-10-27T01:00:00Z' } }))
+  expect(screen.queryByText(/Old actor/)).not.toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Cancel booking' })).toBeEnabled()
+})
 vi.mock('../venueCancellationService', () => ({ getVenueCancellation: mocks.read, cancelVenueBooking: mocks.cancel }))
 beforeEach(() => {
   vi.clearAllMocks()

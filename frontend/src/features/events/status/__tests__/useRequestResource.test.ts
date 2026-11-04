@@ -16,6 +16,7 @@ test('AC-003.2.2: refreshes status periodically and on focus, stopping after unm
   await act(async () => { window.dispatchEvent(new Event('focus')) })
   expect(read).toHaveBeenCalledTimes(3)
   unmount()
+  result.current.refresh()
   await vi.advanceTimersByTimeAsync(STATUS_REFRESH_MS)
   expect(read).toHaveBeenCalledTimes(3)
 })

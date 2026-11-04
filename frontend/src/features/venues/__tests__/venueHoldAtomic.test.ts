@@ -5,6 +5,64 @@ import { QUARTER_HOUR_SLOTS } from '../quarterHourSlots'
 const mocks = vi.hoisted(() => ({ from: vi.fn(), getUser: vi.fn(), rpc: vi.fn() }))
 vi.mock('../../../lib/supabase', () => ({ supabase: { from: mocks.from, rpc: mocks.rpc, auth: { getUser: mocks.getUser } } }))
 const fake = createSupabaseFake()
+
+test.each([
+  ['23503', undefined, messages.unknownVenue],
+  ['unexpected', undefined, messages.unexpected],
+  ['23505', 'venue_bookings_one_active_hold_per_event', messages.alreadyHeld],
+  ['22023', 'Venue is not bookable', messages.unavailable],
+  ['22023', 'Event is not bookable', messages.eventNotBookable],
+  ['22023', 'Invalid period', messages.invalidTiming],
+])('booking refusal %s / %s preserves its meaning', async (code, message, reason) => {
+  plan()
+  mocks.rpc.mockResolvedValue({ data: null, error: { code, message } })
+  const log = vi.spyOn(console, 'error').mockImplementation(() => {})
+  try { expect(await holdVenue(EVENT_ID, VENUE_ID)).toEqual({ ok: false, reason, conflicts: [] }) }
+  finally { log.mockRestore() }
+})
+
+test('offered-layout refusal is preserved for explicit space requirements', async () => {
+  plan()
+  mocks.rpc.mockResolvedValue({ data: null, error: { code: '22023', message: 'Choose an offered layout for this venue' } })
+  expect(await holdVenue(EVENT_ID, VENUE_ID, undefined, { layout: 'theatre', attendance: 10 })).toMatchObject({ ok: false, reason: 'Choose an offered layout for this venue' })
+})
+
+test.each([null, { message: 'Read denied' }])('unavailable event and venue reads prevent a hold: %j', async error => {
+  fake.plan('events', { data: null, error })
+  expect(await holdVenue(EVENT_ID, VENUE_ID)).toMatchObject({ ok: false, reason: messages.eventNotFound })
+  fake.plan('events', { data: APPROVED_EVENT })
+  fake.plan('venues', { data: null, error })
+  expect(await holdVenue(EVENT_ID, VENUE_ID)).toMatchObject({ ok: false, reason: messages.unknownVenue })
+  expect(mocks.rpc).not.toHaveBeenCalled()
+})
+
+test('failed and empty slot catalogue reads return no bookable slots', async () => {
+  const log = vi.spyOn(console, 'error').mockImplementation(() => {})
+  try {
+    fake.plan('time_slots', { error: { message: 'Unavailable' } })
+    expect(await loadTimeSlots()).toEqual([])
+    expect(log).toHaveBeenCalled()
+    fake.plan('time_slots', { data: null })
+    expect(await loadTimeSlots()).toEqual([])
+  } finally { log.mockRestore() }
+})
+
+test('missing conflict rows do not turn a refused hold into a success', async () => {
+  plan()
+  mocks.rpc.mockResolvedValue({ data: null, error: { code: '23505' } })
+  fake.plan('venue_effective_slot_claims', { data: null })
+  expect(await holdVenue(EVENT_ID, VENUE_ID)).toEqual({ ok: false, reason: messages.unavailable, conflicts: [] })
+})
+
+test('a thrown conflict-detail request preserves the original booking refusal', async () => {
+  plan()
+  mocks.rpc.mockResolvedValue({ data: null, error: { code: '23505' } })
+  mocks.from.mockImplementation(table => {
+    if (table === 'venue_effective_slot_claims') throw new Error('Connection interrupted')
+    return fake.route(table)
+  })
+  expect(await holdVenue(EVENT_ID, VENUE_ID)).toEqual({ ok: false, reason: messages.unavailable, conflicts: [] })
+})
 function plan(event: Record<string, unknown> = APPROVED_EVENT, setup = 30) {
   fake.plan('events', { data: event })
   fake.plan('venues', { data: { setup_minutes: setup, turnaround_minutes: 45 } })
