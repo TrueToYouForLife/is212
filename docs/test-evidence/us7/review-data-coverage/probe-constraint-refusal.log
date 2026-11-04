@@ -1,0 +1,40 @@
+Deliberate regression in a disposable copy; not a product defect. Expected failure: AC-007.9.23
+
+> connectsphere@0.1.0 test
+> vitest run src/features/events/__tests__/changeRequestReviewService.test.ts -t AC-007.9.23
+
+
+ RUN  v2.1.9 /private/var/folders/p4/h4056bks5mg95y7t5v1n_8gw0000gn/T/is212-us7-data-probes-qottyheu/frontend
+
+ ❯ src/features/events/__tests__/changeRequestReviewService.test.ts (24 tests | 1 failed | 23 skipped) 22ms
+   × AC-007.9 — preserve the database checks on accepted changes > AC-007.9.23: database value and constraint refusals return safe guidance without retrying or updating the event directly 20ms
+     → expected { ok: false, …(1) } to deeply equal { ok: false, …(1) }
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 23 skipped (24)
+   Start at  14:52:32
+   Duration  1.73s (transform 84ms, setup 131ms, collect 91ms, tests 22ms, environment 792ms, prepare 56ms)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/events/__tests__/changeRequestReviewService.test.ts > AC-007.9 — preserve the database checks on accepted changes > AC-007.9.23: database value and constraint refusals return safe guidance without retrying or updating the event directly
+AssertionError: expected { ok: false, …(1) } to deeply equal { ok: false, …(1) }
+
+- Expected
++ Received
+
+  Object {
+    "ok": false,
+-   "reason": "These decisions cannot be saved. Check the proposed values and decisions, including the resulting dates and attendance.",
++   "reason": "The review could not be confirmed. Reload the request to check its status before trying again.",
+  }
+
+ ❯ src/features/events/__tests__/changeRequestReviewService.test.ts:159:10
+    157|       mocks.rpc.mockClear().mockResolvedValue({ data: null, error: { c…
+    158|       expect(await saveChangeRequestReview(request, version, approved))
+    159|         .toEqual({ ok: false, reason: messages.invalidEvent })
+       |          ^
+    160|       expect(mocks.rpc).toHaveBeenCalledTimes(1)
+    161|       expect(mocks.rpc).toHaveBeenCalledWith('review_event_change_requ…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

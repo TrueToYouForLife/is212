@@ -1,3 +1,19 @@
+# US7 review-data coverage — 4 November 2026
+- Branch `us7-review-data-coverage`, base 13309ef (US17 PR180 merged). Jaydon owns Git.
+  Only tests/docs/evidence; no application, database, migration or coverage exclusions.
+- Five new unit cases: .3.8–11 and .9.23; strengthen .3.1 mapping with actual structured
+  arrays, correcting a historical text fixture. US7 catalogue282 IDs. No product defect.
+- Focused43/three files before,48/four after; full1,738/222, lint and build/typecheck pass.
+  Global98.23% statements/lines,91.94% branches,95.71% functions. Two disposable-copy
+  regression probes detected; restored37 tests pass. No SQL/manual/RLS pass claimed.
+- Target files all100% statements/lines/functions. Branches: display96.42% (47),
+  query70% (35,39–41,43–46), save93.10% (24–25). Exact contract-based reasons in
+  docs/us7-review-data-coverage.md; retain safeguards, no impossible null mocks.
+- Worklist rows41/47/49 refreshed and verified saved to Drive: percentages/locations,
+  Justification needed and exact contract reasons. US7 summary uses story-tag formulas.
+  Remaining four US7 review components, US41 arrangement files and other owners'
+  allocations stay outside this portion. No commit, push, PR or remote CI claimed.
+
 # US17 assignment coverage — 4 November 2026
 - Branch `us17-assignment-coverage`, base 41fa44a (US1 PR179 and upstream PR178 merged).
   Jaydon owns Git/PR/merge. No product, migration, shared DB, configuration or exclusions

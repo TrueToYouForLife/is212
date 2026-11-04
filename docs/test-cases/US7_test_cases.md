@@ -1,5 +1,14 @@
 # US7 — Event Coordinator Reviewing Change Requests
 
+## Review-data coverage — 4 November 2026
+
+Five new unit cases (.3.8–11 and .9.23) cover readable requirements/layouts, Singapore
+date boundaries, optional comparison values and safe database validation refusals.
+AC-007.3.1 now checks all mapped current values using structured requirement arrays.
+All 282 source IDs are mapped. No application or database change; remaining review
+components and US41 arrangement gaps are separate. [Results and remaining branch
+reasons](../us7-review-data-coverage.md).
+
 ## Reply-validation coverage restored — 3 November 2026
 
 All 277 source IDs are traceable. AC-007.7.37–47 now call the real reply validator;
@@ -11,7 +20,7 @@ stale-response refusals are Negative. Parameter rows now name their distinct inp
 
 [Review findings and limits](../jaydon-test-documentation-review.md).
 
-Owner: Jaydon. Catalogue checked: 3 November 2026.
+Owner: Jaydon. Catalogue checked: 4 November 2026.
 
 ## Scope and evidence
 
@@ -30,7 +39,7 @@ actual execution/report is recorded.
 
 Related implementation notes: [us7-notification-trigger.md](../us7-notification-trigger.md), [us7-reply-preparation.md](../us7-reply-preparation.md), [us7-revalidation.md](../us7-revalidation.md), [us7-review-history.md](../us7-review-history.md), [us7-review-ui.md](../us7-review-ui.md), [us7-significance.md](../us7-significance.md).
 
-## Existing cases (277 source IDs)
+## Existing cases (282 source IDs)
 
 | Test ID | AC | Classification | Scenario / expected assertion | Test source |
 | --- | --- | --- | --- | --- |
@@ -75,11 +84,11 @@ Related implementation notes: [us7-notification-trigger.md](../us7-notification-
 | AC-007.2.21 | 2 | Unit — Negative | reports a server permission denial without exposing internal details | [frontend/src/features/events/__tests__/changeRequestReviewService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewService.test.ts#L33) |
 | AC-007.2.22 | 2 | Integration — Negative | another coordinator cannot save provisional field decisions | [backend/supabase/tests/change_request_field_clarification.sql](../../backend/supabase/tests/change_request_field_clarification.sql#L27) |
 | AC-007.2.23 | 2 | Integration — Negative | organiser cannot overwrite coordinator field decisions | [backend/supabase/tests/change_request_field_clarification.sql](../../backend/supabase/tests/change_request_field_clarification.sql#L31) |
-| AC-007.2.24 | 2 | Unit — Negative | A signed-out caller cannot load the comparison; no events query is made. | [frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts#L27) |
-| AC-007.2.25 | 2 | Unit — Negative | A session-validation error prevents loading the comparison; no events query is made. | [frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts#L28) |
-| AC-007.2.26 | 2 | Unit — Negative | An absent event row returns unavailable and exposes no review context. | [frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts#L35) |
-| AC-007.2.27 | 2 | Unit — Negative | An event assigned to another Coordinator returns unavailable and exposes no review context. | [frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts#L35) |
-| AC-007.2.28 | 2 | Unit — Negative | an invalid event ID does not contact Supabase | [frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts#L40) |
+| AC-007.2.24 | 2 | Unit — Negative | A signed-out caller cannot load the comparison; no events query is made. | [frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts#L28) |
+| AC-007.2.25 | 2 | Unit — Negative | A session-validation error prevents loading the comparison; no events query is made. | [frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts#L29) |
+| AC-007.2.26 | 2 | Unit — Negative | An absent event row returns unavailable and exposes no review context. | [frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts#L36) |
+| AC-007.2.27 | 2 | Unit — Negative | An event assigned to another Coordinator returns unavailable and exposes no review context. | [frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts#L36) |
+| AC-007.2.28 | 2 | Unit — Negative | an invalid event ID does not contact Supabase | [frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts#L41) |
 | AC-007.2.29 | 2 | Component — Negative | permission denial shows no comparison or review controls | [frontend/src/features/events/__tests__/ChangeRequestReviewPanel.test.tsx](../../frontend/src/features/events/__tests__/ChangeRequestReviewPanel.test.tsx#L23) |
 | AC-007.2.30 | 2 | Component — Happy path | the organiser detail page mounts the read-only list without coordinator controls | [frontend/src/features/events/__tests__/ChangeRequestReviewPage.test.tsx](../../frontend/src/features/events/__tests__/ChangeRequestReviewPage.test.tsx#L33) |
 | AC-007.2.31 | 2 | Component — Happy path / Regression | the coordinator detail page connects the event ID and refresh callback to the review panel | [frontend/src/features/events/__tests__/ChangeRequestReviewPage.test.tsx](../../frontend/src/features/events/__tests__/ChangeRequestReviewPage.test.tsx#L38) |
@@ -87,9 +96,9 @@ Related implementation notes: [us7-notification-trigger.md](../us7-notification-
 | AC-007.2.33 | 2 | Integration — Negative | another organiser cannot reply to the request | [backend/supabase/tests/change_request_replies.sql](../../backend/supabase/tests/change_request_replies.sql#L25) |
 | AC-007.2.34 | 2 | Integration — Negative | an absent identity cannot reply | [backend/supabase/tests/change_request_replies.sql](../../backend/supabase/tests/change_request_replies.sql#L28) |
 | AC-007.2.35 | 2 | Integration — Negative | organiser cannot directly rewrite reply history | [backend/supabase/tests/change_request_replies.sql](../../backend/supabase/tests/change_request_replies.sql#L31) |
-| AC-007.3.1 | 3 | Unit — Happy path | loads current values, version and field decisions in one assignment-filtered query | [frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts#L47) |
-| AC-007.3.2 | 3 | Unit — Negative / Boundary | database failures are not returned as an empty request list | [frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts#L63) |
-| AC-007.3.3 | 3 | Unit — Negative | a lost connection returns a recoverable loading error | [frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts#L67) |
+| AC-007.3.1 | 3 | Unit — Happy path | loads current values, version and field decisions in one assignment-filtered query | [frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts#L48) |
+| AC-007.3.2 | 3 | Unit — Negative / Boundary | database failures are not returned as an empty request list | [frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts#L68) |
+| AC-007.3.3 | 3 | Unit — Negative | a lost connection returns a recoverable loading error | [frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts#L72) |
 | AC-007.3.4 | 3 | Component — Happy path | groups current and proposed values beneath their field names | [frontend/src/features/events/__tests__/ChangeRequestReviewForm.test.tsx](../../frontend/src/features/events/__tests__/ChangeRequestReviewForm.test.tsx#L24) |
 | AC-007.3.5 | 3 | Component — Happy path | formats Singapore dates, explicit false and blank proposed values | [frontend/src/features/events/__tests__/ChangeRequestReviewForm.test.tsx](../../frontend/src/features/events/__tests__/ChangeRequestReviewForm.test.tsx#L33) |
 | AC-007.3.6 | 3 | Component — Negative | failed loading offers a manual reload rather than claiming there are no requests | [frontend/src/features/events/__tests__/ChangeRequestReviewPanel.test.tsx](../../frontend/src/features/events/__tests__/ChangeRequestReviewPanel.test.tsx#L30) |
@@ -233,9 +242,9 @@ Related implementation notes: [us7-notification-trigger.md](../us7-notification-
 | AC-007.9.9 | 9 | Integration — Happy path | timezone-less proposal is interpreted as Singapore time | [backend/supabase/tests/change_request_review.sql](../../backend/supabase/tests/change_request_review.sql#L213) |
 | AC-007.9.10 | 9 | Integration — Negative | failure while saving decision aborts approval | [backend/supabase/tests/change_request_review.sql](../../backend/supabase/tests/change_request_review.sql#L216) |
 | AC-007.9.11 | 9 | Integration — Negative / Regression | final-save failure rolls back the event update and decision together | [backend/supabase/tests/change_request_review.sql](../../backend/supabase/tests/change_request_review.sql#L220) |
-| AC-007.9.12 | 9 | Unit — Negative / Boundary | A blank displayed event version returns reload without sending a review. | [frontend/src/features/events/__tests__/changeRequestReviewService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewService.test.ts#L156) |
-| AC-007.9.13 | 9 | Unit — Negative | An invalid timestamp version returns reload without sending a review. | [frontend/src/features/events/__tests__/changeRequestReviewService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewService.test.ts#L156) |
-| AC-007.9.14 | 9 | Unit — Negative | reports a rejected resulting event without attempting a direct update | [frontend/src/features/events/__tests__/changeRequestReviewService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewService.test.ts#L162) |
+| AC-007.9.12 | 9 | Unit — Negative / Boundary | A blank displayed event version returns reload without sending a review. | [frontend/src/features/events/__tests__/changeRequestReviewService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewService.test.ts#L169) |
+| AC-007.9.13 | 9 | Unit — Negative | An invalid timestamp version returns reload without sending a review. | [frontend/src/features/events/__tests__/changeRequestReviewService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewService.test.ts#L169) |
+| AC-007.9.14 | 9 | Unit — Negative | reports a rejected resulting event without attempting a direct update | [frontend/src/features/events/__tests__/changeRequestReviewService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewService.test.ts#L175) |
 | AC-007.9.15 | 9 | Integration — Happy path | fully resolved partial approval applies accepted fields and preserves rejected values | [backend/supabase/tests/change_request_field_clarification.sql](../../backend/supabase/tests/change_request_field_clarification.sql#L118) |
 | AC-007.9.16 | 9 | Component — Happy path / Regression | successful finalisation reloads the outcome and refreshes the parent event | [frontend/src/features/events/__tests__/ChangeRequestReviewPanel.test.tsx](../../frontend/src/features/events/__tests__/ChangeRequestReviewPanel.test.tsx#L78) |
 | AC-007.9.17 | 9 | Integration — Happy path | final review after replies applies only accepted changes | [backend/supabase/tests/change_request_replies.sql](../../backend/supabase/tests/change_request_replies.sql#L65) |
@@ -245,7 +254,7 @@ Related implementation notes: [us7-notification-trigger.md](../us7-notification-
 | AC-007.9.21 | 9 | Integration — Negative | a blank element is refused before the event is touched | [backend/supabase/tests/structured_event_requirements.sql](../../backend/supabase/tests/structured_event_requirements.sql#L222) |
 | AC-007.9.22 | 9 | Integration — Negative / Regression | a refused review leaves the event's requirements unchanged | [backend/supabase/tests/structured_event_requirements.sql](../../backend/supabase/tests/structured_event_requirements.sql#L233) |
 | AC-007.10.1 | 10 | Integration — Happy path / Regression | rejection leaves event details unchanged | [backend/supabase/tests/change_request_review.sql](../../backend/supabase/tests/change_request_review.sql#L225) |
-| AC-007.10.2 | 10 | Unit — Happy path | sends a full rejection without issuing any event update | [frontend/src/features/events/__tests__/changeRequestReviewService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewService.test.ts#L170) |
+| AC-007.10.2 | 10 | Unit — Happy path | sends a full rejection without issuing any event update | [frontend/src/features/events/__tests__/changeRequestReviewService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewService.test.ts#L183) |
 | AC-007.10.3 | 10 | Component — Happy path | rejecting every field sends both reasons and reports a rejected outcome | [frontend/src/features/events/__tests__/ChangeRequestReviewForm.test.tsx](../../frontend/src/features/events/__tests__/ChangeRequestReviewForm.test.tsx#L127) |
 | AC-007.11.1 | 11 | Unit — Happy path | a proposed change to proposedStart is significant | [frontend/src/features/events/__tests__/changeRequestSignificance.test.ts](../../frontend/src/features/events/__tests__/changeRequestSignificance.test.ts#L6) |
 | AC-007.11.2 | 11 | Unit — Happy path | a proposed change to proposedEnd is significant | [frontend/src/features/events/__tests__/changeRequestSignificance.test.ts](../../frontend/src/features/events/__tests__/changeRequestSignificance.test.ts#L7) |
@@ -310,7 +319,7 @@ Related implementation notes: [us7-notification-trigger.md](../us7-notification-
 | AC-007.13.28 | 13 | Component — Happy path | final and earlier clarification decisions remain visible together | [frontend/src/features/events/__tests__/ChangeRequestReviewHistory.test.tsx](../../frontend/src/features/events/__tests__/ChangeRequestReviewHistory.test.tsx#L20) |
 | AC-007.13.29 | 13 | Component — Happy path / Boundary | empty history explains the tracking boundary | [frontend/src/features/events/__tests__/ChangeRequestReviewHistory.test.tsx](../../frontend/src/features/events/__tests__/ChangeRequestReviewHistory.test.tsx#L28) |
 | AC-007.13.30 | 13 | Component — Happy path / Regression | legacy whole-request clarification note is retained | [frontend/src/features/events/__tests__/ChangeRequestReviewHistory.test.tsx](../../frontend/src/features/events/__tests__/ChangeRequestReviewHistory.test.tsx#L32) |
-| AC-007.13.31 | 13 | Unit — Happy path / Regression | embeds and maps retained history newest version first | [frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts#L73) |
+| AC-007.13.31 | 13 | Unit — Happy path / Regression | embeds and maps retained history newest version first | [frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts#L96) |
 
 ## Missing historical reply-validation cases
 
@@ -320,3 +329,13 @@ in the existing reply file and are catalogued above. Original review IDs still r
 `changeRequestReviewValidation.test.ts`; duplicate source links have been removed.
 This closes a test-coverage gap, without demonstrating a product defect. These pure
 unit cases do not establish database ownership/version enforcement or deployed UI acceptance.
+
+## Added review-data cases — 4 November 2026
+
+| Test ID | AC | Classification | Scenario / expected assertion | Test source |
+| --- | --- | --- | --- | --- |
+| AC-007.3.8 | 3 | Unit — Happy path / Boundary | Readable labels, clearing a requirement list and explicit Yes/No remain distinct from missing input; unloaded equipment codes remain visible. | [frontend/src/features/events/__tests__/changeRequestDisplay.test.ts](../../frontend/src/features/events/__tests__/changeRequestDisplay.test.ts#L4) |
+| AC-007.3.9 | 3 | Unit — Happy path / Boundary | Layouts use loaded labels while unmatched/unloaded codes stay visible and null is Not provided. | [frontend/src/features/events/__tests__/changeRequestDisplay.test.ts](../../frontend/src/features/events/__tests__/changeRequestDisplay.test.ts#L21) |
+| AC-007.3.10 | 3 | Unit — Happy path / Boundary / Regression | Local, UTC and explicit-offset values describe the same Singapore interval across midnight. | [frontend/src/features/events/__tests__/changeRequestDisplay.test.ts](../../frontend/src/features/events/__tests__/changeRequestDisplay.test.ts#L29) |
+| AC-007.3.11 | 3 | Unit — Happy path / Boundary | Nullable details map to blanks; empty arrays, false registration and a successful empty request list preserve the assigned event context. | [frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewQueryService.test.ts#L78) |
+| AC-007.9.23 | 9 | Unit — Negative / Regression | Six database value/constraint error codes return safe guidance with one review RPC and no direct event update or retry; not a real database enforcement test. | [frontend/src/features/events/__tests__/changeRequestReviewService.test.ts](../../frontend/src/features/events/__tests__/changeRequestReviewService.test.ts#L155) |

@@ -152,6 +152,19 @@ describe('AC-007.7 — clarification instead of a decision', () => {
 })
 
 describe('AC-007.9 — preserve the database checks on accepted changes', () => {
+  test('AC-007.9.23: database value and constraint refusals return safe guidance without retrying or updating the event directly', async () => {
+    for (const code of ['22000', '22003', '22007', '22008', '22P02', '23514']) {
+      mocks.rpc.mockClear().mockResolvedValue({ data: null, error: { code, message: 'Private database detail' } })
+      expect(await saveChangeRequestReview(request, version, approved))
+        .toEqual({ ok: false, reason: messages.invalidEvent })
+      expect(mocks.rpc).toHaveBeenCalledTimes(1)
+      expect(mocks.rpc).toHaveBeenCalledWith('review_event_change_request', {
+        p_request_id: request.id, p_event_updated_at: version, p_review: approved,
+      })
+      expect(mocks.from).not.toHaveBeenCalled()
+    }
+  })
+
   test.each([
     ['AC-007.9.12', ''], ['AC-007.9.13', 'invalid timestamp'],
   ])('%s: refuses missing or invalid comparison versions', async (_id, timestamp) => {
