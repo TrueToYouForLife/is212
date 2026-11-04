@@ -1,0 +1,14 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/venues/__tests__/VenueReplacementSearchPage.test.tsx src/features/venues/__tests__/VenueReplacementPanel.test.tsx
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+ ✓ src/features/venues/__tests__/VenueReplacementPanel.test.tsx (10 tests) 566ms
+ ✓ src/features/venues/__tests__/VenueReplacementSearchPage.test.tsx (7 tests) 574ms
+
+ Test Files  2 passed (2)
+      Tests  17 passed (17)
+   Start at  20:15:44
+   Duration  1.95s (transform 216ms, setup 180ms, collect 604ms, tests 1.14s, environment 865ms, prepare 130ms)

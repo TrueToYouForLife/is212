@@ -6,8 +6,8 @@ import { VenueReplacementSearchPage } from '../pages/VenueReplacementSearchPage'
 import { replacementFixture, replacementIds as ids } from './venueReplacementFixtures'
 import { QUARTER_HOUR_SLOTS } from '../quarterHourSlots'
 
-const mocks = vi.hoisted(() => ({ load: vi.fn(), search: vi.fn(), propose: vi.fn(), slots: vi.fn(), layouts: vi.fn(), role: 'coordinator' }))
-vi.mock('../../auth/sessionContext', () => ({ useCurrentUser: () => ({ loading: false, profile: { id: 'coordinator', role: mocks.role } }) }))
+const mocks = vi.hoisted(() => ({ load: vi.fn(), search: vi.fn(), propose: vi.fn(), slots: vi.fn(), layouts: vi.fn(), role: 'coordinator', sessionLoading: false }))
+vi.mock('../../auth/sessionContext', () => ({ useCurrentUser: () => ({ loading: mocks.sessionLoading, profile: { id: 'coordinator', role: mocks.role } }) }))
 vi.mock('../venueReplacementService', () => ({ getVenueReplacements: mocks.load, proposeVenueReplacement: mocks.propose }))
 vi.mock('../venueSearchService', () => ({ searchVenues: mocks.search }))
 vi.mock('../venueBookingService', () => ({ loadTimeSlots: mocks.slots }))
@@ -17,7 +17,7 @@ const show = (id = ids.source) => render(<MemoryRouter initialEntries={[`/venues
   <Routes><Route path="/venues/bookings/:bookingId/replacement" element={<VenueReplacementSearchPage />} /></Routes>
 </MemoryRouter>)
 beforeEach(() => {
-  vi.resetAllMocks(); mocks.role = 'coordinator'
+  vi.resetAllMocks(); mocks.role = 'coordinator'; mocks.sessionLoading = false
   const value = structuredClone(replacementFixture); value.requests = []
   mocks.load.mockResolvedValue({ ok: true, value })
   mocks.search.mockResolvedValue({ ok: true, venues: [venue] })
@@ -139,4 +139,81 @@ test('AC-048.3.9: failed submission keeps the note and source version, prevents 
   mocks.propose.mockResolvedValue({ ok: true })
   await userEvent.click(screen.getByRole('button', { name: 'Propose replacement' }))
   expect(mocks.propose).toHaveBeenLastCalledWith(ids.source, ids.target, 'source-v2', 'Fresh consent')
+})
+
+
+test('AC-048.2.7: interrupted search and option loads show a recoverable error without stale candidates', async () => {
+  mocks.search.mockRejectedValueOnce(new Error('connection lost'))
+  let view = show()
+  expect(await screen.findByRole('alert')).toHaveTextContent('Replacement venues could not be searched')
+  expect(screen.queryByRole('button', { name: /Choose .* as replacement/ })).not.toBeInTheDocument()
+  await userEvent.click(screen.getByRole('button', { name: 'Search' }))
+  await screen.findByRole('button', { name: 'Choose Alternative Hall as replacement' })
+  view.unmount()
+  mocks.layouts.mockRejectedValueOnce(new Error('options interrupted'))
+  view = show()
+  expect(await screen.findByRole('alert')).toHaveTextContent('Search options could not be loaded')
+  expect(screen.getByRole('button', { name: 'Search' })).toBeDisabled()
+  expect(screen.queryByRole('button', { name: /Choose .* as replacement/ })).not.toBeInTheDocument()
+  await userEvent.click(screen.getByRole('button', { name: 'Reload booking and search' }))
+  await screen.findByRole('button', { name: 'Choose Alternative Hall as replacement' })
+})
+
+test('AC-048.2.8: obsolete rejected searches and option loads cannot replace a reloaded booking', async () => {
+  let rejectOld!: (reason: Error) => void
+  mocks.search.mockImplementationOnce(() => new Promise((_, reject) => { rejectOld = reject }))
+  show()
+  await waitFor(() => expect(mocks.search).toHaveBeenCalledOnce())
+  await userEvent.click(screen.getByRole('button', { name: 'Reload booking and search' }))
+  await screen.findByRole('button', { name: 'Choose Alternative Hall as replacement' })
+  await act(async () => rejectOld(new Error('old search failed')))
+  expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Choose Alternative Hall as replacement' })).toBeEnabled()
+
+  let finishOptions!: (value: unknown) => void
+  mocks.slots.mockImplementationOnce(() => new Promise(resolve => { finishOptions = resolve }))
+  await userEvent.click(screen.getByRole('button', { name: 'Reload booking and search' }))
+  await waitFor(() => expect(mocks.slots).toHaveBeenCalledTimes(3))
+  await userEvent.click(screen.getByRole('button', { name: 'Reload booking and search' }))
+  await screen.findByRole('button', { name: 'Choose Alternative Hall as replacement' })
+  await act(async () => finishOptions([]))
+  expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Search' })).toBeEnabled()
+})
+
+test('AC-048.2.9: unspecified requirements stay empty and choosing another venue retains the original search consent', async () => {
+  const value = structuredClone(replacementFixture); value.requests = []
+  Object.assign(value.sources[0].details, { expectedAttendance: null, layoutPreference: null,
+    accessibilityRequirements: [], facilityRequirements: [] })
+  mocks.load.mockResolvedValue({ ok: true, value })
+  show()
+  await screen.findByRole('button', { name: 'Choose Alternative Hall as replacement' })
+  expect(screen.getByText(/Attendance: Not specified/)).toHaveTextContent('Layout: No preference')
+  expect(mocks.search).toHaveBeenLastCalledWith(expect.objectContaining({ eventId: ids.event,
+    minAttendance: '', layout: '', accessibility: [], facilities: [] }), QUARTER_HOUR_SLOTS)
+  await userEvent.type(screen.getByLabelText('Search by name or location'), 'Campus')
+  await userEvent.click(screen.getByRole('button', { name: 'Search' }))
+  await userEvent.click(await screen.findByRole('button', { name: 'Choose Alternative Hall as replacement' }))
+  await userEvent.click(screen.getByRole('button', { name: 'Choose another venue' }))
+  expect(screen.getByLabelText('Search by name or location')).toHaveValue('Campus')
+  expect(mocks.propose).not.toHaveBeenCalled()
+  await userEvent.click(screen.getByRole('button', { name: 'Choose Alternative Hall as replacement' }))
+  await userEvent.type(screen.getByLabelText('Reason and proposed arrangement'), 'Same original booking')
+  await userEvent.click(screen.getByRole('button', { name: 'Propose replacement' }))
+  await screen.findByText(/Proposal sent to Venue Staff/)
+  expect(mocks.propose).toHaveBeenCalledWith(ids.source, ids.target, 'source-v1', 'Same original booking')
+})
+
+test('AC-048.1.6: session checking and an interrupted booking load cannot start search before explicit recovery', async () => {
+  mocks.sessionLoading = true
+  const view = show()
+  expect(screen.getByText('Checking your session…')).toBeInTheDocument()
+  expect(mocks.load).not.toHaveBeenCalled()
+  view.unmount(); mocks.sessionLoading = false
+  mocks.load.mockRejectedValueOnce(new Error('interrupted'))
+  show()
+  expect(await screen.findByRole('alert')).toHaveTextContent('Venue replacements could not be loaded')
+  expect(mocks.search).not.toHaveBeenCalled()
+  await userEvent.click(screen.getByRole('button', { name: 'Reload booking and search' }))
+  await screen.findByRole('button', { name: 'Choose Alternative Hall as replacement' })
 })

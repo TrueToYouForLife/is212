@@ -119,3 +119,52 @@ test('AC-020.3.59: late loads are ignored after unmount and a pending proposal p
   expect(mocks.propose).toHaveBeenCalledOnce()
   await act(async () => finishProposal({ ok: true }))
 })
+
+test('AC-048.6.20: shared context renders missing optional history honestly and reloads without an extra local request', async () => {
+  const value = structuredClone(replacementFixture)
+  Object.assign(value.requests[0], { status: 'rejected', decidedBy: 'Venue Staff',
+    decidedAt: '2026-11-04T10:00:00Z', decisionNote: 'Target unsuitable',
+    details: { ...value.requests[0].details, layoutPreference: null, accessibilityRequirements: [],
+      facilityRequirements: [], specialArrangements: null }, targetAccessibility: null, targetFacilities: null })
+  const reload = vi.fn(), onChanged = vi.fn()
+  const state = { data: value, error: null, loading: false, reload }
+  const view = render(<VenueReplacementPanel role="coordinator" state={state} onChanged={onChanged} />)
+  expect(screen.getByText(/Requested layout: No preference/)).toHaveTextContent('Accessibility: None. Facilities: None.')
+  expect(screen.getByText(/Alternative venue: capacity/)).toHaveTextContent('accessibility None; facilities None')
+  expect(screen.queryByText(/Special arrangements:/)).not.toBeInTheDocument()
+  expect(screen.queryByText(/Replacement booking recorded:/)).not.toBeInTheDocument()
+  expect(screen.getByText(/Decision by Venue Staff/)).toHaveTextContent('Target unsuitable')
+  expect(screen.queryByRole('button', { name: 'Withdraw proposal' })).not.toBeInTheDocument()
+  await userEvent.click(screen.getByRole('button', { name: 'Reload replacements' }))
+  expect(reload).toHaveBeenCalledOnce()
+  expect(onChanged).toHaveBeenCalledOnce()
+  expect(mocks.load).not.toHaveBeenCalled()
+  value.requests[0].targetFacilities = { wifi: true, projector: false, ramp: null, seats: 0 }
+  view.rerender(<MemoryRouter><VenueReplacementPanel role="coordinator" state={state} /></MemoryRouter>)
+  const facilities = screen.getByText(/Alternative venue: capacity/)
+  expect(facilities).toHaveTextContent('facilities wifi.')
+  expect(facilities).not.toHaveTextContent('projector')
+  expect(facilities).not.toHaveTextContent('ramp')
+  expect(facilities).not.toHaveTextContent('seats')
+})
+
+test('AC-048.3.15: a stale decision error is cleared only by explicit reload and the fresh request version is used next', async () => {
+  const next = structuredClone(replacementFixture); next.requests[0].version = 'review-v2'
+  mocks.load.mockResolvedValueOnce({ ok: true, value: replacementFixture }).mockResolvedValue({ ok: true, value: next })
+  mocks.decide.mockResolvedValueOnce({ ok: false, reason: 'Proposal changed. Reload.' }).mockResolvedValue({ ok: true })
+  render(<VenueReplacementPanel role="venue_staff" />)
+  await userEvent.type(await screen.findByLabelText('Decision note (required)'), 'First check')
+  await userEvent.click(screen.getByRole('button', { name: 'Approve replacement' }))
+  expect(await screen.findByRole('alert')).toHaveTextContent('Proposal changed')
+  expect(screen.queryByText('Replacement decision recorded.')).not.toBeInTheDocument()
+  expect(mocks.load).toHaveBeenCalledOnce()
+  await userEvent.click(screen.getByRole('button', { name: 'Reload replacements' }))
+  await waitFor(() => expect(screen.getByLabelText('Decision note (required)')).toHaveValue(''))
+  expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  await userEvent.type(screen.getByLabelText('Decision note (required)'), 'Fresh check')
+  await userEvent.click(screen.getByRole('button', { name: 'Reject replacement' }))
+  expect(await screen.findByRole('status')).toHaveTextContent('Replacement decision recorded.')
+  expect(mocks.decide).toHaveBeenLastCalledWith(ids.request, 'review-v2', 'rejected', 'Fresh check')
+  await userEvent.click(screen.getByRole('button', { name: 'Reload replacements' }))
+  expect(screen.queryByRole('status')).not.toBeInTheDocument()
+})

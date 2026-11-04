@@ -1,5 +1,37 @@
 # US48 test cases
 
+## Replacement coverage follow-up — 4 November 2026
+
+Owner: Jaydon. Branch: `us48-replacement-coverage`. Seven new component cases
+(including one React-hook case); no production or database changes. Services are
+mocked, so these do not establish live Auth, RLS, atomic database replacement or
+manual end-to-end results. Existing SQL cases retain responsibility for those
+transaction and authorisation guarantees. Existing US20 IDs remain unchanged.
+
+| ID | Type | Requirement-based scenario and expected result | Source |
+|---|---|---|---|
+| AC-048.1.6 | Component Test - Negative / Regression | Session checking sends no booking read; an interrupted read shows an error, cannot search, and recovers only after explicit reload. | VenueReplacementSearchPage.test.tsx |
+| AC-048.1.7 | Component Test (React hook) - Negative / Regression | Switching sessions ignores the earlier successful response; disabling access clears data and ignores an obsolete rejection; re-enabling loads current context. | useVenueReplacements.test.ts |
+| AC-048.2.7 | Component Test - Negative / Regression | Search rejection removes candidates and allows retry; failed option loading disables search until explicit booking reload recovers. | VenueReplacementSearchPage.test.tsx |
+| AC-048.2.8 | Component Test - Negative / Regression | An obsolete rejected search or late empty option response cannot overwrite the current booking's successful search. | VenueReplacementSearchPage.test.tsx |
+| AC-048.2.9 | Component Test - Happy path / Boundary / Regression | Missing optional requirements remain empty; choosing another venue preserves adjusted filters and submits the same original booking/version without editing the event. | VenueReplacementSearchPage.test.tsx |
+| AC-048.3.15 | Component Test - Negative / Regression | A stale decision shows no success or silent reload; explicit reload remounts the decision form, then a new decision sends the current request version. Manual reload clears the success message. | VenueReplacementPanel.test.tsx |
+| AC-048.6.20 | Component Test - Happy path / Boundary / Regression | Shared context avoids a duplicate local read; rejected history has no decision actions or invented replacement link; nullable requirements/facilities display honest defaults, and false/null/zero facilities are omitted. | VenueReplacementPanel.test.tsx |
+
+All source files above are under `frontend/src/features/venues/__tests__/`.
+The current source inventory is **56 numeric US48 IDs**, including the one retained
+continuous-block dependency ID; all are mentioned in this document. Historical
+counts below describe earlier checkpoints. Next unused IDs: AC-048.1.8, .2.10,
+.3.16, .4.3, .5.4, .6.21.
+
+Final full run: **1,794 tests / 233 files passed**; typecheck/build and lint passed.
+Search, hook and search page reach 100% across all four measures. Panel branches
+are 97.77%, proposal branches 95%; both have 100% statements/lines/functions.
+Panel line 18 and proposal line 20 retain duplicate-submit guards. Normal pending
+clicks, locked failures and success-form removal are covered; no artificial submit
+through disabled or removed controls was added. Detailed reasons, counters and
+regression probes: [coverage evidence](../test-evidence/us48/replacement-coverage/README.md).
+
 ## Documentation accuracy review — 2 November 2026
 
 The source inventory has 49 IDs: 48 replacement cases and the legacy AC-048.2.6

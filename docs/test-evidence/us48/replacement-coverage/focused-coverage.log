@@ -1,0 +1,285 @@
+
+> connectsphere@0.1.0 coverage
+> vitest run --coverage src/features/venues/__tests__/VenueReplacementSearchPage.test.tsx src/features/venues/__tests__/VenueReplacementPanel.test.tsx src/features/venues/__tests__/useVenueReplacements.test.ts --coverage.reportsDirectory=/tmp/is212-us48-focused-coverage
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+      Coverage enabled with v8
+
+ ✓ src/features/venues/__tests__/useVenueReplacements.test.ts (1 test) 121ms
+ ✓ src/features/venues/__tests__/VenueReplacementPanel.test.tsx (12 tests) 769ms
+ ✓ src/features/venues/__tests__/VenueReplacementSearchPage.test.tsx (11 tests) 1040ms
+
+ Test Files  3 passed (3)
+      Tests  24 passed (24)
+   Start at  20:17:52
+   Duration  3.03s (transform 208ms, setup 229ms, collect 683ms, tests 1.93s, environment 1.25s, prepare 164ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------|---------|----------|---------|---------|-------------------
+All files          |    3.37 |    44.92 |   16.85 |    3.37 |
+ auth              |       0 |        0 |       0 |       0 |
+  ...nProvider.tsx |       0 |        0 |       0 |       0 | 1-30
+  authService.ts   |       0 |        0 |       0 |       0 | 1-100
+  ...ionContext.ts |       0 |        0 |       0 |       0 | 1-19
+  useProfile.ts    |       0 |        0 |       0 |       0 | 1-34
+  useSession.ts    |       0 |        0 |       0 |       0 | 1-36
+  validation.ts    |       0 |        0 |       0 |       0 | 1-110
+ auth/components   |       0 |        0 |       0 |       0 |
+  ...PageShell.tsx |       0 |        0 |       0 |       0 | 1-40
+  SessionBadge.tsx |       0 |        0 |       0 |       0 | 1-65
+ auth/pages        |       0 |        0 |       0 |       0 |
+  SignInPage.tsx   |       0 |        0 |       0 |       0 | 1-108
+  SignUpPage.tsx   |       0 |        0 |       0 |       0 | 1-104
+ equipment         |       0 |    18.18 |   18.18 |       0 |
+  ...ogueStatus.ts |       0 |      100 |     100 |       0 | 3-15
+  ...gueService.ts |       0 |        0 |       0 |       0 | 1-28
+  ...entService.ts |       0 |        0 |       0 |       0 | 1-130
+  ...urnService.ts |       0 |        0 |       0 |       0 | 1-86
+  ...Validation.ts |       0 |        0 |       0 |       0 | 1-34
+  equipmentRows.ts |       0 |        0 |       0 |       0 | 1-98
+  ...tusService.ts |       0 |        0 |       0 |       0 | 1-74
+  ...Validation.ts |       0 |        0 |       0 |       0 | 1-9
+  ...ationRules.ts |       0 |        0 |       0 |       0 | 1-86
+  ...ionService.ts |       0 |        0 |       0 |       0 | 1-143
+  validation.ts    |       0 |      100 |     100 |       0 | 7-88
+ ...ent/components |       0 |        0 |       0 |       0 |
+  ...logueView.tsx |       0 |        0 |       0 |       0 | 1-89
+  ...meNotices.tsx |       0 |        0 |       0 |       0 | 1-39
+  ...ntsEditor.tsx |       0 |        0 |       0 |       0 | 1-90
+  ...turnsView.tsx |       0 |        0 |       0 |       0 | 1-85
+  ...usHistory.tsx |       0 |        0 |       0 |       0 | 1-17
+  ...atusPanel.tsx |       0 |        0 |       0 |       0 | 1-82
+  ...ntRequest.tsx |       0 |        0 |       0 |       0 | 1-31
+  ...ementForm.tsx |       0 |        0 |       0 |       0 | 1-86
+  ...ementList.tsx |       0 |        0 |       0 |       0 | 1-49
+  ...atusBadge.tsx |       0 |        0 |       0 |       0 | 1-16
+  ...tionQueue.tsx |       0 |        0 |       0 |       0 | 1-71
+  ReserveForm.tsx  |       0 |        0 |       0 |       0 | 1-71
+  ...ctionForm.tsx |       0 |        0 |       0 |       0 | 1-91
+  ...allFields.tsx |       0 |        0 |       0 |       0 | 1-33
+  ...pmentView.tsx |       0 |        0 |       0 |       0 | 1-63
+ equipment/pages   |       0 |        0 |       0 |       0 |
+  ...loguePage.tsx |       0 |        0 |       0 |       0 | 1-14
+  ...turnsPage.tsx |       0 |        0 |       0 |       0 | 1-16
+  ...pmentPage.tsx |       0 |        0 |       0 |       0 | 1-29
+  ...pmentPage.tsx |       0 |        0 |       0 |       0 | 1-17
+  ...pmentPage.tsx |       0 |        0 |       0 |       0 | 1-16
+ events            |    0.51 |    12.82 |   13.15 |    0.51 |
+  ...iewService.ts |       0 |        0 |       0 |       0 | 1-87
+  ...Validation.ts |       0 |        0 |       0 |       0 | 1-7
+  ...estDisplay.ts |       0 |        0 |       0 |       0 | 1-67
+  ...plyService.ts |       0 |        0 |       0 |       0 | 1-39
+  ...Validation.ts |       0 |        0 |       0 |       0 | 1-57
+  ...eryService.ts |       0 |        0 |       0 |       0 | 1-55
+  ...iewService.ts |       0 |        0 |       0 |       0 | 1-70
+  ...Validation.ts |       0 |        0 |       0 |       0 | 1-103
+  ...gnificance.ts |       0 |      100 |     100 |       0 | 11-21
+  ...ionDisplay.ts |       0 |        0 |       0 |       0 | 1-77
+  ...nseService.ts |       0 |        0 |       0 |       0 | 1-150
+  ...Validation.ts |       0 |        0 |       0 |       0 | 1-180
+  ...entService.ts |       0 |        0 |       0 |       0 | 1-51
+  ...natorLabel.ts |       0 |      100 |     100 |       0 | 10-21
+  ...FormValues.ts |       0 |      100 |     100 |       0 | 5-38
+  ...Validation.ts |       0 |        0 |       0 |       0 | 1-88
+  ...estService.ts |       0 |        0 |       0 |       0 | 1-226
+  ...torService.ts |       0 |        0 |       0 |       0 | 1-29
+  ...eryService.ts |       0 |        0 |       0 |       0 | 1-96
+  ...aftService.ts |       0 |        0 |       0 |       0 | 1-103
+  ...onsService.ts |       0 |        0 |       0 |       0 | 1-109
+  ...iewService.ts |       0 |        0 |       0 |       0 | 1-266
+  eventService.ts  |       0 |        0 |       0 |       0 | 1-146
+  ...ngsService.ts |       0 |        0 |       0 |       0 | 1-21
+  formatters.ts    |   73.33 |    33.33 |      50 |   73.33 | 17-20
+  ...entService.ts |       0 |        0 |       0 |       0 | 1-132
+  ...entService.ts |       0 |        0 |       0 |       0 | 1-31
+  ...entService.ts |       0 |        0 |       0 |       0 | 1-39
+  ...ateService.ts |       0 |        0 |       0 |       0 | 1-80
+  ...untService.ts |       0 |        0 |       0 |       0 | 1-21
+  ...ingService.ts |       0 |        0 |       0 |       0 | 1-26
+  ...tCatalogue.ts |       0 |        0 |       0 |       0 | 1-99
+  ...gueService.ts |       0 |        0 |       0 |       0 | 1-81
+  statusRules.ts   |       0 |      100 |     100 |       0 | 15-132
+  ...equestForm.ts |       0 |        0 |       0 |       0 | 1-193
+  ...equestForm.ts |       0 |        0 |       0 |       0 | 1-149
+  validation.ts    |       0 |        0 |       0 |       0 | 1-228
+ events/audit      |       0 |        0 |       0 |       0 |
+  ...TrailCard.tsx |       0 |        0 |       0 |       0 | 1-66
+  ...escription.ts |       0 |        0 |       0 |       0 | 1-64
+  auditService.ts  |       0 |        0 |       0 |       0 | 1-50
+ events/components |       0 |        0 |       0 |       0 |
+  ...utionForm.tsx |       0 |        0 |       0 |       0 | 1-52
+  ...viewPanel.tsx |       0 |        0 |       0 |       0 | 1-55
+  ...questList.tsx |       0 |        0 |       0 |       0 | 1-78
+  ...ReplyForm.tsx |       0 |        0 |       0 |       0 | 1-63
+  ...lyHistory.tsx |       0 |        0 |       0 |       0 | 1-21
+  ...viewField.tsx |       0 |        0 |       0 |       0 | 1-45
+  ...eviewForm.tsx |       0 |        0 |       0 |       0 | 1-79
+  ...ewHistory.tsx |       0 |        0 |       0 |       0 | 1-20
+  ...viewPanel.tsx |       0 |        0 |       0 |       0 | 1-61
+  ...nificance.tsx |       0 |        0 |       0 |       0 | 1-16
+  ...atusBadge.tsx |       0 |        0 |       0 |       0 | 1-14
+  ...stSummary.tsx |       0 |        0 |       0 |       0 | 1-41
+  ...nseFields.tsx |       0 |        0 |       0 |       0 | 1-126
+  ...ponseForm.tsx |       0 |        0 |       0 |       0 | 1-142
+  ...ndHistory.tsx |       0 |        0 |       0 |       0 | 1-78
+  ...nmentCard.tsx |       0 |        0 |       0 |       0 | 1-42
+  ...nmentForm.tsx |       0 |        0 |       0 |       0 | 1-58
+  ...mentQueue.tsx |       0 |        0 |       0 |       0 | 1-94
+  ...onHistory.tsx |       0 |        0 |       0 |       0 | 1-51
+  DraftAccess.tsx  |       0 |        0 |       0 |       0 | 1-17
+  ...aveResult.tsx |       0 |        0 |       0 |       0 | 1-18
+  ...questForm.tsx |       0 |        0 |       0 |       0 | 1-206
+  ...questForm.tsx |       0 |        0 |       0 |       0 | 1-130
+  ...eBookings.tsx |       0 |        0 |       0 |       0 | 1-27
+  ...ntsFields.tsx |       0 |        0 |       0 |       0 | 1-130
+  ...angements.tsx |       0 |        0 |       0 |       0 | 1-43
+  ...angements.tsx |       0 |        0 |       0 |       0 | 1-39
+  ...datePanel.tsx |       0 |        0 |       0 |       0 | 1-107
+  ...tingPanel.tsx |       0 |        0 |       0 |       0 | 1-47
+  ...tionsCard.tsx |       0 |        0 |       0 |       0 | 1-73
+  ...stDetails.tsx |       0 |        0 |       0 |       0 | 1-62
+  ...tListItem.tsx |       0 |        0 |       0 |       0 | 1-57
+  ...tControls.tsx |       0 |        0 |       0 |       0 | 1-118
+  ...ewActions.tsx |       0 |        0 |       0 |       0 | 1-125
+  StatusBadge.tsx  |       0 |        0 |       0 |       0 | 1-36
+  ...nGuidance.tsx |       0 |        0 |       0 |       0 | 1-56
+  ...ionResult.tsx |       0 |        0 |       0 |       0 | 1-41
+ events/pages      |       0 |        0 |       0 |       0 |
+  ...tionsPage.tsx |       0 |        0 |       0 |       0 | 1-113
+  MyDraftsPage.tsx |       0 |        0 |       0 |       0 | 1-50
+  ...ventsPage.tsx |       0 |        0 |       0 |       0 | 1-78
+  ...etailPage.tsx |       0 |        0 |       0 |       0 | 1-120
+  ...ventsPage.tsx |       0 |        0 |       0 |       0 | 1-111
+  ...DraftPage.tsx |       0 |        0 |       0 |       0 | 1-41
+  ...etailPage.tsx |       0 |        0 |       0 |       0 | 1-295
+  ...uestsPage.tsx |       0 |        0 |       0 |       0 | 1-120
+  ...angesPage.tsx |       0 |        0 |       0 |       0 | 1-131
+  ...questPage.tsx |       0 |        0 |       0 |       0 | 1-104
+ events/readiness  |       0 |       40 |      40 |       0 |
+  ...inessCard.tsx |       0 |        0 |       0 |       0 | 1-86
+  ...ssSummary.tsx |       0 |        0 |       0 |       0 | 1-53
+  ...inessLinks.ts |       0 |      100 |     100 |       0 | 12-29
+  ...essService.ts |       0 |        0 |       0 |       0 | 1-66
+  ...wReadiness.ts |       0 |      100 |     100 |       0 | 5-14
+ events/reschedule |       0 |        0 |       0 |       0 |
+  ...EventForm.tsx |       0 |        0 |       0 |       0 | 1-83
+  ...uleService.ts |       0 |        0 |       0 |       0 | 1-36
+ events/status     |       0 |        0 |       0 |       0 |
+  ...atusPanel.tsx |       0 |        0 |       0 |       0 | 1-54
+  ...tatusLabel.ts |       0 |        0 |       0 |       0 | 1-9
+  ...stResource.ts |       0 |        0 |       0 |       0 | 1-56
+ notifications     |       0 |    33.33 |   33.33 |       0 |
+  ...tionFormat.ts |       0 |      100 |     100 |       0 | 8-57
+  ...ionService.ts |       0 |        0 |       0 |       0 | 1-104
+  ...ationCount.ts |       0 |        0 |       0 |       0 | 1-34
+ ...ications/pages |       0 |        0 |       0 |       0 |
+  ...tionsPage.tsx |       0 |        0 |       0 |       0 | 1-162
+ ...ns/preferences |       0 |        0 |       0 |       0 |
+  ...encesPage.tsx |       0 |        0 |       0 |       0 | 1-140
+  ...cesService.ts |       0 |        0 |       0 |       0 | 1-72
+ registrations     |       0 |        0 |       0 |       0 |
+  ...ionService.ts |       0 |        0 |       0 |       0 | 1-198
+  validation.ts    |       0 |        0 |       0 |       0 | 1-140
+  ...entService.ts |       0 |        0 |       0 |       0 | 1-59
+  ...istService.ts |       0 |        0 |       0 |       0 | 1-124
+ ...ons/components |       0 |        0 |       0 |       0 |
+  ...listPanel.tsx |       0 |        0 |       0 |       0 | 1-83
+  ...WhenWhere.tsx |       0 |        0 |       0 |       0 | 1-14
+  ...rWaitlist.tsx |       0 |        0 |       0 |       0 | 1-86
+  ...ationForm.tsx |       0 |        0 |       0 |       0 | 1-99
+  ...nListItem.tsx |       0 |        0 |       0 |       0 | 1-41
+  ...istButton.tsx |       0 |        0 |       0 |       0 | 1-49
+  ...tListItem.tsx |       0 |        0 |       0 |       0 | 1-47
+  ...ionButton.tsx |       0 |        0 |       0 |       0 | 1-82
+ ...trations/pages |       0 |        0 |       0 |       0 |
+  ...tionsPage.tsx |       0 |        0 |       0 |       0 | 1-105
+  ...tailsPage.tsx |       0 |        0 |       0 |       0 | 1-98
+ safety            |       0 |    16.66 |   16.66 |       0 |
+  ...isionForm.tsx |       0 |        0 |       0 |       0 | 1-132
+  ...ionsPanel.tsx |       0 |        0 |       0 |       0 | 1-66
+  ...QueuePage.tsx |       0 |        0 |       0 |       0 | 1-146
+  ...tyDecision.ts |       0 |      100 |     100 |       0 | 2-63
+  ...ionService.ts |       0 |        0 |       0 |       0 | 1-92
+  ...eueService.ts |       0 |        0 |       0 |       0 | 1-101
+ venues            |    3.22 |       52 |   28.12 |    3.22 |
+  ...ilityDates.ts |       0 |      100 |     100 |       0 | 6-34
+  ...aceService.ts |       0 |        0 |       0 |       0 | 1-13
+  holdRules.ts     |       0 |        0 |       0 |       0 | 1-73
+  ...rHourSlots.ts |     100 |      100 |     100 |     100 |
+  ...hTextMatch.ts |       0 |      100 |     100 |       0 | 23-80
+  slotFormat.ts    |       0 |        0 |       0 |       0 | 1-27
+  slots.ts         |       0 |      100 |     100 |       0 | 17-109
+  ...ityService.ts |       0 |        0 |       0 |       0 | 1-271
+  ...Validation.ts |       0 |        0 |       0 |       0 | 1-134
+  ...ableStyles.ts |       0 |      100 |     100 |       0 | 5-11
+  ...placements.ts |     100 |      100 |     100 |     100 |
+  ...ertService.ts |       0 |        0 |       0 |       0 | 1-47
+  ...ailability.ts |       0 |        0 |       0 |       0 | 1-66
+  ...ityService.ts |       0 |        0 |       0 |       0 | 1-95
+  ...ockService.ts |       0 |        0 |       0 |       0 | 1-199
+  ...Validation.ts |       0 |        0 |       0 |       0 | 1-159
+  ...valService.ts |       0 |        0 |       0 |       0 | 1-17
+  ...eueService.ts |       0 |        0 |       0 |       0 | 1-28
+  ...iewService.ts |       0 |        0 |       0 |       0 | 1-45
+  ...Validation.ts |       0 |      100 |     100 |       0 | 2-4
+  ...ingService.ts |       0 |        0 |       0 |       0 | 1-286
+  ...ngsService.ts |       0 |        0 |       0 |       0 | 1-35
+  ...ionService.ts |       0 |        0 |       0 |       0 | 1-23
+  ...ionService.ts |       0 |        0 |       0 |       0 | 1-26
+  ...eCatalogue.ts |     100 |    66.66 |     100 |     100 | 27
+  ...entService.ts |       0 |        0 |       0 |       0 | 1-210
+  ...Validation.ts |       0 |        0 |       0 |       0 | 1-186
+  ...upiedSlots.ts |       0 |      100 |     100 |       0 | 14-55
+  ...entService.ts |       0 |        0 |       0 |       0 | 1-64
+  ...rchService.ts |       0 |        0 |       0 |       0 | 1-215
+  ...eTimetable.ts |       0 |        0 |       0 |       0 | 1-91
+  ...bleService.ts |       0 |        0 |       0 |       0 | 1-122
+ venues/components |   20.58 |    77.63 |   40.74 |   20.58 |
+  ...aceFields.tsx |       0 |        0 |       0 |       0 | 1-32
+  ...atusBadge.tsx |       0 |        0 |       0 |       0 | 1-29
+  ...meSummary.tsx |       0 |        0 |       0 |       0 | 1-42
+  ...ingNotice.tsx |       0 |        0 |       0 |       0 | 1-13
+  ...posalForm.tsx |     100 |       95 |     100 |     100 | 20
+  ...nueSearch.tsx |     100 |      100 |     100 |     100 |
+  ...enuePanel.tsx |       0 |        0 |       0 |       0 | 1-91
+  ...imPreview.tsx |       0 |        0 |       0 |       0 | 1-42
+  SlotPicker.tsx   |       0 |        0 |       0 |       0 | 1-44
+  ...lityBadge.tsx |      48 |      100 |       0 |      48 | 18-33
+  ...esultList.tsx |       0 |        0 |       0 |       0 | 1-79
+  ...enueAlert.tsx |       0 |        0 |       0 |       0 | 1-49
+  ...ilityGrid.tsx |       0 |        0 |       0 |       0 | 1-155
+  ...BlockForm.tsx |       0 |        0 |       0 |       0 | 1-163
+  ...BlockList.tsx |       0 |        0 |       0 |       0 | 1-133
+  ...ckPreview.tsx |       0 |        0 |       0 |       0 | 1-56
+  ...valAction.tsx |       0 |        0 |       0 |       0 | 1-37
+  ...Conflicts.tsx |       0 |        0 |       0 |       0 | 1-27
+  ...ctionForm.tsx |       0 |        0 |       0 |       0 | 1-71
+  ...stDetails.tsx |       0 |        0 |       0 |       0 | 1-44
+  ...rSettings.tsx |       0 |        0 |       0 |       0 | 1-56
+  ...tionPanel.tsx |       0 |        0 |       0 |       0 | 1-52
+  ...fications.tsx |       0 |        0 |       0 |       0 | 1-44
+  VenueFilters.tsx |   72.06 |       84 |   27.27 |   72.06 | ...53-178,193,213
+  VenueForm.tsx    |       0 |        0 |       0 |       0 | 1-246
+  ...mentPanel.tsx |     100 |    97.77 |     100 |     100 | 18
+  ...mentsForm.tsx |       0 |        0 |       0 |       0 | 1-81
+  ...esultCard.tsx |   95.45 |       30 |     100 |   95.45 | 19,50
+  ...tableGrid.tsx |       0 |        0 |       0 |       0 | 1-76
+ venues/pages      |    2.63 |    64.86 |   18.75 |    2.63 |
+  AddVenuePage.tsx |       0 |        0 |       0 |       0 | 1-113
+  ...VenuePage.tsx |       0 |        0 |       0 |       0 | 1-191
+  ...kingsPage.tsx |       0 |        0 |       0 |       0 | 1-105
+  ...enuesPage.tsx |       0 |        0 |       0 |       0 | 1-102
+  ...kingsPage.tsx |       0 |        0 |       0 |       0 | 1-177
+  ...ilityPage.tsx |       0 |        0 |       0 |       0 | 1-140
+  ...locksPage.tsx |       0 |        0 |       0 |       0 | 1-110
+  ...QueuePage.tsx |       0 |        0 |       0 |       0 | 1-57
+  ...eviewPage.tsx |       0 |        0 |       0 |       0 | 1-76
+  ...tailsPage.tsx |       0 |        0 |       0 |       0 | 1-123
+  ...earchPage.tsx |     100 |      100 |     100 |     100 |
+  ...earchPage.tsx |       0 |        0 |       0 |       0 | 1-145
+  ...ilityPage.tsx |       0 |        0 |       0 |       0 | 1-174
+  ...tablePage.tsx |       0 |        0 |       0 |       0 | 1-329
+-------------------|---------|----------|---------|---------|-------------------

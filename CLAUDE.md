@@ -1,3 +1,22 @@
+# US48 replacement coverage — 4 November 2026
+- Branch `us48-replacement-coverage`; Jaydon owns Git. Tests/docs/evidence only;
+  no app/SQL/migration/config/exclusion or shared deployment changes.
+- Seven component cases .1.6/.1.7/.2.7–9/.3.15/.6.20; inventory56 numeric US48 IDs,
+  including one retained continuous-block dependency. Existing US20 IDs unchanged.
+- Focused17 before/24 after; full1,794 tests/233 files; build/typecheck/lint passed.
+  Global98.41% statements/lines,93.56% branches,96.23% functions.
+- Search/hook/search page all100%; panel100% statements/lines/functions,97.77% branches;
+  proposal100% statements/lines/functions,95% branches. Guards at panel18/proposal20
+  retained for pending/locked/saved submissions; normal disabled controls tested.
+- Disposable session-guard/back-action faults detected; restored24 tests passed.
+  No new product defect, manual/SQL/live Auth result. Evidence:
+  docs/test-evidence/us48/replacement-coverage/README.md.
+- Worklist rows26/27/37/38/39 updated, read back and saved to Drive. D result formulas
+  preserved; full100% rows have blank justification. Cleared active owner filtering
+  to verify hidden rows; filter controls retained. Supabase recovery stays Jeremiah's.
+- Next separate portion: shared requirementCatalogueService.ts coverage, with original
+  owner review where needed; then final coverage/sheet reconciliation.
+
 # US47 buffer coverage — 4 November 2026
 - Branch `us47-buffer-coverage`; Jaydon owns Git. Tests/docs only; no app, SQL, migration,
   config or shared deployment. US48 replacement files are the next separate portion.

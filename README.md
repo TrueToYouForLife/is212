@@ -1761,3 +1761,11 @@ US47 buffer-settings coverage (4 November 2026): service reaches 100% across all
 metrics; panel reaches 100% statements/lines/functions and 96.96% branches. The
 remaining disabled-submit guard is documented. Tests/docs only; no migration.
 [Results and limits](docs/test-evidence/us47/buffer-coverage/README.md).
+
+## US48 replacement coverage — 4 November 2026
+
+Seven component cases strengthen interrupted-load recovery, stale-response handling,
+search consent and retained decision history. Three files reach 100% across all
+coverage measures; two retain documented duplicate-submit guards. Full frontend:
+1,794 tests passed. No application or database changes.
+[Results and remaining reasons](docs/test-evidence/us48/replacement-coverage/README.md).
