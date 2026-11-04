@@ -1,3 +1,23 @@
+# US17 assignment coverage — 4 November 2026
+- Branch `us17-assignment-coverage`, base 41fa44a (US1 PR179 and upstream PR178 merged).
+  Jaydon owns Git/PR/merge. No product, migration, shared DB, configuration or exclusions
+  changed. Story-by-story: US17 only; US36/38 tests are unchanged regression coverage.
+- New .1.13, .2.10–19 and .3.3–4: eight unit/five component cases. Components keep
+  assignment service real, mock Supabase RPC only. US17 catalogue now66 source IDs.
+- Focused before9/two files; expanded22/five files pass. Full1,733/221 files, lint and
+  build (includes typecheck) pass. Overall98.14% statements/lines,91.80% branches,
+  95.71% functions includes upstream coverage work; do not attribute all gains here.
+- Service, card and queue all100%; form100% statements/lines/functions,95.45% branches. Retain line23
+  early-return guard: ordinary clicks cannot submit disabled/invalid/pending controls.
+  Do not force submit events just to claim100%; record reason pending team review.
+- Three disposable-copy regression probes detected; restored11 new tests pass. No
+  genuine product defect found. Probe-checker Error/AssertionError mismatch corrected,
+  not an app failure. Evidence docs/test-evidence/us17/assignment-coverage/.
+- Shared coverage worklist rows 24–25/29/45 refreshed and verified saved to Drive:
+  service/card/queue Retested - 100%; form Justification needed. Jaydon takes the two
+  additional card/queue files (32 total). US17 summary uses story-tag formulas
+  (11 mapped files, six with gaps across all owners). No new manual or SQL pass claimed.
+
 # US1 draft coverage — 4 November 2026
 - Branch `us1-draft-coverage`, base 3edab5b. Jaydon owns Git/PR/merge; rebalanced
   coverage work only. No app/migration/shared-data changes or manual pass claimed.

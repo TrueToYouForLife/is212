@@ -1488,6 +1488,13 @@ Test cases: `docs/test-cases/US32_test_cases.md`.
 
 ## US17 - Coordinator assignment
 
+Coverage follow-up (4 November 2026): 13 new US17 unit/component cases cover assignment
+errors, picker validation, uncertain responses, form safeguards, an empty picker and
+an unavailable assignee. The assignment service, card and queue reach 100% on all
+measures; the form has one documented defensive branch
+(95.45% branches). No application or database changes.
+[Results and remaining gap](docs/test-evidence/us17/assignment-coverage/README.md).
+
 Coordinators see **Assigned to me** first on the Requests page, followed by **Other
 event requests**. Assigned cards show **Assigned to you**. Refresh/polling updates
 the groups after reassignment, preserving ordering within each group. This is a
