@@ -1,0 +1,17 @@
+US11 AC-011.10 — green log (gate restored)
+Date: 2026-11-04. Vitest 2.1.9, local run, frontend/.
+
+ ✓ src/features/venues/__tests__/VenueTimetableSuitability.test.tsx (8 tests) 1330ms
+   ✓ AC-011.10 — a suitable venue > AC-011.10.1: the check runs first and a suitable venue is held with no warning 328ms
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+
+Full venues suite after the change, for regressions (the shared
+VenueBookingPages.test.tsx does not mock the suitability service, so the real one runs
+there and takes the fail-open path):
+ Test Files  71 passed (71)
+      Tests  601 passed (601)
+
+Typecheck: npx tsc --noEmit clean.
+Not claimed here: lint, build, the full app suite, coverage, manual acceptance or any
+database run. AC-011.10 is frontend-only and adds no migration.

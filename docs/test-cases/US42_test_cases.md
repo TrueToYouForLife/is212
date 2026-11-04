@@ -1,5 +1,18 @@
 # US42 View my event's confirmed arrangements (SCRUM-238)
 
+## Release UI fix — 4 November 2026
+
+Owner: Jaydon. New case AC-042.3.8 brings the current catalogue to 20 grouped IDs
+(eight database, six unit, six component). Historical counts below retain their dates.
+
+| ID | Classification | Scenario and expected outcome | Source |
+|---|---|---|---|
+| AC-042.3.8 | Component (mocked page/children) — Happy path / Negative / Regression | Only the assigned Coordinator mounts readiness, staff bookings and internal safety decisions. The owning Organiser retains venue/equipment summaries without mounting staff-only queries. Unassigned Coordinator, Lead and Attendee do not mount these panels. | `frontend/src/features/events/__tests__/OrganiserVenueArrangementsPage.test.tsx` |
+
+This is presentation gating; database permissions remain unchanged. Shared integration
+review is required for the US5/43 readiness, US49 booking and US44 safety panels.
+[Validation and manual retests](../test-evidence/release-ui-fixes/README.md).
+
 ## Documentation accuracy review — 2 November 2026
 
 All 19 cases remain mapped: eight SQL integration, six service unit and five component.
@@ -57,7 +70,7 @@ All ten cases below passed locally on 18 October 2026. PostgreSQL integration te
 | AC-042.3.3 | Unit (service) — negative | Unexpected internal fields at booking or slot level are rejected | `frontend/src/features/events/__tests__/organiserVenueArrangementService.test.ts` |
 | AC-042.3.4 | Component (mocked page/children) — happy path / negative | Shared request page mounts venue and equipment panels only for the owning organiser | `frontend/src/features/events/__tests__/OrganiserVenueArrangementsPage.test.tsx` |
 
-Next unused IDs: **AC-042.1.7**, **AC-042.2.7**, **AC-042.3.8**.
+Next unused IDs: **AC-042.1.7**, **AC-042.2.7**, **AC-042.3.9**.
 Grouped scenarios share a case ID; ten cases does not mean ten individual assertions.
 
 ## Manual checks

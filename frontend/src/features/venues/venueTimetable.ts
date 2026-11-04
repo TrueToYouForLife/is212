@@ -34,7 +34,8 @@ function toCell(date: string, slot: SlotCode, row: TimetableClaimRow): Timetable
   }
   return {
     date, slot,
-    state: (row.booking_status ?? 'held') as TimetableState,
+    // stillOccupies has already dropped any claim without a live booking status.
+    state: row.booking_status as TimetableState,
     role: row.kind,
     bookingId: row.booking_id,
     eventReference: row.event_reference,

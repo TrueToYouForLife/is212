@@ -1,5 +1,19 @@
 # US27 test cases
 
+## Release UI fix — 4 November 2026
+
+Owner: Jaydon. One new grouped unit case brings the current catalogue to 44 IDs
+(21 database, seven unit, 16 component); historical counts below retain their dates.
+
+| ID | Classification | Scenario and expected outcome | Source |
+|---|---|---|---|
+| AC-027.8.10 | Unit — Negative / Boundary / Regression | An unresolved save remains pending before 15 seconds, then aborts and reports an unknown outcome; no automatic retry or late-success callback. A timely stale refusal still uses the existing stale message, and timers are cleaned up. | `frontend/src/features/equipment/__tests__/equipmentStatusService.test.ts` |
+| AC-027.5.9 (extended) | Component — Negative / Regression | Failed, timed-out and stale saves preserve notes, unlock Close/Reload controls and block another save until explicit reload with the fresh version. | `frontend/src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx` |
+
+The stalled request cause is unconfirmed. This change bounds the UI wait and requires
+checking status/history before retry; abort is not proof that the database rolled back.
+[Validation and manual retests](../test-evidence/release-ui-fixes/README.md).
+
 ## Status coverage — 4 November 2026
 
 Current catalogue: 43 grouped source IDs (21 database integration, six unit,

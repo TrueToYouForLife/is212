@@ -69,9 +69,10 @@ test('AC-027.5.8: pending save cannot be duplicated, closed or reloaded and reta
   expect(closed).not.toHaveBeenCalled()
 })
 
-test('AC-027.5.9: failed or stale save retains the note, blocks retry and never silently reloads consent; explicit reload uses the fresh version', async () => {
+test('AC-027.5.9: failed, timed-out or stale save retains the note, permits closing, blocks retry and requires explicit reload with a fresh version', async () => {
   const actor = userEvent.setup()
-  for (const reason of ['This equipment unit changed. Reload.', 'The save result could not be confirmed. Reload.']) {
+  for (const reason of ['This equipment unit changed. Reload.', 'The save result could not be confirmed. Reload.',
+    'The save is taking too long and its result could not be confirmed. Copy your note and reload the page.']) {
     mocks.load.mockClear()
     mocks.save.mockClear()
     mocks.save.mockResolvedValueOnce({ ok: false, reason })
@@ -83,6 +84,8 @@ test('AC-027.5.9: failed or stale save retains the note, blocks retry and never 
     expect(await screen.findByRole('alert')).toHaveTextContent(reason)
     expect(screen.getByLabelText('Reason for status change')).toHaveValue('Keep this explanation')
     expect(screen.getByRole('button', { name: 'Save status' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'Close status panel' })).toBeEnabled()
+    expect(screen.getByRole('button', { name: 'Reload unit' })).toBeEnabled()
     expect(mocks.load).toHaveBeenCalledTimes(1)
     mocks.load.mockResolvedValueOnce({ ok: true, data: { ...details, status: 'under_repair', version: 4 } })
     await actor.click(screen.getByRole('button', { name: 'Reload unit' }))

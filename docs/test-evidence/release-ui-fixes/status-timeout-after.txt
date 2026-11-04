@@ -1,0 +1,200 @@
+Window: "ConnectSphere — Event Planning", App: Google Chrome.
+					23 HTML content ConnectSphere — Event Planning, URL: localhost:5173/equipment/catalogue
+						24 container
+							25 link Skip to content, Value: localhost:5173/equipment/catalogue#main
+							26 link ConnectSphere, Value: localhost:5173/
+							27 container Main
+								28 content list
+									29 link Home, Value: localhost:5173/
+									30 link Equipment, Value: localhost:5173/equipment
+									31 link Equipment catalogue, Value: localhost:5173/equipment/catalogue
+									32 link Reserve equipment, Value: localhost:5173/equipment/reservations
+									33 link Equipment returns, Value: localhost:5173/equipment/returns
+									34 link Notifications, 15 unread, Value: localhost:5173/notifications
+							35 text tech@test.com Technical Support
+							36 button Sign out
+							37 heading Equipment catalogue
+								38 text Equipment catalogue
+							39 container Manage equipment status: PRJ-003
+								40 heading Manage status: PRJ-003
+									41 text Manage status:  PRJ-003
+								42 text Non-operational units cannot be reserved. Affected upcoming reservations stay recorded and are sent for review. Returning a unit to Operational does not automatically resolve reviews.
+								43 text The save is taking too long and its result could not be confirmed. Your note is kept here. Copy it, then reload the page and check the current status and history before trying again.
+								44 container
+									45 text Current status:  Damaged
+								46 container
+									47 text New status
+									48 pop-up button (disabled) New status, Value: Unavailable
+									49 text Reason for status change
+									50 text entry area (settable) Reason for status change, Value: Release QA fix retest: preserve this stale note and refuse overwrite.
+									51 button (disabled) Save status
+									52 button Reload unit
+									53 button Close status panel
+								54 container Equipment status history
+									55 heading Status history
+										56 text Status history
+									57 content list
+										58 container
+											59 text Under Maintenance  →  Damaged Release QA: restore original Damaged status after corrected-key stale-save test. tech  ·  4 Nov 2026, 18:30  (Singapore time)
+										60 container
+											61 text Damaged  →  Under Maintenance Release QA corrected-key stale-edit test; restore Damaged afterward. tech  ·  4 Nov 2026, 18:29  (Singapore time)
+										62 container
+											63 text Under Maintenance  →  Damaged Release QA: restore original Damaged status after maintenance/status-history check. tech  ·  4 Nov 2026, 17:52  (Singapore time)
+										64 container
+											65 text Damaged  →  Under Maintenance Release QA: temporary maintenance check; restore prior Damaged status afterward. tech  ·  4 Nov 2026, 17:50  (Singapore time)
+							66 container Equipment stock totals
+								67 heading Stock by type
+									68 text Stock by type
+								69 text Totals cover all locations and statuses, regardless of filters. Usable means Operational; availability for an event also depends on reservations and transfer time.
+								70 content list
+									71 container
+										72 heading Audio mixer
+											73 text Audio mixer
+										74 text 0  usable /  0  total units
+									75 container
+										76 heading Extension cord
+											77 text Extension cord
+										78 text 0  usable /  0  total units
+									79 container
+										80 heading Laptop
+											81 text Laptop
+										82 text 0  usable /  0  total units
+									83 container
+										84 heading Projection screen
+											85 text Projection screen
+										86 text 0  usable /  0  total units
+									87 container
+										88 heading Projector
+											89 text Projector
+										90 text 2  usable /  3  total units
+									91 container
+										92 heading Speaker system
+											93 text Speaker system
+										94 text 1  usable /  1  total units
+									95 container
+										96 heading Stage lighting kit
+											97 text Stage lighting kit
+										98 text 0  usable /  0  total units
+									99 container
+										100 heading Video camera
+											101 text Video camera
+										102 text 0  usable /  0  total units
+									103 container
+										104 heading Wired microphone
+											105 text Wired microphone
+										106 text 0  usable /  0  total units
+									107 container
+										108 heading Wireless mic
+											109 text Wireless mic
+										110 text 2  usable /  2  total units
+							111 container
+								112 text Equipment type
+								113 pop-up button Equipment type, Value: All types
+									114 (selected) All types
+							115 container
+								116 text Location
+								117 pop-up button Location, Value: All locations
+									118 (selected) All locations
+							119 container
+								120 text Operational status
+								121 pop-up button Operational status, Value: All statuses
+									122 (selected) All statuses
+							123 button Reset filters
+							124 button (disabled) Refresh catalogue
+							125 container
+								126 text 6  equipment  units  shown
+							127 table Equipment units
+								128 text Equipment units
+								129 row
+									130 column header
+										131 text Asset tag
+									132 column header
+										133 text Type
+									134 column header
+										135 text Description
+									136 column header
+										137 text Location
+									138 column header
+										139 text Operational status
+									140 column header
+										141 text Status management
+								142 row
+									143 cell
+										144 text MIC-001
+									145 cell
+										146 text Wireless mic
+									147 cell
+										148 text No description recorded
+									149 cell
+										150 text Main Equipment Store  —  Store room
+									151 cell
+										152 text Operational
+									153 cell
+										154 button (disabled) Manage status for MIC-001
+								155 row
+									156 cell
+										157 text MIC-002
+									158 cell
+										159 text Wireless mic
+									160 cell
+										161 text No description recorded
+									162 cell
+										163 text Main Equipment Store  —  Store room
+									164 cell
+										165 text Operational
+									166 cell
+										167 button (disabled) Manage status for MIC-002
+								168 row
+									169 cell
+										170 text PRJ-001
+									171 cell
+										172 text Projector
+									173 cell
+										174 text No description recorded
+									175 cell
+										176 text Main Equipment Store  —  Store room
+									177 cell
+										178 text Operational
+									179 cell
+										180 button (disabled) Manage status for PRJ-001
+								181 row
+									182 cell
+										183 text PRJ-002
+									184 cell
+										185 text Projector
+									186 cell
+										187 text No description recorded
+									188 cell
+										189 text Main Equipment Store  —  Store room
+									190 cell
+										191 text Operational
+									192 cell
+										193 button (disabled) Manage status for PRJ-002
+								194 row
+									195 cell
+										196 text PRJ-003
+									197 cell
+										198 text Projector
+									199 cell
+										200 text No description recorded
+									201 cell
+										202 text Main Equipment Store  —  Store room
+									203 cell
+										204 text Damaged
+									205 cell
+										206 button (disabled) Manage status for PRJ-003
+								207 row
+									208 cell
+										209 text SPK-001
+									210 cell
+										211 text Speaker system
+									212 cell
+										213 text Pair of powered PA speakers
+									214 cell
+										215 text Main Equipment Store  —  Store room
+									216 cell
+										217 text Operational
+									218 cell
+										219 button (disabled) Manage status for SPK-001
+							220 text ConnectSphere — event planning and venue booking.
+							221 text Need help? Talk to your event coordinator.

@@ -1,0 +1,155 @@
+{
+  "date": "2026-11-04",
+  "timezone": "Asia/Singapore",
+  "fullCommand": "npm run coverage",
+  "testsPassed": 1760,
+  "testFilesPassed": 224,
+  "overall": {
+    "lines": {
+      "total": 13443,
+      "covered": 13210,
+      "skipped": 0,
+      "pct": 98.26
+    },
+    "statements": {
+      "total": 13443,
+      "covered": 13210,
+      "skipped": 0,
+      "pct": 98.26
+    },
+    "functions": {
+      "total": 796,
+      "covered": 763,
+      "skipped": 0,
+      "pct": 95.85
+    },
+    "branches": {
+      "total": 5393,
+      "covered": 4991,
+      "skipped": 0,
+      "pct": 92.54
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "files": {
+    "features/events/arrangementReviewService.ts": {
+      "before": {
+        "lines": {
+          "total": 74,
+          "covered": 72,
+          "skipped": 0,
+          "pct": 97.29
+        },
+        "functions": {
+          "total": 3,
+          "covered": 3,
+          "skipped": 0,
+          "pct": 100
+        },
+        "statements": {
+          "total": 74,
+          "covered": 72,
+          "skipped": 0,
+          "pct": 97.29
+        },
+        "branches": {
+          "total": 34,
+          "covered": 33,
+          "skipped": 0,
+          "pct": 97.05
+        }
+      },
+      "after": {
+        "lines": {
+          "total": 74,
+          "covered": 74,
+          "skipped": 0,
+          "pct": 100
+        },
+        "functions": {
+          "total": 3,
+          "covered": 3,
+          "skipped": 0,
+          "pct": 100
+        },
+        "statements": {
+          "total": 74,
+          "covered": 74,
+          "skipped": 0,
+          "pct": 100
+        },
+        "branches": {
+          "total": 36,
+          "covered": 36,
+          "skipped": 0,
+          "pct": 100
+        }
+      },
+      "uncoveredLines": [],
+      "uncoveredBranches": []
+    },
+    "features/events/components/ArrangementReviewPanel.tsx": {
+      "before": {
+        "lines": {
+          "total": 48,
+          "covered": 48,
+          "skipped": 0,
+          "pct": 100
+        },
+        "functions": {
+          "total": 1,
+          "covered": 1,
+          "skipped": 0,
+          "pct": 100
+        },
+        "statements": {
+          "total": 48,
+          "covered": 48,
+          "skipped": 0,
+          "pct": 100
+        },
+        "branches": {
+          "total": 43,
+          "covered": 36,
+          "skipped": 0,
+          "pct": 83.72
+        }
+      },
+      "after": {
+        "lines": {
+          "total": 48,
+          "covered": 48,
+          "skipped": 0,
+          "pct": 100
+        },
+        "functions": {
+          "total": 1,
+          "covered": 1,
+          "skipped": 0,
+          "pct": 100
+        },
+        "statements": {
+          "total": 48,
+          "covered": 48,
+          "skipped": 0,
+          "pct": 100
+        },
+        "branches": {
+          "total": 47,
+          "covered": 45,
+          "skipped": 0,
+          "pct": 95.74
+        }
+      },
+      "uncoveredLines": [],
+      "uncoveredBranches": [
+        18
+      ]
+    }
+  }
+}
