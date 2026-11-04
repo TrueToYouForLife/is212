@@ -1,0 +1,27 @@
+
+> connectsphere@0.1.0 coverage
+> vitest run --coverage src/features/events/__tests__/changeRequestDisplay.test.ts src/features/events/__tests__/changeRequestReviewQueryService.test.ts src/features/events/__tests__/changeRequestReviewService.test.ts src/features/events/__tests__/ChangeRequestReviewForm.test.tsx --coverage.include=src/features/events/changeRequestDisplay.ts --coverage.include=src/features/events/changeRequestReviewQueryService.ts --coverage.include=src/features/events/changeRequestReviewService.ts --coverage.reportsDirectory=/tmp/is212-us7-data-after
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+      Coverage enabled with v8
+
+ ✓ src/features/events/__tests__/changeRequestDisplay.test.ts (3 tests) 17ms
+ ✓ src/features/events/__tests__/changeRequestReviewService.test.ts (24 tests) 10ms
+ ✓ src/features/events/__tests__/changeRequestReviewQueryService.test.ts (10 tests) 15ms
+ ✓ src/features/events/__tests__/ChangeRequestReviewForm.test.tsx (11 tests) 740ms
+
+ Test Files  4 passed (4)
+      Tests  48 passed (48)
+   Start at  14:51:52
+   Duration  1.89s (transform 188ms, setup 285ms, collect 362ms, tests 782ms, environment 1.82s, prepare 275ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------|---------|----------|---------|---------|-------------------
+All files          |     100 |     86.2 |     100 |     100 |
+ ...uestDisplay.ts |     100 |    96.42 |     100 |     100 | 47
+ ...ueryService.ts |     100 |       70 |     100 |     100 | 35-41,43-46
+ ...viewService.ts |     100 |     93.1 |     100 |     100 | 24-25
+-------------------|---------|----------|---------|---------|-------------------

@@ -6,6 +6,10 @@ notes remain in `docs/`, and execution/failure evidence stays in `docs/test-evid
 
 ## Current source traceability
 
+US7 update, 4 November 2026: five new review-data unit IDs; US7 now has 282 source IDs.
+Comparison mapping also checks structured requirement arrays. [Coverage results and
+remaining defensive branches](../us7-review-data-coverage.md).
+
 US17 update, 4 November 2026: thirteen new assignment-service/form/card/queue cases;
 US17 now has 66 source IDs. Existing US36 cases remain unchanged. [Coverage results and remaining
 guard](../test-evidence/us17/assignment-coverage/README.md).
@@ -42,7 +46,7 @@ same ID count once; linked source locations preserve cross-story coverage.
 | US4 | 69 | [US4 test cases](US4_test_cases.md) | All source IDs listed |
 | US5 | 25 | [US5 test cases](US5_test_cases.md) | All source IDs listed |
 | US6 | 78 | [US6 test cases](US6_test_cases.md) | All source IDs listed |
-| US7 | 277 | [US7 test cases](US7_test_cases.md) | All source IDs listed |
+| US7 | 282 | [US7 test cases](US7_test_cases.md) | All source IDs listed |
 | US8 | 34 | [US8 test cases](US8_test_cases.md) | All source IDs listed |
 | US9 | 93 | [US9 test cases](US9_test_cases.md) | All source IDs listed |
 | US10 | 191 | [US10 test cases](US10_test_cases.md) | All source IDs listed |

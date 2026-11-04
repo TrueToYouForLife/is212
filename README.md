@@ -3,6 +3,14 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
+## US7 review-data coverage — 4 November 2026
+
+Five new unit cases cover readable requirements/layouts, Singapore date boundaries,
+optional comparison values and safe database-refusal handling. All three target files
+reach 100% statements/lines/functions; remaining defensive branches are documented
+without changing application code or exclusions. Full frontend: 1,738 tests passed.
+[Results and justifications](docs/us7-review-data-coverage.md).
+
 ## US41 arrangement-review loading fix — 3 November 2026
 
 Arrangement reviews now explicitly load the original booking after replacement

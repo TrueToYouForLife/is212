@@ -6,10 +6,11 @@ const mocks = vi.hoisted(() => ({ getUser: vi.fn(), from: vi.fn() }))
 vi.mock('../../../lib/supabase', () => ({ supabase: { auth: { getUser: mocks.getUser }, from: mocks.from } }))
 const row = {
   id: eventId, coordinator_id: coordinatorId, status: 'confirmed', updated_at: reviewContext.eventUpdatedAt,
-  name: 'Original title', purpose: 'Meet', event_type: 'Conference', description: null,
+  name: 'Original title', purpose: 'Meet', event_type: 'Conference', description: 'Public workshop',
   proposed_start: '2030-01-01T01:00:00Z', proposed_end: '2030-01-01T02:00:00Z', expected_attendance: 50,
-  programme: 'Welcome', layout_preference: 'Theatre', accessibility_requirements: 'Ramp',
-  equipment_requirements: 'Projector', registration_required: false, special_arrangements: null,
+  programme: 'Welcome', layout_preference: 'theatre', accessibility_requirements: ['wheelchair_access'],
+  facility_requirements: ['wifi'], equipment_requirements: ['portable_projector'],
+  registration_required: false, special_arrangements: null,
   event_change_requests: [changeRequestRow],
 }
 function query(data: unknown = row, error: unknown = null) {
@@ -53,7 +54,11 @@ describe('AC-007.3 — comparison data', () => {
     const result = await getChangeRequestReviewContext(eventId)
     expect(result).toMatchObject({ ok: true, context: {
       eventUpdatedAt: reviewContext.eventUpdatedAt, eventStatus: 'confirmed',
-      currentValues: { name: 'Original title', expectedAttendance: 50, registrationRequired: false, description: '' },
+      currentValues: { name: 'Original title', purpose: 'Meet', eventType: 'Conference',
+        description: 'Public workshop', proposedStart: row.proposed_start, proposedEnd: row.proposed_end,
+        expectedAttendance: 50, programme: 'Welcome', layoutPreference: 'theatre',
+        accessibilityRequirements: ['wheelchair_access'], facilityRequirements: ['wifi'],
+        equipmentRequirements: ['portable_projector'], registrationRequired: false, specialArrangements: '' },
       requests: [{ id: 'newer', reviewVersion: 4, replyHistory: [replyRound], fieldDecisions: [decision] }, { id: changeRequestRow.id, fieldDecisions: [] }],
     } })
     expect(mocks.from).toHaveBeenCalledTimes(1)
@@ -68,6 +73,24 @@ describe('AC-007.3 — comparison data', () => {
     query().maybeSingle.mockRejectedValue(new Error('Offline'))
     await expect(getChangeRequestReviewContext(eventId)).resolves.toEqual({ ok: false, reason: messages.failed })
   })
+})
+
+test('AC-007.3.11: optional details remain blank while a successful empty review list keeps the assigned event context', async () => {
+  query({ ...row, status: 'under_review', name: null, event_type: null, description: null, programme: null,
+    layout_preference: null, special_arrangements: 'Use the side entrance',
+    accessibility_requirements: [], facility_requirements: [], equipment_requirements: [],
+    event_change_requests: [],
+  })
+  expect(await getChangeRequestReviewContext(eventId)).toEqual({ ok: true, context: {
+    eventId, eventStatus: 'under_review', eventUpdatedAt: reviewContext.eventUpdatedAt,
+    currentValues: { name: '', purpose: row.purpose, eventType: '',
+      description: '', proposedStart: row.proposed_start, proposedEnd: row.proposed_end,
+      expectedAttendance: 50, programme: '', layoutPreference: '', specialArrangements: 'Use the side entrance',
+      accessibilityRequirements: [], facilityRequirements: [], equipmentRequirements: [],
+      registrationRequired: false },
+    requests: [],
+  } })
+  expect(mocks.from).toHaveBeenCalledTimes(1)
 })
 
 test('AC-007.13.31: embeds and maps retained history newest version first', async () => {
