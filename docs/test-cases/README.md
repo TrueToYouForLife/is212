@@ -6,6 +6,9 @@ notes remain in `docs/`, and execution/failure evidence stays in `docs/test-evid
 
 ## Current source traceability
 
+US27 update, 4 November 2026: three new status/catalogue/history component IDs; US27
+now has 43 grouped source IDs. [Coverage and remaining safeguards](../us27-equipment-catalogue.md).
+
 US24 update, 4 November 2026: three new return component IDs; US24 now has 40 grouped
 source IDs. Malformed-response assertions are strengthened under the existing ID.
 [Coverage and remaining guards](../us24-return-inspections.md).
@@ -73,7 +76,7 @@ same ID count once; linked source locations preserve cross-story coverage.
 | US23 | 34 | [US23 test cases](US23_test_cases.md) | All source IDs listed |
 | US24 | 40 | [US24 test cases](US24_test_cases.md) | All source IDs listed |
 | US26 | 9 | [US26 test cases](US26_test_cases.md) | All source IDs listed |
-| US27 | 40 | [US27 test cases](US27_test_cases.md) | All source IDs listed |
+| US27 | 43 | [US27 test cases](US27_test_cases.md) | All source IDs listed |
 | US29 | 40 | [US29 test cases](US29_test_cases.md) | All source IDs listed |
 | US31 | 60 | [US31 test cases](US31_test_cases.md) | All source IDs listed |
 | US32 | 60 | [US32 test cases](US32_test_cases.md) | All source IDs listed |

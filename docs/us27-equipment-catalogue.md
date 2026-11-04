@@ -1,9 +1,55 @@
 # US27 — Equipment catalogue and status
 
+## Status coverage follow-up — 4 November 2026
+
+Branch `us27-status-coverage`; base `aa2b1ad` (US24 PR184 merged). Three new component
+cases cover accurate feedback for one affected reservation, a blank stored staff
+display name, and a late previous-unit response that must not replace the current
+unit or its displayed save version. The unit-switch case exercises the panel's
+supported `itemId` prop update in isolation; it does not claim a new catalogue
+navigation interaction. Services are mocked, not live database operations.
+
+| Component | Statements / lines | Branches | Functions |
+| --- | ---: | ---: | ---: |
+| EquipmentCatalogueView.tsx | 100% | 96.87% | 100% |
+| EquipmentStatusPanel.tsx | 100% | 97.29% | 100% |
+| EquipmentStatusHistory.tsx | 100% | 100% | 100% |
+
+Exact retained gaps, pending team acceptance:
+
+- **Catalogue line 32:** loading completes with either validated catalogue data or an
+  error. The no-data fallback is not reached without violating the service result
+  contract, so no impossible successful response is injected.
+- **Catalogue line 42:** the selected ID comes from a displayed unit row. Refresh is
+  disabled during management and successful saves clear selection. The asset-tag
+  fallback remains without fabricating selection state or an inconsistent refresh.
+- **Panel line 41:** loading, pending, locked or missing-details states disable Save
+  status. Existing tests verify blocked controls and repeated clicks; no synthetic
+  submit through disabled controls is added just to execute the early return.
+
+No safeguard is removed and coverage settings/exclusions are unchanged. Blank history
+display names are allowed by the response schema; the test preserves the stored
+note/time and does not invent a staff identity or prove actual database audit writes.
+
+Full frontend: 1,747 tests / 223 files passed; focused: 16 tests / two files passed;
+lint and build/typecheck passed. Overall coverage: 98.24% statements/lines, 92.35%
+branches, 95.83% functions. Two disposable-copy regression probes were detected;
+the restored tests passed. The initial targeted run had two test-authoring errors
+(ambiguous text lookup and an unsupported matcher); both were corrected and retested,
+with initial evidence retained. No application defect was found.
+
+Only tests/docs/evidence change; no migration, shared deployment, new manual/SQL pass
+or live API/RLS assertion is claimed. The catalogue now has 43 grouped IDs (21 database,
+six unit, 16 component). The shared event-requirement catalogue service stays outside
+this portion and needs its original owner's review before any future change merges.
+[Execution evidence and shared records](test-evidence/us27/status-coverage/README.md).
+
+The implementation/deployment checkpoints below retain their historical dates.
+
 Owner: Jaydon. Jira: SCRUM-225. Updated: 23 October 2026.
 Code-first development, delivered in separate PR portions.
 
-## Current closeout
+## Implementation closeout — 23 October 2026
 
 Implementation PRs #142 (catalogue), #143 (status backend) and #144 (status UI) are
 merged. Jaydon confirmed migrations 0104/0105 applied and the chat catalogue/status

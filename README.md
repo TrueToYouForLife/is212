@@ -3,6 +3,13 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
+## US27 status coverage — 4 November 2026
+
+Three component cases cover accurate single-reservation feedback, late unit-detail
+responses and missing staff display names. History reaches 100%; catalogue/panel
+defensive branches are documented. Full frontend: 1,747 tests passed. No application
+or database changes. [Results and remaining reasons](docs/us27-equipment-catalogue.md).
+
 ## US24 return coverage — 4 November 2026
 
 Three component cases and stronger response validation cover unsaved close/reopen,

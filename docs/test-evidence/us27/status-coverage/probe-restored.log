@@ -1,0 +1,17 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx src/features/equipment/__tests__/EquipmentCatalogue.test.tsx
+
+
+ RUN  v2.1.9 /private/var/folders/p4/h4056bks5mg95y7t5v1n_8gw0000gn/T/is212-us27-status-probes-56ckgfb2/frontend
+
+ ✓ src/features/equipment/__tests__/EquipmentCatalogue.test.tsx (6 tests) 714ms
+ ✓ src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx (10 tests) 1848ms
+   ✓ AC-027.5.7: requires an explicit supported target and nonblank reason, then submits the loaded version 430ms
+   ✓ AC-027.5.9: failed or stale save retains the note, blocks retry and never silently reloads consent; explicit reload uses the fresh version 367ms
+   ✓ AC-027.2.3: confirmed save closes management, refreshes stock and retains filters; reopening loads fresh history and no-op also closes 412ms
+
+ Test Files  2 passed (2)
+      Tests  16 passed (16)
+   Start at  16:43:27
+   Duration  3.58s (transform 195ms, setup 152ms, collect 734ms, tests 2.56s, environment 1.33s, prepare 208ms)

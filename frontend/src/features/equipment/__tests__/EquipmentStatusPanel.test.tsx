@@ -2,6 +2,7 @@ import { act, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, expect, test, vi } from 'vitest'
 import { EquipmentStatusPanel } from '../components/EquipmentStatusPanel'
+import { EquipmentStatusHistory } from '../components/EquipmentStatusHistory'
 import { EquipmentCataloguePage } from '../pages/EquipmentCataloguePage'
 import { SessionContext, type CurrentUser } from '../../auth/sessionContext'
 import type { UserRole } from '../../auth/types'
@@ -187,4 +188,62 @@ test('AC-027.2.3: confirmed save closes management, refreshes stock and retains 
   await waitFor(() => expect(screen.getByText('Status unchanged. No new history or notifications were created.')).toBeInTheDocument())
   expect(screen.queryByRole('region', { name: 'Manage equipment status: P-1' })).not.toBeInTheDocument()
   expect(screen.getByRole('button', { name: 'Refresh catalogue' })).toBeEnabled()
+})
+
+test('AC-027.2.4: one affected reservation is reported accurately after a confirmed save and refreshed stock is shown', async () => {
+  const actor = userEvent.setup()
+  render(page('tech_support'))
+  await actor.click(await screen.findByRole('button', { name: 'Manage status for P-1' }))
+  await screen.findByText('Current status: Operational')
+  await actor.selectOptions(screen.getByLabelText('New status'), 'under_repair')
+  await actor.type(screen.getByLabelText('Reason for status change'), 'Scheduled maintenance')
+  mocks.save.mockResolvedValueOnce({ ok: true, data: { id: itemId, version: 1, changed: true, reviewCount: 1 } })
+  mocks.catalogue.mockResolvedValueOnce({ ok: true, data: {
+    types: [{ ...catalogue.types[0], usableUnits: 0 }], units: [{ ...catalogue.units[0], status: 'under_repair' }],
+  } })
+  await actor.click(screen.getByRole('button', { name: 'Save status' }))
+  expect(await screen.findByText('Status updated. 1 reservation was flagged for review.')).toBeInTheDocument()
+  expect(await screen.findByText('0 usable / 1 total units')).toBeInTheDocument()
+  expect(screen.getByRole('cell', { name: 'Under Maintenance' })).toBeInTheDocument()
+  expect(screen.queryByRole('region', { name: 'Manage equipment status: P-1' })).not.toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Manage status for P-1' })).toBeEnabled()
+  expect(mocks.save.mock.calls).toEqual([[{ itemId, status: 'under_repair', note: 'Scheduled maintenance', version: 0 }]])
+})
+
+test('AC-027.1.7: a late response for the previous unit cannot replace the current unit details or its save version', async () => {
+  const actor = userEvent.setup(), saved = vi.fn(), closed = vi.fn()
+  let finishOld!: (value: { ok: true; data: EquipmentStatusDetails }) => void
+  mocks.load.mockReturnValueOnce(new Promise((resolve) => { finishOld = resolve }))
+  const view = render(panel(saved, closed))
+  expect(screen.getByRole('button', { name: 'Save status' })).toBeDisabled()
+  const nextId = 'a1050000-0000-0000-0004-000000000002'
+  mocks.load.mockResolvedValueOnce({ ok: true, data: { ...details, id: nextId, assetTag: 'P-2', status: 'unavailable', version: 3 } })
+  view.rerender(<EquipmentStatusPanel itemId={nextId} assetTag="P-2" onSaved={saved} onClose={closed} />)
+  expect(await screen.findByText('Current status: Unavailable')).toBeInTheDocument()
+  await act(async () => finishOld({ ok: true, data: details }))
+  expect(screen.getByText('Current status: Unavailable')).toBeInTheDocument()
+  expect(screen.queryByText('Current status: Operational')).not.toBeInTheDocument()
+  expect(mocks.load.mock.calls).toEqual([[itemId], [nextId]])
+  expect(mocks.save).not.toHaveBeenCalled()
+  await actor.selectOptions(screen.getByLabelText('New status'), 'under_repair')
+  await actor.type(screen.getByLabelText('Reason for status change'), 'Inspecting the replacement unit')
+  const receipt: EquipmentStatusResult = { id: nextId, version: 4, changed: true, reviewCount: 0 }
+  mocks.save.mockResolvedValueOnce({ ok: true, data: receipt })
+  await actor.click(screen.getByRole('button', { name: 'Save status' }))
+  expect(mocks.save.mock.calls).toEqual([[{ itemId: nextId, status: 'under_repair', note: 'Inspecting the replacement unit', version: 3 }]])
+  expect(saved.mock.calls).toEqual([[receipt]])
+  expect(closed).not.toHaveBeenCalled()
+})
+
+test('AC-027.8.9: a blank stored staff display name is labelled honestly while the recorded note and time remain visible', () => {
+  render(<EquipmentStatusHistory history={[{
+    id: 'a1050000-0000-0000-0005-000000000001', previousStatus: 'operational', newStatus: 'unavailable',
+    note: 'Awaiting inspection', changedBy: 'a1050000-0000-0000-0006-000000000001', changedByName: '',
+    changedAt: '2026-10-22T18:15:00Z', version: 1,
+  }]} />)
+  const history = screen.getByRole('region', { name: 'Equipment status history' })
+  expect(within(history).getByText('Operational → Unavailable')).toBeInTheDocument()
+  expect(within(history).getByText('Awaiting inspection')).toBeInTheDocument()
+  expect(within(history).getByText(/Name not recorded/)).toHaveTextContent(/23 Oct 2026.*02:15.*Singapore time/)
+  expect(within(history).queryByRole('button')).not.toBeInTheDocument()
 })
