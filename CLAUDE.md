@@ -1,3 +1,17 @@
+# US47 buffer coverage — 4 November 2026
+- Branch `us47-buffer-coverage`; Jaydon owns Git. Tests/docs only; no app, SQL, migration,
+  config or shared deployment. US48 replacement files are the next separate portion.
+- New .1.8/.1.9 unit and .1.10/.1.11 component cases; extended .1.6 fresh-version retry.
+  Current US47 inventory65 IDs. Focused3 before/7 after; full1,787 tests/232 files.
+- Build/typecheck/lint passed. Global98.36% statements/lines,93.20% branches,95.97% functions.
+  Service all100%; panel100% statements/lines/functions,96.96% branches. Panel26 early
+  submit guard retained: form absent before load, disabled busy/stale. No forced submit.
+- Disposable validation/cancellation faults detected; restored7 tests passed. No new
+  product defect or manual/SQL pass. Evidence: docs/test-evidence/us47/buffer-coverage/.
+- Shared coverage worklist rows36/40 updated, read back and saved to Drive; existing
+  result formulas preserved. Screenshots retained in evidence. Supabase pool recovery
+  stays with Jeremiah.
+
 # US41 arrangement coverage — 4 November 2026
 - Branch `us41-arrangement-coverage`; Jaydon owns Git. Tests/docs only, no SQL/app/SDK
   changes. Three new IDs .1.16/.1.17/.6.5; current inventory 28 (14 integration,5 unit,9 component).

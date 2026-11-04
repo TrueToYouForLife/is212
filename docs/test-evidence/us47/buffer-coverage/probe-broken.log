@@ -1,0 +1,64 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/venues/__tests__/venueBufferSettingsService.test.ts src/features/venues/__tests__/VenueBufferSettings.test.tsx
+
+
+ RUN  v2.1.9 /private/tmp/is212-us47-probe
+
+ ❯ src/features/venues/__tests__/venueBufferSettingsService.test.ts (2 tests | 1 failed) 9ms
+   × AC-047.1.9: invalid durations/version never write; zero and the integer boundary preserve independent values/version; uncertain responses never claim success 5ms
+     → expected { ok: false, …(1) } to deeply equal { ok: false, …(1) }
+ ❯ src/features/venues/__tests__/VenueBufferSettings.test.tsx (5 tests | 1 failed) 550ms
+   × AC-047.1.10: changing venues ignores a late earlier load and saves only the current venue settings/version 14ms
+     → expect(element).toHaveValue(15)
+
+Expected the element to have value:
+  15
+Received:
+  45
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/venues/__tests__/VenueBufferSettings.test.tsx > AC-047.1.10: changing venues ignores a late earlier load and saves only the current venue settings/version
+Error: expect(element).toHaveValue(15)
+
+Expected the element to have value:
+  15
+Received:
+  45
+ ❯ src/features/venues/__tests__/VenueBufferSettings.test.tsx:54:60
+     52|  expect(await screen.findByLabelText('Setup duration (minutes)')).toHa…
+     53|  await act(async () => finish({ data: { setupMinutes: 45, turnaroundMi…
+     54|  expect(screen.getByLabelText('Setup duration (minutes)')).toHaveValue…
+       |                                                            ^
+     55|  expect(screen.getByLabelText('Turnaround duration (minutes)')).toHave…
+     56|  expect(mocks.rpc.mock.calls).toEqual([
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/features/venues/__tests__/venueBufferSettingsService.test.ts > AC-047.1.9: invalid durations/version never write; zero and the integer boundary preserve independent values/version; uncertain responses never claim success
+AssertionError: expected { ok: false, …(1) } to deeply equal { ok: false, …(1) }
+
+- Expected
++ Received
+
+  Object {
+    "ok": false,
+-   "reason": "Enter non-negative whole minutes in multiples of 15.",
++   "reason": "Save could not be confirmed. Reload the settings before retrying.",
+  }
+
+ ❯ src/features/venues/__tests__/venueBufferSettingsService.test.ts:39:74
+     37|     { setupMinutes: Number.NaN }, { turnaroundMinutes: Number.POSITIVE…
+     38|     { setupMinutes: 2147483648 }, { version: '' },
+     39|   ]) expect(await saveBufferSettings(venueId, { ...initial, ...patch }…
+       |                                                                          ^
+     40|     reason: 'Enter non-negative whole minutes in multiples of 15.' })
+     41|   expect(mocks.rpc).not.toHaveBeenCalled()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+ Test Files  2 failed (2)
+      Tests  2 failed | 5 passed (7)
+   Start at  20:01:07
+   Duration  2.37s (transform 95ms, setup 206ms, collect 239ms, tests 560ms, environment 1.51s, prepare 231ms)

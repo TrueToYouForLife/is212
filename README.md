@@ -1756,3 +1756,8 @@ US41 coverage follow-up (4 November 2026): arrangement review service reaches 10
 across all metrics; panel reaches 100% statements/lines/functions and 95.74% branches.
 Remaining timestamp guards are justified against the database constraint.
 [Results and limits](docs/test-evidence/us41/arrangement-coverage/README.md).
+
+US47 buffer-settings coverage (4 November 2026): service reaches 100% across all
+metrics; panel reaches 100% statements/lines/functions and 96.96% branches. The
+remaining disabled-submit guard is documented. Tests/docs only; no migration.
+[Results and limits](docs/test-evidence/us47/buffer-coverage/README.md).
