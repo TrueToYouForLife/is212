@@ -1,0 +1,29 @@
+
+> connectsphere@0.1.0 coverage
+> vitest run --coverage src/features/events/__tests__/ChangeRequestReviewForm.test.tsx src/features/events/__tests__/ChangeRequestReviewPanel.test.tsx src/features/events/__tests__/ChangeRequestReplyHistory.test.tsx src/features/events/__tests__/ChangeRequestSignificance.test.tsx src/features/events/__tests__/ChangeRequestList.test.tsx --coverage.include=src/features/events/components/ChangeRequestSummary.tsx --coverage.include=src/features/events/components/ChangeRequestReviewField.tsx --coverage.include=src/features/events/components/ChangeRequestReviewForm.tsx --coverage.include=src/features/events/components/ChangeRequestReviewPanel.tsx --coverage.reportsDirectory=/tmp/is212-us7-component-before
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+      Coverage enabled with v8
+
+ ✓ src/features/events/__tests__/ChangeRequestSignificance.test.tsx (3 tests) 29ms
+ ✓ src/features/events/__tests__/ChangeRequestReplyHistory.test.tsx (2 tests) 62ms
+ ✓ src/features/events/__tests__/ChangeRequestReviewPanel.test.tsx (12 tests) 281ms
+ ✓ src/features/events/__tests__/ChangeRequestList.test.tsx (14 tests) 326ms
+ ✓ src/features/events/__tests__/ChangeRequestReviewForm.test.tsx (11 tests) 752ms
+
+ Test Files  5 passed (5)
+      Tests  42 passed (42)
+   Start at  15:13:20
+   Duration  2.15s (transform 230ms, setup 449ms, collect 1.02s, tests 1.45s, environment 2.80s, prepare 416ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------|---------|----------|---------|---------|-------------------
+All files          |   97.23 |    90.69 |     100 |   97.23 |
+ ...eviewField.tsx |     100 |     90.9 |     100 |     100 | 17
+ ...ReviewForm.tsx |   96.96 |    93.54 |     100 |   96.96 | 49-50
+ ...eviewPanel.tsx |   97.95 |     90.9 |     100 |   97.95 | 29
+ ...estSummary.tsx |   93.93 |    86.36 |     100 |   93.93 | 34-35
+-------------------|---------|----------|---------|---------|-------------------

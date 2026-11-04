@@ -3,6 +3,13 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
+## US7 review-component coverage — 4 November 2026
+
+Three component cases protect saved review notes, provisional/final decisions, late
+event-switch responses and reloads using a fresh comparison. Remaining defensive gaps
+are documented; no application or database changes. Full frontend: 1,741 tests passed.
+[Results and justifications](docs/us7-review-component-coverage.md).
+
 ## US7 review-data coverage — 4 November 2026
 
 Five new unit cases cover readable requirements/layouts, Singapore date boundaries,

@@ -1,3 +1,19 @@
+# US7 review-component coverage — 4 November 2026
+- Branch `us7-review-component-coverage`, base4d47053 (PR181 merged). Jaydon owns Git.
+  Three new component IDs .3.12/.9.24/.13.32; catalogue285. Notes/provisional outcomes,
+  late event-switch responses and reload/reset with fresh save versions are tested.
+- Focused42/five files before,45/six after; full1,741/223, lint/build/typecheck pass.
+  Global98.24% statements/lines,92.04% branches,95.71% functions. Two disposable-copy
+  regressions detected; restored15 tests pass. No product/DB/migration/exclusion edits.
+- Initial build rejected new fixture number attendance/null notes; corrected to text/
+  empty strings and retested. Retained initial failure is a fixture error, not app defect.
+- Summary100% statements/lines,95.65% branches; field100% statements/lines,90.90% branches;
+  form96.96% statements/lines,93.54% branches; panel97.95% statements/lines,100% branches.
+  All functions100%. Exact remaining reasons in docs/us7-review-component-coverage.md.
+- Sheet rows42/43/46/50 percentages, locations and justifications saved/verified;
+  all Justification needed. US41 arrangement-review files remain separate. No new
+  manual, SQL, deployed-environment, commit, push, PR or remote CI result claimed.
+
 # US7 review-data coverage — 4 November 2026
 - Branch `us7-review-data-coverage`, base 13309ef (US17 PR180 merged). Jaydon owns Git.
   Only tests/docs/evidence; no application, database, migration or coverage exclusions.

@@ -1,0 +1,84 @@
+Deliberate regression in a disposable copy; not a product defect. Expected failure: AC-007.13.32
+
+> connectsphere@0.1.0 test
+> vitest run src/features/events/__tests__/ChangeRequestSummary.test.tsx -t AC-007.13.32
+
+
+ RUN  v2.1.9 /private/var/folders/p4/h4056bks5mg95y7t5v1n_8gw0000gn/T/is212-us7-component-probes-79x31qbk/frontend
+
+ ❯ src/features/events/__tests__/ChangeRequestSummary.test.tsx (1 test | 1 failed) 88ms
+   × AC-007.13.32: saved notes remain visible and provisional field decisions become final only after review completes 88ms
+     → Unable to find an element with the text: Rejected provisionally. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<li[39m
+  [33mclass[39m=[32m"whitespace-pre-wrap"[39m
+[36m>[39m
+  [36m<strong>[39m
+    [0mExpected attendance[0m
+    [0m: [0m
+  [36m</strong>[39m
+  [0m80[0m
+  [36m<div[39m
+    [33mclass[39m=[32m"mt-1 border-l-2 border-indigo-200 pl-3"[39m
+  [36m>[39m
+    [36m<span[39m
+      [33mclass[39m=[32m"font-medium"[39m
+    [36m>[39m
+      [0mRejected[0m
+    [36m</span>[39m
+    [36m<p[39m
+      [33mclass[39m=[32m"mt-1"[39m
+    [36m>[39m
+      [0mCapacity remains 50.[0m
+    [36m</p>[39m
+  [36m</div>[39m
+[36m</li>[39m
+
+ Test Files  1 failed (1)
+      Tests  1 failed (1)
+   Start at  15:16:35
+   Duration  1.49s (transform 127ms, setup 83ms, collect 276ms, tests 88ms, environment 387ms, prepare 64ms)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/events/__tests__/ChangeRequestSummary.test.tsx > AC-007.13.32: saved notes remain visible and provisional field decisions become final only after review completes
+TestingLibraryElementError: Unable to find an element with the text: Rejected provisionally. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<li[39m
+  [33mclass[39m=[32m"whitespace-pre-wrap"[39m
+[36m>[39m
+  [36m<strong>[39m
+    [0mExpected attendance[0m
+    [0m: [0m
+  [36m</strong>[39m
+  [0m80[0m
+  [36m<div[39m
+    [33mclass[39m=[32m"mt-1 border-l-2 border-indigo-200 pl-3"[39m
+  [36m>[39m
+    [36m<span[39m
+      [33mclass[39m=[32m"font-medium"[39m
+    [36m>[39m
+      [0mRejected[0m
+    [36m</span>[39m
+    [36m<p[39m
+      [33mclass[39m=[32m"mt-1"[39m
+    [36m>[39m
+      [0mCapacity remains 50.[0m
+    [36m</p>[39m
+  [36m</div>[39m
+[36m</li>[39m
+ ❯ Object.getElementError ../../../../../../../../Users/jaydon/Desktop/is212/frontend/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../../../../../../../../Users/jaydon/Desktop/is212/frontend/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../../../../../../../../Users/jaydon/Desktop/is212/frontend/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../../../../../../../../Users/jaydon/Desktop/is212/frontend/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/features/events/__tests__/ChangeRequestSummary.test.tsx:21:28
+     19|   const fields = screen.getAllByRole('listitem')
+     20|   expect(within(fields[0]).getByText('Approved provisionally')).toBeIn…
+     21|   expect(within(fields[1]).getByText('Rejected provisionally')).toBeIn…
+       |                            ^
+     22|   expect(within(fields[1]).getByText('Capacity remains 50.')).toBeInTh…
+     23|   expect(within(fields[2]).getByText('Clarification required')).toBeIn…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
