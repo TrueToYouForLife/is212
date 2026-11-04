@@ -20,17 +20,18 @@ const session: AppSession = {
   email: 'organiser@example.com',
 }
 
-function renderSignIn() {
+function renderSignIn(overrides: Partial<CurrentUser> = {}, from?: string) {
   // A signed-out context that never updates, so the page's own navigate() is the only thing
   // that can move us off /signin.
-  const value: CurrentUser = { session: null, profile: null, loading: false, refresh: vi.fn() }
+  const value: CurrentUser = { session: null, profile: null, loading: false, refresh: vi.fn(), ...overrides }
 
   render(
     <SessionContext.Provider value={value}>
-      <MemoryRouter initialEntries={['/signin']}>
+      <MemoryRouter initialEntries={[{ pathname: '/signin', state: from ? { from } : null }]}>
         <Routes>
           <Route path="/signin" element={<SignInPage />} />
           <Route path="/" element={<p>Home page</p>} />
+          <Route path="/requested" element={<p>Requested page</p>} />
         </Routes>
       </MemoryRouter>
     </SessionContext.Provider>,
@@ -53,6 +54,25 @@ beforeEach(() => {
 // Development sign-in for US-005 — US-002 owns the real authentication story, so these carry
 // no acceptance-criterion prefix.
 describe('SignInPage', () => {
+  test('invalid fields display validation errors without sending credentials', () => {
+    renderSignIn()
+    fireEvent.click(screen.getByRole('button', { name: /^sign in$/i }))
+    expect(screen.getByLabelText(/email/i)).toHaveAttribute('aria-invalid', 'true')
+    expect(screen.getByLabelText(/password/i)).toHaveAttribute('aria-invalid', 'true')
+    expect(mocks.signIn).not.toHaveBeenCalled()
+  })
+
+  test('an existing session redirects to the originally requested page', async () => {
+    renderSignIn({ session }, '/requested')
+    expect(await screen.findByText('Requested page')).toBeInTheDocument()
+    expect(mocks.signIn).not.toHaveBeenCalled()
+  })
+
+  test('does not redirect while the existing session is being checked', () => {
+    renderSignIn({ session, loading: true }, '/requested')
+    expect(screen.getByRole('button', { name: /^sign in$/i })).toBeInTheDocument()
+    expect(screen.queryByText('Requested page')).not.toBeInTheDocument()
+  })
   test('goes where the user was headed once signed in', async () => {
     renderSignIn()
 

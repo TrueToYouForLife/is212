@@ -10,6 +10,13 @@ const VENUE: Venue = {
   accessibility: [], facility: {}, status: 'active', location: 'Level 2',
 }
 
+test('AC-009.1.27: missing location is explicit and both counted and boolean facilities are displayed', () => {
+  render(<MemoryRouter><ul><VenueResultCard venue={{ ...VENUE, location: '', facility: { projector: true, microphone: 3, unavailable: false } }} /></ul></MemoryRouter>)
+  expect(screen.getByText('projector, microphone (3)')).toBeInTheDocument()
+  expect(screen.queryByText('unavailable')).not.toBeInTheDocument()
+  expect(screen.getAllByText('—').length).toBeGreaterThanOrEqual(2)
+})
+
 function assessment(overrides: Partial<VenueAssessment>): VenueAssessment {
   return {
     venue: { id: 'v1', name: 'Main Hall', location: 'Level 2', status: 'active', layouts: [], accessibility: [], facility: {} },

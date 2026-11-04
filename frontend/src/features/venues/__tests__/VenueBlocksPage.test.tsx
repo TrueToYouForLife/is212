@@ -4,6 +4,7 @@ import { VenueBlocksPage } from '../pages/VenueBlocksPage'
 
 const mocks = vi.hoisted(() => ({
   role: 'venue_staff',
+  loading: false,
   listVenues: vi.fn(),
   listBlocks: vi.fn(),
   preview: vi.fn(),
@@ -12,7 +13,7 @@ const mocks = vi.hoisted(() => ({
 }))
 
 vi.mock('../../auth/sessionContext', () => ({
-  useCurrentUser: () => ({ loading: false, profile: { id: 'staff-1', role: mocks.role } }),
+  useCurrentUser: () => ({ loading: mocks.loading, profile: { id: 'staff-1', role: mocks.role } }),
 }))
 vi.mock('../venueBlockService', () => ({
   listBlockableVenues: mocks.listVenues,
@@ -36,6 +37,7 @@ const BLOCK = {
 beforeEach(() => {
   vi.clearAllMocks()
   mocks.role = 'venue_staff'
+  mocks.loading = false
   mocks.listVenues.mockResolvedValue({ ok: true, value: [{ id: 'v1', name: 'Main Hall', location: 'Level 2' }] })
   mocks.listBlocks.mockResolvedValue({ ok: true, value: [BLOCK] })
   mocks.preview.mockResolvedValue({ ok: true, value: { affectedBookings: [], existingBlocks: [] } })
@@ -49,6 +51,40 @@ async function chooseVenue() {
   fireEvent.change(screen.getByLabelText('Venue'), { target: { value: 'v1' } })
   await screen.findByText('Ceiling repair')
 }
+
+test('AC-012.2.36: venue list failures are shown instead of silently presenting an empty list', async () => {
+  mocks.listVenues.mockResolvedValue({ ok: false, reason: 'Venues unavailable' })
+  render(<VenueBlocksPage />)
+  expect(await screen.findByRole('alert')).toHaveTextContent('Venues unavailable')
+})
+
+test('AC-012.9.30: block failures clear old blocks and selecting a venue again recovers', async () => {
+  await chooseVenue()
+  mocks.listBlocks.mockResolvedValueOnce({ ok: false, reason: 'Blocks unavailable' })
+  fireEvent.change(screen.getByLabelText('Venue'), { target: { value: '' } })
+  expect(screen.queryByText('Ceiling repair')).not.toBeInTheDocument()
+  fireEvent.change(screen.getByLabelText('Venue'), { target: { value: 'v1' } })
+  expect(await screen.findByRole('alert')).toHaveTextContent('Blocks unavailable')
+  expect(screen.queryByText('Ceiling repair')).not.toBeInTheDocument()
+  fireEvent.change(screen.getByLabelText('Venue'), { target: { value: '' } })
+  fireEvent.change(screen.getByLabelText('Venue'), { target: { value: 'v1' } })
+  expect(await screen.findByText('Ceiling repair')).toBeInTheDocument()
+  expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+})
+
+test('AC-012.2.37: venues without a location retain their name', async () => {
+  mocks.listVenues.mockResolvedValue({ ok: true, value: [{ id: 'v1', name: 'Main Hall', location: null }] })
+  render(<VenueBlocksPage />)
+  expect(await screen.findByRole('option', { name: 'Main Hall' })).toHaveValue('v1')
+})
+
+test('AC-012.1.15: session loading shows no block controls', () => {
+  mocks.loading = true
+  mocks.role = ''
+  render(<VenueBlocksPage />)
+  expect(screen.queryByLabelText('Venue')).not.toBeInTheDocument()
+  expect(mocks.listVenues).not.toHaveBeenCalled()
+})
 
 describe('AC-012.1 — only Venue Staff can block', () => {
   test('AC-012.1.9: only Venue Staff can use the venue blocks page', () => {

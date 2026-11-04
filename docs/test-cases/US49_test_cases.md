@@ -34,8 +34,8 @@ Related implementation notes: [us49-slice1.md](../us49-slice1.md), [us49-slice2.
 | AC-049.2.7 | 2 | Integration — Happy path / Regression | adding requirement columns preserves existing pending replacement consent versions | [backend/supabase/tests/run_venue_time_conversion.sh](../../backend/supabase/tests/run_venue_time_conversion.sh#L100) |
 | AC-049.2.30 | 2 | Component — Happy path | layout and people can be recorded independently for a space | [frontend/src/features/venues/__tests__/BookingSpaceFields.test.tsx](../../frontend/src/features/venues/__tests__/BookingSpaceFields.test.tsx#L13) |
 | AC-049.2.31 | 2 | Unit — Negative | blank layout and nonpositive or fractional attendance are invalid | [frontend/src/features/venues/__tests__/BookingSpaceFields.test.tsx](../../frontend/src/features/venues/__tests__/BookingSpaceFields.test.tsx#L24) |
-| AC-049.2.32 | 2 | Unit — Happy path | explicit space requirements reach the checked booking RPC | [frontend/src/features/venues/__tests__/venueHoldAtomic.test.ts](../../frontend/src/features/venues/__tests__/venueHoldAtomic.test.ts#L19) |
-| AC-049.2.33 | 2 | Unit — Negative | invalid space requirements do not send a booking request | [frontend/src/features/venues/__tests__/venueHoldAtomic.test.ts](../../frontend/src/features/venues/__tests__/venueHoldAtomic.test.ts#L29) |
+| AC-049.2.32 | 2 | Unit — Happy path | explicit space requirements reach the checked booking RPC | [frontend/src/features/venues/__tests__/venueHoldAtomic.test.ts](../../frontend/src/features/venues/__tests__/venueHoldAtomic.test.ts#L77) |
+| AC-049.2.33 | 2 | Unit — Negative | invalid space requirements do not send a booking request | [frontend/src/features/venues/__tests__/venueHoldAtomic.test.ts](../../frontend/src/features/venues/__tests__/venueHoldAtomic.test.ts#L87) |
 | AC-049.3.1 | 3 | Integration — Negative | capacity is checked independently and one person above capacity is refused | [backend/supabase/tests/multi_venue_requirements.sql](../../backend/supabase/tests/multi_venue_requirements.sql#L27) |
 | AC-049.3.2 | 3 | Integration — Negative | another event cannot occupy an existing space reservation | [backend/supabase/tests/multi_venue_requirements.sql](../../backend/supabase/tests/multi_venue_requirements.sql#L32) |
 | AC-049.3.3 | 3 | Integration — Happy path | each booking reserves its own setup and turnaround | [backend/supabase/tests/multi_venue_requirements.sql](../../backend/supabase/tests/multi_venue_requirements.sql#L47) |
@@ -45,7 +45,7 @@ Related implementation notes: [us49-slice1.md](../us49-slice1.md), [us49-slice2.
 | AC-049.3.7 | 3 | Integration — Happy path | venue edit review uses the affected booking attendance | [backend/supabase/tests/multi_venue_requirements.sql](../../backend/supabase/tests/multi_venue_requirements.sql#L71) |
 | AC-049.3.8 | 3 | Integration — Negative | legacy hold API cannot bypass suitability checks | [backend/supabase/tests/multi_venue_requirements.sql](../../backend/supabase/tests/multi_venue_requirements.sql#L75) |
 | AC-049.3.30 | 3 | Component — Negative | layout load failure is visible and disables requirements input | [frontend/src/features/venues/__tests__/BookingSpaceFields.test.tsx](../../frontend/src/features/venues/__tests__/BookingSpaceFields.test.tsx#L19) |
-| AC-049.3.31 | 3 | Unit — Happy path | unsuitable spaces return the server explanation without claiming success | [frontend/src/features/venues/__tests__/venueHoldAtomic.test.ts](../../frontend/src/features/venues/__tests__/venueHoldAtomic.test.ts#L24) |
+| AC-049.3.31 | 3 | Unit — Happy path | unsuitable spaces return the server explanation without claiming success | [frontend/src/features/venues/__tests__/venueHoldAtomic.test.ts](../../frontend/src/features/venues/__tests__/venueHoldAtomic.test.ts#L82) |
 | AC-049.4.1 | 4 | Integration — Happy path / Regression | approving one booking leaves its sibling record unchanged | [backend/supabase/tests/multi_venue_readiness.sql](../../backend/supabase/tests/multi_venue_readiness.sql#L22) |
 | AC-049.4.2 | 4 | Integration — Negative / Regression | rejection preserves approved sibling records and their occupied slots | [backend/supabase/tests/multi_venue_readiness.sql](../../backend/supabase/tests/multi_venue_readiness.sql#L36) |
 | AC-049.4.3 | 4 | Integration — Negative | rejecting one booking releases only its own occupied cells | [backend/supabase/tests/multi_venue_readiness.sql](../../backend/supabase/tests/multi_venue_readiness.sql#L38) |
@@ -74,13 +74,13 @@ Related implementation notes: [us49-slice1.md](../us49-slice1.md), [us49-slice2.
 | AC-049.7.7 | 7 | Integration — Negative | downstream notification failure refuses cancellation | [backend/supabase/tests/individual_venue_cancellation.sql](../../backend/supabase/tests/individual_venue_cancellation.sql#L48) |
 | AC-049.7.8 | 7 | Integration — Negative | cancelling rejected requirement clears readiness when remaining bookings are approved | [backend/supabase/tests/individual_venue_cancellation.sql](../../backend/supabase/tests/individual_venue_cancellation.sql#L77) |
 | AC-049.7.9 | 7 | Integration — Negative / Boundary | concurrent approval cannot overwrite cancellation or recreate claims | [backend/supabase/tests/individual_venue_cancellation_races.sh](../../backend/supabase/tests/individual_venue_cancellation_races.sh#L40) |
-| AC-049.7.30 | 7 | Component — Happy path | cancellation requires a reason and uses the displayed version for the selected booking | [frontend/src/features/venues/__tests__/VenueCancellationPanel.test.tsx](../../frontend/src/features/venues/__tests__/VenueCancellationPanel.test.tsx#L12) |
-| AC-049.7.31 | 7 | Component — Negative / Regression | failure preserves the reason and requires reload before retrying with fresh consent | [frontend/src/features/venues/__tests__/VenueCancellationPanel.test.tsx](../../frontend/src/features/venues/__tests__/VenueCancellationPanel.test.tsx#L22) |
-| AC-049.7.32 | 7 | Component — Negative | failed context read offers reload without exposing a cancellation action | [frontend/src/features/venues/__tests__/VenueCancellationPanel.test.tsx](../../frontend/src/features/venues/__tests__/VenueCancellationPanel.test.tsx#L42) |
+| AC-049.7.30 | 7 | Component — Happy path | cancellation requires a reason and uses the displayed version for the selected booking | [frontend/src/features/venues/__tests__/VenueCancellationPanel.test.tsx](../../frontend/src/features/venues/__tests__/VenueCancellationPanel.test.tsx#L23) |
+| AC-049.7.31 | 7 | Component — Negative / Regression | failure preserves the reason and requires reload before retrying with fresh consent | [frontend/src/features/venues/__tests__/VenueCancellationPanel.test.tsx](../../frontend/src/features/venues/__tests__/VenueCancellationPanel.test.tsx#L33) |
+| AC-049.7.32 | 7 | Component — Negative | failed context read offers reload without exposing a cancellation action | [frontend/src/features/venues/__tests__/VenueCancellationPanel.test.tsx](../../frontend/src/features/venues/__tests__/VenueCancellationPanel.test.tsx#L53) |
 | AC-049.7.33 | 7 | Unit — Happy path / Boundary | blank reason performs no request and valid reason sends exact booking and consent version | [frontend/src/features/venues/__tests__/venueCancellationService.test.ts](../../frontend/src/features/venues/__tests__/venueCancellationService.test.ts#L5) |
 | AC-049.7.34 | 7 | Unit — Negative | malformed, refused and network results fail closed | [frontend/src/features/venues/__tests__/venueCancellationService.test.ts](../../frontend/src/features/venues/__tests__/venueCancellationService.test.ts#L13) |
-| AC-049.7.35 | 7 | Component — Negative / Regression | a pending request uses reasoned cancellation and cannot be submitted again | [frontend/src/features/venues/__tests__/VenueBookingPages.test.tsx](../../frontend/src/features/venues/__tests__/VenueBookingPages.test.tsx#L271) |
-| AC-049.7.36 | 7 | Component — Negative / Regression | a rejected request retains its note and offers explicit cancellation | [frontend/src/features/venues/__tests__/VenueBookingPages.test.tsx](../../frontend/src/features/venues/__tests__/VenueBookingPages.test.tsx#L285) |
+| AC-049.7.35 | 7 | Component — Negative / Regression | a pending request uses reasoned cancellation and cannot be submitted again | [frontend/src/features/venues/__tests__/VenueBookingPages.test.tsx](../../frontend/src/features/venues/__tests__/VenueBookingPages.test.tsx#L296) |
+| AC-049.7.36 | 7 | Component — Negative / Regression | a rejected request retains its note and offers explicit cancellation | [frontend/src/features/venues/__tests__/VenueBookingPages.test.tsx](../../frontend/src/features/venues/__tests__/VenueBookingPages.test.tsx#L310) |
 | AC-049.8.1 | 8 | Integration — Happy path / Regression | cancelling one space preserves sibling bookings and reservations | [backend/supabase/tests/individual_venue_cancellation.sql](../../backend/supabase/tests/individual_venue_cancellation.sql#L36) |
 | AC-049.8.2 | 8 | Integration — Happy path / Regression | cancelling every booking leaves all event columns unchanged | [backend/supabase/tests/individual_venue_cancellation.sql](../../backend/supabase/tests/individual_venue_cancellation.sql#L67) |
 | AC-049.8.3 | 8 | Integration — Negative / Regression | failed transaction restores booking, claims and audit completely | [backend/supabase/tests/individual_venue_cancellation.sql](../../backend/supabase/tests/individual_venue_cancellation.sql#L54) |
@@ -89,4 +89,28 @@ Related implementation notes: [us49-slice1.md](../us49-slice1.md), [us49-slice2.
 | AC-049.9.3 | 9 | Integration — Happy path | Venue Staff receive in-app and queued email cancellation notices through the shared helper | [backend/supabase/tests/individual_venue_cancellation.sql](../../backend/supabase/tests/individual_venue_cancellation.sql#L40) |
 | AC-049.9.4 | 9 | Integration — Happy path / Boundary | each successful cancellation has exactly one immutable audit record | [backend/supabase/tests/individual_venue_cancellation.sql](../../backend/supabase/tests/individual_venue_cancellation.sql#L83) |
 | AC-049.9.5 | 9 | Integration — Happy path | staff channel preferences suppress future cancellation notices | [backend/supabase/tests/individual_venue_cancellation.sql](../../backend/supabase/tests/individual_venue_cancellation.sql#L64) |
-| AC-049.9.30 | 9 | Component — Happy path | recorded cancellation shows its actor, reason and Singapore time | [frontend/src/features/venues/__tests__/VenueCancellationPanel.test.tsx](../../frontend/src/features/venues/__tests__/VenueCancellationPanel.test.tsx#L36) |
+| AC-049.9.30 | 9 | Component — Happy path | recorded cancellation shows its actor, reason and Singapore time | [frontend/src/features/venues/__tests__/VenueCancellationPanel.test.tsx](../../frontend/src/features/venues/__tests__/VenueCancellationPanel.test.tsx#L47) |
+
+
+## Coverage follow-up ? 4 November 2026
+
+The following existing regression tests now have individual AC IDs, including parameter cases. This change labels tests; it does not add production behaviour or claim manual acceptance.
+
+| Test ID | AC | Classification | Scenario / expected assertion | Test source |
+| --- | --- | --- | --- | --- |
+| AC-049.2.34 | 2 | Component ? Negative / Regression | per-booking layout and attendance remain visible when the venue name is unavailable | [VenueBookingPages.test.tsx](../../frontend/src/features/venues/__tests__/VenueBookingPages.test.tsx#L245) |
+| AC-049.7.37 | 7 | Component ? Negative / Regression | a late context for the previous booking cannot replace the current booking | [VenueCancellationPanel.test.tsx](../../frontend/src/features/venues/__tests__/VenueCancellationPanel.test.tsx#L7) |
+| AC-049.2.35 | 2 | Unit ? Regression | loads the selected venue layouts in layout order | [bookingSpaceService.test.ts](../../frontend/src/features/venues/__tests__/bookingSpaceService.test.ts#L13) |
+| AC-049.2.36 | 2 | Unit ? Negative / Regression | booking-specific requirements survive mapping, including missing attendance and event metadata | [venueBookingService.test.ts](../../frontend/src/features/venues/__tests__/venueBookingService.test.ts#L170) |
+| AC-049.3.32 | 3 | Unit ? Negative / Regression | offered-layout refusal is preserved for explicit space requirements | [venueHoldAtomic.test.ts](../../frontend/src/features/venues/__tests__/venueHoldAtomic.test.ts#L24) |
+| AC-049.3.33 | 3 | Unit ? Negative / Regression | Layout read failure prevents booking | [bookingSpaceService.test.ts](../../frontend/src/features/venues/__tests__/bookingSpaceService.test.ts#L24) |
+| AC-049.3.34 | 3 | Unit ? Negative / Regression | Missing layout data prevents booking | [bookingSpaceService.test.ts](../../frontend/src/features/venues/__tests__/bookingSpaceService.test.ts#L25) |
+| AC-049.3.35 | 3 | Unit ? Negative / Regression | Empty layout list prevents booking | [bookingSpaceService.test.ts](../../frontend/src/features/venues/__tests__/bookingSpaceService.test.ts#L26) |
+
+### Remaining coverage justification
+
+`VenueCancellationPanel.tsx` (97.05% branches): the remaining handler guard is protected by the rendered context/blank/busy/locked controls; reaching it requires bypassing the UI contract. These are defensive-path exclusions from this test scope, not claims that synthetic invocation is impossible. Percentages refer to the local 4 November coverage run before the test-title changes; statements, functions and lines were 100%.
+
+### Existing cases strengthened in the 4 November coverage work
+
+- AC-049.7.34 ? valid cancellation context is accepted, but data accompanied by an error fails closed.

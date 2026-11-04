@@ -43,6 +43,9 @@ test('AC-047.2.24: midnight, lunch, partial cells and adjacent boundaries match 
 })
 
 test('AC-047.2.25: invalid timing and durations are refused rather than shown as free availability', () => {
+  expect(() => occupiedVenueCells(at('10:00'), new Date('invalid'), zero)).toThrow('finite event start')
+  expect(() => occupiedVenueCells(new Date(-8640000000000000), new Date(-8639999999100000), { setupMinutes: 1440, turnaroundMinutes: 0 })).toThrow('outside the supported date range')
+  expect(() => occupiedVenueCells(new Date(8639999999100000), new Date(8640000000000000), zero)).toThrow('outside the supported date range')
   for (const [start, end] of [[new Date('invalid'), at('12:00')], [at('12:00'), at('12:00')], [at('12:00'), at('11:00')]]) {
     expect(() => occupiedVenueCells(start, end, zero)).toThrow('finite event start')
   }

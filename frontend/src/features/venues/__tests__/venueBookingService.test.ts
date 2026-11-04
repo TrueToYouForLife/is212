@@ -19,6 +19,23 @@ vi.mock('../../../lib/supabase', () => ({
 const fake = createSupabaseFake()
 const NOW = '2026-10-05T04:00:00.000Z'
 
+test('AC-011.8.11: a failure releasing slot claims is reported after cancellation, not as success', async () => {
+  fake.plan('venue_bookings', { data: { id: BOOKING_ID } })
+  fake.plan('venue_slot_claims', { error: { code: '42501' } })
+  expect(await releaseHold(BOOKING_ID)).toEqual({ ok: false, reason: messages.rlsDenied })
+})
+
+test.each([['AC-009.9.20', { data: null, error: null }], ['AC-009.9.21', { data: { user: null }, error: { message: 'Expired' } }]] as const)('%s: unusable authentication prevents list access', async (_id, response) => {
+  mocks.getUser.mockResolvedValue(response)
+  expect(await listMyVenueBookings()).toEqual({ ok: false, reason: messages.notSignedIn })
+  expect(mocks.from).not.toHaveBeenCalled()
+})
+
+test('AC-009.9.18: a successful query without rows is an empty booking list', async () => {
+  fake.plan('venue_bookings', { data: null })
+  expect(await listMyVenueBookings()).toEqual({ ok: true, bookings: [] })
+})
+
 beforeEach(() => {
   vi.resetAllMocks()
   fake.reset()
@@ -149,6 +166,16 @@ describe('AC-009.9 — view your requests and their status', () => {
     expect(await listMyVenueBookings()).toMatchObject({
       ok: true, bookings: [{ venueName: '', eventReference: 'EVT-1', eventName: 'Gala', cells: [] }],
     })
+  })
+  test('AC-049.2.36: booking-specific requirements survive mapping, including missing attendance and event metadata', async () => {
+    fake.plan('venue_bookings', { data: [
+      { ...ROW, space_layout: 'theatre', space_attendance: 25 },
+      { ...ROW, id: 'second', space_layout: 'hall', space_attendance: null, events: { reference: null, name: null } },
+    ] })
+    expect(await listMyVenueBookings()).toMatchObject({ ok: true, bookings: [
+      { spaceLayout: 'theatre', spaceAttendance: 25 },
+      { spaceLayout: 'hall', spaceAttendance: undefined, eventReference: null, eventName: null },
+    ] })
   })
   test('AC-009.9.6: a signed-out user sees nothing, and nothing is queried', async () => {
     mocks.getUser.mockResolvedValue({ data: { user: null }, error: null })

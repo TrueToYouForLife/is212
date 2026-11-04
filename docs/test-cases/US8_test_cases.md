@@ -56,3 +56,7 @@ Related implementation notes: [us8-merge-runbook.md](../us8-merge-runbook.md), [
 | AC-008.4.2 | 4 | Unit — Happy path | a missing value matches nothing except a blank term | [frontend/src/features/venues/__tests__/searchTextMatch.test.ts](../../frontend/src/features/venues/__tests__/searchTextMatch.test.ts#L70) |
 | AC-008.4.3 | 4 | Unit — Happy path | different layouts still do not match | [frontend/src/features/venues/__tests__/searchTextMatch.test.ts](../../frontend/src/features/venues/__tests__/searchTextMatch.test.ts#L76) |
 | AC-008.4.4 | 4 | Unit — Negative | a missing code never matches, not even another missing one | [frontend/src/features/venues/__tests__/searchTextMatch.test.ts](../../frontend/src/features/venues/__tests__/searchTextMatch.test.ts#L80) |
+
+### Existing cases strengthened in the 4 November coverage work
+
+- AC-008.2.7 ? blank and punctuation-only search, including an empty collection.

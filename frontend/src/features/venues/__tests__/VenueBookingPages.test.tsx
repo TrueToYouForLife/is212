@@ -18,6 +18,7 @@ import { BOOKING_ID, EVENT_ID, VENUE_ID, sgt } from './fixtures/venueBooking'
 
 const mocks = vi.hoisted(() => ({
   role: 'coordinator' as string,
+  userLoading: false,
   cancellationContext: vi.fn(), cancelBooking: vi.fn(),
   replacements: vi.fn(), decisionNotifications: vi.fn(),
   getVenue: vi.fn(), getVenueTimetable: vi.fn(),
@@ -29,7 +30,7 @@ vi.mock('../venueReplacementService', () => ({ getVenueReplacements: mocks.repla
 vi.mock('../venueDecisionNotificationService', () => ({ listVenueDecisionNotifications: mocks.decisionNotifications }))
 
 vi.mock('../../auth/sessionContext', () => ({
-  useCurrentUser: () => ({ loading: false, profile: { id: 'viewer', role: mocks.role } }),
+  useCurrentUser: () => ({ loading: mocks.userLoading, profile: { id: 'viewer', role: mocks.role } }),
 }))
 vi.mock('../venueTimetableService', () => ({
   getVenue: mocks.getVenue,
@@ -77,6 +78,7 @@ const EMPTY_TIMETABLE = buildTimetable(SLOTS, [], '2026-10-12', 7)
 beforeEach(() => {
   vi.resetAllMocks()
   mocks.role = 'coordinator'
+  mocks.userLoading = false
   mocks.cancellationContext.mockResolvedValue({ status: 'pending_approval', version: 'v1', audit: null })
   mocks.cancelBooking.mockResolvedValue({ ok: true })
   mocks.replacements.mockResolvedValue({ ok: true, value: { sources: [], affectedBookings: [], requests: [], venues: [] } })
@@ -106,6 +108,22 @@ function renderAt(path: string, routePath: string, element: React.ReactElement) 
     </MemoryRouter>,
   )
 }
+
+test('AC-009.1.26: venue details display absent optional details and retired status honestly', async () => {
+  mocks.getVenue.mockResolvedValue({ ok: true, venue: { ...VENUE, location: '', layout: '', accessibility: [], facility: {}, status: 'retired' } })
+  renderAt(`/venues/${VENUE_ID}`, '/venues/:id', <VenueDetailsPage />)
+  expect(await screen.findByText('Location not recorded')).toBeInTheDocument()
+  expect(screen.getByRole('alert')).toHaveTextContent('retired')
+  expect(screen.getAllByText('—')).toHaveLength(3)
+})
+
+test.each([['AC-009.1.28', 'details'], ['AC-009.9.19', 'bookings']])('%s: waits for session loading before fetching data', (_id, page) => {
+  mocks.userLoading = true
+  renderAt('/test', '/test', page === 'details' ? <VenueDetailsPage /> : <MyVenueBookingsPage />)
+  expect(screen.getByText(/Checking your session/)).toBeInTheDocument()
+  expect(mocks.getVenue).not.toHaveBeenCalled()
+  expect(mocks.listMyVenueBookings).not.toHaveBeenCalled()
+})
 
 describe('VenueDetailsPage — AC-009.1', () => {
   const show = (search = '') =>
@@ -223,6 +241,13 @@ describe('MyVenueBookingsPage — AC-009.9 / AC-011.7 / AC-011.8', () => {
     ],
   }
   const show = () => renderAt('/venues/bookings', '/venues/bookings', <MyVenueBookingsPage />)
+
+  test('AC-049.2.34: per-booking layout and attendance remain visible when the venue name is unavailable', async () => {
+    mocks.listMyVenueBookings.mockResolvedValue({ ok: true, bookings: [{ ...HELD, venueName: '', spaceLayout: 'theatre', spaceAttendance: 25 }] })
+    show()
+    expect(await screen.findByRole('heading', { name: 'Venue' })).toBeInTheDocument()
+    expect(screen.getByText(/Layout: theatre/)).toHaveTextContent('People: 25')
+  })
 
   test('AC-009.9.13: lists each request with its venue, event, status and slots', async () => {
     mocks.listMyVenueBookings.mockResolvedValue({ ok: true, bookings: [HELD] })

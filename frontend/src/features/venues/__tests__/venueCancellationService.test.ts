@@ -11,6 +11,10 @@ test('AC-049.7.33: blank reason performs no request and valid reason sends exact
   expect(rpc).toHaveBeenCalledWith('cancel_individual_venue_booking',{p_booking_id:'b1',p_reason:'why',p_expected_version:'v1'})
 })
 test('AC-049.7.34: malformed, refused and network results fail closed', async () => {
+  rpc.mockResolvedValue({ data: { status: 'approved', version: 'v1', audit: null }, error: null })
+  expect(await getVenueCancellation('b1')).toEqual({ status: 'approved', version: 'v1', audit: null })
+  rpc.mockResolvedValue({ data: { status: 'approved', version: 'v1', audit: null }, error: { message: 'Denied' } })
+  expect(await getVenueCancellation('b1')).toBeNull()
   rpc.mockResolvedValue({data:{},error:null})
   expect(await getVenueCancellation('b1')).toBeNull()
   rpc.mockResolvedValue({data:'wrong-booking',error:null})

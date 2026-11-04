@@ -1,4 +1,4 @@
-import { act, render, screen, waitFor, within } from '@testing-library/react'
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, expect, test, vi } from 'vitest'
 import { PlanningUpdatePanel } from '../components/PlanningUpdatePanel'
@@ -62,7 +62,9 @@ test('AC-020.1.53: pending save disables inputs and prevents duplicate requests'
   render(<PlanningUpdatePanel eventId={eventId} onChanged={vi.fn()} />)
   await userEvent.click(await screen.findByRole('button', { name: 'Save planning details' }))
   expect(screen.getByLabelText('Event name')).toBeDisabled()
-  await userEvent.click(screen.getByRole('button', { name: 'Saving…' }))
+  await userEvent.click(screen.getByRole('button', { name: /Saving/ }))
+  const form = screen.getByLabelText('Event name').closest('form')!
+  await act(async () => { fireEvent.submit(form) })
   expect(mocks.save).toHaveBeenCalledOnce()
   await act(async () => finish({ ok: true, changed: false }))
   expect(await screen.findByRole('status')).toHaveTextContent('No changes to save.')

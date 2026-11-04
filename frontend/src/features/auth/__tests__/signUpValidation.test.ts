@@ -4,6 +4,10 @@ import type { SignUpIssue, SignUpValidation } from '../validation'
 
 const valid = { fullName: 'Ada Tan', email: 'ada@example.test', password: 'secret1' }
 
+test('AC-029.1.20: missing sign-up fields report all required fields without throwing', () => {
+  expect(issuesOf(validateSignUp({})).map(issue => issue.field).sort()).toEqual(['email', 'fullName', 'password'])
+})
+
 function issuesOf(result: SignUpValidation): SignUpIssue[] {
   if (result.ok) throw new Error('expected the input to be rejected')
   return result.issues

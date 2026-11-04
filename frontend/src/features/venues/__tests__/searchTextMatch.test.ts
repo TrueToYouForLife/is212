@@ -37,6 +37,8 @@ describe('AC-008.2 — Event Coordinators can search for specific venues', () =>
     expect(matchesAnyText(['Main Hall', 'Level 2'], 'level2')).toBe(true)
     expect(matchesAnyText(['Main Hall', 'Level 2'], 'main')).toBe(true)
     expect(matchesAnyText(['Main Hall', 'Level 2'], 'basement')).toBe(false)
+    expect(matchesAnyText(['Main Hall', 'Level 2'], ' . ')).toBe(true)
+    expect(matchesAnyText([], '')).toBe(true)
   })
 
   test('AC-008.2.8: an accented character matches its unaccented spelling', () => {

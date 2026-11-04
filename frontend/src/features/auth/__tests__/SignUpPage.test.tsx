@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { SignUpPage } from '../pages/SignUpPage'
 import { SessionContext } from '../sessionContext'
@@ -19,8 +19,8 @@ vi.mock('../authService', () => ({
 const duplicateMessage = 'An account with this email already exists. Sign in instead.'
 const signedIn: AppSession = { userId: 'user-1', email: 'ada@example.test' }
 
-function renderSignUp(session: AppSession | null = null) {
-  const value: CurrentUser = { session, profile: null, loading: false, refresh: vi.fn() }
+function renderSignUp(session: AppSession | null = null, loading = false) {
+  const value: CurrentUser = { session, profile: null, loading, refresh: vi.fn() }
 
   render(
     <SessionContext.Provider value={value}>
@@ -44,6 +44,40 @@ function fillIn(values: { fullName: string; email: string; password: string }) {
 
 const submit = () => fireEvent.click(screen.getByRole('button', { name: /create account/i }))
 const valid = { fullName: '  Ada Tan ', email: 'ada@example.test', password: 'secret1' }
+
+test('AC-029.4.13: a session arriving during sign-up opens events rather than the existing-account home page', async () => {
+  let finish!: (value: { ok: true; signedIn: boolean }) => void
+  mocks.signUp.mockReturnValueOnce(new Promise(resolve => { finish = resolve }))
+  const content = (session: AppSession | null) => <SessionContext.Provider value={{ session, profile: null, loading: false, refresh: vi.fn() }}>
+    <MemoryRouter initialEntries={['/signup']}><Routes>
+      <Route path="/signup" element={<SignUpPage />} />
+      <Route path="/events/open" element={<p>Open events page</p>} />
+      <Route path="/" element={<p>Home page</p>} />
+    </Routes></MemoryRouter>
+  </SessionContext.Provider>
+  const view = render(content(null))
+  fillIn(valid)
+  submit()
+  await waitFor(() => expect(mocks.signUp).toHaveBeenCalledOnce())
+  view.rerender(content(signedIn))
+  expect(await screen.findByText('Open events page')).toBeInTheDocument()
+  expect(screen.queryByText('Home page')).not.toBeInTheDocument()
+  await act(async () => finish({ ok: true, signedIn: true }))
+})
+
+test('AC-029.4.14: session loading does not redirect before the account has been checked', () => {
+  renderSignUp(signedIn, true)
+  expect(screen.getByRole('button', { name: /create account/i })).toBeInTheDocument()
+  expect(screen.queryByText('Home page')).not.toBeInTheDocument()
+})
+
+test('AC-029.1.19: an invalid email receives its own field error', async () => {
+  renderSignUp()
+  fillIn({ ...valid, email: 'invalid' })
+  submit()
+  await waitFor(() => expect(screen.getByLabelText(/^email$/i)).toHaveAttribute('aria-invalid', 'true'))
+  expect(mocks.signUp).not.toHaveBeenCalled()
+})
 
 beforeEach(() => {
   vi.resetAllMocks()
