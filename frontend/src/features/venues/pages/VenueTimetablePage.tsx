@@ -218,9 +218,14 @@ export function VenueTimetablePage() {
           setPendingAssessment(gate)
           return
         }
+      } else {
+        // Failing open is right, but failing open silently is not: a hold placed with no warning
+        // looks exactly like a venue that passed the check, so the one place that knows the
+        // difference has to say so.
+        console.error('[venues] suitability check unavailable, holding without it', assessment.reason)
       }
-    } catch {
-      // Fail open, as above.
+    } catch (error) {
+      console.error('[venues] suitability check threw, holding without it', error)
     } finally {
       setChecking(false)
     }
