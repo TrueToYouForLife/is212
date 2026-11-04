@@ -4,7 +4,7 @@ import { beforeEach, expect, test, vi } from 'vitest'
 import { VenueCancellationPanel } from '../components/VenueCancellationPanel'
 const mocks = vi.hoisted(() => ({ read: vi.fn(), cancel: vi.fn() }))
 
-test('a late context for the previous booking cannot replace the current booking', async () => {
+test('AC-049.7.37: a late context for the previous booking cannot replace the current booking', async () => {
   let finish!: (value: unknown) => void
   mocks.read.mockReturnValueOnce(new Promise(resolve => { finish = resolve }))
   const view = render(<VenueCancellationPanel bookingId="old" onChanged={vi.fn()} />)

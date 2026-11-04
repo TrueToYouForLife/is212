@@ -215,3 +215,16 @@ Required categories, by test ID:
 - **Signed in and on the events page:** .4.3, .4.4, .4.6, .4.10
 - **Boundary:** .1.2, .1.3, .1.6, .1.10, .1.11, .2.3, .4.7, .4.8
 - **Failure or conflict:** .1.14, .1.17, .3.12
+
+
+## Coverage follow-up ? 4 November 2026
+
+The following existing regression tests now have individual AC IDs, including parameter cases. This change labels tests; it does not add production behaviour or claim manual acceptance.
+
+| Test ID | AC | Classification | Scenario / expected assertion | Test source |
+| --- | --- | --- | --- | --- |
+| AC-029.4.13 | 4 | Component ? Regression | a session arriving during sign-up opens events rather than the existing-account home page | [SignUpPage.test.tsx](../../frontend/src/features/auth/__tests__/SignUpPage.test.tsx#L48) |
+| AC-029.4.14 | 4 | Component ? Regression | session loading does not redirect before the account has been checked | [SignUpPage.test.tsx](../../frontend/src/features/auth/__tests__/SignUpPage.test.tsx#L68) |
+| AC-029.1.19 | 1 | Component ? Negative / Regression | an invalid email receives its own field error | [SignUpPage.test.tsx](../../frontend/src/features/auth/__tests__/SignUpPage.test.tsx#L74) |
+| AC-029.1.20 | 1 | Unit ? Negative / Regression | missing sign-up fields report all required fields without throwing | [signUpValidation.test.ts](../../frontend/src/features/auth/__tests__/signUpValidation.test.ts#L7) |
+| AC-029.1.21 | 1 | Unit ? Negative / Regression | sign-up supplies a fallback for an error without a message | [authSessionService.test.ts](../../frontend/src/features/auth/__tests__/authSessionService.test.ts#L47) |

@@ -109,7 +109,7 @@ function renderAt(path: string, routePath: string, element: React.ReactElement) 
   )
 }
 
-test('venue details display absent optional details and retired status honestly', async () => {
+test('AC-009.1.26: venue details display absent optional details and retired status honestly', async () => {
   mocks.getVenue.mockResolvedValue({ ok: true, venue: { ...VENUE, location: '', layout: '', accessibility: [], facility: {}, status: 'retired' } })
   renderAt(`/venues/${VENUE_ID}`, '/venues/:id', <VenueDetailsPage />)
   expect(await screen.findByText('Location not recorded')).toBeInTheDocument()
@@ -117,7 +117,7 @@ test('venue details display absent optional details and retired status honestly'
   expect(screen.getAllByText('—')).toHaveLength(3)
 })
 
-test.each(['details', 'bookings'])('%s waits for session loading before fetching data', page => {
+test.each([['AC-009.1.28', 'details'], ['AC-009.9.19', 'bookings']])('%s: waits for session loading before fetching data', (_id, page) => {
   mocks.userLoading = true
   renderAt('/test', '/test', page === 'details' ? <VenueDetailsPage /> : <MyVenueBookingsPage />)
   expect(screen.getByText(/Checking your session/)).toBeInTheDocument()
@@ -242,7 +242,7 @@ describe('MyVenueBookingsPage — AC-009.9 / AC-011.7 / AC-011.8', () => {
   }
   const show = () => renderAt('/venues/bookings', '/venues/bookings', <MyVenueBookingsPage />)
 
-  test('per-booking layout and attendance remain visible when the venue name is unavailable', async () => {
+  test('AC-049.2.34: per-booking layout and attendance remain visible when the venue name is unavailable', async () => {
     mocks.listMyVenueBookings.mockResolvedValue({ ok: true, bookings: [{ ...HELD, venueName: '', spaceLayout: 'theatre', spaceAttendance: 25 }] })
     show()
     expect(await screen.findByRole('heading', { name: 'Venue' })).toBeInTheDocument()

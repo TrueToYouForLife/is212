@@ -45,7 +45,7 @@ function fillIn(values: { fullName: string; email: string; password: string }) {
 const submit = () => fireEvent.click(screen.getByRole('button', { name: /create account/i }))
 const valid = { fullName: '  Ada Tan ', email: 'ada@example.test', password: 'secret1' }
 
-test('a session arriving during sign-up opens events rather than the existing-account home page', async () => {
+test('AC-029.4.13: a session arriving during sign-up opens events rather than the existing-account home page', async () => {
   let finish!: (value: { ok: true; signedIn: boolean }) => void
   mocks.signUp.mockReturnValueOnce(new Promise(resolve => { finish = resolve }))
   const content = (session: AppSession | null) => <SessionContext.Provider value={{ session, profile: null, loading: false, refresh: vi.fn() }}>
@@ -65,13 +65,13 @@ test('a session arriving during sign-up opens events rather than the existing-ac
   await act(async () => finish({ ok: true, signedIn: true }))
 })
 
-test('session loading does not redirect before the account has been checked', () => {
+test('AC-029.4.14: session loading does not redirect before the account has been checked', () => {
   renderSignUp(signedIn, true)
   expect(screen.getByRole('button', { name: /create account/i })).toBeInTheDocument()
   expect(screen.queryByText('Home page')).not.toBeInTheDocument()
 })
 
-test('an invalid email receives its own field error', async () => {
+test('AC-029.1.19: an invalid email receives its own field error', async () => {
   renderSignUp()
   fillIn({ ...valid, email: 'invalid' })
   submit()

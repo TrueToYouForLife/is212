@@ -118,3 +118,10 @@ This lists the existing titles and parameter cases without allocating new AC IDs
   as component; pure/service unit and SQL integration cases retain their distinction.
 - Application, migration and test sources are unchanged. No new automated test run,
   manual result, deployment, defect or delivered email is claimed by this PR.
+
+
+## 4 November coverage follow-up
+
+The Justas coverage follow-up adds traceability for 46 existing regression executions with newly allocated numeric AC IDs across US9, US10, US11, US12, US20, US29 and US49, plus 23 shared regression executions documented in Shared_test_cases.md. Earlier catalogue counts above describe their original scan. Existing AC-tagged tests strengthened in this work retain their IDs. Remaining defensive-path coverage notes are in US9, US10, US20 and US49; US12 records ownership of the block files.
+
+Local verification after the ID/documentation update (4 November 2026): 1,765 tests passed across 217 files; typecheck and lint passed. A source scan confirmed all 46 newly allocated IDs are unique and present in their story catalogues. No production files, migrations or dependencies changed. This was a test run, not a fresh coverage measurement; the coverage justifications retain the earlier same-day measurement.

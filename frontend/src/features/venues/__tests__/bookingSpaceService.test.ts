@@ -10,7 +10,7 @@ beforeEach(() => {
   query.eq.mockReturnValue(query)
 })
 
-test('loads the selected venue layouts in layout order', async () => {
+test('AC-049.2.35: loads the selected venue layouts in layout order', async () => {
   const layouts = [{ layout: 'theatre', capacity: 50 }]
   query.order.mockResolvedValue({ data: layouts, error: null })
   await expect(loadSpaceLayouts('venue-one')).resolves.toEqual(layouts)
@@ -21,10 +21,10 @@ test('loads the selected venue layouts in layout order', async () => {
 })
 
 test.each([
-  { data: null, error: { message: 'Read refused' } },
-  { data: null, error: null },
-  { data: [], error: null },
-])('unavailable layouts prevent booking: %j', async result => {
+  ['AC-049.3.33', { data: null, error: { message: 'Read refused' } }],
+  ['AC-049.3.34', { data: null, error: null }],
+  ['AC-049.3.35', { data: [], error: null }],
+] as const)('%s: unavailable layouts prevent booking', async (_id, result) => {
   query.order.mockResolvedValue(result)
   await expect(loadSpaceLayouts('venue-one')).rejects.toThrow('Venue layouts could not be loaded. Reload before booking.')
 })

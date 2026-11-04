@@ -6,7 +6,7 @@ import { BLOCK_VALIDATION_MESSAGES } from '../venueBlockValidation'
 
 const NOTHING: VenueBlockPreview = { affectedBookings: [], existingBlocks: [] }
 
-test.each([[null, 'could not confirm how many'], [1, '1 booking was flagged']])('saved result reports the actual count %s', async (count, text) => {
+test.each([['AC-012.8.27', null, 'could not confirm how many'], ['AC-012.8.28', 1, '1 booking was flagged']])('%s: saved result reports the actual count', async (_id, count, text) => {
   render(<VenueBlockForm venueId="v1" onPreview={previewing()} onCreate={saving(count as number | null)} />)
   fillIn()
   fireEvent.click(screen.getByRole('button', { name: 'Preview' }))
@@ -14,7 +14,7 @@ test.each([[null, 'could not confirm how many'], [1, '1 booking was flagged']])(
   expect(await screen.findByRole('status')).toHaveTextContent(String(text))
 })
 
-test('failed confirmation preserves entered data and does not report a saved block', async () => {
+test('AC-012.2.35: failed confirmation preserves entered data and does not report a saved block', async () => {
   const onSaved = vi.fn()
   render(<VenueBlockForm venueId="v1" onPreview={previewing()} onCreate={vi.fn().mockResolvedValue({ ok: false, reason: 'The period changed. Preview again.' })} onSaved={onSaved} />)
   fillIn()
@@ -25,7 +25,7 @@ test('failed confirmation preserves entered data and does not report a saved blo
   expect(onSaved).not.toHaveBeenCalled()
 })
 
-test('blanking the reason after preview prevents confirmation', async () => {
+test('AC-012.3.8: blanking the reason after preview prevents confirmation', async () => {
   const onCreate = saving()
   render(<VenueBlockForm venueId="v1" onPreview={previewing()} onCreate={onCreate} />)
   fillIn()

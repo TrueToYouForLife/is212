@@ -44,7 +44,7 @@ test('sign-out waits for the authentication service', async () => {
   expect(auth.signOut).toHaveBeenCalledOnce()
 })
 
-test('sign-up supplies a fallback for an error without a message', async () => {
+test('AC-029.1.21: sign-up supplies a fallback for an error without a message', async () => {
   auth.signUp.mockResolvedValue({ data: { user: null, session: null }, error: { message: '' } })
   await expect(signUp({ fullName: 'One', email: 'one@example.test', password: 'password' })).resolves.toEqual({ ok: false, reason: AUTH_MESSAGES.signUpFailed })
 })

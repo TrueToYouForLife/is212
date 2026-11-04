@@ -30,14 +30,14 @@ beforeEach(() => {
   mocks.approve.mockResolvedValue({ ok: true })
 })
 
-test('review waits for session resolution', () => {
+test('AC-010.4.28: review waits for session resolution', () => {
   mocks.loading = true
   show()
   expect(screen.getByText(/Checking your session/)).toBeInTheDocument()
   expect(mocks.get).not.toHaveBeenCalled()
 })
 
-test('a review result arriving after navigation cannot restore the removed page', async () => {
+test('AC-010.12.26: a review result arriving after navigation cannot restore the removed page', async () => {
   let finish!: (value: unknown) => void
   mocks.get.mockReturnValueOnce(new Promise(resolve => { finish = resolve }))
   const view = show()

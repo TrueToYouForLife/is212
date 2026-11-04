@@ -34,3 +34,7 @@ actual execution/report is recorded.
 | AC-003.6.2 | 6 | Unit — Negative | malformed IDs return unavailable without querying the database | [frontend/src/features/events/__tests__/eventReviewService.test.ts](../../frontend/src/features/events/__tests__/eventReviewService.test.ts#L320) |
 | AC-003.6.3 | 6 | Component — Happy path | clears previously visible data if access is revoked | [frontend/src/features/events/status/__tests__/useRequestResource.test.ts](../../frontend/src/features/events/status/__tests__/useRequestResource.test.ts#L36) |
 | AC-003.6.4 | 6 | Component — Happy path | ignores an old account response after the account changes | [frontend/src/features/events/status/__tests__/useRequestResource.test.ts](../../frontend/src/features/events/status/__tests__/useRequestResource.test.ts#L46) |
+
+### Existing cases strengthened in the 4 November coverage work
+
+- AC-003.2.2 ? refresh after unmount does not issue another read.

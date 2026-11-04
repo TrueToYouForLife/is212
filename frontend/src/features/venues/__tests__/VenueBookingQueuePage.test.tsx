@@ -10,7 +10,7 @@ vi.mock('../venueBookingQueueService', () => ({ listPendingVenueBookings: mocks.
 vi.mock('../../auth/sessionContext', () => ({ useCurrentUser: () => ({ loading: mocks.loading, profile: { id: mocks.id, role: mocks.role } }) }))
 const show = () => render(<MemoryRouter><VenueBookingQueuePage /></MemoryRouter>)
 
-test('reloading replacement decisions refreshes the pending booking queue too', async () => {
+test('AC-020.3.63: reloading replacement decisions refreshes the pending booking queue too', async () => {
   show()
   await screen.findByText('No replacement requests.')
   await userEvent.click(screen.getByRole('button', { name: 'Reload replacements' }))

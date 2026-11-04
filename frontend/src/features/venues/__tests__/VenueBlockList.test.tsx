@@ -24,7 +24,7 @@ const ONE_DAY: VenueBlock = {
   reason: 'Electrical safety check',
 }
 
-test('a missing creator name uses the staff label', () => {
+test('AC-012.10.9: a missing creator name uses the staff label', () => {
   render(<VenueBlockList blocks={[{ ...FULL_DAYS, createdByName: null }]} />)
   expect(screen.getByText(/Blocked by Venue Staff on/)).toBeInTheDocument()
 })

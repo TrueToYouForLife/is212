@@ -99,5 +99,22 @@ Related implementation notes: [us20-plan.md](../us20-plan.md), [us20-slice1.md](
 | AC-020.3.57 | 3 | Component — Negative / Boundary | load failure is distinct from an empty queue and reload recovers | [frontend/src/features/venues/__tests__/VenueReplacementPanel.test.tsx](../../frontend/src/features/venues/__tests__/VenueReplacementPanel.test.tsx#L84) |
 | AC-020.3.58 | 3 | Component — Happy path / Regression | approved history retains staff attribution and the replacement booking link | [frontend/src/features/venues/__tests__/VenueReplacementPanel.test.tsx](../../frontend/src/features/venues/__tests__/VenueReplacementPanel.test.tsx#L93) |
 | AC-020.3.59 | 3 | Component — Happy path / Boundary | late loads are ignored after unmount and a pending proposal prevents duplicate submissions | [frontend/src/features/venues/__tests__/VenueReplacementPanel.test.tsx](../../frontend/src/features/venues/__tests__/VenueReplacementPanel.test.tsx#L106) |
-| AC-020.3.60 | 3 | Component — Happy path | replacement review loads on the staff queue and is absent for other roles | [frontend/src/features/venues/__tests__/VenueBookingQueuePage.test.tsx](../../frontend/src/features/venues/__tests__/VenueBookingQueuePage.test.tsx#L58) |
+| AC-020.3.60 | 3 | Component — Happy path | replacement review loads on the staff queue and is absent for other roles | [frontend/src/features/venues/__tests__/VenueBookingQueuePage.test.tsx](../../frontend/src/features/venues/__tests__/VenueBookingQueuePage.test.tsx#L66) |
 | AC-020.3.61 | 3 | Component — Happy path | coordinator booking page includes replacement history and removes it after role loss | [frontend/src/features/venues/__tests__/MyVenueBookingsNotifications.test.tsx](../../frontend/src/features/venues/__tests__/MyVenueBookingsNotifications.test.tsx#L24) |
+
+
+## Coverage follow-up ? 4 November 2026
+
+The following existing regression tests now have individual AC IDs, including parameter cases. This change labels tests; it does not add production behaviour or claim manual acceptance.
+
+| Test ID | AC | Classification | Scenario / expected assertion | Test source |
+| --- | --- | --- | --- | --- |
+| AC-020.3.63 | 3 | Component ? Regression | reloading replacement decisions refreshes the pending booking queue too | [VenueBookingQueuePage.test.tsx](../../frontend/src/features/venues/__tests__/VenueBookingQueuePage.test.tsx#L13) |
+
+### Remaining coverage justification
+
+`PlanningUpdatePanel.tsx` (98.57% branches): the root-error fallback requires a form-level validator result that the current object-based form does not produce; reachable field errors and duplicate submits are tested. These are defensive-path exclusions from this test scope, not claims that synthetic invocation is impossible. Percentages refer to the local 4 November coverage run before the test-title changes; statements, functions and lines were 100%.
+
+### Existing cases strengthened in the 4 November coverage work
+
+- AC-020.1.53 ? a synthetic duplicate form submit while busy still saves only once.

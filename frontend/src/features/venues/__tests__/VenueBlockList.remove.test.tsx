@@ -14,7 +14,7 @@ const BLOCK: VenueBlock = {
   createdAt: '2039-12-05T02:00:00+00:00',
 }
 
-test('removal permission disappearing during confirmation prevents the write', () => {
+test('AC-012.1.14: removal permission disappearing during confirmation prevents the write', () => {
   const onRemove = vi.fn()
   const view = render(<VenueBlockList blocks={[BLOCK]} onRemove={onRemove} />)
   fireEvent.click(screen.getByRole('button', { name: 'Remove' }))

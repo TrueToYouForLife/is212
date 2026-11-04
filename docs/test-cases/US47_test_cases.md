@@ -335,3 +335,7 @@ log retained; restored save case passes. Record in Defects (Automated Testing).
 Manual settings and timetable readability checks passed. Steps are retained in
 `docs/us47-venue-buffers.md`. The shared overview, manual results and automated
 defect record are updated. The original SQL failure remains recorded after its fix.
+
+### Existing cases strengthened in the 4 November coverage work
+
+- AC-047.2.25 ? invalid end dates and date-range overflow fail safely.

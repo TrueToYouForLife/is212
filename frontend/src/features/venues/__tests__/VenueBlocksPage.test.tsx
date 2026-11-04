@@ -52,13 +52,13 @@ async function chooseVenue() {
   await screen.findByText('Ceiling repair')
 }
 
-test('venue list failures are shown instead of silently presenting an empty list', async () => {
+test('AC-012.2.36: venue list failures are shown instead of silently presenting an empty list', async () => {
   mocks.listVenues.mockResolvedValue({ ok: false, reason: 'Venues unavailable' })
   render(<VenueBlocksPage />)
   expect(await screen.findByRole('alert')).toHaveTextContent('Venues unavailable')
 })
 
-test('block failures clear old blocks and selecting a venue again recovers', async () => {
+test('AC-012.9.30: block failures clear old blocks and selecting a venue again recovers', async () => {
   await chooseVenue()
   mocks.listBlocks.mockResolvedValueOnce({ ok: false, reason: 'Blocks unavailable' })
   fireEvent.change(screen.getByLabelText('Venue'), { target: { value: '' } })
@@ -72,13 +72,13 @@ test('block failures clear old blocks and selecting a venue again recovers', asy
   expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 })
 
-test('venues without a location retain their name', async () => {
+test('AC-012.2.37: venues without a location retain their name', async () => {
   mocks.listVenues.mockResolvedValue({ ok: true, value: [{ id: 'v1', name: 'Main Hall', location: null }] })
   render(<VenueBlocksPage />)
   expect(await screen.findByRole('option', { name: 'Main Hall' })).toHaveValue('v1')
 })
 
-test('session loading shows no block controls', () => {
+test('AC-012.1.15: session loading shows no block controls', () => {
   mocks.loading = true
   mocks.role = ''
   render(<VenueBlocksPage />)

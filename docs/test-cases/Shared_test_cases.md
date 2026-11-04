@@ -58,3 +58,34 @@ The legacy prefixes remain unchanged in code; story allocation is an owner follo
 | reports both fields at once rather than one at a time | Unit — Happy path | [frontend/src/features/auth/__tests__/validation.test.ts](../../frontend/src/features/auth/__tests__/validation.test.ts#L75) |
 | saved booking summary groups adjacent quarters but preserves gaps, roles and dates | Component — Happy path | [frontend/src/features/venues/__tests__/VenueBookingComponents.test.tsx](../../frontend/src/features/venues/__tests__/VenueBookingComponents.test.tsx#L82) |
 | staff review summarises consecutive booking slots while retaining buffers and conflict details | Component — Happy path | [frontend/src/features/venues/__tests__/VenueBookingConflicts.test.tsx](../../frontend/src/features/venues/__tests__/VenueBookingConflicts.test.tsx#L37) |
+
+
+## Coverage follow-up ? 4 November 2026
+
+Shared authentication/session and date-formatting regressions are listed by their existing names. They have no established story AC mapping; numeric story IDs have not been invented. Parameter cases are listed explicitly.
+
+| Existing test title / parameter case | Classification | Test source |
+| --- | --- | --- |
+| loading hides sign-in and stale account details | Component ? Regression | [SessionBadge.test.tsx](../../frontend/src/features/auth/__tests__/SessionBadge.test.tsx) |
+| signed-out users have a sign-in link | Component ? Regression | [SessionBadge.test.tsx](../../frontend/src/features/auth/__tests__/SessionBadge.test.tsx) |
+| signed-in users see their email and role and can sign out | Component ? Regression | [SessionBadge.test.tsx](../../frontend/src/features/auth/__tests__/SessionBadge.test.tsx) |
+| a session without email or profile remains signed in without inventing a role | Component ? Regression | [SessionBadge.test.tsx](../../frontend/src/features/auth/__tests__/SessionBadge.test.tsx) |
+| invalid fields display validation errors without sending credentials | Component ? Regression | [SignInPage.test.tsx](../../frontend/src/features/auth/__tests__/SignInPage.test.tsx) |
+| an existing session redirects to the originally requested page | Component ? Regression | [SignInPage.test.tsx](../../frontend/src/features/auth/__tests__/SignInPage.test.tsx) |
+| does not redirect while the existing session is being checked | Component ? Regression | [SignInPage.test.tsx](../../frontend/src/features/auth/__tests__/SignInPage.test.tsx) |
+| session listener reports sign-in, missing email and sign-out, and unsubscribes | Unit ? Regression | [authSessionService.test.ts](../../frontend/src/features/auth/__tests__/authSessionService.test.ts) |
+| sign-out waits for the authentication service | Unit ? Regression | [authSessionService.test.ts](../../frontend/src/features/auth/__tests__/authSessionService.test.ts) |
+| session lookup: no session | Unit ? Regression | [authSessionService.test.ts](../../frontend/src/features/auth/__tests__/authSessionService.test.ts) |
+| session lookup: email present | Unit ? Regression | [authSessionService.test.ts](../../frontend/src/features/auth/__tests__/authSessionService.test.ts) |
+| session lookup: email absent | Unit ? Regression | [authSessionService.test.ts](../../frontend/src/features/auth/__tests__/authSessionService.test.ts) |
+| sign-in: successful | Unit ? Regression | [authSessionService.test.ts](../../frontend/src/features/auth/__tests__/authSessionService.test.ts) |
+| sign-in: credentials error | Unit ? Regression | [authSessionService.test.ts](../../frontend/src/features/auth/__tests__/authSessionService.test.ts) |
+| sign-in: blank error uses fallback | Unit ? Regression | [authSessionService.test.ts](../../frontend/src/features/auth/__tests__/authSessionService.test.ts) |
+| returns the provider session including its refresh operation | Component ? Regression | [sessionContext.test.tsx](../../frontend/src/features/auth/__tests__/sessionContext.test.tsx) |
+| reports a missing provider instead of inventing a signed-out session | Component ? Regression | [sessionContext.test.tsx](../../frontend/src/features/auth/__tests__/sessionContext.test.tsx) |
+| date format: 2041-03-10 | Unit ? Regression | [slotFormat.test.ts](../../frontend/src/features/venues/__tests__/slotFormat.test.ts) |
+| date format: 2041-01-01 | Unit ? Regression | [slotFormat.test.ts](../../frontend/src/features/venues/__tests__/slotFormat.test.ts) |
+| date format: 2041-12-31 | Unit ? Regression | [slotFormat.test.ts](../../frontend/src/features/venues/__tests__/slotFormat.test.ts) |
+| date format: invalid text preserved | Unit ? Regression | [slotFormat.test.ts](../../frontend/src/features/venues/__tests__/slotFormat.test.ts) |
+| date format: month 00 preserved | Unit ? Regression | [slotFormat.test.ts](../../frontend/src/features/venues/__tests__/slotFormat.test.ts) |
+| date format: month 13 preserved | Unit ? Regression | [slotFormat.test.ts](../../frontend/src/features/venues/__tests__/slotFormat.test.ts) |
