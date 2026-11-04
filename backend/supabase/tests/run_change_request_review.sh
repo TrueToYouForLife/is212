@@ -249,7 +249,8 @@ SQL
   cat "$repo_root/supabase/tests/venue_booking_conflicts.sql"
   # US9 AC8: the trigger from 0035 that notifies Venue Staff of a new request.
   cat "$repo_root/supabase/tests/venue_booking_request_notifications.sql"
-    # US22: withdrawing a submitted request (0066).
+  cat "$repo_root/supabase/tests/venue_booking_request_conflicts.sql"
+  # US22: withdrawing a submitted request (0066).
   cat "$repo_root/supabase/tests/withdraw_submitted_request.sql"
   cat <<'SQL'
 create temporary table w22_before_replay as
