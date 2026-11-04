@@ -9,6 +9,8 @@ export type NotificationSource =
   | 'email'
   /** US33: the in-app copy of a notice that used to be email-only. */
   | 'notice'
+  /** US37 (0097): the coordinator is told an organiser answered their clarification request. */
+  | 'clarification_response'
 
 /** One entry in a user's feed (0072's get_my_notifications). */
 export interface AppNotification {
