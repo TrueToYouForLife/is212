@@ -1,3 +1,20 @@
+# US24 return coverage — 4 November 2026
+- Branch `us24-return-coverage`, base3350c20 (PR182 merged). Jaydon owns Git/PR/merge.
+  Only tests/docs/evidence; no application/database/migration/config/exclusion changes.
+- Three new component IDs .1.19–21: unsaved close/reopen, valid nullable display fields,
+  late reload after unmount. Strengthen .1.12 malformed-response cases. US24 now40 IDs:
+  23 database, six unit,11 component. No new manual/SQL pass or product defect found.
+- Focused14 before/17 after (two files); full1,744/223, lint/build/typecheck pass.
+  Global98.24% statements/lines,92.29% branches,95.83% functions. View/service all100%;
+  form100% statements/lines/functions,93.75% branches (26,30,40; reasons in story doc).
+- Two disposable-copy regression probes detected; restored17 tests pass. First late
+  reload probe stopped for missing .env; synthetic localhost config fixed its harness,
+  retaining the network guard. No real credentials copied or app defect claimed.
+- Sheet rows30/31/33 percentages/locations/progress/notes saved and verified: view/service
+  Retested - 100%; form Justification needed. US24 summary uses story-tag counts.
+  Status/catalogue components deferred to US27;
+  event requirement catalogue service's US24 mapping needs review (original Nicole US8).
+
 # US7 review-component coverage — 4 November 2026
 - Branch `us7-review-component-coverage`, base4d47053 (PR181 merged). Jaydon owns Git.
   Three new component IDs .3.12/.9.24/.13.32; catalogue285. Notes/provisional outcomes,

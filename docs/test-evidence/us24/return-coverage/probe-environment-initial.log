@@ -1,0 +1,32 @@
+Deliberate regression in a disposable copy; not a product defect. Expected failure: AC-024.1.21
+
+> connectsphere@0.1.0 test
+> vitest run src/features/equipment/__tests__/EquipmentReturns.test.tsx -t AC-024.1.21
+
+
+ RUN  v2.1.9 /private/var/folders/p4/h4056bks5mg95y7t5v1n_8gw0000gn/T/is212-us24-return-probes-xffprtr0/frontend
+
+ ❯ src/features/equipment/__tests__/EquipmentReturns.test.tsx (0 test)
+
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  15:47:37
+   Duration  3.56s (transform 615ms, setup 158ms, collect 0ms, tests 0ms, environment 711ms, prepare 761ms)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/equipment/__tests__/EquipmentReturns.test.tsx [ src/features/equipment/__tests__/EquipmentReturns.test.tsx ]
+Error: [vitest] There was an error when mocking a module. If you are using "vi.mock" factory, make sure there are no top level variables inside, since this call is hoisted to top of the file. Read more: https://vitest.dev/api/vi.html#vi-mock
+ ❯ src/features/equipment/components/EquipmentReturnsView.tsx:5:31
+      3| import { catalogueStatusLabel } from '../catalogueStatus'
+      4| import { loadEquipmentReturns, type EquipmentReturns, type ReturnAlloc…
+      5| import { returnFindingLabels } from '../equipmentReturnValidation'
+       |                               ^
+      6| import { formatDay } from '../reservationRules'
+      7| import { ReturnInspectionForm } from './ReturnInspectionForm'
+
+Caused by: Error: Missing Supabase configuration. Copy .env.example to .env and fill in VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.
+ ❯ src/lib/supabase.ts:9:9
+ ❯ src/features/equipment/equipmentReturnService.ts:2:31
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

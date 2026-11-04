@@ -3,6 +3,14 @@
 SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
 Level Security).
 
+## US24 return coverage — 4 November 2026
+
+Three component cases and stronger response validation cover unsaved close/reopen,
+nullable display details, invalid server lists and late reloads after leaving. The
+returns view and service reach 100% across all measures; the form retains documented
+guards at 93.75% branches. Full frontend: 1,744 tests passed. No application or database
+changes. [Results and remaining reasons](docs/us24-return-inspections.md).
+
 ## US7 review-component coverage — 4 November 2026
 
 Three component cases protect saved review notes, provisional/final decisions, late

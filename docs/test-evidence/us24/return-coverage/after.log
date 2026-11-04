@@ -1,0 +1,35 @@
+
+> connectsphere@0.1.0 coverage
+> vitest run --coverage src/features/equipment/__tests__/equipmentReturnService.test.ts src/features/equipment/__tests__/EquipmentReturns.test.tsx --coverage.include=src/features/equipment/equipmentReturnService.ts --coverage.include=src/features/equipment/components/EquipmentReturnsView.tsx --coverage.include=src/features/equipment/components/ReturnInspectionForm.tsx --coverage.reportsDirectory=/tmp/is212-us24-return-after
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+      Coverage enabled with v8
+
+ ✓ src/features/equipment/__tests__/equipmentReturnService.test.ts (6 tests) 59ms
+ ✓ src/features/equipment/__tests__/EquipmentReturns.test.tsx (11 tests) 6812ms
+   ✓ AC-024.1.15: only Technical Support sees the navigation/page; auth loading and role loss cannot expose late list results 438ms
+   ✓ AC-024.1.16: findings and issue notes are explicit; missing forces Unavailable and no-issue keeps the current damaged status 724ms
+   ✓ AC-024.1.17: a pending save cannot duplicate, edit, reload, close, switch tabs or open another allocation 815ms
+   ✓ AC-024.1.18: stale or uncertain saves retain inputs and require explicit reload; failed/obsolete reloads stay locked 758ms
+   ✓ AC-024.2.8: confirmed saves close management and refresh partial/missing outcomes without losing history or other units 1353ms
+   ✓ AC-024.3.11: role/account changes unmount inspection and ignore late saves or old-account list responses 705ms
+   ✓ AC-024.1.19: closing an unsaved inspection leaves the allocation pending and reopening starts a fresh form 652ms
+   ✓ AC-024.1.20: nullable event details retain a usable inspection identity and history has honest missing-name labels 566ms
+
+ Test Files  2 passed (2)
+      Tests  17 passed (17)
+   Start at  15:47:32
+   Duration  9.98s (transform 406ms, setup 158ms, collect 978ms, tests 6.87s, environment 2.41s, prepare 291ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------|---------|----------|---------|---------|-------------------
+All files          |     100 |    98.19 |     100 |     100 |
+ equipment         |     100 |      100 |     100 |     100 |
+  ...urnService.ts |     100 |      100 |     100 |     100 |
+ ...ent/components |     100 |    97.19 |     100 |     100 |
+  ...turnsView.tsx |     100 |      100 |     100 |     100 |
+  ...ctionForm.tsx |     100 |    93.75 |     100 |     100 | 26,30,40
+-------------------|---------|----------|---------|---------|-------------------

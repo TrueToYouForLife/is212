@@ -1,0 +1,27 @@
+
+> connectsphere@0.1.0 coverage
+> vitest run --coverage src/features/equipment/__tests__/equipmentReturnService.test.ts src/features/equipment/__tests__/EquipmentReturns.test.tsx --coverage.include=src/features/equipment/equipmentReturnService.ts --coverage.include=src/features/equipment/components/EquipmentReturnsView.tsx --coverage.include=src/features/equipment/components/ReturnInspectionForm.tsx --coverage.reportsDirectory=/tmp/is212-us24-return-before
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+      Coverage enabled with v8
+
+ ✓ src/features/equipment/__tests__/equipmentReturnService.test.ts (6 tests) 9ms
+ ✓ src/features/equipment/__tests__/EquipmentReturns.test.tsx (8 tests) 1201ms
+
+ Test Files  2 passed (2)
+      Tests  14 passed (14)
+   Start at  15:45:19
+   Duration  2.63s (transform 142ms, setup 158ms, collect 394ms, tests 1.21s, environment 935ms, prepare 136ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------|---------|----------|---------|---------|-------------------
+All files          |     100 |    89.24 |   94.11 |     100 |
+ equipment         |     100 |    94.73 |     100 |     100 |
+  ...urnService.ts |     100 |    94.73 |     100 |     100 | 24-25,35
+ ...ent/components |     100 |    86.13 |   93.33 |     100 |
+  ...turnsView.tsx |     100 |    85.18 |   85.71 |     100 | 15-19,73,78
+  ...ctionForm.tsx |     100 |    87.23 |     100 |     100 | 26,30,40-43,58
+-------------------|---------|----------|---------|---------|-------------------
