@@ -1,0 +1,171 @@
+Window: "ConnectSphere — Event Planning", App: Google Chrome.
+					23 HTML content ConnectSphere — Event Planning, URL: localhost:5173/requests/72595f62-dd0b-4114-b637-db886ddf0485
+						24 container
+							25 link Skip to content, Value: localhost:5173/requests/72595f62-dd0b-4114-b637-db886ddf0485#main
+							26 link ConnectSphere, Value: localhost:5173/
+							27 container Main
+								28 content list
+									29 link Home, Value: localhost:5173/
+									30 link New request, Value: localhost:5173/events/new
+									31 link My Drafts, Value: localhost:5173/drafts
+									32 link My requests, Value: localhost:5173/requests
+									33 link Organisation, Value: localhost:5173/organisation/events
+									34 link Notifications, 39 unread, Value: localhost:5173/notifications
+							35 text organiser@test.com Event Organiser
+							36 button Sign out
+							37 container Breadcrumb
+								38 link Requests, Value: localhost:5173/requests
+								39 text EVT-2026-0031
+							40 button Refresh status
+							41 container
+								42 text EVT-2026-0031
+								43 heading Release QA 4 Nov - handover
+									44 text Release QA 4 Nov - handover
+							45 container
+								46 heading Current status
+									47 text Current status
+								48 text Planning
+								49 text Your event arrangements are being prepared; the event is not yet confirmed.
+								50 text No outstanding clarification or amendment requests.
+							51 text Status updates automatically every 30 seconds.
+							52 container
+								53 heading Clarification replies
+									54 text Clarification replies
+								55 text What was asked, what the organiser answered, and what changed each time.
+								56 content list
+									57 container
+										58 text Reply  1 4 Nov 2026, 17:30 ASKED Please confirm the session title before venue planning. ANSWERED Confirmed: Release QA workshop on 12 November, 10:00 to 12:00. REVISED Nothing was changed.
+							59 container
+								60 heading Request details
+									61 text Request details
+								62 definition list
+									63 container Event name
+										64 text Event name
+									65 text Release QA 4 Nov - handover
+									66 container Purpose
+										67 text Purpose
+									68 text Verify draft persistence and role handovers for Release 1.
+									69 container Type of event
+										70 text Type of event
+									71 text Workshop
+									72 container Description
+										73 text Description
+									74 text Disposable release verification event, updated description.
+									75 container Preferred start
+										76 text Preferred start
+									77 text 12 Nov 2026, 10:00
+									78 container Preferred end
+										79 text Preferred end
+									80 text 12 Nov 2026, 12:00
+									81 container Expected attendance
+										82 text Expected attendance
+									83 text 20
+									84 container Programme
+										85 text Programme
+									86 text 10:00 Welcome; 10:30 workshop; 12:00 close.
+									87 container Room layout
+										88 text Room layout
+									89 text theatre
+									90 container Accessibility
+										91 text Accessibility
+									92 text Wheelchair access
+									93 container Venue facilities
+										94 text Venue facilities
+									95 text Wi-Fi
+									96 container Equipment
+										97 text Equipment
+									98 text projector
+									99 container Attendee registration
+										100 text Attendee registration
+									101 text Disabled
+									102 container Special arrangements
+										103 text Special arrangements
+									104 text Release QA: keep original details through changes and replacements.
+									105 container Submitted
+										106 text Submitted
+									107 text 4 Nov 2026, 17:27
+							108 container
+								109 heading Venue arrangements
+									110 text Venue arrangements
+								111 text Approved venue bookings. All dates and times are in Singapore time.
+								112 button Refresh venue arrangements
+								113 container Release QA Replacement 4 Nov
+									114 heading Release QA Replacement 4 Nov
+										115 text Release QA Replacement 4 Nov
+									116 content list
+										117 container
+											118 text 12 Nov 2026  ·  T0945  ·  09:45 – 10:00  ·  Setup / turnaround
+										119 container
+											120 text 12 Nov 2026  ·  T1000  ·  10:00 – 10:15  ·  Event
+										121 container
+											122 text 12 Nov 2026  ·  T1015  ·  10:15 – 10:30  ·  Event
+										123 container
+											124 text 12 Nov 2026  ·  T1030  ·  10:30 – 10:45  ·  Event
+										125 container
+											126 text 12 Nov 2026  ·  T1045  ·  10:45 – 11:00  ·  Event
+										127 container
+											128 text 12 Nov 2026  ·  T1100  ·  11:00 – 11:15  ·  Event
+										129 container
+											130 text 12 Nov 2026  ·  T1115  ·  11:15 – 11:30  ·  Event
+										131 container
+											132 text 12 Nov 2026  ·  T1130  ·  11:30 – 11:45  ·  Event
+										133 container
+											134 text 12 Nov 2026  ·  T1145  ·  11:45 – 12:00  ·  Event
+										135 container
+											136 text 12 Nov 2026  ·  T1200  ·  12:00 – 12:15  ·  Setup / turnaround
+										137 container
+											138 text 12 Nov 2026  ·  T1215  ·  12:15 – 12:30  ·  Setup / turnaround
+							139 container
+								140 heading Equipment arrangements
+									141 text Equipment arrangements
+								142 text Reservation updates for equipment recorded by your coordinator.
+								143 button Refresh equipment arrangements
+								144 container Projector
+									145 heading Projector
+										146 text Projector
+									147 text Reserved
+									148 container
+										149 text 1  of  1  reserved
+							150 container
+								151 heading Requested changes
+									152 text Requested changes
+								153 text Changes proposed by the organiser for this event.
+								154 button Reload change requests
+								155 text Reloading clears unsaved answers.
+								156 content list
+									157 container
+										158 text Partially approved Requested  4 Nov 2026, 18:00 Significant change Affects:  Preferred start, Preferred end, Expected attendance .
+										159 text Organiser’s reason: 
+										160 text Release QA: move to13Nov and ask about increasing attendance beyond current venue capacity.
+										161 content list
+											162 container
+												163 text Preferred end :  13 Nov 2026, 12:00 SGT Approved Release QA: approved new end date after organiser reply.
+											164 container
+												165 text Preferred start :  13 Nov 2026, 10:00 SGT Approved Release QA: approved new start date after organiser reply.
+											166 container
+												167 text Expected attendance :  31 Rejected Organiser agreed to retain20 attendees; increase to31 rejected.
+										168 container Clarification history
+											169 heading Clarification history
+												170 text Clarification history
+											171 container
+												172 text Reply  1  ·  4 Nov 2026, 18:08
+											173 text Expected attendance
+											174 container
+												175 text Coordinator’s question:  The booked room capacity is30. Can attendance remain20 rather than31?
+											176 container
+												177 text Organiser’s answer:  Yes, keep attendance20. Please reject the attendance increase and approve the new dates.
+									178 container
+										179 text Approved Requested  4 Nov 2026, 17:46 Ordinary edit
+										180 text Organiser’s reason: 
+										181 text Release QA: minor wording correction only.
+										182 content list
+											183 container
+												184 text Description :  Disposable release verification event, updated description. Approved Release QA: wording-only approval; no arrangement change.
+							185 container
+								186 heading Registrations
+									187 text Registrations
+								188 text How many places are taken, and who has registered. 0 registrations
+								189 link Open registrations, Value: localhost:5173/requests/72595f62-dd0b-4114-b637-db886ddf0485/registrations
+							190 link Request changes, Value: localhost:5173/requests/72595f62-dd0b-4114-b637-db886ddf0485/request-change
+							191 text ConnectSphere — event planning and venue booking.
+							192 text Need help? Talk to your event coordinator.

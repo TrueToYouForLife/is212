@@ -1,7 +1,17 @@
+# Release UI fixes — 4 November 2026
+- Branch `us27-us42-release-ui-fixes`; Jaydon owns Git/PR/merge. No migration.
+- US27 saves have a 15-second deadline, abort signal and explicit unknown-outcome
+  guidance. Note retained, no automatic retry, late response cannot report success.
+  Underlying multi-tab/session stall cause remains unconfirmed; reload/check history.
+- Shared request page mounts readiness/bookings/internal safety only for assigned
+  Coordinator; Organiser retains US42 summaries. Shared-owner review required.
+- Cases AC-027.8.10, extended AC-027.5.9 and AC-042.3.8; evidence:
+  docs/test-evidence/release-ui-fixes/README.md. No shared-sheet/Jira update claimed.
+
 # US27 status coverage — 4 November 2026
 - Branch `us27-status-coverage`, baseaa2b1ad (US24 PR184 merged). Jaydon owns Git/PR/merge.
   Three new component IDs .1.7/.2.4/.8.9: late unit details, one flagged reservation,
-  blank stored display name. US27 now43 IDs (21 SQL, six unit,16 component).
+  blank stored display name. US27 now43 IDs (21 SQL, six unit, 16 component).
 - Focused13 before/16 after (two files); full1,747/223, lint/build/typecheck pass.
   Global98.24% statements/lines,92.35% branches,95.83% functions. All target files100%
   statements/lines/functions; historyall100%; catalogue96.87% branches, panel97.29%.
