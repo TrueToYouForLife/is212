@@ -504,6 +504,12 @@ SQL
   cat "$repo_root/supabase/tests/event_audit_log.sql"
   # US38: status lifecycle (0119). After 0101, because AC-038.9 reads the audit trail it writes.
   cat "$repo_root/supabase/tests/event_status_lifecycle.sql"
+  # US11 AC-011.9: holds released when an event closes. After 0119, because the defect it covers
+  # is that 'postponed' (added by 0119) was missing from 0035's status list. 0124 replaces that
+  # function, so re-apply it here: the historical replays above restore older definitions, and
+  # nothing re-applies 0035 itself today, but this keeps the test honest if one ever does.
+  cat "$repo_root/supabase/migrations/0124_us11_release_holds_on_postpone.sql"
+  cat "$repo_root/supabase/tests/venue_hold_release.sql"
 } | docker exec -i "$container" psql -X -U postgres -v ON_ERROR_STOP=1
 bash "$repo_root/supabase/tests/venue_booking_approval_races.sh" "$container"
 bash "$repo_root/supabase/tests/event_planning_update_races.sh" "$container"
