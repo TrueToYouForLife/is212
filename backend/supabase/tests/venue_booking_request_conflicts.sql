@@ -40,9 +40,11 @@ insert into public.events (id, organiser_id, coordinator_id, name, purpose, prop
   ('09c62000-0000-0000-0000-000000000001', '09c60000-0000-0000-0000-000000000001', '09c60000-0000-0000-0000-000000000002', 'US9 Conflict 1', 'Fixture', '2046-04-10 09:00+08', '2046-04-10 11:00+08', 40, 'planning', 'EVT-09C6-1', 'Talks'),
   ('09c62000-0000-0000-0000-000000000002', '09c60000-0000-0000-0000-000000000001', '09c60000-0000-0000-0000-000000000002', 'US9 Conflict 2', 'Fixture', '2046-04-10 13:00+08', '2046-04-10 16:00+08', 40, 'planning', 'EVT-09C6-2', 'Talks');
 
-insert into public.venue_bookings (id, event_id, venue_id, requested_by, status) values
-  ('09c63000-0000-0000-0000-000000000001', '09c62000-0000-0000-0000-000000000001', '09c61000-0000-0000-0000-000000000001', '09c60000-0000-0000-0000-000000000002', 'confirmed'),
-  ('09c63000-0000-0000-0000-000000000002', '09c62000-0000-0000-0000-000000000002', '09c61000-0000-0000-0000-000000000001', '09c60000-0000-0000-0000-000000000002', 'held');
+-- 0018 requires a held booking to carry an expiry: check (status <> 'held' or
+-- hold_expires_at is not null).
+insert into public.venue_bookings (id, event_id, venue_id, requested_by, status, hold_expires_at) values
+  ('09c63000-0000-0000-0000-000000000001', '09c62000-0000-0000-0000-000000000001', '09c61000-0000-0000-0000-000000000001', '09c60000-0000-0000-0000-000000000002', 'confirmed', null),
+  ('09c63000-0000-0000-0000-000000000002', '09c62000-0000-0000-0000-000000000002', '09c61000-0000-0000-0000-000000000001', '09c60000-0000-0000-0000-000000000002', 'held', now() + interval '3 days');
 
 -- E1's booking occupies AM as its event slot and PM as its turnaround buffer. A closure takes
 -- NIGHT, which is how a blocked period reaches the same ledger (kind = 'maintenance').
