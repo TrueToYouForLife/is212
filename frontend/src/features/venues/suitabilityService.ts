@@ -247,7 +247,15 @@ export async function assessVenuesForEvent(
     value: sortAssessments(venues.map((venue) => evaluateVenueSuitability({
       venue,
       expectedAttendance: event.expectedAttendance,
-      requirements,
+      // US8 (0054) gave the organiser structured requirement fields of their own, after US18
+      // was built against the Coordinator's overlay alone. check_booking_space (0102) and US8
+      // venue search both read the union; this did not, so a requirement the organiser stated
+      // produced no reason here.
+      requirements: {
+        layout: requirements.layout,
+        accessibility: [...new Set([...event.accessibilityRequirements, ...requirements.accessibility])],
+        facilities: [...new Set([...event.facilityRequirements, ...requirements.facilities])],
+      },
       layoutLabel,
       timing,
       occupied: occupied.get(venue.id) ?? [],

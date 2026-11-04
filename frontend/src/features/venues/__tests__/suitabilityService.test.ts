@@ -178,7 +178,34 @@ describe('AC-018.1 — coordinators can identify suitable venues', () => {
     if (!result.ok) throw new Error(result.reason)
     expect(map.venues.calls.neq).toEqual([['status', 'retired']])
     expect(result.value.map((a) => [a.venue.name, a.verdict])).toEqual([['Main Hall', 'suitable'], ['Small Room', 'unsuitable']])
-    expect(result.value[1].reasons).toEqual([{ code: 'layout', message: 'Does not support the Theatre layout.' }])
+    // Small Room misses the organiser's stated requirements as well as the layout: EVENT_ROW asks
+    // for wheelchair access and a projector, and it has neither. Before the union those two were
+    // read from the Coordinator's overlay alone and went unreported here.
+    expect(result.value[1].reasons).toEqual([
+      { code: 'layout', message: 'Does not support the Theatre layout.' },
+      { code: 'accessibility', message: 'Missing accessibility: Wheelchair access.' },
+      { code: 'facility', message: 'Missing facilities: Projector.' },
+    ])
+  })
+  test('AC-018.1.36: a requirement the organiser stated is assessed, not only the coordinator\'s overlay', async () => {
+    // The gap this union closes. check_booking_space (0102) and US8 venue search both read
+    // events.accessibility_requirements; this service read only event_venue_requirements, so a
+    // venue could be reported suitable and then refused by the database.
+    assessTables({
+      event_venue_requirements: query({ data: { layout: 'theatre', accessibility: [], facilities: [] }, error: null }),
+      venues: query({ data: [{
+        id: 'v-hall', name: 'Main Hall', location: 'Level 2', status: 'active',
+        setup_minutes: 0, turnaround_minutes: 0,
+        accessibility: [], facility: { projector: true },
+        venue_layouts: [{ layout: 'theatre', capacity: 200 }],
+      }], error: null }),
+    })
+    const result = await assessVenuesForEvent(EVENT_ID, SLOTS, ['v-hall'])
+    if (!result.ok) throw new Error(result.reason)
+    expect(result.value[0].verdict).toBe('unsuitable')
+    expect(result.value[0].reasons).toEqual([
+      { code: 'accessibility', message: 'Missing accessibility: Wheelchair access.' },
+    ])
   })
   test('AC-018.1.31: when given venue ids, only those venues are assessed', async () => {
     const map = assessTables()
