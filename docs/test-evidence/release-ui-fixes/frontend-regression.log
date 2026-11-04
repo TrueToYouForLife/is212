@@ -1,0 +1,1278 @@
+
+> connectsphere@0.1.0 test
+> vitest run
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+
+ ✓ src/features/events/__tests__/eventReviewService.test.ts (23 tests) 18ms
+stderr | src/features/events/__tests__/eventChangeRequestService.test.ts > AC-006.6 — the request is submitted to the coordinator for review > AC-006.6.3: an unrecognised database error gives advice, not raw Postgres text
+[change-requests] { code: '08006', message: 'connection failure' }
+
+ ✓ src/features/events/__tests__/eventChangeRequestService.test.ts (32 tests) 90ms
+ ✓ src/features/venues/__tests__/venueManagementService.test.ts (26 tests) 17ms
+ ✓ src/features/venues/__tests__/suitabilityService.test.ts (19 tests) 31ms
+ ✓ src/features/events/__tests__/changeRequestReviewService.test.ts (24 tests) 35ms
+ ✓ src/features/venues/__tests__/venueBookingService.test.ts (20 tests) 108ms
+ ✓ src/features/events/__tests__/DraftPages.test.tsx (13 tests) 810ms
+ ✓ src/features/events/__tests__/EventRequestForm.test.tsx (14 tests) 1421ms
+ ✓ src/features/events/__tests__/CoordinatorActiveEvents.test.tsx (6 tests) 1426ms
+   ✓ AC-036.1.1: overview shows all active events once with coordinator status and Singapore dates, excluding inactive events 466ms
+   ✓ AC-036.2.1: filters combine coordinator and status, handle unassigned and no matches, reset and refresh without changing workloads 583ms
+ ✓ src/features/venues/__tests__/VenueBookingPages.test.tsx (25 tests) 1424ms
+ ✓ src/features/events/__tests__/eventService.test.ts (19 tests) 99ms
+ ✓ src/features/equipment/__tests__/EquipmentRequirementsEditor.test.tsx (14 tests) 1009ms
+stderr | src/features/venues/__tests__/EditVenuePage.test.tsx > AC-046.5 — Venue Staff can retire a venue > AC-046.5.22: after retiring, Venue Staff are told the venue left search and 0 booking(s) went for review
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (/Users/jaydon/Desktop/is212/frontend/src/features/venues/pages/EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (/Users/jaydon/Desktop/is212/frontend/src/features/venues/pages/EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+ ✓ src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx (10 tests) 2380ms
+   ✓ AC-027.5.7: requires an explicit supported target and nonblank reason, then submits the loaded version 368ms
+   ✓ AC-027.5.9: failed, timed-out or stale save retains the note, permits closing, blocks retry and requires explicit reload with a fresh version 764ms
+   ✓ AC-027.2.3: confirmed save closes management, refreshes stock and retains filters; reopening loads fresh history and no-op also closes 414ms
+ ✓ src/features/events/__tests__/SubmitEventChangesPage.test.tsx (17 tests) 294ms
+stderr | src/features/venues/__tests__/EditVenuePage.test.tsx > AC-046.5 — Venue Staff can retire a venue > AC-046.5.22: after retiring, Venue Staff are told the venue left search and 1 booking(s) went for review
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (/Users/jaydon/Desktop/is212/frontend/src/features/venues/pages/EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (/Users/jaydon/Desktop/is212/frontend/src/features/venues/pages/EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+ ✓ src/features/events/__tests__/clarificationResponseValidation.test.ts (19 tests) 12ms
+stderr | src/features/venues/__tests__/EditVenuePage.test.tsx > AC-046.5 — Venue Staff can retire a venue > AC-046.5.22: after retiring, Venue Staff are told the venue left search and 4 booking(s) went for review
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (/Users/jaydon/Desktop/is212/frontend/src/features/venues/pages/EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (/Users/jaydon/Desktop/is212/frontend/src/features/venues/pages/EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+stderr | src/features/events/__tests__/clarificationResponseService.test.ts > AC-037.2 — what each refusal means to the Organiser > AC-037.2.6: a refused permission says to sign in as the owner
+[events] sendClarificationResponse { code: '42501', message: 'nope' }
+
+stderr | src/features/events/__tests__/clarificationResponseService.test.ts > AC-037.2 — what each refusal means to the Organiser > AC-037.2.7: a stale version or a closed question both say to reload
+[events] sendClarificationResponse { code: '22000', message: 'changed' }
+
+stderr | src/features/events/__tests__/clarificationResponseService.test.ts > AC-037.2 — what each refusal means to the Organiser > AC-037.2.8: a refused requirement code reports the details, not a failure
+[events] sendClarificationResponse { code: '23514', message: 'bad code' }
+[events] sendClarificationResponse { code: '23503', message: 'bad code' }
+
+stderr | src/features/events/__tests__/clarificationResponseService.test.ts > AC-037.2 — what each refusal means to the Organiser > AC-037.2.9: anything unrecognised is an uncertain write, and is not retried
+[events] sendClarificationResponse { code: '08006', message: 'gone' }
+
+stderr | src/features/events/__tests__/clarificationResponseService.test.ts > AC-037.5 — reading the rounds already answered > AC-037.5.14: a read error is reported rather than flattened to no history
+[events] loadClarificationRounds { code: '42501', message: 'nope' }
+
+ ✓ src/features/events/__tests__/clarificationResponseService.test.ts (16 tests) 90ms
+stderr | src/features/venues/__tests__/EditVenuePage.test.tsx > AC-046.5 — Venue Staff can retire a venue > AC-046.5.25: a refused retirement is explained, with a reload when someone else changed the venue
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (/Users/jaydon/Desktop/is212/frontend/src/features/venues/pages/EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (/Users/jaydon/Desktop/is212/frontend/src/features/venues/pages/EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+Warning: An update to EditVenuePage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at EditVenuePage (/Users/jaydon/Desktop/is212/frontend/src/features/venues/pages/EditVenuePage.tsx:29:45)
+    at RenderedRoute (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+ ✓ src/features/events/__tests__/validation.test.ts (22 tests) 50ms
+ ✓ src/features/venues/__tests__/EditVenuePage.test.tsx (22 tests) 1991ms
+ ✓ src/features/equipment/__tests__/EquipmentReturns.test.tsx (11 tests) 3089ms
+   ✓ AC-024.1.16: findings and issue notes are explicit; missing forces Unavailable and no-issue keeps the current damaged status 356ms
+   ✓ AC-024.1.18: stale or uncertain saves retain inputs and require explicit reload; failed/obsolete reloads stay locked 355ms
+   ✓ AC-024.2.8: confirmed saves close management and refresh partial/missing outcomes without losing history or other units 463ms
+   ✓ AC-024.1.19: closing an unsaved inspection leaves the allocation pending and reopening starts a fresh form 454ms
+   ✓ AC-024.1.20: nullable event details retain a usable inspection identity and history has honest missing-name labels 342ms
+ ✓ src/features/equipment/__tests__/equipmentRequirementService.test.ts (13 tests) 19ms
+ ✓ src/features/venues/__tests__/VenueReplacementSearchPage.test.tsx (7 tests) 2010ms
+   ✓ AC-048.2.1: affected booking prefills the full event interval, attendance, layout and requirements without editing the event 369ms
+   ✓ AC-048.2.2: adjusted filters and reset keep the original event; a missing layout catalogue entry is retained 468ms
+   ✓ AC-048.3.8: selection submits the original booking and displayed consent once, requires a note, and preserves the original until approval 540ms
+   ✓ AC-048.3.9: failed submission keeps the note and source version, prevents retries, and needs an explicit reload 338ms
+ ✓ src/features/events/__tests__/CoordinatorAssignmentQueue.test.tsx (3 tests) 801ms
+   ✓ AC-017.1.10: Lead filters submitted unassigned requests and sees their basic details 505ms
+ ✓ src/features/events/__tests__/withdrawRequest.test.ts (17 tests) 15ms
+ ✓ src/features/events/__tests__/ChangeRequestReviewPanel.test.tsx (14 tests) 1113ms
+   ✓ AC-007.9.24: explicit reload clears unsaved decisions and saves only against the newly displayed comparison version 401ms
+ ✓ src/features/notifications/__tests__/NotificationsPage.test.tsx (15 tests) 888ms
+ ✓ src/features/venues/__tests__/suitabilityValidation.test.ts (18 tests) 43ms
+ ✓ src/features/events/__tests__/ClarificationResponseForm.test.tsx (10 tests) 1202ms
+   ✓ AC-037.1 — answering > AC-037.1.31: a revised field is sent as edited 307ms
+ ✓ src/features/events/__tests__/changeRequestReviewValidation.test.ts (27 tests) 19ms
+ ✓ src/features/registrations/__tests__/MyRegistrationsPage.test.tsx (9 tests) 391ms
+ ✓ src/features/venues/__tests__/VenueReplacementPanel.test.tsx (10 tests) 1351ms
+   ✓ AC-020.3.50: coordinator proposes an alternative with a reason and sees the original-preservation message 411ms
+ ✓ src/features/venues/__tests__/venueSearchService.test.ts (9 tests) 11ms
+ ✓ src/features/events/__tests__/EventChangeRequestForm.test.tsx (10 tests) 2149ms
+   ✓ AC-006.4 — the form proposes new values without applying them > AC-006.4.5: a reason with no proposed field changes is refused before calling the service 550ms
+   ✓ AC-006.6 — the request is submitted for review > AC-006.6.6: a thrown error is reported rather than leaving the organiser waiting 325ms
+ ✓ src/features/equipment/__tests__/validation.test.ts (28 tests) 8ms
+stderr | src/features/venues/__tests__/VenueBlockForm.test.tsx > AC-012.7 — overlaps are previewed before saving > AC-012.7.12: Confirm block appears only after a preview, and confirms what was previewed
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (/Users/jaydon/Desktop/is212/frontend/src/features/venues/components/VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (/Users/jaydon/Desktop/is212/frontend/src/features/venues/components/VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (/Users/jaydon/Desktop/is212/frontend/src/features/venues/components/VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (/Users/jaydon/Desktop/is212/frontend/src/features/venues/components/VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (/Users/jaydon/Desktop/is212/frontend/src/features/venues/components/VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (/Users/jaydon/Desktop/is212/frontend/src/features/venues/components/VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (/Users/jaydon/Desktop/is212/frontend/src/features/venues/components/VenueBlockForm.tsx:21:27)
+Warning: An update to VenueBlockForm inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at VenueBlockForm (/Users/jaydon/Desktop/is212/frontend/src/features/venues/components/VenueBlockForm.tsx:21:27)
+
+ ✓ src/features/events/__tests__/ChangeRequestList.test.tsx (14 tests) 923ms
+ ✓ src/features/venues/__tests__/venueManagementValidation.test.ts (26 tests) 80ms
+ ✓ src/features/registrations/__tests__/waitlistService.test.ts (11 tests) 39ms
+ ✓ src/features/registrations/__tests__/registrationService.test.ts (16 tests) 31ms
+ ✓ src/features/events/__tests__/eventDraftQueryService.test.ts (18 tests) 163ms
+ ✓ src/features/equipment/__tests__/equipmentReturnService.test.ts (6 tests) 20ms
+ ✓ src/features/venues/__tests__/VenueBlockForm.test.tsx (8 tests) 2401ms
+   ✓ AC-012.3 — a reason is required > AC-012.3.7: a blank reason shows its message beside the field, and nothing is previewed 355ms
+   ✓ AC-012.7 — overlaps are previewed before saving > AC-012.7.12: Confirm block appears only after a preview, and confirms what was previewed 332ms
+   ✓ AC-048.2.6: continuous block uses start/end dates and times, allows overnight, refuses reversed instants and invalidates changed previews 463ms
+ ✓ src/features/notifications/__tests__/notificationService.test.ts (10 tests) 21ms
+ ✓ src/features/events/__tests__/eventDraftService.test.ts (16 tests) 118ms
+ ✓ src/features/events/__tests__/ChangeRequestReviewForm.test.tsx (11 tests) 2122ms
+   ✓ AC-007.3 — visible comparison > AC-007.3.4: groups current and proposed values beneath their field names 349ms
+   ✓ AC-007.10.3: rejecting every field sends both reasons and reports a rejected outcome 406ms
+ ✓ src/features/events/__tests__/PlanningUpdatePanel.test.tsx (9 tests) 1628ms
+   ✓ AC-020.1.50: assigned coordinator edits existing values and refreshes after a successful save 562ms
+   ✓ AC-020.1.52: a stale save preserves entered text until the user explicitly reloads 338ms
+ ✓ src/features/events/__tests__/changeRequestReplyValidation.test.ts (11 tests) 115ms
+ ✓ src/features/venues/__tests__/VenueAvailabilityPage.test.tsx (14 tests) 1113ms
+   ✓ AC-019.1 — staff can view availability across dates > AC-019.1.14: Venue Staff see every venue for the week starting today in Singapore 387ms
+ ✓ src/features/events/__tests__/changeRequestReviewQueryService.test.ts (10 tests) 37ms
+ ✓ src/features/equipment/__tests__/EquipmentCatalogue.test.tsx (6 tests) 1097ms
+   ✓ AC-027.1.4: displays unit details and every existing status without catalogue mutation controls 341ms
+   ✓ AC-027.3.1: type, location and status filters intersect; unavailable includes retired/missing; reset restores all units 340ms
+ ✓ src/features/safety/__tests__/SafetyReviewQueuePage.test.tsx (6 tests) 476ms
+ ✓ src/features/events/__tests__/OrganisationEventDetailPage.test.tsx (9 tests) 489ms
+ ✓ src/features/venues/__tests__/VenueFilters.test.tsx (10 tests) 880ms
+   ✓ AC-008.3 — layout is chosen from the catalogue, not typed > AC-008.3.7: every layout in the catalogue is offered, plus "any layout" 314ms
+ ✓ src/features/notifications/preferences/__tests__/NotificationPreferencesPage.test.tsx (7 tests) 470ms
+stderr | src/features/events/__tests__/organisationEventService.test.ts > AC-031.1 — an Organiser can view and act on their own events > AC-031.1.5: a read error is reported, not flattened into an empty list
+[events] loadOrganisationEvents { message: 'boom' }
+
+stderr | src/features/events/__tests__/organisationEventService.test.ts > AC-031.3 — nothing from another client organisation > AC-031.3.11: a failed single-event read is reported as a failure, not as not-found
+[events] loadOrganisationEvent { message: 'boom' }
+
+ ✓ src/features/events/__tests__/organisationEventService.test.ts (10 tests) 16ms
+stderr | src/features/events/__tests__/eventRegistrationsService.test.ts > AC-054.1 — the Organiser sees each registration with the attendee’s details > AC-054.1.7: a read error is reported, not flattened into an empty roll call
+[events] loadEventRegistrations { message: 'boom' }
+
+stderr | src/features/events/__tests__/eventRegistrationsService.test.ts > AC-054.4 — an empty answer is resolved, not guessed > AC-054.4.10: a failed permission check is a load failure, not a refusal
+[events] canViewEventRegistrations { message: 'boom' }
+
+ ✓ src/features/events/__tests__/eventRegistrationsService.test.ts (10 tests) 40ms
+ ✓ src/features/venues/__tests__/VenueAvailabilityGrid.test.tsx (9 tests) 599ms
+ ✓ src/features/venues/__tests__/slots.test.ts (28 tests) 71ms
+ ✓ src/components/layout/__tests__/TopNav.test.tsx (32 tests) 1094ms
+ ✓ src/features/equipment/__tests__/equipmentStatusService.test.ts (5 tests) 20ms
+ ✓ src/features/registrations/__tests__/EventWaitlistPanel.test.tsx (9 tests) 641ms
+stderr | src/features/events/__tests__/OpenEventsPage.test.tsx > AC-029.4: after signing up, the Attendee is signed in and sees open events > AC-029.4.8: while the session is loading, nothing redirects (boundary)
+Warning: An update to OpenEventsPage inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at OpenEventsPage (/Users/jaydon/Desktop/is212/frontend/src/features/events/pages/OpenEventsPage.tsx:22:54)
+    at RenderedRoute (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+ ✓ src/features/venues/__tests__/venueHoldAtomic.test.ts (8 tests) 47ms
+ ✓ src/features/events/__tests__/OpenEventsPage.test.tsx (8 tests) 377ms
+ ✓ src/features/events/__tests__/ClarificationRoundHistory.test.tsx (9 tests) 222ms
+ ✓ src/features/events/__tests__/changeRequestDiff.test.ts (11 tests) 11ms
+ ✓ src/features/events/status/__tests__/RequestStatusPanel.test.tsx (23 tests) 461ms
+ ✓ src/features/auth/__tests__/SignUpPage.test.tsx (8 tests) 547ms
+ ✓ src/features/registrations/__tests__/RegisterOrWaitlist.test.tsx (9 tests) 460ms
+ ✓ src/features/events/__tests__/EventRegistrationsPage.test.tsx (8 tests) 384ms
+ ✓ src/features/venues/__tests__/VenueBookingReviewPage.test.tsx (7 tests) 684ms
+ ✓ src/features/venues/__tests__/venueAvailabilityService.test.ts (8 tests) 34ms
+ ✓ src/features/events/__tests__/arrangementReviewService.test.ts (4 tests) 12ms
+ ✓ src/features/auth/__tests__/sessionWiring.test.tsx (5 tests) 183ms
+ ✓ src/features/venues/__tests__/venueBlockValidation.test.ts (13 tests) 6ms
+ ✓ src/features/events/__tests__/statusRules.test.ts (30 tests) 16ms
+ ✓ src/features/events/__tests__/OrganisationEventsPage.test.tsx (6 tests) 306ms
+ ✓ src/features/venues/__tests__/VenueBookingRejectionForm.test.tsx (18 tests) 849ms
+ ✓ src/features/venues/__tests__/venueReplacementService.test.ts (9 tests) 13ms
+ ✓ src/features/events/__tests__/coordinatorAssignmentService.test.ts (8 tests) 31ms
+ ✓ src/features/events/__tests__/OrganiserVenueArrangementsPage.test.tsx (2 tests) 712ms
+   ✓ AC-042.3.4: the shared request page mounts venue and equipment arrangements only for the owning organiser 407ms
+   ✓ AC-042.3.8: internal readiness, booking and safety panels mount only for the assigned Coordinator, leaving Organiser summaries available 304ms
+ ✓ src/features/equipment/__tests__/reservationService.test.ts (6 tests) 57ms
+ ✓ src/features/events/__tests__/ArrangementResolution.test.tsx (2 tests) 1221ms
+   ✓ AC-041.6.3: resolves individual reasons using both methods, keeps other reasons open and displays retained history 949ms
+ ✓ src/features/safety/__tests__/SafetyReviewDecisionForm.test.tsx (5 tests) 1640ms
+   ✓ AC-044.1 — every factor is assessed > AC-044.1.4: the form lists the seven factors, and nothing is sent until each is answered and every concern described 580ms
+   ✓ AC-044.3 / AC-044.4 — the decision is recorded > AC-044.3.2: an approval with every factor answered is recorded and reported 420ms
+ ✓ src/features/venues/__tests__/venueTimetableService.test.ts (8 tests) 9ms
+ ✓ src/features/venues/__tests__/holdRules.test.ts (29 tests) 18ms
+ ✓ src/features/venues/__tests__/VenueBookingComponents.test.tsx (15 tests) 314ms
+ ✓ src/features/events/__tests__/safetyReviewStatuses.test.tsx (7 tests) 248ms
+ ✓ src/features/venues/__tests__/AddVenuePage.test.tsx (12 tests) 1118ms
+   ✓ AC-046.1 — Venue Staff can add a venue with its details > AC-046.1.24: Venue Staff add a venue and are told it is in the catalogue 424ms
+   ✓ AC-046.1 — Venue Staff can add a venue with its details > AC-046.1.25: "Add another venue" opens an empty form 349ms
+ ✓ src/features/venues/__tests__/VenueForm.test.tsx (6 tests) 1367ms
+   ✓ AC-046.1 — Venue Staff can add a venue with its details > AC-046.1.20: filling in every detail submits the venue 506ms
+   ✓ AC-046.3 — every supported layout has a capacity of at least 1 > AC-046.3.9: an invalid capacity is flagged on its own row 342ms
+ ✓ src/features/events/__tests__/CoordinatorAssignmentForm.test.tsx (3 tests) 472ms
+ ✓ src/features/events/__tests__/ChangeRequestReplyForm.test.tsx (8 tests) 814ms
+ ✓ src/features/venues/__tests__/venueBookingReviewService.test.ts (12 tests) 33ms
+ ✓ src/features/registrations/__tests__/validation.test.ts (11 tests) 6ms
+ ✓ src/features/events/__tests__/RegistrationSettingPanel.test.tsx (7 tests) 349ms
+ ✓ src/features/events/__tests__/postponedStatus.test.ts (11 tests) 9ms
+ ✓ src/features/events/__tests__/ReviewActions.test.tsx (8 tests) 848ms
+   ✓ AC-004.3 — reasons entered through an input box > AC-004.3.3: the reason typed in the box is sent with a rejection 373ms
+ ✓ src/features/equipment/__tests__/equipmentPages.test.tsx (5 tests) 192ms
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.23: the assigned coordinator sees the switch on a Confirmed event
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (/Users/jaydon/Desktop/is212/frontend/src/features/events/readiness/readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[safety] getSafetyReviewDecisions {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getSafetyReviewDecisions (/Users/jaydon/Desktop/is212/frontend/src/features/safety/safetyDecisionService.ts:69:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+ ✓ src/features/events/__tests__/CoordinatorAssignmentAvailability.test.tsx (2 tests) 437ms
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.24: nobody else sees it, and nobody sees it once the event is not Confirmed
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.24: nobody else sees it, and nobody sees it once the event is not Confirmed
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (/Users/jaydon/Desktop/is212/frontend/src/features/events/readiness/readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[safety] getSafetyReviewDecisions {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getSafetyReviewDecisions (/Users/jaydon/Desktop/is212/frontend/src/features/safety/safetyDecisionService.ts:69:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.24: nobody else sees it, and nobody sees it once the event is not Confirmed
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (/Users/jaydon/Desktop/is212/frontend/src/features/events/readiness/readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[safety] getSafetyReviewDecisions {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getSafetyReviewDecisions (/Users/jaydon/Desktop/is212/frontend/src/features/safety/safetyDecisionService.ts:69:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+ ✓ src/features/venues/__tests__/venueAvailability.test.ts (10 tests) 22ms
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.24: nobody else sees it, and nobody sees it once the event is not Confirmed
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (/Users/jaydon/Desktop/is212/frontend/src/features/events/readiness/readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[safety] getSafetyReviewDecisions {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getSafetyReviewDecisions (/Users/jaydon/Desktop/is212/frontend/src/features/safety/safetyDecisionService.ts:69:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (/Users/jaydon/Desktop/is212/frontend/src/features/events/readiness/readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[safety] getSafetyReviewDecisions {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getSafetyReviewDecisions (/Users/jaydon/Desktop/is212/frontend/src/features/safety/safetyDecisionService.ts:69:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.25: after a successful change the page reloads the event so it shows the new setting
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (/Users/jaydon/Desktop/is212/frontend/src/features/events/readiness/readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[safety] getSafetyReviewDecisions {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getSafetyReviewDecisions (/Users/jaydon/Desktop/is212/frontend/src/features/safety/safetyDecisionService.ts:69:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-052.1.25: after a successful change the page reloads the event so it shows the new setting
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (/Users/jaydon/Desktop/is212/frontend/src/features/events/readiness/readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[safety] getSafetyReviewDecisions {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getSafetyReviewDecisions (/Users/jaydon/Desktop/is212/frontend/src/features/safety/safetyDecisionService.ts:69:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-016.2.44: the assigned coordinator sees the waiting list on a Confirmed event
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (/Users/jaydon/Desktop/is212/frontend/src/features/events/readiness/readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[safety] getSafetyReviewDecisions {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getSafetyReviewDecisions (/Users/jaydon/Desktop/is212/frontend/src/features/safety/safetyDecisionService.ts:69:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+ ✓ src/features/safety/__tests__/safetyDecisionService.test.ts (3 tests) 19ms
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-016.2.45: nobody else sees it, and nobody sees it once the event is not Confirmed
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/RegistrationSettingPage.test.tsx > AC-016.2.45: nobody else sees it, and nobody sees it once the event is not Confirmed
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (/Users/jaydon/Desktop/is212/frontend/src/features/events/readiness/readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[safety] getSafetyReviewDecisions {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getSafetyReviewDecisions (/Users/jaydon/Desktop/is212/frontend/src/features/safety/safetyDecisionService.ts:69:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at runNextTicks (node:internal/process/task_queues:64:5)\n' +
+    '    at listOnTimeout (node:internal/timers:567:9)\n' +
+    '    at processTimers (node:internal/timers:541:7)\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (/Users/jaydon/Desktop/is212/frontend/src/features/events/readiness/readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[safety] getSafetyReviewDecisions {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at runNextTicks (node:internal/process/task_queues:64:5)\n' +
+    '    at listOnTimeout (node:internal/timers:567:9)\n' +
+    '    at processTimers (node:internal/timers:541:7)\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getSafetyReviewDecisions (/Users/jaydon/Desktop/is212/frontend/src/features/safety/safetyDecisionService.ts:69:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at runNextTicks (node:internal/process/task_queues:64:5)\n' +
+    '    at listOnTimeout (node:internal/timers:567:9)\n' +
+    '    at processTimers (node:internal/timers:541:7)\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at runNextTicks (node:internal/process/task_queues:64:5)\n' +
+    '    at listOnTimeout (node:internal/timers:567:9)\n' +
+    '    at processTimers (node:internal/timers:541:7)\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (/Users/jaydon/Desktop/is212/frontend/src/features/events/readiness/readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[safety] getSafetyReviewDecisions {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at runNextTicks (node:internal/process/task_queues:64:5)\n' +
+    '    at listOnTimeout (node:internal/timers:567:9)\n' +
+    '    at processTimers (node:internal/timers:541:7)\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getSafetyReviewDecisions (/Users/jaydon/Desktop/is212/frontend/src/features/safety/safetyDecisionService.ts:69:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at runNextTicks (node:internal/process/task_queues:64:5)\n' +
+    '    at listOnTimeout (node:internal/timers:567:9)\n' +
+    '    at processTimers (node:internal/timers:541:7)\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at runNextTicks (node:internal/process/task_queues:64:5)\n' +
+    '    at listOnTimeout (node:internal/timers:567:9)\n' +
+    '    at processTimers (node:internal/timers:541:7)\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (/Users/jaydon/Desktop/is212/frontend/src/features/events/readiness/readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[safety] getSafetyReviewDecisions {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at runNextTicks (node:internal/process/task_queues:64:5)\n' +
+    '    at listOnTimeout (node:internal/timers:567:9)\n' +
+    '    at processTimers (node:internal/timers:541:7)\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getSafetyReviewDecisions (/Users/jaydon/Desktop/is212/frontend/src/features/safety/safetyDecisionService.ts:69:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at runNextTicks (node:internal/process/task_queues:64:5)\n' +
+    '    at listOnTimeout (node:internal/timers:567:9)\n' +
+    '    at processTimers (node:internal/timers:541:7)\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+ ✓ src/features/events/__tests__/RegistrationSettingPage.test.tsx (5 tests) 896ms
+   ✓ AC-052.1.24: nobody else sees it, and nobody sees it once the event is not Confirmed 313ms
+stderr | src/features/venues/__tests__/VenueTimetablePreview.test.tsx > AC-047.2.38: zero buffers show only event cells; invalid durations disable holding with an explanation
+Warning: An update to BookingSpaceFields inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at BookingSpaceFields (/Users/jaydon/Desktop/is212/frontend/src/features/venues/components/BookingSpaceFields.tsx:7:31)
+    at div
+    at section
+    at Card (/Users/jaydon/Desktop/is212/frontend/src/components/ui/Card.tsx:3:17)
+    at div
+    at div
+    at PageContainer (/Users/jaydon/Desktop/is212/frontend/src/components/layout/PageContainer.tsx:3:26)
+    at VenueTimetablePage (/Users/jaydon/Desktop/is212/frontend/src/features/venues/pages/VenueTimetablePage.tsx:41:54)
+    at RenderedRoute (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:6309:26)
+    at Routes (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7195:3)
+    at Router (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+ ✓ src/features/venues/__tests__/VenueTimetablePreview.test.tsx (2 tests) 430ms
+   ✓ AC-047.2.37: booking preview uses venue durations, shows midnight buffers and navigates to their first date 319ms
+ ✓ src/features/venues/__tests__/VenueSuitabilityPage.test.tsx (4 tests) 375ms
+ ✓ src/features/registrations/__tests__/MyWaitlist.test.tsx (6 tests) 376ms
+ ✓ src/features/events/__tests__/RegistrationsCard.test.tsx (8 tests) 220ms
+ ✓ src/features/venues/__tests__/venueBookingAssignment.test.ts (1 test) 4ms
+ ✓ src/features/registrations/__tests__/OpenEventDetailsPage.test.tsx (4 tests) 256ms
+ ✓ src/features/venues/__tests__/venueBlockService.create.test.ts (10 tests) 9ms
+ ✓ src/features/venues/__tests__/MyVenueBookingsReplacement.test.tsx (3 tests) 449ms
+ ✓ src/features/venues/__tests__/VenueDecisionNotifications.test.tsx (8 tests) 276ms
+ ✓ src/features/venues/__tests__/quarterHourTimetables.test.tsx (2 tests) 495ms
+   ✓ AC-047.2.33: all-venue timetable preserves quarter-hour states, buffer labels and venue separation 325ms
+ ✓ src/features/events/__tests__/draftValidation.test.ts (20 tests) 20ms
+ ✓ src/features/venues/__tests__/venueTimetable.test.ts (14 tests) 10ms
+ ✓ src/features/events/__tests__/planningUpdateService.test.ts (7 tests) 16ms
+ ✓ src/features/equipment/__tests__/ReserveForm.test.tsx (6 tests) 669ms
+ ✓ src/features/events/__tests__/OrganiserEquipmentArrangements.test.tsx (2 tests) 318ms
+stderr | src/features/events/__tests__/ChangeRequestReviewPage.test.tsx > AC-007.2.31: the coordinator detail page connects the event ID and refresh callback to the review panel
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (/Users/jaydon/Desktop/is212/frontend/src/features/events/readiness/readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[safety] getSafetyReviewDecisions {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getSafetyReviewDecisions (/Users/jaydon/Desktop/is212/frontend/src/features/safety/safetyDecisionService.ts:69:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+ ✓ src/features/events/__tests__/RequestDetails.test.tsx (3 tests) 138ms
+ ✓ src/features/events/readiness/__tests__/ReadinessSummary.test.tsx (6 tests) 262ms
+stderr | src/features/events/__tests__/ChangeRequestReviewPage.test.tsx > AC-041.1.9: only the assigned coordinator sees arrangement reviews and page refresh reloads them
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+stderr | src/features/events/__tests__/ChangeRequestReviewPage.test.tsx > AC-041.1.9: only the assigned coordinator sees arrangement reviews and page refresh reloads them
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (/Users/jaydon/Desktop/is212/frontend/src/features/events/readiness/readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[safety] getSafetyReviewDecisions {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getSafetyReviewDecisions (/Users/jaydon/Desktop/is212/frontend/src/features/safety/safetyDecisionService.ts:69:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+[readiness] getEventReadiness {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventReadiness (/Users/jaydon/Desktop/is212/frontend/src/features/events/readiness/readinessService.ts:26:27)',
+  hint: '',
+  code: ''
+}
+[safety] getSafetyReviewDecisions {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getSafetyReviewDecisions (/Users/jaydon/Desktop/is212/frontend/src/features/safety/safetyDecisionService.ts:69:27)',
+  hint: '',
+  code: ''
+}
+[audit] getEventAuditTrail {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getEventAuditTrail (/Users/jaydon/Desktop/is212/frontend/src/features/events/audit/auditService.ts:31:27)',
+  hint: '',
+  code: ''
+}
+
+ ✓ src/features/equipment/__tests__/ReservationQueue.test.tsx (6 tests) 348ms
+ ✓ src/features/events/__tests__/ChangeRequestReviewPage.test.tsx (3 tests) 627ms
+   ✓ AC-041.1.9: only the assigned coordinator sees arrangement reviews and page refresh reloads them 372ms
+ ✓ src/features/registrations/__tests__/RegistrationForm.test.tsx (5 tests) 444ms
+   ✓ AC-015.2: the Attendee inputs the information required to register > AC-015.2.9: filling in and submitting the form registers with the cleaned answers 311ms
+ ✓ src/features/events/readiness/__tests__/safetyReviewSend.test.tsx (4 tests) 316ms
+ ✓ src/features/events/__tests__/CoordinatorRequestSections.test.tsx (1 test) 449ms
+   ✓ AC-017.4.6: coordinator sees assigned requests first and refresh moves reassigned requests between sections 448ms
+ ✓ src/features/venues/__tests__/searchTextMatch.test.ts (16 tests) 5ms
+ ✓ src/features/venues/__tests__/VenueBookingApprovalAction.test.tsx (8 tests) 296ms
+ ✓ src/features/events/__tests__/requirementCatalogue.test.ts (8 tests) 4ms
+ ✓ src/features/venues/__tests__/VenueBookingQueuePage.test.tsx (7 tests) 274ms
+ ✓ src/features/notifications/preferences/__tests__/preferencesService.test.ts (4 tests) 9ms
+ ✓ src/features/registrations/__tests__/WithdrawRegistrationButton.test.tsx (5 tests) 282ms
+ ✓ src/features/auth/__tests__/signUpService.test.ts (7 tests) 6ms
+ ✓ src/features/registrations/__tests__/registrationServiceWaitlist.test.ts (5 tests) 13ms
+ ✓ src/features/venues/__tests__/VenueBlocksPage.test.tsx (4 tests) 695ms
+ ✓ src/features/events/__tests__/RequestCoordinatorNames.test.tsx (5 tests) 255ms
+ ✓ src/features/events/__tests__/ArrangementReviewPanel.test.tsx (2 tests) 343ms
+ ✓ src/features/venues/__tests__/ManageVenuesPage.test.tsx (10 tests) 177ms
+ ✓ src/features/venues/__tests__/SuitabilityResultList.test.tsx (4 tests) 111ms
+ ✓ src/features/events/audit/__tests__/AuditTrailCard.test.tsx (5 tests) 129ms
+ ✓ src/features/events/status/__tests__/useRequestResource.test.ts (5 tests) 204ms
+ ✓ src/features/events/__tests__/registrationSettingService.test.ts (7 tests) 7ms
+ ✓ src/features/events/__tests__/SubmitEventRequestPage.test.tsx (5 tests) 139ms
+ ✓ src/features/events/__tests__/OrganiserVenueArrangements.test.tsx (2 tests) 297ms
+ ✓ src/features/registrations/__tests__/waitlistManagementService.test.ts (5 tests) 7ms
+ ✓ src/features/events/readiness/__tests__/EventReadinessCard.test.tsx (4 tests) 156ms
+ ✓ src/features/auth/__tests__/SignInPage.test.tsx (3 tests) 216ms
+ ✓ src/features/events/__tests__/changeRequestReplyService.test.ts (9 tests) 10ms
+ ✓ src/features/events/__tests__/organiserEquipmentArrangementService.test.ts (3 tests) 10ms
+ ✓ src/features/venues/__tests__/VenueCancellationPanel.test.tsx (4 tests) 418ms
+stderr | src/features/events/__tests__/AuditTrailPage.test.tsx > AC-034.3.14: the assigned Coordinator and the Coordinator Lead see the audit trail
+[safety] getSafetyReviewDecisions {
+  message: 'Error: Network access is disabled in tests. Mock the service this component calls.',
+  details: 'Error: Network access is disabled in tests. Mock the service this component calls.\n' +
+    '    at globalThis.fetch (/Users/jaydon/Desktop/is212/frontend/src/test/setup.ts:14:9)\n' +
+    '    at fetch (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:17:42)\n' +
+    '    at file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/supabase-js/src/lib/fetch.ts:113:12\n' +
+    '    at fetchWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/fetchWithRetry.ts:93:13)\n' +
+    '    at executeWithRetry (file:///Users/jaydon/Desktop/is212/frontend/node_modules/@supabase/postgrest-js/src/PostgrestBuilder.ts:273:19)\n' +
+    '    at Module.getSafetyReviewDecisions (/Users/jaydon/Desktop/is212/frontend/src/features/safety/safetyDecisionService.ts:69:27)',
+  hint: '',
+  code: ''
+}
+
+ ✓ src/features/venues/__tests__/VenueBufferSettings.test.tsx (3 tests) 373ms
+ ✓ src/features/venues/__tests__/VenueBookingConflicts.test.tsx (6 tests) 182ms
+ ✓ src/features/events/__tests__/AuditTrailPage.test.tsx (2 tests) 318ms
+ ✓ src/features/events/reschedule/__tests__/RescheduleEventForm.test.tsx (3 tests) 283ms
+ ✓ src/features/safety/__tests__/SafetyReviewDecisionsPanel.test.tsx (2 tests) 165ms
+ ✓ src/features/equipment/__tests__/TechSupportEquipmentView.test.tsx (2 tests) 246ms
+ ✓ src/features/notifications/__tests__/notificationFormat.test.ts (9 tests) 4ms
+ ✓ src/features/events/__tests__/coordinatorNames.test.ts (8 tests) 5ms
+ ✓ src/features/venues/__tests__/VenueSearchPage.suitability.test.tsx (2 tests) 289ms
+ ✓ src/features/auth/__tests__/roles.test.ts (8 tests) 6ms
+ ✓ src/features/events/__tests__/EventVenueBookings.test.tsx (3 tests) 314ms
+ ✓ src/features/events/__tests__/organiserVenueArrangementService.test.ts (3 tests) 9ms
+ ✓ src/features/venues/__tests__/venueBlockService.preview.test.ts (3 tests) 7ms
+ ✓ src/features/auth/__tests__/validation.test.ts (8 tests) 8ms
+ ✓ src/features/venues/__tests__/venueSearchBuffers.test.ts (3 tests) 5ms
+ ✓ src/features/safety/__tests__/SafetyReviewQueueDecision.test.tsx (1 test) 238ms
+ ✓ src/features/venues/__tests__/VenueBlockList.test.tsx (5 tests) 85ms
+ ✓ src/features/events/audit/__tests__/auditService.test.ts (3 tests) 5ms
+ ✓ src/features/venues/__tests__/venueBlockService.currentBlocks.test.ts (5 tests) 4ms
+ ✓ src/features/venues/__tests__/UnsuitableVenueAlert.test.tsx (4 tests) 165ms
+ ✓ src/features/venues/__tests__/FlaggedBookingsPage.test.tsx (4 tests) 230ms
+ ✓ src/features/venues/__tests__/venueOccupiedSlots.test.ts (3 tests) 25ms
+ ✓ src/features/auth/__tests__/signUpValidation.test.ts (9 tests) 14ms
+ ✓ src/features/venues/__tests__/SlotPicker.test.tsx (3 tests) 576ms
+   ✓ AC-047.2.34: range controls cover midnight, lunch and end of day in quarter-hour increments and support disabled/error states 432ms
+ ✓ src/features/registrations/__tests__/RegistrationFormWaitlist.test.tsx (3 tests) 284ms
+ ✓ src/features/notifications/__tests__/useUnreadNotificationCount.test.tsx (4 tests) 49ms
+ ✓ src/features/events/readiness/__tests__/readinessService.test.ts (3 tests) 10ms
+ ✓ src/features/venues/__tests__/venueBlockService.period.test.ts (2 tests) 6ms
+ ✓ src/features/safety/__tests__/safetyReviewQueueService.test.ts (2 tests) 40ms
+ ✓ src/features/events/__tests__/confirmEvent.test.tsx (2 tests) 176ms
+ ✓ src/features/events/__tests__/safetyRevision.test.tsx (4 tests) 146ms
+ ✓ src/features/events/__tests__/ChangeRequestSummary.test.tsx (1 test) 226ms
+ ✓ src/features/venues/__tests__/RetireVenuePanel.test.tsx (4 tests) 233ms
+ ✓ src/features/events/__tests__/changeRequestSignificance.test.ts (10 tests) 5ms
+ ✓ src/features/events/__tests__/registrationCountService.test.ts (4 tests) 5ms
+stderr | src/pages/__tests__/SignedInHome.test.tsx > AC-029.4: after signing up, the Attendee is signed in and sees open events > AC-029.4.11: a signed-in Attendee's Home points them to events, not to a coordinator
+Warning: An update to SignedInHome inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at SignedInHome (/Users/jaydon/Desktop/is212/frontend/src/pages/SignedInHome.tsx:18:25)
+    at Router (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+stderr | src/pages/__tests__/SignedInHome.test.tsx > AC-029.4: after signing up, the Attendee is signed in and sees open events > AC-029.4.12: other roles keep their Home (regression guard)
+Warning: An update to SignedInHome inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at SignedInHome (/Users/jaydon/Desktop/is212/frontend/src/pages/SignedInHome.tsx:18:25)
+    at Router (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+stderr | src/pages/__tests__/SignedInHome.test.tsx > AC-015.7: the Attendee sees their registrations > AC-015.7.11: an Attendee's Home also links to My registrations
+Warning: An update to SignedInHome inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://reactjs.org/link/wrap-tests-with-act
+    at SignedInHome (/Users/jaydon/Desktop/is212/frontend/src/pages/SignedInHome.tsx:18:25)
+    at Router (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7134:13)
+    at MemoryRouter (file:///Users/jaydon/Desktop/is212/frontend/node_modules/react-router/dist/development/chunk-BV7QT456.mjs:7044:3)
+
+ ✓ src/pages/__tests__/SignedInHome.test.tsx (3 tests) 188ms
+ ✓ src/features/events/__tests__/ArrangementReviewIndicators.test.tsx (1 test) 371ms
+   ✓ AC-041.1.12: request badges are assigned-only, preserve status, refresh and report failed counts 369ms
+ ✓ src/features/events/reschedule/__tests__/rescheduleService.test.ts (2 tests) 5ms
+ ✓ src/features/venues/__tests__/MyVenueBookingsNotifications.test.tsx (2 tests) 128ms
+ ✓ src/features/events/__tests__/draftFormValues.test.ts (5 tests) 4ms
+ ✓ src/features/venues/__tests__/VenueBlockList.remove.test.tsx (3 tests) 232ms
+ ✓ src/features/events/__tests__/changeRequestDisplay.test.ts (3 tests) 23ms
+ ✓ src/features/venues/__tests__/venueBookingQueueService.test.ts (6 tests) 13ms
+ ✓ src/features/venues/__tests__/venueBlockPreviewHelpers.test.ts (3 tests) 4ms
+ ✓ src/features/venues/__tests__/VenueResultCard.test.tsx (3 tests) 57ms
+ ✓ src/features/events/audit/__tests__/auditDescription.test.ts (4 tests) 7ms
+ ✓ src/features/venues/__tests__/VenueRequirementsForm.test.tsx (3 tests) 227ms
+ ✓ src/features/events/__tests__/ChangeRequestReviewHistory.test.tsx (4 tests) 270ms
+ ✓ src/features/registrations/__tests__/availableMoves.test.ts (6 tests) 7ms
+ ✓ src/features/safety/__tests__/safetyDecision.test.ts (2 tests) 22ms
+ ✓ src/features/venues/__tests__/venueAlertService.test.ts (2 tests) 11ms
+ ✓ src/features/venues/__tests__/VenueBookingRequestDetails.test.tsx (3 tests) 189ms
+ ✓ src/features/equipment/__tests__/EquipmentOutcomeNotices.test.tsx (2 tests) 75ms
+ ✓ src/features/venues/__tests__/venueDecisionNotificationService.test.ts (4 tests) 6ms
+ ✓ src/features/events/__tests__/DecisionHistory.test.tsx (3 tests) 112ms
+ ✓ src/features/events/__tests__/directEventReview.test.ts (6 tests) 5ms
+ ✓ src/features/venues/__tests__/BookingSpaceFields.test.tsx (3 tests) 257ms
+ ✓ src/features/venues/__tests__/venueBookingApprovalService.test.ts (5 tests) 5ms
+ ✓ src/features/notifications/__tests__/noticeSource.test.ts (2 tests) 8ms
+ ✓ src/features/registrations/__tests__/canAcceptOffer.test.ts (5 tests) 5ms
+ ✓ src/features/events/__tests__/eventCancellation.test.tsx (1 test) 213ms
+ ✓ src/features/events/__tests__/confirmEventService.test.ts (1 test) 5ms
+ ✓ src/features/venues/__tests__/venueBlockService.venues.test.ts (2 tests) 3ms
+ ✓ src/features/events/readiness/__tests__/safetyReviewService.test.ts (1 test) 9ms
+ ✓ src/features/events/__tests__/ChangeRequestReplyHistory.test.tsx (2 tests) 154ms
+ ✓ src/features/events/__tests__/ChangeRequestSignificance.test.tsx (3 tests) 55ms
+ ✓ src/features/venues/__tests__/venueCancellationService.test.ts (2 tests) 7ms
+ ✓ src/features/equipment/__tests__/equipmentCatalogueService.test.ts (2 tests) 11ms
+ ✓ src/features/events/readiness/__tests__/readinessLinks.test.ts (2 tests) 3ms
+ ✓ src/features/venues/__tests__/availabilityDates.test.ts (3 tests) 4ms
+ ✓ src/features/events/__tests__/eventVenueBookingsService.test.ts (2 tests) 6ms
+ ✓ src/features/auth/__tests__/coordinatorLeadProfile.test.ts (1 test) 2ms
+ ✓ src/features/equipment/__tests__/reservationRules.test.ts (2 tests) 3ms
+ ✓ src/features/events/__tests__/reviewActionsStates.test.tsx (1 test) 31ms
+ ✓ src/features/notifications/preferences/__tests__/NotificationsSettingsLink.test.tsx (1 test) 79ms
+ ✓ src/features/venues/__tests__/venueBlockValidationEdge.test.ts (1 test) 1ms
+ ✓ src/features/events/__tests__/coordinatorNamesEmpty.test.ts (1 test) 2ms
+ ✓ src/features/events/__tests__/formattersEdge.test.ts (1 test) 1ms
+
+ Test Files  223 passed (223)
+      Tests  1749 passed (1749)
+   Start at  18:57:28
+   Duration  37.57s (transform 6.85s, setup 21.69s, collect 43.95s, tests 72.69s, environment 162.01s, prepare 21.23s)
+

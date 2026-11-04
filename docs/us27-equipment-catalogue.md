@@ -287,3 +287,12 @@ where e.reference = 'YOUR-TEST-EVENT-REFERENCE'
 
 Use real signed-in accounts for UI actions. Manual results above are Jaydon-reported;
 individual execution timestamps, fixture IDs and delivery results were not supplied.
+
+## Release follow-up — 4 November 2026
+
+A two-tab manual check exposed an indefinitely pending status save. The save now has
+an abort signal and a 15-second deadline. An expired request reports an unknown
+outcome, retains the note and cannot report late success or retry automatically.
+Staff must copy their note, reload and inspect current status/history before retrying;
+abort does not guarantee database rollback. The underlying stall is not diagnosed.
+See [release UI evidence](test-evidence/release-ui-fixes/README.md).

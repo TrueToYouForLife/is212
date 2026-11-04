@@ -1746,3 +1746,8 @@ this migration does not toggle the safety switch.
 
 See [Slice 1](docs/us49-slice1.md), [Slice 2](docs/us49-slice2.md) and
 [Slice 3 / deployment and manual checks](docs/us49-slice3.md).
+
+Release UI follow-up (4 November 2026): Coordinator-only request panels are hidden
+from Organisers; equipment status saves report an unknown outcome after 15 seconds
+rather than remaining locked indefinitely. No migration. See
+[validation and limits](docs/test-evidence/release-ui-fixes/README.md).

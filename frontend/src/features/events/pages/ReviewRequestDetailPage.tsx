@@ -147,8 +147,7 @@ export function ReviewRequestDetailPage() {
             {/* Each of these renders its own Card, so they are siblings rather than
                 children of the one above. status and onSent belong to readiness — it is
                 the panel that can move the event on. */}
-            {((profile?.role === 'organiser' && request.organiserId === profile.id)
-              || (profile?.role === 'coordinator' && request.coordinatorId === profile.id)) && (
+            {profile?.role === 'coordinator' && request.coordinatorId === profile.id && (
               <>
                 <EventReadinessCard key={`readiness:${request.id}`} eventId={request.id}
                   refreshVersion={reviewRefreshVersion} status={request.status} onSent={refreshAll} />
