@@ -1,7 +1,8 @@
-import { render, screen, waitFor, within } from '@testing-library/react'
+import { act, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, expect, test, vi } from 'vitest'
 import { ArrangementReviewPanel } from '../components/ArrangementReviewPanel'
+import type { ArrangementReviewFlag } from '../arrangementReviewService'
 const mocks = vi.hoisted(() => ({ read: vi.fn() }))
 vi.mock('../arrangementReviewService', () => ({ listArrangementReviews: mocks.read }))
 const flag = { id: 'reason1', status: 'open', venue_booking_id: 'venue-booking-1', equipment_booking_id: null,
@@ -44,4 +45,71 @@ test('AC-041.1.8: loading, failed read, retry and changed event do not show stal
   expect(await screen.findByText(/No arrangements/)).toBeInTheDocument()
   expect(screen.queryByText(flag.detail)).not.toBeInTheDocument()
   expect(mocks.read).toHaveBeenLastCalledWith('event2')
+})
+
+test('AC-041.6.5: mixed resolution history is newest first, retains equipment/venue references and uses recorded actor IDs when display names are unavailable', async () => {
+  const actorId = '41000000-0000-0000-0000-000000000099'
+  const resolved: ArrangementReviewFlag = {
+    ...flag, id: '41000000-0000-0000-0000-000000000001', status: 'resolved',
+    venue_booking_id: '41000000-0000-0000-0000-000000000011',
+    resolution: 'Venue reviewed and corrected.', resolution_method: 'corrected',
+    resolved_at: '2026-10-13T02:00:00Z', resolved_by: actorId, resolver: { full_name: 'Jaydon' },
+  }
+  const unnamedVenue: ArrangementReviewFlag = {
+    ...resolved, id: '41000000-0000-0000-0000-000000000002',
+    venue_booking_id: '41000000-0000-0000-0000-000000000012', venue_booking: { venue: null },
+    detail: 'Venue requirements checked.', resolution: 'Saved booking remains suitable.',
+    resolution_method: 'confirmed_valid', resolved_at: '2026-10-13T03:00:00Z', resolver: { full_name: '' },
+  }
+  const equipment: ArrangementReviewFlag = {
+    ...resolved, id: '41000000-0000-0000-0000-000000000003', venue_booking_id: null,
+    equipment_booking_id: '41000000-0000-0000-0000-000000000013', venue_booking: null,
+    detail: 'Equipment window checked.', resolution: 'Reserved equipment still covers the event.',
+    resolution_method: 'confirmed_valid', resolved_at: '2026-10-13T04:00:00Z', resolver: null,
+  }
+  mocks.read.mockResolvedValue({ ok: true, value: [resolved, equipment, unnamedVenue] })
+  const onCount = vi.fn()
+  render(<ArrangementReviewPanel eventId="event1" onCount={onCount} />)
+  const history = await screen.findByRole('region', { name: 'Resolution history' })
+  const items = within(history).getAllByRole('listitem')
+  expect(items.map(item => within(item).getByText(/Reference:/).textContent)).toEqual([
+    `Reference: ${equipment.equipment_booking_id}`, `Reference: ${unnamedVenue.venue_booking_id}`,
+    `Reference: ${resolved.venue_booking_id}`,
+  ])
+  expect(items[0]).toHaveTextContent(`Equipment reservation — ${equipment.equipment_booking_id}`)
+  expect(items[0]).toHaveTextContent('Resolved — Still valid')
+  expect(items[0]).toHaveTextContent(`Recorded by ${actorId} · 13 Oct 2026, 12:00`)
+  expect(items[1]).toHaveTextContent(`Venue booking — ${unnamedVenue.venue_booking_id}`)
+  expect(items[1]).toHaveTextContent(`Recorded by ${actorId} · 13 Oct 2026, 11:00`)
+  expect(items[2]).toHaveTextContent('Venue booking — Hall A')
+  expect(items[2]).toHaveTextContent('Resolved — Arrangement corrected')
+  expect(items[2]).toHaveTextContent('Recorded by Jaydon · 13 Oct 2026, 10:00')
+  for (const record of [resolved, unnamedVenue, equipment]) {
+    expect(within(history).getByText(record.detail)).toBeInTheDocument()
+    expect(within(history).getByText(record.resolution!)).toBeInTheDocument()
+  }
+  expect(within(history).queryByRole('form')).not.toBeInTheDocument()
+  expect(screen.queryByText('Needs review')).not.toBeInTheDocument()
+  await waitFor(() => expect(onCount).toHaveBeenLastCalledWith(0))
+})
+
+test('AC-041.1.17: a late previous-event response cannot replace the current reasons or their arrangement count', async () => {
+  let finish!: (value: unknown) => void
+  mocks.read.mockReturnValueOnce(new Promise(resolve => { finish = resolve }))
+  const onCount = vi.fn()
+  const view = render(<ArrangementReviewPanel eventId="old-event" onCount={onCount} />)
+  await waitFor(() => expect(onCount).toHaveBeenLastCalledWith(null))
+  const current = { ...flag, id: 'current-reason', detail: 'Current equipment reason',
+    venue_booking_id: null, equipment_booking_id: 'current-equipment', venue_booking: null }
+  mocks.read.mockResolvedValue({ ok: true, value: [current] })
+  view.rerender(<ArrangementReviewPanel eventId="current-event" onCount={onCount} />)
+  expect(await screen.findByText('Current equipment reason')).toBeInTheDocument()
+  await waitFor(() => expect(onCount).toHaveBeenLastCalledWith(1))
+  const calls = onCount.mock.calls.length
+  await act(async () => { finish({ ok: true, value: [flag, { ...flag, venue_booking_id: 'second-booking' }] }) })
+  expect(screen.getByText('Current equipment reason')).toBeInTheDocument()
+  expect(screen.queryByText(flag.detail)).not.toBeInTheDocument()
+  expect(screen.getAllByText('Needs review')).toHaveLength(1)
+  expect(onCount).toHaveBeenCalledTimes(calls)
+  expect(mocks.read.mock.calls).toEqual([['old-event'], ['current-event']])
 })

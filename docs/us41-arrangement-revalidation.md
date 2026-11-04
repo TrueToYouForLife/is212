@@ -277,3 +277,20 @@ PR #90. No new test execution is claimed for this documentation-only update.
 
 Jaydon confirmed 0053 is applied to shared Supabase and the deployed manual regression
 passed. This fix does not introduce notification delivery or change the AC4 agreement.
+
+## Frontend coverage — 4 November 2026
+
+The arrangement review service is now 100% for statements, lines, functions and
+branches. The review panel is 100% for statements, lines and functions, 95.74% for
+branches. New cases cover failed count reads, mixed retained history and late
+responses after changing events. Full frontend coverage: 1,760 tests/224 files passed.
+
+Remaining branches are both missing-timestamp fallbacks at line 18 in
+`ArrangementReviewPanel.tsx`. Migration 0052's table CHECK requires `resolved_at`
+and attribution whenever status is resolved. The sorter operates only on resolved
+rows, so neither missing-timestamp outcome can be produced by valid database rows.
+Keep the defensive guards; no invalid resolved records were manufactured for coverage.
+
+These two files are complete for this portion; shared US7 files retain their earlier
+justifications. No production, SQL, migration, auth/session or notification changes.
+[Evidence and limits](test-evidence/us41/arrangement-coverage/README.md).

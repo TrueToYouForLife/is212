@@ -54,6 +54,20 @@ test('AC-041.1.11: list counts distinct arrangements per event and returns error
   expect(await listArrangementReviewCounts()).toEqual({ ok: false, reason: ARRANGEMENT_REVIEW_ERROR })
 })
 
+test('AC-041.1.16: a genuine empty count result is valid, while absent data and a rejected read never clear review indicators as zero', async () => {
+  const eq = vi.fn().mockResolvedValueOnce({ data: [], error: null })
+    .mockResolvedValueOnce({ data: null, error: null })
+    .mockRejectedValueOnce(new Error('Private connection failure'))
+  const select = vi.fn().mockReturnValue({ eq })
+  mocks.from.mockReturnValue({ select })
+  expect(await listArrangementReviewCounts()).toEqual({ ok: true, value: {} })
+  const failed = { ok: false, reason: ARRANGEMENT_REVIEW_ERROR }
+  expect(await listArrangementReviewCounts()).toEqual(failed)
+  expect(await listArrangementReviewCounts()).toEqual(failed)
+  expect(select).toHaveBeenCalledWith('event_id, venue_booking_id, equipment_booking_id')
+  expect(eq.mock.calls).toEqual([['status', 'open'], ['status', 'open'], ['status', 'open']])
+})
+
 test('AC-041.6.2: resolution validates input, calls the protected RPC and handles refused, stale or uncertain writes', async () => {
   const invalid = { ok: false, reason: ARRANGEMENT_RESOLUTION_MESSAGES.invalid }
   for (const [id, method, note] of [[eventId, '', 'Reason'], [eventId, 'corrected', '  '], ['bad-id', 'confirmed_valid', 'Reason']]) {

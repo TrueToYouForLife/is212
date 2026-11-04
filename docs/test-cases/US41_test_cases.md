@@ -1,5 +1,19 @@
 # US41 — Flag arrangements affected by a significant change
 
+## Arrangement coverage — 4 November 2026
+
+Three new grouped cases bring the catalogue to 28 unique source IDs: 14 integration,
+five unit and nine component. Existing case counts below are dated checkpoints.
+No production/SQL change or new manual/shared-database pass is claimed.
+
+| Test ID | AC | Classification | Scenario / expected assertion | Test source |
+|---|---|---|---|---|
+| AC-041.1.16 | 1 | Unit — Negative / Boundary / Regression | Genuine empty counts succeed; malformed absent data and rejected reads cannot clear indicators by reporting false zero counts. Query remains restricted to open reasons. | `frontend/src/features/events/__tests__/arrangementReviewService.test.ts` |
+| AC-041.1.17 | 1 | Component — Negative / Regression | A late previous-event response cannot replace the current event's reasons or count. | `frontend/src/features/events/__tests__/ArrangementReviewPanel.test.tsx` |
+| AC-041.6.5 | 6 | Component — Happy path / Boundary / Regression | Mixed venue/equipment resolutions display newest first with references, notes, methods and Singapore times; absent relation/name data falls back to stored IDs; history has no resolution form and resolved reasons do not inflate the count. | `frontend/src/features/events/__tests__/ArrangementReviewPanel.test.tsx` |
+
+[Coverage results, remaining timestamp guards and regression probes](../test-evidence/us41/arrangement-coverage/README.md).
+
 ## Arrangement-review API loading fix — 3 November 2026
 
 Explicitly select the original booking relationship after US48 added a replacement

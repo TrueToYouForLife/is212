@@ -1,3 +1,16 @@
+# US41 arrangement coverage — 4 November 2026
+- Branch `us41-arrangement-coverage`; Jaydon owns Git. Tests/docs only, no SQL/app/SDK
+  changes. Three new IDs .1.16/.1.17/.6.5; current inventory 28 (14 integration,5 unit,9 component).
+- Focused8 before/11 after; full1,760 tests/224 files; build/typecheck/lint passed.
+  Global98.26% statements/lines,92.54% branches,95.85% functions.
+- Review service all 100%; panel100% statements/lines/functions,95.74% branches.
+  Panel 18 missing-timestamp fallbacks contradict resolved-row CHECK0052:21–22;
+  retain safeguards and document justification. No invalid history fabricated.
+- Disposable-copy failed-count/ascending-history faults detected; restored 9 tests pass.
+  No genuine product defect or new manual/SQL pass. Evidence: docs/test-evidence/us41/arrangement-coverage/.
+- Worklist rows44/48 percentages/locations/progress/notes saved and verified to Drive;
+  service Retested - 100%, panel Justification needed. Supabase recovery stays Jeremiah's.
+
 # Release UI fixes — 4 November 2026
 - Branch `us27-us42-release-ui-fixes`; Jaydon owns Git/PR/merge. No migration.
 - US27 saves have a 15-second deadline, abort signal and explicit unknown-outcome
