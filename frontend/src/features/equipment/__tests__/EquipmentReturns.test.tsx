@@ -3,11 +3,12 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, expect, test, vi } from 'vitest'
 import { EquipmentReturnsPage } from '../pages/EquipmentReturnsPage'
+import { ReturnInspectionForm } from '../components/ReturnInspectionForm'
 import { SessionContext, type CurrentUser } from '../../auth/sessionContext'
 import { USER_ROLES, type UserRole } from '../../auth/types'
 import { TopNav } from '../../../components/layout/TopNav'
 import { EQUIPMENT_RETURN_MESSAGES as messages, type EquipmentReturns } from '../equipmentReturnService'
-import { allocation, anotherAllocation, inspection, inspectionReceipt, returnsData } from './fixtures/equipmentReturns'
+import { allocation, anotherAllocation, inspection, inspectionReceipt, returnsData, returnId } from './fixtures/equipmentReturns'
 
 const mocks = vi.hoisted(() => ({ load: vi.fn(), save: vi.fn() }))
 vi.mock('../equipmentReturnService', async original => ({
@@ -221,4 +222,80 @@ test('AC-024.3.11: role/account changes unmount inspection and ignore late saves
   expect(await screen.findByText('No equipment is pending inspection.')).toBeInTheDocument()
   await act(async () => late.resolve({ ok: true, data: returnsData() }))
   expect(screen.queryByText('P-24')).not.toBeInTheDocument()
+})
+
+test('AC-024.1.19: closing an unsaved inspection leaves the allocation pending and reopening starts a fresh form', async () => {
+  const actor = userEvent.setup()
+  render(page()); await openFirst(actor); await damage(actor)
+  await actor.click(screen.getByRole('button', { name: 'Close inspection' }))
+  expect(screen.queryByRole('region', { name: 'Inspect equipment: P-24' })).not.toBeInTheDocument()
+  expect(screen.getByRole('button', { name: 'Refresh returns' })).toBeEnabled()
+  expect(screen.getByRole('tab', { name: 'History (1)' })).toBeEnabled()
+  expect(screen.getByRole('tab', { name: 'Pending checks (2)' })).toHaveAttribute('aria-selected', 'true')
+  expect(mocks.save).not.toHaveBeenCalled()
+  expect(mocks.load).toHaveBeenCalledTimes(1)
+  await openFirst(actor)
+  expect(screen.getByLabelText('Inspection finding', { exact: false })).toHaveValue('')
+  expect(screen.getByLabelText('Findings / reason for status change', { exact: false })).toHaveValue('')
+  expect(screen.getByLabelText('Resulting operational status')).toHaveValue('')
+  await actor.click(screen.getByRole('button', { name: 'Close inspection' }))
+  await actor.click(screen.getByRole('button', { name: 'Record inspection for P-25 (EVT-24)' }))
+  expect(screen.getByRole('region', { name: 'Inspect equipment: P-25' })).toBeInTheDocument()
+  expect(mocks.save).not.toHaveBeenCalled()
+})
+
+test('AC-024.1.20: nullable event details retain a usable inspection identity and history has honest missing-name labels', async () => {
+  const actor = userEvent.setup()
+  const unnamed = { ...allocation, allocationId: returnId(60), itemId: returnId(61), eventId: returnId(69), assetTag: 'P-60', eventName: null, eventReference: null }
+  mocks.load.mockResolvedValueOnce({ ok: true, data: returnsData({
+    pendingChecks: [
+      { ...allocation, eventName: null },
+      { ...anotherAllocation, eventId: returnId(68), eventName: 'Name-only event', eventReference: null }, unnamed,
+    ],
+    history: [
+      { ...inspection, eventName: null, inspectedByName: '' },
+      { ...inspection, inspectionId: returnId(62), allocationId: returnId(64), itemId: returnId(65), eventId: returnId(70),
+        assetTag: 'LEGACY-25', eventName: 'Name-only history', eventReference: null },
+      { ...inspection, inspectionId: returnId(63), allocationId: returnId(66), itemId: returnId(67), eventId: returnId(71),
+        assetTag: 'LEGACY-26', eventName: null, eventReference: null },
+    ],
+  }) })
+  render(page())
+  await actor.click(await screen.findByRole('button', { name: 'Record inspection for P-24 (EVT-24)' }))
+  expect(screen.getByRole('region', { name: 'Inspect equipment: P-24' })).toHaveTextContent('EVT-24 · Projector')
+  await actor.click(screen.getByRole('button', { name: 'Close inspection' }))
+  await actor.click(screen.getByRole('button', { name: 'Record inspection for P-25 (Name-only event)' }))
+  expect(screen.getByRole('region', { name: 'Inspect equipment: P-25' })).toHaveTextContent('Name-only event · Projector')
+  await actor.click(screen.getByRole('button', { name: 'Close inspection' }))
+  await actor.click(screen.getByRole('button', { name: `Record inspection for P-60 (${unnamed.allocationId})` }))
+  expect(screen.getByRole('region', { name: 'Inspect equipment: P-60' })).toHaveTextContent('Unnamed event · Projector')
+  await actor.click(screen.getByRole('button', { name: 'Close inspection' }))
+  await actor.click(screen.getByRole('tab', { name: 'History (3)' }))
+  expect(screen.getByText('EVT-24')).toBeInTheDocument()
+  expect(screen.getByText('Name-only history')).toBeInTheDocument()
+  expect(screen.getByText('Unnamed event')).toBeInTheDocument()
+  expect(screen.getByText(/Name not recorded.*27 Oct 2026/)).toBeInTheDocument()
+  expect(mocks.save).not.toHaveBeenCalled()
+})
+
+test('AC-024.1.21: leaving during an allocation reload ignores its late result and cannot reload twice while pending', async () => {
+  const actor = userEvent.setup(), reload = deferred<{ ok: true; data: EquipmentReturns }>()
+  const onClose = vi.fn(), onSaved = vi.fn(), onReload = vi.fn()
+  mocks.save.mockResolvedValueOnce({ ok: false, reason: messages.stale })
+  const view = render(<ReturnInspectionForm allocation={allocation} onClose={onClose} onSaved={onSaved} onReload={onReload} />)
+  await damage(actor)
+  await actor.click(screen.getByRole('button', { name: 'Save inspection' }))
+  expect(await screen.findByRole('alert')).toHaveTextContent(messages.stale)
+  mocks.load.mockReturnValueOnce(reload.promise)
+  await actor.dblClick(screen.getByRole('button', { name: 'Reload allocation' }))
+  expect(mocks.load).toHaveBeenCalledTimes(1)
+  expect(screen.getByRole('button', { name: 'Reload allocation' })).toBeDisabled()
+  expect(screen.getByRole('button', { name: 'Save inspection' })).toBeDisabled()
+  expect(screen.getByRole('button', { name: 'Close inspection' })).toBeDisabled()
+  view.unmount()
+  await act(async () => reload.resolve({ ok: true, data: returnsData() }))
+  expect(onReload).not.toHaveBeenCalled()
+  expect(onSaved).not.toHaveBeenCalled()
+  expect(onClose).not.toHaveBeenCalled()
+  expect(mocks.save).toHaveBeenCalledTimes(1)
 })

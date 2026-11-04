@@ -1,5 +1,20 @@
 # US24 test cases
 
+## Return coverage — 4 November 2026
+
+Current total: 40 grouped source IDs (23 database integration, six unit, 11 component).
+Three new component cases are below; the existing AC-024.1.12 now additionally refuses
+cancelled/inspected Out rows, completed Pending checks rows, undescribed defect history
+and contradictory Missing history. These test the service boundary, not real SQL.
+No application/database change or new manual pass. Earlier portion totals below are
+historical. [Results and remaining guards](../us24-return-inspections.md).
+
+| ID | Classification | Scenario and expected outcome | Source |
+| --- | --- | --- | --- |
+| AC-024.1.19 | Component — Happy path / Negative / Regression | Closing unsaved work sends nothing and retains the pending allocation; reopen clears draft fields, and another allocation remains inspectable. | [EquipmentReturns.test.tsx](../../frontend/src/features/equipment/__tests__/EquipmentReturns.test.tsx#L227) |
+| AC-024.1.20 | Component — Boundary | Nullable event details retain reference/name/allocation-ID identity for inspection; history displays honest unnamed-event/staff labels without inventing names. | [EquipmentReturns.test.tsx](../../frontend/src/features/equipment/__tests__/EquipmentReturns.test.tsx#L247) |
+| AC-024.1.21 | Component — Negative / Regression | Repeated reload clicks cannot start duplicate reads; leaving while reload is pending ignores its late response and calls no save/close/reload callback. | [EquipmentReturns.test.tsx](../../frontend/src/features/equipment/__tests__/EquipmentReturns.test.tsx#L281) |
+
 ## Documentation accuracy review — 2 November 2026
 
 All 37 grouped cases remain mapped: 23 database integration, six unit and eight
@@ -83,4 +98,4 @@ and the matched-copy production build passed. Results/limits:
 check groups passed on 29 October 2026; see `docs/test-evidence/us24/manual-results.md`.
 PR1's database results are not presented as new PR2 runs.
 
-Next unused IDs: AC-024.1.19, AC-024.2.9, AC-024.3.12.
+Next unused IDs: AC-024.1.22, AC-024.2.9, AC-024.3.12.

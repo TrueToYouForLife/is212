@@ -1,0 +1,139 @@
+{
+  "date": "2026-11-04",
+  "timezone": "Asia/Singapore",
+  "branch": "us24-return-coverage",
+  "baseCommit": "3350c20",
+  "command": "npm run coverage",
+  "testsPassed": 1744,
+  "testFilesPassed": 223,
+  "overall": {
+    "lines": {
+      "total": 13397,
+      "covered": 13162,
+      "skipped": 0,
+      "pct": 98.24
+    },
+    "statements": {
+      "total": 13397,
+      "covered": 13162,
+      "skipped": 0,
+      "pct": 98.24
+    },
+    "functions": {
+      "total": 793,
+      "covered": 760,
+      "skipped": 0,
+      "pct": 95.83
+    },
+    "branches": {
+      "total": 5360,
+      "covered": 4947,
+      "skipped": 0,
+      "pct": 92.29
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "files": {
+    "features/equipment/equipmentReturnService.ts": {
+      "lines": {
+        "total": 76,
+        "covered": 76,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 2,
+        "covered": 2,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 76,
+        "covered": 76,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 59,
+        "covered": 59,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "features/equipment/components/EquipmentReturnsView.tsx": {
+      "lines": {
+        "total": 76,
+        "covered": 76,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 7,
+        "covered": 7,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 76,
+        "covered": 76,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 59,
+        "covered": 59,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "features/equipment/components/ReturnInspectionForm.tsx": {
+      "lines": {
+        "total": 82,
+        "covered": 82,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 8,
+        "covered": 8,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 82,
+        "covered": 82,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 48,
+        "covered": 45,
+        "skipped": 0,
+        "pct": 93.75
+      }
+    }
+  },
+  "uncoveredLocations": {
+    "features/equipment/equipmentReturnService.ts": {
+      "lines": [],
+      "branches": []
+    },
+    "features/equipment/components/EquipmentReturnsView.tsx": {
+      "lines": [],
+      "branches": []
+    },
+    "features/equipment/components/ReturnInspectionForm.tsx": {
+      "lines": [],
+      "branches": [
+        26,
+        30,
+        40
+      ]
+    }
+  }
+}

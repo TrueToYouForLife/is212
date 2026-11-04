@@ -1,0 +1,14 @@
+
+> connectsphere@0.1.0 test
+> vitest run src/features/equipment/__tests__/equipmentReturnService.test.ts src/features/equipment/__tests__/EquipmentReturns.test.tsx
+
+
+ RUN  v2.1.9 /private/var/folders/p4/h4056bks5mg95y7t5v1n_8gw0000gn/T/is212-us24-return-probes-u4x2tu0r/frontend
+
+ ✓ src/features/equipment/__tests__/equipmentReturnService.test.ts (6 tests) 9ms
+ ✓ src/features/equipment/__tests__/EquipmentReturns.test.tsx (11 tests) 1291ms
+
+ Test Files  2 passed (2)
+      Tests  17 passed (17)
+   Start at  15:48:36
+   Duration  2.22s (transform 169ms, setup 102ms, collect 372ms, tests 1.30s, environment 527ms, prepare 75ms)
