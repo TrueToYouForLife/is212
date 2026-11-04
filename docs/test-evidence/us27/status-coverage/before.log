@@ -1,0 +1,25 @@
+
+> connectsphere@0.1.0 coverage
+> vitest run --coverage src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx src/features/equipment/__tests__/EquipmentCatalogue.test.tsx --coverage.include=src/features/equipment/components/EquipmentCatalogueView.tsx --coverage.include=src/features/equipment/components/EquipmentStatusPanel.tsx --coverage.include=src/features/equipment/components/EquipmentStatusHistory.tsx --coverage.reportsDirectory=/tmp/is212-us27-status-before
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+      Coverage enabled with v8
+
+ ✓ src/features/equipment/__tests__/EquipmentCatalogue.test.tsx (6 tests) 384ms
+ ✓ src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx (7 tests) 981ms
+
+ Test Files  2 passed (2)
+      Tests  13 passed (13)
+   Start at  16:40:40
+   Duration  2.25s (transform 176ms, setup 169ms, collect 559ms, tests 1.37s, environment 888ms, prepare 148ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------|---------|----------|---------|---------|-------------------
+All files          |     100 |    94.17 |     100 |     100 |
+ ...alogueView.tsx |     100 |    95.23 |     100 |     100 | 32,42,45
+ ...tusHistory.tsx |     100 |       80 |     100 |     100 | 13
+ ...tatusPanel.tsx |     100 |    94.28 |     100 |     100 | 31,41
+-------------------|---------|----------|---------|---------|-------------------

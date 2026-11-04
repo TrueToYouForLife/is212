@@ -1,3 +1,20 @@
+# US27 status coverage — 4 November 2026
+- Branch `us27-status-coverage`, baseaa2b1ad (US24 PR184 merged). Jaydon owns Git/PR/merge.
+  Three new component IDs .1.7/.2.4/.8.9: late unit details, one flagged reservation,
+  blank stored display name. US27 now43 IDs (21 SQL, six unit,16 component).
+- Focused13 before/16 after (two files); full1,747/223, lint/build/typecheck pass.
+  Global98.24% statements/lines,92.35% branches,95.83% functions. All target files100%
+  statements/lines/functions; historyall100%; catalogue96.87% branches, panel97.29%.
+- Retain catalogue fallbacks32/42 and panel submit guard41, with exact contract/UI
+  reasons in docs/us27-equipment-catalogue.md. No artificial success/selection/submit.
+- Initial new tests had ambiguous text lookup/unsupported matcher; corrected and
+  retested, initial log retained. Two disposable-copy probes detected; restored16 pass.
+  No product defect, app/database/migration/config/exclusion change or new manual/SQL pass.
+- Sheet rows32/34/35 percentages/locations/notes saved and verified: catalogue/panel
+  Justification needed; history Retested - 100%. US27 summary uses story-tag formulas.
+  Shared event-requirement service remains separate;
+  original owner review required before changing/merging it. User owns Git and deployment.
+
 # US24 return coverage — 4 November 2026
 - Branch `us24-return-coverage`, base3350c20 (PR182 merged). Jaydon owns Git/PR/merge.
   Only tests/docs/evidence; no application/database/migration/config/exclusion changes.

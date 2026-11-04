@@ -1,0 +1,260 @@
+Deliberate regression in a disposable copy; not a product defect. Expected failure: AC-027.1.7
+
+> connectsphere@0.1.0 test
+> vitest run src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx -t AC-027.1.7
+
+
+ RUN  v2.1.9 /private/var/folders/p4/h4056bks5mg95y7t5v1n_8gw0000gn/T/is212-us27-status-probes-56ckgfb2/frontend
+
+ ❯ src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx (10 tests | 1 failed | 9 skipped) 272ms
+   × AC-027.1.7: a late response for the previous unit cannot replace the current unit details or its save version 271ms
+     → Unable to find an element with the text: Current status: Unavailable. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<section[39m
+      [33maria-label[39m=[32m"Manage equipment status: P-2"[39m
+      [33mclass[39m=[32m"rounded-lg border border-indigo-200 bg-slate-50 p-4"[39m
+    [36m>[39m
+      [36m<h2[39m
+        [33mclass[39m=[32m"text-lg font-semibold"[39m
+      [36m>[39m
+        [0mManage status: [0m
+        [0mP-2[0m
+      [36m</h2>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-1 text-sm text-slate-600"[39m
+      [36m>[39m
+        [0mNon-operational units cannot be reserved. Affected upcoming reservations stay recorded and are sent for review. Returning a unit to Operational does not automatically resolve reviews.[0m
+      [36m</p>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-3 font-medium"[39m
+      [36m>[39m
+        [0mCurrent status: [0m
+        [0mOperational[0m
+      [36m</p>[39m
+      [36m<form[39m
+        [33mclass[39m=[32m"mt-4 space-y-3"[39m
+        [33mnovalidate[39m=[32m""[39m
+      [36m>[39m
+        [36m<label[39m
+          [33mclass[39m=[32m"block text-sm font-medium"[39m
+        [36m>[39m
+          [0mNew status[0m
+          [36m<select[39m
+            [33mclass[39m=[32m"mt-1 block rounded border border-slate-300 p-2"[39m
+          [36m>[39m
+            [36m<option[39m
+              [33mvalue[39m=[32m""[39m
+            [36m>[39m
+              [0mChoose a status[0m
+            [36m</option>[39m
+            [36m<option[39m
+              [33mvalue[39m=[32m"operational"[39m
+            [36m>[39m
+              [0mOperational[0m
+            [36m</option>[39m
+            [36m<option[39m
+              [33mvalue[39m=[32m"needs_repair"[39m
+            [36m>[39m
+              [0mDamaged[0m
+            [36m</option>[39m
+            [36m<option[39m
+              [33mvalue[39m=[32m"under_repair"[39m
+            [36m>[39m
+              [0mUnder Maintenance[0m
+            [36m</option>[39m
+            [36m<option[39m
+              [33mvalue[39m=[32m"unavailable"[39m
+            [36m>[39m
+              [0mUnavailable[0m
+            [36m</option>[39m
+          [36m</select>[39m
+        [36m</label>[39m
+        [36m<label[39m
+          [33mclass[39m=[32m"block text-sm font-medium"[39m
+        [36m>[39m
+          [0mReason for status change[0m
+          [36m<textarea[39m
+            [33mclass[39m=[32m"mt-1 block w-full rounded border border-slate-300 p-2"[39m
+            [33mrows[39m=[32m"3"[39m
+          [36m/>[39m
+        [36m</label>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex flex-wrap gap-3"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"rounded border border-slate-300 bg-white px-3 py-2 text-sm disabled:opacity-50"[39m
+            [33mtype[39m=[32m"submit"[39m
+          [36m>[39m
+            [0mSave status[0m
+          [36m</button>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"rounded border border-slate-300 bg-white px-3 py-2 text-sm disabled:opacity-50"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mReload unit[0m
+          [36m</button>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"rounded border border-slate-300 bg-white px-3 py-2 text-sm disabled:opacity-50"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mClose status panel[0m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</form>[39m
+      [36m<section[39m
+        [33maria-label[39m=[32m"Equipment status history"[39m
+        [33mclass[39m=[32m"mt-6"[39m
+      [36m>[39m
+        [36m<h3[39m
+          [33mclass[39m=[32m"font-semibold"[39m
+        [36m>[39m
+          [0mStatus history[0m
+        [36m</h3>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"mt-2 text-sm text-slate-600"[39m
+        [36m>[39m
+          [0mNo status changes recorded.[0m
+        [36m</p>[39m
+      [36m</section>[39m
+    [36m</section>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 9 skipped (10)
+   Start at  16:43:19
+   Duration  2.99s (transform 176ms, setup 169ms, collect 486ms, tests 272ms, environment 1.09s, prepare 124ms)
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx > AC-027.1.7: a late response for the previous unit cannot replace the current unit details or its save version
+TestingLibraryElementError: Unable to find an element with the text: Current status: Unavailable. This could be because the text is broken up by multiple elements. In this case, you can provide a function for your text matcher to make your matcher more flexible.
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<section[39m
+      [33maria-label[39m=[32m"Manage equipment status: P-2"[39m
+      [33mclass[39m=[32m"rounded-lg border border-indigo-200 bg-slate-50 p-4"[39m
+    [36m>[39m
+      [36m<h2[39m
+        [33mclass[39m=[32m"text-lg font-semibold"[39m
+      [36m>[39m
+        [0mManage status: [0m
+        [0mP-2[0m
+      [36m</h2>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-1 text-sm text-slate-600"[39m
+      [36m>[39m
+        [0mNon-operational units cannot be reserved. Affected upcoming reservations stay recorded and are sent for review. Returning a unit to Operational does not automatically resolve reviews.[0m
+      [36m</p>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"mt-3 font-medium"[39m
+      [36m>[39m
+        [0mCurrent status: [0m
+        [0mOperational[0m
+      [36m</p>[39m
+      [36m<form[39m
+        [33mclass[39m=[32m"mt-4 space-y-3"[39m
+        [33mnovalidate[39m=[32m""[39m
+      [36m>[39m
+        [36m<label[39m
+          [33mclass[39m=[32m"block text-sm font-medium"[39m
+        [36m>[39m
+          [0mNew status[0m
+          [36m<select[39m
+            [33mclass[39m=[32m"mt-1 block rounded border border-slate-300 p-2"[39m
+          [36m>[39m
+            [36m<option[39m
+              [33mvalue[39m=[32m""[39m
+            [36m>[39m
+              [0mChoose a status[0m
+            [36m</option>[39m
+            [36m<option[39m
+              [33mvalue[39m=[32m"operational"[39m
+            [36m>[39m
+              [0mOperational[0m
+            [36m</option>[39m
+            [36m<option[39m
+              [33mvalue[39m=[32m"needs_repair"[39m
+            [36m>[39m
+              [0mDamaged[0m
+            [36m</option>[39m
+            [36m<option[39m
+              [33mvalue[39m=[32m"under_repair"[39m
+            [36m>[39m
+              [0mUnder Maintenance[0m
+            [36m</option>[39m
+            [36m<option[39m
+              [33mvalue[39m=[32m"unavailable"[39m
+            [36m>[39m
+              [0mUnavailable[0m
+            [36m</option>[39m
+          [36m</select>[39m
+        [36m</label>[39m
+        [36m<label[39m
+          [33mclass[39m=[32m"block text-sm font-medium"[39m
+        [36m>[39m
+          [0mReason for status change[0m
+          [36m<textarea[39m
+            [33mclass[39m=[32m"mt-1 block w-full rounded border border-slate-300 p-2"[39m
+            [33mrows[39m=[32m"3"[39m
+          [36m/>[39m
+        [36m</label>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex flex-wrap gap-3"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"rounded border border-slate-300 bg-white px-3 py-2 text-sm disabled:opacity-50"[39m
+            [33mtype[39m=[32m"submit"[39m
+          [36m>[39m
+            [0mSave status[0m
+          [36m</button>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"rounded border border-slate-300 bg-white px-3 py-2 text-sm disabled:opacity-50"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mReload unit[0m
+          [36m</button>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"rounded border border-slate-300 bg-white px-3 py-2 text-sm disabled:opacity-50"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mClose status panel[0m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</form>[39m
+      [36m<section[39m
+        [33maria-label[39m=[32m"Equipment status history"[39m
+        [33mclass[39m=[32m"mt-6"[39m
+      [36m>[39m
+        [36m<h3[39m
+          [33mclass[39m=[32m"font-semibold"[39m
+        [36m>[39m
+          [0mStatus history[0m
+        [36m</h3>[39m
+        [36m<p[39m
+          [33mclass[39m=[32m"mt-2 text-sm text-slate-600"[39m
+        [36m>[39m
+          [0mNo status changes recorded.[0m
+        [36m</p>[39m
+      [36m</section>[39m
+    [36m</section>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ Object.getElementError ../../../../../../../../Users/jaydon/Desktop/is212/frontend/node_modules/@testing-library/dom/dist/config.js:37:19
+ ❯ ../../../../../../../../Users/jaydon/Desktop/is212/frontend/node_modules/@testing-library/dom/dist/query-helpers.js:76:38
+ ❯ ../../../../../../../../Users/jaydon/Desktop/is212/frontend/node_modules/@testing-library/dom/dist/query-helpers.js:52:17
+ ❯ ../../../../../../../../Users/jaydon/Desktop/is212/frontend/node_modules/@testing-library/dom/dist/query-helpers.js:95:19
+ ❯ src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx:224:17
+    222|   expect(await screen.findByText('Current status: Unavailable')).toBeI…
+    223|   await act(async () => finishOld({ ok: true, data: details }))
+    224|   expect(screen.getByText('Current status: Unavailable')).toBeInTheDoc…
+       |                 ^
+    225|   expect(screen.queryByText('Current status: Operational')).not.toBeIn…
+    226|   expect(mocks.load.mock.calls).toEqual([[itemId], [nextId]])
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯

@@ -1,5 +1,19 @@
 # US27 test cases
 
+## Status coverage — 4 November 2026
+
+Current catalogue: 43 grouped source IDs (21 database integration, six unit,
+16 component). Three new component cases cover the panel's unit-ID update contract,
+single-reservation feedback and blank stored staff labels. Services are mocked; no
+live audit/RLS or new manual pass is claimed. No application/database change. Historical
+portion totals below retain their original dates. [Results and exact remaining gaps](../us27-equipment-catalogue.md).
+
+| ID | Classification | Scenario and expected outcome | Source |
+| --- | --- | --- | --- |
+| AC-027.1.7 | Component — Negative / Regression | A late previous-unit load cannot replace the current unit; the next save uses only the current unit ID/version and invokes the success callback once. Exercises the component prop-update contract. | [EquipmentStatusPanel.test.tsx](../../frontend/src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx#L213) |
+| AC-027.2.4 | Component — Happy path / Boundary / Regression | A confirmed status change reports one flagged reservation accurately, closes management and refreshes the unit's status/global stock totals. | [EquipmentStatusPanel.test.tsx](../../frontend/src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx#L193) |
+| AC-027.8.9 | Component — Boundary | A blank stored display name reads Name not recorded, while the recorded status transition, note and Singapore timestamp remain visible without edit controls. | [EquipmentStatusPanel.test.tsx](../../frontend/src/features/equipment/__tests__/EquipmentStatusPanel.test.tsx#L238) |
+
 ## Documentation accuracy review — 2 November 2026
 
 All 40 grouped cases remain mapped: 21 database integration and 19 frontend.
@@ -137,7 +151,7 @@ Owner/discovered/fixed fields: Jaydon. Record in Defects (Automated Testing); no
 defect is claimed. Early slow dependency reads and missing standard-library definitions
 that cleared on retry are environment issues with unconfirmed root cause, not product defects.
 
-Next unused IDs: AC-027.1.7, .2.4, .3.2, .4.4, .5.10, .6.5, .7.7, .8.9.
+Next unused IDs: AC-027.1.8, .2.5, .3.2, .4.4, .5.10, .6.5, .7.7, .8.10.
 
 Historical PR1 verification: all eight frontend cases passed in the full 1,524-test run (175 files);
 build/typecheck and lint passed. All three grouped SQL cases passed in the final
