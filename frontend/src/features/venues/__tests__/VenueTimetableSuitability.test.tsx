@@ -6,7 +6,7 @@ import { VenueTimetablePage } from '../pages/VenueTimetablePage'
 import { QUARTER_HOUR_SLOTS as SLOTS } from '../quarterHourSlots'
 import { buildTimetable } from '../venueTimetable'
 import { EVENT_ID, VENUE_ID, sgt } from './fixtures/venueBooking'
-import type { VenueAssessment, SuitabilityVerdict } from '../suitabilityTypes'
+import type { VenueAssessment, SuitabilityVerdict, SuitabilityReasonCode } from '../suitabilityTypes'
 
 /**
  * US11 AC-011.10 (SCRUM-16, added from US18 on 5 October 2026): the venue's suitability is
@@ -60,18 +60,27 @@ const ASSIGNED_EVENT = {
   equipmentRequirements: null,
 }
 
-/** A verdict shaped the way assessVenueForBooking returns one. */
-function assessment(verdict: SuitabilityVerdict, ...messages: string[]): VenueAssessment {
+/** A verdict shaped the way assessVenueForBooking returns one. The reason codes matter as much
+ *  as the verdict here: the page re-derives its own gate from them rather than trusting the
+ *  verdict, which US18 computed for a whole event in venue search. */
+function assessment(verdict: SuitabilityVerdict, ...reasons: [SuitabilityReasonCode, string][]): VenueAssessment {
   return {
     venue: {
       id: VENUE_ID, name: 'Alpha Hall', location: 'Bras Basah', status: 'active',
       layouts: [{ layout: 'theatre', capacity: 100 }], accessibility: [], facility: {},
     },
     verdict,
-    reasons: messages.map((message) => ({ code: 'capacity' as const, message })),
+    reasons: reasons.map(([code, message]) => ({ code, message })),
     fittingLayouts: [],
   }
 }
+
+const TOO_SMALL: [SuitabilityReasonCode, string] =
+  ['capacity', 'Alpha Hall seats 100 in theatre; 200 people are expected.']
+const NO_ACCESS: [SuitabilityReasonCode, string] =
+  ['accessibility', 'Alpha Hall lacks wheelchair access.']
+const IS_BLOCKED: [SuitabilityReasonCode, string] =
+  ['blocked', 'Alpha Hall is closed for repairs on 12 October.']
 
 const user = () => userEvent.setup()
 
@@ -114,49 +123,74 @@ describe('AC-011.10 — a suitable venue', () => {
   })
 })
 
-describe('AC-011.10 — an unsuitable venue', () => {
-  beforeEach(() => {
-    mocks.assess.mockResolvedValue({
-      ok: true,
-      value: assessment('unsuitable', 'Alpha Hall seats 100 in theatre; 120 people are expected.'),
-    })
+describe('AC-011.10 — a reason the booking has outgrown', () => {
+  test('AC-011.10.2: a venue too small for the whole event does not stop a booking that declares its own space', async () => {
+    // The fix for the defect this gate first shipped with. assessVenueForBooking judges capacity
+    // against the event's total attendance; a booking declares its own, and US49's
+    // check_booking_space compares the layout capacity against that. Warning here would fire on
+    // every room of a multi-venue event.
+    mocks.assess.mockResolvedValue({ ok: true, value: assessment('unsuitable', TOO_SMALL) })
+    await openAndReady()
+    await user().click(hold())
+
+    await waitFor(() => expect(mocks.holdVenue).toHaveBeenCalledTimes(1))
+    expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument()
   })
 
-  test('AC-011.10.2: the reasons are shown and nothing is held yet', async () => {
+  test('AC-011.10.3: a capacity reason alongside a real one still raises the alert', async () => {
+    // Boundary, and the guard against the case above turning into "ignore every assessment":
+    // dropping capacity must not drop the reasons sitting beside it.
+    mocks.assess.mockResolvedValue({ ok: true, value: assessment('unsuitable', TOO_SMALL, NO_ACCESS) })
     await openAndReady()
     await user().click(hold())
 
     expect(await screen.findByRole('alertdialog')).toBeInTheDocument()
-    expect(screen.getByText(/120 people are expected/)).toBeInTheDocument()
+    expect(screen.getByText(/lacks wheelchair access/)).toBeInTheDocument()
+    expect(screen.queryByText(/200 people are expected/)).not.toBeInTheDocument()
+    expect(mocks.holdVenue).not.toHaveBeenCalled()
+  })
+})
+
+describe('AC-011.10 — a requirement the venue does not meet', () => {
+  beforeEach(() => {
+    mocks.assess.mockResolvedValue({ ok: true, value: assessment('unsuitable', NO_ACCESS) })
+  })
+
+  test('AC-011.10.4: the reasons are shown and nothing is held', async () => {
+    await openAndReady()
+    await user().click(hold())
+
+    expect(await screen.findByRole('alertdialog')).toBeInTheDocument()
+    expect(screen.getByText(/lacks wheelchair access/)).toBeInTheDocument()
     expect(mocks.holdVenue).not.toHaveBeenCalled()
   })
 
-  test('AC-011.10.3: the hold goes ahead on "Book anyway", and the venue is not re-checked', async () => {
+  test('AC-011.10.5: "Book anyway" holds the venue once the coordinator has seen why it does not fit', async () => {
+    // The criterion's own wording, reachable since 0125 made accessibility and facility advisory
+    // in check_booking_space. Before that the override would have produced 22023 — the bare
+    // database error the alert exists to replace.
     await openAndReady()
     await user().click(hold())
     await user().click(await screen.findByRole('button', { name: 'Book anyway' }))
 
     await waitFor(() => expect(mocks.holdVenue).toHaveBeenCalledTimes(1))
-    // One assessment, not two: answering the alert must not run the check again, or a verdict
-    // that changed in between would decide a hold the coordinator never saw.
+    // One assessment, not two: answering the alert must not re-check, or a verdict that changed
+    // in between would decide a hold the coordinator never saw.
     expect(mocks.assess).toHaveBeenCalledTimes(1)
     expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument()
   })
 
-  test('AC-011.10.4: "Choose another venue" holds nothing and clears the warning', async () => {
+  test('AC-011.10.6: "Choose another venue" holds nothing and restores the button', async () => {
     await openAndReady()
     await user().click(hold())
     await user().click(await screen.findByRole('button', { name: 'Choose another venue' }))
 
     await waitFor(() => expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument())
     expect(mocks.holdVenue).not.toHaveBeenCalled()
-    // The button comes back, so the coordinator is not stuck after declining.
     expect(hold()).toBeInTheDocument()
   })
 
-  test('AC-011.10.5: changing the layout drops the stale verdict instead of letting it be answered', async () => {
-    // Boundary: layout and attendance are two of the things suitability is judged on, so a
-    // verdict from before the change must not be the one the coordinator overrides.
+  test('AC-011.10.7: changing the layout drops the stale verdict instead of letting it stand', async () => {
     await openAndReady()
     await user().click(hold())
     await screen.findByRole('alertdialog')
@@ -166,28 +200,20 @@ describe('AC-011.10 — an unsuitable venue', () => {
     await waitFor(() => expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument())
     expect(mocks.holdVenue).not.toHaveBeenCalled()
   })
-})
 
-describe('AC-011.10 — an unavailable venue', () => {
-  test('AC-011.10.6: an unavailable venue offers no way to book it anyway', async () => {
-    // Conflict case. The database would refuse the hold, so "Book anyway" would only produce an
-    // error; the alert withholds it for this verdict.
-    mocks.assess.mockResolvedValue({
-      ok: true,
-      value: assessment('unavailable', 'Alpha Hall is already booked for 12 October, AM.'),
-    })
+  test('AC-011.10.8: a venue blocked for the dates is treated the same way', async () => {
+    mocks.assess.mockResolvedValue({ ok: true, value: assessment('unavailable', IS_BLOCKED) })
     await openAndReady()
     await user().click(hold())
 
     expect(await screen.findByRole('alertdialog')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Choose another venue' })).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Book anyway' })).not.toBeInTheDocument()
     expect(mocks.holdVenue).not.toHaveBeenCalled()
   })
 })
 
 describe('AC-011.10 — when the check itself cannot run', () => {
-  test('AC-011.10.7: a failed check lets the hold proceed rather than blocking it', async () => {
+  test('AC-011.10.9: a failed check lets the hold proceed rather than blocking it', async () => {
     // Failure case, and a deliberate product decision: suitability is advice, so an advisory
     // read that breaks must not deny a venue the database would accept. The same verdict is
     // available on the suitability page.
@@ -199,7 +225,7 @@ describe('AC-011.10 — when the check itself cannot run', () => {
     expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument()
   })
 
-  test('AC-011.10.8: a thrown check is treated the same way', async () => {
+  test('AC-011.10.10: a thrown check is treated the same way', async () => {
     mocks.assess.mockRejectedValue(new Error('network'))
     await openAndReady()
     await user().click(hold())
