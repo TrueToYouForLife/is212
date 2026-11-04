@@ -1,0 +1,167 @@
+{
+  "date": "2026-11-04",
+  "timezone": "Asia/Singapore",
+  "branch": "us17-assignment-coverage",
+  "baseCommit": "41fa44a",
+  "command": "npm run coverage",
+  "testsPassed": 1733,
+  "testFilesPassed": 221,
+  "overall": {
+    "lines": {
+      "total": 13397,
+      "covered": 13149,
+      "skipped": 0,
+      "pct": 98.14
+    },
+    "statements": {
+      "total": 13397,
+      "covered": 13149,
+      "skipped": 0,
+      "pct": 98.14
+    },
+    "functions": {
+      "total": 793,
+      "covered": 759,
+      "skipped": 0,
+      "pct": 95.71
+    },
+    "branches": {
+      "total": 5335,
+      "covered": 4898,
+      "skipped": 0,
+      "pct": 91.8
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "files": {
+    "features/events/coordinatorAssignmentService.ts": {
+      "lines": {
+        "total": 38,
+        "covered": 38,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 2,
+        "covered": 2,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 38,
+        "covered": 38,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 21,
+        "covered": 21,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "features/events/components/CoordinatorAssignmentCard.tsx": {
+      "lines": {
+        "total": 27,
+        "covered": 27,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 1,
+        "covered": 1,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 27,
+        "covered": 27,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 8,
+        "covered": 8,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "features/events/components/CoordinatorAssignmentForm.tsx": {
+      "lines": {
+        "total": 43,
+        "covered": 43,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 4,
+        "covered": 4,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 43,
+        "covered": 43,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 22,
+        "covered": 21,
+        "skipped": 0,
+        "pct": 95.45
+      }
+    },
+    "features/events/components/CoordinatorAssignmentQueue.tsx": {
+      "lines": {
+        "total": 83,
+        "covered": 83,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 7,
+        "covered": 7,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 83,
+        "covered": 83,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 42,
+        "covered": 42,
+        "skipped": 0,
+        "pct": 100
+      }
+    }
+  },
+  "uncoveredLocations": {
+    "features/events/coordinatorAssignmentService.ts": {
+      "lines": [],
+      "branches": []
+    },
+    "features/events/components/CoordinatorAssignmentCard.tsx": {
+      "lines": [],
+      "branches": []
+    },
+    "features/events/components/CoordinatorAssignmentForm.tsx": {
+      "lines": [],
+      "branches": [
+        23
+      ]
+    },
+    "features/events/components/CoordinatorAssignmentQueue.tsx": {
+      "lines": [],
+      "branches": []
+    }
+  }
+}

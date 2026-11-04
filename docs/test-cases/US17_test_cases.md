@@ -1,5 +1,19 @@
 # US17 — Assign / reassign an Event Coordinator
 
+## Assignment coverage follow-up — 4 November 2026
+
+US17 now has 66 source IDs. Thirteen new cases (eight unit, five component) cover
+assignment-service refusals, picker-response validation, uncertain writes, pending
+saves, selection/disabled behaviour, an empty picker and replacement of an unavailable
+current assignee. The component cases keep the service real and
+mock only Supabase RPC. Existing US36/US38 overview tests run unchanged as regressions;
+no new US36 case or application/database change is included.
+
+The service, card and queue reach 100% on all four coverage measures. The form reaches 100%
+statements/lines/functions and 95.45% branches; its early-return safeguard at line 23
+is not reached through the disabled controls. No artificial submit event or coverage
+exclusion was used. [Results, quality probes and remaining gap](../test-evidence/us17/assignment-coverage/README.md).
+
 ## Documentation accuracy review — 2 November 2026
 
 The 53 source IDs remain mapped to their actual unit, component and database tests.
@@ -9,7 +23,7 @@ expects a permission error. Earlier TDD/rollout notes retain their historical da
 
 [Review findings and limits](../jaydon-test-documentation-review.md).
 
-Owner: Jaydon. Catalogue checked: 2 November 2026.
+Owner: Jaydon. Catalogue checked: 4 November 2026; the review above is historical.
 
 ## Scope and evidence
 
@@ -18,8 +32,9 @@ Descriptions follow the current test titles/assertion labels; parameter rows kee
 existing IDs. Counts are unique source IDs, not a count of runtime executions or a new
 coverage measurement. Shared cross-story assertions may appear in both relevant catalogues.
 
-This is a documentation update. It does not claim fresh automated passes, manual
-acceptance, deployed migrations or email delivery. Unit tests exercise pure logic or mock
+The original catalogue was documentation-only; new execution results are recorded in
+dated follow-ups above. Catalogue entries alone do not claim manual acceptance,
+deployed migrations or email delivery. Unit tests exercise pure logic or mock
 external services; component tests render UI with their source's mocks; SQL/shell
 integration tests use the disposable database runners. Existing evidence and historical
 checkpoints remain in their original documents. Manual results are valid only where an
@@ -27,7 +42,7 @@ actual execution/report is recorded.
 
 Related implementation notes: [us17-assignment.md](../us17-assignment.md), [us17-venue-booking-access.md](../us17-venue-booking-access.md).
 
-## Existing cases (53 source IDs)
+## Existing cases (66 source IDs)
 
 | Test ID | AC | Classification | Scenario / expected assertion | Test source |
 | --- | --- | --- | --- | --- |
@@ -42,6 +57,7 @@ Related implementation notes: [us17-assignment.md](../us17-assignment.md), [us17
 | AC-017.1.9 | 1 | Integration — Happy path / Negative | The Lead can read an unassigned submitted event; another Organiser's draft stays private. | [backend/supabase/tests/coordinator_assignment.sql](../../backend/supabase/tests/coordinator_assignment.sql#L104) |
 | AC-017.1.10 | 1 | Component — Happy path | The Lead sees and filters submitted unassigned requests with their basic details. | [frontend/src/features/events/__tests__/CoordinatorAssignmentQueue.test.tsx](../../frontend/src/features/events/__tests__/CoordinatorAssignmentQueue.test.tsx#L19) |
 | AC-017.1.12 | 1 | Integration — Negative | a coordinator cannot hold a venue for an approved event with no coordinator | [backend/supabase/tests/venue_booking_assignment.sql](../../backend/supabase/tests/venue_booking_assignment.sql#L97) |
+| AC-017.1.13 | 1 | Unit — Negative | A mocked permission refusal maps to the safe Coordinator Lead message and sends only one assignment RPC; this does not prove database authorisation. | [frontend/src/features/events/__tests__/coordinatorAssignmentService.test.ts](../../frontend/src/features/events/__tests__/coordinatorAssignmentService.test.ts#L14) |
 | AC-017.2.1 | 2 | Integration — Happy path | Coordinator Lead assigns a submitted event to an Event Coordinator | [backend/supabase/tests/coordinator_assignment.sql](../../backend/supabase/tests/coordinator_assignment.sql#L113) |
 | AC-017.2.2 | 2 | Integration — Negative | Lead cannot assign a draft | [backend/supabase/tests/coordinator_assignment.sql](../../backend/supabase/tests/coordinator_assignment.sql#L132) |
 | AC-017.2.3 | 2 | Integration — Negative | Assignment without a selected Coordinator is refused; existing assignment remains unchanged. | [backend/supabase/tests/coordinator_assignment.sql](../../backend/supabase/tests/coordinator_assignment.sql#L135) |
@@ -51,8 +67,20 @@ Related implementation notes: [us17-assignment.md](../us17-assignment.md), [us17
 | AC-017.2.7 | 2 | Integration — Negative | Lead cannot assign a nonexistent event | [backend/supabase/tests/coordinator_assignment.sql](../../backend/supabase/tests/coordinator_assignment.sql#L181) |
 | AC-017.2.8 | 2 | Integration — Happy path / Negative / Boundary | Only the Lead gets picker names and active assignment counts; idle Coordinators are included and other roles are refused. | [backend/supabase/tests/coordinator_assignment.sql](../../backend/supabase/tests/coordinator_assignment.sql#L341) |
 | AC-017.2.9 | 2 | Component — Happy path / Negative | The Lead selects a Coordinator with workload shown and can retry a failed assignment. | [frontend/src/features/events/__tests__/CoordinatorAssignmentQueue.test.tsx](../../frontend/src/features/events/__tests__/CoordinatorAssignmentQueue.test.tsx#L55) |
+| AC-017.2.10 | 2 | Unit — Happy path / Boundary | Picker mapping retains the Coordinator's identity, name and zero workload; an empty successful list remains empty. | [frontend/src/features/events/__tests__/coordinatorAssignmentService.test.ts](../../frontend/src/features/events/__tests__/coordinatorAssignmentService.test.ts#L27) |
+| AC-017.2.11 | 2 | Unit — Negative | Picker database and connection failures return the safe error, never a successful empty list or private diagnostics. | [frontend/src/features/events/__tests__/coordinatorAssignmentService.test.ts](../../frontend/src/features/events/__tests__/coordinatorAssignmentService.test.ts#L39) |
+| AC-017.2.12 | 2 | Unit — Negative / Boundary | Untrusted picker responses containing a malformed identity or negative workload are rejected as a whole rather than partially offered as valid choices. | [frontend/src/features/events/__tests__/coordinatorAssignmentService.test.ts](../../frontend/src/features/events/__tests__/coordinatorAssignmentService.test.ts#L50) |
+| AC-017.2.13 | 2 | Unit — Negative / Boundary | Empty or malformed event and Coordinator IDs are refused before any RPC. | [frontend/src/features/events/__tests__/coordinatorAssignmentService.test.ts](../../frontend/src/features/events/__tests__/coordinatorAssignmentService.test.ts#L63) |
+| AC-017.2.14 | 2 | Unit — Negative / Regression | A stale/unavailable event or Coordinator refusal advises refresh and does not automatically retry. | [frontend/src/features/events/__tests__/coordinatorAssignmentService.test.ts](../../frontend/src/features/events/__tests__/coordinatorAssignmentService.test.ts#L75) |
+| AC-017.2.15 | 2 | Unit — Negative | An unknown save refusal gives a safe failure message without private details or another request. | [frontend/src/features/events/__tests__/coordinatorAssignmentService.test.ts](../../frontend/src/features/events/__tests__/coordinatorAssignmentService.test.ts#L84) |
+| AC-017.2.16 | 2 | Unit — Negative / Regression | A lost write response is reported as unconfirmed, with refresh advice and exactly one RPC carrying the intended IDs. | [frontend/src/features/events/__tests__/coordinatorAssignmentService.test.ts](../../frontend/src/features/events/__tests__/coordinatorAssignmentService.test.ts#L92) |
+| AC-017.2.17 | 2 | Component — Happy path / Negative / Regression | A pending assignment locks selection and repeated clicks; only confirmed success calls back and clears the selection. | [frontend/src/features/events/__tests__/CoordinatorAssignmentForm.test.tsx](../../frontend/src/features/events/__tests__/CoordinatorAssignmentForm.test.tsx#L21) |
+| AC-017.2.18 | 2 | Component — Negative / Regression | A failed save preserves the selection without a success callback; selecting another Coordinator clears the error and a new explicit save uses the new ID. | [frontend/src/features/events/__tests__/CoordinatorAssignmentForm.test.tsx](../../frontend/src/features/events/__tests__/CoordinatorAssignmentForm.test.tsx#L49) |
+| AC-017.2.19 | 2 | Component — Negative / Boundary | With no Coordinator accounts, the queue shows administrator guidance and retains event details; the picker/save are disabled and ordinary clicks send no assignment RPC or success callback. | [frontend/src/features/events/__tests__/CoordinatorAssignmentAvailability.test.tsx](../../frontend/src/features/events/__tests__/CoordinatorAssignmentAvailability.test.tsx#L25) |
 | AC-017.3.1 | 3 | Integration — Happy path / Regression | immediate active-event reassignment; completed/cancelled events remain unchanged | [backend/supabase/tests/coordinator_assignment.sql](../../backend/supabase/tests/coordinator_assignment.sql#L221) |
 | AC-017.3.2 | 3 | Component — Happy path / Regression | Lead reassigns an active event with retry feedback and no controls for closed events | [frontend/src/features/events/__tests__/CoordinatorAssignmentQueue.test.tsx](../../frontend/src/features/events/__tests__/CoordinatorAssignmentQueue.test.tsx#L112) |
+| AC-017.3.3 | 3 | Component — Negative / Boundary / Regression | The current Coordinator, a disabled form and an empty picker cannot send reassignment RPCs or success callbacks through ordinary clicks. | [frontend/src/features/events/__tests__/CoordinatorAssignmentForm.test.tsx](../../frontend/src/features/events/__tests__/CoordinatorAssignmentForm.test.tsx#L77) |
+| AC-017.3.4 | 3 | Component — Happy path / Negative / Regression | While the picker loads, reassignment is locked; an unavailable current assignee is then identified and the Lead can select an available replacement, sending the correct RPC and receiving success feedback. | [frontend/src/features/events/__tests__/CoordinatorAssignmentAvailability.test.tsx](../../frontend/src/features/events/__tests__/CoordinatorAssignmentAvailability.test.tsx#L47) |
 | AC-017.4.1 | 4 | Integration — Happy path / Negative / Regression | Reassignment denies the previous Coordinator, permits the new Coordinator to approve and leaves the event intact after a denied action. | [backend/supabase/tests/coordinator_assignment.sql](../../backend/supabase/tests/coordinator_assignment.sql#L259) |
 | AC-017.4.2 | 4 | Integration — Happy path / Negative / Regression | Venue management follows the current assignee; former/unrelated Coordinators are refused and requester/slots are preserved appropriately. | [backend/supabase/tests/coordinator_assignment_venue_access.sql](../../backend/supabase/tests/coordinator_assignment_venue_access.sql#L69) |
 | AC-017.4.3 | 4 | Unit — Happy path / Negative / Regression | The new Coordinator lists, submits and releases an inherited booking; the previous Coordinator cannot. | [frontend/src/features/venues/__tests__/venueBookingAssignment.test.ts](../../frontend/src/features/venues/__tests__/venueBookingAssignment.test.ts#L11) |

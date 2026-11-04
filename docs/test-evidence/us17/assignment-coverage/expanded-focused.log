@@ -1,0 +1,32 @@
+
+> connectsphere@0.1.0 coverage
+> vitest run --coverage src/features/events/__tests__/CoordinatorAssignmentAvailability.test.tsx src/features/events/__tests__/CoordinatorAssignmentQueue.test.tsx src/features/events/__tests__/CoordinatorAssignmentForm.test.tsx src/features/events/__tests__/coordinatorAssignmentService.test.ts src/features/events/__tests__/CoordinatorActiveEvents.test.tsx --coverage.include=src/features/events/coordinatorAssignmentService.ts --coverage.include=src/features/events/components/CoordinatorAssignmentForm.tsx --coverage.include=src/features/events/components/CoordinatorAssignmentCard.tsx --coverage.include=src/features/events/components/CoordinatorAssignmentQueue.tsx --coverage.reportsDirectory=/tmp/is212-us17-expanded
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+      Coverage enabled with v8
+
+ ✓ src/features/events/__tests__/coordinatorAssignmentService.test.ts (8 tests) 10ms
+ ✓ src/features/events/__tests__/CoordinatorAssignmentForm.test.tsx (3 tests) 240ms
+ ✓ src/features/events/__tests__/CoordinatorAssignmentAvailability.test.tsx (2 tests) 216ms
+ ✓ src/features/events/__tests__/CoordinatorAssignmentQueue.test.tsx (3 tests) 381ms
+ ✓ src/features/events/__tests__/CoordinatorActiveEvents.test.tsx (6 tests) 802ms
+   ✓ AC-036.2.1: filters combine coordinator and status, handle unassigned and no matches, reset and refresh without changing workloads 383ms
+
+ Test Files  5 passed (5)
+      Tests  22 passed (22)
+   Start at  14:36:37
+   Duration  2.51s (transform 314ms, setup 441ms, collect 1.28s, tests 1.65s, environment 2.82s, prepare 397ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------|---------|----------|---------|---------|-------------------
+All files          |     100 |    98.93 |     100 |     100 |
+ events            |     100 |      100 |     100 |     100 |
+  ...entService.ts |     100 |      100 |     100 |     100 |
+ events/components |     100 |    98.61 |     100 |     100 |
+  ...nmentCard.tsx |     100 |      100 |     100 |     100 |
+  ...nmentForm.tsx |     100 |    95.45 |     100 |     100 | 23
+  ...mentQueue.tsx |     100 |      100 |     100 |     100 |
+-------------------|---------|----------|---------|---------|-------------------

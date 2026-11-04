@@ -1,0 +1,29 @@
+
+> connectsphere@0.1.0 coverage
+> vitest run --coverage src/features/events/__tests__/coordinatorAssignmentService.test.ts src/features/events/__tests__/CoordinatorAssignmentForm.test.tsx src/features/events/__tests__/CoordinatorAssignmentQueue.test.tsx src/features/events/__tests__/CoordinatorActiveEvents.test.tsx --coverage.include=src/features/events/coordinatorAssignmentService.ts --coverage.include=src/features/events/components/CoordinatorAssignmentForm.tsx --coverage.reportsDirectory=/tmp/is212-us17-after
+
+
+ RUN  v2.1.9 /Users/jaydon/Desktop/is212/frontend
+      Coverage enabled with v8
+
+ ✓ src/features/events/__tests__/coordinatorAssignmentService.test.ts (8 tests) 14ms
+ ✓ src/features/events/__tests__/CoordinatorAssignmentForm.test.tsx (3 tests) 327ms
+ ✓ src/features/events/__tests__/CoordinatorAssignmentQueue.test.tsx (3 tests) 401ms
+ ✓ src/features/events/__tests__/CoordinatorActiveEvents.test.tsx (6 tests) 757ms
+   ✓ AC-036.2.1: filters combine coordinator and status, handle unassigned and no matches, reset and refresh without changing workloads 345ms
+
+ Test Files  4 passed (4)
+      Tests  20 passed (20)
+   Start at  14:19:31
+   Duration  2.57s (transform 317ms, setup 468ms, collect 1.20s, tests 1.50s, environment 2.57s, prepare 415ms)
+
+ % Coverage report from v8
+-------------------|---------|----------|---------|---------|-------------------
+File               | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-------------------|---------|----------|---------|---------|-------------------
+All files          |     100 |    97.67 |     100 |     100 |
+ events            |     100 |      100 |     100 |     100 |
+  ...entService.ts |     100 |      100 |     100 |     100 |
+ events/components |     100 |    95.45 |     100 |     100 |
+  ...nmentForm.tsx |     100 |    95.45 |     100 |     100 | 23
+-------------------|---------|----------|---------|---------|-------------------

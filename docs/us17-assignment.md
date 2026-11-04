@@ -3,6 +3,16 @@
 Current test-case catalogue: [US17 test cases](test-cases/US17_test_cases.md).
 The sections below retain their historical checkpoints; the catalogue maps current source IDs.
 
+## Assignment coverage follow-up — 4 November 2026
+
+Thirteen new US17 cases cover safe refusals, invalid inputs, picker-response validation,
+uncertain writes, ordinary UI safeguards, an empty picker and an unavailable current
+assignee. The card and queue are included in Jaydon's workload and this same coverage
+portion. No product or database change. The assignment service, card and queue reach
+100% coverage; the form retains one documented
+early-return branch (95.45% branches). US36-specific overview/filter cases are unchanged.
+[Verification and rationale](test-evidence/us17/assignment-coverage/README.md).
+
 
 ## Coordinator request grouping — us17-assigned-requests-ui
 
