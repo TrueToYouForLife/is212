@@ -420,3 +420,18 @@ No application code or deployed migration was changed. Evidence is indexed in
 updates confirmed, US47 is ready for the Jira Done transition after this documentation
 closeout is merged. This is an acceptance review based on inspected code and tests,
 not a claim that every possible input has been exhaustively tested.
+
+## Buffer-settings coverage — 4 November 2026
+
+The service now has 100% statements, lines, functions and branches. The settings panel
+has 100% statements, lines and functions, and 96.96% branches. Four new grouped cases
+cover safe refusals, validation boundaries, late venue reads and pending-save recovery;
+existing stale-reload coverage now asserts the fresh version on the next write.
+Full frontend run: 1,787 tests across 232 files passed. Build/typecheck and lint passed.
+
+The remaining panel branch is line 26's early return when settings are absent or a save
+is busy/stale. The form is absent until settings load, and save controls are disabled
+while busy/stale. Keep the defensive guard for queued/programmatic events; do not force
+a submit through disabled controls solely for coverage. No production/SQL change,
+new manual pass or delivered-email claim. The US48 replacement portion is separate.
+[Evidence and results](test-evidence/us47/buffer-coverage/README.md).
