@@ -1,6 +1,6 @@
 # US19 View venue availability calendar (SCRUM-64): test cases
 
-Status: **implemented; automated cases pass, manual cases not yet run.** Built code-first
+Status: **implemented; automated cases pass, manual cases pass.** Built code-first
 (team decision, Week 7): each acceptance criterion was coded and its tests written straight
 after, committed together. The forced break for this story is AC-019.2.1 (log in the evidence
 folder). On the final run the full app suite is 965 tests; this story adds 52 of them, plus 3
@@ -110,9 +110,9 @@ the mocked Supabase client). Scenarios: normal, boundary, conflict, failure.
 
 | ID | Steps | Expected | Result |
 |---|---|---|---|
-| M1 | Sign in as Venue Staff. Open **Availability**. | Every active venue is listed for the week starting today, AM/PM/Night for each day. | Not run |
-| M2 | With a confirmed booking and a tentative hold in the shown week, view as Venue Staff and as a Coordinator. | Confirmed cells read "Booked", held cells "Held", their setup/turnaround cells striped. Note whether Venue Staff see the event reference (see Known limitations). | Not run |
-| M3 | Block a venue for one slot (US12), then reload Availability. | That cell reads "Blocked" with the reason. | Not run |
+| M1 | Sign in as Venue Staff. Open **Availability**. | Every active venue is listed for the week starting today, AM/PM/Night for each day. | Pass, Jeremiah (recorded 6 Nov 2026) |
+| M2 | With a confirmed booking and a tentative hold in the shown week, view as Venue Staff and as a Coordinator. | Confirmed cells read "Booked", held cells "Held", their setup/turnaround cells striped. Note whether Venue Staff see the event reference (see Known limitations). | Pass, Jeremiah (recorded 6 Nov 2026) |
+| M3 | Block a venue for one slot (US12), then reload Availability. | That cell reads "Blocked" with the reason. | Pass, Jeremiah (recorded 6 Nov 2026) |
 
 Record each result as Pass or Fail, with the date and who ran it (e.g. "Pass, 4 Nov 2026, Jeremiah"). The checks are listed in running order in `docs/manual-test-run-sheet.md`.
 
