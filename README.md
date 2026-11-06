@@ -1,592 +1,140 @@
 # ConnectSphere — Event Planning and Venue Booking
 
-SMU IS212 team project. React + TypeScript front end on Supabase (PostgreSQL, Auth, Row
-Level Security).
+SMU IS212 Software Project Management (AY 2026/27 Term 1), Team T8. Release 1 of ConnectSphere's
+internal system for event requests, coordinator assignment and review, venue search and booking,
+equipment reservation, operational safety review, attendee registration and notifications.
 
-## US7 reply-validation test restoration — 3 November 2026
+**Repository:** https://github.com/TrueToYouForLife/is212 (default branch `main`)
 
-The dedicated reply file now exercises eleven allocated reply-validation cases instead
-of repeating review tests. Covers complete answers, invalid/injected input, stale status,
-inconsistent saved questions, legacy replies and immutable input. No application or
-migration change. [Results and limits](docs/test-evidence/us7/reply-validation/README.md).
-The current catalogue contains 2,892 distinct numeric source IDs; counts below are
-historical checkpoints.
+## Contents
 
-## US41 arrangement regression coverage — 2 November 2026
+- [Tech stack and architecture](#tech-stack-and-architecture)
+- [Prerequisites](#prerequisites)
+- [Quick start](#quick-start)
+- [Setting up a new Supabase project](#setting-up-a-new-supabase-project)
+- [Accounts and roles](#accounts-and-roles)
+- [Where each role starts](#where-each-role-starts)
+- [Running the tests](#running-the-tests)
+- [Continuous integration](#continuous-integration)
+- [Project structure](#project-structure)
+- [Further documentation](#further-documentation)
 
-The ten older US41 SQL cases now run before the final replay check in the existing
-database gates. Focused, historical, quarter-hour upgrade and fresh-order checks
-passed. Fixtures and runner integration only; no migration or application change.
-[Results and limits](docs/test-evidence/us41/regression/README.md). Earlier runner-gap
-statements below describe the preceding checkpoints.
+## Tech stack and architecture
 
-## Test-case documentation closeout — 2 November 2026
+- **Frontend:** React 18, TypeScript, Vite 5, Tailwind CSS, React Router 7, React Hook Form with Zod.
+  Tests use Vitest and Testing Library.
+- **Backend:** Supabase: PostgreSQL (schema, Row Level Security policies, triggers and RPC functions),
+  Supabase Auth, and one Edge Function that sends queued notification emails.
 
-US41's missing replay assertion is now implemented as AC-041.1.3, with populated
-flag/notification comparisons after 0052 and 0053 replay. Focused, historical,
-quarter-hour upgrade and fresh-order gates passed. No migration or UI update.
-[Results and limits](docs/test-evidence/us41/replay/README.md) also record that the
-ten older US41 SQL cases are not invoked by current runners; they are not claimed
-as newly verified. The current index has 2,881 numeric source IDs; counts below
-describe the earlier documentation-only checkpoint.
+There is no separate API server. The browser talks to Supabase directly, so the database itself is
+the backend: its RLS policies, constraints and triggers are what enforce the business rules, and the
+checks in the frontend are there for the user's benefit.
 
-The [test-case index](docs/test-cases/README.md) links canonical catalogues for all
-45 stories with numeric test IDs in the current test sources. US1, US7 and US17 now
-have complete catalogues; other missing team catalogues are added, US31 is completed,
-and US45's existing spec is in `docs/test-cases/`. Shared/untagged tests are indexed
-separately. All 2,880 numeric source IDs are traceable; this is documentation coverage,
-not a new test run or a claim that every Jira AC is complete. US41's absent replay
-assertion and outstanding manual checks remain explicit follow-ups.
-
-The subsequent [accuracy review of Jaydon's ten stories](docs/jaydon-test-documentation-review.md)
-corrects scenario descriptions and classifications, and records a separate US7 gap:
-the dedicated reply-validation file duplicates review tests while eleven historical
-reply-validation IDs are absent. US41 replay coverage and US48 safety-stage manual
-acceptance remain separate follow-ups; this review claims no new test execution.
-
-
-## US48 safety-stage compatibility
-
-Migration `0116_us48_safety_stage_replacements.sql` extends the existing affected-venue
-replacement flow to Awaiting safety review and In preparation. Listing/proposals and
-checked Venue Staff replacement approval retain the original reservation until success,
-per-booking requirements, buffers and selective review resolution. Ordinary bookings
-retain their existing approval restrictions. No event-stage transition or US45 re-review
-is implemented; coordinate the shared integration with Jeremiah. Migration 0116 is claimed
-and local, not yet deployed; new-stage manual checks remain pending.
-See [scope and manual checks](docs/us48-venue-replacement.md) and
-[verification evidence](docs/test-evidence/us48/safety-stages/README.md).
-
-## US24 equipment return inspections
-
-Claimed migration `0112_equipment_return_inspections.sql` adds Technical Support-only
-inspection records for event allocations. Out/Pending checks are calculated from saved
-Singapore collection/return dates; there is no separate checkout action. Findings and
-US27 status changes save atomically, retaining reports/history, reservation windows
-and unrelated reviews. Pending checks alone does not add an availability block.
-Technical Support can open **Equipment returns** at `/equipment/returns` to view Out,
-Pending checks and History, inspect individual units and record missing follow-ups.
-Failed/stale saves retain findings and require explicit reload. Jaydon confirmed 0112
-applied and the backend PR merged. Jaydon confirmed all eight manual-check groups
-passed on 29 October 2026; frontend review/merge/deployment remain pending. No new
-migration is needed for the UI. See [manual results](docs/test-evidence/us24/manual-results.md).
-See [scope and contracts](docs/us24-return-inspections.md) and
-[test cases](docs/test-cases/US24_test_cases.md).
-
-## US27 equipment catalogue and status
-
-Technical Support and Coordinators can browse **Equipment catalogue** at
-`/equipment/catalogue`: unit details, current locations, operational status,
-total/usable counts and combined filters. Usable stock is distinct from availability
-for an event. Technical Support can open **Manage status** to change status with a
-reason and view recorded history. Failed/stale saves keep the note and require reload;
-successful saves close the panel and refresh counts while preserving filters. Reopen
-a unit for fresh history. Coordinators remain
-read-only; no equipment creation/deletion controls are provided.
-Migrations `0104_equipment_catalogue.sql` and `0105_equipment_status_changes.sql`
-are applied, confirmed by Jaydon. Status changes record authenticated staff/time,
-exclude unusable stock and flag affected reservations through existing review and
-notification preferences, preserving reservations and unrelated reasons.
-Implementation PRs #142–144 are merged. Jaydon confirmed catalogue/status manual
-checks and the auto-close refinement passed. Evidence-sheet and Jira closeout remain
-administrative steps; delivered email is not claimed.
-See [scope and manual checks](docs/us27-equipment-catalogue.md) and
-[test cases](docs/test-cases/US27_test_cases.md).
-
-## US41 arrangement review (completed within agreed scope)
-
-Migration 0052 adds per-arrangement review reasons after approved significant changes,
-checks venue capacity/timing and reserved equipment availability, and records coordinator
-notices. It preserves existing bookings and allocations. Only the assigned coordinator
-can resolve a review with an explanation. The assigned coordinator now has an
-Arrangement reviews section on event details, grouping open reasons by booking with
-Needs review badges and Singapore timestamps. Assigned request cards also show the
-number of affected arrangements; a notice below Current status links to the reasons.
-Assigned coordinators can now resolve individual reasons with a required explanation
-and view the retained resolution history. Saving a resolution does not change a
-booking. US41 writes coordinator notification records to `arrangement_review_notifications`;
-shared notification UI and email delivery are owned elsewhere and are not connected
-to these records yet. This is the agreed notification-producer scope, not a delivery
-completion claim. Jaydon confirmed 0052 is applied and the UI/resolution history
-checks passed. The implementation PRs, including the AC3 fix in PR #90, are merged.
-Migration 0053 fixes capacity checks after successive layout and attendance changes.
-It preserves later coordinator-confirmed requirements. Jaydon confirmed 0053 is applied
-and the deployed layout/attendance retest passed. Regression AC-041.3.3 covers both
-sequences. The evidence sheet contains the automated cases and defects; Jira close-out
-and recording the final manual pass remain administrative actions.
-
-See [US41 scope, tests and remaining work](docs/us41-arrangement-revalidation.md).
-
-## Architecture and workflows
-
-The [architecture guide](docs/architecture/README.md) contains the C1 context,
-C2 container and C3 component diagrams, plus Workflow Parts 1–3 covering request
-submission through event completion. These show the **whole-project target**, including
-planned functionality; they are not a feature-completion report.
-
-Open `docs/architecture/index.html` locally to view and zoom the diagrams, or open
-its editable SVG files directly. Sources, modelling decisions and regeneration
-instructions are documented in the architecture guide.
-
-## US10 venue booking review (four slices implemented)
-
-Venue Staff can open **Booking requests** (`/venues/review`), inspect event timing,
-requirements and slot conflicts, then approve or reject a pending request.
-Rejection requires a reason and allows an alternative. Approval rechecks live
-conflicts and protects event/setup/turnaround cells. Decisions record the server
-reviewer/time and cannot be repeated; approval does not change the event's status.
-
-Coordinators receive an in-app **Booking decision notifications** panel on
-**Your venue bookings** (`/venues/bookings`). It shows the latest 50 accessible
-approval/rejection notices with reasons and alternatives. Open the page or use
-**Refresh notifications** for new decisions. This is not a push/email channel.
-The current assigned coordinator receives the notice; legacy unassigned bookings
-fall back to a requester who is still a coordinator. Recipients must retain current
-assignment/access to read a historical notice. No valid coordinator means no notice
-is generated. Existing Venue Staff submission notifications remain separate.
-
-Required review migrations are 0037, 0040, 0044, 0045 and **0051**, together with
-all their earlier schema dependencies. Apply migrations through the team's normal
-ordered deployment process; do not run older policy migrations over a newer schema.
-The frontend routes use `VITE_FEATURE_VENUE_BOOKING=true` in `frontend/.env`.
-0051 only delivers new Venue Staff decisions after deployment; it does not backfill
-old approvals/rejections or send email. A notification storage failure rolls back
-the decision, including claim changes, so decisions for eligible recipients cannot silently lose notices.
-
-Implementation/test evidence: [Slice 1](docs/us10-slice1.md),
-[Slice 2](docs/us10-slice2.md), [Slice 3](docs/us10-slice3.md),
-[Slice 4 and final acceptance guide](docs/us10-slice4.md).
-Slice 1 retains its TDD evidence. Later slices use code-first development with
-immediate tests and the saved Slice 2 forced-break record. Slice 4 is locally
-validated pending publication, CI, merge and shared-environment acceptance.
-
-## US36 active-event overview (completed)
-
-The Coordinator Lead's Requests view now shows event status, Singapore dates,
-current coordinator and workload totals, with links to event details. Submitted
-unassigned requests and other active events now share one Active events list.
-Existing assignment controls and database permissions are reused.
-No new migration is required. Coordinator/status filters now apply together to
-the combined list, including an Unassigned option, Reset and no-match messages.
-Workload totals remain independent of filtering.
-Unassigned + Submitted filters reproduce the US17 queue. Zero matches show one message.
-
-Five code-first test cases cover AC-036.1.1, .2.1, .3.1, .4.1 and .5.1. Final local
-verification on 11 October 2026 passed: 871 tests across 91 files, with one existing
-TODO (not a passing test); lint and build passed too.
-AC-036.1.1 forced-break and restored-pass logs are saved in
-`docs/test-evidence/us36/`. Jaydon confirmed the overview, links, reassignment,
-role-specific view and final combined-list/filter UI checks passed on 11 October.
-Both implementation PRs merged with passing CI. The shared sheet contains the five
-test cases and five manual records, including the manually discovered heading
-defect and its verified fix. Automated-run evidence is kept in GitHub Actions;
-the sheet's Automated Test Case Runs tab is intentionally not maintained for US36.
-See [US36 implementation and test record](docs/us36-active-events.md).
-
-Implemented so far: **US-005 — submit an event request**.
-
-In progress: **Save Draft Event Request**. Draft validation and the save/update
-service are connected to Save Draft on the event form. Repeated saves reuse the draft ID,
-and explicit submission updates that same request. My Drafts lists saved drafts and
-opens them in the existing form for editing. Automated tests use mocks; browser/live
-database verification and draft access-policy work remain pending.
+The C4 model (C1 context, C2 containers, C3 components) and the end-to-end workflow diagrams are in
+[docs/architecture](docs/architecture/README.md). Open `docs/architecture/index.html` in a browser to
+view and zoom them.
 
 ## Prerequisites
 
-- Node.js 22+
-- A Supabase project (free tier is enough)
-- Optional: the [Supabase CLI](https://supabase.com/docs/guides/cli) for applying
-  migrations from the command line
+- **Node.js 22** and npm (the CI pipeline uses Node 22)
+- A **Supabase** project (the free tier is enough)
+- **Docker Desktop** and **bash**, only for the database tests (on Windows, use Git Bash or WSL)
+- Optional: `psql` to apply migrations from the command line, the Supabase CLI for the email
+  function, and Python 3 for the migration checker
 
-## Setup
+## Quick start
 
-All npm commands run from `frontend/`:
+1. Clone the repository and install the frontend's locked dependencies:
 
 ```bash
-cd frontend
-npm install
-cp .env.example .env    # Windows: copy .env.example .env
+git clone https://github.com/TrueToYouForLife/is212.git
+cd is212/frontend
+npm ci
+cp .env.example .env
 ```
 
-Fill in `frontend/.env` from **Supabase dashboard → Project Settings → API**:
+On Windows Command Prompt, use `copy .env.example .env` for the last line.
+
+2. Fill in `frontend/.env` from **Supabase dashboard → Project Settings → API**:
 
 | Variable | Where to find it |
 | --- | --- |
 | `VITE_SUPABASE_URL` | Project URL |
 | `VITE_SUPABASE_ANON_KEY` | Project API keys → `anon` `public` |
 
-`.env` is gitignored. Never put the `service_role` key in it — anything prefixed `VITE_`
-is compiled into the browser bundle.
+`.env` is gitignored. Never put the `service_role` key in it: anything prefixed `VITE_` is compiled
+into the browser bundle.
 
-## Applying the migration
+3. If the Supabase project is new, apply the database migrations first, as described in
+   [Setting up a new Supabase project](#setting-up-a-new-supabase-project).
 
-**Option A — dashboard (no CLI).** Open SQL Editor in your Supabase project, paste the
-contents of [`backend/supabase/migrations/0001_events.sql`](backend/supabase/migrations/0001_events.sql)
-and run it. The script is idempotent, so re-running it is safe.
-
-**Option B — Supabase CLI.** The CLI looks for a `supabase/` folder in the current
-directory, so run it from `backend/`:
+4. Start the app from `frontend/`:
 
 ```bash
-cd backend
-supabase link --project-ref <your-project-ref>
-supabase db push
+npm run dev
 ```
 
-Apply migrations **in order**, `0001` through `0066`, including both `0005` files
-before `0006` and `0019a` straight after `0019`. All are safe to replay; see
-[Shared Supabase state](#shared-supabase-state-5-october-2026). The two files currently share a version prefix, so the CLI path above
-needs that version collision resolved before it can be relied on; use the SQL Editor
-for the existing sequence in the meantime.
+Vite prints the local address, normally http://localhost:5173.
 
-`0054`–`0056` turn the organiser's requirement fields into catalogue codes and must be
-applied as a set, in that order, in the same sitting: after `0054` the event columns are
-code lists, and until `0055` lands the change-request review operation still refuses a
-code list with *"Invalid proposed value type"*. See
-[structured event requirements](#us2us6-structured-event-requirements-00540056).
+5. Sign in with an account for the role you want to try. See [Accounts and roles](#accounts-and-roles).
 
+## Setting up a new Supabase project
 
-### Change-request database baseline
+### Apply the migrations
 
-[`0007_event_change_requests.sql`](backend/supabase/migrations/0007_event_change_requests.sql)
-records the existing US6 change-request table, four access policies and automatic
-`updated_at` trigger from the shared Supabase exports. It stores proposed changes
-separately from `events`; applying it does not approve requests or update event details.
-It contains no exported test records. On an existing installation, it preserves rows
-and recreates the named policies/trigger; `CREATE TABLE IF NOT EXISTS` does not repair
-differences in an existing table's columns or constraints. Check the existing schema
-before applying it. Authenticated SELECT/INSERT/UPDATE privileges are explicit, and
-the coordinator policy uses the project's `current_user_role()` helper.
+The database is defined entirely by the 125 SQL files in
+[`backend/supabase/migrations/`](backend/supabase/migrations), numbered `0001` to `0125`. Apply
+**every file, in filename order**. Two files share the number `0005`, and `0019a` comes straight
+after `0019`; plain filename order handles both.
 
-This is a baseline, not completed US7 security or review functionality. Coordinator
-assignment, individual decisions/partial approval, clarification, notifications and
-arrangement revalidation remain to be implemented. The baseline policies also do not
-prevent forged review fields on insert, edits to other columns during withdrawal,
-ineligible event statuses, or duplicate pending requests. Those protections need a
-follow-up migration and authenticated database tests. An index enforcing uniqueness
-is not included because the supplied exports did not include index definitions.
+**Option A: SQL Editor (no tools needed).** In the Supabase dashboard, open SQL Editor, then paste
+and run each file in order.
 
-The supplied live event-read policies also differ from `0005_request_status.sql`:
-coordinators currently see drafts in that export. This migration does not replace
-event policies or reconcile that separate discrepancy. Do not rerun all earlier migrations on the shared database merely to install this baseline.
-(Superseded on 5 October 2026: every migration was replayed deliberately; see
-[Shared Supabase state](#shared-supabase-state-5-october-2026).)
-
-Verification on 21 September 2026: applied all repository migrations in order to a
-disposable PostgreSQL 17 container, then passed 19 SQL assertions covering RLS setup,
-owner/coordinator/anonymous access, invalid inputs, withdrawal, unchanged event records,
-and preservation of request values when rerunning `0007`. Supabase's `auth.users`,
-`auth.uid()` and database roles/default grants were represented by a local test setup;
-this exercised real PostgreSQL policies and constraints, not the live Supabase Auth/API.
-These were one-off local checks, not new Vitest cases or checks added to CI. The existing
-211 application tests also passed. Live Supabase verification and the security gaps
-listed above remain separate follow-up work.
-
-## Organiser-facing review labels (26 September)
-
-Event requests display **In review** to organisers immediately after submission and
-throughout coordinator review. Returned event requests show **Clarification required**
-when submitted with an outstanding review note, including on home/list badges. Draft
-and final outcome labels are unchanged. Submission confirmation/guidance use the same
-wording. Change requests also display **In review** for internal status `submitted`.
-Database status values and staff labels are unchanged. A follow-up in this PR removes
-US4's Start review button: submitted requests offer Approve, Reject and Return for
-more detail immediately. Apply migration `0012_review_submitted_event.sql` before
-using those direct decisions. See [the direct-review change log](docs/direct-event-review.md).
-
-This presentation change reuses the existing status-panel, submission and change-list
-cases; no new test IDs are allocated. Request summaries now include the existing
-`review_note` column so list badges can distinguish clarification from review.
-
-## US6 organiser change requests (SCRUM-11)
-
-An organiser proposes changes to an event they own at `/requests/:id/request-change`,
-with the current details shown above the form. Changes are recorded in
-`event_change_requests` (`0007`) and never applied to the event: US7 reviews them. An
-event that is completed, cancelled or rejected is refused (`LOCKED_STATUSES`), as is a
-second pending request for the same event, and both checks are in the service rather than
-only hidden in the UI so a direct call cannot bypass them. The organiser can withdraw a
-request that has not been reviewed; the `status = 'submitted'` filter on that update is
-the safety net if a coordinator decided in the meantime.
-
-Two kinds of field behave differently on the form, and have to:
-
-- **Free text** keeps blank-means-no-change. A blank text box is unambiguous.
-- **The four requirement controls** are prefilled from the event and compared against it.
-  A blank dropdown is a real choice ("no layout preference") and an empty checkbox group
-  is a real proposal ("drop every requirement"), so neither can also mean "no change" —
-  it has to mean "unchanged from what was shown". `collectChanges` proposes only what
-  moved, which matters because every proposed field costs the coordinator a decision and
-  a note. See [structured event requirements](#us2us6-structured-event-requirements-00540056).
-
-`registrationRequired` is deliberately never proposed: a plain checkbox cannot say "no
-change" and it is not prefilled, so a diff would be meaningless. It needs a tri-state
-control, which is separate work.
-
-Tests: 27 numbered cases across `eventChangeRequestService.test.ts`,
-`EventChangeRequestForm.test.tsx`, `ChangeRequestList.test.tsx` and
-`changeRequestDiff.test.ts` (AC-006.5.1–.3 are one parameterised row per locked status).
-AC-006.3.7–.17 cover the prefill-and-diff rule. Database coverage for this story sits in
-US7's suites, which exercise the same table through the real review operation.
-
-
-## US7 review rules and service
-
-### Shared database status-rule correction
-
-Live setup correction (25 September): the shared table retained an older CHECK
-constraint named `event_change_requests_status_valid`, which only allowed four
-statuses. Migration `0008` replaced `status_check`, so the legacy rule still blocked
-clarification and partial approval. Apply
-[`0011_change_request_legacy_status_constraint.sql`](backend/supabase/migrations/0011_change_request_legacy_status_constraint.sql)
-after `0010` to consolidate both names into the six-status constraint without changing
-rows or access policies. The UI's generic validation message did not identify this
-database setup mismatch. Jaydon reported applying `0008`, `0010` and `0011` to shared
-Supabase and successfully saving a field clarification on 25 September. Organiser-side
-visibility and the other live review paths still need verification.
-
-The database runner now reproduces the legacy constraint before applying `0011`
-twice. Three additional checks in `backend/supabase/tests/change_request_legacy_status_constraint.sql`
-verify partial approval (`AC-007.5.38`), clarification (`AC-007.7.36`) and preservation
-of all request rows on repeated application (`AC-007.13.6`). These **68 local database
-checks passed** before the reply increment described below. These checks supplement the 37 UI tests below.
-
-The coordinator review screen is now connected on `/requests/:id`, in Requested
-changes. See [the UI change log and all 37 new test cases](docs/us7-review-ui.md) for
-the files changed, testing instructions and remaining work. This is still a partial
-US7 implementation: organiser replies, notifications and arrangement revalidation
-are not complete.
-
-`src/features/events/changeRequestReviewValidation.ts` prepares a review without
-reading or writing Supabase. It reuses US6's `ProposedEventChanges` field names.
-Every proposed field must appear exactly once as approved, rejected or
-clarification_requested. Rejected fields need reasons and clarification fields need
-questions. If any field needs clarification, all decisions are provisional and no event
-values are prepared or applied. Only a review containing exclusively approved/rejected
-fields can finalise as approved, partially_approved or rejected. The legacy whole-request
-`action: clarify` payload is still accepted for compatibility; the planned checklist uses
-`action: decide` with a separate decision and note for each field.
-
-`changeRequestReviewService.ts` now calls this helper before saving through migration
-`0008`'s database review operation, extended by `0010`. Review UI integration, notifications and arrangement
-revalidation remain. Checking the proposal's shape here
-does not establish that a proposed date or attendance is valid; the database operation
-validates the event produced by the accepted subset before saving it.
-
-The original 19 automated tests in
-`src/features/events/__tests__/changeRequestReviewValidation.test.ts` use the agreed
-`AC-007.Y.Z` format and the AC order in the supplied Jira export:
-
-| Criterion | Case IDs | Coverage in this step |
-| --- | --- | --- |
-| 5 — approve/reject, including agreed clarification #104 | AC-007.5.1–AC-007.5.12 | Full/partial decisions, missing/duplicate decisions and malformed proposals |
-| 6 — rejection reason | AC-007.6.1–AC-007.6.2 | Explanation required and retained per rejected field |
-| 7 — request clarification | AC-007.7.1–AC-007.7.3 | Follow-up message, no approved values, incompatible actions rejected |
-| 9 — apply only approved values | AC-007.9.1–AC-007.9.2 | Prepared values preserve explicit false/empty values and do not mutate input |
-
-These tests cover pure logic, not completed ACs or communication to the organiser.
-If Jira criteria are reordered, update the mapping with the team before adding cases.
-
-### US7 review service
-
-`saveChangeRequestReview(request, eventUpdatedAt, input)` sends decisions or a
-clarification message to `review_event_change_request`. Supply the exact `updated_at`
-of the event displayed to the reviewer; do not refresh it just before saving. The
-service sends no proposed event values or reviewer identity. The database remains
-responsible for current assignment, request state, resulting-event validation and
-atomic writes. Stale/denied reviews show a reload message; a lost response asks the
-user to check the saved status before retrying, since the transaction may have committed.
-The coordinator review form calls this service. Shared Supabase has not been updated
-by this UI change. Field-level clarification requires migration `0010` after the preceding
-migrations, applied through the team's database process.
-
-The original 18 mocked tests in `src/features/events/__tests__/changeRequestReviewService.test.ts`
-use these additional IDs, preserving the earlier unit and SQL allocations:
-
-| Criterion | Case IDs | Coverage |
-| --- | --- | --- |
-| 2 — assigned coordinator | AC-007.2.19–21 | Missing/expired session and server permission denial |
-| 5 — decisions | AC-007.5.20–27 | Full/partial approval, incomplete decisions, stale/already-decided request, failure handling |
-| 6 — rejection reason | AC-007.6.5 | Blank explanation blocks saving |
-| 7 — clarification | AC-007.7.7–8 | Message-only action and required explanation |
-| 9 — approved values | AC-007.9.12–14 | Comparison version required and invalid resulting event rejected |
-| 10 — rejection | AC-007.10.2 | Full rejection uses the RPC without direct event writes |
-
-These tests verify the service contract, not live database permissions.
-
-CI supplies placeholder `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` values to
-both the Test and Build steps. The existing US4 `ReviewActions` tests mock the review
-function but import the original service for its messages, which also initialises the
-Supabase client. The placeholders allow that import without a local `.env`; they do
-not provide a working database connection or turn mocked tests into integration tests.
-The proposed additional Supabase mock in that test file was not adopted. US4 application
-behaviour and test expectations remain unchanged.
-
-### Field-level clarification
-
-`0010_change_request_field_clarification.sql` replaces the review function without
-rewriting migration `0008` or existing data. For example, two approved fields, one
-rejected field and one clarification field are saved together in `field_decisions`,
-but the request remains `clarification_requested` and the entire event (including
-`updated_at`) stays unchanged. Blank questions, duplicates and missing/extra fields
-are refused. `reviewed_by`/`reviewed_at` identify the latest review action, not proof
-that the request has reached a final outcome. Field questions live in each decision's
-`note`; `review_note` is retained for legacy whole-request clarification.
-
-Only a submitted request can be reviewed. A request awaiting clarification cannot
-be finalised by repeating the RPC call. Migration `0013_change_request_replies.sql` now provides the organiser reply operation.
-It retains questions/responses and returns the request to submitted without changing
-the event. Request versions prevent stale replies and stale coordinator decisions.
-The organiser reply UI and shared answer-history display are now connected. Live
-verification is still pending.
-Do not bypass it with a direct browser status update.
-
-Implemented organiser labels: Submitted → In review; Clarification requested →
-Clarification required; Approved / Rejected / Partially approved are final outcomes.
-Withdrawn remains a separate historical outcome.
-
-This step adds 11 application tests (validator now 27; service now 21) and 18 SQL checks:
-
-| File | New case IDs | Coverage |
-| --- | --- | --- |
-| `changeRequestReviewValidation.test.ts` | AC-007.7.9–16 | Mixed decisions, separate questions, required notes, complete field coverage and input preservation |
-| `changeRequestReviewService.test.ts` | AC-007.7.17–19 | Field payload retained, empty question blocked, inconsistent server outcome rejected |
-| `backend/supabase/tests/change_request_field_clarification.sql` | AC-007.2.22–23; .7.20–30; .8.1–2; .9.15; .13.4 | Permissions, provisional decisions, unchanged event, final-only application and recorded actor/time |
-| `backend/supabase/tests/run_change_request_review.sh` | AC-007.13.5 | Migration rerun preserves provisional and final decisions |
-
-Verified for this step: **276 application tests and 65 disposable-database checks
-passed**, along with TypeScript checking and the production build. Lint has no errors;
-the existing review-page hook dependency warning and build bundle-size warning remain.
-This is local verification, not deployment to or testing against shared Supabase.
-
-### US7 database review operation
-
-[`0008_change_request_review.sql`](backend/supabase/migrations/0008_change_request_review.sql)
-adds `events.coordinator_id` and `event_change_requests.field_decisions`, plus
-`partially_approved` and `clarification_requested` request statuses. Existing events
-start unassigned; there is no automatic assignment or assignment screen in this change.
-Originally an Operations Manager called the assignment function. US17 migration `0038`
-moves `assign_event_coordinator(p_event_id, p_coordinator_id)` to Coordinator Lead only.
-Direct attempts by other signed-in roles to change that field are blocked.
-
-`review_event_change_request(p_request_id, p_event_updated_at, p_review)` accepts the
-same `action: decide` / `action: clarify` structure as the TypeScript validator. Pass
-the event's `updated_at` from the comparison screen as the expected version. The
-function locks the event and request, checks the current assigned coordinator and
-pending status, and rejects stale event details. It loads proposed values from the
-stored request (never from the reviewer), applies only approved fields, and stamps
-the decisions, actor and time in the same transaction. An error rolls back both writes.
-Rejected fields require explanations; clarification stores its message and changes no
-event details. Timestamps without offsets are interpreted in Singapore time.
-
-This is **change-request** review, separate from US4's original event approval.
-US4's event-status actions are preserved. Direct browser edits of submitted event
-details are now blocked, so updates to those details must use the review operation.
-Draft editing/submission remains allowed. Change-request access is restricted to its
-organiser and the assigned coordinator; insert/update column permissions prevent
-spoofed reviewer metadata and proposal edits during withdrawal.
-
-The function validates the resulting required fields, date interval and attendance,
-but does not yet classify significant changes, flag arrangements for revalidation,
-send notifications, or provide clarification-response/resubmission UI. It does not
-change event lifecycle status or implement a full audit-history screen. The existing
-US6 UI still blocks confirmed events and needs its eligibility rule corrected during
-integration. Duplicate pending-request prevention remains a client precheck, not a
-database uniqueness guarantee. Reconcile these dependencies before calling US7 done;
-the review UI can be tested with existing requests in an assigned event. This migration
-has only been verified here against disposable local databases.
-
-Run the database checks with Docker Desktop running:
+**Option B: psql.** Copy the connection string from the dashboard's **Connect** button (use the
+Session pooler string if your network has no IPv6), then run from the repository root:
 
 ```bash
-bash backend/supabase/tests/run_change_request_review.sh
+export SUPABASE_DB_URL='postgresql://...'
+cd backend/supabase/migrations
+for f in $(LC_ALL=C ls *.sql); do echo "$f"; psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -q -f "$f" || break; done
 ```
 
-The script creates a disposable PostgreSQL 17 container, applies the migrations,
-runs `backend/supabase/tests/change_request_review.sql`, and replays `0008` then `0010` to
-verify record preservation without leaving the old RPC installed. It then runs
-`change_request_field_clarification.sql` and reruns `0010` to check preservation of
-provisional decisions. It removes its container on exit, opens no host ports and never reads
-`.env`. `backend/supabase/tests/bootstrap.sql` simulates Supabase Auth identities and grants;
-RLS/constraints/functions run in PostgreSQL, but live Supabase Auth/API is not tested.
-Do not run these fixture files in shared Supabase. They are not part of `npm test`; CI's
-`database` job runs this script on every push.
+The loop prints each file name and stops at the first failure. `supabase db push` cannot be used,
+because the CLI treats the two `0005` files as the same version.
 
-At the original database-foundation checkpoint: **47 SQL checks** (43 US7 checks and 4 shared-workflow regressions),
-plus **230 application tests**, lint and production build. SQL case IDs continue the
-unit-test allocations: AC-007.2.1–18, .5.13–19, .6.3–4, .7.4–6, .9.3–11, .10.1,
-and .13.1–3. Four `REGRESSION-US1/US4/US6` checks protect other stories rather than
-claiming additional US7 ACs. Coverage includes access, reassignment, partial decisions,
-invalid/stale reviews, a forced final-save failure with rollback, and rerun preservation.
-Concurrent sessions have not yet been exercised by this suite.
+On 6 November 2026, all 125 migrations applied cleanly in this order to an empty PostgreSQL
+database prepared with the same Supabase stand-in the CI uses
+([`backend/supabase/tests/bootstrap.sql`](backend/supabase/tests/bootstrap.sql)). This has not
+been repeated on a brand-new Supabase project.
 
-## US22 withdraw a submitted request (SCRUM-67)
+To see which migrations an existing project already has, run from the repository root and paste
+the output into the SQL Editor (it only reads):
 
-A Coordinator closes a request that is awaiting a decision, without rejecting it.
-`0065_withdraw_submitted_request.sql` adds `withdrawn` to `events_status_valid`, makes it
-reachable from `submitted` and `under_review` only, and leaves it terminal like
-completed, cancelled and rejected.
+```bash
+python3 backend/supabase/scripts/check_applied_migrations.py > /tmp/check_migrations.sql
+```
 
-**Why a new status rather than reusing `cancelled`.** Cancelling a confirmed event and
-closing a request nobody has decided on are different facts. AC-022.2 asks for a
-withdrawn event to stay distinguishable from draft, submitted, approved and rejected, and
-the organiser's panel has to say which happened — `cancelled` already means an event that
-was going ahead and then was not.
+### Starting data
 
-**Who may do it is unchanged code.** Two existing guards already settle it, so the
-migration adds no new authorisation:
+A new database contains the seven room layout types and two client organisations (Northwind
+Trading and Harbourline Group), but no venues, equipment or events.
 
-- `enforce_event_status_transition` (`0006`) lets a coordinator make any valid transition
-  and restricts an organiser to `submitted` or `cancelled`, so an organiser cannot
-  withdraw their own request. Their close is Cancel.
-- `guard_assigned_coordinator_event_update` (`0039`) refuses any coordinator who is not
-  `events.coordinator_id`, so only the assigned coordinator can withdraw.
+- **Venues:** sign in as Venue Staff and use **Manage venues → Add venue** (`/venues/new`).
+- **Equipment:** Release 1 has no screen for creating equipment, so equipment types and units
+  have to be inserted from the SQL Editor.
+- **Events:** sign in as an Event Organiser and submit a request (`/events/new`).
 
-**A reason is required**, which AC-022 does not ask for. It is not a new rule either:
-`event_review_decisions_reason_required` (`0009`) already says every decision except
-`approved` carries a reason, so the service refuses a blank note rather than letting the
-insert fail. `withdrawn` also joins `event_review_decisions_decision_valid` and the
-`record_event_review_decision` trigger, so a withdrawal is logged with who closed it, the
-state it was closed from, and why.
+### Email notifications (optional)
 
-**No email is sent.** `0009` queues mail for approved and rejected only; a return is
-logged and not emailed, and withdrawal follows the return. Widening the sender is a team
-decision rather than a side effect of this change.
+In-app notifications work without this step. Emails are queued in `public.notification_outbox`
+and sent by the Edge Function
+[`backend/supabase/functions/send-review-notifications`](backend/supabase/functions/send-review-notifications),
+which sends through a Gmail account over SMTP. The credentials live only in Supabase secrets,
+never in the browser bundle.
 
-Tests: 34 numbered cases. `withdrawRequest.test.ts` holds AC-022.1.1–.1.10 and
-AC-022.2.1–.2.7 (the transition table, the actions a reviewer is offered, the service's
-note requirement and conflict handling). `withdraw_submitted_request.sql` holds
-AC-022.1.11–.1.16 and AC-022.2.8–.2.18 (the constraint, both refusal paths, the decision
-record and a `0065` replay check). `AC-004.2.14` in `statusRules.test.ts` was updated:
-its closed list of a reviewer's actions now includes `withdrawn`, which is what caught
-the addition.
-
-## US4 review decisions and notifications (AC-004.4, AC-004.5)
-
-Migration `0009_review_decisions.sql` (run after `0008`) adds two tables, both written only
-by the `events_record_review_decision` trigger, which fires after an event's status change
-has passed every existing transition rule:
-
-- `event_review_decisions` retains every approve, reject and return with its reason, the
-  reviewer (`decided_by`, plus a `decided_by_name` snapshot) and time. The event row's
-  `review_note`/`reviewed_by` hold only the latest decision; this table is the trail.
-  It is append-only (no write privilege for any signed-in role) and readable only by
-  coordinators and operations managers, matching 0005's rule that reviewer identity is
-  internal. Coordinators see it on the request page under **Decision history**.
-- `notification_outbox` queues the organiser's email for approvals and rejections in the
-  same transaction as the decision. No browser role can read it. Returns are logged but
-  not emailed, because AC-004.4 names approved/rejected; widening that is one line in the
-  trigger.
-
-Emails are sent by the Edge Function `backend/supabase/functions/send-review-notifications`, which
-sends through the project Gmail account over SMTP (port 465; Supabase blocks 25 and 587).
-Gmail needs no custom domain and can reach any organiser's address. The credentials live
-only in Supabase secrets, never in the browser bundle. To enable it:
-
-1. On the Gmail account, turn on 2-Step Verification, then create an app password
-   (Google Account → Security → App passwords). Use that 16-character password, not the
-   account password.
-2. Deploy and configure:
+1. On the Gmail account, turn on 2-Step Verification and create an app password
+   (Google Account → Security → App passwords).
+2. Deploy the function and set its secrets:
 
 ```bash
 supabase functions deploy send-review-notifications
@@ -596,85 +144,33 @@ supabase secrets set GMAIL_USER=connectsphere212@gmail.com GMAIL_APP_PASSWORD=<a
 3. Add a Database Webhook (Dashboard → Database → Webhooks) on **INSERT** into
    `public.notification_outbox` that calls the function.
 
-The function claims each row before sending, so repeated or overlapping calls do not send
-duplicates, and it retries a failed send up to five times; the reason for a failure is
-kept in `last_error`. Gmail allows a few hundred messages a day, well above project needs.
+## Accounts and roles
 
-US4 test allocations (all criteria, in Jira order):
+| Role | Database value |
+| --- | --- |
+| Event Organiser | `organiser` |
+| Event Coordinator | `coordinator` |
+| Event Coordinator Lead | `coordinator_lead` |
+| Venue Staff | `venue_staff` |
+| Technical Support Staff | `tech_support` |
+| Safety Officer | `safety_officer` |
+| Attendee | `attendee` |
 
-| Criterion | Unit tests (Vitest) | Database checks |
-| --- | --- | --- |
-| AC-004.1 — coordinator views full details | AC-004.1.1–.3 (`eventReviewService.test.ts`), AC-004.1.4–.6 (`RequestDetails.test.tsx`) | — |
-| AC-004.2 — accept or reject via a button | AC-004.2.1–.16 (`statusRules.test.ts`), AC-004.2.17–.21 (`eventReviewService.test.ts`), AC-004.2.22–.26 (`ReviewActions.test.tsx`) | — |
-| AC-004.3 — reason entered in an input box | AC-004.3.1–.2 (`eventReviewService.test.ts`), AC-004.3.3–.5 (`ReviewActions.test.tsx`) | — |
-| AC-004.4 — organiser emailed with outcome and reason | — (database behaviour) | AC-004.4.1–.5 |
-| AC-004.5 — decision, reason and reviewer retained | AC-004.5.1–.3 (`eventReviewService.test.ts`), AC-004.5.4–.6 (`DecisionHistory.test.tsx`) | AC-004.5.7–.12 |
+The database also accepts `operations_manager`, a legacy title that the Event Coordinator Lead
+replaced.
 
-Actual email delivery through Gmail is verified manually against the live project (the
-queued message arrives in the organiser's inbox), since it depends on an external service.
+**Roles are assigned, not chosen.** Roles live in `public.profiles.role`. Every new account starts
+as an Attendee, created by a trigger on `auth.users`, and a signed-in user cannot change their own
+role or organisation. Attendees can therefore sign themselves up at `/signup`. Every other role is
+set by an administrator in the SQL Editor, where statements run without a user session. An Event
+Organiser must also belong to a client organisation, set in the same statement.
 
-The database checks run against a **disposable** database only:
+To create test accounts:
 
-```bash
-psql "$DB_URL" -v ON_ERROR_STOP=1 -f backend/supabase/tests/review_decisions_test.sql
-```
+1. Supabase dashboard → **Authentication → Users → Add user → Create new user**. Enter an email
+   and password and tick **Auto Confirm User**.
+2. Assign the roles in the SQL Editor:
 
-They cover the recorded actor and reason, retention across a later decision, forgery and
-editing attempts, organiser visibility, refused transitions, the queued email contents,
-and an organiser with no email address. The script rolls back its fixtures.
-
-## Roles
-
-Roles live in `public.profiles.role`, never in `auth.users` — Supabase owns that table and
-it cannot take extra columns. Valid values are constrained by `profiles_role_valid`:
-`organiser`, `coordinator`, `venue_staff`, `tech_support`, `attendee`.
-
-An Organiser also belongs to exactly one client organisation, recorded in `public.profiles.client_org_id` and constrained by `profiles_client_org_required` (`0069`). The column stays empty for every other role, who work across clients or for none. See [US31](#us31-organiser-access-within-a-client-organisation-scrum-228).
-
-**Roles are assigned, not chosen.** `prevent_role_self_assignment` blocks a signed-in user
-from updating their own role, and no client may insert a profile at all: the
-`handle_new_user` trigger (`0005`) creates it in the same transaction as the account, with
-the role decided server-side. An administrator assigns roles from the SQL editor, where
-statements run without a JWT:
-
-```sql
-update public.profiles set role = 'coordinator'
-where id = (select id from auth.users where email = 'someone@example.com');
-```
-Promoting someone to organiser must name their client organisation in the same statement, or `profiles_client_org_required` refuses it:
- 
-```sql
-update public.profiles set role = 'organiser',
-       client_org_id = (select id from public.client_organisations
-                         where name = 'Northwind Trading')
-where id = (select id from auth.users where email = 'someone@example.com');
-```
- 
-`prevent_client_org_self_assignment` blocks a signed-in user changing their own organisation, the same way `prevent_role_self_assignment` blocks a role change. Both let the SQL editor through, because statements there run without a JWT.
-
-Policies read the caller's role through `public.current_user_role()`. That function is
-`SECURITY DEFINER` for a reason worth knowing: a policy on `profiles` that queries
-`profiles` re-enters itself and Postgres fails with *infinite recursion detected in policy*.
-Running as the owner with RLS bypassed breaks the cycle.
-
-Sprint 1 used a **Dev · act as** switcher so one account could try every role. It called
-`dev_set_my_role()`, which deliberately reopened the escalation the trigger prevents, and
-hiding the switcher in production builds never closed it: the function stayed callable
-from the browser console. [`0014`](backend/supabase/migrations/0014_drop_dev_set_my_role.sql)
-drops it, so the only way to change a role is now the administrator path above.
-
-### Test accounts
-
-Each role has its own account, so flows that cross roles (an organiser submits, a
-coordinator reviews) are tested as two different people, the way RLS will see them.
-
-1. Supabase dashboard → **Authentication → Users → Add user → Create new user**.
-2. Enter an email and password, and tick **Auto Confirm User**. Without it Supabase
-   waits for a confirmation email that a test address can never receive.
-3. Assign the role from the SQL editor. Every new account starts as `attendee`, through the
-   `on_auth_user_created` trigger (`0042` replaced `0005`'s `organiser` default for US29), so
-   every other role, organiser included, is set here. Since `0069`, an organiser must be
-   given a client organisation in the same statement:
 ```sql
 update public.profiles p
 set role = v.role,
@@ -685,1047 +181,133 @@ set role = v.role,
 from auth.users u,
      (values ('organiser@test.com',   'organiser'),
              ('coordinator@test.com', 'coordinator'),
+             ('lead@test.com',        'coordinator_lead'),
              ('venue@test.com',       'venue_staff'),
-             ('tech@test.com',        'tech_support')) as v(email, role)
+             ('tech@test.com',        'tech_support'),
+             ('safety@test.com',      'safety_officer')) as v(email, role)
 where u.email = v.email and p.id = u.id;
 ```
- 
-To test AC-031.3 you need a second organiser in the *other* organisation; add
-`('organiser2@test.com', 'organiser')` to the list above and move them afterwards:
- 
+
+An `attendee@test.com` account needs no update. To try organisation-level access with a second
+organiser, add `('organiser2@test.com', 'organiser')` to the list, then move that account:
+
 ```sql
 update public.profiles set client_org_id =
        (select id from public.client_organisations where name = 'Harbourline Group')
 where id = (select id from auth.users where email = 'organiser2@test.com');
 ```
 
-| Role | Account |
-|---|---|
-| Event Organiser | `organiser@test.com` |
-| Event Coordinator | `coordinator@test.com` |
-| Venue Staff | `venue@test.com` |
-| Technical Support Staff | `tech@test.com` |
-| Attendee | `attendee@test.com` |
+Passwords are never committed to this repository.
 
-Passwords are shared in the team chat, never committed.
+## Where each role starts
 
-> **Note for the oral exam:** the profile used to be created by the browser after first
-> sign-in. That raced the session lookup — a new user saw *No organiser profile* until they
-> reloaded — and let the client take part in choosing its own role. Creating it in a trigger
-> on `auth.users` fixes both: the row exists before any session can, and the client never
-> inserts into `profiles`. See [`0005_profile_on_signup.sql`](backend/supabase/migrations/0005_profile_on_signup.sql).
+After signing in, the top navigation shows only the pages for the account's role. Every role also
+has **Notifications** (`/notifications`).
 
-## Running
+| Role | Main pages |
+| --- | --- |
+| Event Organiser | New request (`/events/new`), My Drafts (`/drafts`), My requests (`/requests`), Organisation (`/organisation/events`) |
+| Event Coordinator | Requests (`/requests`), Venues (`/venues/search`), Availability (`/venues/availability`), Suitability (`/venues/suitability`), My bookings (`/venues/bookings`), Venue alerts (`/venues/alerts`), Equipment catalogue (`/equipment/catalogue`) |
+| Event Coordinator Lead | Assignments (`/requests`) |
+| Venue Staff | Availability (`/venues/availability`), Booking requests (`/venues/review`), Venue blocks (`/venues/blocks`), Manage venues (`/venues/manage`) |
+| Technical Support Staff | Equipment (`/equipment`), Equipment catalogue (`/equipment/catalogue`), Reserve equipment (`/equipment/reservations`), Equipment returns (`/equipment/returns`) |
+| Safety Officer | Safety reviews (`/safety-reviews`) |
+| Attendee | Open events (`/events/open`), My registrations (`/registrations`) |
+
+## Running the tests
+
+### Frontend unit and integration tests (Vitest)
 
 From `frontend/`:
 
 ```bash
-npm run dev        # Vite dev server
-npm run test       # Vitest, once
-npm run test:watch # Vitest, watch mode
-npm run coverage   # coverage report for src/features
-npm run typecheck  # tsc --noEmit
-npm run lint       # ESLint
-npm run build      # typecheck + production build
+npm run test
+npm run test:watch
+npm run coverage
+npm run typecheck
+npm run lint
+npm run build
 ```
+
+`test` runs the suite once and `test:watch` reruns it on every change. `coverage` writes a report
+for `src/features` to `frontend/coverage/index.html`. `build` runs the typecheck and then the
+production build.
+
+Every test name begins with the acceptance criterion it covers (for example `AC-005.2: …`), so
+`npm run test -- --reporter=verbose` lists the tests by acceptance criterion.
+
+### Database tests (Docker)
+
+The database rules (RLS policies, constraints, triggers, RPC functions and concurrency) are tested
+in SQL against a real PostgreSQL 17. Each runner starts a throwaway Docker container, applies the
+migrations, runs the assertions and removes the container. It never connects to a Supabase
+project. With Docker Desktop running, from the repository root:
+
+```bash
+bash backend/supabase/tests/run_change_request_review.sh
+bash backend/supabase/tests/run_venue_time_conversion.sh
+bash backend/supabase/tests/run_venue_time_conversion.sh fresh
+bash backend/supabase/tests/run_arrangement_review_api.sh
+```
+
+These four are the suites CI runs. The other `run_*.sh` scripts in
+[`backend/supabase/tests/`](backend/supabase/tests) are focused suites for individual stories and
+run the same way.
+
+### Test cases and traceability
+
+- [docs/test-cases](docs/test-cases/README.md): test-case catalogues for each user story, mapping
+  acceptance criteria to tests.
+- [docs/test-evidence](docs/test-evidence): recorded test runs and coverage evidence.
+- [docs/manual-test-run-sheet.md](docs/manual-test-run-sheet.md): manual checks, ordered so they
+  can be run in one sitting.
+
+## Continuous integration
+
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on every push to any branch and on
+every pull request. It has two jobs:
+
+- **verify:** `npm ci`, typecheck, lint, the Vitest suite with coverage (saved as the
+  `frontend-coverage` artifact) and the production build.
+- **database:** the four Docker-based database suites listed above.
 
 ## Project structure
 
 ```
-frontend/                            React app (Vite, Tailwind, Vitest)
-├── package.json, vite.config.ts, tsconfig.json, .env
-└── src/
-    ├── lib/supabase.ts              single Supabase client
-    ├── components/ui/               shared presentational components
-    ├── components/layout/           app shell, navigation, footer
-    └── features/
-        ├── auth/                    session plumbing (US-002 owns the real story)
-        ├── events/                  one folder per backlog component
-        │   ├── types.ts
-        │   ├── validation.ts        PURE functions — no React, no Supabase, no I/O
-        │   ├── useEventRequestForm.ts form state and separate save/submit actions
-        │   ├── draftValidation.ts   incomplete draft validation, separate from submission
-        │   ├── eventService.ts      submits new event requests to Supabase
-        │   ├── eventDraftQueryService.ts lists and loads a signed-in organiser’s drafts
-        │   ├── eventDraftService.ts saves new drafts and updates existing owned drafts
-        │   ├── requirementCatalogue.ts PURE — the fixed requirement option lists
-        │   ├── requirementCatalogueService.ts loads layout_types and equipment_types
-        │   ├── components/
-        │   └── __tests__/
-        └── venues/
-            ├── slots.ts             PURE — slot windows and the cells a booking claims
-            ├── holdRules.ts         PURE — what may be booked, and for how long
-            ├── searchTextMatch.ts   PURE — case/space/punctuation-insensitive matching
-            ├── venueSearchService.ts US8 search and the coordinator's assigned events
-            ├── venueBookingService.ts US9/US11 holds and booking requests
-            ├── components/
-            └── __tests__/
-backend/
-└── backend/supabase/migrations/             database schema, RLS, triggers
+.
+├── .github/workflows/ci.yml            CI pipeline
+├── frontend/                           React app (Vite, Tailwind, Vitest)
+│   ├── package.json, vite.config.ts, .env.example
+│   └── src/
+│       ├── App.tsx                     routes
+│       ├── pages/                      home, landing and not-found pages
+│       ├── components/                 shared UI and the layout, including role-based navigation
+│       ├── lib/supabase.ts             the single Supabase client
+│       ├── test/setup.ts               Vitest setup
+│       └── features/                   one folder per area: auth, events, venues, equipment,
+│                                       registrations, safety, notifications
+├── backend/supabase/
+│   ├── migrations/                     0001–0125: schema, RLS policies, triggers, RPC functions
+│   ├── tests/                          SQL test suites and their Docker runners (run_*.sh)
+│   ├── functions/                      send-review-notifications Edge Function
+│   └── scripts/                        check_applied_migrations.py
+└── docs/
+    ├── architecture/                   C4 diagrams and workflows
+    ├── test-cases/                     test-case catalogues per user story
+    ├── test-evidence/                  recorded test runs and coverage
+    ├── implementation-notes.md         per-story implementation notes
+    └── us*.md                          story and slice design notes
 ```
 
-
-The split follows where code runs, not a separate API server. The browser talks to
-Supabase directly, so the backend is the database itself: its schema, its RLS policies
-and its triggers. That is why the business rules enforced in `backend/` are the real
-control, and the checks in `frontend/` are there for the user's benefit.
-
-Future features (`venues`, `bookings`, `equipment`, `registration`, `notifications`)
-become sibling folders under `frontend/src/features/`. The folder name is simultaneously a backlog
-component, a C4 component and a directory, so tracing a requirement to its implementation
-is one step.
-
-See [CLAUDE.md](CLAUDE.md) for the architecture rules the whole team follows.
-
-## Acceptance criteria → tests (US-005)
-
-| AC | Covered by |
-| --- | --- |
-| AC-005.1 — capture preliminary information | `validation.test.ts` (`AC-005.1: …`), `EventRequestForm.test.tsx` |
-| AC-005.2 — cannot submit with missing/invalid required fields | `validation.test.ts` (`AC-005.2: …`), `EventRequestForm.test.tsx` |
-| AC-005.3 — informed on success | `EventRequestForm.test.tsx`, `eventService.test.ts` |
-| AC-005.4 — informed on failure, with a reason | `eventService.test.ts` (`AC-005.4: …`), `EventRequestForm.test.tsx` |
-| AC-005.5 — unique reference, status Submitted | `eventService.test.ts` (`AC-005.5: …`), `0001_events.sql` trigger |
-
-Every test name begins with the acceptance criterion it covers, so
-`npm run test -- --reporter=verbose` prints the traceability matrix.
-
-## Acceptance criteria → tests (Save Draft Event Request, in progress)
-
-Save Draft Event Request is **US-001**. Its criteria follow the Jira order:
-
-| Requirement ID | Acceptance criterion |
-| --- | --- |
-| AC-001.1 | Save an event request as a draft before submitting it |
-| AC-001.2 | Save a draft with incomplete information required for final submission |
-| AC-001.3 | Identify a saved draft as Draft status |
-| AC-001.4 | Reopen a saved draft and continue editing its information |
-| AC-001.5 | Saving or editing a draft does not submit it for review |
-| AC-001.6 | Treat the request as submitted only after an explicit submission action |
-
-Each automated case has a unique ID, for example `AC-001.2.1`. The final number
-identifies a test case, not another acceptance criterion. IDs are unique across the
-story's test files, including each parameterised input row. Within each file, group
-tests by criterion and sort numerically by story, criterion, then case number. Keep existing IDs stable
-and allocate the next unused number for new cases. Tests spanning several criteria use
-one primary ID and name additional criteria in parentheses. Invalid-value and failure
-checks support the associated criterion; they are not new customer requirements.
-
-Current automated case ranges:
-
-| Criterion | Case IDs | Count |
-| --- | --- | ---: |
-| AC-001.1 | AC-001.1.1 through AC-001.1.12 | 12 |
-| AC-001.2 | AC-001.2.1 through AC-001.2.22 | 22 |
-| AC-001.3 | AC-001.3.1 through AC-001.3.2 | 2 |
-| AC-001.4 | AC-001.4.1 through AC-001.4.34 | 34 |
-| AC-001.5 | AC-001.5.1 through AC-001.5.4 | 4 |
-| AC-001.6 | AC-001.6.1 through AC-001.6.9 | 9 |
-
-Run `npm run test -- --reporter=verbose` to see individual case IDs and results.
-Automated tests live in
-[`draftValidation.test.ts`](frontend/src/features/events/__tests__/draftValidation.test.ts) and
-[`eventDraftService.test.ts`](frontend/src/features/events/__tests__/eventDraftService.test.ts),
-with form tests in `EventRequestForm.test.tsx` and draft-submission tests in `eventService.test.ts`.
-`eventDraftQueryService.test.ts`, `draftFormValues.test.ts` and `DraftPages.test.tsx`
-cover listing, restored values and the list-to-editor workflow.
-Tests check validation, services with mocked Supabase responses, and the form with mocked services.
-They do not connect to Supabase or prove the complete user flow or RLS enforcement works.
-
-| AC / supporting rule | Current evidence | Remaining checks |
-| --- | --- | --- |
-| AC-001.2 — allow incomplete required fields | Unit tests accept empty drafts, blank fields and a single supplied date | Save incomplete data to Supabase and reopen it |
-| Supplied values respect database constraints | Unit tests reject invalid dates, unordered date ranges, and invalid attendance; include boundary values | Verify constraints against live Supabase |
-| AC-001.6 — explicit submission | Form and service tests verify submission uses the saved draft ID and full validation | Verify transition and reference trigger against live Supabase |
-| AC-001.1, AC-001.4, AC-001.5 — save/edit without submission | Service and form tests check draft saves, repeated edits, guarded updates and failures | Live database tests |
-| AC-001.3 — identifiable Draft | Form and page tests verify Draft indicators after saving and in the list | Browser and live database verification |
-
-Run the draft checks from `frontend/` with:
-
-```bash
-npm run test -- src/features/events/__tests__
-```
-
-Drafts use the existing `events` table. Empty text, dates and attendance become `null`.
-Supplied attendance must be a positive PostgreSQL integer, and an end date must follow
-the start when both are supplied. Past dates may remain in drafts; submission still
-requires a future start. These validation rules do not save data or change status.
-
-`saveEventDraft(input, draftId?)` accepts the complete form snapshot. Omit the ID for
-a new draft; reuse the returned `draft.id` for later saves. Updates filter by ID,
-signed-in owner and current Draft status, and never set workflow fields such as status
-or reference. Missing input fields clear their stored values, so this is not a partial
-patch API. A missing/stale draft returns a failure rather than inserting a replacement.
-Network failures are reported without automatically retrying a potentially successful save.
-
-The form keeps its draft ID during the current visit, preserves fields after saves/errors,
-and disables editing and both actions while saving/submitting. It uses the shared Draft
-badge and clears outdated success messages when values change. `useEventRequestForm`
-keeps this state separate from the form markup. Switching accounts remounts the form.
-`submitEventRequest(input, draftId?)` validates all submission fields, then updates the
-owned draft's latest details and status together; a stale ID never falls back to an insert.
-Saved drafts can be reopened through `/drafts` or directly at `/drafts/:id`, including
-after refreshing that editor URL. The new-request page does not restore unsaved changes;
-use My Drafts to find a request saved before leaving that page.
-
-Before completing the story, verify owner access and coordinator draft restrictions
-with authenticated users. The inspected live coordinator policies currently do not
-exclude drafts; coordinate the policy change with the request-status work. Record live
-test results and review evidence in the team's Jira/test tracker, without treating unit
-test success as completion of the story.
-
-## Design decisions worth knowing
-
-- **Validation lives in two places on purpose.** `validation.ts` exists for the error
-  message; the database CHECK constraints exist for integrity when something bypasses the
-  UI. Defence in depth, not accidental duplication.
-- **Business rules run in the client and in Postgres, with no middle tier.** That is the
-  Supabase model. The trade-off — no server-side application layer to hold logic that
-  cannot be expressed in SQL — is recorded in the C4 documentation rather than left to
-  look accidental. If a rule ever needs a server, it becomes one Edge Function.
-- **Required fields are not `NOT NULL` columns.** US-001 lets organisers save incomplete
-  drafts, so the requirement is enforced by a CHECK keyed on `status` instead.
-- **References come from a database trigger**, not the client, so two simultaneous
-  submissions cannot mint the same number. The sequence is global, so reference numbers do
-  not restart each January.
-- **Statuses are stored lowercase** (`submitted`) and rendered from `EVENT_STATUS_LABELS`
-  (`Submitted`).
-
-### Loading a saved draft
-
-`getEventDraft(id)` in `eventDraftQueryService.ts` reads one draft using ID, signed-in
-owner and Draft status filters. It restores existing field names, converts missing
-values to empty inputs, and keeps stored date timestamps unchanged for the editor to
-format. Opening a draft performs no write. Missing, inaccessible and submitted requests
-share one unavailable message.
-
-`eventDraftQueryService.test.ts` covers loading, incomplete data, filters and failures
-using mocked Supabase responses. These checks do not prove live RLS enforcement.
-`listEventDrafts()` retrieves owned drafts ordered by most recently saved. My Drafts
-(`/drafts`) is linked from organiser navigation, home and the new-request page. It shows
-Draft badges, last-saved times and an Untitled draft fallback for unnamed requests.
-The resume page (`/drafts/:id`) loads an existing draft into `EventRequestForm`; subsequent
-saves and explicit submission retain its ID. Loading never writes or submits anything.
-After successful submission, the resume page shows confirmation rather than offering
-another save of the same draft. Returning to My Drafts reloads the list.
-
-Both pages provide loading, empty/error and retry states as appropriate. Their access
-guard waits for a signed-in organiser and resets loaded state on account changes. Stale
-responses from a previous account or draft cannot replace the current editor.
-`draftFormValues.ts` restores attendance as text and converts stored date timestamps
-for datetime-local inputs, matching the existing submission parser's browser timezone.
-This does not enforce Singapore time for users outside Singapore; a consistent
-application-wide timezone policy still needs coordination with the submission feature.
-
-The page tests use mocked services and the query tests use mocked Supabase. They do not
-prove live persistence, RLS, or trigger behaviour. No fake database is shipped in the app.
-There is no autosave: users must save changes before navigating away.
-
-### Organiser reply backend (US7)
-
-Apply `0013_change_request_replies.sql` after `0011` before using this code against
-Supabase: organiser and coordinator reads now select `review_version`. This file has
-been verified in a disposable PostgreSQL container. Jaydon reported applying it to shared
-Supabase on 27 September; the browser reply loop still needs live verification.
-Number `0012` is reserved for the separate US4 review PR; `0013` does not depend on it.
-
-`changeRequestReplyService.ts` validates all answers and calls `reply_to_change_request`.
-Only the owning organiser can reply, with exactly one nonblank answer per outstanding
-field question (or a note for a legacy whole-request question). Replies cannot revise
-proposed values. Questions, answers, actors and timestamps are appended to `reply_history`;
-this is clarification history, not the complete US7 activity-history feature.
-The database rejects a reply if another request for the event is already submitted.
-The service never silently retries an uncertain write.
-
-The request version is passed through both query services into coordinator saves.
-Older clients can still review a first-round request without it; after an answer has
-been saved, a matching version is mandatory. The existing event-version check remains.
-This branch does not include the pending status-label/Start review PR.
-
-See [reply change log and test cases](docs/us7-reply-preparation.md). This increment
-adds 22 Vitest tests (11 previously prepared validation tests, 9 service tests and
-2 review-service tests) and 18 database checks. One existing query test also checks
-request-version mapping. Totals: **335 application tests; 86 database checks**.
-The reply form and answer-history display are now connected; live verification is next.
-
-The owning organiser can answer each outstanding question in Requested changes. Sending
-returns the request for review and retains the questions/answers for both roles. The list
-uses **Reload change requests**, which clears unsaved answers, instead of refreshing while
-someone types. Failed saves preserve the typed answers and require reload before retry.
-The coordinator can read the history above the review form. No new migration beyond 0013
-is needed for this UI step. It adds **14 UI tests**, bringing the application total to **349**;
-the database suite remains at 86. See the reply change log for each case and the manual
-walkthrough. The separate pending status-label PR remains independent.
-
-### Significant-change display (US7 AC11, 27 September)
-
-`changeRequestSignificance.ts` classifies the stored proposal. Start/end date-time,
-attendance, room layout, accessibility or equipment requirement fields make the request
-significant; other supported fields alone make it ordinary. Room layout and accessibility
-are the current mapping for venue requirements. The classifier uses field presence,
-including removal of an optional requirement, with no threshold or free-text interpretation.
-It assumes proposed_changes is the stored diff; it does not compare historical proposals
-against today's event, which may already reflect an approved change.
-
-Both roles see the label and the affected significant fields through ChangeRequestSummary.
-The classification describes the request, not which changes were approved; it remains on
-rejected and partially approved requests too. No new database column/migration or lifecycle
-transition is introduced. The future AC12 database hook must evaluate the accepted changes
-itself; a browser label must never authorise or trigger revalidation.
-
-13 new tests (AC-007.11.1–13); **368 app tests pass** with the merged status/reply work.
-No SQL changes; the combined database runner still has 95 checks, last verified during
-conflict resolution. See [classification changes, tests and walkthrough](docs/us7-significance.md).
-
-### Approved-change revalidation hook (US7 AC12)
-
-Migration `0015_change_request_revalidation.sql` adds a protected pending-work table,
-`event_change_revalidations`. The review transaction queues accepted significant fields
-on final approval/partial approval only. Dates and attendance flag venue and equipment;
-layout/accessibility flag venue; equipment requirements flag equipment. Rejected fields,
-ordinary-only approvals and unresolved clarifications create no work. Each request can
-produce one row. Queue failure rolls back the review and event update.
-
-Only the assigned coordinator and Operations Manager may read these records; browsers
-cannot write them. This is the agreed stub for later booking/equipment integration, **not
-actual availability checking or automatic cancellation/rescheduling**. There is no completion
-API/worker yet, and no automatic lifecycle transition. No historical decisions are backfilled.
-The database derives its flags independently of the AC11 browser label.
-
-Jaydon reported applying 0015 to shared Supabase on 27 September and verified that
-approving an equipment change request creates a pending revalidation record. Other live
-paths are not claimed as verified by this walkthrough; local SQL coverage is listed below.
-All 114 local database checks pass, including 19 new tests of the hook and its
-permissions/atomicity/replay behavior. See
-[revalidation contract, tests and manual check](docs/us7-revalidation.md). Coordinator
-submission notifications and the full change-review activity log remain outstanding.
-
-### US7 notification trigger (AC1 / SCRUM-54)
-
-`backend/supabase/migrations/0016_change_request_notifications.sql` records new change
-request submissions and clarification replies for the assigned coordinator. In-app records
-are stored in `change_request_notifications`; only the current assigned recipient can read
-them. US7 channel configuration is in `change_request_notification_settings`: in-app on,
-email off by default. Enabling email queues through the existing `notification_outbox` and
-sender without changing US4 behavior. No browser can write records or channel settings.
-
-This increment is the trigger only, as agreed: **no notification UI or new sender**. Record
-creation is not proof of end-user delivery. Shared notification ownership/integration and
-live delivery verification remain open. Unassigned requests are not broadcast; US17 must
-handle notification/backlog when assigning later. No migration has been applied to shared
-Supabase by the agent and no live email was sent. All 132 local database checks pass, including 18 new cases. See
-[contract and test details](docs/us7-notification-trigger.md).
-
-### US7 retained review-decision history (AC13)
-
-Apply `backend/supabase/migrations/0017_change_request_review_history.sql` before running
-this coordinator UI. New review actions preserve their outcome, field decisions, proposed
-values, reviewer and time. Expand **Review decision history** below a change request to
-see them. Earlier clarification actions survive replies and final review. Tracking starts
-when the migration is applied; there is no fabricated historical backfill.
-
-History is readable by the assigned coordinator and Operations Manager, with browser
-writes prohibited. The existing organiser clarification conversation remains available.
-See [review-history changes and test cases](docs/us7-review-history.md): AC-007.13.12–26
-are 15 database checks; .27–31 are five app tests. This increment requires live verification.
-
-## US13 equipment requirements (SCRUM-19)
-
-Apply `backend/supabase/migrations/0024_event_equipment_requirements.sql` after 0023.
-The assigned Event Coordinator records catalogue equipment lines for an approved,
-planning or confirmed event at `/requests/:id/equipment`, with the Organiser's request
-shown alongside. Technical Support sees every line and its notifications at `/equipment`.
-Recording reserves nothing. US14 reserves through 0019 and links each requirement with
-`booking_line_id`. Removing a requirement, or changing a held line's type or quantity,
-cancels the line's reserved allocations.
-
-Tests: AC-013.1–6 have 57 app tests and 56 database checks, giving totals of **446 app
-tests** and **203 database checks**. Manual E2E: AC-013.1.25 and .4.19 passed on shared
-Supabase (3 October); .6.22 is deferred until US14 can create reservations.
-See [test cases and results](docs/test-cases/US13_test_cases.md) and
-[design, US14 contract and change log](docs/us13-equipment-requirements.md).
-
-## US14 equipment reservations (SCRUM-20)
-
-Apply `backend/supabase/migrations/0025_equipment_reservations.sql` after 0024. Technical
-Support reviews pending essential requirements at `/equipment/reservations`, sees the units free
-for each event's window, and reserves through one database function. That function checks the
-role, locks per equipment type and re-counts, picks units (venue units first), records who and
-when, and notifies the Event Coordinator in-app and by email. Windows run from the day before
-the first Singapore day, one day earlier for units held elsewhere, through the return day.
-
-Tests: AC-014.1–13 have 22 app tests and 82 database checks. The concurrency checks use `dblink`.
-Totals: **523 app tests** and **323 database checks** (including US18's repair checks). 0025 changes Nicole's 0019 policies
-(direct-write lockdown, agreed). See [test cases](docs/test-cases/US14_test_cases.md) and
-[design and assumptions](docs/us14-equipment-reservations.md).
-
-## US8 search and filter venues (SCRUM-63)
-
-A coordinator searches at `/venues/search`. Every active venue is listed by default and
-each filter narrows it: keyword (name or location), expected attendance against capacity,
-layout, accessibility, facilities, and either a date and slot or one of the coordinator's
-own events. Choosing an event applies that event's attendance **and its requirements** to
-the filters, and uses its proposed dates for the availability check. The availability
-filter excludes a venue using the same rule that guards a real booking — the event's slots
-plus the trailing setup/turnaround slot — so a venue shown here is genuinely bookable
-rather than superficially free.
-
-Capacity and accessibility are narrowed in the query. Keyword, location, layout and
-facilities are matched in the browser, for two reasons worth knowing:
-
-- `facility` is `jsonb` and "has this facility" means the key is present with a truthy
-  value, which is not one query-builder call.
-- Text and layout comparisons reduce both sides to their letters and digits, lower case,
-  so "Level 2." finds "Level 2" and the catalogue code `u_shape` matches a venue whose
-  `layout` column holds `U-shape` after `0019a`'s repair. `ilike` only ignores case, so a
-  stripped search term could never match a stored value that keeps its punctuation. A
-  filter made only of spaces or punctuation matches everything: typing "." is not a
-  filter. See `frontend/src/features/venues/searchTextMatch.ts`.
-
-Depends on `0018` for the tables, `0019a` for the column shapes and `0020` for
-`venues.accessibility` as `text[]`.
-
-Tests: 34 numbered cases — AC-008.1/.2 in `searchTextMatch.test.ts` (pure matching),
-AC-008.3/.4 in `VenueFilters.test.tsx` (applying an event, the layout dropdown) and
-AC-008.5/.6 in `venueSearchService.test.ts` (the filters are really applied, and the
-assigned-event columns are really read). **This story had no numbered cases at all before
-the structured-requirements change**; the AC-008 criteria numbering is read from the code
-rather than from Jira and should be checked against the backlog.
-
-## US9 and US11 venue booking requests and tentative holds (US11 = SCRUM-16)
-
-> US9's Jira key is not recorded in the repo either. Fill it in.
-
-Behind `VITE_FEATURE_VENUE_BOOKING`. A coordinator opens a venue from the search results
-(`/venues/:id`), checks its timetable (`/venues/:id/timetable`), places a tentative hold on
-the slots an event needs, and then submits the hold as a booking request. Their own
-bookings are at `/venues/bookings`. Only an `approved` or `planning` event may be booked
-(`BOOKABLE_EVENT_STATUSES`), a hold lasts `HOLD_DURATION_DAYS` = 3 days, and the slots a
-booking claims are the event's own slots plus the trailing setup/turnaround slot — the same
-rule venue search uses, defined once in `slots.ts`.
-
-Two constraint decisions are worth being able to defend:
-
-- **One active hold per event, not one live booking per event.** `ACTIVE_HOLD_STATUSES` is
-  `held` and `pending_approval` only, and the unique index in `0036` matches it.
-  `confirmed` is deliberately excluded: an event may legitimately need two venues at once,
-  and including it blocked US14's multi-venue fixture.
-- **An unassigned event can still be held.** `0036`'s insert policy allows
-  `coordinator_id is null`, because events reach the queue before a coordinator is
-  assigned (US17). `0049` later moved booking authority to the *currently* assigned
-  coordinator, keeping the requester fallback only for those legacy unassigned rows.
-
-Apply `0035` then `0036`; `0049` belongs to US17's handover.
-
-Tests: 93 AC-009 cases and 22 AC-011 cases across `holdRules.test.ts` and `slots.test.ts`
-(pure rules, no mocks), `venueBookingService.test.ts` and `venueTimetableService.test.ts`
-(services against a Supabase fake), and `VenueBookingComponents.test.tsx` /
-`VenueBookingPages.test.tsx`.
-
-Database coverage under an AC-009 ID is `venue_booking_request_notifications.sql` (AC-009.8)
-and nothing else; under an AC-011 ID it is `venue_hold_release.sql` (AC-011.9, added with
-`0124`). `venue_booking_conflicts.sql` and `venue_booking_assignment.sql` do exercise the
-conflict and assignment rules these two stories depend on, but their cases are numbered
-AC-010 and AC-017 — an earlier version of this paragraph claimed them as US9's own database
-coverage, which they are not. Which criteria are covered under another story's IDs is set
-out in `docs/test-cases/US9_test_cases.md` and `US11_test_cases.md`.
-
-
-## US8 structured event requirements (0054–0056)
-
-The organiser's four requirement fields are fixed catalogue choices rather than free text,
-so a coordinator searching venues for an event can have the event's own requirements
-become the search filters.
-
-| Field | Shape | Catalogue | Filters venue search? |
-| --- | --- | --- | --- |
-| `layout_preference` | one code, nullable, foreign key | `layout_types` (0021) | yes, against `venues.layout` |
-| `accessibility_requirements` | `text[]` | `accessibility_types` (0052) | yes, against `venues.accessibility` |
-| `facility_requirements` | `text[]`, new column | `facility_types` (0052) | yes, against `venues.facility` keys |
-| `equipment_requirements` | `text[]` | `equipment_types` (0019, `code` added by 0052) | no — portable kit, US13/US14 |
-
-Facility and equipment are separate on purpose: a projector fixed in the ceiling is a
-property of the room and filters venue search, while a projector on a trolley is reserved
-through US13/US14 and is not a property of any venue. The form previously had only
-`equipment_requirements`, so a fourth field was added rather than overloading one list.
-
-Before this change the accessibility and facility codes existed only in
-`frontend/src/features/venues/venueFeatureCatalogue.ts` — not in any table — and the
-organiser's fields could not be matched against a venue at all. `0052` creates the two
-catalogue tables, seeds them from that file, converts the `events` columns, and enforces
-every stored code with a `BEFORE INSERT OR UPDATE` trigger (a `CHECK` cannot read another
-table, and PostgreSQL has no per-element foreign key for arrays). Free text that could not
-be mapped to a code is preserved in `event_requirement_migration_notes` rather than lost.
-
-`0054` also widens the `equipment_types` read policy from coordinator/tech-support to every
-signed-in role — without it the organiser's equipment checkboxes render empty with no error
-— and adds a trigger-filled `code` column, so existing inserts into that table keep
-working. `0055` replaces the change-request review operation, which insisted every proposed
-value was a string. `0056` returns the organiser's requirements from
-`get_venue_booking_review` as code lists and adds `facility_requirements` to
-`venue_booking_review_version`, so a facility added after the review screen loaded
-invalidates the approval exactly as layout and accessibility already did.
-
-Stories touched, and who should review: **US7** (review operation, significance, the AC12
-revalidation trigger), **US10** (booking-review keys and version hash), **US13/US14**
-(`equipment_types.code` and its read policy), **US18** (`SuitabilityEvent` carries code
-lists). See [the full change log and per-story PR list](docs/us2-structured-requirements.md).
-
-Tests: AC-002.1.7–.14 in `requirementCatalogue.test.ts`, AC-006.3.7–.17 in
-`changeRequestDiff.test.ts`, AC-008.1–.6 in the three venue files above, and 18 database
-checks in `backend/supabase/tests/structured_event_requirements.sql`
-(AC-002.1.15–.25, AC-007.9.18–.22, AC-007.12.20) plus a replay check, AC-002.1.26, in the
-runner. Verified 12 October 2026: **993 app tests** across 106 files (one pre-existing
-todo), lint and build clean, and **589 database checks** passing locally. The six
-`dblink` race checks need the Docker runner; with it the expected total is **595**.
-
-`event_venue_requirements` (0023) exists only because the organiser's fields used to be
-free text, so a coordinator now retypes information the organiser already supplied in the
-same vocabulary. Consolidating the two belongs in a US18 PR with that story's owner.
-
-
-## US18 venue suitability (SCRUM-62)
-
-A coordinator picks one of their events at `/venues/suitability`, records its venue
-requirements beside the organiser's own words, and sees every venue grouped as
-**Suitable**, **Unsuitable** (with every reason) or **Unavailable** (blacked out: booked,
-blocked or under maintenance). Searching venues for one of your events shows each result's
-verdict. Screens are behind `VITE_FEATURE_VENUE_SUITABILITY`, which is off unless set to
-`true` in your own `frontend/.env`.
-
-Migrations, all safe to replay:
-
-| File | Adds |
-| --- | --- |
-| `0019a_reconcile_venue_columns.sql` | Repairs a hand-edited `venues` table (layout and facility stored as lists) to the migrations' shape; does nothing elsewhere. Runs before 0020. |
-| `0020_venue_accessibility_array.sql` | `venues.accessibility` as `text[]`, default `{}` and required. This also fixes US8's accessibility filter on fresh databases. |
-| `0021_layout_types.sql` | The layout catalogue (seven standard layouts, a team assumption: the customer never listed them) |
-| `0022_venue_layouts.sql` | Capacity per layout (#112); a trigger keeps each venue's primary layout in it; backfill for existing venues |
-| `0023_event_venue_requirements.sql` | The coordinator's structured layout, accessibility and facility needs per event. Attendance stays on `events` (#119). |
-
-Design notes: suitability is advice, not a hard block (AC-018.2, #83). Double booking and
-blocked slots are refused by the slot ledger. Unavailable outranks unsuitable, but both
-reasons are kept. If availability can't be checked, the check fails closed. A venue saved
-with a new layout name adds that layout to the catalogue. The alert for booking an
-unsuitable venue (`UnsuitableVenueAlert`, `assessVenueForBooking`) is built and tested,
-and, since 5 October 2026, showing it in the hold flow is part of US11 (SCRUM-171, now under SCRUM-16).
-
-Test allocation (database checks in `backend/supabase/tests/venue_suitability.sql`,
-`venue_shape_repair.sql` and the runner's replay checks; app tests in
-`frontend/src/features/venues/__tests__/`):
-
-| Criterion | Database checks | App tests |
-| --- | --- | --- |
-| AC-018.1 — identify suitable venues | AC-018.1.1–1.8 | AC-018.1.9–1.35 |
-| AC-018.2 — alert when booking an unsuitable venue | — | AC-018.2.1–2.6 |
-| AC-018.3 — mark venues failing requirements unsuitable | AC-018.3.1–3.25, AC-018.3.35–3.39 | AC-018.3.26–3.34 |
-| AC-018.4 — black out venues taken by bookings or maintenance | — | AC-018.4.1–4.13 |
-
-## US12 Block Venue Availability (SCRUM-14)
-
-Venue Staff can block a venue for one continuous date/time period, in 15-minute
-steps and Singapore time, with a reason (requires 0100). A block covers at most
-366 occupied calendar days. Legacy blocks retain their original daily slot coverage. Before saving, they preview the bookings and existing
-blocks it would overlap. Bookings inside a new block are **flagged for review, not
-cancelled** (Week 7 change 2): an email is queued for each coordinator, who sees it under **Venue
-alerts**, and a flagged booking cannot be approved until the block is removed or the
-booking ends. Removing a block keeps it on record with who removed it and when. Screens
-(**Venue blocks** for Venue Staff, **Venue alerts** for coordinators) are behind
-`VITE_FEATURE_VENUE_BLOCKS`, which is off unless set to `true` in your own `frontend/.env`.
-
-Historical block migrations (0026–0034 replay is tested against the original schema;
-do not reapply them after later migrations):
-
-| File | Adds |
-| --- | --- |
-| `0026_venue_closures_lock_writes.sql` | Revokes direct browser writes to `venue_closures` and to `maintenance` cells, so blocks change only through the functions below |
-| `0027_venue_block_validation.sql` | `block_venue()` and its shared request checks: Venue Staff only, a real non-retired venue, dates in order, at most 366 days, valid slots, a reason |
-| `0028_venue_block_cells.sql` | `venue_closures.slots` and `created_by_name`. A saved block writes one `maintenance` cell per date and slot to the slot ledger. Drops 0018's date-only `no_overlapping_closures`. |
-| `0029_venue_block_preview.sql` | `preview_venue_block()`: the booking cells and existing blocks a block would overlap, without writing |
-| `0030_venue_block_flags.sql` | `venue_booking_flags`. A block over bookings flags them instead of failing, releases lapsed holds on the venue, and queues one email per flag. |
-| `0031_venue_block_flag_access.sql` | Who reads flags: Venue Staff all of them; a coordinator those on their events and those sent to them; nobody writes them from the browser |
-| `0032_venue_block_triggers.sql` | A flagged booking cannot be confirmed (`23514`); a cell a booking frees inside a block goes to the block; a booking that ends resolves its flags |
-| `0033_venue_block_removal.sql` | `remove_venue_block()` with `removed_at`/`removed_by`: soft removal that frees the block's cells and resolves its flags |
-| `0034_venue_block_skip_removed.sql` | Removed blocks no longer count as overlaps, appear in the preview, or take back freed cells |
-
-Design notes: the slot ledger's primary key (venue, date, slot) is the hard block, so a
-booking, its setup and turnaround, and a block can never share a cell, whoever writes
-first. Blocks change only through `security definer` functions with `search_path = ''`,
-executable by `authenticated` only, so none can skip flagging and notification. Saving a
-block, its cells, its flags and its emails is one transaction. A booking already confirmed
-when a block lands stays confirmed and flagged; only the step to `confirmed` is refused.
-A preview counts only for the venue, dates and slots it checked. Showing blocked slots on
-an availability calendar (part of AC-012.4) is US19's job; the blocks page lists them with
-their reasons.
-
-Test allocation (database checks in `backend/supabase/tests/venue_blocks.sql`, plus the
-runner's replay check AC-012.10.4; app tests in `frontend/src/features/venues/__tests__/`
-and `frontend/src/components/layout/__tests__/TopNav.test.tsx`):
-
-| Criterion | Database checks | App tests |
-| --- | --- | --- |
-| AC-012.1 — only Venue Staff can block | AC-012.1.1–1.7 | AC-012.1.8–1.12 |
-| AC-012.2 — one or more slots, on one date or a range | AC-012.2.1–2.11 | AC-012.2.12–2.30 |
-| AC-012.3 — a reason is required | AC-012.3.1–3.3 | AC-012.3.4–3.7 |
-| AC-012.4 — blocked slots show, with the reason for Venue Staff | AC-012.4.1–4.2 | — |
-| AC-012.5 — no new booking on a blocked slot, including setup and turnaround | AC-012.5.1–5.5 | — |
-| AC-012.6 — other slots and dates are unaffected | AC-012.6.1–6.2 | — |
-| AC-012.7 — overlaps are previewed before saving | AC-012.7.1–7.5 | AC-012.7.6–7.14 |
-| AC-012.8 — overlapping bookings are flagged, not cancelled, and coordinators notified | AC-012.8.1–8.13 | AC-012.8.14–8.25 |
-| AC-012.9 — current blocks can be viewed and removed | AC-012.9.1–9.11 | AC-012.9.12–9.25 |
-| AC-012.10 — who blocked, and when, is recorded | AC-012.10.1–10.4 | AC-012.10.5–10.6 |
-
-## US42 View my event’s confirmed arrangements (SCRUM-238)
-
-Slice 1 adds an owner-only Venue arrangements panel to the event detail page. It
-shows confirmed venue bookings and their saved Singapore dates/slots, including
-buffer slots, without exposing staff records. The equipment increment adds reserved,
-partially reserved, unavailable and pending-review labels with quantities below the
-venue panel. It uses the owner-only read function in migration 0071. Equipment
-manual checks passed for statuses/quantities, refresh, access denial and privacy.
-Migration `0068_organiser_venue_arrangements.sql` was applied to shared Supabase
-on 18 October 2026. Arrangement reads permit only the owning organiser.
-
-Latest local verification: full database suite passed; 143 frontend files / 1,318 tests
-passed; build/typecheck and lint passed. Manual checks passed for approved-booking
-visibility, pending/empty behaviour and unrelated-organiser access denial. AC-042.1.4
-caught a deliberate error-to-empty-result fault; after exact restoration, all three
-service tests passed. The shared sheet contains 19 automated cases and seven manual
-passes. Venue PR #103 and equipment PR #106 are merged.
-
-See [US42 story documentation](docs/us42-confirmed-arrangements.md),
-[test cases and manual checks](docs/test-cases/US42_test_cases.md)
-and [saved test evidence](docs/test-evidence/us42/README.md).
-
-## US46 Add and edit venue details (SCRUM-241)
-
-Built in slices (trunk-based). **Slice 1 (add a venue):** Venue Staff add a venue with its name,
-location, facilities, accessibility features, operating hours and each supported layout with
-its capacity (at least 1). Operating hours open and close on slot boundaries (7am, 1pm or 7pm
-to 12pm, 6pm or midnight). Only Venue Staff can change venues and layouts; the Operations
-Manager keeps read access only. Every change to a venue or its layouts is recorded in
-`venue_changes` with who made it and when. The **Add venue** page is at `/venues/new`.
-**Slice 2 (edit a venue):** Venue Staff open **Manage venues** (`/venues/manage`), which lists
-every venue, and edit any detail (`/venues/:id/edit`). Saving checks nobody changed the venue
-meanwhile. An edit never changes a booking; a live booking it may have made unsuitable (a
-requested layout's capacity below the attendance, a requested layout removed, a required
-accessibility feature or facility removed, or hours that no longer cover a booked slot) is
-flagged as an arrangement review, the same records US41 and US20 use, and its Coordinator is
-notified. **Slice 3 (retire a venue):** from the edit page, Venue Staff retire a venue with a
-reason, after confirming. A retired venue leaves venue search, suitability and availability and
-cannot take new holds. Its live bookings are not cancelled: each is flagged as an arrangement
-review (`venue_retired`, with the reason) and its Coordinator notified. US46 is complete, so
-the pages are no longer behind a feature flag.
-
-| File | Adds |
-| --- | --- |
-| `0064_venue_management.sql` | `venues.opens_at`/`closes_at`, Venue Staff-only venue and layout writes, `venue_changes` and its triggers, `add_venue()` |
-| `0067_venue_edit_review.sql` | `update_venue()`, `get_venue_for_edit()`, venue changes as a source of arrangement reviews (`arrangement_review_flags.venue_change_id`, reason `venue_hours_review`), shared `check_venue_input()` |
-| `0070_venue_retirement.sql` | `retire_venue()`, `venues.retirement_note`, reason `venue_retired`, no new holds on a retired venue |
-
-Test cases: `docs/test-cases/US46_test_cases.md`.
-
-## US5 Tracking Event Readiness (SCRUM-10)
-
-An event's assigned Coordinator sees a **Readiness** card on the event's page: venue booking,
-equipment reservation, technical support, programme and registration setup, each marked
-Complete or Outstanding, with outstanding ones linking to where they are dealt with.
-Arrangements that do not apply to the event (no equipment, no registration) are left out. It is
-read live from each arrangement's own records and re-read every 30 seconds, so changes by Venue
-Staff or Technical Support show without reloading. Later arrangements (the safety review,
-US43/US44) are added as one more line in `get_event_readiness`.
-
-| File | Adds |
-| --- | --- |
-| `0076_event_readiness.sql` | `get_event_readiness()`, for the event's assigned Coordinator only |
-
-Test cases: `docs/test-cases/US5_test_cases.md`.
-
-## US33 Choose notification channels by type (SCRUM-230)
-
-**Notification settings** (`/notifications/settings`, linked from Notifications) lists the
-notification types for the user's role, each with In-app and Email switches; anything not yet
-changed is on for both. Every notice goes through one shared sending helper (0079), which follows
-each person's choices and the three system-wide switches (kept as an admin kill switch); the page
-says when a type is switched off for everyone. Each feature's notices were moved onto the helper
-one PR at a time (0080 to 0088, 0090 to 0092, 0103; 0095 fixed 0080), and 0093 added email for the
-four types that were in-app only.
-
-| File | Adds |
-| --- | --- |
-| `0077_notification_preferences.sql` | `notification_types`, `notification_preferences`, `get_my_notification_preferences()`, `set_my_notification_preference()` |
-| `0093_us33_email_for_in_app_only_types.sql` | email for the four types that were in-app only |
-| `0106_us33_notification_settings_switched_off.sql` | the settings say when a type is switched off for everyone |
-| `0079_notification_delivery.sql` | slice 2a: `notification_channels()`, `queue_notification_email()`, `record_in_app_notice()`, `send_notification()`, `user_notifications`; the feed shows in-app copies and leaves out emails sent through the helper |
-
-Test cases: `docs/test-cases/US33_test_cases.md`.
-
-## US43 Operational safety review (SCRUM-239)
-
-Week 7 change 6, built in slices. **Slice 1 (sending an event for review):** a new **Safety
-Officer** role (`safety_officer`) and three statuses between Planning and Confirmed: **Awaiting
-safety review**, **Safety changes requested** and **In preparation**. The team decided an event is
-confirmed only after safety approval, so Planning can no longer go straight to Confirmed.
-
-**Switched off until the team turns it on** (`safety_review_settings` in the database and
-`VITE_FEATURE_SAFETY_REVIEW` in the app, both off by default): while off, Planning -> Confirmed works
-as before. The checklist for switching it on (US49's 0110, US44, US26) is in the US43 test cases.
-
-Once on, the Coordinator sends an event for review with **Send for safety review** on its Readiness card
-(US5), which is only allowed once every arrangement on the card is complete (registration setup
-aside, as it only opens on confirmation); readiness is one rule shared by the card and the review,
-including US49's rule that a rejected booking stays outstanding (0107).
-Each Safety Officer is then notified through the US33 helper. While the event awaits review only a
-Safety Officer's decision moves it on; its Coordinator can only cancel.
-
-**Slice 2 (the review queue):** **Safety reviews** (`/safety-reviews`, Safety Officers) lists the
-events awaiting review, oldest first, each with its attendance, accessibility needs, approved
-venues (layout and attendance against capacity, accessibility, restrictions such as maintenance,
-opening hours or blocks on the event's dates) and equipment with how much is reserved. US44
-(deciding), US45 (revising) and US26 (confirming) build on this.
-
-| File | Adds |
-| --- | --- |
-| `0109_us43_safety_review_queue.sql` | `get_safety_review_queue()` for the Safety Officer (tested after 0100) |
-| `0108_us43_safety_review.sql` | `safety_officer` role, the safety statuses and rules, `event_readiness_lines()` (shared readiness rule, plus a Safety review line), `send_for_safety_review()`, Safety Officer notices |
-
-Test cases: `docs/test-cases/US43_test_cases.md`.
-
-## US44 Approve / reject / request changes for safety review (SCRUM-249)
-
-Week 7 change 6, part of the safety review (US43), so hidden until it is switched on. From
-**Safety reviews**, the Safety Officer presses **Review** on an event awaiting review, assesses
-seven factors (attendance, venue capacity and layout, emergency access, accessibility, equipment
-placement, crowd movement, venue restrictions; a note for every concern) and records one decision.
-**Approve** moves the event to In Preparation; **Request changes** or **Reject** (with a comment and
-what to revisit: venue, equipment or both) moves it to Safety Changes Requested. The assigned
-Coordinator is notified through the US33 helper ("Safety review decisions") and sees a **Safety
-review** panel on the event with the decision, comment, what to revisit and each concern, plus
-earlier decisions. Each decision records who made it and when.
-
-| File | Adds |
-| --- | --- |
-| `0111_us44_safety_review_decisions.sql` | `safety_review_decisions` and `safety_review_assessments`, `record_safety_review_decision()`, `get_safety_review_decisions()`, the "Safety review decisions" notification type |
-
-Test cases: `docs/test-cases/US44_test_cases.md`.
-
-## US26 Confirm an event (SCRUM-71)
-
-A Coordinator confirms an event only once every essential arrangement on its Readiness card is
-complete (registration setup aside, as it opens on confirmation). The check is in the status rules
-(0117), so any change to Confirmed goes through it, not only the Confirm button; when it refuses,
-the Coordinator is told the event is not ready. With the safety review switched off, events are
-confirmed from Planning as before; switched on, only from In Preparation, after the Safety
-Officer's approval. A confirmed event shows as Confirmed to its Organiser and Coordinator, and its
-approved venue booking keeps the venue's time taken.
-
-| File | Adds |
-| --- | --- |
-| `0117_us26_confirm_when_ready.sql` | `event_ready_to_confirm()`, and the readiness check in `enforce_event_status_transition()` (built on 0115) |
-
-Test cases: `docs/test-cases/US26_test_cases.md`.
-
-## US45 Revise arrangements after a safety review (SCRUM-240)
-
-Week 7 change 6, part of the safety review (US43), so it only matters once that is switched on.
-When the Safety Officer requests changes or rejects (US44), the Coordinator presses **Revise
-arrangements**: the event returns to Planning and the venue and/or equipment bookings the Safety
-Officer named are flagged "Needs review" (US41's arrangement reviews, with the comment). Changes
-go through the normal approval flows; while any review is open the Readiness card shows
-"Arrangements needing review", which holds back sending for review and confirming. Once resolved,
-the Coordinator sends it for review again; earlier decisions stay in the Safety review panel. A new
-review flag or venue block on an event awaiting review or in preparation sends it back to Planning,
-and its Coordinator is told it needs a new safety review.
-
-| File | Adds |
-| --- | --- |
-| `0118_us45_revise_after_safety_review.sql` | safety review flags and send-back triggers, the revise route, the "Arrangements needing review" readiness line (built on 0108 and 0117) |
-
-Test cases: `docs/test-cases/US45_test_cases.md`.
-
-## US21 Cancel, postpone or reschedule an event (SCRUM-66)
-
-Slice 1: cancelling properly. When an event is cancelled, from any stage, its pending and confirmed
-venue bookings are released the way an individual cancellation (US49, 0110) releases them (recorded,
-slot claims freed, Venue Staff told), reserved equipment is released (items already checked out stay
-out for their return, US24), and attendees who registered or are waiting for a place are told, under
-a new "Cancelled, postponed or rescheduled events" notification type. The event record and its
-registrations are kept. The Cancel confirmation says what will happen.
-
-Slice 2: rescheduling. From the Decision card, the Coordinator gives an event a new start and end
-(any stage from Approved to Confirmed, or Postponed). It returns to Planning with the new date,
-its venue and equipment bookings are kept but flagged "Needs review" (team proposal #70 / US38),
-the change is recorded with the old date, and registered or waiting attendees are told the new
-and old times. Postponing (US38) now tells them too. AC-021.2 was revised to match #70.
-
-| File | Adds |
-| --- | --- |
-| `0120_us21_cancel_event_releases.sql` | `release_event_on_cancellation()` and its trigger, the attendee notification type (tested after 0110) |
-| `0122_us21_reschedule_and_postpone_notices.sql` | `reschedule_event()`, `event_reschedules`, the reschedule flag source, postponement notices (tested after 0120) |
-
-Test cases: `docs/test-cases/US21_test_cases.md`.
-
-## US32 View in-app notifications (SCRUM-229)
-
-Built in slices (trunk-based). **Slice 1 (the feed):** **Notifications** (`/notifications`, in
-every signed-in role's nav) lists the user's own notifications from every source, newest first,
-each with what happened, which event and when. It reads the features' own notification tables
-with the user's permissions, plus the emails in `notification_outbox` addressed to the user's
-own email, so notices that were only ever emailed also show in the app. **Slice 2 (read and unread):** unread notices stand out, the nav shows the unread count,
-opening a notice marks it read and goes to its event or item (by role), and **Mark all as
-read** clears them. Read state is kept per user in `notification_reads`, keyed on the feed's
-(source, id). US32 is complete, so the page is no longer behind a feature flag.
-
-| File | Adds |
-| --- | --- |
-| `0072_notification_feed.sql` | `get_my_notifications()`, `my_email_notifications()` |
-| `0073_notification_reads.sql` | `notification_reads`, read state and `item_id` in the feed, `mark_notification_read()`, `mark_all_notifications_read()`, `count_my_unread_notifications()` |
-
-Test cases: `docs/test-cases/US32_test_cases.md`.
-
-## US17 - Coordinator assignment
-
-Coordinators see **Assigned to me** first on the Requests page, followed by **Other
-event requests**. Assigned cards show **Assigned to you**. Refresh/polling updates
-the groups after reassignment, preserving ordering within each group. This is a
-display change only; database permissions still control access. AC-017.4.6 covers
-the grouping and refresh behaviour.
-
-Migration `0038_coordinator_lead_assignment.sql` adds the `coordinator_lead` role,
-non-draft event read access, and Lead-only assignment through the existing function
-and guard. Drafts, null targets and non-coordinator targets are refused; a coordinator
-can hold multiple events. Existing accounts are not automatically converted, and
-unrelated Operations Manager permissions are retained.
-
-Migration `0039_coordinator_reassignment.sql` prevents reassignment of completed/cancelled
-events and restricts coordinator event updates to the current assignee. It records future
-Lead assignment changes in `event_coordinator_assignment_history`, readable by Leads only.
-Browser users cannot write history; failed changes and unchanged assignments add no entries.
-Existing assignments and administrator SQL repairs are not backfilled as Lead actions.
-
-Slice 3 now gives Leads an Assignments navigation link and a submitted/unassigned queue
-at `/requests`, with reference, name, purpose, type, Singapore start/end times and attendance.
-Drafts, assigned requests and closed events are excluded from that queue. The coordinator
-dropdown now shows names and active event counts and saves through the existing assignment
-RPC, with error/retry feedback and a refreshed queue/counts on success. Apply migration
-`0041_coordinator_assignment_options.sql` before live dropdown testing; deployment is not
-yet confirmed. An Assigned events section now shows the current coordinator and allows
-reassignment of active events; saving requires a different coordinator. Completed/cancelled/
-rejected events are excluded. Live acceptance and notifications remain pending. The AC's withdrawn-event wording needs
-mapping to the team's event lifecycle; there is no separate `withdrawn` event status.
-Apply the reviewed migration after `0037`, once per shared environment; it has only
-been tested in disposable PostgreSQL during this slice. An administrator must provision
-a Lead account before assignment testing; the old Manager role no longer assigns.
-
-Jaydon confirmed applying 0039 to shared Supabase on 6 October 2026. Treat it as deployed
-and immutable; further database changes require a new claimed migration. Coordinators now
-need assignment before original-request review, including US4's existing update path.
-
-Slice 4: `0046_coordinator_assignment_notifications.sql` records notifications for the
-new coordinator and organiser from each Lead assignment-history entry, and queues
-emails in the existing `notification_outbox`. Both channels default on in the
-administrator-only `coordinator_assignment_notification_settings` table. Settings apply
-to future notices; replaying the migration preserves configuration. Recipient-only
-reads also require current event access. No browser writes, sender changes, historical
-backfill or inbox UI are included. Accounts without email retain their in-app record.
-The unchanged AC-017.5.1 passes in the full disposable SQL suite. Additional regression
-cases AC-017.5.2–3 verify reassignment recipients, no-op/failed-write exclusion, recipient
-and current-assignment reads, and denied browser writes/outbox access. They passed on
-first execution and are not red/green cycles. AC-017.5.4–5 additionally verify channel
-combinations, preservation of earlier notices, and replay of 0046 with populated data
-and non-default settings. The full SQL suite passed after correcting syntax in the
-new test, without feature changes; these are also regression coverage. Actual live
-delivery remains unverified.
-Jaydon reported 0046 applied to shared Supabase. Record actual email/in-app delivery
-separately from these queue assertions.
-Jaydon previously reported slice 3's manual UI checks passed; repeat affected flows
-after this slice rather than treating the earlier pending-live wording as current.
-
-Tests: four frontend tests (profile, Lead queue, assignment and reassignment) and 24 SQL cases, with IDs, TDD cycles, additional
-coverage and deployment details in [US17 assignment](docs/us17-assignment.md).
-
-US17 equipment handover follow-up: migration `0048_equipment_booking_assignment_access.sql`
-makes legacy equipment booking/line permissions follow the current event coordinator,
-preserving original requesters and existing Technical Support workflows. It is pending
-equipment-owner review and deployment. AC-017.4.4 is the unchanged red/green handover
-test; AC-017.4.5 adds regression coverage for requester/reservation protection. Both
-run in the disposable database suite. This branch does not include the separate 0047
-venue-access PR.
-
-## Shared Supabase state (5 October 2026)
-
-US17 update (9 October): slice 4 merged in PR #72, CI passed, and Jaydon confirmed
-0046 applied to shared Supabase. Earlier pending notes describe its development
-checkpoints. Live delivery remains unverified. A local-only US17 venue handover
-follow-up adds AC-017.4.2 for the old coordinator retaining booking rights. It now
-passes unchanged with local migration 0047; the full SQL suite and 864 frontend
-tests passed (one TODO). 0047 is not deployed. It transfers booking/slot write
-authority to the assigned coordinator, retaining the requester fallback for
-legacy unassigned events. Frontend booking filters were updated in the next
-TDD checkpoint described below. Coordinate US11/US17 wording with Nicole
-before merging that follow-up. See [US17 assignment](docs/us17-assignment.md).
-Frontend checkpoint AC-017.4.3 now passes unchanged after its red CI run. Booking
-lists use current event assignment; submit/release rely on 0047's write policies
-instead of original-requester filters. The full frontend suite has 865 passes
-and one existing TODO, and the full SQL suite passes. Four existing venue test
-expectations were updated for the proposed rule. Green CI and live acceptance
-remain pending; 0047 is not deployed and Nicole's approval is still required.
-
-All migrations `0001`–`0025`, plus the `0019a` repair, were replayed in order on shared
-Supabase on 5 October 2026, one transaction per file. No file failed. Before the replay,
-every `public` table's data was copied to the private schema `backup_20261005`; drop it
-once the team has checked everything (`drop schema backup_20261005 cascade;`).
-
-What the replay found and fixed:
-
-- **Missing access rules.** `venues`, `venue_closures`, `venue_bookings`,
-  `venue_slot_claims`, `time_slots` and most of 0019's equipment tables had RLS on but no
-  policies, so signed-in users saw no rows. That is why venue search was empty. They now
-  have the policies 0018 and 0019 define, so behaviour on shared Supabase matches CI.
-- **Hand-edited `venues` columns.** `layout` and `facility` had been changed to text lists.
-  0019a converted them back: `layout` keeps its first listed layout, and `facility` becomes
-  `{"code": true}`. Any further listed layouts are in the backup and can be re-added as
-  `venue_layouts` rows.
-
-Schema changes go through migrations only. Changing a table by hand in the dashboard is
-what caused the drift.
-
-US12's migrations `0026`–`0034` were then applied in order on shared Supabase on
-5 October 2026, one file per run in the SQL Editor, with a read-only check confirming each.
-From then on, Venue Staff cannot write `venue_closures` directly, and a booking with an
-open venue-block flag cannot be confirmed.
-
-Structured requirements update (13 October): `0054`, `0055` and `0056` are local only and
-**not applied to shared Supabase**. Apply them as a set, in that order, after the US7,
-US10 and US13/US14 owners have reviewed their parts — `0055` is what lets the review
-operation accept a code list, so applying `0054` alone leaves change requests for a
-requirement field failing. After applying, read `event_requirement_migration_notes` to see
-which existing free text could not be mapped to a code, and decide with the organisers
-whether any of it should become a new catalogue option.
-
-Client organisations update (18 October): `0069` is local only and **not applied to shared Supabase**. It is the first migration to backfill `profiles`, so apply it in a sitting of its own and check the result before anything else: it places every existing Organiser in `Northwind Trading`, and individual Organisers are moved afterwards from the SQL editor or the table editor, where statements run without a JWT. Renaming the two seeded organisations to real client names is safe at any time; their ids are what the data depends on. Any seed or fixture that creates an Organiser must set `client_org_id` in the same statement from this migration onward.
-
-Latest progress supersedes older remaining-work notes: significance, the revalidation
-hook, clarification replies and coordinator notification triggers are implemented. Jaydon
-reported a queued email in shared Supabase; delivery is not yet verified. Organiser
-notifications are deferred. The story still needs final verification and team review.
-
-## US20 — coordinator event updates (SCRUM-65)
-
-- **Slice 1, AC1–AC2:** assigned coordinators edit Approved/Planning event details,
-  with chronological before/after history and arrangement-review safeguards.
-  Migration `0063_event_planning_updates.sql`; merged in PR #98.
-- **Slice 2, AC3:** assigned coordinators propose an active alternative for a booking
-  at a venue whose existing status is **retired**. Venue Staff approve/reject with
-  a recorded note. Approval atomically confirms the replacement and releases the
-  original reservation; failures preserve the original. Coordinators can withdraw
-  pending proposals. Migration `0065_retired_venue_replacement.sql` is reserved and
-  implemented locally; publication, CI review and shared deployment remain pending.
-
-Coordinator entry: **Your venue bookings → Retired venue replacements**. Venue Staff
-entry: **Pending venue bookings → Retired venue replacements**. Proposals do not
-reserve alternative slots. Existing slot/buffer/conflict checks run at approval;
-staff assess venue suitability from current requirements and venue information.
-The workflow supports live holds, pending bookings and confirmed bookings while
-the event is Approved/Planning. It does not introduce scheduled retirement or
-allow edits to Confirmed/Completed/Cancelled events.
-
-Development follows code-first implementation with AC-labelled tests and saved
-evidence. [Slice 1 documentation](docs/us20-slice1.md) and
-[Slice 2 documentation](docs/us20-slice2.md) include test results, traceability and
-terminal commands for capturing Scrum evidence. Slice 2 cases use AC-020.3.1–21,
-.30–37 and .50–61; next ID is **AC-020.3.62**. Keep migrations 0063 and 0065 in the
-normal ordered deployment process; no shared Supabase deployment is implied here.
-
-## US47 venue setup and turnaround
-
-Venue Staff configure independent setup/turnaround durations under **Manage venues →
-Edit**. Durations are non-negative multiples of 15 minutes and default to zero.
-New holds and booking checks include setup before and turnaround after the event.
-Search, suitability and calendars account for occupied time; calendar and saved
-booking history show readable time ranges.
-
-Settings changes preserve existing reservations and flag conflicting arrangements
-for review. Assigned Coordinators and Venue Staff receive notices through the
-existing notification system, respecting their channel preferences. Email is queued;
-email receipt is not claimed by the database tests.
-
-Implementation PRs are merged and migrations 0074, 0075 and 0098 applied to shared
-Supabase. Manual UI checks passed and the evidence sheet is updated. The recorded
-implementation verification passed 1,500 frontend tests, typecheck, lint, build and
-historical/upgrade/fresh-install database suites, including migration replay and
-hold/approval concurrency checks.
-
-See [acceptance review and scope](docs/us47-venue-buffers.md),
-[test cases](docs/test-cases/US47_test_cases.md),
-[evidence](docs/test-evidence/us47/README.md), and the
-[deployment reference](docs/us47-booking-time-deployment.md). Automated runs stay in
-GitHub Actions; the shared sheet's Automated Test Case Runs tab is unchanged.
-
-
-## US48 replacement venues (SCRUM-243)
-
-Implementation is merged in PRs #127 and #128; PR #128 has four checks passed.
-Coordinators see blocked/retired reasons and Needs replacement, search using prefilled
-event timing/requirements, and submit through the existing staff approval flow.
-Approval atomically releases the original and resolves only its eligible blocked/retired
-reviews with staff/replacement attribution. Other reviews and all event details stay;
-failed, rejected and withdrawn outcomes preserve the original reservation.
-
-0099 extends the US20 replacement flow; 0100 adds continuous venue-block start/end
-periods at quarter-hour boundaries in Singapore time. Existing daily-slot block gaps
-remain intact. Deploy 0100 after 0099 before this frontend; shared contracts affect
-US12 blocking and US47 conflict readers. Jaydon confirmed 0099 applied and all final
-manual-checklist steps passed, including the 0100-dependent block workflow.
-
-Final local verification: 1,516 frontend tests / 173 files, build/typecheck/lint and
-historical/current upgrade/fresh database gates passed. One automated search-label
-UI defect was fixed with failure evidence retained. No manual defect was reported.
-This documentation closeout claims no new test execution or email delivery.
-
-All six ACs have passing implementation/manual evidence. Jaydon confirmed the
-evidence sheet is up to date. Documentation merge and Jira transition remain.
-See [story notes](docs/us48-venue-replacement.md),
-[test cases](docs/test-cases/US48_test_cases.md) and
-[evidence](docs/test-evidence/us48/README.md).
-
-## US49 — multiple venues per event
-
-Assigned Coordinators can request several venues, each with its own layout and
-attendance (0102). Each booking is reviewed independently; the event shows every
-booking and its status. Rejected requirements remain outstanding until explicitly
-resolved/cancelled (0107, retained in US43's shared readiness helper).
-
-Migration **0110** adds reason-required individual cancellation of pending,
-approved and rejected bookings. It records actor/time, retains original decisions,
-releases only that booking's slots and buffers, and notifies Venue Staff through
-their channel preferences. Other bookings and the event remain unchanged, even
-when the last booking is cancelled. Tentative holds keep their existing release
-action. Deploy 0110 and the cancellation UI before enabling the safety workflow;
-this migration does not toggle the safety switch.
-
-See [Slice 1](docs/us49-slice1.md), [Slice 2](docs/us49-slice2.md) and
-[Slice 3 / deployment and manual checks](docs/us49-slice3.md).
-
-Release UI follow-up (4 November 2026): Coordinator-only request panels are hidden
-from Organisers; equipment status saves report an unknown outcome after 15 seconds
-rather than remaining locked indefinitely. No migration. See
-[validation and limits](docs/test-evidence/release-ui-fixes/README.md).
-
-US41 coverage follow-up (4 November 2026): arrangement review service reaches 100%
-across all metrics; panel reaches 100% statements/lines/functions and 95.74% branches.
-Remaining timestamp guards are justified against the database constraint.
-[Results and limits](docs/test-evidence/us41/arrangement-coverage/README.md).
-
-US47 buffer-settings coverage (4 November 2026): service reaches 100% across all
-metrics; panel reaches 100% statements/lines/functions and 96.96% branches. The
-remaining disabled-submit guard is documented. Tests/docs only; no migration.
-[Results and limits](docs/test-evidence/us47/buffer-coverage/README.md).
-
-## US48 replacement coverage — 4 November 2026
-
-Seven component cases strengthen interrupted-load recovery, stale-response handling,
-search consent and retained decision history. Three files reach 100% across all
-coverage measures; two retain documented duplicate-submit guards. Full frontend:
-1,794 tests passed. No application or database changes.
-[Results and remaining reasons](docs/test-evidence/us48/replacement-coverage/README.md).
+Inside each feature folder, pure rule modules (validation, status rules, slot calculations) hold
+no React or Supabase code and are unit-tested directly; services wrap the Supabase calls; pages
+and components build the screens; and `__tests__/` holds the tests. A feature folder matches a
+backlog area and a C3 component, so a requirement can be traced from Jira to its code in one step.
+
+## Further documentation
+
+- [Architecture and workflows (C4)](docs/architecture/README.md)
+- [Implementation notes per user story](docs/implementation-notes.md): the design decisions, migrations
+  and verification recorded for each story during development
+- [Final-sprint requirement change log](docs/change-log.md)
+- [Test-case index](docs/test-cases/README.md)
