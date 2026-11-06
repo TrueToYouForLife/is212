@@ -1,0 +1,93 @@
+[
+  {
+    "component": "Event Request Module",
+    "responsibilities": [
+      "Create, save, reopen and submit requests",
+      "Status, organisation scope and clarification replies"
+    ]
+  },
+  {
+    "component": "Change Request Module",
+    "responsibilities": [
+      "Propose changes; answer field clarification",
+      "Retain requested values, replies and outcomes"
+    ]
+  },
+  {
+    "component": "Change Review Module",
+    "responsibilities": [
+      "Compare current and proposed values",
+      "Approve, reject or clarify each field",
+      "Significant changes trigger revalidation"
+    ]
+  },
+  {
+    "component": "Assignment Module",
+    "responsibilities": [
+      "Lead assigns / reassigns Coordinators",
+      "Unassigned queue, active events and workloads",
+      "Assigned-only management"
+    ]
+  },
+  {
+    "component": "Event Review Module",
+    "responsibilities": [
+      "Review, approve, reject or clarify requests",
+      "Read clarification replies and decision history",
+      "Approval starts planning"
+    ]
+  },
+  {
+    "component": "Revalidation Module",
+    "responsibilities": [
+      "Track affected venue / equipment reasons",
+      "Resolve one reason; retain actor and history",
+      "Change, resource and reschedule flags"
+    ]
+  },
+  {
+    "component": "Venue Booking Module",
+    "responsibilities": [
+      "Catalogue, search, suitability, calendar and holds",
+      "15-minute buffers; multi-venue staff decisions",
+      "Blocks, retirement, replacement; keep siblings"
+    ]
+  },
+  {
+    "component": "Equipment Booking Module",
+    "responsibilities": [
+      "Requirements, stock checks and reservations",
+      "Catalogue, unit condition, return inspections"
+    ]
+  },
+  {
+    "component": "Readiness & Safety Module",
+    "responsibilities": [
+      "Check required arrangements; explicitly send",
+      "Officer decision; revisions and resubmission",
+      "Open reviews block readiness; registration exempt"
+    ]
+  },
+  {
+    "component": "Event Lifecycle Module",
+    "responsibilities": [
+      "Plan, postpone, reschedule, cancel and complete",
+      "Confirmed summaries and event audit display"
+    ]
+  },
+  {
+    "component": "Registration Module",
+    "responsibilities": [
+      "Enable registration; confirmed-event capacity",
+      "Register, withdraw, waiting offers and visibility"
+    ]
+  },
+  {
+    "component": "Notification Module",
+    "responsibilities": [
+      "Recipient-scoped notices and read state",
+      "Per-type in-app / email preferences",
+      "Producers are in the backend"
+    ]
+  }
+]

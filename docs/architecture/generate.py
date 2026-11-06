@@ -1,4 +1,4 @@
-"""Editable SVG architecture diagrams. Run: python3 docs/architecture/generate.py"""
+"""Generate current architecture and retained workflow SVGs. Run: python3 docs/architecture/generate.py"""
 from pathlib import Path
 from html import escape as e
 P=Path(__file__).parent
@@ -23,114 +23,6 @@ class Diagram:
    self.s.append(f'<rect x="{lx-4}" y="{ly-15}" width="{len(label)*7.6+8}" height="20" fill="white"/>');self.text(lx,ly,label,'small')
  def save(self,name,foot):
   self.text(40,self.h-24,foot,'small');self.s.append('</svg>');(P/name).write_text('\n'.join(self.s))
-
-D=Diagram('C1 · ConnectSphere system context','Whole-project target • People, responsibilities and external email delivery',h=1010)
-D.box(505,390,430,160,'ConnectSphere',['Event planning and coordination','Venue and equipment arrangements','Safety, registration and notifications'])
-roles=[(40,140,'Event Organiser',['Submit requests and changes','Track decisions and arrangements']),(505,140,'Event Coordinator Lead',['Assign and reassign coordinators','Oversee active events and workloads']),(970,140,'Event Coordinator',['Review assigned requests','Coordinate and confirm arrangements']),(40,405,'Venue Staff',['Maintain venues and availability','Review bookings and prepare venues']),(970,405,'Technical Support Staff',['Assess and reserve equipment','Prepare, return and record defects']),(40,675,'Safety Officer',['Review operational safety','Approve or request revisions']),(970,675,'Attendee',['Register, withdraw and waitlist','View registration and event updates'])]
-for x,y,t,ls in roles:D.box(x,y,430 if x==505 else 390,115,t,ls,'person')
-D.edge([(235,255),(235,310),(565,310),(565,390)],'uses',250,303)
-D.edge([(720,255),(720,390)],'uses',735,332)
-D.edge([(1165,255),(1165,310),(875,310),(875,390)],'uses',1060,303)
-D.edge([(430,463),(505,463)],'uses',440,452)
-D.edge([(970,463),(935,463)],'uses',942,444)
-D.edge([(235,675),(235,610),(565,610),(565,550)],'uses',250,603)
-D.edge([(1165,675),(1165,610),(875,610),(875,550)],'uses',1070,603)
-D.box(505,675,430,115,'Email delivery service',['External SMTP provider','Delivers application email notices'],'external')
-D.edge([(720,550),(720,675)],'requests email delivery',737,630)
-# Shared perimeter routing keeps email links away from the central uses arrows.
-D.s.append('<defs><marker id="email-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9" fill="#936238"/></marker></defs>')
-email_paths = [
- [(650,790),(650,850),(20,850),(20,197),(40,197)],
- [(790,790),(790,850),(1420,850),(1420,197),(1360,197)],
- [(650,790),(650,850),(20,850),(20,462),(40,462)],
- [(790,790),(790,850),(1420,850),(1420,462),(1360,462)],
- [(650,790),(650,850),(20,850),(20,732),(40,732)],
- [(790,790),(790,850),(1420,850),(1420,732),(1360,732)],
-]
-for points in email_paths:
- path=' '.join(('M' if i==0 else 'L')+f'{x},{y}' for i,(x,y) in enumerate(points))
- D.s.append(f'<path d="{path}" fill="none" stroke="#936238" stroke-width="1.7" stroke-dasharray="7 5" marker-end="url(#email-arrow)"/>')
-D.text(40,904,'Dashed brown arrows: email delivery to each role, according to notification type and preferences.','body')
-D.text(40,933,'Solid arrows: users interact with ConnectSphere; ConnectSphere requests email delivery.','body')
-D.save('c1-context.svg','Coordinator Lead replaces the former Events Operations Manager title. Safety Officer is a Week 7 addition.')
-
-D=Diagram('C2 · ConnectSphere containers','Whole-project target • Existing stack with planned scheduling and notification capabilities',h=970)
-D.boundary(340,115,1060,690,'ConnectSphere')
-D.box(40,170,260,120,'Users',['Organiser, Lead, Coordinator','Venue, Technical, Safety staff','Attendee'],'person')
-D.box(390,170,350,120,'Web application',['React + TypeScript / Vite','Role-specific browser interface'])
-D.box(970,170,350,120,'Authentication',['Supabase Auth','Sign-in and session tokens'])
-D.box(390,400,350,120,'Data API',['Supabase PostgREST / RPC','Authenticated reads and operations'])
-D.box(970,400,350,120,'Notification sender',['Supabase Edge Function','Reads outbox; records delivery'])
-D.box(390,640,350,120,'Database',['PostgreSQL on Supabase','Data, RLS, atomic rules and history'])
-D.box(970,640,350,120,'Scheduled processing',['Planned: expiry and reminders','Execution mechanism to be agreed'],'planned')
-D.box(970,835,350,85,'Email service',['External SMTP • current sender: Gmail'],'external')
-D.edge([(300,230),(390,230)],'uses',321,218)
-D.edge([(740,225),(970,225)],'HTTPS',824,213)
-D.edge([(565,290),(565,400)],'HTTPS + session token',580,353)
-D.edge([(565,520),(565,640)],'SQL / authorised RPC',580,588)
-D.edge([(970,460),(740,460)],'read/update outbox',784,447)
-D.edge([(970,700),(740,700)],'expiry operations',795,686)
-D.edge([(1320,460),(1360,460),(1360,880),(1320,880)],'SMTP/TLS',1260,817)
-D.save('c2-containers.svg','Sender invocation/deployment is not asserted here. No separate custom API server; database rules enforce access and integrity.')
-
-D=Diagram('C3 · ConnectSphere feature modules','Whole-project target • Each feature module contains its UI, services and pure validation',w=1900,h=2260)
-D.box(470,110,960,90,'Application users',['Organiser · Coordinator Lead · Coordinator · Venue Staff · Technical Support · Safety Officer · Attendee'],'person')
-D.boundary(35,235,1830,1690,'Web application container • React + TypeScript')
-D.boundary(60,275,1780,1230,'Feature modules')
-modules=[
- (100,320,'Event Request Module',['Create, save, reopen and submit requests','View request status and details']),
- (750,320,'Change Request Module',['Propose changes and answer clarification','View field outcomes and reasons']),
- (1400,320,'Change Review Module',['Compare current and proposed values','Approve, reject or clarify each field']),
- (100,640,'Assignment Module',['Lead assigns / reassigns coordinators','Active events and workload overview']),
- (750,640,'Event Review Module',['Review, approve, reject or clarify requests','Record decisions and review history']),
- (1400,640,'Revalidation Module',['Check affected arrangements after changes','Flag issues; retain and resolve review flags']),
- (100,990,'Venue Booking Module',['Search, suitability, calendar and holds','Review bookings; manage replacements']),
- (750,990,'Equipment Booking Module',['Record requirements and reserve equipment','Manage availability, returns and defects']),
- (1400,990,'Readiness & Safety Module',['Check essential arrangements and safety','Review, request revision and approve']),
- (100,1350,'Event Lifecycle Module',['Confirm, reschedule, cancel and complete','Show confirmed arrangements and history']),
- (750,1350,'Registration Module',['Browse events, register and withdraw','Capacity, waiting list and registration status']),
- (1400,1350,'Notification Module',['Read notices and mark them as read','Configure in-app / email preferences']),
-]
-for x,y,t,lines in modules:D.box(x,y,400,125,t,lines)
-# Dashed links show logical information/workflow relationships, not direct JS calls.
-D.s.append('<defs><marker id="flow-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9" fill="#936238"/></marker></defs>')
-def relation(points,label,x,y):
- path=' '.join(('M' if i==0 else 'L')+f'{a},{b}' for i,(a,b) in enumerate(points))
- D.s.append(f'<path d="{path}" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>')
- D.s.append(f'<rect x="{x-4}" y="{y-16}" width="{len(label)*7.7+8}" height="22" fill="white"/>');D.text(x,y,label,'small')
-D.edge([(950,200),(950,275)],'uses modules permitted for their role',973,221)
-relation([(500,377),(750,377)],'request to amend',540,361)
-relation([(1150,377),(1400,377)],'proposals and replies',1170,361)
-relation([(1500,320),(1500,305),(1050,305),(1050,320)],'field questions / outcomes',1165,296)
-relation([(300,445),(300,640)],'submitted, unassigned requests',315,540)
-relation([(500,700),(750,700)],'assigned requests',538,684)
-relation([(1600,445),(1600,640)],'approved significant changes',1616,535)
-relation([(950,765),(950,990)],'equipment requirements',965,810)
-relation([(850,765),(850,845),(300,845),(300,990)],'approved event / venue needs',370,829)
-relation([(1500,765),(1500,900),(1060,900),(1060,990)],'equipment flags / reasons',1155,884)
-relation([(1450,765),(1450,865),(400,865),(400,990)],'venue flags / reasons',1120,850)
-relation([(500,1070),(630,1070),(630,940),(1600,940),(1600,990)],'venue decisions, capacity and restrictions',1035,925)
-relation([(1150,1050),(1400,1050)],'reservation readiness',1170,1034)
-relation([(1700,1115),(1700,1190),(300,1190),(300,1350)],'safety approval / outstanding actions',825,1174)
-relation([(100,1410),(80,1410),(80,900),(200,900),(200,990)],'revised venue arrangements',92,1218)
-relation([(400,1350),(400,1245),(950,1245),(950,1115)],'revised equipment arrangements',545,1230)
-relation([(500,1410),(750,1410)],'confirmed, open events',518,1394)
-relation([(1150,1410),(1400,1410)],'registration updates*',1170,1394)
-D.text(100,2160,'Dashed brown: workflow / information relationships via persisted records and backend operations; not direct module-to-module calls.','small')
-D.text(100,2190,'* Notifications also reflect request, assignment, review, venue, equipment, safety and lifecycle outcomes recorded by the backend.','small')
-D.box(100,1660,400,100,'Auth Module',['Session, profile and role context','Sign-in and session lifecycle'])
-D.box(750,1660,400,100,'Shared UI Components',['Navigation, forms, badges and errors','Reusable display and interaction elements'])
-D.box(1400,1660,400,100,'Supabase Client',['Single configured supabase-js client','Used by services inside each module'])
-D.edge([(300,1505),(300,1660)],'uses session / role context',316,1618)
-D.edge([(950,1505),(950,1660)],'reuses UI components',966,1618)
-D.edge([(1600,1505),(1600,1660)],'services query / call RPCs',1616,1618)
-D.edge([(300,1760),(300,1840),(1600,1840),(1600,1760)],'sign-in / refresh session through client',730,1825)
-D.text(100,1885,'Solid blue: technical dependency. Shared-support arrows attach to the feature group and apply across its modules.','small')
-D.box(680,2020,510,90,'Supabase Data API / RPC',['PostgreSQL enforces permissions and business rules'],'external')
-D.box(1400,2020,400,90,'Supabase Auth',['Authentication service'],'external')
-D.edge([(1500,1760),(1500,1945),(935,1945),(935,2020)],'HTTPS: authorised reads / business operations',970,1931)
-D.edge([(1750,1760),(1750,2020)],'HTTPS: auth',1628,1990)
-D.save('c3-components.svg','Planned architecture, not completion status. Authoritative revalidation, audit writes and email dispatch belong to backend components shown in C2.')
 
 # Three readable workflow sheets replace crossing role-lane routes.
 # Named continuation points connect sheets without long, ambiguous arrows.
@@ -204,3 +96,8 @@ D.edge([(1600,590),(1600,720)],'equipment returned',1615,663)
 panel_note(D,895,['Waiting list: offer a freed place in queue order; allow 3 days to accept. Withdrawal frees a place. Registration is optional.', 'Equipment return is a separate operational follow-up, not an extra condition invented for marking the event Completed.'])
 D.save('workflow-part-3.svg','Significant changes or resource problems can interrupt this journey: recheck affected arrangements and safety before proceeding.')
 
+
+# Generate the current C1–C3 from their maintained source.
+if __name__ == "__main__":
+ import runpy
+ runpy.run_path(str(P / "generate_architecture.py"), run_name="__main__")

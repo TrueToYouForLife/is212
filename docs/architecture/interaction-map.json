@@ -1,0 +1,104 @@
+[
+  {
+    "source": "Event Request",
+    "target": "Change Request",
+    "relationship": "request to amend",
+    "kind": "workflow/data through persisted state and backend operations"
+  },
+  {
+    "source": "Change Request",
+    "target": "Change Review",
+    "relationship": "proposals / replies",
+    "kind": "workflow/data through persisted state and backend operations"
+  },
+  {
+    "source": "Change Review",
+    "target": "Change Request",
+    "relationship": "field questions / outcomes",
+    "kind": "workflow/data through persisted state and backend operations"
+  },
+  {
+    "source": "Event Request",
+    "target": "Assignment",
+    "relationship": "submitted, unassigned requests",
+    "kind": "workflow/data through persisted state and backend operations"
+  },
+  {
+    "source": "Assignment",
+    "target": "Event Review",
+    "relationship": "assigned requests",
+    "kind": "workflow/data through persisted state and backend operations"
+  },
+  {
+    "source": "Change Review",
+    "target": "Revalidation",
+    "relationship": "approved significant changes",
+    "kind": "workflow/data through persisted state and backend operations"
+  },
+  {
+    "source": "Event Review",
+    "target": "Equipment Booking",
+    "relationship": "equipment requirements",
+    "kind": "workflow/data through persisted state and backend operations"
+  },
+  {
+    "source": "Event Review",
+    "target": "Venue Booking",
+    "relationship": "approved event / venue needs",
+    "kind": "workflow/data through persisted state and backend operations"
+  },
+  {
+    "source": "Revalidation",
+    "target": "Venue Booking",
+    "relationship": "venue flags / reasons",
+    "kind": "workflow/data through persisted state and backend operations"
+  },
+  {
+    "source": "Revalidation",
+    "target": "Equipment Booking",
+    "relationship": "equipment flags / reasons",
+    "kind": "workflow/data through persisted state and backend operations"
+  },
+  {
+    "source": "Venue Booking",
+    "target": "Readiness & Safety",
+    "relationship": "venue decisions, capacity and restrictions",
+    "kind": "workflow/data through persisted state and backend operations"
+  },
+  {
+    "source": "Equipment Booking",
+    "target": "Readiness & Safety",
+    "relationship": "reservation readiness",
+    "kind": "workflow/data through persisted state and backend operations"
+  },
+  {
+    "source": "Readiness & Safety",
+    "target": "Event Lifecycle",
+    "relationship": "safety approval / outstanding actions",
+    "kind": "workflow/data through persisted state and backend operations"
+  },
+  {
+    "source": "Event Lifecycle",
+    "target": "Venue Booking",
+    "relationship": "revised venue arrangements",
+    "kind": "workflow/data through persisted state and backend operations"
+  },
+  {
+    "source": "Event Lifecycle",
+    "target": "Equipment Booking",
+    "relationship": "revised equipment arrangements",
+    "kind": "workflow/data through persisted state and backend operations"
+  },
+  {
+    "source": "Event Lifecycle",
+    "target": "Registration",
+    "relationship": "confirmed, open events",
+    "kind": "workflow/data through persisted state and backend operations"
+  },
+  {
+    "source": "Registration",
+    "target": "Notification",
+    "relationship": "registration updates",
+    "kind": "workflow/data through persisted state and backend operations"
+  }
+]
