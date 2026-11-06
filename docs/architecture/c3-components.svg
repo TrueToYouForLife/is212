@@ -1,154 +1,159 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1900 2260" role="img"><title>C3 · ConnectSphere feature modules</title><defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9" fill="#52647a"/></marker></defs><style>text{font-family:Arial,sans-serif;fill:#203047} .title{font-size:30px;font-weight:700} .head{font-size:19px;font-weight:700} .body{font-size:16px} .small{font-size:14px} .edge{fill:none;stroke:#52647a;stroke-width:1.8;marker-end:url(#arrow)} </style><rect width="100%" height="100%" fill="#fff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2200 2560" role="img"><title>C3 · ConnectSphere feature modules</title><defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9" fill="#52647a"/></marker></defs><style>text{font-family:Arial,sans-serif;fill:#203047} .title{font-size:30px;font-weight:700} .head{font-size:19px;font-weight:700} .body{font-size:16px} .small{font-size:14px} .edge{fill:none;stroke:#52647a;stroke-width:1.8;marker-end:url(#arrow)} </style><rect width="100%" height="100%" fill="#fff"/>
 <text x="40" y="48" class="title" text-anchor="start">C3 · ConnectSphere feature modules</text>
-<text x="40" y="79" class="body" text-anchor="start">Whole-project target • Each feature module contains its UI, services and pure validation</text>
-<rect x="470" y="110" width="960" height="90" rx="10" fill="#e6f4f2" stroke="#4a8d85" stroke-width="1.5"/>
-<text x="950.0" y="140" class="head" text-anchor="middle">Application users</text>
-<text x="950.0" y="167" class="body" text-anchor="middle">Organiser · Coordinator Lead · Coordinator · Venue Staff · Technical Support · Safety Officer · Attendee</text>
-<rect x="35" y="235" width="1830" height="1690" rx="14" fill="none" stroke="#9aaec5" stroke-dasharray="6 5"/>
-<text x="51" y="259" class="small" text-anchor="start">Web application container • React + TypeScript</text>
-<rect x="60" y="275" width="1780" height="1230" rx="14" fill="none" stroke="#9aaec5" stroke-dasharray="6 5"/>
-<text x="76" y="299" class="small" text-anchor="start">Feature modules</text>
-<rect x="100" y="320" width="400" height="125" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
-<text x="300.0" y="350" class="head" text-anchor="middle">Event Request Module</text>
-<text x="300.0" y="377" class="body" text-anchor="middle">Create, save, reopen and submit requests</text>
-<text x="300.0" y="400" class="body" text-anchor="middle">View request status and details</text>
-<rect x="750" y="320" width="400" height="125" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
-<text x="950.0" y="350" class="head" text-anchor="middle">Change Request Module</text>
-<text x="950.0" y="377" class="body" text-anchor="middle">Propose changes and answer clarification</text>
-<text x="950.0" y="400" class="body" text-anchor="middle">View field outcomes and reasons</text>
-<rect x="1400" y="320" width="400" height="125" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
-<text x="1600.0" y="350" class="head" text-anchor="middle">Change Review Module</text>
-<text x="1600.0" y="377" class="body" text-anchor="middle">Compare current and proposed values</text>
-<text x="1600.0" y="400" class="body" text-anchor="middle">Approve, reject or clarify each field</text>
-<rect x="100" y="640" width="400" height="125" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
-<text x="300.0" y="670" class="head" text-anchor="middle">Assignment Module</text>
-<text x="300.0" y="697" class="body" text-anchor="middle">Lead assigns / reassigns coordinators</text>
-<text x="300.0" y="720" class="body" text-anchor="middle">Active events and workload overview</text>
-<rect x="750" y="640" width="400" height="125" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
-<text x="950.0" y="670" class="head" text-anchor="middle">Event Review Module</text>
-<text x="950.0" y="697" class="body" text-anchor="middle">Review, approve, reject or clarify requests</text>
-<text x="950.0" y="720" class="body" text-anchor="middle">Record decisions and review history</text>
-<rect x="1400" y="640" width="400" height="125" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
-<text x="1600.0" y="670" class="head" text-anchor="middle">Revalidation Module</text>
-<text x="1600.0" y="697" class="body" text-anchor="middle">Check affected arrangements after changes</text>
-<text x="1600.0" y="720" class="body" text-anchor="middle">Flag issues; retain and resolve review flags</text>
-<rect x="100" y="990" width="400" height="125" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
-<text x="300.0" y="1020" class="head" text-anchor="middle">Venue Booking Module</text>
-<text x="300.0" y="1047" class="body" text-anchor="middle">Search, suitability, calendar and holds</text>
-<text x="300.0" y="1070" class="body" text-anchor="middle">Review bookings; manage replacements</text>
-<rect x="750" y="990" width="400" height="125" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
-<text x="950.0" y="1020" class="head" text-anchor="middle">Equipment Booking Module</text>
-<text x="950.0" y="1047" class="body" text-anchor="middle">Record requirements and reserve equipment</text>
-<text x="950.0" y="1070" class="body" text-anchor="middle">Manage availability, returns and defects</text>
-<rect x="1400" y="990" width="400" height="125" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
-<text x="1600.0" y="1020" class="head" text-anchor="middle">Readiness &amp; Safety Module</text>
-<text x="1600.0" y="1047" class="body" text-anchor="middle">Check essential arrangements and safety</text>
-<text x="1600.0" y="1070" class="body" text-anchor="middle">Review, request revision and approve</text>
-<rect x="100" y="1350" width="400" height="125" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
-<text x="300.0" y="1380" class="head" text-anchor="middle">Event Lifecycle Module</text>
-<text x="300.0" y="1407" class="body" text-anchor="middle">Confirm, reschedule, cancel and complete</text>
-<text x="300.0" y="1430" class="body" text-anchor="middle">Show confirmed arrangements and history</text>
-<rect x="750" y="1350" width="400" height="125" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
-<text x="950.0" y="1380" class="head" text-anchor="middle">Registration Module</text>
-<text x="950.0" y="1407" class="body" text-anchor="middle">Browse events, register and withdraw</text>
-<text x="950.0" y="1430" class="body" text-anchor="middle">Capacity, waiting list and registration status</text>
-<rect x="1400" y="1350" width="400" height="125" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
-<text x="1600.0" y="1380" class="head" text-anchor="middle">Notification Module</text>
-<text x="1600.0" y="1407" class="body" text-anchor="middle">Read notices and mark them as read</text>
-<text x="1600.0" y="1430" class="body" text-anchor="middle">Configure in-app / email preferences</text>
+<rect x="430" y="120" width="1340" height="95" rx="10" fill="#e6f4f2" stroke="#4a8d85" stroke-width="1.5"/>
+<text x="1100.0" y="150" class="head" text-anchor="middle">Application users</text>
+<text x="1100.0" y="177" class="body" text-anchor="middle">Organiser · Coordinator Lead · Coordinator · Venue Staff · Technical Support · Safety Officer · Attendee</text>
+<rect x="35" y="250" width="2130" height="1930" rx="14" fill="none" stroke="#9aaec5" stroke-dasharray="6 5"/>
+<text x="51" y="274" class="small" text-anchor="start">Web application container • React + TypeScript</text>
+<rect x="80" y="290" width="2060" height="1490" rx="14" fill="none" stroke="#9aaec5" stroke-dasharray="6 5"/>
+<text x="96" y="314" class="small" text-anchor="start">Feature modules</text>
+<rect x="100" y="350" width="500" height="160" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
+<text x="350.0" y="380" class="head" text-anchor="middle">Event Request Module</text>
+<text x="350.0" y="407" class="body" text-anchor="middle">Create, save, reopen and submit requests</text>
+<text x="350.0" y="430" class="body" text-anchor="middle">Status, organisation scope and clarification replies</text>
+<rect x="850" y="350" width="500" height="160" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
+<text x="1100.0" y="380" class="head" text-anchor="middle">Change Request Module</text>
+<text x="1100.0" y="407" class="body" text-anchor="middle">Propose changes; answer field clarification</text>
+<text x="1100.0" y="430" class="body" text-anchor="middle">Retain requested values, replies and outcomes</text>
+<rect x="1600" y="350" width="500" height="160" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
+<text x="1850.0" y="380" class="head" text-anchor="middle">Change Review Module</text>
+<text x="1850.0" y="407" class="body" text-anchor="middle">Compare current and proposed values</text>
+<text x="1850.0" y="430" class="body" text-anchor="middle">Approve, reject or clarify each field</text>
+<text x="1850.0" y="453" class="body" text-anchor="middle">Significant changes trigger revalidation</text>
+<rect x="100" y="730" width="500" height="160" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
+<text x="350.0" y="760" class="head" text-anchor="middle">Assignment Module</text>
+<text x="350.0" y="787" class="body" text-anchor="middle">Lead assigns / reassigns Coordinators</text>
+<text x="350.0" y="810" class="body" text-anchor="middle">Unassigned queue, active events and workloads</text>
+<text x="350.0" y="833" class="body" text-anchor="middle">Assigned-only management</text>
+<rect x="850" y="730" width="500" height="160" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
+<text x="1100.0" y="760" class="head" text-anchor="middle">Event Review Module</text>
+<text x="1100.0" y="787" class="body" text-anchor="middle">Review, approve, reject or clarify requests</text>
+<text x="1100.0" y="810" class="body" text-anchor="middle">Read clarification replies and decision history</text>
+<text x="1100.0" y="833" class="body" text-anchor="middle">Approval starts planning</text>
+<rect x="1600" y="730" width="500" height="160" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
+<text x="1850.0" y="760" class="head" text-anchor="middle">Revalidation Module</text>
+<text x="1850.0" y="787" class="body" text-anchor="middle">Track affected venue / equipment reasons</text>
+<text x="1850.0" y="810" class="body" text-anchor="middle">Resolve one reason; retain actor and history</text>
+<text x="1850.0" y="833" class="body" text-anchor="middle">Change, resource and reschedule flags</text>
+<rect x="100" y="1160" width="500" height="160" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
+<text x="350.0" y="1190" class="head" text-anchor="middle">Venue Booking Module</text>
+<text x="350.0" y="1217" class="body" text-anchor="middle">Catalogue, search, suitability, calendar and holds</text>
+<text x="350.0" y="1240" class="body" text-anchor="middle">15-minute buffers; multi-venue staff decisions</text>
+<text x="350.0" y="1263" class="body" text-anchor="middle">Blocks, retirement, replacement; keep siblings</text>
+<rect x="850" y="1160" width="500" height="160" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
+<text x="1100.0" y="1190" class="head" text-anchor="middle">Equipment Booking Module</text>
+<text x="1100.0" y="1217" class="body" text-anchor="middle">Requirements, stock checks and reservations</text>
+<text x="1100.0" y="1240" class="body" text-anchor="middle">Catalogue, unit condition, return inspections</text>
+<rect x="1600" y="1160" width="500" height="160" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
+<text x="1850.0" y="1190" class="head" text-anchor="middle">Readiness &amp; Safety Module</text>
+<text x="1850.0" y="1217" class="body" text-anchor="middle">Check required arrangements; explicitly send</text>
+<text x="1850.0" y="1240" class="body" text-anchor="middle">Officer decision; revisions and resubmission</text>
+<text x="1850.0" y="1263" class="body" text-anchor="middle">Open reviews block readiness; registration exempt</text>
+<rect x="100" y="1600" width="500" height="160" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
+<text x="350.0" y="1630" class="head" text-anchor="middle">Event Lifecycle Module</text>
+<text x="350.0" y="1657" class="body" text-anchor="middle">Plan, postpone, reschedule, cancel and complete</text>
+<text x="350.0" y="1680" class="body" text-anchor="middle">Confirmed summaries and event audit display</text>
+<rect x="850" y="1600" width="500" height="160" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
+<text x="1100.0" y="1630" class="head" text-anchor="middle">Registration Module</text>
+<text x="1100.0" y="1657" class="body" text-anchor="middle">Enable registration; confirmed-event capacity</text>
+<text x="1100.0" y="1680" class="body" text-anchor="middle">Register, withdraw, waiting offers and visibility</text>
+<rect x="1600" y="1600" width="500" height="160" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
+<text x="1850.0" y="1630" class="head" text-anchor="middle">Notification Module</text>
+<text x="1850.0" y="1657" class="body" text-anchor="middle">Recipient-scoped notices and read state</text>
+<text x="1850.0" y="1680" class="body" text-anchor="middle">Per-type in-app / email preferences</text>
+<text x="1850.0" y="1703" class="body" text-anchor="middle">Producers are in the backend</text>
 <defs><marker id="flow-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9" fill="#936238"/></marker></defs>
-<path class="edge" d="M950,200 L950,275"/>
-<rect x="969" y="206" width="289.2" height="20" fill="white"/>
-<text x="973" y="221" class="small" text-anchor="start">uses modules permitted for their role</text>
-<path d="M500,377 L750,377" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
-<rect x="536" y="345" width="131.2" height="22" fill="white"/>
-<text x="540" y="361" class="small" text-anchor="start">request to amend</text>
-<path d="M1150,377 L1400,377" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
-<rect x="1166" y="345" width="169.70000000000002" height="22" fill="white"/>
-<text x="1170" y="361" class="small" text-anchor="start">proposals and replies</text>
-<path d="M1500,320 L1500,305 L1050,305 L1050,320" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
-<rect x="1161" y="280" width="208.20000000000002" height="22" fill="white"/>
-<text x="1165" y="296" class="small" text-anchor="start">field questions / outcomes</text>
-<path d="M300,445 L300,640" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
-<rect x="311" y="524" width="239.0" height="22" fill="white"/>
-<text x="315" y="540" class="small" text-anchor="start">submitted, unassigned requests</text>
-<path d="M500,700 L750,700" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
-<rect x="534" y="668" width="138.9" height="22" fill="white"/>
-<text x="538" y="684" class="small" text-anchor="start">assigned requests</text>
-<path d="M1600,445 L1600,640" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
-<rect x="1612" y="519" width="223.6" height="22" fill="white"/>
-<text x="1616" y="535" class="small" text-anchor="start">approved significant changes</text>
-<path d="M950,765 L950,990" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
-<rect x="961" y="794" width="177.4" height="22" fill="white"/>
-<text x="965" y="810" class="small" text-anchor="start">equipment requirements</text>
-<path d="M850,765 L850,845 L300,845 L300,990" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
-<rect x="366" y="813" width="223.6" height="22" fill="white"/>
-<text x="370" y="829" class="small" text-anchor="start">approved event / venue needs</text>
-<path d="M1500,765 L1500,900 L1060,900 L1060,990" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
-<rect x="1151" y="868" width="200.5" height="22" fill="white"/>
-<text x="1155" y="884" class="small" text-anchor="start">equipment flags / reasons</text>
-<path d="M1450,765 L1450,865 L400,865 L400,990" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
-<rect x="1116" y="834" width="169.70000000000002" height="22" fill="white"/>
-<text x="1120" y="850" class="small" text-anchor="start">venue flags / reasons</text>
-<path d="M500,1070 L630,1070 L630,940 L1600,940 L1600,990" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
-<rect x="1031" y="909" width="331.40000000000003" height="22" fill="white"/>
-<text x="1035" y="925" class="small" text-anchor="start">venue decisions, capacity and restrictions</text>
-<path d="M1150,1050 L1400,1050" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
-<rect x="1166" y="1018" width="169.70000000000002" height="22" fill="white"/>
-<text x="1170" y="1034" class="small" text-anchor="start">reservation readiness</text>
-<path d="M1700,1115 L1700,1190 L300,1190 L300,1350" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
-<rect x="821" y="1158" width="292.90000000000003" height="22" fill="white"/>
-<text x="825" y="1174" class="small" text-anchor="start">safety approval / outstanding actions</text>
-<path d="M100,1410 L80,1410 L80,900 L200,900 L200,990" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
-<rect x="88" y="1202" width="208.20000000000002" height="22" fill="white"/>
-<text x="92" y="1218" class="small" text-anchor="start">revised venue arrangements</text>
-<path d="M400,1350 L400,1245 L950,1245 L950,1115" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
-<rect x="541" y="1214" width="239.0" height="22" fill="white"/>
-<text x="545" y="1230" class="small" text-anchor="start">revised equipment arrangements</text>
-<path d="M500,1410 L750,1410" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
-<rect x="514" y="1378" width="177.4" height="22" fill="white"/>
-<text x="518" y="1394" class="small" text-anchor="start">confirmed, open events</text>
-<path d="M1150,1410 L1400,1410" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
-<rect x="1166" y="1378" width="169.70000000000002" height="22" fill="white"/>
-<text x="1170" y="1394" class="small" text-anchor="start">registration updates*</text>
-<text x="100" y="2160" class="small" text-anchor="start">Dashed brown: workflow / information relationships via persisted records and backend operations; not direct module-to-module calls.</text>
-<text x="100" y="2190" class="small" text-anchor="start">* Notifications also reflect request, assignment, review, venue, equipment, safety and lifecycle outcomes recorded by the backend.</text>
-<rect x="100" y="1660" width="400" height="100" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
-<text x="300.0" y="1690" class="head" text-anchor="middle">Auth Module</text>
-<text x="300.0" y="1717" class="body" text-anchor="middle">Session, profile and role context</text>
-<text x="300.0" y="1740" class="body" text-anchor="middle">Sign-in and session lifecycle</text>
-<rect x="750" y="1660" width="400" height="100" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
-<text x="950.0" y="1690" class="head" text-anchor="middle">Shared UI Components</text>
-<text x="950.0" y="1717" class="body" text-anchor="middle">Navigation, forms, badges and errors</text>
-<text x="950.0" y="1740" class="body" text-anchor="middle">Reusable display and interaction elements</text>
-<rect x="1400" y="1660" width="400" height="100" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
-<text x="1600.0" y="1690" class="head" text-anchor="middle">Supabase Client</text>
-<text x="1600.0" y="1717" class="body" text-anchor="middle">Single configured supabase-js client</text>
-<text x="1600.0" y="1740" class="body" text-anchor="middle">Used by services inside each module</text>
-<path class="edge" d="M300,1505 L300,1660"/>
-<rect x="312" y="1603" width="213.2" height="20" fill="white"/>
-<text x="316" y="1618" class="small" text-anchor="start">uses session / role context</text>
-<path class="edge" d="M950,1505 L950,1660"/>
-<rect x="962" y="1603" width="160.0" height="20" fill="white"/>
-<text x="966" y="1618" class="small" text-anchor="start">reuses UI components</text>
-<path class="edge" d="M1600,1505 L1600,1660"/>
-<rect x="1612" y="1603" width="205.6" height="20" fill="white"/>
-<text x="1616" y="1618" class="small" text-anchor="start">services query / call RPCs</text>
-<path class="edge" d="M300,1760 L300,1840 L1600,1840 L1600,1760"/>
-<rect x="726" y="1810" width="312.0" height="20" fill="white"/>
-<text x="730" y="1825" class="small" text-anchor="start">sign-in / refresh session through client</text>
-<text x="100" y="1885" class="small" text-anchor="start">Solid blue: technical dependency. Shared-support arrows attach to the feature group and apply across its modules.</text>
-<rect x="680" y="2020" width="510" height="90" rx="10" fill="#f0f1f4" stroke="#929baa" stroke-width="1.5"/>
-<text x="935.0" y="2050" class="head" text-anchor="middle">Supabase Data API / RPC</text>
-<text x="935.0" y="2077" class="body" text-anchor="middle">PostgreSQL enforces permissions and business rules</text>
-<rect x="1400" y="2020" width="400" height="90" rx="10" fill="#f0f1f4" stroke="#929baa" stroke-width="1.5"/>
-<text x="1600.0" y="2050" class="head" text-anchor="middle">Supabase Auth</text>
-<text x="1600.0" y="2077" class="body" text-anchor="middle">Authentication service</text>
-<path class="edge" d="M1500,1760 L1500,1945 L935,1945 L935,2020"/>
-<rect x="966" y="1916" width="350.0" height="20" fill="white"/>
-<text x="970" y="1931" class="small" text-anchor="start">HTTPS: authorised reads / business operations</text>
-<path class="edge" d="M1750,1760 L1750,2020"/>
-<rect x="1624" y="1975" width="91.6" height="20" fill="white"/>
-<text x="1628" y="1990" class="small" text-anchor="start">HTTPS: auth</text>
-<text x="40" y="2236" class="small" text-anchor="start">Planned architecture, not completion status. Authoritative revalidation, audit writes and email dispatch belong to backend components shown in C2.</text>
+<path class="edge" d="M1100,215 L1100,290"/>
+<rect x="1116" y="225" width="289.2" height="20" fill="white"/>
+<text x="1120" y="240" class="small" text-anchor="start">uses modules permitted for their role</text>
+<path d="M600,425 L850,425" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
+<rect x="621" y="393" width="131.2" height="22" fill="white"/>
+<text x="625" y="409" class="small" text-anchor="start">request to amend</text>
+<path d="M1350,425 L1600,425" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
+<rect x="1376" y="393" width="154.3" height="22" fill="white"/>
+<text x="1380" y="409" class="small" text-anchor="start">proposals / replies</text>
+<path d="M1700,350 L1700,325 L1200,325 L1200,350" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
+<rect x="1266" y="301" width="208.20000000000002" height="22" fill="white"/>
+<text x="1270" y="317" class="small" text-anchor="start">field questions / outcomes</text>
+<path d="M350,510 L350,730" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
+<rect x="361" y="599" width="239.0" height="22" fill="white"/>
+<text x="365" y="615" class="small" text-anchor="start">submitted, unassigned requests</text>
+<path d="M600,810 L850,810" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
+<rect x="624" y="779" width="138.9" height="22" fill="white"/>
+<text x="628" y="795" class="small" text-anchor="start">assigned requests</text>
+<path d="M1850,510 L1850,730" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
+<rect x="1861" y="599" width="223.6" height="22" fill="white"/>
+<text x="1865" y="615" class="small" text-anchor="start">approved significant changes</text>
+<path d="M1100,890 L1100,1160" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
+<rect x="1111" y="930" width="177.4" height="22" fill="white"/>
+<text x="1115" y="946" class="small" text-anchor="start">equipment requirements</text>
+<path d="M950,890 L950,995 L350,995 L350,1160" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
+<rect x="416" y="962" width="223.6" height="22" fill="white"/>
+<text x="420" y="978" class="small" text-anchor="start">approved event / venue needs</text>
+<path d="M1700,890 L1700,1030 L450,1030 L450,1160" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
+<rect x="1411" y="997" width="169.70000000000002" height="22" fill="white"/>
+<text x="1415" y="1013" class="small" text-anchor="start">venue flags / reasons</text>
+<path d="M1800,890 L1800,1070 L1250,1070 L1250,1160" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
+<rect x="1421" y="1037" width="200.5" height="22" fill="white"/>
+<text x="1425" y="1053" class="small" text-anchor="start">equipment flags / reasons</text>
+<path d="M600,1260 L740,1260 L740,1110 L1850,1110 L1850,1160" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
+<rect x="1276" y="1077" width="331.40000000000003" height="22" fill="white"/>
+<text x="1280" y="1093" class="small" text-anchor="start">venue decisions, capacity and restrictions</text>
+<path d="M1350,1230 L1600,1230" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
+<rect x="1373" y="1197" width="169.70000000000002" height="22" fill="white"/>
+<text x="1377" y="1213" class="small" text-anchor="start">reservation readiness</text>
+<path d="M2000,1320 L2000,1430 L350,1430 L350,1600" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
+<rect x="1056" y="1397" width="292.90000000000003" height="22" fill="white"/>
+<text x="1060" y="1413" class="small" text-anchor="start">safety approval / outstanding actions</text>
+<path d="M100,1680 L60,1680 L60,950 L200,950 L200,1160" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
+<rect x="91" y="1504" width="208.20000000000002" height="22" fill="white"/>
+<text x="95" y="1520" class="small" text-anchor="start">revised venue arrangements</text>
+<path d="M500,1600 L500,1500 L1100,1500 L1100,1320" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
+<rect x="646" y="1467" width="239.0" height="22" fill="white"/>
+<text x="650" y="1483" class="small" text-anchor="start">revised equipment arrangements</text>
+<path d="M600,1680 L850,1680" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
+<rect x="607" y="1647" width="177.4" height="22" fill="white"/>
+<text x="611" y="1663" class="small" text-anchor="start">confirmed, open events</text>
+<path d="M1350,1680 L1600,1680" fill="none" stroke="#936238" stroke-width="1.8" stroke-dasharray="7 5" marker-end="url(#flow-arrow)"/>
+<rect x="1373" y="1647" width="162.0" height="22" fill="white"/>
+<text x="1377" y="1663" class="small" text-anchor="start">registration updates</text>
+<rect x="100" y="1950" width="500" height="120" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
+<text x="350.0" y="1980" class="head" text-anchor="middle">Auth Module</text>
+<text x="350.0" y="2007" class="body" text-anchor="middle">Session, profile and role context</text>
+<text x="350.0" y="2030" class="body" text-anchor="middle">Sign-in and session lifecycle</text>
+<rect x="850" y="1950" width="500" height="120" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
+<text x="1100.0" y="1980" class="head" text-anchor="middle">Shared UI Components</text>
+<text x="1100.0" y="2007" class="body" text-anchor="middle">Navigation, forms, badges and errors</text>
+<text x="1100.0" y="2030" class="body" text-anchor="middle">Reusable presentation and feedback</text>
+<rect x="1600" y="1950" width="500" height="120" rx="10" fill="#eef4ff" stroke="#7a99c5" stroke-width="1.5"/>
+<text x="1850.0" y="1980" class="head" text-anchor="middle">Supabase Client</text>
+<text x="1850.0" y="2007" class="body" text-anchor="middle">One configured supabase-js client</text>
+<text x="1850.0" y="2030" class="body" text-anchor="middle">Used by services inside each module</text>
+<path class="edge" d="M350,1780 L350,1950"/>
+<rect x="361" y="1880" width="213.2" height="20" fill="white"/>
+<text x="365" y="1895" class="small" text-anchor="start">uses session / role context</text>
+<path class="edge" d="M1100,1780 L1100,1950"/>
+<rect x="1111" y="1880" width="160.0" height="20" fill="white"/>
+<text x="1115" y="1895" class="small" text-anchor="start">reuses UI components</text>
+<path class="edge" d="M1850,1780 L1850,1950"/>
+<rect x="1861" y="1880" width="205.6" height="20" fill="white"/>
+<text x="1865" y="1895" class="small" text-anchor="start">services query / call RPCs</text>
+<path class="edge" d="M350,2070 L350,2135 L1850,2135 L1850,2070"/>
+<rect x="881" y="2105" width="312.0" height="20" fill="white"/>
+<text x="885" y="2120" class="small" text-anchor="start">sign-in / refresh session through client</text>
+<rect x="700" y="2290" width="600" height="100" rx="10" fill="#f0f1f4" stroke="#929baa" stroke-width="1.5"/>
+<text x="1000.0" y="2320" class="head" text-anchor="middle">Supabase Data API / RPC</text>
+<text x="1000.0" y="2347" class="body" text-anchor="middle">PostgreSQL enforces permissions and business rules</text>
+<rect x="1600" y="2290" width="500" height="100" rx="10" fill="#f0f1f4" stroke="#929baa" stroke-width="1.5"/>
+<text x="1850.0" y="2320" class="head" text-anchor="middle">Supabase Auth</text>
+<text x="1850.0" y="2347" class="body" text-anchor="middle">Authentication service</text>
+<path class="edge" d="M1710,2070 L1710,2220 L1000,2220 L1000,2290"/>
+<rect x="1126" y="2190" width="350.0" height="20" fill="white"/>
+<text x="1130" y="2205" class="small" text-anchor="start">HTTPS: authorised reads / business operations</text>
+<path class="edge" d="M2040,2070 L2040,2290"/>
+<rect x="1896" y="2251" width="91.6" height="20" fill="white"/>
+<text x="1900" y="2266" class="small" text-anchor="start">HTTPS: auth</text>
+<text x="100" y="2440" class="body" text-anchor="start">Dashed brown: workflow / data relationships through backend records and operations.</text>
+<text x="100" y="2470" class="body" text-anchor="start">Solid slate: technical dependencies. Shared-support links apply across the feature modules.</text>
+<text x="100" y="2500" class="body" text-anchor="start">Crossings without junctions are not connections. Grey: external container references.</text>
 </svg>
